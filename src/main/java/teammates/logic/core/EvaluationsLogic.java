@@ -6,9 +6,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
@@ -270,10 +272,25 @@ public class EvaluationsLogic {
         return returnValue;
     }
 
-    public String getEvaluationResultSummaryAsCsv(String courseId, String evalName) 
+    public String getEvaluationResultSummaryAsCsv(String courseId, String instrEmail, String evalName) 
             throws EntityDoesNotExistException {
         
+        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, instrEmail);
         EvaluationResultsBundle evaluationResults = getEvaluationResult(courseId, evalName);
+        Iterator<Entry<String, TeamResultBundle>> iter = evaluationResults.teamResults.entrySet().iterator();
+        while (iter.hasNext()) {
+            boolean shouldDisplayTeam = true;
+            for (StudentResultBundle studentBundle : iter.next().getValue().studentResults) {
+                if (!instructor.isAllowedForPrivilege(studentBundle.student.section, Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES+evalName,
+                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
+                    shouldDisplayTeam = false;
+                    break;
+                }
+            }
+            if (!shouldDisplayTeam) {
+                iter.remove();
+            }
+        }
         
         String export = "";
         

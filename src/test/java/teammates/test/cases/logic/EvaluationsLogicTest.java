@@ -875,8 +875,9 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         ______TS("Typical case");
     
         EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse1");
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         
-        String export = evaluationsLogic.getEvaluationResultSummaryAsCsv(eval.courseId, eval.name);
+        String export = evaluationsLogic.getEvaluationResultSummaryAsCsv(eval.courseId, instructor.email, eval.name);
         
         // This is what export should look like:
         // ==================================
@@ -904,14 +905,14 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         ______TS("Failure case: non-existent Course/Eval");
         
         try {
-            evaluationsLogic.getEvaluationResultSummaryAsCsv("non-existent-course", eval.name);
+            evaluationsLogic.getEvaluationResultSummaryAsCsv("non-existent-course", instructor.email, eval.name);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist", e.getMessage());
         }
 
         try {
-            evaluationsLogic.getEvaluationResultSummaryAsCsv(eval.courseId, "non-existent-eval");
+            evaluationsLogic.getEvaluationResultSummaryAsCsv(eval.courseId, instructor.email, "non-existent-eval");
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist", e.getMessage());
@@ -920,14 +921,14 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         ______TS("Failure case: null parameters");
         
         try {
-            evaluationsLogic.getEvaluationResultSummaryAsCsv(null, eval.name);
+            evaluationsLogic.getEvaluationResultSummaryAsCsv(null, instructor.email, eval.name);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
         
         try {
-            evaluationsLogic.getEvaluationResultSummaryAsCsv(eval.courseId, null);
+            evaluationsLogic.getEvaluationResultSummaryAsCsv(eval.courseId, instructor.email, null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());

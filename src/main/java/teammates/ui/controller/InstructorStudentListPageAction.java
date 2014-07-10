@@ -23,14 +23,14 @@ public class InstructorStudentListPageAction extends Action {
         Boolean displayArchive = getRequestParamAsBoolean(Const.ParamsNames.DISPLAY_ARCHIVE);
         
         data = new InstructorStudentListPageData(account);
-        
-        HashMap<String, CourseDetailsBundle> courses = logic.getCourseDetailsListForInstructor(account.googleId);
         data.instructors = new HashMap<String, InstructorAttributes>();
+        HashMap<String, CourseDetailsBundle> courses = logic.getCourseSummariesForInstructor(account.googleId);
+        for (CourseDetailsBundle courseDetails : courses.values()) {     
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseDetails.course.id, account.googleId);
+            data.instructors.put(courseDetails.course.id, instructor);
+        }
         data.courses = new ArrayList<CourseDetailsBundle>(courses.values());
         CourseDetailsBundle.sortDetailedCoursesByCreationDate(data.courses);
-        for (CourseDetailsBundle courseDetails : data.courses) {
-            data.instructors.put(courseDetails.course.id, logic.getInstructorForGoogleId(courseDetails.course.id, account.googleId));
-        }
         data.searchKey = searchKey;
         data.displayArchive = displayArchive;
         

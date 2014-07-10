@@ -1,5 +1,7 @@
 //TODO: Move constants from Common.js into appropriate files if not shared.
 
+var modalSelectedRow;
+
 function isFeedbackSessionNameValid(name) {
     if (name.indexOf("\\") >= 0 || name.indexOf("'") >= 0
             || name.indexOf("\"") >= 0) {
@@ -110,7 +112,7 @@ function checkAddFeedbackSession(form){
     var gracePeriod = form.graceperiod.value;
     var publishtime = form.publishtime.value;
     var instructions = form.instructions.value;
-    
+
     if (fsname == "" || courseID == "" || timezone == "" || startdate ==""
         || starttime == "" ||instructions == null || gracePeriod == "" || publishtime == "") {
         setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
@@ -194,11 +196,111 @@ function convertDateToHHMM(date) {
     return formatDigit(date.getHours()) + formatDigit(date.getMinutes());
 }
 
-function readyFeedbackPage (){
+function bindCopyButton() {
+    $('#button_copy').on('click', function(e){
+        e.preventDefault();
+        var selectedCourseId = $("#" + COURSE_ID + " option:selected").text();
+        var newFeedbackSessionName = $("#" + FEEDBACK_SESSION_NAME).val();
+        
+        var isExistingSession = false;
+
+        var sessionsList = $("tr[id^='session']");
+        if(sessionsList.length == 0){
+            setStatusMessage(FEEDBACK_SESSION_COPY_INVALID, true);
+            return false;
+        } 
+
+        $(sessionsList).each(function(){
+            var cells = $(this).find("td");
+            var courseId = $(cells[0]).text();
+            var feedbackSessionName = $(cells[1]).text();
+            if(selectedCourseId == courseId && newFeedbackSessionName == feedbackSessionName){
+                isExistingSession = true;
+                return false;
+            }
+        });
+
+        if(isExistingSession){
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE, true);
+        } else {
+            setStatusMessage("", false);
+
+            var firstSession = $(sessionsList[0]).find("td");
+            var firstSessionCourseId = $(firstSession[0]).text();
+            var firstSessionName = $(firstSession[1]).text();
+
+            $('#copyModal').modal('show');
+            $('#modalCopiedSessionName').val(newFeedbackSessionName.trim());
+            $('#modalCopiedCourseId').val(selectedCourseId.trim());
+            if($('#modalCourseId').val().trim() == ""){
+                $('#modalCourseId').val(firstSessionCourseId);
+            }
+            if($('#modalSessionName').val().trim() == ""){
+                $('#modalSessionName').val(firstSessionName);
+            }
+        }
+
+        return false;
+    });
+
+    $('#button_copy_submit').on('click', function(e){
+        e.preventDefault();
+
+        var newFeedbackSessionName = $('#modalCopiedSessionName').val();
+
+        if(newFeedbackSessionName.trim() == ""){
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_EMPTY, true);
+            $('#copyModal').modal('hide');
+            return false;
+        } else if (!isFeedbackSessionNameValid(newFeedbackSessionName)) {
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAMEINVALID, true);
+            $('#copyModal').modal('hide');
+            return false;
+        } else if (!isFeedbackSessionNameLengthValid(newFeedbackSessionName)) {
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_LENGTHINVALID, true);
+            $('#copyModal').modal('hide');
+            return false;
+        }
+
+        $('#copyModalForm').submit();
+
+        return false;
+    });
+}
+
+function bindCopyEvents() {
+
+    modalSelectedRow = $('#copyTableModal >tbody>tr:first');
+    if(typeof modalSelectedRow != 'undefined'){
+        $(modalSelectedRow).addClass('row-selected');
+    }
+    
+    $('#copyTableModal >tbody>tr').on('click', function(e){
+        e.preventDefault();
+        var cells = $(this).find("td");
+        var courseId = $(cells[0]).text();
+        var feedbackSessionName = $(cells[1]).text();
+        $('#modalSessionName').val(feedbackSessionName.trim());
+        $('#modalCourseId').val(courseId.trim());
+
+        if(typeof modalSelectedRow != 'undefined'){
+            $(modalSelectedRow).removeClass('row-selected');
+        }
+
+        modalSelectedRow = this;
+        $(modalSelectedRow).addClass('row-selected');
+
+        return false;
+    });
+}
+
+function readyFeedbackPage() {
     formatSessionVisibilityGroup();
     formatResponsesVisibilityGroup();
     collapseIfPrivateSession();
-    
+    bindCopyButton();
+    bindCopyEvents();
+
     window.doPageSpecificOnload = selectDefaultTimeOptions();
 }
 

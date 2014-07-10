@@ -1,6 +1,7 @@
 package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -80,6 +81,13 @@ public class InstructorStudentListPage extends AppPage {
         return this;
     }
     
+    public InstructorStudentListPage clickShowPhoto(String courseId, String studentName) {
+        String rowId = getStudentRowId(courseId, studentName);
+        browser.driver.findElement(By.id("studentphoto-c"+rowId))
+                      .findElement(By.tagName("a")).click();
+        return this;
+    }
+    
     public void setSearchKey(String searchKey){
         searchBox.clear();
         searchBox.sendKeys(searchKey);
@@ -117,6 +125,16 @@ public class InstructorStudentListPage extends AppPage {
     
     public boolean verifyIsHidden(String elementId) {
         return !browser.driver.findElement(By.id(elementId)).isDisplayed();
+    }
+
+    public void verifyProfilePhotoIsDefault(String courseId, String studentName) {
+        String rowId = getStudentRowId(courseId, studentName);
+        assertTrue(
+                browser.driver.findElement(By.id("studentphoto-c"+rowId))
+                      .findElement(By.tagName("img"))
+                      .getAttribute("src")
+                      .contains(Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH)
+                  );
     }
     
     private int getCourseNumber(String courseId) {

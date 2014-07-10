@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackConstantSumQuestionDetails;
+import teammates.common.datatransfer.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.FeedbackNumericalScaleQuestionDetails;
@@ -58,7 +59,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        //TODO: find a way to test status message from session
         gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
         
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
@@ -551,7 +551,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         
         ______TS("Edit text");
         
-        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); // There is already responses for this question
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); // There are already responses for this question
         
         String[] editTextParams = {
                 Const.ParamsNames.COURSE_ID, fs.courseId,
@@ -635,7 +635,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         
         ______TS("Edit text");
         
-        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); // There is already responses for this question
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); // There are already responses for this question
         
         String[] editTextParams = {
                 Const.ParamsNames.COURSE_ID, fs.courseId,
@@ -669,7 +669,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
         
-        // All existing response should remain
+        // All existing responses should remain
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); 
         
         ______TS("Edit points");
@@ -706,7 +706,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
         
-        // All existing response should be deleted as the scales are edited
+        // All existing responses should be deleted as the options are edited
         assertTrue(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); 
     }
     
@@ -726,7 +726,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         
         ______TS("Edit text");
         
-        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); // There is already responses for this question
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); // There are already responses for this question
         
         String[] editTextParams = {
                 Const.ParamsNames.COURSE_ID, fs.courseId,
@@ -759,7 +759,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         
-        // All existing response should remain
+        // All existing responses should remain
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); 
         
         ______TS("Edit points per option");
@@ -795,8 +795,58 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
         
-        // All existing response should be deleted as the scales are edited
+        // All existing responses should be deleted as the options are edited
         assertTrue(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); 
+    }
+    
+    @Test
+    public void testExecuteAndPostProcessContributionQuestion() throws Exception{
+        dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        
+        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+
+        gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
+        
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("contribSession");
+        FeedbackQuestionAttributes fq = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        FeedbackContributionQuestionDetails fqd = (FeedbackContributionQuestionDetails) fq.getQuestionDetails();
+        
+        ______TS("Edit text");
+        
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); // There are already responses for this question
+        
+        String[] editTextParams = {
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONTRIB",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, fqd.questionText + "(edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+        
+        InstructorFeedbackQuestionEditAction a = getAction(editTextParams);
+        RedirectResult r = (RedirectResult) a.executeAndPostProcess();
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
+                + "&fsname=CONTRIB+Session&user=FSQTT.idOfInstructor1OfCourse1"
+                + "&error=false", 
+                r.getDestinationWithParams());
+        assertFalse(r.isError);
+        
+        // All existing responses should remain
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); 
+        
     }
     
     private InstructorFeedbackQuestionEditAction getAction(String... submissionParams){

@@ -1,11 +1,15 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertEquals;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
+import teammates.ui.controller.AdminAccountManagementPageAction;
+import teammates.ui.controller.ShowPageResult;
 
 public class AdminAccountManagementPageActionTest extends BaseActionTest {
 
@@ -34,8 +38,29 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcess() throws Exception{
         
-        //TODO: implement this
+        ______TS("case: view admin acount management page");
+        
+        String[] submissionParams = new String[] {
+        };
+
+        final String adminUserId = "admin.user";
+        gaeSimulation.loginAsAdmin(adminUserId);
+
+        AdminAccountManagementPageAction action = getAction(submissionParams);
+        ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
+
+        assertEquals("", result.getStatusMessage());
+        assertEquals("/jsp/adminAccountManagement.jsp?error=false&user=admin.user", 
+                     result.getDestinationWithParams());
+        assertEquals(false, result.isError);      
+                
     }
+    
+
+    private AdminAccountManagementPageAction getAction(String... params) throws Exception {
+        return (AdminAccountManagementPageAction) (gaeSimulation.getActionObject(uri, params));
+    }
+    
     
 
 }

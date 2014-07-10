@@ -1,3 +1,5 @@
+<%@page import="java.util.List"%>
+<%@page import="java.util.Map"%>
 <%@page import="teammates.common.datatransfer.InstructorAttributes"%>
 <%@page import="teammates.common.datatransfer.CommentAttributes"%>
 <%@page import="teammates.common.datatransfer.CommentRecipientType"%>
@@ -6,9 +8,12 @@
 
 <%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.util.TimeHelper" %>
-<%@ page import="teammates.common.datatransfer.CourseDetailsBundle" %>
-<%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle" %>
-<%@ page import="teammates.common.datatransfer.FeedbackSessionDetailsBundle"%>
+<%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackSessionResultsBundle"%>
+<%@ page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
 <%@ page import="teammates.ui.controller.PageData"%>
 <%@ page import="teammates.ui.controller.StudentCommentsPageData"%>
 <%
@@ -52,7 +57,7 @@
 
     <div id="frameBodyWrapper" class="container theme-showcase">
         <div id="topOfPage"></div>
-        <h2>Student Comments</h2>
+        <h2>Comments</h2>
 
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         <br>
@@ -79,7 +84,7 @@
                         </strong>
                     </h4>
                 </div>
-                <div id="no-comment-panel" style="<%=data.comments.size() == 0?"":"display:none;"%>">
+                <div id="no-comment-panel" style="<%=data.comments.size() == 0 && data.feedbackResultBundles.keySet().size() == 0?"":"display:none;"%>">
                     <br>
                     <div class="panel">
                         <div class="panel-body">
@@ -92,7 +97,7 @@
                 <br>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <strong>Your Comments</strong>
+                        <strong>Comments for students</strong>
                     </div>
                     <div class="panel-body">
                         <%
@@ -104,7 +109,7 @@
                         <%
                             String recipientDisplay = data.getRecipientNames(comment.recipients);
                         %>
-                        <div class="panel panel-info student-record-comments giver_display-by-you">
+                        <div class="panel panel-info student-record-comments <%=recipientDisplay.equals("you")?"giver_display-to-you":"giver_display-to-others"%>">
                             <div class="panel-heading">
                                 To <b><%=recipientDisplay%></b>
                             </div>
@@ -122,16 +127,11 @@
                                         <% InstructorAttributes instructor = data.roster.getInstructorForEmail(comment.giverEmail);
                                            String giverDisplay = comment.giverEmail;
                                            if(instructor != null){
-                                               String title = instructor.displayedName;
-                                               if(!title.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR) &&
-                                                       !title.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER)){
-                                                   title = "Instructor";
-                                               }
-                                               giverDisplay = title + " " + instructor.name;
+                                               giverDisplay = instructor.displayedName + " " + instructor.name;
                                            }
                                         %>
                                         <span class="text-muted">From <b><%=giverDisplay%></b> on
-                                            <%=TimeHelper.formatTime(comment.createdAt)%></span>
+                                            <%=TimeHelper.formatDate(comment.createdAt)%></span>
                                     </div>
                                     <div id="plainCommentText<%=commentIdx%>"><%=comment.commentText.getValue()%></div>
                                 </li>
@@ -143,7 +143,131 @@
                     </div>
                 </div>
                 <% }// check student comments ends %>
+                <%
+                    int fsIndx = 0;
+                    for (String fsName : data.feedbackResultBundles.keySet()) {//FeedbackSession loop starts
+                        FeedbackSessionResultsBundle bundle = data.feedbackResultBundles.get(fsName);
+                        fsIndx++;
+                %>
+                <br>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <strong>Comments in session: <%=fsName%></strong>
+                    </div>
+                    <div class="panel-body">
+                        <%
+                                int qnIndx = 0;
+                                for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries : bundle
+                                        .getQuestionResponseMap().entrySet()) {//FeedbackQuestion loop starts
+                                    qnIndx++;
+                        %>
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <b>Question <%=responseEntries.getKey().questionNumber%></b>:
+                                <%=bundle.getQuestionText(responseEntries.getKey().getId())%>
+                                <%
+                                    Map<String, FeedbackQuestionAttributes> questions = bundle.questions;
+                                            FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
+                                            FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+                                            out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
+                                %>
+                            </div>
+                            <table class="table">
+                                <tbody>
+                                    <%
+                                                int responseIndex = 0;
+                                                for (FeedbackResponseAttributes responseEntry : responseEntries.getValue()) {//FeedbackResponse loop starts
+                                                    responseIndex++;
+                                                    String giverName = bundle.getGiverNameForResponse(responseEntries.getKey(), responseEntry);
+                                                    String giverTeamName = bundle.getTeamNameForEmail(responseEntry.giverEmail);
+                                                    giverName = bundle.appendTeamNameToName(giverName, giverTeamName);
+
+                                                    String recipientName = bundle.getRecipientNameForResponse(responseEntries.getKey(), responseEntry);
+                                                    String recipientTeamName = bundle.getTeamNameForEmail(responseEntry.recipientEmail);
+                                                    recipientName = bundle.appendTeamNameToName(recipientName, recipientTeamName);
+                                    %>
+                                    <tr>
+                                        <td><b>From:</b> <%=giverName%>
+                                            <b>To:</b> <%=recipientName%>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Response:
+                                        </strong><%=responseEntry.getResponseDetails().getAnswerHtml(questionDetails)%>
+                                        </td>
+                                    </tr>
+                                    <tr class="active">
+                                        <td>Comment(s):
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <%
+                                                List<FeedbackResponseCommentAttributes> frcList = bundle.responseComments.get(responseEntry.getId());
+                                            %>
+                                            <ul
+                                                class="list-group comments"
+                                                id="responseCommentTable-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>"
+                                                style="<%=frcList != null && frcList.size() > 0 ? "" : "display:none"%>">
+                                                <%
+                                                    int responseCommentIndex = 0;
+                                                                for (FeedbackResponseCommentAttributes frc : frcList) {//FeedbackResponseComments loop starts
+                                                                    responseCommentIndex++;
+                                                                    String frCommentGiver = frc.giverEmail;
+                                                                    InstructorAttributes instructor = data.roster.getInstructorForEmail(frc.giverEmail);
+                                                                    if (instructor != null) {
+                                                                        frCommentGiver = instructor.displayedName + " " + instructor.name;
+                                                                    }
+                                                %>
+                                                <li
+                                                    class="list-group-item list-group-item-warning"
+                                                    id="responseCommentRow-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
+                                                    <div
+                                                        id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
+                                                        <span class="text-muted">From:
+                                                            <b><%=frCommentGiver%></b>
+                                                            on <%=TimeHelper.formatDate(frc.createdAt)%>
+                                                        </span>
+                                                    </div> <!-- frComment Content -->
+                                                    <div
+                                                        id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>"><%=StudentCommentsPageData.sanitizeForHtml(frc.commentText.getValue())%></div>
+                                                </li>
+                                                <%
+                                                    }//FeedbackResponseComments loop ends
+                                                %>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <%
+                                        }//FeedbackResponse loop ends
+                                    %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <%
+                            }//FeedbackQuestion loop ends
+                        %>
+                    </div>
+                </div>
+                <%
+                    }//FeedbackSession loop ends
+                %>
             </div>
+            <ul class="pagination">
+                <li><a href="<%=data.previousPageLink%>">«</a></li>
+                <%
+                    for (String courseId : data.coursePaginationList) {
+                %>
+                <li
+                    class="<%=courseId.equals(data.courseId) ? "active" : ""%>">
+                    <a
+                    href="<%=data.getStudentCommentsLink() + "&courseid=" + courseId%>"><%=courseId%></a>
+                </li>
+                <%
+                    }
+                %>
+                <li><a href="<%=data.nextPageLink%>">»</a></li>
+            </ul>
             <% } else { %>
             <div id="statusMessage" class="alert alert-warning">
                 There is no comment to display

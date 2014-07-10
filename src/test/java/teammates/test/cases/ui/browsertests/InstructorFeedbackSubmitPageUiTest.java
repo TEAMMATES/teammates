@@ -59,12 +59,17 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         ______TS("Awaiting session");
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Awaiting Session");
-        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageAwaiting.html");
+        submitPage.verifyHtml("/instructorFeedbackSubmitPageAwaiting.html");
         
         ______TS("Open session");
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageOpen.html");
+        
+        ______TS("Open session with helper view");
+        
+        submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr2", "Open Session");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageOpenWithHelperView.html");
         
         ______TS("Grace period session");
         
@@ -255,7 +260,6 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
                 "IFSubmitUiT.instr@gmail.com",
                 "Team 3"));
         
-        
         submitPage.clickSubmitButton();
 
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
@@ -330,6 +334,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         testMsqSubmitAction();
         testNumScaleSubmitAction();
         testConstSumSubmitAction();
+        testContribSubmitAction();
     }
     
     private void testEssaySubmitAction(){
@@ -441,6 +446,22 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
     }
     
+    private void testContribSubmitAction(){
+        ______TS("test submit actions for contribution questions.");
+        
+        //No tests from instructor since contribution questions are only from students to own team members.
+        //Test by logging in as student instead.
+        
+        
+        //Test input disabled
+        submitPage = loginToStudentFeedbackSubmitPage("Danny", "Closed Session");
+        int qnNumber = 1;
+        int responseNumber = 0;
+        assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
+        
+    }
+    
     private void fillResponseTextBoxWithRecheck(int qnNumber, int responseNumber, String text, String expected) {
         int counter = 0;
         while(counter != 100){
@@ -481,6 +502,15 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
             String instructorName, String fsName) {
         Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
                 .withUserId(testData.instructors.get(instructorName).googleId)
+                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
+                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+        return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
+    }
+    
+    private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(
+            String studentName, String fsName) {
+        Url editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                .withUserId(testData.students.get(studentName).googleId)
                 .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                 .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);

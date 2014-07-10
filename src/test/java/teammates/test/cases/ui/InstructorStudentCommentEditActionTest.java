@@ -54,17 +54,17 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
         
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COMMENT_ID, comments.get(0).getCommentId().toString(),
-                Const.ParamsNames.COMMENT_EDITTYPE, "delete",
+                Const.ParamsNames.COMMENT_EDITTYPE, "edit",
                 Const.ParamsNames.COMMENT_TEXT, "Comment from Instructor 3 to Student 2 in course 1",
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student.email
         };
+        verifyUnaccessibleWithoutModifyCommentInSectionsPrivilege(submissionParams);
         verifyOnlyInstructorsCanAccess(submissionParams);
     }
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        //TODO: find a way to test status message from session
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
         StudentAttributes student = dataBundle.students.get("student2InCourse1");
         String instructorId = instructor.googleId;

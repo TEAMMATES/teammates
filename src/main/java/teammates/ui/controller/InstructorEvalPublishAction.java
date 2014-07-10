@@ -16,10 +16,10 @@ public class InstructorEvalPublishAction extends InstructorEvalsPageAction {
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getEvaluation(courseId, evalName));
+                logic.getEvaluation(courseId, evalName), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         try {
-            logic.publishEvaluation(courseId,evalName);
+            logic.publishEvaluation(courseId, evalName);
         } catch (InvalidParametersException e) {
             Assumption.fail("InvalidParametersException not expected at this point");
         }

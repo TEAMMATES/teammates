@@ -1,6 +1,7 @@
 package teammates.test.cases.ui;
 
 import static org.junit.Assert.assertEquals;
+import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -71,6 +72,8 @@ public class InstructorFeedbackPreviewAsInstructorActionTest extends
                 + "?error=false"
                 + "&user="+ idOfInstructor1
                 ,showPageResult.getDestinationWithParams());
+        
+        assertEquals("", showPageResult.getStatusMessage());
         
         assertEquals("TEAMMATESLOG|||instructorFeedbackPreviewAsInstructor|||instructorFeedbackPreviewAsInstructor"
                 + "|||true|||Instructor|||Instructor 1 of Course 1" 

@@ -57,9 +57,12 @@ public class InstructorFeedbacksPageData extends PageData {
             String selectedAttribute = isFilledFormForSessionInThisCourse
                     || isEmptyFormForSessionInThisCourse ? " selected=\"selected\""
                     : "";
-
-            result.add("<option value=\"" + courseBundle.course.id + "\""
-                    + selectedAttribute + ">" + courseBundle.course.id + "</option>");
+            
+            if (instructors.get(courseBundle.course.id).isAllowedForPrivilege(
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
+                result.add("<option value=\"" + courseBundle.course.id + "\""
+                        + selectedAttribute + ">" + courseBundle.course.id + "</option>");
+            }
         }
         return result;
     }

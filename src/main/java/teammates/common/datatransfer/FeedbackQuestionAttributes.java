@@ -437,7 +437,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 
     @Override
     public void sanitizeForSaving() {
-        // TODO implement this
+        this.feedbackQuestionId = Sanitizer.sanitizeTitle(feedbackQuestionId);
+        this.feedbackSessionName = Sanitizer.sanitizeForHtml(feedbackSessionName);
+        this.courseId = Sanitizer.sanitizeTitle(courseId);
+        this.creatorEmail = Sanitizer.sanitizeEmail(creatorEmail);
     }
     
     /** This method converts the given Feedback*QuestionDetails object to JSON for storing
@@ -490,6 +493,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes
             break;
         case CONSTSUM:
             questionDetailsClass = FeedbackConstantSumQuestionDetails.class;
+            break;
+        case CONTRIB:
+            questionDetailsClass = FeedbackContributionQuestionDetails.class;
             break;
         default:
             Assumption.fail("FeedbackQuestionType " + questionType + " unsupported by FeedbackQuestionAttributes");
