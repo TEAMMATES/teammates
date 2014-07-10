@@ -287,12 +287,15 @@
                                         <tr>
                                             <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
                                                 Giver
+                                                <span class="icon-sort unsorted"></span>
                                             </th>
                                             <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
                                                 Team
+                                                <span class="icon-sort unsorted"></span>
                                             </th>
                                             <th id="button_sortFeedback" onclick="toggleSort(this,3)">
                                                 Feedback
+                                                <span class="icon-sort unsorted"></span>
                                             </th>
                                         </tr>
                                     <thead>
