@@ -163,9 +163,18 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.editInstructor(instructorId, "New name", "new_email@email.com");
         courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED);
         
-        ______TS("success: edit an instructor with privileges");
+        ______TS("success: edit an instructor--viewing instructor permission details");
         
         assertEquals(true, courseEditPage.clickEditInstructorLink());
+        // this should be click co-owner role
+        courseEditPage.clickViewDetailsLinkForInstructor(1, 1);
+        // what for the animation to finish
+        browser.selenium.waitForPageToLoad("500");
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesModal.html");
+        courseEditPage.closeModal();
+        
+        ______TS("success: edit an instructor with privileges");
+        
         assertEquals(true, courseEditPage.displayedToStudentCheckBox(1).isSelected());
         // not displayed to students
         courseEditPage.clickDisplayedToStudentCheckBox(1);
@@ -179,8 +188,6 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         // TODO: configure more privileges to test the privilege hierarchy. e.g. set can edit/delete comments but unset view comments
         courseEditPage.clickSaveInstructorButton(1);
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesSuccessful.html");
-        
-        // TODO: test the modal
         
         ______TS("failure: edit failed due to invalid parameters");
         String invalidEmail = "InsCrsEdit.email.com";

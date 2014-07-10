@@ -1,6 +1,7 @@
 package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -138,6 +139,21 @@ public class InstructorCourseEditPage extends AppPage {
         WebElement roleRadioButton = browser.driver.findElement(By.cssSelector(
                 "input[id='instructorroleforinstructor" + instrNum + "'][value='" + role + "']"));
         roleRadioButton.click();
+    }
+    
+    public void clickViewDetailsLinkForInstructor(int instrNum, int viewLinkNum) {
+        // there is one link before view details link group
+        int cssLinkNum = viewLinkNum + 1;
+        WebElement viewLink = browser.driver.findElement(By.cssSelector("#accessControlEditDivForInstr" + instrNum +
+                " > div:nth-child(2) > div.col-sm-9 > a:nth-child(" + cssLinkNum + ")"));
+        
+        viewLink.click();
+    }
+    
+    public void closeModal() {
+        WebElement closeButton = browser.driver.findElement(By.className("close"));
+        
+        closeButton.click();
     }
     
     public WebElement addSessionLevelPrivilegesLink(int instrNum) {
