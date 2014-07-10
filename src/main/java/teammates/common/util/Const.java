@@ -246,7 +246,7 @@ public class Const {
         public final static String INSTRUCTOR_PERMISSION_ROLE_MANAGER = "Manager";
         public final static String INSTRUCTOR_PERMISSION_ROLE_OBSERVER = "Observer";
         public final static String INSTRUCTOR_PERMISSION_ROLE_TUTOR = "Tutor";
-        public final static String INSTRUCTOR_PERMISSION_ROLE_HELPER = "Helper";
+        public final static String INSTRUCTOR_PERMISSION_ROLE_CUSTOM = "Custom";
     }
     
     public class GenderTypes{

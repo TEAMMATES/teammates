@@ -84,7 +84,7 @@ public class InstructorCourseInstructorAddAction extends Action {
         InstructorAttributes instructorToAdd = constructorNewInstructor(courseId, instructorName, instructorEmail,
                 instructorRole, isDisplayedToStudents, displayedName);
         
-        if (instructorRole.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER)) {
+        if (instructorRole.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, isModifyCourseChecked);
             instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, isModifyInstructorChecked);
             instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, isModifySessionChecked);
@@ -107,6 +107,7 @@ public class InstructorCourseInstructorAddAction extends Action {
         instructorToAdd.instructorPrivilegesAsText = instructorToAdd.getTextFromInstructorPrivileges();
         
         instructorToAdd.isArchived = false;
+        
         return instructorToAdd;
     }
 

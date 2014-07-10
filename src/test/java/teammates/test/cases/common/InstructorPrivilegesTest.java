@@ -89,7 +89,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertEquals(Boolean.valueOf(false), courseLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         
         // helper
-        privileges.setDefaultPrivilegesForHelper();
+        privileges.setDefaultPrivilegesForCustom();
         courseLevelMap = privileges.getCourseLevelPrivileges();
         assertEquals(Boolean.valueOf(false), courseLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
         assertEquals(Boolean.valueOf(false), courseLevelMap.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
@@ -124,8 +124,8 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         privileges1 = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR);
         assertEquals(privileges, privileges1);
         
-        privileges.setDefaultPrivilegesForHelper();
-        privileges1 = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER);
+        privileges.setDefaultPrivilegesForCustom();
+        privileges1 = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         assertEquals(privileges, privileges1);
         
         privileges1 = new InstructorPrivileges("random string");

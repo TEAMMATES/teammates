@@ -133,7 +133,7 @@ function checkPrivilegesOfRoleForInstructor(instrNum, role) {
 		checkPrivilegesOfObserverForInstructor(instrNum);
 	} else if (role === "Tutor") {
 		checkPrivilegesOfTutorForInstructor(instrNum);
-	} else if (role === "Helper") {
+	} else if (role === "Custom") {
 		checkPrivilegesOfCustomForInstructor(instrNum);
 	} else {
 		console.log(role + " is not properly defined");
@@ -141,7 +141,7 @@ function checkPrivilegesOfRoleForInstructor(instrNum, role) {
 }
 
 function checkPrivilegesOfCoownerForInstructor(instrNum) {
-	//hideTunePermissionDiv(instrNum);
+	hideTunePermissionDiv(instrNum);
 	
 	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifycourse']").prop("checked", true);
 	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifyinstructor']").prop("checked", true);

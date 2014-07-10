@@ -71,11 +71,11 @@ public final class InstructorPrivileges {
         case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
             setDefaultPrivilegesForTutor();
             break;
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER:
-            setDefaultPrivilegesForHelper();
+        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
+            setDefaultPrivilegesForCustom();
             break;
         default:
-            setDefaultPrivilegesForHelper();
+            setDefaultPrivilegesForCustom();
             break;
         }
     }
@@ -136,7 +136,7 @@ public final class InstructorPrivileges {
         this.courseLevel.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, false);
     }
     
-    public void setDefaultPrivilegesForHelper() {
+    public void setDefaultPrivilegesForCustom() {
         this.courseLevel.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, false);
         this.courseLevel.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, false);
         this.courseLevel.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, false);
