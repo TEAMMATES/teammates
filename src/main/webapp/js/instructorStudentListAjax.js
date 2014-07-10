@@ -1,6 +1,9 @@
 var COURSE_STUDENT_EDIT = "Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly";
 var COURSE_STUDENT_DELETE = "Delete the student and the corresponding evaluations from the course";
 var COURSE_STUDENT_RECORDS = "View all student's evaluations and feedbacks";    
+var STUDENT_LIMIT = 3000;
+var numStudents = 0;
+
 function getCourseStudentDetailsLink(student, userId){
     var link = '/page/instructorCourseStudentDetailsPage';
     link = addParamToUrl(link, 'courseid', student.course);
@@ -47,12 +50,20 @@ function addParamToUrl(url, key, value) {
     return url;
 }
 
+function bindPhotos(courseIdx) {
+    $("td[id^=studentphoto-c" + courseIdx + "]").each(function(){
+        bindStudentPhotoLink($(this).children('.student-photo-link-for-test'));
+        bindErrorImages($(this).children('img'));
+    });
+}
+
+
 function getAppendedData(data, courseIdx) {
     var appendedHtml = "";
     var sortIdx = 2;
     if(data.courseSectionDetails.length > 0){
-        appendedHtml += '<table class="table table-responsive table-striped table-bordered">'
-        appendedHtml += '<thead class="fill-' + (data.course.isArchived ? "default":"primary") + '">';
+        appendedHtml += '<table class="table table-responsive table-striped table-bordered margin-0">'
+        appendedHtml += '<thead class="background-color-medium-gray text-color-gray font-weight-normal">';
         appendedHtml += '<tr><th>Photo</th>';
         if(data.hasSection) { 
             appendedHtml += '<th id="button_sortsection-' + courseIdx + '" class="button-sort-none" onclick="toggleSort(this,' + (sortIdx++) + ')">';
@@ -68,19 +79,39 @@ function getAppendedData(data, courseIdx) {
         var sectionIdx = -1;
         var teamIdx = -1;
         var studentIdx = -1;
-        for(var sectionIdx = 0; sectionIdx < data.courseSectionDetails.length; sectionIdx++){
-            var section = data.courseSectionDetails[sectionIdx];
-            for(var teamIdx = 0; teamIdx < section.teams.length; teamIdx++){
-                var team = section.teams[teamIdx];
-                for(var studentIdx = 0; studentIdx < team.students.length; studentIdx++){
-                    var student = team.students[studentIdx];
+        for(var i = 0; i < data.courseSectionDetails.length; i++){
+            sectionIdx++;
+            var section = data.courseSectionDetails[i];
+            var appendedSection = '';
+            appendedSection += '<div class="checkbox"><input id="section_check-' + courseIdx + '-' + sectionIdx + '" type="checkbox" checked="checked" class="section_check">';
+            appendedSection += '<label for="section_check-' + courseIdx + '-' + sectionIdx + '">';
+            appendedSection += '[' + data.course.id + '] : ' + section.name + '</label></div>';
+            $("#sectionChoices").append(appendedSection);
+            
+            for(var j = 0; j < section.teams.length; j++){
+                teamIdx++;
+                var team = section.teams[j];
+                var appendedTeam = '';
+                appendedTeam += '<div class="checkbox"><input id="team_check-' + courseIdx + '-' + sectionIdx + '-' + teamIdx + '" type="checkbox" checked="checked" class="team_check">';
+                appendedTeam += '<label for="team_check-' + courseIdx + '-' + sectionIdx + '-' + teamIdx + '">';
+                appendedTeam += '[' + data.course.id + '] : ' + team.name + '</label></div>';
+                $('#teamChoices').append(appendedTeam);
+
+                for(var k = 0; k < team.students.length; k++){
+                    studentIdx++;
+                    var student = team.students[k];
+                    var appendedEmail = '<div id="student_email-c' + courseIdx + '.' + studentIdx + '">' + student.email + '</div>';
+                    $('#emails').append(appendedEmail);
+
                     appendedHtml += '<tr id="student-c' + courseIdx + '.' + studentIdx + '" style="display: table-row;">';
                     appendedHtml += '<td id="studentphoto-c' + courseIdx + '.' + studentIdx + '" class="profile-pic-icon">';
                     appendedHtml += '<a class="student-photo-link-for-test btn-link" data-link="' + data.emailPhotoUrlMapping[student.email] + '">'
                                        + 'View Photo</a><img src="" alt="No Image Given" class="hidden"></td>';
                     if(data.hasSection) { 
                         appendedHtml += '<td id="studentsection-c' + courseIdx + '.' + sectionIdx + '">' + section.name + '</td>';
-                    } 
+                    } else {
+                        appendedHtml += '<td id="studentsection-c' + courseIdx + '.' + sectionIdx + '" class="hidden">' + section.name + '</td>';
+                    }
                     appendedHtml += '<td id="studentteam-c' + courseIdx + '.' + sectionIdx + '.' + teamIdx + '">' + team.name + '</td>';
                     appendedHtml += '<td id="studentname-c' + courseIdx + '.' + studentIdx + '">' + student.name + '</td>';
                     appendedHtml += '<td id="studentemail-c' + courseIdx + '.' + studentIdx + '">' + student.email + '</td>';
@@ -137,49 +168,76 @@ function getAppendedData(data, courseIdx) {
         }
         appendedHtml += '</table>';
     } else {
-        appendedHtml += '<table class="table table-responsive table-striped table-bordered">';
-        appendedHtml += '<thead>';
-        if(data.course.isArchived){
-            appendedHtml += '<tr class="fill-default">';
-        } else {
-            appendedHtml += '<tr class="fill-primary">';
-        }
-        appendedHtml += '<th class="align-center color_white bold">There are no students in this course</th>';
+        appendedHtml += '<table class="table table-responsive table-striped table-bordered margin-0">';
+        appendedHtml += '<thead class="background-color-medium-gray text-color-gray font-weight-normal">';
+        appendedHtml += '<tr><th class="align-center color_white bold">There are no students in this course</th>';
         appendedHtml += '</tr></thead></table>';
     }
     return appendedHtml;
 }
 
+var seeMoreRequest = function(e) {
+    var panelHeading = $(this);
+    var panelCollapse = $(this).parent().children('.panel-collapse');
+    var panelBody = $(panelCollapse[0]).children('.panel-body');
+    var displayIcon = $(this).children('.display-icon');
+    var courseIdx = $(panelCollapse[0]).attr("id").split('-')[1];
+    var courseCheck = $('#course_check-' + courseIdx);
+    var courseNumStudents = parseInt($('#numStudents-' + courseIdx).val());
+    if($(panelHeading).attr('class').indexOf('ajax_submit') == -1){
+        setStatusMessage('', false);
+        if($(panelCollapse[0]).attr('class').indexOf('checked') != -1){
+            $(panelCollapse[0]).collapse("hide");
+            $(panelHeading).addClass('ajax_submit');
+            $(panelBody[0]).html('');
+            $(panelCollapse[0]).removeClass('checked');
+            $(courseCheck).prop('checked', false);
+            numStudents -= courseNumStudents;
+        } else {
+            $(panelCollapse).collapse("show");
+            $(panelCollapse[0]).addClass('checked');
+            $(courseCheck).prop('checked', true);
+        }
+        checkCourseBinding(courseCheck);
+    } else {
+        numStudents += courseNumStudents;
+        if(numStudents < STUDENT_LIMIT){
+            setStatusMessage('', false);
+            var formObject = $(this).children("form");
+            var courseIdx = $(formObject[0]).attr('class').split('-')[1];
+            var formData = formObject.serialize();
+            e.preventDefault();
+            $.ajax({
+                type : 'POST',
+                url :   $(formObject[0]).attr('action') + "?" + formData,
+                beforeSend : function() {
+                    displayIcon.html("<img height='25' width='25' src='/images/ajax-preload.gif'/>")
+                },
+                error : function() {
+                    numStudents -= courseNumStudents;
+                    console.log('Error');
+                },
+                success : function(data) {
+                    var appendedData = getAppendedData(data, courseIdx);
+                    $(panelBody[0]).html(appendedData);
+                    bindPhotos(courseIdx);
+                    $(panelHeading).removeClass('ajax_submit');
+                    displayIcon.html('');
+                    if($(panelCollapse[0]).attr('class').indexOf("in") == -1){
+                        $(panelHeading).trigger('click');
+                    }
+                }
+            });
+        } else {
+            numStudents -= courseNumStudents;
+            courseCheck.prop('checked', false);
+            setStatusMessage('Cannot show too many students, please deselect some courses', true);
+            displayIcon.html('');
+        }
+    }
+    console.log(numStudents);
+};
+
 $(document).ready(function(){
-    var seeMoreRequest = function(e) {
-        var panelHeading = $(this);
-        var displayIcon = $(this).children('.display-icon');
-        var formObject = $(this).children("form");
-        var courseIdx = $(formObject).attr('class').split('-')[1];
-        var panelCollapse = $(this).parent().children('.panel-collapse');
-        var panelBody = $(panelCollapse[0]).children('.panel-body');
-        var formData = formObject.serialize();
-        e.preventDefault();
-        $.ajax({
-            type : 'POST',
-            url : 	$(formObject[0]).attr('action') + "?" + formData,
-            beforeSend : function() {
-                displayIcon.html("<img height='25' width='25' src='/images/ajax-preload.gif'/>")
-            },
-            error : function() {
-                console.log('Error');
-            },
-            success : function(data) {
-                console.log(data);
-                var appendedData = getAppendedData(data);
-                $(panelBody[0]).html(appendedData);
-                $(panelHeading).removeClass('ajax_submit');
-                $(panelHeading).off('click');
-                displayIcon.html('')
-                $(panelHeading).click(toggleSingleCollapse);
-                $(panelHeading).trigger('click');
-            }
-        });
-    };
     $(".ajax_submit").click(seeMoreRequest);
 });

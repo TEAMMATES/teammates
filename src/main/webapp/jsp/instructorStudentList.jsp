@@ -84,7 +84,7 @@
                  </div>
              </div>
             <br>
-            <div id="moreOptionsDiv" class="well well-plain" style="display:none;">
+            <div id="moreOptionsDiv" class="well well-plain">
                 <form class="form-horizontal" role="form">
                     <div class="row">
                         <div class="col-sm-3">
@@ -93,7 +93,7 @@
                             </div>
                             <br>
                             <div class="checkbox">
-                                <input type="checkbox" value="" id="course_all" checked="checked"> 
+                                <input type="checkbox" value="" id="course_all"> 
                                 <label for="course_all"><strong>Select all</strong></label>
                             </div>
                             <br>
@@ -103,7 +103,7 @@
                                     if((course.isArchived && data.displayArchive) || !course.isArchived){
                                         courseIdx++;
                             %>
-                                <div class="checkbox"><input id="course_check-<%=courseIdx %>" type="checkbox" checked="checked">
+                                <div class="checkbox"><input id="course_check-<%=courseIdx %>" type="checkbox">
                                     <label for="course_check-<%=courseIdx %>">
                                     [<%=course.id%>] : <%=PageData.sanitizeForHtml(course.name)%>
                                     </label>
@@ -113,116 +113,51 @@
                                 }
                             %>
                         </div>
-                        
-                        <!--  
+                         
                         <div class="col-sm-3">
                             <div class="text-color-primary">
                                 <strong>Sections</strong>
                             </div>
                             <br>
-                            <div class="checkbox">
-                                <input type="checkbox" value="" id="section_all" checked="checked"> 
+                            <div class="checkbox" style="display:none;">
+                                <input type="checkbox" value="" id="section_all"> 
                                 <label for="section_all"><strong>Select all</strong></label>
                             </div>
                             <br>
-                            </%
-                                courseIdx = -1;
-                                for(CourseAttributes course : data.courses){
-                                    if((course.isArchived && data.displayArchive) || !course.isArchived){
-                                        courseIdx++;
-                                        int sectionIdx = -1;
-                                        for(SectionDetailsBundle sectionDetails: courseDetails.sections) {
-                                            sectionIdx++;
-                            %>
-                                <div class="checkbox"><input id="section_check-</%=courseIdx %>-</%=sectionIdx%>" type="checkbox" checked="checked">
-                                    <label for="section_check-</%=courseIdx %>-</%=sectionIdx%>">
-                                    [</%=courseDetails.course.id%>] : </%=PageData.sanitizeForHtml(sectionDetails.name)%>
-                                    </label>
-                                </div>
-                            </%          
-                                        }
-                                    }
-                                }
-                            %>
+                            <div id="sectionChoices">
+                     
+                            </div>
                         </div>
-                        -->
-                        
-                        <!--  
+                          
                         <div class="col-sm-3">
                             <div class="text-color-primary">
                                 <strong>Teams</strong>
                             </div>
                             <br>
-                            <div class="checkbox">
-                                <input id="team_all" type="checkbox" checked="checked">
+                            <div class="checkbox" style="display:none;">
+                                <input id="team_all" type="checkbox">
                                 <label for="team_all"><strong>Select All</strong></label>
                             </div>
                             <br>
-                            </%
-                                courseIdx = -1;
-                                for(CourseDetailsBundle courseDetails: data.courses){
-                                    if((courseDetails.course.isArchived && data.displayArchive) || !courseDetails.course.isArchived){
-                                        courseIdx++;
-                                        int sectionIdx = -1;
-                                        int teamIdx = -1;
-                                    for(SectionDetailsBundle sectionDetails: courseDetails.sections){
-                                        sectionIdx++;
-                                        for(TeamDetailsBundle teamDetails: sectionDetails.teams){
-                                            teamIdx++;
-                            %>
-                                <div class="checkbox">
-                                    <input id="team_check-</%=courseIdx %>-</%=sectionIdx%>-</%=teamIdx %>" type="checkbox" checked="checked">
-                                    <label for="team_check-</%=courseIdx %>-</%=sectionIdx%>-</%=teamIdx%>">
-                                    [</%=courseDetails.course.id%>] : </%=PageData.sanitizeForHtml(teamDetails.name)%>
-                                    </label>
-                                </div>
-                            </%
-                                        }
-                                    }
-                                }
-                                }
-                            %>
+                            <div id="teamChoices">
+
+                            </div>
                         </div>
-                        -->
                         
-                        <!--  
                         <div class="col-sm-3">
                             <div class="text-color-primary">
                                 <strong>Emails</strong>
                             </div>
                             <br>
-                            <div class="checkbox">
+                            <div class="checkbox" style="display:none;">
                                 <input id="show_email" type="checkbox" checked="checked">
                                     <label for="show_email"><strong>Show Emails</strong></label>
                             </div>
                             <br>
                             <div id="emails">
-                                </%
                                 
-                                    courseIdx = -1;
-                                    for(CourseDetailsBundle courseDetails: data.courses){
-                                        if((courseDetails.course.isArchived && data.displayArchive) || !courseDetails.course.isArchived){
-                                            courseIdx++;
-                                            int totalCourseStudents = courseDetails.stats.studentsTotal;
-                                            if(totalCourseStudents >= 1){
-                                                int studentIdx = -1;
-                                                for(SectionDetailsBundle sectionDetails : courseDetails.sections){
-                                                for(TeamDetailsBundle teamDetails: sectionDetails.teams){
-                                                    for(StudentAttributes student: teamDetails.students){
-                                                        studentIdx++;
-                                %>
-                                        <div id="student_email-c</%=courseIdx %>.</%=studentIdx%>"></%=student.email %></div>
-                                </%
-                                                    }
-                                                }
-                                                }
-                                            }
-                                        }
-                                    }
-                                %>
                             </div>
                         </div>
-                        -->
                     </div>
                 </form>
             </div>
@@ -234,16 +169,14 @@
                 for (CourseAttributes course : data.courses) {
                     if((course.isArchived && data.displayArchive) || !course.isArchived){
                         courseIdx++;
-                        int sortIdx = 2;
-                        //int numSections = courseDetails.stats.sectionsTotal;
-                        //int totalCourseStudents = courseDetails.stats.studentsTotal;
             %>
 
-            <div class="panel panel-info">
+            <div class='panel <%= course.isArchived ? "panel-default" : "panel-info" %>'>
                 <div class="panel-heading ajax_submit">
                     <form style="display:none;" id="seeMore-<%=courseIdx%>" class="seeMoreForm-<%=courseIdx%>" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_AJAX_PAGE%>">
                         <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=course.id%>">
                         <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                        <input type="hidden" id="numStudents-<%=courseIdx%>" value="<%=data.numStudents.get(course.id)%>">
                     </form>
                     <a class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test"
                                 href="<%=data.getInstructorCourseEnrollLink(course.id)%>"
@@ -260,7 +193,7 @@
                 </div>
                 <div class="panel-collapse collapse">
                 <div class="panel-body padding-0">    
-         
+            
                 </div>
                 </div>
             </div>

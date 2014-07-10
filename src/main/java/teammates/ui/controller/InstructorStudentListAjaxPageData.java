@@ -19,7 +19,7 @@ public class InstructorStudentListAjaxPageData extends PageData {
     public CourseAttributes course;
     public boolean hasSection;
     public Map<String, String> emailPhotoUrlMapping;
-    public Map<String, Map<String, String>> sectionPrivileges;
+    public Map<String, Map<String, Boolean>> sectionPrivileges;
     
     public String getCourseStudentDetailsLink(String courseId, StudentAttributes student){
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE;

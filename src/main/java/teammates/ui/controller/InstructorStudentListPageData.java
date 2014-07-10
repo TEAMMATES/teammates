@@ -17,6 +17,7 @@ public class InstructorStudentListPageData extends PageData {
     }
     
     public HashMap<String, InstructorAttributes> instructors;
+    public HashMap<String, String> numStudents;
     public List<CourseAttributes> courses;
     public String searchKey;
     public Boolean displayArchive;

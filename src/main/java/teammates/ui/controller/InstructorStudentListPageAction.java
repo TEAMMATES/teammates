@@ -25,10 +25,13 @@ public class InstructorStudentListPageAction extends Action {
         
         data = new InstructorStudentListPageData(account);
         data.instructors = new HashMap<String, InstructorAttributes>();
+        data.numStudents = new HashMap<String, String>();
         data.courses = logic.getCoursesForInstructor(account.googleId);
         for (CourseAttributes course : data.courses) {     
             InstructorAttributes instructor = logic.getInstructorForGoogleId(course.id, account.googleId);
             data.instructors.put(course.id, instructor);
+            int numStudentsInCourse = logic.getStudentsForCourse(course.id).size();
+            data.numStudents.put(course.id, String.valueOf(numStudentsInCourse));
         }
         
         Collections.sort(data.courses, new Comparator<CourseAttributes>(){
