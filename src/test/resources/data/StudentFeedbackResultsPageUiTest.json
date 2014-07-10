@@ -7,6 +7,13 @@
             "email":"SFResultsUiT.instr@gmail.com",
             "institute":"National University of Singapore"
         },
+        "SFResultsUiT.alice.b":{
+            "googleId":"SFResultsUiT.alice.b",
+            "name":"Alice B.",
+            "isInstructor":false,
+            "email":"SFResultsUiT.alice.b@gmail.com",
+            "institute":""
+        },
         "SFResultsUiT.charlie.d":{
             "googleId":"SFResultsUiT.charlie.d",
             "name":"Charlie D.",
