@@ -136,6 +136,14 @@
                         <span class="glyphicon glyphicon-trash"></span> Delete</a>
                 </div>
             </div>
+                 
+            <!-- Attention: 
+            This join link is printed as a hidden html element and is only used for testing purpose. 
+            This should not be shown to the user. Please go to element inspector to get this link.        
+            -->       
+            <div id="joinLink" class="form-group" hidden="hidden">
+                <%=data.getJoinLink(instructor)%>
+            </div>
 
             <div class="panel-body">
                 <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE%>"
@@ -184,6 +192,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div id="accessControlEditDivForInstr<%=index%>" style="display:none;">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">

@@ -231,9 +231,10 @@ public class InstructorsLogic {
         
     }
     
-    public void sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute) 
+    public String sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute) 
            throws EntityDoesNotExistException {
         
+        String joinLink="";
         
         InstructorAttributes instructorData = getInstructorForEmail(instructor.courseId, instructor.email);                                             
         
@@ -252,11 +253,15 @@ public class InstructorsLogic {
                                                                                       institute);
             emailMgr.sendEmail(emails.get(0));
             emailMgr.sendEmail(emails.get(1));
+            
+            //this method is deprecated because it should only be used in adminHomePage for easy manual testing purpose
+            joinLink = emailMgr.generateNewInstructorAccountJoinLink(instructorData, institute);
 
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while sending email",e);
         }
-
+        
+        return joinLink;
     }
     
     

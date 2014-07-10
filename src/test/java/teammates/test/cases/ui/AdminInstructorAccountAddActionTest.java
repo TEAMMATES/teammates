@@ -2,6 +2,7 @@ package teammates.test.cases.ui;
 
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 import java.lang.reflect.Method;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -90,8 +91,8 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         
         RedirectResult r = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(false, r.isError);
-        assertEquals("Instructor " + name + " has been successfully created", r.getStatusMessage());
+        assertEquals(false, r.isError);      
+        assertTrue(r.getStatusMessage().contains("Instructor " + name + " has been successfully created"));
         assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE, r.destination);
         assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE + "?error=false&user=" + adminUserId, r.getDestinationWithParams());
              
@@ -131,7 +132,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         
         r = (RedirectResult) a.executeAndPostProcess();
         assertEquals(false, r.isError);
-        assertEquals("Instructor " + name + " has been successfully created", r.getStatusMessage());
+        assertTrue(r.getStatusMessage().contains("Instructor " + name + " has been successfully created"));
         assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE, r.destination);
         assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE + "?error=false&user=" + adminUserId, r.getDestinationWithParams());
     }

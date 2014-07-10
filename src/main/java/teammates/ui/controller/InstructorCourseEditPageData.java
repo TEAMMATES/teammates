@@ -5,7 +5,9 @@ import java.util.List;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 
 
@@ -45,4 +47,19 @@ public class InstructorCourseEditPageData extends PageData {
         link = addUserIdToUrl(link);
         return link;
     }
+    
+    public String getJoinLink(InstructorAttributes instructor){
+        
+        String joinUrl = "";
+        if (instructor != null) {
+            String key;
+            key = StringHelper.encrypt(instructor.key);
+    
+            joinUrl = Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
+            joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, key);
+        }
+        
+        return joinUrl;
+    }
 }
+
