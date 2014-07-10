@@ -34,6 +34,7 @@ import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
+import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.EvaluationsDb;
 
 public class BackDoorLogic extends Logic {
@@ -92,6 +93,10 @@ public class BackDoorLogic extends Logic {
                 try {
                     super.updateInstructorByGoogleId(instructor.googleId, instructor);
                 } catch (EntityDoesNotExistException e) {
+                    if (e.getMessage().equals("Instructor " + instructor.googleId + 
+                            " does not belong to course " + instructor.courseId)) {
+                        super.instructorsLogic.deleteInstructorsForGoogleId(instructor.googleId);
+                    }
                     super.createInstructorAccount(
                             instructor.googleId, instructor.courseId, instructor.name,
                             instructor.email, instructor.isArchived, instructor.role,
