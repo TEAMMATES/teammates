@@ -57,10 +57,10 @@ public class ControllerServlet extends HttpServlet {
             ActionResult actionResult = c.executeAndPostProcess();
             actionResult.send(req, resp);
             
-            long processTime = System.currentTimeMillis() - startTime;
+            long timeTaken = System.currentTimeMillis() - startTime;
             // This is the log message that is used to generate the 'activity log' for the admin.
             
-            log.info(c.getLogMessage() + "|||"+ processTime);
+            log.info(c.getLogMessage() + "|||"+ timeTaken);
             
         } catch (EntityDoesNotExistException e) {
             log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));

@@ -734,8 +734,8 @@
                                    
                                    <br>
                                    
-                                   <p class="<%=log.getColorCode()%>">
-                                   <%=TimeHelper.ConvertToStandardDuration(log.getTimingInfo())%>
+                                   <p class="<%=log.getColorCode(log.getTimeTaken())%>">
+                                   <%=TimeHelper.ConvertToStandardDuration(log.getTimeTaken())%>
                                    </p>
                                 </td>
 

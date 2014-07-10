@@ -24,7 +24,7 @@ public class ActivityLogEntry {
     private boolean toShow;
     private String message;
     private String url;
-    private Long processTime;
+    private Long timeTaken;
     
     /**
      * Constructor that creates a empty ActivityLog
@@ -52,7 +52,7 @@ public class ActivityLogEntry {
         time = appLog.getTimeUsec() / 1000;
         String[] tokens = appLog.getLogMessage().split("\\|\\|\\|", -1);
         
-        //TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||PROCESS_TIME
+        //TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||TIME_TAKEN
         try{
             servletName = tokens[1];
             action = tokens[2];
@@ -63,7 +63,7 @@ public class ActivityLogEntry {
             email = tokens[7];
             message = tokens[8];
             url = tokens[9];
-            processTime = tokens.length == 11? Long.parseLong(tokens[10]) : null;
+            timeTaken = tokens.length == 11? Long.parseLong(tokens[10]) : null;
         } catch (ArrayIndexOutOfBoundsException e){
             
             servletName = "Unknown";
@@ -76,7 +76,7 @@ public class ActivityLogEntry {
             message = "<span class=\"text-danger\">Error. Problem parsing log message from the server.</span><br>"
                     + "System Error: " + e.getMessage() + "<br>" + appLog.getLogMessage();
             url = "Unknown";
-            processTime = null;
+            timeTaken = null;
         }
     }
     
@@ -238,18 +238,13 @@ public class ActivityLogEntry {
         return message;
     }
     
-    public Long getTimingInfo(){
-        
-        return processTime;
-        
-    }
-    
-    public String getColorCode(){
+
+    public String getColorCode(Long timeTaken){
         
         String colorCode = "";
-        if (processTime >= 10000 && processTime <= 20000){
+        if (timeTaken >= 10000 && timeTaken <= 20000){
             colorCode = "text-warning";
-        }else if(processTime > 20000 && processTime <=60000){
+        }else if(timeTaken > 20000 && timeTaken <=60000){
             colorCode = "text-danger";
         }
         
@@ -316,8 +311,12 @@ public class ActivityLogEntry {
     public String getEmail(){
         return email;
     }
-
-
+    
+    public Long getTimeTaken(){
+        
+        return timeTaken;       
+    }
+    
     public static String generateServletActionFailureLogMessage(HttpServletRequest req, Exception e){
         String[] actionTaken = req.getServletPath().split("/");
         String action = req.getServletPath();
