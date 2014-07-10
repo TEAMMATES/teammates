@@ -169,7 +169,6 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         // this should be click co-owner role
         courseEditPage.clickViewDetailsLinkForInstructor(1, 1);
         // what for the animation to finish
-        browser.selenium.waitForPageToLoad("500");
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesModal.html");
         courseEditPage.closeModal();
         

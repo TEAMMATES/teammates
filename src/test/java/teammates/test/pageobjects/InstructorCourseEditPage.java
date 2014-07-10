@@ -148,6 +148,7 @@ public class InstructorCourseEditPage extends AppPage {
                 " > div:nth-child(2) > div.col-sm-9 > a:nth-child(" + cssLinkNum + ")"));
         
         viewLink.click();
+        browser.selenium.waitForPageToLoad("500");
     }
     
     public void closeModal() {
