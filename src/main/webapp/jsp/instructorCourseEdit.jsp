@@ -579,34 +579,41 @@
                             <div class="form-group">
                                 <div class="col-sm-3">
                                     <label class="control-label pull-right">Access-level</label>
-                                    <br><br><br><br>
-                                    <div class="pull-right">
-                                        <a href="javascript:;" onclick="toggleTunePermissionsDiv(<%=data.instructorList.size()+1%>)" class="small">
-                                        Fine-tune permissions</a>
-                                    </div>
                                 </div>
                                 <div class="col-sm-9">
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
-                                    id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
-                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>" 
-                                     checked="checked">&nbsp;Co-owner: Can do everything<br>
+                                        id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
+                                        value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>" 
+                                        checked="checked">&nbsp;Co-owner: Can do everything
+                                        <a href="javascript:;" 
+                                            onclick="showInstructorRoleModal(<%=data.instructorList.size()+1%>, '<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>')">
+                                            View Details</a><br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
-                                    id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
-                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>"
-                                     >&nbsp;Manager: Can do everything except for deleting the course<br>
+                                        id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
+                                        value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>"
+                                        >&nbsp;Manager: Can do everything except for deleting the course
+                                        <a href="javascript:;" 
+                                            onclick="showInstructorRoleModal(<%=data.instructorList.size()+1%>, '<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>')">
+                                            View Details</a><br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
-                                    id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
-                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>"
-                                     >&nbsp;Observer: Can only view information(students, submissions, comments etc.).
-                                      &nbsp;Cannot edit/delete/submit anything.<br>
+                                        id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
+                                        value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>"
+                                        >&nbsp;Observer: Can only view information(students, submissions, comments etc.).
+                                        &nbsp;Cannot edit/delete/submit anything.
+                                        <a href="javascript:;" 
+                                            onclick="showInstructorRoleModal(<%=data.instructorList.size()+1%>, '<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>')">
+                                            View Details</a><br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
-                                    id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
-                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>"
-                                     >&nbsp;Can only submit/view sessions and comments<br>
+                                        id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
+                                        value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>"
+                                        >&nbsp;Can only submit/view sessions and comments
+                                        <a href="javascript:;" 
+                                            onclick="showInstructorRoleModal(<%=data.instructorList.size()+1%>, '<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>')">
+                                            View Details</a><br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
-                                    id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
-                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER%>"
-                                     >&nbsp;Helper: No access by default. Any access needs to be granted explicitly.<br>
+                                        id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
+                                        value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER%>"
+                                        >&nbsp;Helper: No access by default. Any access needs to be granted explicitly.
                                 </div>
                             </div>
                             <div id="tunePermissionsDivForInstructor<%=data.instructorList.size()+1%>" style="display: none;">
@@ -619,38 +626,38 @@
                                             <div class="panel-body">
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE%>"
-                                                    value="true" checked="checked" /> Edit/Delete Course
+                                                    value="true" /> Edit/Delete Course
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR%>"
-                                                    value="true" checked="checked" /> Add/Edit/Delete Instructors
+                                                    value="true" /> Add/Edit/Delete Instructors
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION%>"
-                                                    value="true" checked="checked" /> Create/Edit/Delete Sessions
+                                                    value="true" /> Create/Edit/Delete Sessions
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT%>"
-                                                    value="true" checked="checked" /> Enroll/Edit/Delete Students
+                                                    value="true" /> Enroll/Edit/Delete Students
                                                 </div>
                                                 <br><br>
                                                 <div class="col-sm-6 border-right-gray">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS%>"
-                                                    value="true" checked="checked" /> View Students' Details<br>
+                                                    value="true" /> View Students' Details<br>
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS%>"
-                                                    value="true" checked="checked" /> Give Comments for Students<br>
+                                                    value="true" /> Give Comments for Students<br>
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS%>"
-                                                    value="true" checked="checked" /> View Others' Comments on Students<br>
+                                                    value="true" /> View Others' Comments on Students<br>
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS%>"
-                                                    value="true" checked="checked" /> Edit/Delete Others' Comments on Students<br>
+                                                    value="true" /> Edit/Delete Others' Comments on Students<br>
                                                 </div>
                                                 <div class="col-sm-5 col-sm-offset-1">
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS%>"
-                                                    value="true" checked="checked" /> Sessions: Submit Responses and Add Comments<br>
+                                                    value="true" /> Sessions: Submit Responses and Add Comments<br>
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS%>"
-                                                    value="true" checked="checked" /> Sessions: View Responses and Comments<br>
+                                                    value="true" /> Sessions: View Responses and Comments<br>
                                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS%>"
-                                                    value="true" checked="checked" /> Sessions: Edit/Delete Responses/Comments by others<br>
+                                                    value="true" /> Sessions: Edit/Delete Responses/Comments by others<br>
                                                 </div>
                                             </div>
                                         </div>
