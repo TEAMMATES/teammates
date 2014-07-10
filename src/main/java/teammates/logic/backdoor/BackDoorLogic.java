@@ -61,7 +61,7 @@ public class BackDoorLogic extends Logic {
                     Const.StatusCodes.NULL_PARAMETER, "Null data bundle");
         }
         
-        // deleteExistingData(dataBundle);
+        deleteExistingData(dataBundle);
         
         HashMap<String, AccountAttributes> accounts = dataBundle.accounts;
         for (AccountAttributes account : accounts.values()) {
@@ -95,7 +95,7 @@ public class BackDoorLogic extends Logic {
                 } catch (EntityDoesNotExistException e) {
                     if (e.getMessage().equals("Instructor " + instructor.googleId + 
                             " does not belong to course " + instructor.courseId)) {
-                        super.instructorsLogic.deleteInstructorsForGoogleId(instructor.googleId);
+                        instructorsLogic.deleteInstructor(instructor.courseId, instructor.email);
                     }
                     super.createInstructorAccount(
                             instructor.googleId, instructor.courseId, instructor.name,
