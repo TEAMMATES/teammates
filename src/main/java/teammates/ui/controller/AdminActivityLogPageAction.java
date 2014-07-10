@@ -71,12 +71,11 @@ public class AdminActivityLogPageAction extends Action {
     }
     
     private List<String> getVersionIdsForQuery(List<String> versions){
-                
-        if(versions != null && !versions.isEmpty()){   
-            //versions is not null or empty, meaning version IDs are specified in filter query
+        
+        boolean isVersionSpecifiedInRequest = (versions != null && !versions.isEmpty());
+        if(isVersionSpecifiedInRequest){   
             return versions;        
         }       
-        
         return getDefaultVersionIdsForQuery();
     }
     
