@@ -14,6 +14,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseEnrollPageData;
 import teammates.ui.controller.InstructorCourseEnrollResultPageData;
@@ -22,30 +23,13 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId,
-                Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, ""
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyUnaccessibleWithoutModifyStudentPrivilege(submissionParams);
     }
     
     @Test
@@ -203,6 +187,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         AssertHelper.assertContains(Const.StatusMessages.ENROLL_LINE_EMPTY, enrollAction.getLogMessage());
             
         CoursesLogic.inst().deleteCourseCascade("new-course");
+        StudentsLogic.inst().deleteStudentsForCourse(instructor1OfCourse1.courseId);
     }
     
     /**

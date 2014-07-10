@@ -49,6 +49,7 @@ import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CommentsLogic;
@@ -275,12 +276,16 @@ public class Logic {
     
     /**
      * Creates an instructor and an new account if the instructor doesn't not have account yet.<br>
+     * Used as a shorthand when the account entity is not important and is
+     * only needed for completeness<br>
      * <b>Note: Now used for the purpose of testing only.</b><br>
      * Preconditions: <br>
      * * All parameters are non-null.
      */
     @Deprecated
-    public void createInstructorAccount(String googleId, String courseId, String name, String email, String institute)
+    public void createInstructorAccount(String googleId, String courseId, String name, String email, 
+            Boolean isArchived, String role, boolean isDisplayedToStudents, String displayedName, 
+            String privileges, String institute)
             throws EntityAlreadyExistsException, InvalidParametersException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
@@ -288,25 +293,26 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
-
-        accountsLogic.createInstructorAccount(googleId, courseId, name, email, institute);
-    }
-
-    /**
-     * Creates a new instructor for a course. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    @Deprecated
-    public void createInstructor(String googleId, String courseId, String name, String email) 
-            throws InvalidParametersException, EntityAlreadyExistsException {
         
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, name);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
-
-        instructorsLogic.createInstructor(googleId, courseId, name, email);
+        if (accountsLogic.getAccount(googleId) == null) {
+            AccountAttributes account = new AccountAttributes(googleId, name, true, email, institute);
+            accountsLogic.createAccount(account);
+        }
+        
+        role = role == null ? Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER : role;
+        displayedName = displayedName == null ? InstructorAttributes.DEFAULT_DISPLAY_NAME : displayedName;
+        InstructorAttributes instructor = null;
+        
+        if (privileges == null) {
+            instructor = new InstructorAttributes(googleId, courseId, name, 
+                    email, role, isDisplayedToStudents, displayedName, new InstructorPrivileges(role));
+        } else {
+            instructor = new InstructorAttributes(googleId, courseId, name, 
+                    email, role, displayedName, privileges);
+        }
+        instructor.isArchived = isArchived;
+        instructor.isDisplayedToStudents = isDisplayedToStudents;
+        instructorsLogic.createInstructor(instructor);
     }
     
     /**
@@ -998,7 +1004,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public void updateStudent(String originalEmail, StudentAttributes student)
-            throws InvalidParametersException, EntityDoesNotExistException, EnrollException {
+            throws InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, originalEmail);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
