@@ -44,10 +44,10 @@ public abstract class Action {
     public AccountAttributes account;
     
     /** The full request URL e.g., {@code /page/instructorHome?user=abc&course=c1} */
-    String requestUrl;
+    protected String requestUrl;
     
     /** Parameters received with the request */
-    Map<String, String[]> requestParameters;
+    protected Map<String, String[]> requestParameters;
     
     /** Execution status info to be shown to he admin (in 'activity log')*/
     protected String statusToAdmin; //TODO: make this a list?
@@ -159,7 +159,7 @@ public abstract class Action {
         return response;
     }
 
-    private void putStatusMessageToSession(ActionResult response) {
+    protected void putStatusMessageToSession(ActionResult response) {
         String statusMessageInSession = (String) session.getAttribute(Const.ParamsNames.STATUS_MESSAGE);
         if(statusMessageInSession == null || statusMessageInSession.isEmpty()){
             session.setAttribute(Const.ParamsNames.STATUS_MESSAGE, response.getStatusMessage());
@@ -304,7 +304,7 @@ public abstract class Action {
         statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage();
     }
 
-    private boolean isInMasqueradeMode() {
+    protected boolean isInMasqueradeMode() {
         return !loggedInUser.googleId.equals(account.googleId);
     }
 

@@ -596,6 +596,10 @@ public class Const {
         public static final String STUDENT_PROFILE_PICTURE_EDIT = "/page/studentProfilePictureEdit";
         public static final String STUDENT_PROFILE_CREATEUPLOADFORMURL = "/page/studentProfileCreateFormUrl";
         
+        public static final String UNREGISTERED_STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/unregisteredStudentFeedbackSubmissionEditPage";
+        public static final String UNREGISTERED_STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/unregisteredStudentFeedbackSubmissionEditSave";
+        public static final String UNREGISTERED_STUDENT_FEEDBACK_RESULTS_PAGE = "/page/unregisteredStudentFeedbackResultsPage";
+        
         public static final String ADMIN_HOME_PAGE = "/admin/adminHomePage";
         public static final String ADMIN_INSTRUCTORACCOUNT_ADD = "/admin/adminInstructorAccountAdd";
         public static final String ADMIN_ACCOUNT_MANAGEMENT_PAGE = "/admin/adminAccountManagementPage";
@@ -895,6 +899,9 @@ public class Const {
         public static final String STUDENT_PROFILE_PICTURE_EDIT_FAILED = "The photo that was edited did not belong to the user. "
                 + "Please upload another picture to begin editing";
         public static final String STUDENT_NOT_JOINED_YET_FOR_RECORDS = "This student has not joined the course yet or you are not supposed to view his/her profile";
+        
+        public static final String UNREGISTERED_STUDENT = "Almost all of the features of TEAMMATES have been disabled as you are "
+                + "an unregistered user. Register and Authenticate with a Google Account to utilise all the features.";
     }
 
     /* These indicate status of an operation, but they are not shown to the user */

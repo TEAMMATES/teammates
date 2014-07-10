@@ -49,7 +49,7 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
         return questionsBundle;
     }
 
-    private void extractNotDisplayedInstrutorEmails(
+    protected void extractNotDisplayedInstrutorEmails(
             List<InstructorAttributes> instructors, HashSet<String> notDisplayedInstructorEmails) {
         for (InstructorAttributes instructor : instructors) {
             if (!instructor.isDisplayedToStudents) {
@@ -58,7 +58,7 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
         }
     }
 
-    private void filterSessionQuestionBundle(
+    protected void filterSessionQuestionBundle(
             FeedbackSessionQuestionsBundle questionsBundle, HashSet<String> notDisplayedInstructorEmails) {
         // remove instructor who are not displayed to students
         for (FeedbackQuestionAttributes question : questionsBundle.questionResponseBundle.keySet()) {

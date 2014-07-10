@@ -46,7 +46,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <init-param>
             <description>Files excluded from login check. "|"-separated</description>
             <param-name>ExcludedFiles</param-name>
-            <param-value></param-value>
+            <param-value>/page/unregisteredStudentFeedbackSubmissionEditPage|/page/unregisteredStudentFeedbackSubmissionEditSave</param-value>
         </init-param>
     </filter>
     <filter-mapping>

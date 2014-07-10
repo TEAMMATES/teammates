@@ -52,8 +52,13 @@
         <div id="topOfPage"></div>
         <h1>Submit Feedback</h1>
         <br />
-        
-        <form method="post" action="<%=Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE%>" name="form_student_submit_response">
+        <% if (data.account == null) { %>
+            <div id="registerMessage" class="alert alert-danger">
+                <%=Const.StatusMessages.UNREGISTERED_STUDENT%>
+            </div>
+        <% } %>
+        <form method="post" name="form_student_submit_response"
+              action="<%=data.account != null ? Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE : Const.ActionURIs.UNREGISTERED_STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE %>" >
             
             <jsp:include page="<%=Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT%>" />
             
@@ -71,7 +76,7 @@
             %>
                     <input type="submit" class="btn btn-primary" id="response_submit_button" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>" value="Save Feedback"/>
             <%
-                }
+                } 
             %>
             </div>
             <br><br>    

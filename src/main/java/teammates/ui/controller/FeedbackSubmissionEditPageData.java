@@ -12,6 +12,8 @@ import teammates.common.datatransfer.StudentAttributes;
 public class FeedbackSubmissionEditPageData extends PageData {
 
     public FeedbackSessionQuestionsBundle bundle = null;
+    public String regkey = null;
+    public String email = null;
     public boolean isSessionOpenForSubmission;
     public boolean isPreview;
     public StudentAttributes previewStudent;

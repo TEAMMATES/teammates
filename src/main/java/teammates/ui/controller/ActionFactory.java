@@ -120,6 +120,9 @@ public class ActionFactory {
         map(STUDENT_PROFILE_CREATEUPLOADFORMURL, StudentProfileCreateFormUrlAction.class);
         map(STUDENT_PROFILE_EDIT_SAVE, StudentProfileEditSaveAction.class);
         map(STUDENT_HOME_PAGE, StudentHomePageAction.class);
+        
+        map(UNREGISTERED_STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE, UnregisteredStudentFeedbackSubmissionEditPageAction.class);
+        map(UNREGISTERED_STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE, UnregisteredStudentFeedbackSubmissionEditSaveAction.class);
     }
 
 

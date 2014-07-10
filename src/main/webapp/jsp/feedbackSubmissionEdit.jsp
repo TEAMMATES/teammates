@@ -12,7 +12,12 @@
 %>    
     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>"/>
     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>"/>
-    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+    <% if (data.account != null) { %>
+        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+    <% } else { %>
+        <input type="hidden" name="<%=Const.ParamsNames.REGKEY%>" value="<%=data.regkey%>">
+        <input type="hidden" name="<%=Const.ParamsNames.STUDENT_EMAIL%>" value="<%=data.email%>">
+    <% } %>
     <div class="well well-plain" id="course1">
             <div class="panel-body">
                 <div class="form-horizontal">
