@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import java.io.IOException;
+import java.sql.Time;
 import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
@@ -46,6 +47,8 @@ public class ControllerServlet extends HttpServlet {
              * Concrete details of the processing steps are to be implemented by child
              * classes, based on request-specific needs.
              */
+            long startTime = System.currentTimeMillis();
+            
             log.info("Request received : " + req.getRequestURL().toString()
                     + ":" + HttpRequestHelper.printRequestParameters(req));
             log.info("User agent : " + req.getHeader("User-Agent"));
@@ -54,8 +57,10 @@ public class ControllerServlet extends HttpServlet {
             ActionResult actionResult = c.executeAndPostProcess();
             actionResult.send(req, resp);
             
+            long timeTaken = System.currentTimeMillis() - startTime;
             // This is the log message that is used to generate the 'activity log' for the admin.
-            log.info(c.getLogMessage());
+            
+            log.info(c.getLogMessage() + "|||"+ timeTaken);
             
         } catch (EntityDoesNotExistException e) {
             log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));

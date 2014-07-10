@@ -111,6 +111,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         InstructorFeedbackResponseCommentAjaxPageData data = 
                 (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
+        assertEquals("", result.getStatusMessage());
         
         ______TS("Unsuccessful case: empty comment text");
         
@@ -125,6 +126,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         
         action = getAction(submissionParams);
         result = (AjaxResult) action.executeAndPostProcess();
+        assertEquals("", result.getStatusMessage());
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertTrue(data.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, data.errorMessage);

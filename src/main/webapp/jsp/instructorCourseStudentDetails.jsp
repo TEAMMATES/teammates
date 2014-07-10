@@ -41,7 +41,10 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 <script type="text/javascript">
-    var isShowCommentBox = <%=data.commentRecipient != null && (data.commentRecipient.equals("student") || data.commentRecipient.equals("team"))%>;
+    var isShowCommentBox = <%=data.commentRecipient != null 
+            && (data.commentRecipient.equals("student") 
+                    || data.commentRecipient.equals("team")
+                    || data.commentRecipient.equals("section"))%>;
     var commentRecipient = "<%=data.commentRecipient != null? data.commentRecipient: ""%>";
 </script>
 </head>
@@ -57,15 +60,86 @@
         </div>
 
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-
+        
+        <%
+            if (data.studentProfile != null) {
+            	 String pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + 
+                     "?blob-key=" + data.studentProfile.pictureKey +
+                     "&user="+data.account.googleId;
+                 if (data.studentProfile.pictureKey.isEmpty()) {
+                     pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
+                 }
+        %>
+                <div class="modal fade" id="studentProfileMoreInfo" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">Emma's Profile - More Info</h4>
+                            </div>
+                            <div class="modal-body">
+                                <br>
+                                <pre class="pre-plain height-fixed-md"><%=data.studentProfile.moreInfo.isEmpty() ? 
+                                                    "<i class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.moreInfo%></pre>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="row" id="studentProfile">
+                            <div class="col-md-2 col-xs-3 block-center">
+                                <img src="<%=pictureUrl %>" class="profile-pic pull-right">
+                            </div>
+                            <div class="col-md-10 col-sm-9 col-xs-8">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="2"> Profile </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-bold">Short Name (Gender)</td>
+                                            <td><%=data.studentProfile.shortName.isEmpty() ? "<i class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.shortName %> 
+                                            (<i>
+                                                <%=data.studentProfile.gender.equals(Const.GenderTypes.OTHER) ?
+                                                    "<span class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</span>" : data.studentProfile.gender %>
+                                            </i>)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-bold">Personal Email</td>
+                                            <td><%=data.studentProfile.email.isEmpty() ? "<i  class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.email %></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-bold">Institution</td>
+                                            <td><%=data.studentProfile.institute.isEmpty() ? "<i  class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.institute %></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-bold">Nationality</td>
+                                            <td><%=data.studentProfile.nationality.isEmpty() ? "<i  class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.nationality %></td>
+                                        </tr>                                
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        <%
+            }
+        %>
         <div class="well well-plain">
-            <button type="button"
-                class="btn btn-default btn-xs icon-button pull-right"
+            <button type="button" class="btn btn-default btn-xs icon-button pull-right"
                 id="button_add_comment" data-toggle="tooltip"
-                data-placement="top" title=""
-                data-original-title="Add comment">
-                <span
-                    class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                data-placement="top" title="" data-original-title="Add comment"
+                <% if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS)) { %>
+                    disabled="disabled"
+                <% } %>
+                >
+                <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
             </button>
             <div class="form form-horizontal"
                 id="studentInfomationTable">
@@ -100,7 +174,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label">E-mail
+                    <label class="col-sm-1 control-label">Official Email
                         Address:</label>
                     <div class="col-sm-11"
                         id="<%=Const.ParamsNames.STUDENT_EMAIL%>">
@@ -127,8 +201,7 @@
                 </div>
             </div>
         </div>
-        <div id="commentArea" class="well well-plain"
-            style="display: none;">
+        <div id="commentArea" class="well well-plain" style="display: none;">
             <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD%>" name="form_commentadd">
                 <div class="form-group form-inline">
                     <label style="margin-right: 24px;">Recipient:
@@ -213,7 +286,7 @@
                                 <td class="text-left">
                                     <div data-toggle="tooltip"
                                         data-placement="top" title=""
-                                        data-original-title="Control what other students in the same section can view">
+                                        data-original-title="Control what students in the same section can view">
                                         Recipient's Section</div>
                                 </td>
                                 <td><input
@@ -295,6 +368,25 @@
                 </div>
             </form>
         </div>
+        <%
+            if (data.studentProfile != null) {
+        %>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <span data-toggle="modal" data-target="#studentProfileMoreInfo" 
+                                      class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
+                                <h5>More Info </h5>                                    
+                                <pre class="pre-plain height-fixed-md"><%=data.studentProfile.moreInfo.isEmpty() ? 
+                                        "<i class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.moreInfo%></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        <%
+            }
+        %>
     </div>
 
 

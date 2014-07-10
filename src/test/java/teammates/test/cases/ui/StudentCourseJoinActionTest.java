@@ -86,6 +86,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
                 + "&error=false&user=" + student1InCourse1.googleId,
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
+        assertEquals("", pageResult.getStatusMessage());
 
         ______TS("typical case");
 

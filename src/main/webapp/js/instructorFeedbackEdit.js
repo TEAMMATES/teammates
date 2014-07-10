@@ -35,6 +35,10 @@ function readyFeedbackEditPage(){
         }
     });
     
+    // Copy Binding
+    bindCopyButton();
+    bindCopyEvents();
+
     // Additional formatting & bindings.
     disableEditFS();
     formatSessionVisibilityGroup();
@@ -155,6 +159,11 @@ function enableQuestion(number){
     } else {
         $("#constSumOptionTable-"+number).show();
         $("#constSumOption_Recipient-"+number).hide();
+    }
+
+    if($('#questionTable'+number).parent().find('input[name="questiontype"]').val()=='CONTRIB'){
+        fixContribQnGiverRecipient(number);
+        setContribQnVisibilityFormat(number);
     }
     
     $('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).hide();
@@ -368,7 +377,105 @@ function prepareQuestionForm(type) {
         $('#constSumForm').show();
         $('#questionTypeChoice').val('CONSTSUM');
         break;
+    case "CONTRIB":
+        $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_CONTRIB);
+        $('#mcqForm').hide();
+        $('#msqForm').hide();
+        $('#numScaleForm').hide();
+        $('#constSumForm').hide();
+        fixContribQnGiverRecipient();
+        setDefaultContribQnVisibility();
+        setContribQnVisibilityFormat();
+        break;
     }
+}
+
+function setDefaultContribQnVisibility(questionNumber){
+    var idSuffix = questionNumber ? (questionNumber) : "New";
+    var idSuffix2 = questionNumber ? questionNumber : "";
+
+    $('#questionTable'+idSuffix).find('input.visibilityCheckbox').prop('checked', false);
+    //All except STUDENTS can see answer
+    $('#questionTable'+idSuffix).find('input.visibilityCheckbox')
+                                .filter('[class*="answerCheckbox'+idSuffix2+'"]')
+                                .not('[value="STUDENTS"]').prop('checked', true);
+    //Only instructor can see giver
+    $('#questionTable'+idSuffix).find('input.visibilityCheckbox')
+                                .filter('[class*="giverCheckbox'+idSuffix2+'"]')
+                                .filter('[value="INSTRUCTORS"]').prop('checked', true);
+    //Recipient and instructor can see recipient
+    $('#questionTable'+idSuffix).find('input.visibilityCheckbox')
+                                .filter('[class*="recipientCheckbox'+idSuffix2+'"]')
+                                .filter('[value="INSTRUCTORS"],[value="RECEIVER"]').prop('checked', true);
+
+}
+
+function setContribQnVisibilityFormat(questionNumber){
+
+    var idSuffix = questionNumber ? (questionNumber) : "New";
+    var idSuffix2 = questionNumber ? questionNumber : "";
+
+    //Format checkboxes 'Can See Answer' for recipient/giver's team members/recipient's team members must be the same.
+
+    $('#questionTable'+idSuffix).find('input.visibilityCheckbox').off('change');
+    
+    $('#questionTable'+idSuffix).find('input.visibilityCheckbox').filter("[class*='answerCheckbox']").change(function() {
+        if ($(this).prop('checked') == false) {
+            if($(this).val() == 'RECEIVER' || $(this).val() == 'OWN_TEAM_MEMBERS' || $(this).val() == 'RECEIVER_TEAM_MEMBERS'){
+                $('#questionTable'+idSuffix).find('input.visibilityCheckbox')
+                                            .filter("input[class*='giverCheckbox'],input[class*='recipientCheckbox']")
+                                            .filter("[value='RECEIVER'],[value='OWN_TEAM_MEMBERS'],[value='RECEIVER_TEAM_MEMBERS']")
+                                            .prop('checked', false);
+            } else {
+                $(this).parent().parent().find("input[class*='giverCheckbox']").prop('checked',false);
+                $(this).parent().parent().find("input[class*='recipientCheckbox']").prop('checked',false);
+            }
+            
+        }
+        
+        if($(this).val() == 'RECEIVER' || $(this).val() == 'OWN_TEAM_MEMBERS' || $(this).val() == 'RECEIVER_TEAM_MEMBERS'){
+            $('#questionTable'+idSuffix).find('input.visibilityCheckbox')
+                                        .filter("input[name=receiverFollowerCheckbox]")
+                                        .prop('checked', $(this).prop('checked'));
+        }
+
+        if($(this).val() == "RECEIVER" || $(this).val() == "OWN_TEAM_MEMBERS" || $(this).val() == "RECEIVER_TEAM_MEMBERS"){
+            $('#questionTable'+idSuffix).find('input.visibilityCheckbox')
+                                        .filter("[class*='answerCheckbox']")
+                                        .filter("[value='RECEIVER'],[value='OWN_TEAM_MEMBERS'],[value='RECEIVER_TEAM_MEMBERS']")
+                                        .prop('checked',$(this).prop('checked'));
+        }
+    });
+    $('#questionTable'+idSuffix).find('input.visibilityCheckbox').filter("[class*='giverCheckbox']").change(function() {
+        if ($(this).is(':checked')) {
+            $query = $(this).parent().parent().find("input[class*='answerCheckbox']");
+            $query.prop('checked',true);
+            $query.trigger('change');
+        }
+    });
+    $('#questionTable'+idSuffix).find('input.visibilityCheckbox').filter("[class*='recipientCheckbox']").change(function() {
+        if ($(this).is(':checked')) {
+            $query = $(this).parent().parent().find("input[class*='answerCheckbox']");
+            $query.prop('checked',true);
+            $query.trigger('change');
+        }
+    });
+    $('#questionTable'+idSuffix).find('input.visibilityCheckbox').filter("[name=receiverLeaderCheckbox]").change(function (){
+        $(this).parent().parent().find("input[name=receiverFollowerCheckbox]").
+                                prop('checked', $(this).prop('checked'));
+    });
+
+}
+
+function fixContribQnGiverRecipient(questionNumber){
+    var idSuffix;
+    idSuffix = questionNumber ? (questionNumber) : "";
+
+    //Fix giver->recipient to be STUDENT->OWN_TEAM_MEMBERS_INCLUDING_SELF
+    $('#givertype'+idSuffix).find('option').not('[value="STUDENTS"]').hide();
+    $('#recipienttype'+idSuffix).find('option').not('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').hide();
+    $('#givertype'+idSuffix).find('option').filter('[value="STUDENTS"]').attr('selected','selected');
+    $('#recipienttype'+idSuffix).find('option').filter('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').attr('selected','selected');
 }
 
 function hideConstSumOptionTable(questionNumber){
@@ -813,4 +920,72 @@ function getQuestionLink(qnNumber) {
 
 function toParameterFormat(str) {
     return str.replace(/\s/g,"+");
+}
+
+function bindCopyButton() {
+    $('#button_copy').on('click', function(e){
+        e.preventDefault();
+        
+        var questionRows = $("#copyTableModal >tbody>tr");
+        if(questionRows.length == 0){
+            setStatusMessage(FEEDBACK_QUESTION_COPY_INVALID, true);
+        } else {
+            setStatusMessage("", false);
+            $('#copyModal').modal('show');
+        }
+       
+        return false;
+    });
+
+    $('#button_copy_submit').on('click', function(e){
+        e.preventDefault();
+
+        var index = 0;
+        var hasRowSelected = false;
+
+        $('#copyTableModal >tbody>tr').each(function(){
+            var input = $(this).children('input:first');
+            if(typeof input == 'undefined'){
+                return true;
+            }
+            if($(this).hasClass('row-selected')){
+                $(input).attr('name', 'questionid-' + index++);
+                hasRowSelected = true;
+            }
+        });
+
+        if(!hasRowSelected){
+            setStatusMessage('No questions are selected to be copied', true);
+            $('#copyModal').modal('hide');
+        } else {
+            console.log('test');
+            $('#copyModalForm').submit();
+        }
+
+
+        return false;
+    });
+}
+
+function bindCopyEvents() {
+
+    var firstRow = $('#copyTableModal >tbody>tr:first');
+    if(typeof firstRow != 'undefined'){
+        $(firstRow).addClass('row-selected');
+        $(firstRow).children('td:first').html('<span class="glyphicon glyphicon-ok"></span>');
+    }
+    
+    $('#copyTableModal >tbody>tr').on('click', function(e){
+        e.preventDefault();
+        
+        if($(this).hasClass('row-selected')){
+            $(this).removeClass('row-selected');
+            $(this).children('td:first').html('');
+        } else {
+            $(this).addClass('row-selected');
+            $(this).children('td:first').html('<span class="glyphicon glyphicon-ok"></span>');
+        }
+
+        return false;
+    });
 }

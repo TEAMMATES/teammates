@@ -54,13 +54,14 @@
         
         
         <div class="well well-plain" id="courseInformationHeader">
-            <button type="button"
-                class="btn btn-default btn-xs icon-button pull-right"
+            <button type="button" class="btn btn-default btn-xs icon-button pull-right"
                 id="button_add_comment" data-toggle="tooltip"
-                data-placement="top" title=""
-                data-original-title="Add comment">
-                <span
-                    class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                data-placement="top" title="" data-original-title="Add comment"
+                <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS)) { %>
+                    disabled="disabled"
+                <% } %>
+                >
+                <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
             </button>
             <div class="form form-horizontal">
                 <div class="form-group">
@@ -134,8 +135,7 @@
                  %>
             </div>
         </div>
-        <div id="commentArea" class="well well-plain"
-            style="display: none;">
+        <div id="commentArea" class="well well-plain" style="display: none;">
             <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD%>" name="form_commentadd">
                 <div class="form-group form-inline">
                     <label style="margin-right: 24px;">Recipient:
@@ -300,7 +300,11 @@
                             <div class="dropdown" style="display:inline;">
                               <a class="btn btn-default btn-xs t_student_records-c<%=data.courseDetails.course.id %>.<%=idx%> dropdown-toggle" 
                                 href="javascript:;"
-                                data-toggle="dropdown"> Add Comment</a>
+                                data-toggle="dropdown"
+                                <% if (!data.currentInstructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS)) { %>
+                                    disabled="disabled"
+                                <% } %>
+                                > Add Comment</a>
                               <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
                                 <li role="presentation"><a class="t_student_details_tostudent-c<%=data.courseDetails.course.id %>.<%=idx%>" role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student)
                                     +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=student"%>">

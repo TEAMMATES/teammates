@@ -21,6 +21,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.storage.api.AccountsDb;
+import teammates.storage.api.ProfilesDb;
 
 
 /**
@@ -34,6 +35,7 @@ public class AccountsLogic {
         
     private static AccountsLogic instance = null;
     private static final AccountsDb accountsDb = new AccountsDb();
+    private static final ProfilesDb profilesDb = new ProfilesDb();
     
     private static Logger log = Utils.getLogger();
     
@@ -409,17 +411,26 @@ public class AccountsLogic {
     }
 
     public StudentProfileAttributes getStudentProfile(String googleId) {
-        return accountsDb.getStudentProfile(googleId);
+        return profilesDb.getStudentProfile(googleId);
     }
 
 
     public void updateStudentProfile(StudentProfileAttributes newStudentProfileAttributes) 
             throws InvalidParametersException, EntityDoesNotExistException {
-        accountsDb.updateStudentProfile(newStudentProfileAttributes);
+        profilesDb.updateStudentProfile(newStudentProfileAttributes);
     }
 
+    public void deleteStudentProfilePicture(String googleId) throws BlobstoreFailureException {
+        profilesDb.deleteStudentProfilePicture(googleId);
+    }
+    
+    public void deletePicture(BlobKey key) throws BlobstoreFailureException {
+        profilesDb.deletePicture(key);
+    }
 
-    public void deleteProfilePicture(BlobKey key) throws BlobstoreFailureException {
-        accountsDb.deleteProfilePicFromGcs(key);
+    public void updateStudentProfilePicture (String googleId, String newPictureKey)
+        throws EntityDoesNotExistException, BlobstoreFailureException {
+        profilesDb.updateStudentProfilePicture(googleId, newPictureKey);
+        
     }
 }

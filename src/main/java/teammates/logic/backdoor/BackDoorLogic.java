@@ -30,6 +30,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
@@ -357,7 +358,7 @@ public class BackDoorLogic extends Logic {
      * @throws EntityDoesNotExistException 
     **/
     @Override
-    public void createFeedbackResponseComment(FeedbackResponseCommentAttributes responseComment) 
+    public FeedbackResponseCommentAttributes createFeedbackResponseComment(FeedbackResponseCommentAttributes responseComment) 
             throws InvalidParametersException, EntityDoesNotExistException {
         
         try {
@@ -378,7 +379,7 @@ public class BackDoorLogic extends Logic {
                 responseComment.feedbackQuestionId
                 + "%" + responseIdParam[1] + "%" + responseIdParam[2];
 
-        super.createFeedbackResponseComment(responseComment);
+        return super.createFeedbackResponseComment(responseComment);
     }
     
 
@@ -579,5 +580,11 @@ public class BackDoorLogic extends Logic {
         } catch(IllegalArgumentException | BlobstoreFailureException e) {
             return BackDoorServlet.RETURN_VALUE_FALSE;
         }
+    }
+
+    public void uploadAndUpdateStudentProfilePicture(String googleId,
+            byte[] pictureData) throws Exception {
+        String pictureKey = GoogleCloudStorageHelper.writeDataToGcs(googleId, pictureData, "");
+        updateStudentProfilePicture(googleId, pictureKey);
     }
 }

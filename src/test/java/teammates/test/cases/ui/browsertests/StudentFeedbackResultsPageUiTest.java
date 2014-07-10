@@ -93,6 +93,13 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage = loginToStudentFeedbackSubmitPage("Alice", "CONSTSUM Session");
         resultsPage.verifyHtml("/studentFeedbackResultsPageCONSTSUM.html");
+        
+
+        ______TS("CONTRIB session results");
+        
+        resultsPage = loginToStudentFeedbackSubmitPage("Alice", "CONTRIB Session");
+        resultsPage.verifyHtml("/studentFeedbackResultsPageCONTRIB.html");
+
     }
 
     @AfterClass

@@ -71,7 +71,7 @@ public class BackDoor {
      * Removes given data. If given entities have already been deleted,
      * they are ignored
      * 
-     * @param dataBundleJason
+     * @param dataBundleJson
      * @return
      */
     private static void removeOldDataBundle(String dataBundleJson) {
@@ -84,19 +84,19 @@ public class BackDoor {
      * Persists given data. If given entities already exist in the data store,
      * they will be overwritten.
      * 
-     * @param dataBundleJason
+     * @param dataBundleJson
      * @return
      */
-    public static String restoreDataBundle(String dataBundleJason) {
-        deleteInstructors(dataBundleJason);
-        return persistNewDataBundle(dataBundleJason);
+    public static String restoreDataBundle(String dataBundleJson) {
+        deleteInstructors(dataBundleJson);
+        return persistNewDataBundle(dataBundleJson);
     }
     
     /**
      * Removes given data. If given entities have already been deleted,
      * it fails silently
      * 
-     * @param dataBundleJason
+     * @param dataBundleJson
      * @return
      */
     public static void removeDataBundleFromDb(DataBundle dataBundle) {
@@ -220,8 +220,16 @@ public class BackDoor {
 
     public static String editAccount(AccountAttributes account) {
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_ACCOUNT);
-        params.put(BackDoorServlet.PARAMETER_JASON_STRING, Utils
+        params.put(BackDoorServlet.PARAMETER_JSON_STRING, Utils
                 .getTeammatesGson().toJson(account));
+        String status = makePOSTRequest(params);
+        return status;
+    }
+    
+    public static String uploadAndUpdateStudentProfilePicture (String googleId, String pictureKey) {
+        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_STUDENT_PROFILE_PICTURE);
+        params.put(BackDoorServlet.PARAMETER_GOOGLE_ID, googleId);
+        params.put(BackDoorServlet.PARAMETER_PICTURE_DATA, pictureKey);
         String status = makePOSTRequest(params);
         return status;
     }
@@ -406,7 +414,7 @@ public class BackDoor {
     public static String editStudent(String originalEmail, StudentAttributes student) {
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_STUDENT);
         params.put(BackDoorServlet.PARAMETER_STUDENT_EMAIL, originalEmail);
-        params.put(BackDoorServlet.PARAMETER_JASON_STRING, Utils
+        params.put(BackDoorServlet.PARAMETER_JSON_STRING, Utils
                 .getTeammatesGson().toJson(student));
         String status = makePOSTRequest(params);
         return status;
@@ -461,7 +469,7 @@ public class BackDoor {
 
     public static String editEvaluation(EvaluationAttributes evaluation) {
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_EVALUATION);
-        params.put(BackDoorServlet.PARAMETER_JASON_STRING, Utils
+        params.put(BackDoorServlet.PARAMETER_JSON_STRING, Utils
                 .getTeammatesGson().toJson(evaluation));
         String status = makePOSTRequest(params);
         return status;
@@ -519,7 +527,7 @@ public class BackDoor {
 
     public static String editSubmission(SubmissionAttributes submission) {
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_SUBMISSION);
-        params.put(BackDoorServlet.PARAMETER_JASON_STRING, Utils
+        params.put(BackDoorServlet.PARAMETER_JSON_STRING, Utils
                 .getTeammatesGson().toJson(submission));
         String status = makePOSTRequest(params);
         return status;
@@ -553,7 +561,7 @@ public class BackDoor {
     
     public static String editFeedbackSession(FeedbackSessionAttributes updatedFeedbackSession) {
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_FEEDBACK_SESSION);
-        params.put(BackDoorServlet.PARAMETER_JASON_STRING, Utils
+        params.put(BackDoorServlet.PARAMETER_JSON_STRING, Utils
                 .getTeammatesGson().toJson(updatedFeedbackSession));
         String status = makePOSTRequest(params);
         return status;
