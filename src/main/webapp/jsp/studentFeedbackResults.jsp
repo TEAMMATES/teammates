@@ -5,6 +5,7 @@
 <%@ page import="java.util.ListIterator"%>
 <%@ page import="teammates.common.util.Assumption"%>
 <%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.datatransfer.AccountAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
@@ -20,6 +21,11 @@
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 <%
     StudentFeedbackResultsPageData data = (StudentFeedbackResultsPageData)request.getAttribute("data");
+    AccountAttributes placeHolderAccount = data.account;
+    if (placeHolderAccount == null) {
+    	placeHolderAccount = new AccountAttributes();
+    	placeHolderAccount.email = data.student.email;
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -57,6 +63,11 @@
             <div id="topOfPage"></div>
             <h1>Feedback Results - Student</h1>
             <br />
+            <% if (data.account == null) { %>
+                <div id="registerMessage" class="alert alert-danger">
+                    <%=Const.StatusMessages.UNREGISTERED_STUDENT%>
+                </div>
+            <% } %>
             <div class="well well-plain">
                 <div class="panel-body">
                     <div class="form-horizontal">
@@ -110,7 +121,7 @@
                         <%=questionDetails.getQuestionAdditionalInfoHtml(qnIndx, "")%></h4>
                         <%=
                             questionDetails.getQuestionResultStatisticsHtml(questionWithResponses
-                                    .getValue(), question, data.account, data.bundle, "student")
+                                    .getValue(), question, placeHolderAccount, data.bundle, "student")
                         %>
                     <%
                     	ListIterator<FeedbackResponseAttributes> itr = questionWithResponses

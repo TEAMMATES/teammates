@@ -38,8 +38,9 @@ public class UnregisteredStudentFeedbackSubmissionEditPageAction extends
         regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
         String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String feedbackSession = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         
-        if(regkey == null || email == null || courseId == null) {
+        if(regkey == null || email == null || courseId == null || feedbackSession == null) {
             throw new UnauthorizedAccessException("Insufficient information to authenticate user");
         }
         

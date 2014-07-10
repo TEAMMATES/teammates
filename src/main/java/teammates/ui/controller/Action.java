@@ -12,6 +12,7 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -78,46 +79,12 @@ public abstract class Action {
         session = req.getSession();
         
         //---- set error status forwarded from the previous action
-        
         isError = getRequestParamAsBoolean(Const.ParamsNames.ERROR);
         
-        //---- set logged in user ------------------------------------------
-
-        UserType loggedInUserType = logic.getCurrentUser();
-        
-        if(loggedInUserType == null) {
-            throw new UnauthorizedAccessException("User not logged in");
-        }
-        
-        loggedInUser = logic.getAccount(loggedInUserType.id);
-        
-        if(loggedInUser==null){ //Unregistered user
-            isUnregistered = true;
-            loggedInUser = new AccountAttributes();
-            loggedInUser.googleId = loggedInUserType.id;
-        }
-        
-        // ---------- set nominal user -------------------------------------
-        
-        String paramRequestedUserId = req.getParameter(Const.ParamsNames.USER_ID);
-        
-        if (!isMasqueradeModeRequested(loggedInUser.googleId, paramRequestedUserId)) {
-            account = loggedInUser;
-        } else if (loggedInUserType.isAdmin) {
-            isUnregistered = false;
-            //Allowing admin to masquerade as another user
-            account = logic.getAccount(paramRequestedUserId);
-            if(account==null){ //Unregistered user
-                isUnregistered = true;
-                account = new AccountAttributes();
-                account.googleId = paramRequestedUserId;
-            }
-        
-        } else {
-            throw new UnauthorizedAccessException("User " + loggedInUserType.id
-                    + " is trying to masquerade as " + paramRequestedUserId
-                    + " without admin permission.");
-        }
+        //---- initialise other attributes
+        UserType loggedInUserType = getLoggedInUserType();
+        loggedInUser = getLoggedInUser(loggedInUserType);
+        account = getNominalUser(req, loggedInUserType);
         
     }
 
@@ -352,6 +319,55 @@ public abstract class Action {
         Assumption.assertNotNull("instructions is null when extracting evaluation data", newEval.instructions);
                 
         return newEval;
+    }
+    
+    //====================== Methods overridden by child classes ========
+
+    protected UserType getLoggedInUserType() {
+        UserType loggedInUserType = logic.getCurrentUser();
+        if(loggedInUserType == null) {
+            throw new UnauthorizedAccessException("User not logged in");
+        }
+        
+        return loggedInUserType;
+    }
+
+    protected AccountAttributes getLoggedInUser(UserType loggedInUserType) {
+        logic.getAccount(loggedInUserType.id);
+        
+        if(loggedInUser==null){ //Unregistered user
+            isUnregistered = true;
+            loggedInUser = new AccountAttributes();
+            loggedInUser.googleId = loggedInUserType.id;
+        }
+        
+        return loggedInUser;
+    }
+
+    protected AccountAttributes getNominalUser(HttpServletRequest req,
+            UserType loggedInUserType) {
+        String paramRequestedUserId = req.getParameter(Const.ParamsNames.USER_ID);
+        AccountAttributes account = null;
+        
+        if (!isMasqueradeModeRequested(loggedInUser.googleId, paramRequestedUserId)) {
+            account = loggedInUser;
+        } else if (loggedInUserType.isAdmin) {
+            isUnregistered = false;
+            //Allowing admin to masquerade as another user
+            account = logic.getAccount(paramRequestedUserId);
+            if(account==null){ //Unregistered user
+                isUnregistered = true;
+                account = new AccountAttributes();
+                account.googleId = paramRequestedUserId;
+            }
+        
+        } else {
+            throw new UnauthorizedAccessException("User " + loggedInUserType.id
+                    + " is trying to masquerade as " + paramRequestedUserId
+                    + " without admin permission.");
+        }
+        
+        return account;
     }
 
 }

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Const {
     
-    public class SystemParams{
+    public static class SystemParams{
 
         public static final String ENCODING = "UTF8";
         public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
@@ -48,6 +48,12 @@ public class Const {
         
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
+        
+        public static final String[] PAGES_EXCLUDED_FROM_REGISTRATION = {
+            Const.ActionURIs.UNREGISTERED_STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+            Const.ActionURIs.UNREGISTERED_STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
+            Const.ActionURIs.UNREGISTERED_STUDENT_FEEDBACK_RESULTS_PAGE
+        };
     }
 
     /* Text displayed to the user when the mouse hover over certain elements in

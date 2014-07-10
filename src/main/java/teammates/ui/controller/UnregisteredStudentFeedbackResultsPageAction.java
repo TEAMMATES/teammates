@@ -2,20 +2,17 @@ package teammates.ui.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
-import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 
-public class UnregisteredStudentFeedbackSubmissionEditSaveAction extends
-        StudentFeedbackSubmissionEditSaveAction {
-
+public class UnregisteredStudentFeedbackResultsPageAction extends
+        StudentFeedbackResultsPageAction {
+    
     private StudentAttributes student;
     private String regkey;
     
@@ -29,6 +26,7 @@ public class UnregisteredStudentFeedbackSubmissionEditSaveAction extends
         requestParameters = req.getParameterMap();
         session = req.getSession();
         isUnregistered = true;
+        account = null;
         
         //---- set error status forwarded from the previous action
         
@@ -78,9 +76,6 @@ public class UnregisteredStudentFeedbackSubmissionEditSaveAction extends
         
         //Set the common parameters for the response
         response.responseParams.put(Const.ParamsNames.REGKEY, regkey);
-        response.responseParams.put(Const.ParamsNames.STUDENT_EMAIL, student.email);
-        response.responseParams.put(Const.ParamsNames.COURSE_ID, student.course);
-        response.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName );
         response.responseParams.put(Const.ParamsNames.ERROR, ""+response.isError);
         
         //Pass status message using session to prevent XSS attack
@@ -90,45 +85,14 @@ public class UnregisteredStudentFeedbackSubmissionEditSaveAction extends
         
         return response;
     }
-
+    
     @Override
-    protected void verifyAccesibleForSpecificUser() {
-        new GateKeeper().verifyAccessible(
-                student,
-                logic.getFeedbackSession(feedbackSessionName, courseId));
-    }
-
-    @Override
-    protected String getUserEmailForCourse() {
-        return student.email;
+    protected boolean isJoinedCourse(String courseId) {
+        return true;
     }
     
-    @Override 
-    protected String getUserSectionForCourse() {
-        return student.section;
-    }
-
     @Override
-    protected FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse)
-            throws EntityDoesNotExistException {
-        return logic.getFeedbackSessionQuestionsBundleForStudent(
-                feedbackSessionName, courseId, userEmailForCourse);
-    }
-
-    @Override
-    protected void setStatusToAdmin() {
-        statusToAdmin = "Show student feedback edit result page<br>" +
-                "Session Name: " + feedbackSessionName + "<br>" +
-                "Course ID: " + courseId;
-    }
-
-    @Override
-    protected boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes session) {
-        return session.isOpened() || session.isInGracePeriod();
-    }
-
-    @Override
-    protected RedirectResult createSpecificRedirectResult() {
-        return createRedirectResult(Const.ActionURIs.UNREGISTERED_STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);
+    protected StudentAttributes getCurrentStudent(String courseId) {
+        return student;
     }
 }

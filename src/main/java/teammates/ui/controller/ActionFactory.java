@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+import teammates.common.util.Const;
 import teammates.common.util.Utils;
 
 /**
@@ -123,6 +124,7 @@ public class ActionFactory {
         
         map(UNREGISTERED_STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE, UnregisteredStudentFeedbackSubmissionEditPageAction.class);
         map(UNREGISTERED_STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE, UnregisteredStudentFeedbackSubmissionEditSaveAction.class);
+        map(UNREGISTERED_STUDENT_FEEDBACK_RESULTS_PAGE, UnregisteredStudentFeedbackResultsPageAction.class);
     }
 
 
