@@ -16,6 +16,7 @@
 <listAttribute key="org.testng.eclipse.SUITE_TEST_LIST">
 <listEntry value="src/test/browser-suite.xml"/>
 <listEntry value="src/test/actions-suite.xml"/>
+<listEntry value="src/test/occassional-suite.xml"/>
 </listAttribute>
 <intAttribute key="org.testng.eclipse.TYPE" value="3"/>
 </launchConfiguration>
