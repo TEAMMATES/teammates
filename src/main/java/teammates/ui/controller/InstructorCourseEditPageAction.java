@@ -1,6 +1,11 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
@@ -29,6 +34,17 @@ public class InstructorCourseEditPageAction extends Action {
         data.course = courseToEdit;
         data.instructorList = logic.getInstructorsForCourse(courseId);
         data.currentInstructor = instructor;
+        data.sectionNames = logic.getSectionNamesForCourse(courseId);
+        data.evalNames = new ArrayList<String>();
+        data.feedbackNames = new ArrayList<String>();
+        List<EvaluationAttributes> evaluations = logic.getEvaluationsForCourse(courseId);
+        for (EvaluationAttributes eval : evaluations) {
+            data.evalNames.add(eval.name);
+        }
+        List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsForCourse(courseId);
+        for (FeedbackSessionAttributes feedback : feedbacks) {
+            data.feedbackNames.add(feedback.feedbackSessionName);
+        }
         
         statusToAdmin = "instructorCourseEdit Page Load<br>"
                 + "Editing information for Course <span class=\"bold\">["

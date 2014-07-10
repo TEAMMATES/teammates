@@ -136,7 +136,13 @@ public class FeedbackResponseAttributes extends EntityAttributes {
 
     @Override
     public void sanitizeForSaving() {
-        // TODO implement this
+        this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
+        this.courseId = Sanitizer.sanitizeTitle(courseId);
+        this.feedbackQuestionId = Sanitizer.sanitizeTitle(feedbackQuestionId);
+        this.giverEmail = Sanitizer.sanitizeEmail(giverEmail);
+        this.giverSection = Sanitizer.sanitizeTitle(giverSection);
+        this.recipientEmail = Sanitizer.sanitizeEmail(recipientEmail);
+        this.recipientSection = Sanitizer.sanitizeTitle(recipientSection);
     }
     
     /** This method converts the given Feedback*ResponseDetails object to JSON for storing
@@ -195,6 +201,9 @@ public class FeedbackResponseAttributes extends EntityAttributes {
             break;
         case CONSTSUM:
             responseDetailsClass = FeedbackConstantSumResponseDetails.class;
+            break;
+        case CONTRIB:
+            responseDetailsClass = FeedbackContributionResponseDetails.class;
             break;
         default:
             Assumption.fail("FeedbackQuestionType " + feedbackQuestionType + " unsupported by FeedbackResponseAttributes");

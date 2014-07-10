@@ -1,6 +1,7 @@
 package teammates.test.cases.ui;
 
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 
@@ -44,6 +45,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
+        FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
 
         int questionNumber = 1;
         FeedbackQuestionAttributes feedbackQuestion = feedbackQuestionsDb.getFeedbackQuestion(
@@ -54,15 +56,22 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends
         FeedbackResponseAttributes feedbackResponse = feedbackResponsesDb.getFeedbackResponse(feedbackQuestion.getId(),
                 giverEmail, receiverEmail);
         
+        FeedbackResponseCommentAttributes feedbackResponseComment = dataBundle.feedbackResponseComments
+                .get("comment1FromT1C1ToR1Q1S1C1");
+        
+        feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponse.getId(),
+                feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt);
+        
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponse.getId(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
         };
-        verifyOnlyInstructorsCanAccess(submissionParams);
+        // this person is not the giver. so not accessible
         verifyUnaccessibleWithoutModifySessionCommentInSectionsPrivilege(submissionParams);
+        verifyOnlyInstructorsCanAccess(submissionParams);
     }
     
     @Test
@@ -123,6 +132,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends
         assertFalse(data.isError);
         assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
                 feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt));
+        assertEquals("", result.getStatusMessage());
     }
     
     private InstructorFeedbackResponseCommentDeleteAction getAction(String... params) throws Exception {

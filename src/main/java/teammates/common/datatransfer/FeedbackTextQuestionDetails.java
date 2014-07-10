@@ -64,7 +64,10 @@ public class FeedbackTextQuestionDetails extends
     
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
-            FeedbackSessionResultsBundle bundle) {
+            FeedbackQuestionAttributes question,
+            AccountAttributes currentUser,
+            FeedbackSessionResultsBundle bundle,
+            String view) {
         @SuppressWarnings("unused")
         String html = "";
         int averageLength = 0;
@@ -90,6 +93,15 @@ public class FeedbackTextQuestionDetails extends
                         "${maxLength}", (maxLength == Integer.MIN_VALUE)? "-" : Integer.toString(maxLength));
         
         //TODO: evaluate what statistics are needed for text questions later.
+        return "";
+    }
+    
+
+    @Override
+    public String getQuestionResultStatisticsCsv(
+            List<FeedbackResponseAttributes> responses,
+            FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle bundle) {
         return "";
     }
     

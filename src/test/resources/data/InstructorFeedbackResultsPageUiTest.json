@@ -7,6 +7,13 @@
             "email":"CFResultsUiT.instr@gmail.com",
             "institute":"National University of Singapore"
         },
+        "CFResultsUiT.helper":{
+            "googleId":"CFResultsUiT.helper",
+            "name":"Teammates Helper",
+            "isInstructor":true,
+            "email":"CFResultsUiT.helper@gmail.com",
+            "institute":"National University of Singapore"
+        },
         "CFResultsUiT.charlie.d":{
             "googleId":"CFResultsUiT.charlie.d",
             "name":"Charlie D.",
@@ -43,8 +50,19 @@
             "name":"Teammates Test",
             "email":"CFResultsUiT.instr@gmail.com",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "isInstructor":true,
+            "displayedName":"Instructor",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        },
+        "CFResultsUiT.helper":{
+            "googleId":"CFResultsUiT.helper",
+            "courseId":"CFResultsUiT.CS2104",
+            "name":"Teammates Helper",
+            "email":"CFResultsUiT.helper@gmail.com",
+            "role":"Helper",
+            "isInstructor":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         }
     },
     "students":{
@@ -100,7 +118,7 @@
             "name":"Danny Engrid",
             "comments":"This student's name is Danny Engrid",
             "team":"Team 2",
-            "section":"Section B"
+            "section":"Section A"
         },
         "Emily":{
             "googleId":"CFResultsUiT.emily.f",
@@ -546,7 +564,7 @@
                 "value":"1 Response to Danny."
             },
             "giverSection":"Section A",
-            "recipientSection":"Section B"
+            "recipientSection":"Section A"
         },
         "response4":{
             "feedbackSessionName":"First Session",

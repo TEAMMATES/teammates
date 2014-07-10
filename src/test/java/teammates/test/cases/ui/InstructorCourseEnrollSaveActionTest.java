@@ -50,7 +50,6 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        //TODO: find a way to test status message from session
         String enrollString = "";
         String[] submissionParams = new String[]{};
         

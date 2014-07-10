@@ -59,9 +59,14 @@
     
     "instructors":{
      "teammates.demo.instructor@demo.course":{   	
-     	"courseId": "demo.course",
-     	"name":"Demo_Instructor",
-     	"email":"teammates.demo.instructor@demo.course"}
+      "courseId": "demo.course",
+      "name":"Demo_Instructor",
+      "email":"teammates.demo.instructor@demo.course",
+      "role":"Co-owner",
+      "isDisplayedToStudents":true,
+      "displayedName":"Instructor",
+      "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+    }
   },
 
   "courses": {
@@ -78,7 +83,8 @@
       "course": "demo.course",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
-      "team": "Team 1"
+      "team": "Team 1",
+      "section": "Tutorial Group 1"
     },
     "benny.c.tmms@demo.course": {
       "googleId": "benny.c.tmms",
@@ -86,7 +92,8 @@
       "course": "demo.course",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1"
+      "team": "Team 1",
+      "section": "Tutorial Group 1"
     },
      "danny.e.tmms@demo.course": {
       "googleId": "danny.e.tmms",
@@ -94,7 +101,8 @@
       "course": "demo.course",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "team": "Team 1"
+      "team": "Team 1",
+      "section": "Tutorial Group 1"
     },
     "emma.f.tmms@demo.course": {
       "googleId": "emma.f.tmms",
@@ -102,7 +110,8 @@
       "course": "demo.course",
       "name": "Emma Farrell",
       "comments": "This student's name is Emma Farrell",
-      "team": "Team 1"
+      "team": "Team 1",
+      "section": "Tutorial Group 1"
     },    
     "charlie.d.tmms@demo.course": {
       "googleId": "charlie.d.tmms",
@@ -110,7 +119,8 @@
       "course": "demo.course",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "Tutorial Group 2"
     },
     "teammates.demo.instructor@demo.course": {
       "googleId": "teammates.demo.instructor",
@@ -118,7 +128,8 @@
       "course": "demo.course",
       "name": "Demo_Instructor",
       "comments": "This student's name is Demo_Instructor",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "Tutorial Group 2"
     },
     "francis.g.tmms@demo.course": {
       "googleId": "francis.g.tmms",
@@ -126,7 +137,8 @@
       "course": "demo.course",
       "name": "Francis Gabriel",
       "comments": "This student's name is Francis Gabriel",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "Tutorial Group 2"
     },
     "gene.h.tmms@demo.course": {
       "googleId": "gene.h.tmms",
@@ -134,7 +146,8 @@
       "course": "demo.course",
       "name": "Gene Hudson",
       "comments": "This student's name is Gene Hudson",
-      "team": "Team 2"
+      "team": "Team 2",
+      "section": "Tutorial Group 2"
     }
   },
   
@@ -773,6 +786,34 @@
               "RECEIVER",
               "INSTRUCTORS"
           ]
+      },
+      "qn11InSession1": {
+          "feedbackSessionName": "Session with different question types",
+          "courseId": "demo.course",
+          "creatorEmail": "teammates.demo.instructor@demo.course",
+          "questionMetaData":{
+                "value":"{\"questionText\":\"Rate the contribution of yourself and your team members towards the latest project.\",
+                          \"questionType\":\"CONTRIB\"}"
+          },
+          "questionNumber": 11,
+          "questionType": "CONTRIB",
+          "giverType": "STUDENTS",
+          "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+          "numberOfEntitiesToGiveFeedbackTo": -100,
+          "showResponsesTo":[
+              "RECEIVER",
+              "OWN_TEAM_MEMBERS",
+              "RECEIVER_TEAM_MEMBERS",
+              "INSTRUCTORS"
+          ],
+          "showGiverNameTo": [
+              "RECEIVER",
+              "INSTRUCTORS"
+          ],
+          "showRecipientNameTo":[
+              "RECEIVER",
+              "INSTRUCTORS"
+          ]
       }
   },
 
@@ -786,7 +827,9 @@
           "recipientEmail":"alice.b.tmms@gmail.com",
           "responseMetaData":{
               "value":"A highlight for me has been putting Software Engineering skills to use."
-          }
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 1"
       },
       "aliceResponse2":{
           "feedbackSessionName":"Session with different question types",
@@ -797,7 +840,9 @@
           "recipientEmail":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 4}"
-          }
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 2"
       },
       "aliceResponse3":{
           "feedbackSessionName":"Session with different question types",
@@ -808,7 +853,9 @@
           "recipientEmail":"%GENERAL%",
           "responseMetaData":{
               "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Team 1\", \"otherFieldContent\" : \"\"}"
-          }
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"None"
       },
       "aliceResponse4.1":{
           "feedbackSessionName":"Session with different question types",
@@ -819,7 +866,9 @@
           "recipientEmail":"benny.c.tmms@gmail.com",
           "responseMetaData":{
               "value":"Good job Benny! Thanks for the hard work for making the application pretty!"
-          }
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 1"
       },
       "aliceResponse4.2":{
           "feedbackSessionName":"Session with different question types",
@@ -830,7 +879,9 @@
           "recipientEmail":"charlie.d.tmms@gmail.com",
           "responseMetaData":{
               "value":"It is good to see you working so hard to improve yourself!"
-          }
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 2"
       },
       "aliceResponse4.3":{
           "feedbackSessionName":"Session with different question types",
@@ -841,7 +892,9 @@
           "recipientEmail":"francis.g.tmms@gmail.com",
           "responseMetaData":{
               "value":"Wow! You are really good at designing!"
-          }
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 1"
       },
       "aliceResponse5":{
           "feedbackSessionName":"Session with different question types",
@@ -852,7 +905,9 @@
           "recipientEmail":"%GENERAL%",
           "responseMetaData":{
               "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"C\", \"Java\"], \"otherFieldContent\" : \"\"}"
-          }
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"None"
       },
       "aliceResponse6.1":{
           "feedbackSessionName":"Session with different question types",
@@ -863,7 +918,9 @@
           "recipientEmail":"benny.c.tmms@gmail.com",
           "responseMetaData":{
               "value":"Good job Benny! Thanks for the hard work for making the application pretty!"
-          }
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 1"
       },
       "aliceResponse6.2":{
           "feedbackSessionName":"Session with different question types",
@@ -874,7 +931,9 @@
           "recipientEmail":"danny.e.tmms@gmail.com",
           "responseMetaData":{
               "value":"Thank you Danny! You taught me many useful skills in this project."
-          }
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 1"
       },
       "aliceResponse6.3":{
           "feedbackSessionName":"Session with different question types",
@@ -885,7 +944,9 @@
           "recipientEmail":"emma.f.tmms@gmail.com",
           "responseMetaData":{
               "value":"You are the best Emma! Without you, our application will not be running."
-          }
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 1"
       },
       "aliceResponse7":{
           "feedbackSessionName":"Session with different question types",
@@ -896,7 +957,9 @@
           "recipientEmail":"alice.b.tmms@gmail.com",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [20, 80]}"
-          }
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 1"
       },
       "aliceResponse8.1":{
           "feedbackSessionName":"Session with different question types",
@@ -907,7 +970,9 @@
           "recipientEmail":"alice.b.tmms@gmail.com",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [100]}"
-          }
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 1"
       },
       "aliceResponse8.2":{
           "feedbackSessionName":"Session with different question types",
@@ -918,7 +983,9 @@
           "recipientEmail":"benny.c.tmms@gmail.com",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [120]}"
-          }
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 1"
       },
       "aliceResponse8.3":{
           "feedbackSessionName":"Session with different question types",
@@ -929,7 +996,9 @@
           "recipientEmail":"danny.e.tmms@gmail.com",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [90]}"
-          }
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 1"
       },
       "aliceResponse8.4":{
           "feedbackSessionName":"Session with different question types",
@@ -940,7 +1009,61 @@
           "recipientEmail":"emma.f.tmms@gmail.com",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [90]}"
-          }
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 1"
+      },
+      "aliceResponse9.1":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"11",
+          "feedbackQuestionType":"CONTRIB",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"alice.b.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 1"
+      },
+      "aliceResponse9.2":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"11",
+          "feedbackQuestionType":"CONTRIB",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"benny.c.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 120}"
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 1"
+      },
+      "aliceResponse9.3":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"11",
+          "feedbackQuestionType":"CONTRIB",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"danny.e.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 90}"
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 1"
+      },
+      "aliceResponse9.4":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"11",
+          "feedbackQuestionType":"CONTRIB",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"emma.f.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 90}"
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 1"
       },
       "charlieResponse1":{
           "feedbackSessionName":"Session with different question types",
@@ -951,7 +1074,9 @@
           "recipientEmail":"charlie.d.tmms@gmail.com",
           "responseMetaData":{
               "value":"I have enjoyed learning about new tools and using them."
-          }
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
       },
       "charlieResponse2":{
           "feedbackSessionName":"Session with different question types",
@@ -962,7 +1087,9 @@
           "recipientEmail":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 5}"
-          }
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
       },
       "charlieResponse3":{
           "feedbackSessionName":"Session with different question types",
@@ -973,7 +1100,9 @@
           "recipientEmail":"%GENERAL%",
           "responseMetaData":{
               "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Team 2\", \"otherFieldContent\" : \"\"}"
-          }
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"None"
       },
       "charlieResponse4.1":{
           "feedbackSessionName":"Session with different question types",
@@ -984,7 +1113,9 @@
           "recipientEmail":"benny.c.tmms@gmail.com",
           "responseMetaData":{
               "value":"Thank you for being helpful and explaining how you did your UI."
-          }
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 1"
       },
       "charlieResponse4.2":{
           "feedbackSessionName":"Session with different question types",
@@ -995,7 +1126,9 @@
           "recipientEmail":"alice.b.tmms@gmail.com",
           "responseMetaData":{
               "value":"I wish I was as good at programming as Alice."
-          }
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 1"
       },
       "charlieResponse4.3":{
           "feedbackSessionName":"Session with different question types",
@@ -1006,7 +1139,9 @@
           "recipientEmail":"francis.g.tmms@gmail.com",
           "responseMetaData":{
               "value":"Francis is very talented with design work."
-          }
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
       },
       "charlieResponse5":{
           "feedbackSessionName":"Session with different question types",
@@ -1017,7 +1152,9 @@
           "recipientEmail":"%GENERAL%",
           "responseMetaData":{
               "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Python\"], \"otherFieldContent\" : \"\"}"
-          }
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"None"
       },
       "charlieResponse6.1":{
           "feedbackSessionName":"Session with different question types",
@@ -1028,7 +1165,9 @@
           "recipientEmail":"francis.g.tmms@gmail.com",
           "responseMetaData":{
               "value":"I really like your design Francis!"
-          }
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
       },
       "charlieResponse6.2":{
           "feedbackSessionName":"Session with different question types",
@@ -1039,7 +1178,9 @@
           "recipientEmail":"gene.h.tmms@gmail.com",
           "responseMetaData":{
               "value":"I really appreciate all the coding you have done in the project!"
-          }
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
       },
       "charlieResponse6.3":{
           "feedbackSessionName":"Session with different question types",
@@ -1050,7 +1191,9 @@
           "recipientEmail":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"Thank you Demo_Instructor for all the help in the project."
-          }
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
       },
       "charlieResponse7":{
           "feedbackSessionName":"Session with different question types",
@@ -1061,7 +1204,9 @@
           "recipientEmail":"charlie.d.tmms@gmail.com",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [45, 55]}"
-          }
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
       },
       "charlieResponse8.1":{
           "feedbackSessionName":"Session with different question types",
@@ -1072,7 +1217,9 @@
           "recipientEmail":"charlie.d.tmms@gmail.com",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [110]}"
-          }
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
       },
       "charlieResponse8.2":{
           "feedbackSessionName":"Session with different question types",
@@ -1083,7 +1230,9 @@
           "recipientEmail":"francis.g.tmms@gmail.com",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [90]}"
-          }
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
       },
       "charlieResponse8.3":{
           "feedbackSessionName":"Session with different question types",
@@ -1094,7 +1243,9 @@
           "recipientEmail":"gene.h.tmms@gmail.com",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [50]}"
-          }
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
       },
       "charlieResponse8.4":{
           "feedbackSessionName":"Session with different question types",
@@ -1105,7 +1256,61 @@
           "recipientEmail":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [150]}"
-          }
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
+      },
+      "charlieResponse9.1":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"11",
+          "feedbackQuestionType":"CONTRIB",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"charlie.d.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
+      },
+      "charlieResponse9.2":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"11",
+          "feedbackQuestionType":"CONTRIB",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"francis.g.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 90}"
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
+      },
+      "charlieResponse9.3":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"11",
+          "feedbackQuestionType":"CONTRIB",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"gene.h.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 50}"
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
+      },
+      "charlieResponse9.4":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"11",
+          "feedbackQuestionType":"CONTRIB",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"teammates.demo.instructor@demo.course",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 150}"
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
       }
   },
     "feedbackResponseComments":{

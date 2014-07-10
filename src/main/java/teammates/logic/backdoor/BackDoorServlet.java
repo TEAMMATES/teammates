@@ -40,6 +40,7 @@ public class BackDoorServlet extends HttpServlet {
     public static final String OPERATION_EDIT_EVALUATION = "OPERATION_EDIT_EVALUATION";
     public static final String OPERATION_EDIT_FEEDBACK_SESSION = "OPERATION_EDIT_FEEDBACK_SESSION";
     public static final String OPERATION_EDIT_STUDENT = "OPERATION_EDIT_STUDENT";
+    public static final String OPERATION_EDIT_STUDENT_PROFILE_PICTURE = "OPERATION_EDIT_STUDENT_PROFILE_PICTURE";
     public static final String OPERATION_EDIT_SUBMISSION = "OPERATION_EDIT_SUBMISSION";
     public static final String OPERATION_EDIT_TEAM_PROFILE = "OPERATION_EDIT_TEAM_PROFILE";
     public static final String OPERATION_EDIT_TFS = "OPERATION_EDIT_TFS";
@@ -81,7 +82,7 @@ public class BackDoorServlet extends HttpServlet {
     public static final String PARAMETER_INSTRUCTOR_NAME = "PARAMETER_INSTRUCTOR_NAME";
     public static final String PARAMETER_DATABUNDLE_JSON = "PARAMETER_DATABUNDLE_JSON";
     public static final String PARAMETER_EVALUATION_NAME = "PARAMETER_EVALUATION_NAME";
-    public static final String PARAMETER_JASON_STRING = "PARAMETER_JASON_STRING";
+    public static final String PARAMETER_JSON_STRING = "PARAMETER_JASON_STRING";
     public static final String PARAMETER_REVIEWER_EMAIL = "PARAMETER_REVIEWER_EMAIL";
     public static final String PARAMETER_REVIEWEE_EMAIL = "PARAMETER_REVIEWEE_EMAIL";
     public static final String PARAMETER_STUDENT_EMAIL = "PARAMETER_STUDENT_EMAIL";
@@ -92,6 +93,7 @@ public class BackDoorServlet extends HttpServlet {
     public static final String PARAMETER_GIVER_EMAIL = "PARAMETER_GIVER_EMAIL";
     public static final String PARAMETER_RECIPIENT = "PARAMETER_RECIPIENT";
     public static final String PARAMETER_PICTURE_KEY = "PARAMETER_PICTURE_KEY";
+    public static final String PARAMETER_PICTURE_DATA = "PARAMETER_PICTURE_DATA";
     
     public static final String RETURN_VALUE_TRUE = "true";
     public static final String RETURN_VALUE_FALSE = "false";
@@ -222,21 +224,26 @@ public class BackDoorServlet extends HttpServlet {
                     dataBundleJsonString, DataBundle.class);
             backDoorLogic.removeDataBundle(dataBundle);
         } else if (action.equals(OPERATION_EDIT_ACCOUNT)) {
-            String newValues = req.getParameter(PARAMETER_JASON_STRING);
+            String newValues = req.getParameter(PARAMETER_JSON_STRING);
             backDoorLogic.editAccountAsJson(newValues);
         } else if (action.equals(OPERATION_EDIT_EVALUATION)) {
-            String newValues = req.getParameter(PARAMETER_JASON_STRING);
+            String newValues = req.getParameter(PARAMETER_JSON_STRING);
             backDoorLogic.editEvaluationAsJson(newValues);
         } else if (action.equals(OPERATION_EDIT_FEEDBACK_SESSION)) {
-            String newValues = req.getParameter(PARAMETER_JASON_STRING);
+            String newValues = req.getParameter(PARAMETER_JSON_STRING);
             backDoorLogic.editFeedbackSessionAsJson(newValues);
         } else if (action.equals(OPERATION_EDIT_SUBMISSION)) {
-            String newValues = req.getParameter(PARAMETER_JASON_STRING);
+            String newValues = req.getParameter(PARAMETER_JSON_STRING);
             backDoorLogic.editSubmissionAsJson(newValues);
         } else if (action.equals(OPERATION_EDIT_STUDENT)) {
             String originalEmail = req.getParameter(PARAMETER_STUDENT_EMAIL);
-            String newValues = req.getParameter(PARAMETER_JASON_STRING);
+            String newValues = req.getParameter(PARAMETER_JSON_STRING);
             backDoorLogic.editStudentAsJson(originalEmail, newValues);
+        } else if (action.equals(OPERATION_EDIT_STUDENT_PROFILE_PICTURE)) {
+            String picture = req.getParameter(PARAMETER_PICTURE_DATA);
+            byte[] pictureData = Utils.getTeammatesGson().fromJson(picture, byte[].class);
+            String googleId = req.getParameter(PARAMETER_GOOGLE_ID);
+            backDoorLogic.uploadAndUpdateStudentProfilePicture(googleId, pictureData);
         } else if (action.equals(OPERATION_DELETE_FEEDBACK_SESSION)) {
             String feedbackSessionName = req.getParameter(PARAMETER_FEEDBACK_SESSION_NAME);
             String courseId = req.getParameter(PARAMETER_COURSE_ID);

@@ -35,11 +35,17 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>org.zeroturnaround.eclipse.rebelXmlBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>com.google.appengine.eclipse.core.gaeNature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
+		<nature>org.zeroturnaround.eclipse.jrebelNature</nature>
 	</natures>
 	<filteredResources>
 		<filter>
