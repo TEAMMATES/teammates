@@ -5,15 +5,15 @@
         "name": "Alice Betsy",
         "isInstructor":false,
         "email":"alice.b.tmms@gmail.com",
-        "institute":"NTU",      
+        "institute":"Cambridge University",      
         "studentProfile":{
             "googleId": "alice.b.tmms",
             "shortName": "Alice",
-            "email":"alice@gmail.com",
+            "email":"alice@b.com",
             "institute":"NUS",
-            "nationality": "China",
+            "nationality": "Chinese",
             "gender":"female",
-            "moreInfo":"This is more info about me"
+            "moreInfo":"I am Alice from National University of Singapore and am here at Cambridge for exchange. My Major in NUS is Art History with Minor in Business Administration. I really look forward to a great and fruitful semester ahead!"
         }
         },
         "benny.c.tmms":{
@@ -21,7 +21,7 @@
             "name": "Benny Charles",
             "isInstructor":false,
             "email":"benny.c.tmms@gmail.com",
-            "institute":"NUS"
+            "institute":"Georgia Tech"
         },
         "danny.e.tmms": {
             "googleId": "danny.e.tmms",
@@ -32,11 +32,11 @@
             "studentProfile":{
                 "googleId": "danny.e.tmms",
                 "shortName": "Danny",
-                "email": "danny.e.tmms@gmail.com",
+                "email": "danny@e.com",
                 "institute":"NTU",
-                "nationality":"Singapore",
+                "nationality":"Singaporean",
                 "gender":"male",
-                "moreInfo":"lorem ipsum might be suitable here :P"
+                "moreInfo":""
             }
         },
         "emma.f.tmms": {
@@ -48,12 +48,44 @@
             "studentProfile":{
                 "googleId": "emma.f.tmms",
                 "shortName": "Emm",
-                "email": "emma@gmail.com",
-                "institute":"SIT",
-                "nationality":"India",
+                "email": "emma@f.com",
+                "institute":"IIT",
+                "nationality":"Indian",
                 "gender":"female",
-                "moreInfo":"This student's name is Emma Farrell"
+                "moreInfo":"I am Emma from IIT India and am here at NUS for exchange. "
             }
+        },
+        "teammates.demo.instructor@demo.course": {
+          "googleId": "teammates.demo.instructor",
+          "email": "teammates.demo.instructor@demo.course",
+          "institute": "National University of Singapore",
+          "name": "Demo_Instructor",
+          "comments": "This student's name is Demo_Instructor",
+          "team": "Team 2",
+          "section": "Tutorial Group 2"
+        },
+        "francis.g.tmms@demo.course": {
+          "googleId": "francis.g.tmms",
+          "name": "Francis Gabriel",
+          "isInstructor":false,
+          "email": "francis.g.tmms@gmail.com",
+          "institute": "National University of Singapore"
+        },
+        "gene.h.tmms@demo.course": {
+          "googleId": "gene.h.tmms",
+          "name": "Gene Hudson",
+          "isInstructor":false,
+          "email": "gene.h.tmms@gmail.com",
+          "institute":"University of Nigeria",
+          "studentProfile":{
+                "googleId": "gene.h.tmms",
+                "shortName": "Gene",
+                "email": "gene@h.com",
+                "institute":"NUS",
+                "nationality":"Nigerian",
+                "gender":"female",
+                "moreInfo":""
+          }
         }
     },
     
@@ -114,7 +146,7 @@
       "section": "Tutorial Group 1"
     },    
     "charlie.d.tmms@demo.course": {
-      "googleId": "charlie.d.tmms",
+      "googleId": "",
       "email": "charlie.d.tmms@gmail.com",
       "course": "demo.course",
       "name": "Charlie Davis",
