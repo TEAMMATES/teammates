@@ -140,10 +140,10 @@ public class AdminActivityLogPageData extends PageData {
     /** 
      * @return possible servlet requests list as html 
      */
-    public String getActionListAsHtml(){       
+    public String getActionListAsHtml(int totalColumns){       
         List<String> allActionNames = getAllActionNames();   
         
-        int rowsPerCol = calculateRowsPerCol(allActionNames.size());
+        int rowsPerCol = calculateRowsPerCol(allActionNames.size(), totalColumns);
         return convertActionListToHtml(allActionNames, rowsPerCol);
     }
     
@@ -195,10 +195,10 @@ public class AdminActivityLogPageData extends PageData {
         return style;
     }
     
-    private int calculateRowsPerCol(int totalNumOfActions){
+    private int calculateRowsPerCol(int totalNumOfActions, int totalColumns){
         
-        int rowsPerCol = totalNumOfActions / Const.TOTAL_COLUMNS;
-        int remainder = totalNumOfActions % Const.TOTAL_COLUMNS;
+        int rowsPerCol = totalNumOfActions / totalColumns;
+        int remainder = totalNumOfActions % totalColumns;
         
         if(remainder > 0){
             rowsPerCol ++;
