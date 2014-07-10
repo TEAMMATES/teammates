@@ -209,26 +209,26 @@
                                         value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>">
                                         &nbsp;Co-owner: Can do everything
                                         &nbsp;<a href="javascript:;" 
-                                                  onclick="showInstructorRoleModal(<%=index%>, '<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>')">
+                                                  onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>')">
                                                   View Details</a><br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
                                         value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>">
                                         &nbsp;Manager: Can do everything except for deleting the course
                                         &nbsp;<a href="javascript:;" 
-                                                  onclick="showInstructorRoleModal(<%=index%>, '<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>')">
+                                                  onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>')">
                                                   View Details</a><br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
                                         value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>">
                                         &nbsp;Observer: Can only view information(students, submissions, comments etc.).
                                         &nbsp;Cannot edit/delete/submit anything.
                                         &nbsp;<a href="javascript:;"
-                                                  onclick="showInstructorRoleModal(<%=index%>, '<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>')">
+                                                  onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>')">
                                                   View Details</a><br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
                                         value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>">
                                         &nbsp;Tutor: Can view student details, give comments and submit/view sessions and comments
                                         &nbsp;<a href="javascript:;"
-                                                  onclick="showInstructorRoleModal(<%=index%>, '<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>')">
+                                                  onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>')">
                                                   View Details</a><br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
                                         value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER%>">
@@ -586,14 +586,14 @@
                                         value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>" 
                                         checked="checked">&nbsp;Co-owner: Can do everything
                                         <a href="javascript:;" 
-                                            onclick="showInstructorRoleModal(<%=data.instructorList.size()+1%>, '<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>')">
+                                            onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>')">
                                             View Details</a><br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
                                         id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
                                         value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>"
                                         >&nbsp;Manager: Can do everything except for deleting the course
                                         <a href="javascript:;" 
-                                            onclick="showInstructorRoleModal(<%=data.instructorList.size()+1%>, '<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>')">
+                                            onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>')">
                                             View Details</a><br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
                                         id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
@@ -601,19 +601,19 @@
                                         >&nbsp;Observer: Can only view information(students, submissions, comments etc.).
                                         &nbsp;Cannot edit/delete/submit anything.
                                         <a href="javascript:;" 
-                                            onclick="showInstructorRoleModal(<%=data.instructorList.size()+1%>, '<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>')">
+                                            onclick="showInstructorRoleModal(<'<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>')">
                                             View Details</a><br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
                                         id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
                                         value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>"
                                         >&nbsp;Can only submit/view sessions and comments
                                         <a href="javascript:;" 
-                                            onclick="showInstructorRoleModal(<%=data.instructorList.size()+1%>, '<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>')">
+                                            onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>')">
                                             View Details</a><br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
                                         id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
                                         value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER%>"
-                                        >&nbsp;Helper: No access by default. Any access needs to be granted explicitly.
+                                        >&nbsp;Custom: No access by default. Any access needs to be granted explicitly.
                                 </div>
                             </div>
                             <div id="tunePermissionsDivForInstructor<%=data.instructorList.size()+1%>" style="display: none;">
