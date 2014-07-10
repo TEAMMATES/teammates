@@ -147,7 +147,7 @@ public class FieldValidator {
                     Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER + ", " +
                     Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER + ", " +
                     Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR + ", " +
-                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER + ", ";
+                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM + ", ";
     public static final String INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING = 
             "it does not match the predifined roles";
     
@@ -866,7 +866,7 @@ public class FieldValidator {
                 || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER)
                 || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER)
                 || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR)
-                || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_HELPER))) {
+                || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM))) {
             return String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, value, INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING);
         }
         

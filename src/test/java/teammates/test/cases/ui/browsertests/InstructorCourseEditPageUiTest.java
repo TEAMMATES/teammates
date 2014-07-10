@@ -163,16 +163,22 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.editInstructor(instructorId, "New name", "new_email@email.com");
         courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED);
         
-        ______TS("success: edit an instructor with privileges");
+        ______TS("success: edit an instructor--viewing instructor permission details");
         
         assertEquals(true, courseEditPage.clickEditInstructorLink());
+        // this should be click co-owner role
+        courseEditPage.clickViewDetailsLinkForInstructor(1, 1);
+        // what for the animation to finish
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesModal.html");
+        courseEditPage.closeModal();
+        
+        ______TS("success: edit an instructor with privileges");
+        
         assertEquals(true, courseEditPage.displayedToStudentCheckBox(1).isSelected());
         // not displayed to students
         courseEditPage.clickDisplayedToStudentCheckBox(1);
-        // open up the privileges panel
-        courseEditPage.clickFineTunePermissionLink(1);
         // select the role as Observer for instr1
-        courseEditPage.selectRoleForInstructor(1, "Observer");
+        courseEditPage.selectRoleForInstructor(1, "Custom");
         courseEditPage.clickAddSessionLevelPrivilegesLink(1);
         courseEditPage.clickAddSessionLevelPrivilegesLink(1);
         courseEditPage.clickAddSessionLevelPrivilegesLink(1);

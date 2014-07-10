@@ -605,9 +605,13 @@ public class FeedbackQuestionsLogic {
      */
     public void updateFeedbackQuestion(FeedbackQuestionAttributes newAttributes)
             throws InvalidParametersException, EntityDoesNotExistException {
-        
-        FeedbackQuestionAttributes oldQuestion = 
-                fqDb.getFeedbackQuestion(newAttributes.getId());
+        FeedbackQuestionAttributes oldQuestion = null;
+        if (newAttributes.getId() == null) {
+            oldQuestion = fqDb.getFeedbackQuestion(newAttributes.feedbackSessionName, 
+                    newAttributes.courseId, newAttributes.questionNumber);
+        } else {
+            oldQuestion = fqDb.getFeedbackQuestion(newAttributes.getId());
+        }
         
         if (oldQuestion == null) {
             throw new EntityDoesNotExistException(
@@ -615,7 +619,7 @@ public class FeedbackQuestionsLogic {
         }
         
         if(oldQuestion.isChangesRequiresResponseDeletion(newAttributes)) {
-            frLogic.deleteFeedbackResponsesForQuestion(newAttributes.getId());
+            frLogic.deleteFeedbackResponsesForQuestion(oldQuestion.getId());
         }
         
         oldQuestion.updateValues(newAttributes);

@@ -6,8 +6,8 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -31,38 +31,25 @@ import teammates.ui.controller.RedirectResult;
 
 public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private static final DataBundle dataBundle = loadDataBundle("/InstructorFeedbackSubmissionEditSaveActionTest.json");
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+        restoreDatastoreFromJson("/InstructorFeedbackSubmissionEditSaveActionTest.json");
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE;
     }
-
-    @BeforeMethod
-    public void methodSetUp() throws Exception {
-        dataBundle = loadDataBundle("/InstructorFeedbackSubmissionEditSaveActionTest.json");
-        restoreDatastoreFromJson("/InstructorFeedbackSubmissionEditSaveActionTest.json");
-    }
     
-    @Test
-    public void testAccessControl() throws Exception{
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-        
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
-        };
-        verifyUnaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+    @AfterClass
+    public static void classTearDown() throws Exception {
+        new BackDoorLogic().removeDataBundle(dataBundle);
     }
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
         //TODO Test error states (catch-blocks and isError == true states)
+        InstructorAttributes instructor1InCourse1 = dataBundle.instructors.get("instructor1InCourse1");
+        gaeSimulation.loginAsInstructor(instructor1InCourse1.googleId);
         ______TS("Unsuccessful case: test empty feedback session name parameter");
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, dataBundle.feedbackResponses.get("response1ForQ1S1C1").courseId
@@ -106,7 +93,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); //necessary to get the correct responseId
         assertNotNull("Feedback response not found in database", fr);
         
-        InstructorAttributes instructor1InCourse1 = dataBundle.instructors.get("instructor1InCourse1");
+        instructor1InCourse1 = dataBundle.instructors.get("instructor1InCourse1");
         gaeSimulation.loginAsInstructor(instructor1InCourse1.googleId);
         
         submissionParams = new String[]{
@@ -274,7 +261,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         ______TS("Successful case: mcq: typical case");
         
-        dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
         restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
         
         fq = fqDb.getFeedbackQuestion("MCQ Session", "FSQTT.idOfTypicalCourse1", 2);
@@ -518,32 +505,6 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         //No tests since contrib qn can only be answered by students to own team members including self.
         
-    }
-    
-    @Test
-    public void testGracePeriodAccessControl() throws Exception{
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-        
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriodSession");
-        fs.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
-        dataBundle.feedbackSessions.put("gracePeriodSession", fs);
-        
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
-        backDoorLogic.persistDataBundle(dataBundle);
-        
-        ______TS("Successful case: test grace period access control");
-        
-        assertFalse(fs.isOpened());
-        assertTrue(fs.isInGracePeriod());
-        assertFalse(fs.isClosed());
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
     
     @Test
