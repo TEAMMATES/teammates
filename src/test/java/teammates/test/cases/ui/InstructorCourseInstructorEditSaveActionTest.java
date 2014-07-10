@@ -2,7 +2,6 @@ package teammates.test.cases.ui;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.assertFalse;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -13,7 +12,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.FieldValidator.FieldType;
-import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.Action;
@@ -79,9 +77,7 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
                 Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
         };
         Action saveAction = getAction(submissionParams);
         RedirectResult redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
@@ -95,9 +91,9 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         InstructorAttributes editedInstructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorId);
         assertEquals(newInstructorName, editedInstructor.name);
         assertEquals(newInstructorEmail, editedInstructor.email);
-        assertFalse(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+        assertTrue(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
         assertTrue(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
-        assertFalse(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
+        assertTrue(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
         assertTrue(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
         
         String expectedLogSegment = "Instructor <span class=\"bold\"> " + newInstructorName + "</span>"
@@ -134,33 +130,6 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         assertEquals(expectedErrorMessage, redirectResult.getStatusMessage());
         
         AssertHelper.assertContains(expectedErrorMessage, saveAction.getLogMessage());
-        
-        ______TS("Special case: overrides user's parameters");
-        
-        String freshCourseId = "icieat.courseId";
-        String freshCourseName = "icieatCourseName";
-        CoursesLogic.inst().createCourseAndInstructor(instructorId, freshCourseId, freshCourseName);
-        
-        submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, freshCourseId,
-                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-                Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
-        };
-        
-        saveAction = getAction(submissionParams);
-        redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
-        
-        editedInstructor = instructorsLogic.getInstructorForGoogleId(freshCourseId, instructorId);
-        assertFalse(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
-        assertEquals(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED, redirectResult.getStatusMessage());
         
         ______TS("Masquerade mode: edit instructor successfully");
         
