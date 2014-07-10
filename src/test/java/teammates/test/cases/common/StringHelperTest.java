@@ -68,53 +68,53 @@ public class StringHelperTest extends BaseTestCase {
         
         
         String fullName = "singleWord";
-        String[] splitedName = StringHelper.splitName(fullName);
+        String[] splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitedName[0],"");
-        assertEquals(splitedName[1],"singleWord");
+        assertEquals(splitName[0],"");
+        assertEquals(splitName[1],"singleWord");
         
         fullName = "   ";
-        splitedName = StringHelper.splitName(fullName);
+        splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitedName[0],"");
-        assertEquals(splitedName[1],"");
+        assertEquals(splitName[0],"");
+        assertEquals(splitName[1],"");
         
         fullName = "";
-        splitedName = StringHelper.splitName(fullName);
+        splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitedName[0],"");
-        assertEquals(splitedName[1],"");
+        assertEquals(splitName[0],"");
+        assertEquals(splitName[1],"");
         
         fullName = null;
-        splitedName = StringHelper.splitName(fullName);
+        splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitedName,null);
+        assertEquals(splitName,null);
         
         fullName = "     singleWord    ";
-        splitedName = StringHelper.splitName(fullName);
+        splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitedName[0],"");
-        assertEquals(splitedName[1],"singleWord");
+        assertEquals(splitName[0],"");
+        assertEquals(splitName[1],"singleWord");
         
         
         fullName = "     two     words    ";
-        splitedName = StringHelper.splitName(fullName);
+        splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitedName[0],"two");
-        assertEquals(splitedName[1],"words");
+        assertEquals(splitName[0],"two");
+        assertEquals(splitName[1],"words");
         
         fullName = "     now      three       words    ";
-        splitedName = StringHelper.splitName(fullName);
+        splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitedName[0],"now three");
-        assertEquals(splitedName[1],"words");
+        assertEquals(splitName[0],"now three");
+        assertEquals(splitName[1],"words");
         
         
         fullName = "  what   if      four       words    ";
-        splitedName = StringHelper.splitName(fullName);
+        splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitedName[0],"what if four");
-        assertEquals(splitedName[1],"words");
+        assertEquals(splitName[0],"what if four");
+        assertEquals(splitName[1],"words");
         
         
         

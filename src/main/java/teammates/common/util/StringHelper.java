@@ -164,11 +164,13 @@ public class StringHelper {
     
     
     /**
-     * split a full name string into first and last names,
-     * automatically remove extra white space 
-     * 1.If single word, this will be last name and no first name
+     * split a full name string into first and last names
      * 
-     * 2.If more than two words, the last word will be last name and 
+     * 1.If passed in empty string, both last and first name will be empty string
+     * 
+     * 2.If single word, this will be last name and first name will be an empty string
+     * 
+     * 3.If more than two words, the last word will be last name and 
      * the rest will be first name.
      * 
      * Example: 
@@ -186,12 +188,23 @@ public class StringHelper {
             return null;
         }
         
-        fullName = fullName.trim().replaceAll("\\s+", " ");      
+        fullName = removeExtraSpace(fullName);    
         String lastName = fullName.substring(fullName.lastIndexOf(" ")+1).trim();
         String firstName = fullName.replace(lastName, "").trim();
         
-        String[] splitedNames = {firstName, lastName};       
-        return splitedNames;
+        String[] splitNames = {firstName, lastName};       
+        return splitNames;
+    }
+    
+    
+    /**
+     * trim the string and reduce consecutive white spaces to only one space
+     * Example: " a   a  " --> "a a"
+     */
+    public static String removeExtraSpace(String str){
+        
+        return str.trim().replaceAll("\\s+", " ");
+        
     }
     
     
