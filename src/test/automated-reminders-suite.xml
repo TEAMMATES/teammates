@@ -2,7 +2,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <suite name="automated-reminder-suite">
-      <test name="automated-reminder-tests" preserve-order="false">
+      <test name="automated-reminder-tests">
         <packages>
             <package name="teammates.test.automated" />
         </packages>

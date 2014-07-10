@@ -29,6 +29,7 @@ import teammates.test.cases.BaseTaskQueueCallback;
  *  Tests the SystemParams.EMAIL_TASK_QUEUE, and SystemParams.SEND_EMAIL_TASK_QUEUE
  *  
  */
+@Test(sequential=true)
 public class FeedbackSessionEmailTaskQueueTest extends
         BaseComponentUsingTaskQueueTestCase {
     
