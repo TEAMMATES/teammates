@@ -214,7 +214,7 @@
                                                 class="table-responsive">
                                                 <table
                                                     class="table table-condensed">
-                                                    <%=data.printReference()%>
+                                                    <%=data.getActionListAsHtml()%>
                                                 </table>
                                             </div>
                                             </p>

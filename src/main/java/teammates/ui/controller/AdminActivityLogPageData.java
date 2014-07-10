@@ -8,6 +8,7 @@ import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.ActivityLogEntry;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
 public class AdminActivityLogPageData extends PageData {
@@ -135,87 +136,106 @@ public class AdminActivityLogPageData extends PageData {
         return q;
     }
     
-    public String printReference(){
+    
+    /** 
+     * @return possible servlet requests list as html 
+     */
+    public String getActionListAsHtml(){       
+        List<String> allActionNames = getAllActionNames();   
         
-        List<String> instructorActions = new ArrayList<String>();
-        List<String> studentActions = new ArrayList<String>();
-        List<String> adminActions = new ArrayList<String>();
-        List<String> systemActions = new ArrayList<String>();
+        int rowsPerCol = calculateRowsPerCol(allActionNames.size());
+        return convertActionListToHtml(allActionNames, rowsPerCol);
+    }
+    
+    
+    private String convertActionListToHtml(List<String> allActionNames, int rowsPerCol){
         
-       
-        for(Field field : Const.ActionURIs.class.getFields()){
+        String outputHtml = "<tr>";      
+        int count = 0;      
+        for (int i = 0; i < Const.TOTAL_COLUMNS; i++) {
             
-            String rawActionString = "";
-            try {
-                rawActionString = field.get(Const.ActionURIs.class).toString();
-            } catch (IllegalArgumentException | IllegalAccessException e) {
-                e.printStackTrace();
+            outputHtml += "<td>";
+            outputHtml += "<ul class=\"list-group\">";
+            for (int j = 0; j < rowsPerCol; j++) {
+                
+                if(count >= allActionNames.size()){
+                    break;
+                }
+                
+                outputHtml += "<li class=\"list-group-item " 
+                              + getStyleForListGroupItem(allActionNames.get(count))
+                              + "\">" + allActionNames.get(count) + "</li>";
+                              
+                count++;
             }
-            
-            String[] splitedString = rawActionString.split("/");
-            String actionString = splitedString[splitedString.length - 1];
-            
-            if(actionString.startsWith("instructor")){
-                instructorActions.add(actionString);
-            }else if(actionString.startsWith("student")){
-                studentActions.add(actionString);    
-            }else if(actionString.startsWith("admin")){
-                adminActions.add(actionString);
-            }else{
-                systemActions.add(actionString);    
-            }
-            
+            outputHtml += "</ul>";
+            outputHtml += "</td>";
         }
         
-        return assemblyReferenceString(instructorActions, 
-                                       studentActions,
-                                       adminActions, 
-                                       systemActions);
-             
+       
+        return outputHtml;    
+
     }
     
     
-    String assemblyReferenceString(List<String> instructorActions, List<String> studentActions, 
-                                   List<String> adminActions, List<String> systemActions){
+    private String getStyleForListGroupItem(String actionName){
         
-        String outPut="";
+        String style = "";
         
-        int size = instructorActions.size();
-        outPut += "<tr>";
-        outPut += getReferenceGroupFromList(instructorActions.subList(0, size / 6), null);
-        outPut += getReferenceGroupFromList(instructorActions.subList(size / 6, size * 2 / 6), null);
-        outPut += getReferenceGroupFromList(instructorActions.subList(size * 2 / 6, size * 3 / 6), null);
-        outPut += "</tr>";
-        outPut += "<tr>";
-        outPut += getReferenceGroupFromList(instructorActions.subList(size * 3 / 6, size * 4 / 6), null);
-        outPut += getReferenceGroupFromList(instructorActions.subList(size * 4 / 6, size * 5 / 6), null);
-        outPut += getReferenceGroupFromList(instructorActions.subList(size * 5 / 6, size), null);
-        outPut += "</tr>";          
-        outPut += "<tr>";
-        outPut += getReferenceGroupFromList(studentActions, "success"); 
-        outPut += getReferenceGroupFromList(systemActions, "warning"); 
-        outPut += getReferenceGroupFromList(adminActions, "danger"); 
-        outPut += "</tr>";        
-        return outPut;    
+        if(actionName.startsWith("instructor")){
+            style = "list-group-item";
+        }else if(actionName.startsWith("student")){
+            style = "list-group-item-success";
+        }else if(actionName.startsWith("admin")){
+            style = "list-group-item-warning";
+        }else{
+            style = "list-group-item-danger";
+        }
+        
+        return style;
+    }
     
+    private int calculateRowsPerCol(int totalNumOfActions){
+        
+        int rowsPerCol = totalNumOfActions / Const.TOTAL_COLUMNS;
+        int remainder = totalNumOfActions % Const.TOTAL_COLUMNS;
+        
+        if(remainder > 0){
+            rowsPerCol ++;
+        }
+        
+        return rowsPerCol;
+    }
+    
+     
+    private List<String> getAllActionNames(){
+       
+        List<String> actionNameList = new ArrayList<String>();
+        
+        for(Field field : Const.ActionURIs.class.getFields()){
+
+            String actionString = getActionNameStringFromField(field);
+            actionNameList.add(actionString);        
+        }
+        
+        return actionNameList;            
     }
     
     
-    String getReferenceGroupFromList(List<String> actionList, String styleName){
+    private String getActionNameStringFromField(Field field){
         
-        String outPut = "";
+        String rawActionString = "";
         
-        String style = styleName != null ? "list-group-item-" + styleName : "";
+        try {
+            rawActionString = field.get(Const.ActionURIs.class).toString();
+        } catch (IllegalArgumentException | IllegalAccessException e) {
+            Assumption.fail("Fail to get action URI");
+        }
         
-        outPut += "<td>";
-        outPut += "<ul class=\"list-group\">";
-        for(String action : actionList){        
-            outPut += "<li class=\"list-group-item " + style + "\">" + action + "</li>";
-                                                              
-        } 
-        outPut += "</ul>";
-        outPut += "</td>";    
-        return outPut;
+        String[] splitedString = rawActionString.split("/");
+        String actionString = splitedString[splitedString.length - 1];
+        
+        return actionString;
     }
     
     /**
