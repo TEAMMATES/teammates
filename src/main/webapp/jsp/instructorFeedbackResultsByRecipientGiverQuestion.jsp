@@ -228,7 +228,10 @@
                         giverIndex++;
                 %>
                         <div class="row <%=giverIndex == 1? "": "border-top-gray"%>">
-                            <div class="col-md-2"><strong>From: <%=responsesForRecipientFromGiver.getKey()%></strong></div>
+                            <div class="col-md-2">
+                                <div class="col-md-12"><strong>From: <%=responsesForRecipientFromGiver.getKey()%></strong></div>
+                                <div class="col-md-12 text-muted small"><span><br>To: <%=responsesForRecipient.getKey()%></span></div>
+                            </div>
                             <div class="col-md-10">
                             <%
                                 int qnIndx = 1;
