@@ -11,10 +11,10 @@ import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.api.Logic;
 
 public class InstructorCommentsPageData extends PageData {
@@ -79,6 +79,65 @@ public class InstructorCommentsPageData extends PageData {
         }
         String namesString = namesStringBuilder.toString();
         return removeEndComma(namesString);
+    }
+    
+    public boolean isResponseCommentVisibleTo(FeedbackQuestionAttributes qn,
+            FeedbackParticipantType viewerType){
+        if(viewerType == FeedbackParticipantType.GIVER) {
+            return true;
+        } else {
+            return qn.isResponseVisibleTo(viewerType);
+        }
+    }
+    
+    public boolean isResponseCommentGiverNameVisibleTo(FeedbackQuestionAttributes qn,
+            FeedbackParticipantType viewerType){
+        return true;
+    }
+    
+    public boolean isResponseCommentVisibleTo(FeedbackResponseCommentAttributes frComment, FeedbackQuestionAttributes qn,
+            FeedbackParticipantType viewerType){
+        if(frComment.isVisibilityFollowingFeedbackQuestion
+                && viewerType == FeedbackParticipantType.GIVER) {
+            return true;
+        } else if(frComment.isVisibilityFollowingFeedbackQuestion){
+            return qn.isResponseVisibleTo(viewerType);
+        } else {
+            return frComment.isVisibleTo(viewerType);
+        }
+    }
+    
+    public boolean isResponseCommentGiverNameVisibleTo(FeedbackResponseCommentAttributes frComment, FeedbackQuestionAttributes qn,
+            FeedbackParticipantType viewerType){
+        if(frComment.isVisibilityFollowingFeedbackQuestion){
+            return true;
+        } else {
+            return frComment.showGiverNameTo.contains(viewerType);
+        }
+    }
+    
+    public String getResponseCommentVisibilityString(FeedbackQuestionAttributes qn){
+        return "GIVER," + removeBracketsForArrayString(qn.showResponsesTo.toString());
+    }
+    
+    public String getResponseCommentVisibilityString(FeedbackResponseCommentAttributes frComment, FeedbackQuestionAttributes qn){
+        if(frComment.isVisibilityFollowingFeedbackQuestion){
+            return getResponseCommentVisibilityString(qn);
+        } else {
+            return removeBracketsForArrayString(frComment.showCommentTo.toString());
+        }
+    }
+    
+    public String getResponseCommentGiverNameVisibilityString(FeedbackQuestionAttributes qn){
+        return "GIVER,RECEIVER,OWN_TEAM_MEMBERS,RECEIVER_TEAM_MEMBERS,STUDENTS,INSTRUCTORS";
+    }
+    
+    public String getResponseCommentGiverNameVisibilityString(FeedbackResponseCommentAttributes frComment, FeedbackQuestionAttributes qn){
+        if(frComment.isVisibilityFollowingFeedbackQuestion){
+            return getResponseCommentGiverNameVisibilityString(qn);
+        } else {
+            return removeBracketsForArrayString(frComment.showGiverNameTo.toString());
+        }
     }
     
     public boolean isResponseCommentPublicToRecipient(FeedbackQuestionAttributes question) {

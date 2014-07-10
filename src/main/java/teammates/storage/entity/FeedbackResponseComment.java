@@ -65,6 +65,9 @@ public class FeedbackResponseComment {
     
     @Persistent
     private List<FeedbackParticipantType> showGiverNameTo;
+    
+    @Persistent
+    private Boolean isVisibilityFollowingFeedbackQuestion;
 
     /** The creation time of this comment. */
     @Persistent
@@ -93,6 +96,7 @@ public class FeedbackResponseComment {
         this.receiverSection = receiverSection;
         this.showCommentTo = showCommentTo;
         this.showGiverNameTo = showGiverNameTo;
+        this.isVisibilityFollowingFeedbackQuestion = Boolean.valueOf(false);
     }
 
     /** Use only if the comment already persisted 
@@ -130,6 +134,14 @@ public class FeedbackResponseComment {
 
     public void setFeedbackQuestionId(String feedbackQuestionId) {
         this.feedbackQuestionId = feedbackQuestionId;
+    }
+    
+    public Boolean getIsVisibilityFollowingFeedbackQuestion(){
+        return this.isVisibilityFollowingFeedbackQuestion;
+    }
+    
+    public void setIsVisibilityFollowingFeedbackQuestion(Boolean isVisibilityFollowingFeedbackQuestion){
+        this.isVisibilityFollowingFeedbackQuestion = isVisibilityFollowingFeedbackQuestion;
     }
 
     public String getGiverEmail() {

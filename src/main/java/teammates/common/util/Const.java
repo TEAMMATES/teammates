@@ -397,6 +397,8 @@ public class Const {
         public static final String STUDENT_NAME = "studentname";
         public static final String RECIPIENT_TYPE = "recipienttype";
         public static final String RECIPIENTS = "recipients";
+        public static final String RESPONSE_COMMENTS_SHOWCOMMENTSTO = "showresponsecommentsto";
+        public static final String RESPONSE_COMMENTS_SHOWGIVERTO = "showresponsegiverto";
         public static final String COMMENTS_SHOWCOMMENTSTO = "showcommentsto";
         public static final String COMMENTS_SHOWGIVERTO = "showgiverto";
         public static final String COMMENTS_SHOWRECIPIENTTO = "showrecipientto";

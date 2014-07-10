@@ -27,6 +27,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public CommentSendingState sendingState = CommentSendingState.SENT;
     public List<FeedbackParticipantType> showCommentTo;
     public List<FeedbackParticipantType> showGiverNameTo;
+    public boolean isVisibilityFollowingFeedbackQuestion = false;
     public Date createdAt;
     public Text commentText;
 
@@ -82,28 +83,21 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.commentText = comment.getCommentText();
         this.giverSection = comment.getGiverSection() != null ? comment.getGiverSection() : "None";
         this.receiverSection = comment.getReceiverSection() != null ? comment.getReceiverSection() : "None";
-        if(comment.getShowCommentTo() != null){
+        if(comment.getIsVisibilityFollowingFeedbackQuestion() != null
+                && !comment.getIsVisibilityFollowingFeedbackQuestion()){
             this.showCommentTo = comment.getShowCommentTo();
-        } else {
-            this.showCommentTo = new ArrayList<FeedbackParticipantType>();
-            setDefaultVisibilityOptions(this.showCommentTo);
-        }
-        if(comment.getShowGiverNameTo() != null){
             this.showGiverNameTo = comment.getShowGiverNameTo();
         } else {
-            this.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
-            setDefaultVisibilityOptions(this.showGiverNameTo);
+            setDefaultVisibilityOptions();
         }
     }
 
-    private void setDefaultVisibilityOptions(List<FeedbackParticipantType> visibilityOptions) {
-        visibilityOptions.add(FeedbackParticipantType.STUDENTS);
-        visibilityOptions.add(FeedbackParticipantType.INSTRUCTORS);
-        visibilityOptions.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
-        visibilityOptions.add(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
-        visibilityOptions.add(FeedbackParticipantType.RECEIVER);
-        visibilityOptions.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-        visibilityOptions.add(FeedbackParticipantType.GIVER);
+    private void setDefaultVisibilityOptions() {
+        isVisibilityFollowingFeedbackQuestion = true;
+    }
+    
+    public boolean isVisibleTo(FeedbackParticipantType viewerType){
+        return showCommentTo.contains(viewerType);
     }
     
     public Long getId() {

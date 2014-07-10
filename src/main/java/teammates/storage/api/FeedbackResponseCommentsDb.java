@@ -219,6 +219,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         frc.setSendingState(newAttributes.sendingState);
         frc.setGiverSection(newAttributes.giverSection);
         frc.setReceiverSection(newAttributes.receiverSection);
+        frc.setShowCommentTo(newAttributes.showCommentTo);
+        frc.setShowGiverNameTo(newAttributes.showGiverNameTo);
+        frc.setIsVisibilityFollowingFeedbackQuestion(Boolean.valueOf(false));
         
         getPM().close();
         

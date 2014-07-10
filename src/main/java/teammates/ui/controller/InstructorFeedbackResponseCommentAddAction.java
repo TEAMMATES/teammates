@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import teammates.common.datatransfer.CommentSendingState;
@@ -60,15 +61,32 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
             feedbackSessionName, feedbackQuestionId, instructor.email, feedbackResponseId, new Date(),
             new Text(commentText), response.giverSection, response.recipientSection);
         
+        String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
+        String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO);
+        feedbackResponseComment.showCommentTo = new ArrayList<FeedbackParticipantType>();
+        if(showCommentTo != null && !showCommentTo.isEmpty()){
+            String[] showCommentToArray = showCommentTo.split(",");
+            for(String viewer:showCommentToArray){
+                feedbackResponseComment.showCommentTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
+            }
+        }
+        feedbackResponseComment.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        if(showGiverNameTo != null && !showGiverNameTo.isEmpty()){
+            String[] showGiverNameToArray = showGiverNameTo.split(",");
+            for(String viewer:showGiverNameToArray){
+                feedbackResponseComment.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
+            }
+        }
+        
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(feedbackQuestionId);
         if(isResponseCommentPublicToRecipient(question)){
             feedbackResponseComment.sendingState = CommentSendingState.PENDING;
         }
         
         try {
-            FeedbackResponseCommentAttributes updatedComment = logic.createFeedbackResponseComment(feedbackResponseComment);
+            FeedbackResponseCommentAttributes createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
             //TODO: move putDocument to taskQueue
-            logic.putDocument(updatedComment);
+            logic.putDocument(createdComment);
         } catch (InvalidParametersException e) {
             setStatusForException(e);
             data.errorMessage = e.getMessage();
