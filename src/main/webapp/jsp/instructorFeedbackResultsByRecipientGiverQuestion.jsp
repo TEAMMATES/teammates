@@ -89,7 +89,7 @@
             %>
                     <div class="panel panel-success">
                             <div class="panel-heading ajax_submit">
-                                <strong>None</strong>
+                                <strong>Not in a section</strong>
                                 <form style="display:none;" id="seeMore-<%=sectionIndex%>" class="seeMoreForm-<%=sectionIndex%>" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_RGQ%>">
                                     <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="None">
                                     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=data.bundle.feedbackSession.courseId %>">
@@ -173,7 +173,7 @@
             %>
                     <div class="panel panel-success">
                         <div class="panel-heading">
-                            <strong><%=currentSection%></strong>
+                            <strong><%=currentSection.equals("None")? "Not in a section" : currentSection %></strong>
                             <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                         </div>
                         <div class="panel-collapse collapse in">
