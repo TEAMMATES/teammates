@@ -1,3 +1,4 @@
+<%@page import="teammates.common.datatransfer.CommentSendingState"%>
 <%@page import="teammates.common.datatransfer.InstructorAttributes"%>
 <%@page import="teammates.common.datatransfer.CommentRecipientType"%>
 <%@page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
@@ -73,31 +74,29 @@
             <div id="topOfPage"></div>
             <div class="inner-container">
                 <div class="row">
-                    <div class="col-sm-5">
-                        <h1>Instructor Comments</h1>
+                    <div class="col-sm-6">
+                        <h1>Comments from Instructors</h1>
                     </div>
-                    <!-- <div class="col-sm-5 instructor-header-bar">
-                        <form method="post" action="#"
+                    <div class="col-sm-6 instructor-header-bar">
+                        <form method="get" action="<%=data.getInstructorSearchLink()%>"
                             name="search_form">
                             <div class="input-group">
-                                <input type="text" name="searchkey"
+                                <input type="text" name="<%=Const.ParamsNames.SEARCH_KEY%>"
                                     title="Search for comment"
                                     class="form-control"
                                     placeholder="Any info related to comments"
-                                    id="searchBox"> <span
-                                    class="input-group-btn">
+                                    id="searchBox"> 
+                                <span class="input-group-btn">
                                     <button class="btn btn-default"
                                         type="submit" value="Search"
                                         id="buttonSearch">Search</button>
                                 </span>
                             </div>
+                            <input type="hidden" name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_STUDENTS%>" value="true">
+                            <input type="hidden" name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_RESPONSES%>" value="true">
+                            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
                         </form>
                     </div>
-                    <div class="col-md-1 instructor-header-bar">
-                        <a class="btn btn-primary btn-md"
-                            href="./omniComment_bulkEdit.html">
-                            Comment in Bulk </a>
-                    </div> -->
                 </div>
             </div>
             <br>
@@ -130,15 +129,14 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="text-color-primary">
-                                        <strong>Comment Panels</strong>
+                                        <strong>Show comments for: </strong>
                                     </div>
                                     <br>
                                     <div class="checkbox">
                                         <input id="panel_all"
                                             type="checkbox"
                                             checked="checked"> <label
-                                            for="panel_all"><strong>Display
-                                                All</strong></label>
+                                            for="panel_all"><strong>All</strong></label>
                                     </div>
                                     <br>
                                     <% int panelIdx = 0; %>
@@ -150,7 +148,7 @@
                                             type="checkbox"
                                             checked="checked"> <label
                                             for="panel_check-<%=panelIdx%>">
-                                            Comments on students </label>
+                                            Students </label>
                                     </div>
                                     <% } %>
                                     <% for(String fsName : data.feedbackResultBundles.keySet()){ 
@@ -161,21 +159,20 @@
                                             type="checkbox"
                                             checked="checked"> <label
                                             for="panel_check-<%=panelIdx%>">
-                                            <%=fsName%> </label>
+                                            Session: <%=fsName%> </label>
                                     </div>
                                     <% } %>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="text-color-primary">
-                                        <strong>Comment Givers</strong>
+                                        <strong>Show comments from: </strong>
                                     </div>
                                     <br>
                                     <div class="checkbox">
                                         <input type="checkbox" value=""
                                             id="giver_all"
                                             checked="checked"> <label
-                                            for="giver_all"><strong>Display
-                                                all</strong></label>
+                                            for="giver_all"><strong>All</strong></label>
                                     </div>
                                     <br>
                                     <div class="checkbox">
@@ -183,14 +180,41 @@
                                             type="checkbox"
                                             checked="checked"> <label
                                             for="giver_check-by-you">
-                                            By you </label>
+                                            You </label>
                                     </div>
                                     <div class="checkbox">
                                         <input id="giver_check-by-others"
                                             type="checkbox"
                                             checked="checked"> <label
                                             for="giver_check-by-others">
-                                            By others </label>
+                                            Others </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="text-color-primary">
+                                        <strong>Show comments with status: </strong>
+                                    </div>
+                                    <br>
+                                    <div class="checkbox">
+                                        <input type="checkbox" value=""
+                                            id="status_all"
+                                            checked="checked"> <label
+                                            for="status_all"><strong>All</strong></label>
+                                    </div>
+                                    <br>
+                                    <div class="checkbox">
+                                        <input id="status_check-public"
+                                            type="checkbox"
+                                            checked="checked"> <label
+                                            for="status_check-public">
+                                            Public </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <input id="status_check-private"
+                                            type="checkbox"
+                                            checked="checked"> <label
+                                            for="status_check-private">
+                                            Private </label>
                                     </div>
                                 </div>
                             </div>
@@ -217,11 +241,22 @@
                 <li><a href="<%=data.nextPageLink%>">»</a></li>
             </ul>
             <div class="well well-plain">
-                <div class="text-color-primary">
-                    <h4>
+                <div class="row">
+                    <h4 class="col-sm-9 text-color-primary">
                         <strong> <%=data.isViewingDraft ? "Drafts" : data.courseName%>
                         </strong>
                     </h4>
+                    <div class="btn-group pull-right" style="<%=data.numberOfPendingComments==0?"display:none":""%>">
+                      <a type="button" class="btn btn-sm btn-info" data-toggle="tooltip" style="margin-right: 17px;"
+                         href="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING + "?" + Const.ParamsNames.COURSE_ID + "=" + data.courseId
+                                        + "&" + Const.ParamsNames.USER_ID + "=" + data.account.googleId%>"
+                         title="Send email notification to recipients of <%=data.numberOfPendingComments%> pending <%=data.numberOfPendingComments>1?"comments":"comment"%>">
+                        <span class="badge" style="margin-right: 5px"><%=data.numberOfPendingComments%></span>
+                        <span class="glyphicon glyphicon-comment"></span>
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                        <span class="glyphicon glyphicon-envelope"></span>
+                      </a>
+                    </div>
                 </div>
                 <div id="no-comment-panel" style="<%=data.comments.keySet().size() == 0 && data.feedbackResultBundles.keySet().size() == 0?"":"display:none;"%>">
                     <br>
@@ -239,7 +274,7 @@
                 <br>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <strong><%=data.isViewingDraft ? "Comment drafts" : "Comments on students"%></strong>
+                        <strong><%=data.isViewingDraft ? "Comment drafts" : "Comments for students"%></strong>
                     </div>
                     <div class="panel-body">
                         <%=data.isViewingDraft ? "Your comments that are not finished:" : ""%>
@@ -261,8 +296,8 @@
                                             commentIdx++;
                                             recipientTypeForThisRecipient = comment.recipientType;
                                 %>
-                                <li
-                                    class="list-group-item list-group-item-warning">
+                                <li id="<%=comment.getCommentId()%>"
+                                    class="list-group-item list-group-item-warning <%=comment.showCommentTo.size()>0?"status_display-public":"status_display-private"%>">
                                     <form method="post"
                                         action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT%>"
                                         name="form_commentedit"
@@ -273,7 +308,10 @@
                                             <span class="text-muted">To <b><%=data.getRecipientNames(comment.recipients)%></b> on
                                                 <%=TimeHelper.formatTime(comment.createdAt)%></span>
                                             <%
-                                               if (comment.giverEmail.equals(data.instructorEmail)) {//comment edit/delete control starts
+                                               if (comment.giverEmail.equals(data.instructorEmail)
+                                                       || (data.currentInstructor != null && 
+                                                       data.isInstructorAllowedForPrivilegeOnComment(comment, 
+                                                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS))) {//comment edit/delete control starts
                                             %>
                                             <a type="button"
                                                 id="commentdelete-<%=commentIdx%>"
@@ -306,11 +344,21 @@
                                                 data-placement="top"
                                                 title="This comment is public to <%=peopleCanSee%>"></span>
                                             <% } %>
+                                            <% 
+                                               if(comment.sendingState == CommentSendingState.PENDING){ 
+                                            %>
+                                            <span class="glyphicon glyphicon-bell" data-toggle="tooltip" 
+                                                data-placement="top"
+                                                title="This comment is pending to notify recipients"></span>
+                                            <% } %>
                                         </div>
                                         <div
                                             id="plainCommentText<%=commentIdx%>"><%=comment.commentText.getValue()%></div>
                                         <%
-                                           if (comment.giverEmail.equals(data.instructorEmail)) {//comment edit/delete control starts
+                                           if (comment.giverEmail.equals(data.instructorEmail)
+                                        		   || (data.currentInstructor != null && 
+                                                   data.isInstructorAllowedForPrivilegeOnComment(comment, 
+                                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS))) {//comment edit/delete control starts
                                         %>
                                         <div
                                             id="commentTextEdit<%=commentIdx%>"
@@ -396,14 +444,13 @@
                                                             </td>
                                                         </tr>
                                                         <% } %>
-                                                        <% if(comment.recipientType != CommentRecipientType.COURSE
-                                                                && comment.showCommentTo.contains(CommentRecipientType.SECTION)){ %>
+                                                        <% if(comment.recipientType != CommentRecipientType.COURSE){ %>
                                                         <tr id="recipient-section<%=commentIdx%>">
                                                             <td class="text-left">
                                                                 <div data-toggle="tooltip"
                                                                     data-placement="top" title=""
-                                                                    data-original-title="Control what other students in the same section can view">
-                                                                    Recipient's Section</div>
+                                                                    data-original-title="Control what students in the same section can view">
+                                                                    <%=comment.recipientType == CommentRecipientType.SECTION? "Recipient Section" : "Recipient's Section" %></div>
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox answerCheckbox"
@@ -555,7 +602,7 @@
                 <br>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <strong>Feedback Session: <%=fsName%></strong>
+                        <strong>Comments in session: <%=fsName%></strong>
                     </div>
                     <div class="panel-body">
                         <%
@@ -573,6 +620,7 @@
                                             FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
                                             FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                                             out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
+                                            Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(question);
                                 %>
                             </div>
                             <table class="table">
@@ -600,14 +648,24 @@
                                         </td>
                                     </tr>
                                     <tr class="active">
-                                        <td>Comment:
+                                        <td>Comment(s):
                                             <button type="button"
                                                 class="btn btn-default btn-xs icon-button pull-right"
                                                 id="button_add_comment-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>"
                                                 onclick="showResponseCommentAddForm(<%=fsIndx%>,<%=qnIndx%>,<%=responseIndex%>)"
                                                 data-toggle="tooltip"
                                                 data-placement="top"
-                                                title="<%=Const.Tooltips.COMMENT_ADD%>">
+                                                title="<%=Const.Tooltips.COMMENT_ADD%>"
+                                                <% if ((data.currentInstructor == null) || 
+                                                           (!data.currentInstructor.isAllowedForPrivilege(responseEntry.giverSection,
+                                                                   responseEntry.feedbackSessionName,
+                                                        		   Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
+                                                               || !data.currentInstructor.isAllowedForPrivilege(responseEntry.recipientSection,
+                                                            		   responseEntry.feedbackSessionName,
+                                                                       Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS))) { %>
+                                                       disabled="disabled"
+                                                <% } %>                 
+                                                >
                                                 <span
                                                     class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                             </button>
@@ -633,8 +691,8 @@
                                                                         frCommentGiver = data.roster.getInstructorForEmail(frc.giverEmail).name;
                                                                     }
                                                 %>
-                                                <li
-                                                    class="list-group-item list-group-item-warning <%=frCommentGiver.equals("you")?"giver_display-by-you":"giver_display-by-others"%>"
+                                                <li id="<%=frc.getId()%>"
+                                                    class="list-group-item list-group-item-warning <%=frCommentGiver.equals("you")?"giver_display-by-you":"giver_display-by-others"%> <%=isPublicResponseComment && bundle.feedbackSession.isPublished()?"status_display-public":"status_display-private"%>"
                                                     id="responseCommentRow-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                     <div
                                                         id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
@@ -642,8 +700,27 @@
                                                             <b><%=frCommentGiver%></b>
                                                             [<%=frc.createdAt%>]
                                                         </span>
+                                                        <% if(isPublicResponseComment && bundle.feedbackSession.isPublished()){ %>
+                                                        <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" 
+                                                            data-placement="top" style="margin-left: 5px;"
+                                                            title="This response comment is public"></span>
+                                                        <% } %>
+                                                        <% 
+                                                           if(frc.sendingState == CommentSendingState.PENDING && bundle.feedbackSession.isPublished()){ 
+                                                        %>
+                                                        <span class="glyphicon glyphicon-bell" data-toggle="tooltip" 
+                                                            data-placement="top"
+                                                            title="This comment is pending to notify recipients"></span>
+                                                        <% } %>
                                                         <%
-                                                            if (frc.giverEmail.equals(data.instructorEmail)) {//FeedbackResponseComment edit/delete control starts
+                                                            if (frc.giverEmail.equals(data.instructorEmail)
+                                                                    || (data.currentInstructor != null &&
+                                                                        data.currentInstructor.isAllowedForPrivilege(responseEntry.giverSection,
+                                                                                responseEntry.feedbackSessionName,
+                                                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
+                                                                        && data.currentInstructor.isAllowedForPrivilege(responseEntry.recipientSection,
+                                                                                responseEntry.feedbackSessionName,
+                                                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS))) {//FeedbackResponseComment edit/delete control starts
                                                         %>
                                                         <form
                                                             class="responseCommentDeleteForm pull-right">

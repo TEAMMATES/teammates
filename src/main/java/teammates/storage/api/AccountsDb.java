@@ -4,20 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.jdo.FetchPlan;
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
-import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
-import com.google.appengine.api.blobstore.BlobstoreService;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.EntityAttributes;
@@ -26,7 +19,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
@@ -140,8 +132,9 @@ public class AccountsDb extends EntitiesDb {
         // if the student profile has changed then update the store
         // this is to maintain integrity of the modified date.
         if (updateStudentProfile) {
-            String existingProfile = new StudentProfileAttributes(accountToUpdate.getStudentProfile()).toString();
-            if(!(existingProfile.equals(a.studentProfile.toString()))) {
+            StudentProfileAttributes existingProfile = new StudentProfileAttributes(accountToUpdate.getStudentProfile());
+            a.studentProfile.modifiedDate = existingProfile.modifiedDate;
+            if(!(existingProfile.toString().equals(a.studentProfile.toString()))) {
                 accountToUpdate.setStudentProfile((StudentProfile) a.studentProfile.toEntity());
             }
         }
@@ -174,7 +167,7 @@ public class AccountsDb extends EntitiesDb {
         }
         
         if (!accountToDelete.studentProfile.pictureKey.equals("")) {
-            deleteProfilePicFromGcs(new BlobKey(accountToDelete.studentProfile.pictureKey));
+            deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
         }
         deleteEntity(accountToDelete);
         closePM();
@@ -182,8 +175,8 @@ public class AccountsDb extends EntitiesDb {
 
     private Account getAccountEntity(String googleId, boolean retrieveStudentProfile) {
         
-        Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
         try {
+            Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
             Account account = getPM().getObjectById(Account.class, key);
             
             if (JDOHelper.isDeleted(account)) {
@@ -197,102 +190,15 @@ public class AccountsDb extends EntitiesDb {
             }
             
             return account;
+        } catch (IllegalArgumentException iae){
+            return null;            
         } catch(JDOObjectNotFoundException je) {
             return null;
         }
     }
     
     private Account getAccountEntity(String googleId) {
-        
         return getAccountEntity(googleId, false);
-    }
-    
-    private StudentProfile getStudentProfileEntity(String googleId) {
-        Key childKey = KeyFactory.createKey(Account.class.getSimpleName(), googleId)
-                .getChild(StudentProfile.class.getSimpleName(), googleId);
-        
-        try {
-            return getPM().getObjectById(StudentProfile.class, childKey);
-        } catch (JDOObjectNotFoundException je) {
-            
-            Account a = getAccountEntity(googleId, true);
-            if (a == null) {
-                return null;
-            } else {
-                // This situation cannot be reproduced and hence not tested
-                // This only happens when existing data in the store do not have a profile
-                return a.getStudentProfile();
-            }
-        }
-                
-    }
-    
-    public StudentProfileAttributes getStudentProfile(String accountGoogleId) {        
-        StudentProfile sp = getStudentProfileEntity(accountGoogleId);
-        
-        if (sp == null || JDOHelper.isDeleted(sp)) {
-            return null;
-        }
-
-        if (sp.getPictureKey() == null) {
-            // This situation cannot be reproduced and hence not tested
-            // This only happens when existing data in the store do not have a picture
-            sp.setPictureKey(new BlobKey(""));
-        }
-        
-        return new StudentProfileAttributes(sp);
-    }
-    
-    public void updateStudentProfile(StudentProfileAttributes newSpa) 
-            throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newSpa);
-        
-        // TODO: update the profile with the valid values regardless of the validity of 
-        //       the entire profile attributes entity
-        
-        if (!newSpa.isValid()) {
-            throw new InvalidParametersException(newSpa.getInvalidityInfo());
-        }
-        
-        StudentProfile profileToUpdate = getStudentProfileEntity(newSpa.googleId);
-        
-        if (profileToUpdate == null || JDOHelper.isDeleted(profileToUpdate)) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE + newSpa.googleId
-                    + ThreadHelper.getCurrentThreadStack());
-        }
-
-        newSpa.sanitizeForSaving();
-        profileToUpdate.setShortName(newSpa.shortName);
-        profileToUpdate.setEmail(newSpa.email);
-        profileToUpdate.setInstitute(newSpa.institute);
-        profileToUpdate.setNationality(newSpa.nationality);
-        profileToUpdate.setGender(newSpa.gender);
-        profileToUpdate.setMoreInfo(new Text(newSpa.moreInfo));
-        if (newSpa.pictureKey != "") {
-            if (!profileToUpdate.getPictureKey().equals(new BlobKey(""))) {
-                try {
-                    deleteProfilePicFromGcs(profileToUpdate.getPictureKey());
-                } catch (BlobstoreFailureException bfe) {
-                    // this branch is not tested as it is 
-                    //      => difficult to reproduce during testing
-                    //      => properly handled higher up
-                    closePM();
-                    throw bfe;
-                }
-            }
-            profileToUpdate.setPictureKey(new BlobKey(newSpa.pictureKey));
-        }
-        closePM();
-    }
-    
-    public void deleteProfilePicFromGcs(BlobKey key) throws BlobstoreFailureException {
-        BlobstoreServiceFactory.getBlobstoreService().delete(key);
-    }
-    
-    private void closePM() {
-        if (!getPM().isClosed()) {
-            getPM().close();
-        }
     }
 
     @Override

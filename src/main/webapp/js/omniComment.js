@@ -2,6 +2,39 @@ $(document).ready(function(){
 	var classNameForCommentsInFeedbackResponse = "list-group-item list-group-item-warning giver_display-by";
 	var classNameForCommentsInStudentRecords = "panel panel-info student-record-comments giver_display-by";
 	
+	function isRedirectToSpecificComment(){
+		return $(location).attr('href').indexOf('#') != -1;
+	}
+	
+	function getRedirectSpecificCommentRow(){
+		var start = $(location).attr('href').indexOf('#');
+		var end = $(location).attr('href').length;
+		var rowId = $(location).attr('href').substring(start, end);
+		var row = $(rowId);
+		return row;
+	}
+	
+	function highlightRedirectSpecificCommentRow(row){
+		row.toggleClass('list-group-item-warning list-group-item-success');
+	}
+	
+	//for redirecting from search page, hide the header and highlight the specific comment row
+	if(isRedirectToSpecificComment() && getRedirectSpecificCommentRow().length > 0){
+		  $('.navbar').css('display','none');
+		  highlightRedirectSpecificCommentRow(getRedirectSpecificCommentRow());
+	} else if(isRedirectToSpecificComment() && getRedirectSpecificCommentRow().length == 0){
+		//TODO: impl this, e.g. display a status msg that cannot find the comment etc
+	}
+	
+	//re-display the hidden header
+	var scrollEventCounter = 0;
+	$( window ).scroll(function() {
+		if(isRedirectToSpecificComment() && scrollEventCounter > 0){
+			  $('.navbar').fadeIn("fast");
+		}
+		scrollEventCounter++;
+	});
+	
 	//make textarea supports displaying breakline
     $('div[id^="plainCommentText"]').each(function(){
 	    var commentTextWithBreakLine = $(this).text().replace(/\n/g, '\n<br />');
@@ -60,9 +93,11 @@ $(document).ready(function(){
     		$('#no-comment-panel').show();
     		//if nothing to display, also hide giverCheckboxes column
     		$('#giver_all').parent().parent().hide();
+    		$('#status_all').parent().parent().hide();
     	} else {
     		$('#no-comment-panel').hide();
     		$('#giver_all').parent().parent().show();
+    		$('#status_all').parent().parent().show();
     	}
 		
 		//hide the panel accordingly based on panel_check checkbox
@@ -81,8 +116,12 @@ $(document).ready(function(){
 		//use giver_all checkbox to control its children checkboxes.
 		if($('#giver_all').is(':checked')){
 			$("input[id^=giver_check]").prop("checked", true);
+			$("#status_all").prop("disabled", false);
+        	$("input[id^=status_check]").prop("disabled", false);
 		} else {
 			$("input[id^=giver_check]").prop("checked", false);
+			$("#status_all").prop("disabled", true);
+        	$("input[id^=status_check]").prop("disabled", true);
 		}
 		
 		filterGiver();
@@ -93,8 +132,12 @@ $(document).ready(function(){
     	//based on the selected checkboxes, check/uncheck giver_all checkbox
     	if($("input[id^='giver_check']:checked").length == $("input[id^='giver_check']").length){
         	$("#giver_all").prop("checked", true);
+        	$("#status_all").prop("disabled", false);
+        	$("input[id^=status_check]").prop("disabled", false);
     	} else{
         	$("#giver_all").prop("checked", false);
+        	$("#status_all").prop("disabled", true);
+        	$("input[id^=status_check]").prop("disabled", true);
     	}
     	
     	filterGiver();
@@ -114,6 +157,54 @@ $(document).ready(function(){
 	        }
 	    });
     }
+    //
+    //Binding for "Display All" status option
+	$('#status_all').click(function(){
+		//use status_all checkbox to control its children checkboxes.
+		if($('#status_all').is(':checked')){
+			$("input[id^=status_check]").prop("checked", true);
+			$("#giver_all").prop("disabled", false);
+        	$("input[id^=giver_check]").prop("disabled", false);
+		} else {
+			$("input[id^=status_check]").prop("checked", false);
+			$("#giver_all").prop("disabled", true);
+        	$("input[id^=giver_check]").prop("disabled", true);
+		}
+		
+		filterStatus();
+	});
+	
+	//Binding for changes in the status checkboxes.
+    $("input[id^=status_check]").change(function(){
+    	//based on the selected checkboxes, check/uncheck status_all checkbox
+    	if($("input[id^='status_check']:checked").length == $("input[id^='status_check']").length){
+        	$("#status_all").prop("checked", true);
+        	$("#giver_all").prop("disabled", false);
+        	$("input[id^=giver_check]").prop("disabled", false);
+    	} else{
+        	$("#status_all").prop("checked", false);
+        	$("#giver_all").prop("disabled", true);
+        	$("input[id^=giver_check]").prop("disabled", true);
+    	}
+    	
+    	filterStatus();
+    });
+    
+    function filterStatus(){
+    	filterStatusCheckbox("public");
+    	filterStatusCheckbox("private");
+	}
+    
+    function filterStatusCheckbox(checkboxBy){
+    	$("input[id=status_check-" + checkboxBy + "]").each(function(){
+	        if(this.checked){
+	        	showCommentOfPanelIndex(".status_display-" + checkboxBy);
+	        } else{
+	        	hideCommentOfPanelIndex(".status_display-" + checkboxBy);
+	        }
+	    });
+    }
+    //
     
     function showCommentOfPanelIndex(className){
     	$(className).each(function(){
@@ -155,7 +246,7 @@ $(document).ready(function(){
             	}
             }
     	}
-        //to show student comments
+        //to show student comments (only works for Giver filter)
         if ($(comment).prop("class").toString().contains(classNameForCommentsInStudentRecords)){
         	var studentCommentPanel = $(comment).parent().parent().parent();
         	var studentCommentPanelBody = $(comment).parent();

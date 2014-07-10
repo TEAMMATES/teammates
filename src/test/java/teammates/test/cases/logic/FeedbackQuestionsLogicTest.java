@@ -15,10 +15,12 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionBundle;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -291,6 +293,29 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
             assertEquals(actualList.get(i), expectedList.get(i));
         }
     }
+    
+    @Test 
+    public void testCopyQuestion() throws Exception {
+        
+        InstructorAttributes instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
+        ______TS("Typical case: copy question successfully");
+        
+        FeedbackQuestionAttributes question1 = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        question1 = fqLogic.getFeedbackQuestion(question1.feedbackSessionName, question1.courseId, question1.questionNumber);
+        
+        FeedbackQuestionAttributes copiedQuestion = fqLogic.copyFeedbackQuestion(question1.getId(), question1.feedbackSessionName, question1.courseId, instructor2OfCourse1.email);
+        
+        FeedbackAbstractQuestionDetails question1Details = question1.getQuestionDetails();
+        FeedbackAbstractQuestionDetails copiedQuestionDetails = copiedQuestion.getQuestionDetails();
+        
+        assertEquals(question1.numberOfEntitiesToGiveFeedbackTo, copiedQuestion.numberOfEntitiesToGiveFeedbackTo);
+        assertEquals(question1.questionType, copiedQuestion.questionType);
+        assertEquals(question1.giverType, copiedQuestion.giverType);
+        assertEquals(question1.recipientType, copiedQuestion.recipientType);
+        assertEquals(question1Details.questionText, copiedQuestionDetails.questionText);
+        
+    }
+    
     
     @Test
     public void testUpdateQuestion() throws Exception {
@@ -689,6 +714,5 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         printTestClassFooter();
         turnLoggingDown(FeedbackSessionsLogic.class);
     }
-    
-    
+
 }

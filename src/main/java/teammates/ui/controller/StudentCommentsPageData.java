@@ -1,11 +1,13 @@
 package teammates.ui.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseRoster;
+import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 
@@ -19,6 +21,7 @@ public class StudentCommentsPageData extends PageData {
     public String previousPageLink;
     public String nextPageLink;
     public String studentEmail;
+    public Map<String, FeedbackSessionResultsBundle> feedbackResultBundles;
     
     public StudentCommentsPageData(AccountAttributes account) {
         super(account);
