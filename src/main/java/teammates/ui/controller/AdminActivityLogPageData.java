@@ -140,19 +140,19 @@ public class AdminActivityLogPageData extends PageData {
     /** 
      * @return possible servlet requests list as html 
      */
-    public String getActionListAsHtml(int totalColumns){       
-        List<String> allActionNames = getAllActionNames();   
-        
+    public String getActionListAsHtml(){       
+        List<String> allActionNames = getAllActionNames();         
+        int totalColumns = 4;
         int rowsPerCol = calculateRowsPerCol(allActionNames.size(), totalColumns);
-        return convertActionListToHtml(allActionNames, rowsPerCol);
+        return convertActionListToHtml(allActionNames, rowsPerCol, totalColumns);
     }
     
     
-    private String convertActionListToHtml(List<String> allActionNames, int rowsPerCol){
+    private String convertActionListToHtml(List<String> allActionNames, int rowsPerCol, int totalColumns){
         
         String outputHtml = "<tr>";      
         int count = 0;      
-        for (int i = 0; i < Const.TOTAL_COLUMNS; i++) {
+        for (int i = 0; i < totalColumns; i++) {
             
             outputHtml += "<td>";
             outputHtml += "<ul class=\"list-group\">";

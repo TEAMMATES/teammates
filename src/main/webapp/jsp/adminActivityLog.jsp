@@ -214,7 +214,7 @@
                                                 class="table-responsive">
                                                 <table
                                                     class="table table-condensed">
-                                                    <%=data.getActionListAsHtml(Const.TOTAL_COLUMNS)%>
+                                                    <%=data.getActionListAsHtml()%>
                                                 </table>
                                             </div>
                                             </p>
