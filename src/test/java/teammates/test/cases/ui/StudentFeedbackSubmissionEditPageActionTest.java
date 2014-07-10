@@ -22,18 +22,13 @@ import teammates.ui.controller.StudentFeedbackSubmissionEditPageAction;
 
 public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
     }
 
     /*
@@ -85,7 +80,6 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        //TODO: find a way to test status message from session
         StudentAttributes student1InCourse1 = dataBundle.students
                 .get("student1InCourse1");
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
@@ -138,7 +132,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
 
         ______TS("typical success case");
 
-        restoreTypicalDataInDatastore();
+        		restoreTypicalDataInDatastore();
 
         session1InCourse1 = dataBundle.feedbackSessions
                 .get("session1InCourse1");

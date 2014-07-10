@@ -14,30 +14,13 @@ import teammates.ui.controller.FileDownloadResult;
 import teammates.ui.controller.InstructorFeedbackResultsDownloadAction;
 
 public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest {
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName 
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
     
     @Test
@@ -72,6 +55,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
+        assertEquals("", result.getStatusMessage());
         
         String expectedFileName = session.courseId + "_" + session.feedbackSessionName;
         assertEquals(expectedFileName, result.getFileName());

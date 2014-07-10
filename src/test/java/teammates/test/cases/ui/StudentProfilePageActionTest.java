@@ -4,7 +4,6 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -18,25 +17,13 @@ import teammates.ui.controller.StudentProfilePageAction;
 
 public class StudentProfilePageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_PROFILE_PAGE;
-    }
-
-    @BeforeMethod
-    public void methodSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        String[] submissionParams = new String[]{};
-        verifyAnyRegisteredUserCanAccess(submissionParams);
     }
     
     @Test
@@ -53,6 +40,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
         
         AssertHelper.assertContains("/jsp/studentProfilePage.jsp?error=false&user="+student.googleId, r.getDestinationWithParams());
         assertFalse(r.isError);
+        assertEquals("", r.getStatusMessage());
         
         PageData data = r.data;
         student.studentProfile.modifiedDate = data.account.studentProfile.modifiedDate;
@@ -73,6 +61,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
         
         AssertHelper.assertContains(Const.ViewURIs.STUDENT_PROFILE_PAGE + "?error=false&user="+student.googleId, r.getDestinationWithParams());
         assertFalse(r.isError);
+        assertEquals("", r.getStatusMessage());
         
         data = r.data;
         student.studentProfile.modifiedDate = data.account.studentProfile.modifiedDate;

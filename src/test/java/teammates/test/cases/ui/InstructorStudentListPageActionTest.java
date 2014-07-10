@@ -15,29 +15,17 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorStudentListPageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-
-    @Test
-    public void testAccessControl() throws Exception {
-        String[] submissionParams = new String[] {};
-        verifyOnlyInstructorsCanAccess(submissionParams);
     }
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        //TODO: find a way to test status message from session
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
         String instructorId = instructor.googleId;
 
@@ -53,7 +41,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
         ShowPageResult r = getShowPageResult(a);
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST
-                + "?error=false&user=idOfInstructor3",
+                + "?error=false&user=" + instructorId,
                 r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals("", r.getStatusMessage());

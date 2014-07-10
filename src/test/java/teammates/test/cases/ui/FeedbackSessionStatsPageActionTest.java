@@ -16,30 +16,14 @@ import teammates.ui.controller.FeedbackSessionStatsPageAction;
 import teammates.ui.controller.FeedbackSessionStatsPageData;
 
 public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        FeedbackSessionAttributes accessableFeedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
-        String[] submissionParams = new String[] { Const.ParamsNames.FEEDBACK_SESSION_NAME, accessableFeedbackSession.feedbackSessionName,
-                                            Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId};
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-
     }
     
     @Test
@@ -63,6 +47,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_STATS+"?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
         assertEquals(9,data.sessionDetails.stats.expectedTotal);
         assertEquals(4,data.sessionDetails.stats.submittedTotal);
+        assertEquals("", r.getStatusMessage());
         
         ______TS("fail: instructor accesses stats of non-existent feedback session");
         String nonexistentFeedbackSession = "nonexistentFeedbackSession";
@@ -81,6 +66,7 @@ public class FeedbackSessionStatsPageActionTest extends BaseActionTest {
         
         assertEquals(true, doesThrowUnauthorizedAccessException);
         assertEquals("Trying to access system using a non-existent feedback session entity", exceptionMessage);
+        assertEquals("", r.getStatusMessage());
         
     }
     

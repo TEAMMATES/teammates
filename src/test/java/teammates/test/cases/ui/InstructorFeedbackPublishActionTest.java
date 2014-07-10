@@ -7,7 +7,6 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.Date;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -21,46 +20,17 @@ import teammates.ui.controller.RedirectResult;
 public class InstructorFeedbackPublishActionTest extends BaseActionTest {
     private static final boolean PUBLISHED = true;
     private static final boolean UNPUBLISHED = false;
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
-        
-        makeFeedbackSessionUnpublished(session); //we have to revert to the closed state
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName 
-        };
-        
-        verifyUnaccessibleWithoutLogin(submissionParams);
-        verifyUnaccessibleForUnregisteredUsers(submissionParams);
-        verifyUnaccessibleForStudents(submissionParams);
-        verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
-        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
-        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
-        
-        makeFeedbackSessionUnpublished(session); //we have to revert to the closed state
-        
-        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        //TODO: find a way to test status message from session
         gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session2InCourse1");
         String[] paramsNormal = {

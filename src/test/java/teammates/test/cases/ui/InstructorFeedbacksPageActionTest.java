@@ -3,12 +3,10 @@ package teammates.test.cases.ui;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.EvaluationsLogic;
@@ -19,54 +17,20 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbacksPageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
-    String unregUserId;
-    String instructorId;
-    String otherInstructorId;
-    String studentId;
-    String adminUserId;
-
+    String instructorId = dataBundle.instructors.get("instructor1OfCourse1").googleId;
+    String adminUserId = "admin.user";
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-
-        unregUserId = "unreg.user";
-        
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        instructorId = instructor1OfCourse1.googleId;
-        
-        InstructorAttributes instructor1OfCourse2 = dataBundle.instructors.get("instructor1OfCourse2");
-        otherInstructorId = instructor1OfCourse2.googleId;
-        
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        studentId = student1InCourse1.googleId;
-        
-        adminUserId = "admin.user";
-        
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, 
-                dataBundle.instructors.get("instructor1OfCourse1").courseId
-        };
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        //TODO: find a way to test status message from session
         String[] submissionParams = new String[]{};
         
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");

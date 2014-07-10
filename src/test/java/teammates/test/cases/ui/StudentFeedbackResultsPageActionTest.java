@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import teammates.common.datatransfer.FeedbackSessionType;
 
@@ -30,19 +29,14 @@ import teammates.ui.controller.StudentFeedbackResultsPageData;
 
 public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     EvaluationsDb evaluationsDb = new EvaluationsDb();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
-    }
-
-    @BeforeMethod
-    public void methodSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
     }
 
     /*
@@ -105,8 +99,6 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         verifyCannotMasquerade(addUserIdToParams(studentId, submissionParams));
 
         verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
-
-        restoreTypicalDataInDatastore();
 
         // TODO: test no questions -> redirect after moving detection logic to
         // proper access control level.
@@ -268,7 +260,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
         ______TS("typical case");
 
-        restoreTypicalDataInDatastore();
+        		restoreTypicalDataInDatastore();
 
         FeedbackSessionsLogic.inst().publishFeedbackSession(
                 session1InCourse1.getSessionName(), session1InCourse1.courseId);

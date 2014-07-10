@@ -786,6 +786,34 @@
               "RECEIVER",
               "INSTRUCTORS"
           ]
+      },
+      "qn11InSession1": {
+          "feedbackSessionName": "Session with different question types",
+          "courseId": "demo.course",
+          "creatorEmail": "teammates.demo.instructor@demo.course",
+          "questionMetaData":{
+                "value":"{\"questionText\":\"Rate the contribution of yourself and your team members towards the latest project.\",
+                          \"questionType\":\"CONTRIB\"}"
+          },
+          "questionNumber": 11,
+          "questionType": "CONTRIB",
+          "giverType": "STUDENTS",
+          "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+          "numberOfEntitiesToGiveFeedbackTo": -100,
+          "showResponsesTo":[
+              "RECEIVER",
+              "OWN_TEAM_MEMBERS",
+              "RECEIVER_TEAM_MEMBERS",
+              "INSTRUCTORS"
+          ],
+          "showGiverNameTo": [
+              "RECEIVER",
+              "INSTRUCTORS"
+          ],
+          "showRecipientNameTo":[
+              "RECEIVER",
+              "INSTRUCTORS"
+          ]
       }
   },
 
@@ -985,6 +1013,58 @@
           "giverSection":"Tutorial Group 1",
           "recipientSection":"Tutorial Group 1"
       },
+      "aliceResponse9.1":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"11",
+          "feedbackQuestionType":"CONTRIB",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"alice.b.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 1"
+      },
+      "aliceResponse9.2":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"11",
+          "feedbackQuestionType":"CONTRIB",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"benny.c.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 120}"
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 1"
+      },
+      "aliceResponse9.3":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"11",
+          "feedbackQuestionType":"CONTRIB",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"danny.e.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 90}"
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 1"
+      },
+      "aliceResponse9.4":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"11",
+          "feedbackQuestionType":"CONTRIB",
+          "giverEmail":"alice.b.tmms@gmail.com",
+          "recipientEmail":"emma.f.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 90}"
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 1"
+      },
       "charlieResponse1":{
           "feedbackSessionName":"Session with different question types",
           "courseId":"demo.course",
@@ -1176,6 +1256,58 @@
           "recipientEmail":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [150]}"
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
+      },
+      "charlieResponse9.1":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"11",
+          "feedbackQuestionType":"CONTRIB",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"charlie.d.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
+      },
+      "charlieResponse9.2":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"11",
+          "feedbackQuestionType":"CONTRIB",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"francis.g.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 90}"
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
+      },
+      "charlieResponse9.3":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"11",
+          "feedbackQuestionType":"CONTRIB",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"gene.h.tmms@gmail.com",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 50}"
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
+      },
+      "charlieResponse9.4":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"11",
+          "feedbackQuestionType":"CONTRIB",
+          "giverEmail":"charlie.d.tmms@gmail.com",
+          "recipientEmail":"teammates.demo.instructor@demo.course",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 150}"
           },
           "giverSection":"Tutorial Group 2",
           "recipientSection":"Tutorial Group 2"

@@ -20,33 +20,17 @@ import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentCourseJoinAuthenticatedAction;
 
 public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED;
-    }
-
-    @BeforeMethod
-    public void methodSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-
-    @Test
-    public void testAccessControl() throws Exception {
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.REGKEY, "sample-key"
-        };
-
-        verifyOnlyLoggedInUsersCanAccess(submissionParams);
-        verifyUnaccessibleWithoutLogin(submissionParams);
     }
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        //TODO: find a way to test status message from session
         StudentsDb studentsDb = new StudentsDb();
         AccountsDb accountsDb = new AccountsDb();
         StudentAttributes student1InCourse1 = dataBundle.students

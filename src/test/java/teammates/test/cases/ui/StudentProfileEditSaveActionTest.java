@@ -22,25 +22,13 @@ import teammates.ui.controller.StudentProfileEditSaveAction;
 
 public class StudentProfileEditSaveActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE;
-    }
-
-    @BeforeMethod
-    public void methodSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        String[] submissionParams = createValidParamsForProfile();
-        verifyAnyRegisteredUserCanAccess(submissionParams);
     }
     
     @Test
@@ -59,7 +47,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         
         assertFalse(r.isError);
         AssertHelper.assertContains(Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=false&user=" + student.googleId, r.getDestinationWithParams());
-        
+        assertEquals(Const.StatusMessages.STUDENT_PROFILE_EDITED, r.getStatusMessage());
         expectedProfile.modifiedDate = a.account.studentProfile.modifiedDate;
         String expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave" +
                 "|||true|||Student|||"+ student.name +"|||" + student.googleId + "|||" + student.email +
@@ -104,6 +92,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         r = (RedirectResult) a.executeAndPostProcess();
         
         assertFalse(r.isError);
+        assertEquals(Const.StatusMessages.STUDENT_PROFILE_EDITED, r.getStatusMessage());
         AssertHelper.assertContains(Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=false&user=" + student.googleId, r.getDestinationWithParams());
         
         expectedProfile.modifiedDate = a.account.studentProfile.modifiedDate;

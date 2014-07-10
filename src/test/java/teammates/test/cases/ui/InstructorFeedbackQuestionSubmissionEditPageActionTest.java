@@ -21,39 +21,17 @@ import teammates.ui.controller.ShowPageResult;
 public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends
         BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-
-    @Test
-    public void testAccessControl() throws Exception {
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        
-        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-        FeedbackQuestionAttributes q = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 3);
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, q.getId()
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);        
     }
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        //TODO: find a way to test status message from session
         AccountAttributes instructorAccount = dataBundle.accounts.get("instructor1OfCourse1");
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");

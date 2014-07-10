@@ -22,50 +22,18 @@ import teammates.ui.controller.RedirectResult;
 
 public class InstructorStudentCommentEditActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
-    BackDoorLogic backDoorLogic;
+    private final DataBundle dataBundle = getTypicalDataBundle();
+    BackDoorLogic backDoorLogic = new BackDoorLogic();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        backDoorLogic = new BackDoorLogic();
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-
-    @Test
-    public void testAccessControl() throws Exception {
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
-        StudentAttributes student = dataBundle.students.get("student2InCourse1");
-        List<CommentAttributes> comments = backDoorLogic.getCommentsForReceiver(instructor.courseId, CommentRecipientType.PERSON, student.email);
-        Iterator<CommentAttributes> iterator = comments.iterator();
-        while(iterator.hasNext()){
-            CommentAttributes commentAttributes = iterator.next();
-            if(!commentAttributes.giverEmail.equals(instructor.email)){
-                iterator.remove();
-            }
-        }
-        Assumption.assertEquals(1, comments.size());
-        
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COMMENT_ID, comments.get(0).getCommentId().toString(),
-                Const.ParamsNames.COMMENT_EDITTYPE, "edit",
-                Const.ParamsNames.COMMENT_TEXT, "Comment from Instructor 3 to Student 2 in course 1",
-                Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student.email
-        };
-        verifyUnaccessibleWithoutModifyCommentInSectionsPrivilege(submissionParams);
-        verifyOnlyInstructorsCanAccess(submissionParams);
     }
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        //TODO: find a way to test status message from session
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
         StudentAttributes student = dataBundle.students.get("student2InCourse1");
         String instructorId = instructor.googleId;

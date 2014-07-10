@@ -21,33 +21,18 @@ import teammates.ui.controller.InstructorCourseJoinAuthenticatedAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest {
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED;
-    }
-
-    @BeforeMethod
-    public void methodSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.REGKEY, invalidEncryptedKey
-        };
-        
-        verifyOnlyLoggedInUsersCanAccess(submissionParams);
     }
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        //TODO: find a way to test status message from session
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         InstructorsDb instrDb = new InstructorsDb();
         instructor = instrDb.getInstructorForEmail(instructor.courseId, instructor.email);
@@ -120,8 +105,9 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         
         ______TS("Typical case: authenticate for new instructor with corresponding key");
         
-        instructor = new InstructorAttributes("ICJAAT.instr", instructor.courseId, "New Instructor", "ICJAAT.instr@email.com");
-        InstructorsLogic.inst().createInstructor(null, instructor.courseId, instructor.name, instructor.email);
+        instructor = new InstructorAttributes(null, instructor.courseId, "New Instructor", "ICJAAT.instr@email.com");
+        InstructorsLogic.inst().createInstructor(instructor);
+        instructor.googleId = "ICJAAT.instr";
         
         AccountAttributes newInstructorAccount = new AccountAttributes(
                 instructor.googleId, instructor.name, false,
@@ -156,8 +142,9 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         ______TS("Failure case: the current unused key is not for this account ");
         
         String currentLoginId = instructor.googleId;
-        instructor = new InstructorAttributes("ICJAAT2.instr", instructor.courseId, "New Instructor 2", "ICJAAT2.instr@email.com");
-        InstructorsLogic.inst().createInstructor(null, instructor.courseId, instructor.name, instructor.email);
+        instructor = new InstructorAttributes(null, instructor.courseId, "New Instructor 2", "ICJAAT2.instr@email.com");
+        InstructorsLogic.inst().createInstructor(instructor);
+        instructor.googleId = "ICJAAT2.instr";
         
         newInstructorAccount = new AccountAttributes(
                 instructor.googleId, instructor.name, false,

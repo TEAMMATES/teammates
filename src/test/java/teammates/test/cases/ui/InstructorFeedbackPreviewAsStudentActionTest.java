@@ -1,6 +1,7 @@
 package teammates.test.cases.ui;
 
 import static org.junit.Assert.assertEquals;
+import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -17,32 +18,13 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbackPreviewAsStudentActionTest extends
         BaseActionTest {
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
-        StudentAttributes student = dataBundle.students.get("student1InCourse1");
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, session.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
-                Const.ParamsNames.PREVIEWAS, student.email
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
     
     @Test
@@ -72,6 +54,7 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends
                 + "?error=false"
                 + "&user="+ idOfInstructor
                 ,showPageResult.getDestinationWithParams());
+        assertEquals("", showPageResult.getStatusMessage());
 
         assertEquals("TEAMMATESLOG|||instructorFeedbackPreviewAsStudent|||instructorFeedbackPreviewAsStudent"
                 + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"

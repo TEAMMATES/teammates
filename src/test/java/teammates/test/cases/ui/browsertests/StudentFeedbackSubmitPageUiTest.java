@@ -60,8 +60,10 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     private void testContent() {
         ______TS("Awaiting session");
         
+        // this session contains questions to instructors, and since instr3 is not displayed to students,
+        // student cannot submit to instr3
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Awaiting Session");
-        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageAwaiting.html");
+        submitPage.verifyHtml("/studentFeedbackSubmitPageAwaiting.html");
         
         ______TS("Open session");
         
@@ -83,6 +85,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
        
         ______TS("Closed session");
         
+        // see comment for awaiting session
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Closed Session");
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageClosed.html");
         
@@ -411,9 +414,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageModified.html");
-        
-        restoreTestDataOnServer(testData);
-        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         
     }
     

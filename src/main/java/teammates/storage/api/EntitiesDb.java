@@ -167,6 +167,10 @@ public abstract class EntitiesDb {
         }
     }
     
+    public void commitOutstandingChanges() {
+        closePM();
+    }
+    
     protected void closePM() {
         if (!getPM().isClosed()) {
             getPM().close();
@@ -192,7 +196,11 @@ public abstract class EntitiesDb {
     
     //the followings APIs are used by Teammates' search engine
     protected void putDocument(String indexName, SearchDocument document){
-        SearchManager.putDocument(indexName, document.build());
+        try{
+            SearchManager.putDocument(indexName, document.build());
+        } catch (Exception e){
+            log.info("Failed to put searchable document in " + indexName + " for " + document.toString());
+        }
     }
     
     protected void getDocument(String indexName, String documentId) {
@@ -213,7 +221,11 @@ public abstract class EntitiesDb {
     }
     
     protected void deleteDocument(String indexName, String documentId){
-        SearchManager.deleteDocument(indexName, documentId);
+        try{
+            SearchManager.deleteDocument(indexName, documentId);
+        } catch (Exception e){
+            log.info("Unable to delete document in the index: " + indexName + " with document id " + documentId);
+        }
     }
     
     protected void deleteDocuments(String indexName, String[] documentId){

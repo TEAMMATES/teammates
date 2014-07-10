@@ -15,34 +15,17 @@ import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseArchiveActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_ARCHIVE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId,
-                Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true"
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
     
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        //TODO: find a way to test status message from session
         String[] submissionParams = new String[]{};
         
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
@@ -67,9 +50,8 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         InstructorCourseArchiveAction archiveAction = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(archiveAction);
         
-        assertEquals(
-                Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
-                redirectResult.getDestinationWithParams());
+        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
+                     redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, courseId), redirectResult.getStatusMessage());
         
@@ -87,9 +69,8 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         archiveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(archiveAction);
         
-        assertEquals(
-                Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
-                redirectResult.getDestinationWithParams());
+        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
+                     redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, courseId), redirectResult.getStatusMessage());
         
@@ -107,9 +88,8 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         InstructorCourseArchiveAction unarchiveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(unarchiveAction);
         
-        assertEquals(
-                Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
-                redirectResult.getDestinationWithParams());
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
+                     redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId), redirectResult.getStatusMessage());
         
@@ -127,9 +107,8 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         unarchiveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(unarchiveAction);
         
-        assertEquals(
-                Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
-                redirectResult.getDestinationWithParams());
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
+                     redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId), redirectResult.getStatusMessage());
         

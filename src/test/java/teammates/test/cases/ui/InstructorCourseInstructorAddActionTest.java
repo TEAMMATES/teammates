@@ -18,45 +18,18 @@ import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
-    InstructorsLogic instructorsLogic;
+    private final DataBundle dataBundle = getTypicalDataBundle();
+    InstructorsLogic instructorsLogic = InstructorsLogic.inst();;
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-        instructorsLogic = InstructorsLogic.inst();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception {
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
-                Const.ParamsNames.INSTRUCTOR_ID, "ICIAAT.instructorId",
-                Const.ParamsNames.INSTRUCTOR_NAME, "Instructor Name",
-                Const.ParamsNames.INSTRUCTOR_EMAIL, "instructor@email.com",
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
-                };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyUnaccessibleWithoutModifyInstructorPrivilege(submissionParams);
     }
     
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        //TODO: find a way to test status message from session
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;

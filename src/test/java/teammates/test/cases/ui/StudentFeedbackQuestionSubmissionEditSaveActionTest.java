@@ -23,44 +23,13 @@ import teammates.ui.controller.StudentFeedbackQuestionSubmissionEditSaveAction;
 public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends
         BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-
-    @Test
-    public void testAccessControl() throws Exception {
-
-        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
-                .get("session1InCourse1");
-
-        FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
-        FeedbackQuestionAttributes feedbackQuestion = feedbackQuestionsDb
-                .getFeedbackQuestion(session1InCourse1.feedbackSessionName,
-                        session1InCourse1.courseId, 1);
-
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID,
-                feedbackQuestion.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "0"
-        };
-
-        verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);
-        verifyUnaccessibleForUnregisteredUsers(submissionParams);
-        verifyUnaccessibleWithoutLogin(submissionParams);
-
     }
 
     @Test
