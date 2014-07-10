@@ -66,17 +66,17 @@ public class BackDoorLogic extends Logic {
         HashMap<String, AccountAttributes> accounts = dataBundle.accounts;
         for (AccountAttributes account : accounts.values()) {
             log.fine("API Servlet adding account :" + account.googleId);
-            try {
-                if(account.studentProfile == null) {
-                    account.studentProfile = new StudentProfileAttributes();
-                    account.studentProfile.googleId = account.googleId;
-                }
-                super.updateStudentProfile(account.studentProfile);
-                super.updateAccount(account);
-            } catch (EntityDoesNotExistException edne) {
+//            try {
+//                if(account.studentProfile == null) {
+//                    account.studentProfile = new StudentProfileAttributes();
+//                    account.studentProfile.googleId = account.googleId;
+//                }
+//                super.updateStudentProfile(account.studentProfile);
+//                super.updateAccount(account);
+//            } catch (EntityDoesNotExistException edne) {
                 super.createAccount(account.googleId, account.name, account.isInstructor,
                 account.email, account.institute, account.studentProfile);
-            }
+//            }
         }
 
         HashMap<String, CourseAttributes> courses = dataBundle.courses;
@@ -90,19 +90,19 @@ public class BackDoorLogic extends Logic {
         for (InstructorAttributes instructor : instructors.values()) {
             if (instructor.googleId != null) {
                 log.fine("API Servlet adding instructor :" + instructor.googleId);
-                try {
-                    super.updateInstructorByGoogleId(instructor.googleId, instructor);
-                } catch (EntityDoesNotExistException e) {
-                    if (e.getMessage().equals("Instructor " + instructor.googleId + 
-                            " does not belong to course " + instructor.courseId)) {
-                        instructorsLogic.deleteInstructor(instructor.courseId, instructor.email);
-                    }
+//                try {
+//                    super.updateInstructorByGoogleId(instructor.googleId, instructor);
+//                } catch (EntityDoesNotExistException e) {
+//                    if (e.getMessage().equals("Instructor " + instructor.googleId + 
+//                            " does not belong to course " + instructor.courseId)) {
+//                        instructorsLogic.deleteInstructor(instructor.courseId, instructor.email);
+//                    }
                     super.createInstructorAccount(
                             instructor.googleId, instructor.courseId, instructor.name,
                             instructor.email, instructor.isArchived, instructor.role,
                             instructor.isDisplayedToStudents, instructor.displayedName,
                             instructor.instructorPrivilegesAsText, "National University of Singapore");
-                }
+//                }
             } else {
                 log.fine("API Servlet adding instructor :" + instructor.email);
                 try {
@@ -118,28 +118,28 @@ public class BackDoorLogic extends Logic {
             log.fine("API Servlet adding student :" + student.email
                     + " to course " + student.course);
             student.section = (student.section == null) ? "None" : student.section;
-            try {
-                super.updateStudent(student.email, student);
-            } catch (EntityDoesNotExistException e) {
+//            try {
+//                super.updateStudent(student.email, student);
+//            } catch (EntityDoesNotExistException e) {
                 if (student.googleId != null && !student.googleId.isEmpty() 
                         && super.getAccount(student.googleId) == null) {
                     super.createAccount(student.googleId, student.name, false, student.email, "NUS");
                 }
                 super.createStudent(student);
-            }
+//            }
         }
 
         HashMap<String, EvaluationAttributes> evaluations = dataBundle.evaluations;
         for (EvaluationAttributes evaluation : evaluations.values()) {
             log.fine("API Servlet adding evaluation :" + evaluation.name
                     + " to course " + evaluation.courseId);
-            try {
-                super.updateEvaluation(evaluation.courseId, evaluation.name, 
-                        evaluation.instructions.getValue(), evaluation.startTime, evaluation.endTime, 
-                        evaluation.timeZone, evaluation.gracePeriod, evaluation.p2pEnabled);
-            } catch (EntityDoesNotExistException e) {
+//            try {
+//                super.updateEvaluation(evaluation.courseId, evaluation.name, 
+//                        evaluation.instructions.getValue(), evaluation.startTime, evaluation.endTime, 
+//                        evaluation.timeZone, evaluation.gracePeriod, evaluation.p2pEnabled);
+//            } catch (EntityDoesNotExistException e) {
                 createEvaluationWithoutSubmissionQueue(evaluation);
-            }
+//            }
         }
 
         // processing is slightly different for submissions because we are
@@ -160,11 +160,11 @@ public class BackDoorLogic extends Logic {
             log.info("API Servlet adding feedback session :" + session.feedbackSessionName
                     + " to course " + session.courseId); 
             session = cleanSessionData(session);
-            try {
-                super.updateFeedbackSession(session);
-            } catch (EntityDoesNotExistException e) {
+//            try {
+//                super.updateFeedbackSession(session);
+//            } catch (EntityDoesNotExistException e) {
                 this.createFeedbackSession(session);
-            }
+//            }
         }
         
         HashMap<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
@@ -174,16 +174,16 @@ public class BackDoorLogic extends Logic {
         for (FeedbackQuestionAttributes question : questionList) {
             log.fine("API Servlet adding feedback question :" + question.getId()
                     + " to session " + question.feedbackSessionName);
-            try {
-                FeedbackQuestionAttributes fqa = 
-                        this.getFeedbackQuestion(question.feedbackSessionName, question.courseId, question.questionNumber);
-                if (fqa == null) {
-                    super.createFeedbackQuestion(question);
-                }
-                super.updateFeedbackQuestion(question);
-            } catch(EntityDoesNotExistException e) {
+//            try {
+//                FeedbackQuestionAttributes fqa = 
+//                        this.getFeedbackQuestion(question.feedbackSessionName, question.courseId, question.questionNumber);
+//                if (fqa == null) {
+//                    super.createFeedbackQuestion(question);
+//                }
+//                super.updateFeedbackQuestion(question);
+//            } catch(EntityDoesNotExistException e) {
                 super.createFeedbackQuestion(question);
-            }
+//            }
         }
         
         HashMap<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
@@ -191,11 +191,11 @@ public class BackDoorLogic extends Logic {
             log.fine("API Servlet adding feedback response :" + response.getId()
                     + " to session " + response.feedbackSessionName);
             response = injectRealIds(response);
-            try {
-               this.updateFeedbackResponse(response);
-            } catch(EntityDoesNotExistException e) {
+//            try {
+//               this.updateFeedbackResponse(response);
+//            } catch(EntityDoesNotExistException e) {
                 this.createFeedbackResponse(response);
-            }
+//            }
         }
         
         HashMap<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
@@ -203,22 +203,22 @@ public class BackDoorLogic extends Logic {
             log.fine("API Servlet adding feedback response comment :" + responseComment.getId()
                     + " to session " + responseComment.feedbackSessionName);
             responseComment = injectRealIds(responseComment);
-            try {
-                this.updateFeedbackResponseComment(responseComment);
-            } catch(EntityDoesNotExistException e) {
+//            try {
+//                this.updateFeedbackResponseComment(responseComment);
+//            } catch(EntityDoesNotExistException e) {
                 this.createFeedbackResponseComment(responseComment);
-            }
+//            }
         }
         
         HashMap<String, CommentAttributes> comments = dataBundle.comments;
         for(CommentAttributes comment : comments.values()){
             log.fine("API Servlet adding comment :" + comment.getCommentId() + " from "
                     + comment.giverEmail + " to " + comment.recipientType + ":" + comment.recipients + " in course " + comment.courseId);
-            try {
-                this.updateComment(comment);
-            } catch(EntityDoesNotExistException e) {
+//            try {
+//                this.updateComment(comment);
+//            } catch(EntityDoesNotExistException e) {
                 this.createComment(comment);
-            }
+//            }
         }
         
         // any Db can be used to commit the changes. 
@@ -447,12 +447,12 @@ public class BackDoorLogic extends Logic {
     public void createCourseWithArchiveStatus(CourseAttributes course) 
             throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, course);
-        try {
-            coursesLogic.setArchiveStatusOfCourse(course.id, course.isArchived);
-        } catch (EntityDoesNotExistException e) {
+//        try {
+//            coursesLogic.setArchiveStatusOfCourse(course.id, course.isArchived);
+//        } catch (EntityDoesNotExistException e) {
             coursesLogic.createCourse(course.id, course.name);
             coursesLogic.setArchiveStatusOfCourse(course.id, course.isArchived);
-        }
+//        }
     }
 
     private void deleteExistingData(DataBundle dataBundle) {
