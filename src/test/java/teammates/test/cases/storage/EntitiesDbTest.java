@@ -32,6 +32,8 @@ public class EntitiesDbTest extends BaseComponentTestCase {
         CourseAttributes c = new CourseAttributes();
         c.id = "Computing101-fresh";
         c.name = "Basic Computing";
+        coursesDb.deleteCourse(c.id);
+        TestHelper.verifyAbsentInDatastore(c);
         coursesDb.createEntity(c);
         TestHelper.verifyPresentInDatastore(c);
         
@@ -43,6 +45,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
             AssertHelper.assertContains(String.format(CoursesDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, c.getEntityTypeAsString())
                     + c.getIdentificationString(), e.getMessage());
         }
+        coursesDb.deleteEntity(c);
         
         ______TS("fails: invalid parameters");
         c.id = "invalid id spaces";

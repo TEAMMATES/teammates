@@ -22,25 +22,13 @@ import teammates.ui.controller.StudentProfileEditSaveAction;
 
 public class StudentProfileEditSaveActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE;
-    }
-
-    @BeforeMethod
-    public void methodSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        String[] submissionParams = createValidParamsForProfile();
-        verifyAnyRegisteredUserCanAccess(submissionParams);
     }
     
     @Test

@@ -32,6 +32,7 @@ import teammates.test.util.TestHelper;
 public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQueueTestCase {
 
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static final DataBundle dataBundle = getTypicalDataBundle();
     
     @SuppressWarnings("serial")
     public static class FeedbackSessionClosingCallback extends BaseTaskQueueCallback {
@@ -67,12 +68,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         gaeSimulation.tearDown();
         gaeSimulation.setupWithTaskQueueCallbackClass(FeedbackSessionClosingCallback.class);
         gaeSimulation.resetDatastore();
-    }
-    
-    @Test
-    public void testAll() throws Exception {
-        testAdditionOfTaskToTaskQueue();
-        testFeedbackSessionClosingMailAction();
+        restoreTypicalDataInDatastore();
     }
     
     @AfterClass
@@ -80,9 +76,8 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         printTestClassFooter();
     }
     
-    private void testAdditionOfTaskToTaskQueue() throws Exception {
-        DataBundle dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
+    @Test(priority = 1)
+    public void testAdditionOfTaskToTaskQueue() throws Exception {        
         FeedbackSessionClosingCallback.resetTaskCount();
         
         ______TS("typical case, 0 sessions closing soon");
@@ -141,9 +136,8 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         }
     }
 
-    private void testFeedbackSessionClosingMailAction() throws Exception{
-        DataBundle dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
+    @Test(priority = 2)
+    public void testFeedbackSessionClosingMailAction() throws Exception{
         
         ______TS("typical case, testing mime messages");
         // Modify session to close in 24 hours.

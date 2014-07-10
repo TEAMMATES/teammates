@@ -11,6 +11,8 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.logic.core.AccountsLogic;
+import teammates.logic.core.StudentsLogic;
 import teammates.ui.controller.InstructorCourseStudentDetailsEditSaveAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
@@ -19,34 +21,14 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email 
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyUnaccessibleWithoutModifyStudentPrivilege(submissionParams);
     }
     
     @Test
@@ -185,7 +167,8 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         
         ______TS("Error case, invalid email parameter (email already taken by others)");
         
-        String takenStudentEmail = dataBundle.students.get("student2InCourse1").email;
+        StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
+        String takenStudentEmail = student2InCourse1.email;
          
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
@@ -206,16 +189,21 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 result.getDestinationWithParams());
         
         assertEquals(true, result.isError);
-        assertEquals(String.format(FieldValidator.EMAIL_TAKEN_MESSAGE, dataBundle.students.get("student2InCourse1").name,  takenStudentEmail), 
+        assertEquals(String.format(FieldValidator.EMAIL_TAKEN_MESSAGE, student2InCourse1.name,  takenStudentEmail), 
                 result.getStatusMessage());
         
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" +
                 "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||" +
                 "Servlet Action Failure : " + 
-                String.format(FieldValidator.EMAIL_TAKEN_MESSAGE, dataBundle.students.get("student2InCourse1").name,  takenStudentEmail) + 
+                String.format(FieldValidator.EMAIL_TAKEN_MESSAGE, student2InCourse1.name,  takenStudentEmail) + 
                 "|||/page/instructorCourseStudentDetailsEditSave";
         
         assertEquals(expectedLogMessage, a.getLogMessage());
+        
+        // deleting edited student
+        AccountsLogic.inst().deleteAccountCascade(student2InCourse1.googleId);
+        AccountsLogic.inst().deleteAccountCascade(student1InCourse1.googleId);
+        
         
     }
     

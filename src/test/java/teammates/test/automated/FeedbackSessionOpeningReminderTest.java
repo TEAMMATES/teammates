@@ -32,6 +32,7 @@ import teammates.test.util.TestHelper;
 public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQueueTestCase {
 
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static final DataBundle dataBundle = getTypicalDataBundle();
     
     @SuppressWarnings("serial")
     public static class FeedbackSessionOpeningCallback extends BaseTaskQueueCallback {
@@ -64,12 +65,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         gaeSimulation.tearDown();
         gaeSimulation.setupWithTaskQueueCallbackClass(FeedbackSessionOpeningCallback.class);
         gaeSimulation.resetDatastore();
-    }
-    
-    @Test
-    public void testAll() throws Exception {
-        testAdditionOfTaskToTaskQueue();
-        testFeedbackSessionOpeningMailAction();
+        restoreTypicalDataInDatastore();
     }
     
     @AfterClass
@@ -77,9 +73,9 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         printTestClassFooter();
     }
     
-    private void testAdditionOfTaskToTaskQueue() throws Exception {
-        DataBundle dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
+    @Test(priority = 1)
+    public void testAdditionOfTaskToTaskQueue() throws Exception {
+        
         FeedbackSessionOpeningCallback.resetTaskCount();
         
         ______TS("3 sessions opened and emails sent, 1 awaiting");
@@ -124,15 +120,11 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
             }
             counter++;
         }
-        if(counter == 10){
-            assertEquals(FeedbackSessionOpeningCallback.taskCount, 1);
-        }
-      
+        assertEquals(1, FeedbackSessionOpeningCallback.taskCount);
     }
 
-    private void testFeedbackSessionOpeningMailAction() throws Exception{
-        DataBundle dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
+    @Test(priority = 2)
+    public void testFeedbackSessionOpeningMailAction() throws Exception{
         
         ______TS("MimeMessage Test : 2 sessions opened and emails sent, 1 session opened without emails sent, "
                 + "1 session opened without emails sent with sending open email disabled");
