@@ -135,7 +135,7 @@ window.onload = function(){
 
     bindCollapseEvents(panels, numPanels);
     $("a[id^='collapse-panels-button-section-'],a[id^='collapse-panels-button-team-']").on('click', function(){
-        var panels = $(this).parent().children('div.panel').children('.panel-collapse');
+        var panels = $(this).closest('.panel-success').children('.panel-collapse').find('div.panel.panel-warning').children('.panel-collapse');
         toggleCollapse(this, panels);
     });
 };

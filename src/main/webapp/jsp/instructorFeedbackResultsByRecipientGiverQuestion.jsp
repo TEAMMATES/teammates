@@ -173,17 +173,24 @@
             %>
                     <div class="panel panel-success">
                         <div class="panel-heading">
-                            <strong><%=currentSection.equals("None")? "Not in a section" : currentSection %></strong>
-                            <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    <strong><%=currentSection.equals("None")? "Not in a section" : currentSection%></strong>                        
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="pull-right">
+                                        <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%= groupByTeamEnabled == true ? "team" : "student" %> panels. You can also click on the panel heading to toggle each one individually.'>
+                                            <%= shouldCollapsed ? "Expand " : "Collapse " %>
+                                            <%= groupByTeamEnabled == true ? "Teams" : "Students" %>
+                                        </a>
+                                        &nbsp;
+                                        <span class="glyphicon glyphicon-chevron-up"></span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="panel-collapse collapse in">
                         <div class="panel-body">
-                        <a class="btn btn-success btn-xs pull-right" id="collapse-panels-button-section-<%=sectionIndex%>" style="display:block;" data-toggle="tooltip" title='Collapse or expand all <%= groupByTeamEnabled == true ? "team" : "student" %> panels. You can also click on the panel heading to toggle each one individually.'>
-                            <%= shouldCollapsed ? "Expand " : "Collapse " %>
-                            <%= groupByTeamEnabled == true ? "Teams" : "Students" %>
-                        </a>
-                        <br>
-                        <br>
             <%
                 }
             %>
