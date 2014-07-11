@@ -3,14 +3,21 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
+import teammates.common.datatransfer.CourseRoster;
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.UserType;
+import teammates.common.datatransfer.UserType.Role;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -152,6 +159,100 @@ public class FeedbackResponseCommentsLogic {
     
     public void deleteDocument(FeedbackResponseCommentAttributes commentToDelete){
         frcDb.deleteDocument(commentToDelete);
+    }
+    
+    public boolean isNameVisibleTo(
+            FeedbackResponseCommentAttributes comment,
+            FeedbackResponseAttributes response,
+            String userEmail, CourseRoster roster){
+        List<FeedbackParticipantType> showNameTo = comment.showGiverNameTo;
+        //comment giver can always see
+        if(userEmail.equals(comment.giverEmail)){
+            return true;
+        }
+        
+        String responseGiverTeam = "giverTeam";
+        if(roster.getStudentForEmail(response.giverEmail) != null){
+            responseGiverTeam = roster.getStudentForEmail(response.giverEmail).team;
+        }
+        String responseRecipientTeam = "recipientTeam";
+        if(roster.getStudentForEmail(response.recipientEmail) != null){
+            responseRecipientTeam = roster.getStudentForEmail(response.recipientEmail).team;
+        }
+        String currentUserTeam = "currentUserTeam";
+        if(roster.getStudentForEmail(userEmail) != null){
+            currentUserTeam = roster.getStudentForEmail(userEmail).team;
+        }
+        
+        for(FeedbackParticipantType type:showNameTo){
+            if(type == FeedbackParticipantType.GIVER
+                    && userEmail.equals(response.giverEmail)){
+                return true;
+            } else if(type == FeedbackParticipantType.INSTRUCTORS
+                    && roster.getInstructorForEmail(userEmail) != null){
+                return true;
+            } else if(type == FeedbackParticipantType.RECEIVER
+                    && userEmail.equals(response.recipientEmail)){
+                return true;
+            } else if(type == FeedbackParticipantType.OWN_TEAM_MEMBERS
+                    && responseGiverTeam.equals(currentUserTeam)){
+                return true;
+            } else if(type == FeedbackParticipantType.RECEIVER_TEAM_MEMBERS
+                    && responseRecipientTeam.equals(currentUserTeam)){
+                return true;
+            } else if(type == FeedbackParticipantType.STUDENTS
+                    && roster.getStudentForEmail(userEmail) != null){
+                return true;
+            }
+        }   
+        return false;
+    }
+    
+    public boolean isResponseCommentVisibleForUser(String userEmail, String courseId,
+            UserType.Role role, String section, StudentAttributes student,
+            Set<String> studentsEmailInTeam,
+            FeedbackResponseAttributes response,
+            FeedbackQuestionAttributes relatedQuestion,
+            FeedbackResponseCommentAttributes relatedComment, InstructorAttributes instructor) {
+        if(response == null || relatedQuestion == null){
+            return false;
+        }
+        
+        boolean isVisibilityFollowingFeedbackQuestion = relatedComment.isVisibilityFollowingFeedbackQuestion;
+        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion? true:
+                    relatedComment.isVisibleTo(FeedbackParticipantType.GIVER);
+        
+        boolean isVisibleResponseComment = false;
+        if ((role == Role.INSTRUCTOR && isResponseCommentVisibleTo(relatedQuestion, relatedComment, FeedbackParticipantType.INSTRUCTORS))
+                || (response.recipientEmail.equals(userEmail) 
+                        && isResponseCommentVisibleTo(relatedQuestion, relatedComment, FeedbackParticipantType.RECEIVER))
+                || (response.giverEmail.equals(userEmail) && isVisibleToGiver)
+                || (relatedComment.giverEmail.equals(userEmail))
+                || (role == Role.STUDENT && isResponseCommentVisibleTo(relatedQuestion, relatedComment, FeedbackParticipantType.STUDENTS))) {
+            isVisibleResponseComment = true;
+        } else if (role == Role.STUDENT 
+                && ((relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
+                        && isResponseCommentVisibleTo(relatedQuestion, relatedComment, FeedbackParticipantType.RECEIVER))
+                        && response.recipientEmail.equals(student.team))
+                    || ((relatedQuestion.giverType == FeedbackParticipantType.TEAMS
+                        || isResponseCommentVisibleTo(relatedQuestion, relatedComment, FeedbackParticipantType.OWN_TEAM_MEMBERS))
+                            && studentsEmailInTeam.contains(response.giverEmail))
+                    || (isResponseCommentVisibleTo(relatedQuestion, relatedComment, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                            && studentsEmailInTeam.contains(response.recipientEmail))) {
+            isVisibleResponseComment = true;
+        }
+        return isVisibleResponseComment;
+    }
+
+    private boolean isResponseCommentVisibleTo(
+            FeedbackQuestionAttributes relatedQuestion,
+            FeedbackResponseCommentAttributes relatedComment,
+            FeedbackParticipantType viewerType) {
+        boolean isVisibilityFollowingFeedbackQuestion = relatedComment.isVisibilityFollowingFeedbackQuestion;
+        boolean isVisibleTo = isVisibilityFollowingFeedbackQuestion?
+                    relatedQuestion.isResponseVisibleTo(viewerType):
+                    relatedComment.isVisibleTo(viewerType);
+        return isVisibleTo;
     }
     
     private void verifyIsCoursePresent(String courseId) throws EntityDoesNotExistException{

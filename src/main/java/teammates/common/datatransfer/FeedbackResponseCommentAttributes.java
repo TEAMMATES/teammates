@@ -25,6 +25,9 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public String receiverSection;
     public String feedbackResponseId;
     public CommentSendingState sendingState = CommentSendingState.SENT;
+    public List<FeedbackParticipantType> showCommentTo;
+    public List<FeedbackParticipantType> showGiverNameTo;
+    public boolean isVisibilityFollowingFeedbackQuestion = false;
     public Date createdAt;
     public Text commentText;
 
@@ -39,6 +42,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.commentText = null;
         this.giverSection = "None";
         this.receiverSection = "None";
+        this.showCommentTo = new ArrayList<FeedbackParticipantType>();
+        this.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
     }
     
     public FeedbackResponseCommentAttributes(String courseId,
@@ -62,6 +67,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.commentText = commentText;
         this.giverSection = giverSection;
         this.receiverSection = receiverSection;
+        this.showCommentTo = new ArrayList<FeedbackParticipantType>();
+        this.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
     }
     
     public FeedbackResponseCommentAttributes(FeedbackResponseComment comment) {
@@ -76,6 +83,21 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.commentText = comment.getCommentText();
         this.giverSection = comment.getGiverSection() != null ? comment.getGiverSection() : "None";
         this.receiverSection = comment.getReceiverSection() != null ? comment.getReceiverSection() : "None";
+        if(comment.getIsVisibilityFollowingFeedbackQuestion() != null
+                && !comment.getIsVisibilityFollowingFeedbackQuestion()){
+            this.showCommentTo = comment.getShowCommentTo();
+            this.showGiverNameTo = comment.getShowGiverNameTo();
+        } else {
+            setDefaultVisibilityOptions();
+        }
+    }
+
+    private void setDefaultVisibilityOptions() {
+        isVisibilityFollowingFeedbackQuestion = true;
+    }
+    
+    public boolean isVisibleTo(FeedbackParticipantType viewerType){
+        return showCommentTo.contains(viewerType);
     }
     
     public Long getId() {
@@ -104,6 +126,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         error= validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);
         if(!error.isEmpty()) { errors.add(error); }
         
+        //TODO: handle the new attributes showCommentTo and showGiverNameTo
+        
         return errors;
     }
 
@@ -111,7 +135,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public FeedbackResponseComment toEntity() {
         return new FeedbackResponseComment(courseId, feedbackSessionName,
                 feedbackQuestionId, giverEmail, feedbackResponseId, sendingState, createdAt,
-                commentText, giverSection, receiverSection);
+                commentText, giverSection, receiverSection, showCommentTo, showGiverNameTo);
     }
 
     @Override
@@ -141,6 +165,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     
     @Override
     public String toString() {
+        //TODO: print visibilityOptions also
         return "FeedbackResponseCommentAttributes ["
                 + "feedbackResponseCommentId = " + feedbackResponseCommentId 
                 + ", courseId = " + courseId 

@@ -13,7 +13,9 @@ public enum FeedbackParticipantType {
     OWN_TEAM_MEMBERS_INCLUDING_SELF (false, true, true, "","Giver's team members and Giver", "Your team members"),
     RECEIVER (false, false, true, "", "", "The receiving"),
     RECEIVER_TEAM_MEMBERS (false, false, true, "", "", "The recipient's team members"),
-    NONE (false, true, false, "", "Nobody specific (For general class feedback)", "");
+    NONE (false, true, false, "", "Nobody specific (For general class feedback)", ""),
+    //Used by feedbackResponseComment:
+    GIVER (false, false, true, "", "", "");
         
     private final boolean validGiver;
     private final boolean validRecipient;
