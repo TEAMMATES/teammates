@@ -296,7 +296,9 @@ public class CoursesLogic {
                 }
             } else { // first student of subsequent section
                 sections.add(section);
-                cdd.stats.sectionsTotal++;
+                if(!section.name.equals(Const.DEFAULT_SECTION)){
+                    cdd.stats.sectionsTotal++;
+                }
                 teamIndexWithinSection = 0;
                 section = new SectionDetailsBundle();
                 section.name = s.section;
@@ -309,7 +311,9 @@ public class CoursesLogic {
             boolean isLastStudent = i == (students.size() -1);
             if(isLastStudent){
                 sections.add(section);
-                cdd.stats.sectionsTotal++;
+                if(!section.name.equals(Const.DEFAULT_SECTION)){
+                    cdd.stats.sectionsTotal++;
+                }
             }
         }
         
