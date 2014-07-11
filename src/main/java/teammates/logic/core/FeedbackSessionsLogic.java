@@ -1103,6 +1103,7 @@ public class FeedbackSessionsLogic {
                     visibilityTable, responseStatus, responseComments);
         }
 
+        Map<String, FeedbackResponseAttributes> relevantResponse = new HashMap<String, FeedbackResponseAttributes>();
         for (FeedbackQuestionAttributes question : allQuestions) {
 
             List<FeedbackResponseAttributes> responsesForThisQn;
@@ -1123,6 +1124,7 @@ public class FeedbackSessionsLogic {
                 relevantQuestions.put(question.getId(), question);
                 responses.addAll(responsesForThisQn);
                 for (FeedbackResponseAttributes response : responsesForThisQn) {
+                    relevantResponse.put(response.getId(), response);
                     addEmailNamePairsToTable(emailNameTable, response,
                             question, roster);
                     addEmailTeamNamePairsToTable(emailTeamNameTable, response,
@@ -1131,18 +1133,40 @@ public class FeedbackSessionsLogic {
                             userEmail, roster);
                 }
             }
-
         }
 
+        StudentAttributes student = null;
+        Set<String> studentsEmailInTeam = new HashSet<String>();
+        if (role == Role.STUDENT) {
+            student = studentsLogic.getStudentForEmail(courseId, userEmail);
+            List<StudentAttributes> studentsInTeam = studentsLogic
+                    .getStudentsForTeam(student.team, courseId);
+            for (StudentAttributes teammates : studentsInTeam) {
+                studentsEmailInTeam.add(teammates.email);
+            }
+        }
+        
+        InstructorAttributes instructor = null;
+        if (role == Role.INSTRUCTOR) {
+            instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
+        }
+        
         List<FeedbackResponseCommentAttributes> allResponseComments =
                 frcLogic.getFeedbackResponseCommentForSession(courseId,
                         feedbackSessionName);
         for (FeedbackResponseCommentAttributes frc : allResponseComments) {
-            if (responseComments.get(frc.feedbackResponseId) == null) {
-                responseComments.put(frc.feedbackResponseId,
-                        new ArrayList<FeedbackResponseCommentAttributes>());
+            FeedbackResponseAttributes relatedResponse = relevantResponse.get(frc.feedbackResponseId);
+            FeedbackQuestionAttributes relatedQuestion = relevantQuestions.get(frc.feedbackQuestionId);
+            boolean isVisibleResponseComment = isResponseCommentVisibleForUser(userEmail, courseId,
+                    role, section, student, studentsEmailInTeam, relatedResponse,
+                    relatedQuestion, frc, instructor);
+            if(isVisibleResponseComment){
+                if (responseComments.get(frc.feedbackResponseId) == null) {
+                    responseComments.put(frc.feedbackResponseId,
+                            new ArrayList<FeedbackResponseCommentAttributes>());
+                }
+                responseComments.get(frc.feedbackResponseId).add(frc);
             }
-            responseComments.get(frc.feedbackResponseId).add(frc);
         }
 
         for (List<FeedbackResponseCommentAttributes> responseCommentList : responseComments
@@ -1336,18 +1360,17 @@ public class FeedbackSessionsLogic {
             instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
         }
         
+        Map<String, FeedbackResponseAttributes> relevantResponse = new HashMap<String, FeedbackResponseAttributes>();
         for (FeedbackResponseAttributes response : allResponses) {
             FeedbackQuestionAttributes relatedQuestion = allQuestionsMap
                     .get(response.feedbackQuestionId);
             if (relatedQuestion != null) {
-                // TODO: refactor these. you may refer to
-                // FeedbackResponseLogic.getViewableFeedbackResponsesForQuestionInSection
-               
                 boolean isVisibleResponse = isResponseVisibleForUser(userEmail, courseId,
                         role, section, student, studentsEmailInTeam, response,
                         relatedQuestion, instructor);
                 if (isVisibleResponse) {
                     responses.add(response);
+                    relevantResponse.put(response.getId(), response);
                     relevantQuestions.put(relatedQuestion.getId(),
                             relatedQuestion);
                     addEmailNamePairsToTable(emailNameTable, response,
@@ -1368,14 +1391,21 @@ public class FeedbackSessionsLogic {
                     frcLogic.getFeedbackResponseCommentForSessionInSection(courseId,
                             feedbackSessionName, section);
             for (FeedbackResponseCommentAttributes frc : allResponseComments) {
-                List<FeedbackResponseCommentAttributes> frcList = responseComments
-                        .get(frc.feedbackResponseId);
-                if (frcList == null) {
-                    frcList = new ArrayList<FeedbackResponseCommentAttributes>();
-                    frcList.add(frc);
-                    responseComments.put(frc.feedbackResponseId, frcList);
-                } else {
-                    frcList.add(frc);
+                FeedbackResponseAttributes relatedResponse = relevantResponse.get(frc.feedbackResponseId);
+                FeedbackQuestionAttributes relatedQuestion = relevantQuestions.get(frc.feedbackQuestionId);
+                boolean isVisibleResponseComment = isResponseCommentVisibleForUser(userEmail, courseId,
+                        role, section, student, studentsEmailInTeam, relatedResponse,
+                        relatedQuestion, frc, instructor);
+                if(isVisibleResponseComment){
+                    List<FeedbackResponseCommentAttributes> frcList = responseComments
+                            .get(frc.feedbackResponseId);
+                    if (frcList == null) {
+                        frcList = new ArrayList<FeedbackResponseCommentAttributes>();
+                        frcList.add(frc);
+                        responseComments.put(frc.feedbackResponseId, frcList);
+                    } else {
+                        frcList.add(frc);
+                    }
                 }
             }
 
@@ -1427,6 +1457,53 @@ public class FeedbackSessionsLogic {
             }
         }
         return isVisibleResponse;
+    }
+    
+    private boolean isResponseCommentVisibleForUser(String userEmail, String courseId,
+            UserType.Role role, String section, StudentAttributes student,
+            Set<String> studentsEmailInTeam,
+            FeedbackResponseAttributes response,
+            FeedbackQuestionAttributes relatedQuestion,
+            FeedbackResponseCommentAttributes relatedComment, InstructorAttributes instructor) {
+        if(response == null || relatedQuestion == null){
+            return false;
+        }
+        
+        boolean isVisibilityFollowingFeedbackQuestion = relatedComment.isVisibilityFollowingFeedbackQuestion;
+        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion? true:
+                    relatedComment.isVisibleTo(FeedbackParticipantType.GIVER);
+        
+        boolean isVisibleResponseComment = false;
+        if ((role == Role.INSTRUCTOR && isResponseCommentVisibleTo(relatedQuestion, relatedComment, FeedbackParticipantType.INSTRUCTORS))
+                || (response.recipientEmail.equals(userEmail) 
+                        && isResponseCommentVisibleTo(relatedQuestion, relatedComment, FeedbackParticipantType.RECEIVER))
+                || (response.giverEmail.equals(userEmail) && isVisibleToGiver)
+                || (relatedComment.giverEmail.equals(userEmail))
+                || (role == Role.STUDENT && isResponseCommentVisibleTo(relatedQuestion, relatedComment, FeedbackParticipantType.STUDENTS))) {
+            isVisibleResponseComment = true;
+        } else if (role == Role.STUDENT 
+                && ((relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
+                        && isResponseCommentVisibleTo(relatedQuestion, relatedComment, FeedbackParticipantType.RECEIVER))
+                        && response.recipientEmail.equals(student.team))
+                    || ((relatedQuestion.giverType == FeedbackParticipantType.TEAMS
+                        || isResponseCommentVisibleTo(relatedQuestion, relatedComment, FeedbackParticipantType.OWN_TEAM_MEMBERS))
+                            && studentsEmailInTeam.contains(response.giverEmail))
+                    || (isResponseCommentVisibleTo(relatedQuestion, relatedComment, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                            && studentsEmailInTeam.contains(response.recipientEmail))) {
+            isVisibleResponseComment = true;
+        }
+        return isVisibleResponseComment;
+    }
+
+    private boolean isResponseCommentVisibleTo(
+            FeedbackQuestionAttributes relatedQuestion,
+            FeedbackResponseCommentAttributes relatedComment,
+            FeedbackParticipantType viewerType) {
+        boolean isVisibilityFollowingFeedbackQuestion = relatedComment.isVisibilityFollowingFeedbackQuestion;
+        boolean isVisibleTo = isVisibilityFollowingFeedbackQuestion?
+                    relatedQuestion.isResponseVisibleTo(viewerType):
+                    relatedComment.isVisibleTo(viewerType);
+        return isVisibleTo;
     }
 
     private class ResponseCommentCreationDateComparator implements
