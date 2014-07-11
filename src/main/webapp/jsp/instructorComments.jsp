@@ -824,7 +824,8 @@
                                                                             </td>
                                                                         </tr>
                                                                         <% if(question.recipientType != FeedbackParticipantType.SELF
-                                                                                && question.recipientType != FeedbackParticipantType.NONE){ %>
+                                                                                && question.recipientType != FeedbackParticipantType.NONE
+                                                                                && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)){ %>
                                                                         <tr id="response-recipient-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                                             <td class="text-left">
                                                                                 <div data-toggle="tooltip"
@@ -846,7 +847,8 @@
                                                                         </tr>
                                                                         <% } %>
                                                                         <% if(question.giverType != FeedbackParticipantType.INSTRUCTORS
-                                                                                && question.giverType != FeedbackParticipantType.SELF){ %>
+                                                                                && question.giverType != FeedbackParticipantType.SELF
+                                                                                && question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)){ %>
                                                                         <tr id="response-giver-team-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                                             <td class="text-left">
                                                                                 <div data-toggle="tooltip"
@@ -870,7 +872,8 @@
                                                                         <% } %>
                                                                         <% if(question.recipientType != FeedbackParticipantType.INSTRUCTORS
                                                                                 && question.recipientType != FeedbackParticipantType.SELF
-                                                                                && question.recipientType != FeedbackParticipantType.NONE){ %>
+                                                                                && question.recipientType != FeedbackParticipantType.NONE
+                                                                                && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)){ %>
                                                                         <tr id="response-recipient-team-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                                             <td class="text-left">
                                                                                 <div data-toggle="tooltip"
@@ -892,6 +895,7 @@
                                                                             </td>
                                                                         </tr>
                                                                         <% } %>
+                                                                        <% if(question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)){ %>
                                                                         <tr id="response-students-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                                             <td class="text-left">
                                                                                 <div data-toggle="tooltip"
@@ -910,6 +914,8 @@
                                                                                 <%=data.isResponseCommentGiverNameVisibleTo(frc, question, FeedbackParticipantType.STUDENTS)?"checked=\"checked\"":""%>>
                                                                             </td>
                                                                         </tr>
+                                                                        <% } %>
+                                                                        <% if(question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)){ %>
                                                                         <tr id="response-instructors-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                                             <td class="text-left">
                                                                                 <div data-toggle="tooltip"
@@ -928,6 +934,7 @@
                                                                                 <%=data.isResponseCommentGiverNameVisibleTo(frc, question, FeedbackParticipantType.INSTRUCTORS)?"checked=\"checked\"":""%>>
                                                                             </td>
                                                                         </tr>
+                                                                        <% } %>
                                                                     </tbody>
                                                                 </table>
                                                             </div>
@@ -1034,7 +1041,8 @@
                                                                             </td>
                                                                         </tr>
                                                                         <% if(question.recipientType != FeedbackParticipantType.SELF
-                                                                                && question.recipientType != FeedbackParticipantType.NONE){ %>
+                                                                                && question.recipientType != FeedbackParticipantType.NONE
+                                                                                && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)){ %>
                                                                         <tr id="response-recipient-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>">
                                                                             <td class="text-left">
                                                                                 <div data-toggle="tooltip"
@@ -1056,7 +1064,8 @@
                                                                         </tr>
                                                                         <% } %>
                                                                         <% if(question.giverType != FeedbackParticipantType.INSTRUCTORS
-                                                                                && question.giverType != FeedbackParticipantType.SELF){ %>
+                                                                                && question.giverType != FeedbackParticipantType.SELF
+                                                                                && question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)){ %>
                                                                         <tr id="response-giver-team-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>">
                                                                             <td class="text-left">
                                                                                 <div data-toggle="tooltip"
@@ -1080,7 +1089,8 @@
                                                                         <% } %>
                                                                         <% if(question.recipientType != FeedbackParticipantType.INSTRUCTORS
                                                                                 && question.recipientType != FeedbackParticipantType.SELF
-                                                                                && question.recipientType != FeedbackParticipantType.NONE){ %>
+                                                                                && question.recipientType != FeedbackParticipantType.NONE
+                                                                                && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)){ %>
                                                                         <tr id="response-recipient-team-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>">
                                                                             <td class="text-left">
                                                                                 <div data-toggle="tooltip"
@@ -1102,6 +1112,7 @@
                                                                             </td>
                                                                         </tr>
                                                                         <% } %>
+                                                                        <% if(question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)){ %>
                                                                         <tr id="response-students-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>">
                                                                             <td class="text-left">
                                                                                 <div data-toggle="tooltip"
@@ -1120,6 +1131,8 @@
                                                                                 <%=data.isResponseCommentGiverNameVisibleTo(question, FeedbackParticipantType.STUDENTS)?"checked=\"checked\"":""%>>
                                                                             </td>
                                                                         </tr>
+                                                                        <% } %>
+                                                                        <% if(question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)){ %>
                                                                         <tr id="response-instructors-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>">
                                                                             <td class="text-left">
                                                                                 <div data-toggle="tooltip"
@@ -1138,6 +1151,7 @@
                                                                                 <%=data.isResponseCommentGiverNameVisibleTo(question, FeedbackParticipantType.INSTRUCTORS)?"checked=\"checked\"":""%>>
                                                                             </td>
                                                                         </tr>
+                                                                        <% } %>
                                                                     </tbody>
                                                                 </table>
                                                             </div>

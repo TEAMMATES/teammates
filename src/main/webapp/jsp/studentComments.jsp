@@ -50,6 +50,11 @@
 		   });
         });
     </script>
+    <style>
+        #footerComponent{
+            z-index: 999;
+        }
+    </style>
 </head>
 
 <body>

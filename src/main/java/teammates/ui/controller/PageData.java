@@ -1002,7 +1002,24 @@ public class PageData {
     }
     
     public String getResponseCommentGiverNameVisibilityString(FeedbackQuestionAttributes qn){
-        return "GIVER,RECEIVER,OWN_TEAM_MEMBERS,RECEIVER_TEAM_MEMBERS,STUDENTS,INSTRUCTORS";
+        StringBuilder giverNameVisibilityBuilder = new StringBuilder("GIVER");
+        String delim = ",";
+        if(qn.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)){
+            giverNameVisibilityBuilder.append(delim).append("RECEIVER");
+        }
+        if(qn.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)){
+            giverNameVisibilityBuilder.append(delim).append("OWN_TEAM_MEMBERS");
+        }
+        if(qn.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)){
+            giverNameVisibilityBuilder.append(delim).append("RECEIVER_TEAM_MEMBERS");
+        }
+        if(qn.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)){
+            giverNameVisibilityBuilder.append(delim).append("STUDENTS");
+        }
+        if(qn.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)){
+            giverNameVisibilityBuilder.append(delim).append("INSTRUCTORS");
+        }
+        return giverNameVisibilityBuilder.toString();
     }
     
     public String getResponseCommentGiverNameVisibilityString(FeedbackResponseCommentAttributes frComment, FeedbackQuestionAttributes qn){
