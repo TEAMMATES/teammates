@@ -470,6 +470,7 @@ public class Const {
         public static final String ATTRIBUTE = "attribute";
         public static final String COMMENT_ATTRIBUTE = "commentAttibute";
         public static final String COMMENT_GIVER_NAME = "commentGiverName";
+        public static final String COMMENT_GIVER_EMAIL = "commentGiverEmail";
         public static final String COMMENT_RECIPIENT_NAME = "commentRecipientName";
         public static final String FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE = "frCommentAttibute";
         public static final String FEEDBACK_RESPONSE_COMMENT_GIVER_NAME = "frCommentGiverName";
@@ -487,6 +488,7 @@ public class Const {
         public static final String RECIPIENT_SECTION = "recipientSection";
         public static final String IS_VISIBLE_TO_INSTRUCTOR = "isVisibleToInstructor";
         public static final String IS_VISIBLE_TO_RECEIVER = "isVisibleToReceiver";
+        public static final String IS_VISIBLE_TO_GIVER = "isVisibleToGiver";
     }
 
     public class ActionURIs{
