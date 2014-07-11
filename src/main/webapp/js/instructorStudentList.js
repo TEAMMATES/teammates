@@ -1,5 +1,21 @@
 $(document).ready(function(){
     
+    $("a[id^=enroll-]").on('click', function(e){
+        e.stopImmediatePropagation(); // not executing click event for parent elements
+        window.location = $(this).attr('href');
+        return false;
+    });
+
+    //On page load, if the searchKey param exist, applyFilters.
+    if($("#searchbox").val()){
+        applyFilters();
+    }
+    
+    //Binding for live search
+    $('input#searchbox').keyup(function(e){
+        applyFilters();
+    });
+
     var panels = $("div.panel");
     var numPanels = -1;
 
@@ -41,13 +57,12 @@ $(document).ready(function(){
         if(this.checked){
             $("input[id^=team_check-"+$courseIdx+"-"+$sectionIdx+"]").prop("checked", true);
             $("input[id^=team_check-"+$courseIdx+"-"+$sectionIdx+"]").parent().show();
-
         } else{
             $("input[id^=team_check-"+$courseIdx+"-"+$sectionIdx+"]").prop("checked", false);
             $("input[id^=team_check-"+$courseIdx+"-"+$sectionIdx+"]").parent().hide();
         }
 
-        //If none of of the courses are selected, hide the section's "Select All" option
+        //If none of of the sections are selected, hide the team's "Select All" option
         if($("input[id^='section_check']:checked").length == 0){
             $("#team_all").parent().hide();
             $("#show_email").parent().hide();
@@ -70,9 +85,14 @@ $(document).ready(function(){
     //Binding for Teams checkboxes.
     $(document).on('change', '.team_check', function(){
         
+         if($("input[id^='team_check']:checked").length == 0){
+            $("#show_email").parent().hide();
+        } else{
+            $("#show_email").parent().show();
+        }
+
         //If all the currently visible teams are selected, check the "Select All" option
         checkAllTeamsSelected();
-        
         applyFilters();
     });
     
@@ -98,10 +118,10 @@ $(document).ready(function(){
             }
         } else {
             $("#section_all").prop("checked", false);
-            $("#section_all").parent().remove();
+            $("#section_all").parent().hide();
             $("#team_all").prop("checked", false);
-            $("#team_all").parent().remove();
-            $("#show_email").parent().remove();
+            $("#team_all").parent().hide();
+            $("#show_email").parent().hide();
             $("input[id^=section_check-]").prop("checked", false);
             $("input[id^=section_check-]").parent().remove();
             $("input[id^=course_check]").prop("checked", false);
@@ -148,7 +168,6 @@ $(document).ready(function(){
 
 
     // Pre-sort each table
-
     $("th[id^=button_sortsection-]").each(function(){
         toggleSort($(this), 2);
     });
@@ -161,10 +180,12 @@ $(document).ready(function(){
     });
 });
 
+/* Trigger ajax request for a course through clicking the heading*/
 function triggerAjax(e){
     $(e).trigger('click');
 }
 
+/* Binding check for course selection */
 function checkCourseBinding(e){
     var $courseIdx = $(e).attr("id").split('-')[1];
     var heading = $("#panelHeading-" + $courseIdx);
@@ -211,7 +232,7 @@ function checkCourseBinding(e){
     }
 }
 
-
+/* Check if all available sections are selected */
 function checkAllSectionsSelected(){
     if($("input[id^='section_check']:visible:checked").length == $("input[id^='section_check']:visible").length){
         $("#section_all").prop("checked", true);
@@ -220,6 +241,7 @@ function checkAllSectionsSelected(){
     }
 }
 
+/* Check if all available teams are selected */
 function checkAllTeamsSelected(){
     if($("input[id^='team_check']:visible:checked").length == $("input[id^='team_check']:visible").length){
         $("#team_all").prop("checked", true);
@@ -299,7 +321,7 @@ function filterSection(){
     $("input[id^=section_check]").each(function(){
         var $courseIdx = $(this).attr("id").split('-')[1];
         var $sectionIdx = $(this).attr("id").split('-')[2];
-        if(this.checked && $('#panelHeading-' + $courseIdx).attr('class').indexOf('ajax_submit') == -1){
+        if(this.checked){
             $("#studentsection-c" + $courseIdx + "\\." + $sectionIdx).show();
         } else{
             $("#studentsection-c" + $courseIdx + "\\." + $sectionIdx).hide();
@@ -415,8 +437,6 @@ function bindCollapseEvents(panels, numPanels){
         var bodyCollapse = $(panels[i]).children(".panel-collapse");
         if(heading.length != 0 && bodyCollapse.length != 0){
             numPanels++;
-            //$(heading[0]).attr("data-toggle","collapse");
-            //Use this instead of the data-toggle attribute to let [more/less] be clicked without collapsing panel
             $(heading[0]).attr("data-target","#panelBodyCollapse-"+numPanels);
             $(heading[0]).attr("id", "panelHeading-"+numPanels);
             $(heading[0]).css("cursor", "pointer");

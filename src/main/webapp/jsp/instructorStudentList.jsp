@@ -84,7 +84,7 @@
                  </div>
              </div>
             <br>
-            <div id="moreOptionsDiv" class="well well-plain">
+            <div id="moreOptionsDiv" class="well well-plain" <% if(data.courses.size() == 0){ %> style="display:none;" <% } %>>
                 <form class="form-horizontal" role="form">
                     <div class="row">
                         <div class="col-sm-3">
@@ -179,6 +179,7 @@
                         <input type="hidden" id="numStudents-<%=courseIdx%>" value="<%=data.numStudents.get(course.id)%>">
                     </form>
                     <a class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test"
+                                id="enroll-<%=courseIdx%>"
                                 href="<%=data.getInstructorCourseEnrollLink(course.id)%>"
                                 title="<%=Const.Tooltips.COURSE_ENROLL%>"
                                 data-toggle="tooltip" data-placement="top"
@@ -189,7 +190,7 @@
                     </a>
                     <div class='display-icon pull-right'>
                     </div>
-                    <strong>[<%=course.id%>] :</strong><%=PageData.sanitizeForHtml(course.name)%>
+                    <strong>[<%=course.id%>] : </strong><%=PageData.sanitizeForHtml(course.name)%>
                 </div>
                 <div class="panel-collapse collapse">
                 <div class="panel-body padding-0">    

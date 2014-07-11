@@ -2,6 +2,8 @@ var COURSE_STUDENT_EDIT = "Use this to edit the details of this student. <br>To 
 var COURSE_STUDENT_DELETE = "Delete the student and the corresponding evaluations from the course";
 var COURSE_STUDENT_RECORDS = "View all student's evaluations and feedbacks";    
 var STUDENT_LIMIT = 3000;
+var PERFORMANCE_ISSUE_MESSAGE = 'Due to performance issue, it is not allowed to show more than ' + STUDENT_LIMIT 
+                                + ' students. Please deselect some courses to view student list of other courses.';
 var numStudents = 0;
 
 function getCourseStudentDetailsLink(student, userId){
@@ -184,6 +186,7 @@ var seeMoreRequest = function(e) {
     var courseIdx = $(panelCollapse[0]).attr("id").split('-')[1];
     var courseCheck = $('#course_check-' + courseIdx);
     var courseNumStudents = parseInt($('#numStudents-' + courseIdx).val());
+    
     if($(panelHeading).attr('class').indexOf('ajax_submit') == -1){
         setStatusMessage('', false);
         if($(panelCollapse[0]).attr('class').indexOf('checked') != -1){
@@ -231,11 +234,10 @@ var seeMoreRequest = function(e) {
         } else {
             numStudents -= courseNumStudents;
             courseCheck.prop('checked', false);
-            setStatusMessage('Cannot show too many students, please deselect some courses', true);
+            setStatusMessage(PERFORMANCE_ISSUE_MESSAGE, true);
             displayIcon.html('');
         }
     }
-    console.log(numStudents);
 };
 
 $(document).ready(function(){
