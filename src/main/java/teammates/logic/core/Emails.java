@@ -822,12 +822,11 @@ public class Emails {
         
         String joinUrl = "";
         if (instructor != null) {
-            String key;
-            key = StringHelper.encrypt(instructor.key);
+            String key = StringHelper.encrypt(instructor.key);
             joinUrl = Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
             joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, key);
             joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
-        };
+        }
         
         return joinUrl;
     }
@@ -846,7 +845,7 @@ public class Emails {
         emailBody = emailBody.replace("${userName}", instructor.name);
         emailBody = emailBody.replace("${courseName}", course.name);
 
-        message.setContent(emailBody, "text/html");      
+        message.setContent(emailBody, "text/html");  
         return message;
     }
     
