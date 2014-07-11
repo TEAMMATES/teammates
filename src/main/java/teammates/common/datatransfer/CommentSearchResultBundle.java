@@ -36,8 +36,6 @@ public class CommentSearchResultBundle extends SearchResultBundle {
         }
         
         for(ScoredDocument doc:results){
-            numberOfResults++;
-            
             CommentAttributes comment = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.COMMENT_ATTRIBUTE).getText(), 
                     CommentAttributes.class);
@@ -73,6 +71,7 @@ public class CommentSearchResultBundle extends SearchResultBundle {
             commentList.add(comment);
             giverTable.put(giverAsKey, giverName);
             recipientTable.put(comment.getCommentId().toString(), recipientName);
+            numberOfResults++;
         }
         return this;
     }

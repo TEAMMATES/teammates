@@ -56,8 +56,6 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         
         cursor = results.getCursor();
         for(ScoredDocument doc:results){
-            numberOfCommentFound++;
-            
             FeedbackResponseCommentAttributes comment = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE).getText(), 
                     FeedbackResponseCommentAttributes.class);
@@ -130,6 +128,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             String commentGiverName = extractContentFromQuotedString(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).getText());
             commentGiverTable.put(comment.getId().toString(), getFilteredCommentGiverName(response, comment, commentGiverName));
+            numberOfCommentFound++;
         }
         return this;
     }
