@@ -1,11 +1,15 @@
 package teammates.ui.controller;
 
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.ActivityLogEntry;
+import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 
 public class AdminActivityLogPageData extends PageData {
     
@@ -14,8 +18,9 @@ public class AdminActivityLogPageData extends PageData {
     public String filterQuery;
     public String queryMessage;
     public List<ActivityLogEntry> logs;
-    
+    public List<String> versions;
     private QueryParameters q;
+    
 
     public AdminActivityLogPageData(AccountAttributes account) {
         super(account);
@@ -108,6 +113,7 @@ public class AdminActivityLogPageData extends PageData {
      */
     private QueryParameters parseQuery(String query) throws Exception{
         QueryParameters q = new QueryParameters();
+        versions = new ArrayList<String>();
         
         if(query == null || query.equals("")){
             return q;
@@ -124,14 +130,125 @@ public class AdminActivityLogPageData extends PageData {
                 throw new Exception("Invalid format");
             }
             String label = pair[0];
+            
             String[] values = pair[1].split(",", -1);
-
-            q.add(label, values);
+            
+            if (label.equals("version")) {
+                //version is specified in com.google.appengine.api.log.LogQuery,
+                //it does not belong to the internal class "QueryParameters"
+                //so need to store here for future use
+                for (int j = 0; j < values.length; j++) {
+                    versions.add(values[j].replace(".", "-"));
+                }
+            } else {
+                q.add(label, values);
+            }
         }
         
         return q;
     }
     
+    
+    /** 
+     * @return possible servlet requests list as html 
+     */
+    public String getActionListAsHtml(){       
+        List<String> allActionNames = getAllActionNames();         
+        int totalColumns = 4;
+        int rowsPerCol = calculateRowsPerCol(allActionNames.size(), totalColumns);
+        return convertActionListToHtml(allActionNames, rowsPerCol, totalColumns);
+    }
+    
+    
+    private String convertActionListToHtml(List<String> allActionNames, int rowsPerCol, int totalColumns){
+        
+        String outputHtml = "<tr>";      
+        int count = 0;      
+        for (int i = 0; i < totalColumns; i++) {
+            
+            outputHtml += "<td>";
+            outputHtml += "<ul class=\"list-group\">";
+            for (int j = 0; j < rowsPerCol; j++) {
+                
+                if(count >= allActionNames.size()){
+                    break;
+                }
+                
+                outputHtml += "<li class=\"list-group-item " 
+                              + getStyleForListGroupItem(allActionNames.get(count))
+                              + "\">" + allActionNames.get(count) + "</li>";
+                              
+                count++;
+            }
+            outputHtml += "</ul>";
+            outputHtml += "</td>";
+        }
+        
+       
+        return outputHtml;    
+
+    }
+    
+    
+    private String getStyleForListGroupItem(String actionName){
+        
+        String style = "";
+        
+        if(actionName.startsWith("instructor")){
+            style = "list-group-item";
+        }else if(actionName.startsWith("student")){
+            style = "list-group-item-success";
+        }else if(actionName.startsWith("admin")){
+            style = "list-group-item-warning";
+        }else{
+            style = "list-group-item-danger";
+        }
+        
+        return style;
+    }
+    
+    private int calculateRowsPerCol(int totalNumOfActions, int totalColumns){
+        
+        int rowsPerCol = totalNumOfActions / totalColumns;
+        int remainder = totalNumOfActions % totalColumns;
+        
+        if(remainder > 0){
+            rowsPerCol ++;
+        }
+        
+        return rowsPerCol;
+    }
+    
+     
+    private List<String> getAllActionNames(){
+       
+        List<String> actionNameList = new ArrayList<String>();
+        
+        for(Field field : Const.ActionURIs.class.getFields()){
+
+            String actionString = getActionNameStringFromField(field);
+            actionNameList.add(actionString);        
+        }
+        
+        return actionNameList;            
+    }
+    
+    
+    private String getActionNameStringFromField(Field field){
+        
+        String rawActionString = "";
+        
+        try {
+            rawActionString = field.get(Const.ActionURIs.class).toString();
+        } catch (IllegalArgumentException | IllegalAccessException e) {
+            Assumption.fail("Fail to get action URI");
+        }
+        
+        String[] splitedString = rawActionString.split("/");
+        String actionString = splitedString[splitedString.length - 1];
+        
+        return actionString;
+    }
     
     /**
      * QueryParameters inner class. Used only within this servlet, to hold the query data once it is parsed
