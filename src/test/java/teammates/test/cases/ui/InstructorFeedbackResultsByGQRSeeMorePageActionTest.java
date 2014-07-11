@@ -16,31 +16,13 @@ import teammates.ui.controller.InstructorFeedbackResultsByGQRSeeMorePageData;
 
 public class InstructorFeedbackResultsByGQRSeeMorePageActionTest extends
         BaseActionTest {
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_GQR;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-
-    @Test
-    public void testAccessControl() throws Exception {
-        
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.SECTION_NAME, "Section A"
-        };
-        verifyOnlyInstructorsCanAccess(submissionParams);
     }
     
     @Test
@@ -74,7 +56,7 @@ public class InstructorFeedbackResultsByGQRSeeMorePageActionTest extends
         AjaxResult result = (AjaxResult) action.executeAndPostProcess();
         InstructorFeedbackResultsByGQRSeeMorePageData data = 
                 (InstructorFeedbackResultsByGQRSeeMorePageData) result.data;
-        assertEquals(data.answer.values().size(), 5);
+        assertEquals(5, data.answer.values().size());
     }
     
     private InstructorFeedbackResultsByGQRSeeMorePageAction getAction(String... params) throws Exception {

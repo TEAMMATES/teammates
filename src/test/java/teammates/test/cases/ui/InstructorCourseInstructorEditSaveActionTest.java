@@ -21,41 +21,14 @@ import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
-    InstructorsLogic instructorsLogic;
+    private final DataBundle dataBundle = getTypicalDataBundle();
+    InstructorsLogic instructorsLogic = InstructorsLogic.inst();;
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-        instructorsLogic = InstructorsLogic.inst();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.INSTRUCTOR_ID, instructor.googleId,
-                Const.ParamsNames.INSTRUCTOR_NAME, instructor.name,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, "newEmail@email.com",
-                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyUnaccessibleWithoutModifyInstructorPrivilege(submissionParams);
     }
     
     @Test
@@ -199,6 +172,9 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 + " for Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"
                 + "New Name: " + newInstructorName + "<br>New Email: " + newInstructorEmail;
         AssertHelper.assertContains(expectedLogSegment, saveAction.getLogMessage());
+        
+        //remove the new instructor entity that was created
+        CoursesLogic.inst().deleteCourseCascade("icieat.courseId");
         
     }
     

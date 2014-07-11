@@ -93,12 +93,7 @@ public class SubmissionsAdjustmentTest extends
         gaeSimulation.setupWithTaskQueueCallbackClass(
                 SubmissionsAdjustmentTaskQueueCallback.class);
         gaeSimulation.resetDatastore();
-    }
-    
-    @Test
-    public void testAll() throws Exception {
-        testAdjustmentOfResponses();
-        testEnrollStudentsWithScheduledSubmissionAdjustment();
+        restoreTypicalDataInDatastore();
     }
     
     @AfterClass
@@ -107,11 +102,9 @@ public class SubmissionsAdjustmentTest extends
         turnLoggingDown(EvaluationsLogic.class);
     }
     
-    private void testEnrollStudentsWithScheduledSubmissionAdjustment() throws Exception{
-        CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
-        dataBundle = getTypicalDataBundle();
-        
-        restoreTypicalDataInDatastore();
+    @Test(priority = 2)
+    public void testEnrollStudentsWithScheduledSubmissionAdjustment() throws Exception{
+        CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");        
         
         ______TS("enrolling students to a non-existent course");
         SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
@@ -119,7 +112,7 @@ public class SubmissionsAdjustmentTest extends
             assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount, 0);
         }
         
-        String newStudentLine = "Section 1 | Team 1.1|n|s@g|c";
+        String newStudentLine = "Section 1 | Team 1.3|n|s@g|c";
         String nonExistentCourseId = "courseDoesNotExist";
         String enrollLines = newStudentLine + Const.EOL;
         
@@ -127,9 +120,9 @@ public class SubmissionsAdjustmentTest extends
         try {
             studentsInfo = studentsLogic
                     .enrollStudents(enrollLines, nonExistentCourseId);
-            assertTrue(false);
+            signalFailureToDetectException(" - EntityDoesNotExistException");
         } catch (EntityDoesNotExistException e) {
-            assertTrue(true);
+            ignoreExpectedException();
         }
         
         //Verify no tasks sent to the task queue
@@ -144,7 +137,7 @@ public class SubmissionsAdjustmentTest extends
         try {
             studentsInfo = studentsLogic
                     .enrollStudents(enrollLines, course1.id);
-            fail("Failure cause : Invalid enrollment executed without exceptions");
+            signalFailureToDetectException("Failure cause : Invalid enrollment executed without exceptions");
         } catch (EnrollException e) {
             String errorMessage = e.getLocalizedMessage();
             assertEquals(Const.StatusMessages.ENROLL_LINE_EMPTY, errorMessage);
@@ -178,11 +171,10 @@ public class SubmissionsAdjustmentTest extends
             }
             counter++;
         }
-        if(counter == 10){
-            assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount,
-                        fsLogic.getFeedbackSessionsForCourse(course1.id).size() +
-                        evaluationsLogic.getEvaluationsForCourse(course1.id).size());     
-        }
+        
+        assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount,
+                    fsLogic.getFeedbackSessionsForCourse(course1.id).size() +
+                    evaluationsLogic.getEvaluationsForCourse(course1.id).size());     
         
         
         ______TS("change an existing students email and verify update "
@@ -196,9 +188,7 @@ public class SubmissionsAdjustmentTest extends
 
         studentsLogic.updateStudentCascade(oldEmail, updatedAttributes);
 
-        StudentAttributes updatedStudent = studentsLogic
-                .getStudentForEmail(course1.id, updatedAttributes.email);
-        TestHelper.verifyPresentInDatastore(updatedStudent);
+        TestHelper.verifyPresentInDatastore(updatedAttributes);
 
         //Verify no tasks sent to task queue 
         if(!SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(0)){
@@ -210,7 +200,7 @@ public class SubmissionsAdjustmentTest extends
         verifySubmissionsDoNotExistForEmailInCourse(oldEmail, course1.id);
         
         ______TS("change team of existing student and verify deletion of all his responses");
-        StudentAttributes studentInTeam1 = dataBundle.students.get("student1InCourse1");
+        StudentAttributes studentInTeam1 = dataBundle.students.get("student2InCourse1");
         
         //verify he has existing team feedback responses in the system
         List<FeedbackResponseAttributes> student1responses = getAllTeamResponsesForStudent(studentInTeam1);
@@ -269,15 +259,14 @@ public class SubmissionsAdjustmentTest extends
         }
     }
     
+    @Test(priority = 1)
     private void testAdjustmentOfResponses() throws Exception {
-        restoreTypicalDataInDatastore();
-
+        
         ______TS("typical case: add new student to existing team");
         String evaluationName = "evaluation1 In Course1";
         StudentAttributes newStudent = new StudentAttributes();
-        newStudent.section = "None";
         newStudent.team = "Team 1.1";
-        newStudent.section = "Section1";
+        newStudent.section = "Section 1";
         newStudent.course = "idOfTypicalCourse1";
         newStudent.email = "random@g";
         newStudent.name = "someName";
@@ -333,6 +322,7 @@ public class SubmissionsAdjustmentTest extends
         String newTeam = "Team 1.2";
         String newSection = "Section 2";
         student.team = newTeam;
+        student.section = newSection;
         
         enrollDetails = new StudentEnrollDetails
                 (UpdateStatus.MODIFIED, student.course, student.email, oldTeam, newTeam, oldSection, newSection);

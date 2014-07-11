@@ -2,12 +2,9 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import teammates.common.util.Const;
@@ -661,6 +658,23 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
             return "0%"; // Do none
         else if(i == Const.POINTS_NOT_SURE)
             return "Not Sure";
+        else
+            return "";
+    }
+    
+    public static String convertToEqualShareFormatHtml(int i) {
+        if(i==Const.POINTS_NOT_SUBMITTED || i==Const.INT_UNINITIALIZED)
+            return "<span class=\"color-negative\"\">N/A</span>";
+        else if(i==Const.POINTS_NOT_SURE)
+            return "<span class=\"color-negative\"\">Not Sure</span>";
+        else if(i==0)
+            return "<span class=\"color-negative\">0%</span>";
+        else if(i>100)
+            return "<span class=\"color-positive\">Equal Share +"+(i-100)+"%</span>";
+        else if(i<100)
+            return "<span class=\"color-negative\">Equal Share -"+(100-i)+"%</span>";
+        else if(i==100)
+            return "<span class=\"color_neutral\">Equal Share</span>";
         else
             return "";
     }

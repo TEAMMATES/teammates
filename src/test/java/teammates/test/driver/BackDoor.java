@@ -693,6 +693,7 @@ public class BackDoor {
     }
 
     private static String readResponse(URLConnection conn) throws IOException {
+        conn.setReadTimeout(30000);
         BufferedReader rd = new BufferedReader(new InputStreamReader(
                 conn.getInputStream(), "UTF-8"));
         

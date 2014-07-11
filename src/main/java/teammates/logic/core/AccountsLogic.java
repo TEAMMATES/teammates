@@ -58,27 +58,6 @@ public class AccountsLogic {
         
         accountsDb.createAccount(accountData);
     }
-    
-    /**
-     * <b>Note: Now used for the purpose of testing only.</b><br>
-     */
-    // TODO: remove this method!!!!!!!!!!!!!!!!!!!!!!!!!!
-    public void createInstructorAccount(String googleId, String courseId,
-            String name, String email, String institute)
-                    throws InvalidParametersException, EntityAlreadyExistsException {
-
-        InstructorsLogic.inst().createInstructor(googleId, courseId, name, email);
-
-        // Create the Account if it does not exist
-        if (accountsDb.getAccount(googleId) == null) {
-            StudentProfileAttributes spa = new StudentProfileAttributes();
-            spa.googleId = googleId;
-            AccountAttributes accountToAdd = new AccountAttributes(googleId, name, true, email, institute, spa);
-            createAccount(accountToAdd);
-        } else {
-            makeAccountInstructor(googleId);
-        }
-    }
 
     public AccountAttributes getAccount(String googleId) {
         return getAccount(googleId, false);
@@ -145,7 +124,7 @@ public class AccountsLogic {
         student.googleId = googleId;
         try {
             StudentsLogic.inst().updateStudentCascade(student.email, student);
-        } catch (EnrollException | EntityDoesNotExistException e) {
+        } catch (EntityDoesNotExistException e) {
             Assumption.fail("Student disappered while trying to register " + TeammatesException.toStringWithStackTrace(e));
         } catch (InvalidParametersException e) {
             throw new JoinCourseException(e.getMessage());
