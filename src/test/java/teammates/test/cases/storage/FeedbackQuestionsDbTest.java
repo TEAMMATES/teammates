@@ -297,6 +297,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         modifiedQuestion = fqDb.getFeedbackQuestion(modifiedQuestion.feedbackSessionName, modifiedQuestion.courseId, modifiedQuestion.questionNumber);
         assertEquals("New question text!", modifiedQuestion.getQuestionDetails().questionText);
         
+        fqDb.deleteEntity(modifiedQuestion);        
     }
     
     private FeedbackQuestionAttributes getNewFeedbackQuestionAttributes() {

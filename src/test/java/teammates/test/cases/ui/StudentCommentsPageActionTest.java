@@ -17,24 +17,13 @@ import teammates.ui.controller.StudentCommentsPageData;
 
 public class StudentCommentsPageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_COMMENTS_PAGE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-
-    @Test
-    public void testAccessControl() throws Exception {
-        String[] submissionParams = new String[]{};
-        verifyAnyRegisteredUserCanAccess(submissionParams);
     }
 
     @Test

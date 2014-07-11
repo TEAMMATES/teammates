@@ -15,24 +15,13 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorStudentListPageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-
-    @Test
-    public void testAccessControl() throws Exception {
-        String[] submissionParams = new String[] {};
-        verifyOnlyInstructorsCanAccess(submissionParams);
     }
 
     @Test
@@ -52,7 +41,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
         ShowPageResult r = getShowPageResult(a);
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST
-                + "?error=false&user=idOfInstructor3",
+                + "?error=false&user=" + instructorId,
                 r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals("", r.getStatusMessage());

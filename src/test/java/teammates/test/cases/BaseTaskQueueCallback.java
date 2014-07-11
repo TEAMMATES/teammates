@@ -22,20 +22,26 @@ public abstract class BaseTaskQueueCallback implements LocalTaskQueueCallback {
     }
     
     public static boolean verifyTaskCount(int expectedCount) {
-        waitForTaskQueueExecution(expectedCount);
-        if(expectedCount == BaseTaskQueueCallback.taskCount){
-            return true;
-        } else {
-            return false;
+        for (int i = 0 ; i <= expectedCount ; i ++) {
+            waitForTaskQueueExecution(1, 0);
+            if(expectedCount == BaseTaskQueueCallback.taskCount){
+                return true;
+            }
         }
+        
+        return false;
     }
 
     public static void waitForTaskQueueExecution(int expectedNumberOfTasks) {
+        waitForTaskQueueExecution(expectedNumberOfTasks, 5);
+    }
+    
+    public static void waitForTaskQueueExecution(int tasks, int buffer) {
         /*
          *  Current rate of task execution is 1/s
          *  Wait for 1 more second to see if erroneous or unwanted tasks
          *  are added too
          */
-        ThreadHelper.waitFor((expectedNumberOfTasks + 5) * 1000);
+        ThreadHelper.waitFor((tasks + buffer) * 1000);
     }
 }

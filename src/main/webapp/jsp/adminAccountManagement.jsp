@@ -101,7 +101,7 @@
 						+ acc.name + "<br><span class=\"bold\">Email: </span>"
 						+ acc.email%></td>
 
-                            <td>
+                            <td id="courses_<%=acc.googleId%>">
                                 <%
                                 	if (coursesList != null) {
                                 			out.print("Total Courses: " + coursesList.size() + "<br>");

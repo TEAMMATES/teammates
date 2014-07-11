@@ -7,7 +7,6 @@ import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -31,34 +30,13 @@ import teammates.ui.controller.StudentFeedbackSubmissionEditSaveAction;
 
 public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
-    }
-
-    @BeforeMethod
-    public void methodSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
-                Const.ParamsNames.COURSE_ID, fr.courseId,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
-                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", fr.getResponseDetails().getAnswerString()
-        };
-        
-        verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);
     }
     
     @Test
@@ -213,7 +191,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
     
         ______TS("mcq");
         
-        dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
         restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
         
         fq = fqDb.getFeedbackQuestion("MCQ Session", "FSQTT.idOfTypicalCourse1", 1);

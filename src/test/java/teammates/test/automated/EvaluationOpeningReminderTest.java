@@ -36,6 +36,7 @@ public class EvaluationOpeningReminderTest extends BaseComponentUsingTaskQueueTe
     private static final EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
     private static final StudentsLogic studentsLogic = new StudentsLogic();
     private static final InstructorsLogic instructorsLogic = new InstructorsLogic();
+    private static final DataBundle dataBundle = getTypicalDataBundle();
     
     @SuppressWarnings("serial")
     public static class EvaluationOpeningCallback extends BaseTaskQueueCallback {
@@ -73,26 +74,18 @@ public class EvaluationOpeningReminderTest extends BaseComponentUsingTaskQueueTe
         gaeSimulation.resetDatastore();
     }
     
-    @Test
-    public void testAll() throws Exception {
-        testAdditionOfTaskToTaskQueue();
-        testEvaluationOpeningMailAction();
-    }
-    
     @AfterClass
     public static void classTearDown() throws Exception {
         printTestClassFooter();
     }
     
+    @Test(priority = 1)
     @SuppressWarnings("deprecation")
-    private void testAdditionOfTaskToTaskQueue() throws Exception {
-        DataBundle dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
+    public void testAdditionOfTaskToTaskQueue() throws Exception {
+        
         EvaluationOpeningCallback.resetTaskCount();
         
         ______TS("all evaluations activated");
-        // ensure all existing evaluations are already activated.
-        activateAllEvaluations(dataBundle);
         
         evaluationsLogic.activateReadyEvaluations();
         if(!EvaluationOpeningCallback.verifyTaskCount(0)){
@@ -153,18 +146,15 @@ public class EvaluationOpeningReminderTest extends BaseComponentUsingTaskQueueTe
             }
             counter++;
         }
-        if(counter == 10){
-            assertEquals(EvaluationOpeningCallback.taskCount, 2);
-        }        
+        assertEquals(EvaluationOpeningCallback.taskCount, 2);
+        
+        evaluationsLogic.deleteEvaluationCascade(evaluation1.courseId, evaluation1.name);
+        evaluationsLogic.deleteEvaluationCascade(evaluation2.courseId, evaluation2.name);
     }
 
+    @Test(priority = 2)
     @SuppressWarnings("deprecation")
-    private void testEvaluationOpeningMailAction() throws Exception{
-        
-        DataBundle dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-        
-        activateAllEvaluations(dataBundle);
+    public void testEvaluationOpeningMailAction() throws Exception{
         
         // Reuse an existing evaluation to create a new one that is
         // closing in 24 hours.
@@ -215,13 +205,7 @@ public class EvaluationOpeningReminderTest extends BaseComponentUsingTaskQueueTe
         if(!EvaluationOpeningCallback.verifyTaskCount(0)){
             assertEquals(EvaluationOpeningCallback.taskCount, 0);
         }
-    }
-
-    private void activateAllEvaluations(DataBundle dataBundle) throws Exception{
-        for (EvaluationAttributes e : dataBundle.evaluations.values()) {
-            e.activated = true;
-            evaluationsLogic.updateEvaluation(e);
-            assertTrue(evaluationsLogic.getEvaluation(e.courseId, e.name).getStatus() != EvalStatus.AWAITING);
-        }
+        
+        evaluationsLogic.deleteEvaluationCascade(evaluation1.courseId, evaluation1.name);
     }
 }

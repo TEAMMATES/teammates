@@ -62,9 +62,7 @@ public class AccountAttributes extends EntityAttributes {
         this.email = Sanitizer.sanitizeEmail(email);
         this.institute = Sanitizer.sanitizeTitle(institute);
         this.studentProfile = new StudentProfileAttributes();
-        this.studentProfile.googleId = this.googleId;
-        this.studentProfile.institute = Sanitizer.sanitizeTitle(institute);
-        
+        this.studentProfile.googleId = this.googleId;        
     }
     
     public List<String> getInvalidityInfo() {
