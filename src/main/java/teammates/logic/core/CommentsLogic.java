@@ -479,7 +479,7 @@ public class CommentsLogic {
             Map<String, Set<String>> responseCommentsAddedTable,
             FeedbackResponseCommentAttributes frc,
             FeedbackQuestionAttributes relatedQuestion) {
-        if(relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)){
+        if(frc.isVisibleTo(FeedbackParticipantType.STUDENTS)){
             for(StudentAttributes student : allStudents){
                 addRecipientEmailsToList(responseCommentsAddedTable,
                         recipientEmailsList, frc.getId().toString(), student.email);
@@ -494,7 +494,7 @@ public class CommentsLogic {
             FeedbackResponseCommentAttributes frc,
             FeedbackQuestionAttributes relatedQuestion,
             FeedbackResponseAttributes relatedResponse) {
-        if(relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)){
+        if(frc.isVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)){
             StudentAttributes studentOfThisEmail = 
                     roster.getStudentForEmail(relatedResponse.recipientEmail);
             if(studentOfThisEmail != null){
@@ -516,7 +516,7 @@ public class CommentsLogic {
             FeedbackResponseCommentAttributes frc,
             FeedbackQuestionAttributes relatedQuestion,
             FeedbackResponseAttributes relatedResponse) {
-        if(relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)){
+        if(frc.isVisibleTo(FeedbackParticipantType.RECEIVER)){
             //recipientEmail is email
             if(roster.getStudentForEmail(relatedResponse.recipientEmail) != null){
                 addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList, 
@@ -538,11 +538,13 @@ public class CommentsLogic {
         StudentAttributes giver = roster.getStudentForEmail(relatedResponse.giverEmail);
         if(giver == null) return;
         
-        addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList, 
-                frc.getId().toString(), relatedResponse.giverEmail);
+        if(frc.isVisibleTo(FeedbackParticipantType.GIVER)){
+            addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList, 
+                    frc.getId().toString(), relatedResponse.giverEmail);
+        }
         
         if(relatedQuestion.giverType == FeedbackParticipantType.TEAMS
-           || relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)){
+           || frc.isVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)){
             addRecipientEmailsForTeam(teamStudentTable, recipientEmailsList,
                     responseCommentsAddedTable, frc.getId().toString(), giver.team);
         }
