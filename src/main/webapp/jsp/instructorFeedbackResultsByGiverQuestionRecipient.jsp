@@ -209,11 +209,6 @@
                     </div>
                     <div class='panel-collapse collapse <%= shouldCollapsed ? "" : "in" %>'>
                     <div class="panel-body background-color-warning">
-                        <a class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-<%=teamIndex%>" data-toggle="tooltip" title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">
-                            <%= shouldCollapsed ? "Expand " : "Collapse " %> Students
-                        </a>
-                        <br>
-                        <br>
                         <div class="resultStatistics">
                             <%
                                 if(currentTeamResponses.size() > 0){
@@ -254,7 +249,16 @@
                             <%
                                 if(currentTeamResponses.size() > 0){
                             %>
-                                <h3><%=currentTeam%> Detailed Responses </h3>
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        <h3><%=currentTeam%> Detailed Responses </h3>
+                                    </div>
+                                    <div class="col-sm-3 h3">
+                                        <a class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-<%=teamIndex%>" data-toggle="tooltip" title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">
+                                            <%= shouldCollapsed ? "Expand " : "Collapse " %> Students
+                                        </a>
+                                    </div>
+                                </div>
                                 <hr class="margin-top-0">
                             <%
                                 }

@@ -85,13 +85,13 @@ function hideSingleCollapse(e){
 }
 
 function toggleSingleCollapse(e){
-    if(e.target == e.currentTarget){
+    if(!$(e.target).is('a')){
         var glyphIcon = $(this).find('.glyphicon');
         var className = $(glyphIcon[0]).attr('class');
         if(className.indexOf('glyphicon-chevron-up') != -1){
-            hideSingleCollapse($(e.target).attr('data-target'));
+            hideSingleCollapse($(e.currentTarget).attr('data-target'));
         } else {
-            showSingleCollapse($(e.target).attr('data-target'));
+            showSingleCollapse($(e.currentTarget).attr('data-target'));
         }
     }
 }
@@ -134,8 +134,13 @@ window.onload = function(){
     var numPanels = 0;
 
     bindCollapseEvents(panels, numPanels);
-    $("a[id^='collapse-panels-button-section-'],a[id^='collapse-panels-button-team-']").on('click', function(){
+    $("a[id^='collapse-panels-button-section-']").on('click', function(){
         var panels = $(this).closest('.panel-success').children('.panel-collapse').find('div.panel.panel-warning').children('.panel-collapse');
+        toggleCollapse(this, panels);
+    });
+
+    $("a[id^='collapse-panels-button-team-']").on('click', function(){
+        var panels = $(this).closest('.panel-warning').children('.panel-collapse').find('div.panel.panel-primary').children('.panel-collapse');
         toggleCollapse(this, panels);
     });
 };

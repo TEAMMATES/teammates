@@ -206,16 +206,23 @@
             %>
                     <div class="panel panel-warning">
                         <div class="panel-heading">
-                            <strong><%=currentTeam%></strong>
-                            <span class='glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right'></span>
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    <strong><%=currentTeam%></strong>                     
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="pull-right">
+                                        <a class="btn btn-warning btn-xs" id="collapse-panels-button-team-<%=teamIndex%>" data-toggle="tooltip" title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">
+                                            <%= shouldCollapsed ? "Expand " : "Collapse " %> Students
+                                        </a>
+                                        &nbsp;
+                                        <span class='glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %>'></span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class='panel-collapse collapse <%= shouldCollapsed ? "" : "in" %>'>
                         <div class="panel-body background-color-warning">
-                            <a class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-<%=teamIndex%>" data-toggle="tooltip" title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">
-                                <%= shouldCollapsed ? "Expand " : "Collapse " %> Students
-                            </a>
-                            <br>
-                            <br>
             <%
                 }
             %>
