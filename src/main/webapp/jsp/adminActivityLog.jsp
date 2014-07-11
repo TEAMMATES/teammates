@@ -5,7 +5,7 @@
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.ActivityLogEntry"%>
 <%@ page import="teammates.ui.controller.AdminActivityLogPageData"%>
-
+<%@ page import="teammates.common.util.TimeHelper"%>
 <%
     AdminActivityLogPageData data = (AdminActivityLogPageData) request.getAttribute("data");
 %>
@@ -418,7 +418,7 @@
 
                         <thead>
                             <tr>
-                                <th width="10%">Date</th>
+                                <th width="10%">Date [Timing]</th>
                                 <th>[Role][Action][Google
                                     ID][Name][Email]</th>
                             </tr>
@@ -439,7 +439,14 @@
                             %>
                             <tr>
 
-                                <td style="vertical-align: middle;"><%=log.getDateInfo()%></td>
+                                <td style="vertical-align: middle;"> <strong><%=log.getDateInfo()%></strong>
+                                   
+                                   <br>
+                                   
+                                   <p class="<%=log.getColorCode(log.getTimeTaken())%>">
+                                   <%=TimeHelper.ConvertToStandardDuration(log.getTimeTaken())%>
+                                   </p>
+                                </td>
 
                                 <td>
 
@@ -468,7 +475,8 @@
                                             </small>
 
                                         </h4>
-
+                                       
+                                 
                                         <div>
                                             <%=log.getMessageInfo()%>
 
