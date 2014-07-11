@@ -4,10 +4,13 @@ This function is called to toggle the visibility of additional question informat
 function toggleAdditionalQuestionInfo(identifier){
     console.log($("#questionAdditionalInfoButton-"+identifier).text());
     console.log("#questionAdditionalInfoButton-"+identifier);
-    if($("#questionAdditionalInfoButton-"+identifier).text() == "[more]"){
-        $("#questionAdditionalInfoButton-"+identifier).text("[less]");
+
+    var element = $("#questionAdditionalInfoButton-"+identifier)
+
+    if(element.text() == element.attr('data-more')){
+        element.text(element.attr('data-less'));
     } else {
-        $("#questionAdditionalInfoButton-"+identifier).text("[more]");
+        element.text(element.attr('data-more'));
     }
     $("#questionAdditionalInfo-"+identifier).toggle();
 }

@@ -21,7 +21,7 @@ public class StringHelperTest extends BaseTestCase {
 
     @Test
     public void testIsWhiteSpace() {
-        
+
         assertEquals(true, StringHelper.isWhiteSpace(""));
         assertEquals(true, StringHelper.isWhiteSpace("       "));
         assertEquals(true, StringHelper.isWhiteSpace("\t\n\t"));

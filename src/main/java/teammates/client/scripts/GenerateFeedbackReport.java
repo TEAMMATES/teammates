@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.ExceedingRangeException;
 import teammates.logic.api.Logic;
 import teammates.storage.datastore.Datastore;
 import teammates.test.util.FileHelper;
@@ -27,7 +28,7 @@ public class GenerateFeedbackReport extends RemoteApiClient {
         try {
             String fileContent = logic.getFeedbackSessionResultSummaryAsCsv("CourseID", "Session Name", "instructor@email.com");
             FileHelper.writeToFile("result.csv",fileContent);
-        } catch (EntityDoesNotExistException e) {
+        } catch (EntityDoesNotExistException | ExceedingRangeException e) {
             e.printStackTrace();
         }
         

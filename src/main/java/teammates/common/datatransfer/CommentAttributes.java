@@ -22,9 +22,10 @@ public class CommentAttributes extends EntityAttributes
     private Long commentId = null;
     public String courseId;
     public String giverEmail;
-    public CommentRecipientType recipientType;
+    public CommentRecipientType recipientType = CommentRecipientType.PERSON;
     public Set<String> recipients;
-    public CommentStatus status;
+    public CommentStatus status = CommentStatus.FINAL;
+    public CommentSendingState sendingState = CommentSendingState.SENT;
     public List<CommentRecipientType> showCommentTo;
     public List<CommentRecipientType> showGiverNameTo;
     public List<CommentRecipientType> showRecipientNameTo;
@@ -51,6 +52,7 @@ public class CommentAttributes extends EntityAttributes
         this.giverEmail = comment.getGiverEmail();
         this.recipientType = comment.getRecipientType();
         this.status = comment.getStatus();
+        this.sendingState = comment.getSendingState() != null? comment.getSendingState() : CommentSendingState.SENT;
         this.showCommentTo = comment.getShowCommentTo();
         this.showGiverNameTo = comment.getShowGiverNameTo();
         this.showRecipientNameTo = comment.getShowRecipientNameTo();
@@ -103,7 +105,12 @@ public class CommentAttributes extends EntityAttributes
                 }
                 break;
             case SECTION:
-                // TODO: implement this
+                for (String recipientId : recipients) {
+                    error = validator.getInvalidityInfo(FieldType.SECTION_NAME, recipientId);
+                    if (!error.isEmpty()) {
+                        errors.add(error);
+                    }
+                }
                 break;
             case COURSE:
                 for (String recipientId : recipients) {
@@ -123,10 +130,15 @@ public class CommentAttributes extends EntityAttributes
 
     public Comment toEntity() {
         return new Comment(courseId, giverEmail, recipientType, recipients, status,
+                sendingState,
                 showCommentTo, 
                 showGiverNameTo, 
                 showRecipientNameTo, 
                 commentText, createdAt);
+    }
+    
+    public Boolean isVisibleTo(CommentRecipientType targetViewer){
+        return showCommentTo.contains(targetViewer);
     }
 
     @Override
@@ -140,7 +152,7 @@ public class CommentAttributes extends EntityAttributes
                 ", showCommentTo = " + showCommentTo +
                 ", showGiverNameTo = " + showGiverNameTo +
                 ", showRecipientNameTo = " + showRecipientNameTo +
-                ", commentText = " + commentText +
+                ", commentText = " + commentText.getValue() +
                 ", createdAt = " + createdAt + "]";
     }
 

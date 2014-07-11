@@ -5,7 +5,8 @@
 <%@ page import="teammates.ui.controller.InstructorFeedbackResultsPageData"%>
 <%
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
-    boolean shouldCollapsed = data.bundle.responses.size() > 1000;
+    boolean showAll = data.bundle.isComplete;
+    boolean shouldCollapsed = data.bundle.responses.size() > 500;
 %>
 
 <div class="well well-plain padding-0">
@@ -57,6 +58,7 @@
               <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
               <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>">
               <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">
+              <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="<%=data.selectedSection%>">
           </div>
         </div>
         </div>
@@ -65,7 +67,7 @@
 </div>
 
 <%
-    if (noResponses == false || !data.selectedSection.equals("All")) {
+    if (noResponses == false || !data.selectedSection.equals("All") || !showAll) {
 %>
 
 <form class="form-horizontal" role="form" method="post" action="<%=data.getInstructorFeedbackSessionResultsLink(data.bundle.feedbackSession.courseId,data.bundle.feedbackSession.feedbackSessionName)%>">
@@ -115,7 +117,7 @@
                   <div class="col-sm-12" data-toggle="tooltip" title="Group results in the current view by team">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label <%=(data.sortType.equals("question")) ? "class=\"text-strike\"" : ""%>>
-                              <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" <%=(data.groupByTeam==null) ? "" : "checked=\"checked\""%> <%=(data.sortType.equals("question")) ? "" : "onchange=\"this.form.submit()\""%>> Group by Teams
+                              <input type="checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" id="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" <%=(data.groupByTeam==null) ? "" : "checked=\"checked\""%> <%=(data.sortType.equals("question")) ? "" : "onchange=\"this.form.submit()\""%>> Group by Teams
                           </label>
                       </div>
                   </div>
@@ -151,13 +153,13 @@
                 </div>
                 <% } %>
                 <div class="col-sm-7 pull-right" style="padding-top:8px;">
-                    <% if(shouldCollapsed){ %>
-                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()" data-toggle="tooltip" title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually.">
-                        Expand All
+                    <% if(!showAll || shouldCollapsed){ %>
+                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" data-toggle="tooltip" title="Collapse or expand all loaded panels. Since the data is too large, you have to click on each individual panel to load it.">
+                        Expand <%= data.sortType.equals("question") ? "Questions" : "Sections" %>
                     </a>
                     <% } else { %>
-                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse()" data-toggle="tooltip" title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually.">
-                        Collapse All
+                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" data-toggle="tooltip" title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually.">
+                        Collapse <%= data.sortType.equals("question") ? "Questions" : "Sections" %>
                     </a>
                     <% } %>
                 </div>
@@ -174,9 +176,9 @@
 <%
     }
 %>
-
+<br>
 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-
-<% if (noResponses) { %>
+<br>
+<% if (noResponses && showAll) { %>
     <div class="bold color_red align-center">There are no responses for this feedback session yet or you do not have access to the responses collected so far.</div>
 <% } %>

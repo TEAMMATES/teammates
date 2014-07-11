@@ -325,7 +325,7 @@ public class TestHelper extends BaseComponentTestCase{
         FeedbackQuestionAttributes actual = fqDb.getFeedbackQuestion(
                 expected.feedbackSessionName, expected.courseId, expected.questionNumber);
         if(wildcardId){
-            actual.setId("*");
+            expected.setId(actual.getId());
         }
         assertEquals(gson.toJson(expected), gson.toJson(actual));
     }
@@ -340,7 +340,7 @@ public class TestHelper extends BaseComponentTestCase{
         FeedbackResponseAttributes actual = frDb.getFeedbackResponse(
                 expected.feedbackQuestionId, expected.giverEmail, expected.recipientEmail);
         if(wildcardId){
-            actual.setId("*");
+            expected.setId(actual.getId());
         }
         assertEquals(gson.toJson(expected), gson.toJson(actual));
     }
@@ -354,7 +354,8 @@ public class TestHelper extends BaseComponentTestCase{
     }
     
     public static void verifyPresentInDatastore(FeedbackResponseCommentAttributes expected){
-        FeedbackResponseCommentAttributes actual = frcDb.getFeedbackResponseComment(expected.feedbackResponseId, expected.giverEmail, expected.createdAt);
+        FeedbackResponseCommentAttributes actual = frcDb.getFeedbackResponseComment(expected.courseId, expected.createdAt,
+                expected.giverEmail);
         assertEquals(expected.courseId, actual.courseId);
         assertEquals(expected.giverEmail, actual.giverEmail);
         assertEquals(expected.feedbackSessionName, actual.feedbackSessionName);

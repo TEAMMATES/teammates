@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -16,7 +17,6 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
-
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -198,5 +198,10 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
                 .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
         
         return loginAdminToPage(browser, editUrl,FeedbackQuestionSubmitPage.class);
+    }
+    
+    @AfterClass
+    public static void classTearDown() throws Exception {
+        BrowserPool.release(browser);
     }
 }

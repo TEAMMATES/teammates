@@ -95,7 +95,7 @@
             "email":"instructor2@course1.com",
             "role":"Co-owner",
             "displayedName":"Co-owner",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "instructor1OfCourse2":{
             "googleId":"FSQTT.idOfInstructor1OfCourse2",
@@ -267,7 +267,25 @@
             "feedbackSessionType":"STANDARD",
             "sentOpenEmail":true,
             "sentPublishedEmail":false
-        }   	
+        },
+        "contribSession":{
+            "feedbackSessionName":"CONTRIB Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.com",
+            "instructions":{
+                "value":"Please answer the following questions."
+            },
+            "createdTime":"2012-03-20 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2017-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
+            "resultsVisibleFromTime":"2017-05-01 11:59 PM UTC",
+            "timeZone":2.0,
+            "gracePeriod":10,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":false
+        }  	
     },
     "feedbackQuestions":{
         "qn1InSession1InCourse1":{
@@ -455,6 +473,29 @@
             "showRecipientNameTo":[
                 "INSTRUCTORS"
             ]
+        },
+        "qn1InSession5InCourse1":{
+            "feedbackSessionName":"CONTRIB Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.com",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"How much has each team member including yourself, contributed to the project?\"}"
+            },
+            "questionNumber":"1",
+            "questionType":"CONTRIB",
+            "giverType":"STUDENTS",
+            "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+            
         }
     },
     "feedbackResponses":{
@@ -641,6 +682,50 @@
             "recipientEmail":"Team 1.2",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [20]}"
+            }
+        },
+        "response1ForQ1S5C1":{
+            "feedbackSessionName":"CONTRIB Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"CONTRIB",
+            "giverEmail":"student1InCourse1@gmail.com",
+            "recipientEmail":"student1InCourse1@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONTRIB\", \"answer\" : 100}"
+            }
+        },
+        "response2ForQ1S5C1":{
+            "feedbackSessionName":"CONTRIB Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"CONTRIB",
+            "giverEmail":"student1InCourse1@gmail.com",
+            "recipientEmail":"student2InCourse1@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONTRIB\", \"answer\" : 80}"
+            }
+        },
+        "response3ForQ1S5C1":{
+            "feedbackSessionName":"CONTRIB Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"CONTRIB",
+            "giverEmail":"student1InCourse1@gmail.com",
+            "recipientEmail":"student3InCourse1@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONTRIB\", \"answer\" : 110}"
+            }
+        },
+        "response4ForQ1S5C1":{
+            "feedbackSessionName":"CONTRIB Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"CONTRIB",
+            "giverEmail":"student1InCourse1@gmail.com",
+            "recipientEmail":"student4InCourse1@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONTRIB\", \"answer\" : 130}"
             }
         }
     }

@@ -2,14 +2,16 @@ package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -40,6 +42,8 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
      * (i.e. no need to declare it multiple times in multiple methods) */
     private static InstructorCoursesPage coursesPage;
     private static DataBundle testData;
+    
+    private static String instructorId;
     
     @BeforeClass
     public static void classSetup() throws Exception {
@@ -112,17 +116,16 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         ______TS("no courses");
         
-        Url coursesUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
-            .withUserId(testData.accounts.get("instructorWithoutCourses").googleId);
-        coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
-        coursesPage.verifyHtmlMainContent("/instructorCourseEmpty.html");
+        instructorId = testData.accounts.get("instructorWithoutCourses").googleId;
+        coursesPage = getCoursesPage();
+        coursesPage.verifyHtml("/instructorCoursesNoCourse.html");
         
         ______TS("multiple course");
         
-        coursesUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
-            .withUserId(testData.accounts.get("instructorWithCourses").googleId);
-        coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
-
+        instructorId = testData.accounts.get("instructorWithCourses").googleId;
+        coursesPage = getCoursesPage();
+        // for course CS1101, current instructor cannot modify course or modify students
+        coursesPage.verifyHtmlMainContent("/instructorCoursesMultipleCourses.html");
     }
 
     public void testLinks() throws Exception{
@@ -201,9 +204,8 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
          * 
          */
         
-        Url coursesUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
-            .withUserId(testData.accounts.get("instructorWithCourses").googleId);
-        coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
+        instructorId = testData.accounts.get("instructorWithCourses").googleId;
+        coursesPage = getCoursesPage();
         
         ______TS("add action success: add course with leading/trailing space in parameters");
         
@@ -214,31 +216,30 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         BackDoor.deleteCourse(validCourse.id); //delete if it exists
         coursesPage.addCourse(validCourse.id, validCourse.name);
 
-        coursesPage.verifyHtmlPart(By.id("frameBodyWrapper"), "/instructorCourseAddSuccessful.html");
+        coursesPage.verifyHtmlMainContent("/instructorCoursesAddSuccessful.html");
 
         ______TS("add action fail: duplicate course ID");
-        coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
         
         coursesPage.addCourse(validCourse.id, "different course name");
 
-        coursesPage.verifyHtmlPart(By.id("frameBodyWrapper"), "/instructorCourseAddDupIdFailed.html");
+        coursesPage.verifyHtmlMainContent("/instructorCoursesAddDupIdFailed.html");
         
         ______TS("add action fail: invalid course ID");
-        coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
+        
         String invalidID = "Invalid ID";
         
         coursesPage.addCourse(invalidID, "random course name");
 
-        coursesPage.verifyHtmlPart(By.id("frameBodyWrapper"), "/instructorCourseAddInvalidIdFailed.html");
+        coursesPage.verifyHtmlMainContent("/instructorCoursesAddInvalidIdFailed.html");
 
         ______TS("add action fail: missing parameters");
-        coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
+        
         String validID = "Valid.ID";
         String missingCourseName = "";
 
         coursesPage.addCourse(validID, missingCourseName);
 
-        coursesPage.verifyHtmlPart(By.id("frameBodyWrapper"), "/instructorCourseAddMissingParamsFailed.html");
+        coursesPage.verifyHtmlMainContent("/instructorCoursesAddMissingParamsFailed.html");
     }
     
     public void testSortCourses() {
@@ -260,64 +261,84 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         /* Explanation: We test both 'confirm' and 'cancel' cases here.
          */
-        
-        Url coursesUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
-            .withUserId(testData.accounts.get("instructorWithCourses").googleId);
-        coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
     
         String courseId = "CCAddUiTest.course1";
         coursesPage.clickAndCancel(coursesPage.getDeleteLink(courseId));
         assertNotNull(BackDoor.getCourseAsJson(courseId));
 
         coursesPage.clickAndConfirm(coursesPage.getDeleteLink(courseId))
-            .verifyHtmlPart(By.id("frameBodyWrapper"), "/instructorCourseDeleteSuccessful.html");
+            .verifyHtmlMainContent("/instructorCoursesDeleteSuccessful.html");
         
     }
     
     public void testArchiveAction() throws Exception {
         
-        Url coursesUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
-                .withUserId(testData.accounts.get("instructorWithCourses").googleId);
-        coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
-            
+        InstructorAttributes instructor1CS1101 = testData.instructors.get("instructor1CS1101");
+        
         ______TS("archive action success");
-       String courseId = "CCAddUiTest.CS1101";
-
-       coursesPage.archiveCourse(courseId);
-       coursesPage.verifyHtmlPart(By.id("frameBodyWrapper"), "/instructorCourseArchiveSuccessful.html");
-
-       ______TS("unarchive action success");
-       coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
+        String courseId = "CCAddUiTest.CS1101";
+        
+        InstructorAttributes instructorWithNullArchiveStatus = BackDoor.getInstructorByGoogleId(instructor1CS1101.googleId,
+                                                                                                instructor1CS1101.courseId);
+                                                                                                         
+        //this is a old instructor whose archive status has no value 
+        assertNull(instructorWithNullArchiveStatus.isArchived);
+        
+        coursesPage.archiveCourse(courseId);
+        coursesPage.verifyHtmlMainContent("/instructorCoursesArchiveSuccessful.html");
+        
+        instructorWithNullArchiveStatus = BackDoor.getInstructorByGoogleId(instructor1CS1101.googleId,
+                                                                           instructor1CS1101.courseId);
+        
+        //after click archive button, new value will be assigned to instructor's isArchive attribute
+        //after this, his own archive status for this course will not be affected by other instructors
+        //of the same course
+        assertTrue(instructorWithNullArchiveStatus.isArchived.booleanValue());
+       
+        ______TS("archive status of another instructor from same course not affected");
+        
+        //this instructor already has his own non-null archive status
+        //so other instructors' archiving actions will not affect his own status
+        instructorId = testData.accounts.get("OtherInstructorWithoutCourses").googleId;
+        coursesPage = getCoursesPage();
+        coursesPage.verifyHtmlMainContent("/instructorArchiveStatusNotAffected.html");    
+        
+        ______TS("unarchive action success");
+        
+        instructorId = testData.accounts.get("instructorWithCourses").googleId;
+        coursesPage = getCoursesPage();
             
-       coursesPage.unarchiveCourse(courseId);
-       coursesPage.verifyHtmlPart(By.id("frameBodyWrapper"), "/instructorCourseUnarchiveSuccessful.html");
-
-       // TODO: Handling for the failure of archive and unarchive is still not good
-       // Need more improvement
+        coursesPage.unarchiveCourse(courseId);
+        coursesPage.verifyHtmlMainContent("/instructorCoursesUnarchiveSuccessful.html");
+    
+        // TODO: Handling for the failure of archive and unarchive is still not good
+        // Need more improvement
+             
+        ______TS("archive action failed");
+        // only possible if someone else delete the course while the user is viewing the page
             
-       ______TS("archive action failed");
-       // only possible if someone else delete the course while the user is viewing the page
-            
-       String anotherCourseId = "CCAddUiTest.CS2104";
-
-       coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
-            
-       BackDoor.deleteCourse(anotherCourseId);
-
-       coursesPage.archiveCourse(anotherCourseId);
-       coursesPage.verifyContains("You are not authorized to view this page.");
-
-       ______TS("unarchive action failed");
-       // only possible if someone else delete the course while the user is viewing the page
-            
-       coursesPage = loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
-       coursesPage.archiveCourse(courseId);
- 
-       BackDoor.deleteCourse(courseId);
-
-       coursesPage.unarchiveCourse(courseId);
-       coursesPage.verifyContains("You are not authorized to view this page.");
-            
+        String anotherCourseId = "CCAddUiTest.CS2104";
+        
+        BackDoor.deleteCourse(anotherCourseId);
+        coursesPage.archiveCourse(anotherCourseId);
+        coursesPage.verifyContains("You are not authorized to view this page.");
+    
+        ______TS("unarchive action failed");
+        // only possible if someone else delete the course while the user is viewing the page
+        
+        coursesPage = getCoursesPage();
+        
+        coursesPage.archiveCourse(courseId);
+        BackDoor.deleteCourse(courseId);
+        coursesPage.unarchiveCourse(courseId);
+        coursesPage.verifyContains("You are not authorized to view this page.");
+                
+    }
+    
+    private InstructorCoursesPage getCoursesPage() {
+        Url coursesUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE)
+            .withUserId(instructorId);
+        return loginAdminToPage(browser, coursesUrl, InstructorCoursesPage.class);
     }
     
     @AfterClass

@@ -101,12 +101,17 @@
                         .entrySet()) {
                     qnIndx++;
                     
-                    FeedbackAbstractQuestionDetails questionDetails = questionWithResponses.getKey().getQuestionDetails();
+                    FeedbackQuestionAttributes question = questionWithResponses.getKey();
+                    FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
             %>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4>Question <%=qnIndx%>: <%=StudentFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText)%>
                         <%=questionDetails.getQuestionAdditionalInfoHtml(qnIndx, "")%></h4>
+                        <%=
+                            questionDetails.getQuestionResultStatisticsHtml(questionWithResponses
+                                    .getValue(), question, data.account, data.bundle, "student")
+                        %>
                     <%
                     	ListIterator<FeedbackResponseAttributes> itr = questionWithResponses
                     				.getValue().listIterator();

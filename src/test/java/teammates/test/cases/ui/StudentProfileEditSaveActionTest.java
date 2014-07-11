@@ -59,7 +59,8 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         
         assertFalse(r.isError);
         AssertHelper.assertContains(Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=false&user=" + student.googleId, r.getDestinationWithParams());
-        
+        assertEquals(Const.StatusMessages.STUDENT_PROFILE_EDITED, r.getStatusMessage());
+        expectedProfile.modifiedDate = a.account.studentProfile.modifiedDate;
         String expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave" +
                 "|||true|||Student|||"+ student.name +"|||" + student.googleId + "|||" + student.email +
                 "|||Student Profile for <span class=\"bold\">(" + student.googleId + ")</span> edited.<br>" +
@@ -103,17 +104,16 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         r = (RedirectResult) a.executeAndPostProcess();
         
         assertFalse(r.isError);
+        assertEquals(Const.StatusMessages.STUDENT_PROFILE_EDITED, r.getStatusMessage());
         AssertHelper.assertContains(Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=false&user=" + student.googleId, r.getDestinationWithParams());
         
+        expectedProfile.modifiedDate = a.account.studentProfile.modifiedDate;
         expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave" +
                 "|||true|||Student(M)|||"+ student.name +"|||" + student.googleId + "|||" + student.email +
                 "|||Student Profile for <span class=\"bold\">(" + student.googleId + ")</span> edited.<br>" +
                 expectedProfile.toString() + "|||/page/studentProfileEditSave";
         
         AssertHelper.assertContainsRegex(expectedLogMessage, a.getLogMessage());
-        
-        ______TS("test uploading, deleting and updating of photos");
-        // not tested here and will be tested in UiTests
     }
 
     private StudentProfileAttributes getProfileAttributesFrom(

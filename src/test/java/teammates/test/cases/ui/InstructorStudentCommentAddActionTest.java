@@ -37,14 +37,16 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COMMENT_TEXT, "Dummy comment content",
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student.email 
+                Const.ParamsNames.STUDENT_EMAIL, student.email,
+                Const.ParamsNames.RECIPIENT_TYPE, "PERSON",
+                Const.ParamsNames.RECIPIENTS, student.email
         };
+        verifyUnaccessibleWithoutGiveCommentInSectionsPrivilege(submissionParams);
         verifyOnlyInstructorsCanAccess(submissionParams);
     }
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        //TODO: find a way to test status message from session
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
         StudentAttributes student = dataBundle.students.get("student3InCourse1");
         String instructorId = instructor.googleId;
@@ -84,7 +86,9 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COMMENT_TEXT, "A typical comment to be added",
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student.email
+                Const.ParamsNames.STUDENT_EMAIL, student.email,
+                Const.ParamsNames.RECIPIENT_TYPE, "PERSON",
+                Const.ParamsNames.RECIPIENTS, student.email
         };
 
         InstructorStudentCommentAddAction a = getAction(submissionParams);

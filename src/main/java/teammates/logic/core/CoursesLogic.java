@@ -18,6 +18,7 @@ import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.SectionDetailsBundle;
@@ -95,7 +96,10 @@ public class CoursesLogic {
         createCourse(courseId, courseName);
         
         /* Create the initial instructor for the course */
-        InstructorAttributes instructor = new InstructorAttributes(instructorGoogleId, courseId, courseCreator.name, courseCreator.email);
+        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        InstructorAttributes instructor = new InstructorAttributes(instructorGoogleId, courseId, courseCreator.name, courseCreator.email, 
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, true, InstructorAttributes.DEFAULT_DISPLAY_NAME,
+                privileges);
         
         try {
             instructorsLogic.createInstructor(instructor);

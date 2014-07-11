@@ -56,14 +56,13 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
         };
-        
+        verifyUnaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
         //TODO Test error states (catch-blocks and isError == true states)
-        //TODO: find a way to test status message from session
         ______TS("Unsuccessful case: test empty feedback session name parameter");
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, dataBundle.feedbackResponses.get("response1ForQ1S1C1").courseId
@@ -331,8 +330,6 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         ______TS("Successful case: msq: typical case");
         
-        dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
         
         fq = fqDb.getFeedbackQuestion("MSQ Session", "FSQTT.idOfTypicalCourse1", 2);
         assertNotNull("Feedback question not found in database", fq);
@@ -387,8 +384,6 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         ______TS("Successful case: numerical scale: typical case");
         
-        dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
         
         fq = fqDb.getFeedbackQuestion("NUMSCALE Session", "FSQTT.idOfTypicalCourse1", 2);
         assertNotNull("Feedback question not found in database", fq);
@@ -452,8 +447,6 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         ______TS("Successful case: const sum: typical case");
         
-        dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
         
         fq = fqDb.getFeedbackQuestion("CONSTSUM Session", "FSQTT.idOfTypicalCourse1", 2);
         assertNotNull("Feedback question not found in database", fq);
@@ -519,6 +512,11 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+        
+        
+        ______TS("Successful case: contrib qn: typical case");
+        
+        //No tests since contrib qn can only be answered by students to own team members including self.
         
     }
     

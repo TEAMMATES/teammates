@@ -60,6 +60,7 @@ var FEEDBACK_QUESTION_TYPENAME_MSQ = "Multiple-choice (multiple answers)";
 var FEEDBACK_QUESTION_TYPENAME_NUMSCALE = "Numerical-scale question";
 var FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION = "Distribute points (among options) question";
 var FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT = "Distribute points (among recipients) question";
+var FEEDBACK_QUESTION_TYPENAME_CONTRIB = "Team contribution question";
 
 // used in feedbackResponseComments.js
 var FEEDBACK_RESPONSE_ID = "responseid";
@@ -102,6 +103,10 @@ var DISPLAY_FIELDS_EMPTY = "Please fill in all the relevant fields.";
 var DISPLAY_INVALID_INPUT = "Unexpected error. Invalid Input";
 
 //Used in instructorFeedback.js only
+var FEEDBACK_SESSION_COPY_INVALID = "There is no feedback session to be copied."
+var FEEDBACK_QUESTION_COPY_INVALID = "There is no feedback question to be copied."
+var DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE = "This feedback session name already existed in this course. Please use another name."
+var DISPLAY_FEEDBACK_SESSION_NAME_EMPTY =  "Feedback session name must not be empty."
 var DISPLAY_FEEDBACK_SESSION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in feedback session name.";
 var DISPLAY_FEEDBACK_SESSION_NAME_LENGTHINVALID = "Feedback session name should not exceed 38 characters.";
 var DISPLAY_FEEDBACK_SESSION_SCHEDULEINVALID = "The feedback sesion schedule (start/end) is not valid.<br />"

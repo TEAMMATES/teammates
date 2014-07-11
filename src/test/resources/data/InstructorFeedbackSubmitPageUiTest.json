@@ -71,7 +71,8 @@
             "name":"Teammates Test",
             "email":"IFSubmitUiT.instr@gmail.com",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "IFSubmitUiT.instr2":{
@@ -80,8 +81,9 @@
             "name":"Teammates Test2",
             "email":"IFSubmitUiT.instr2@gmail.com",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canmodifyinstructor\": false,\n    \"canmodifystudent\": false,\n    \"canviewcommentinsection\": false\n  },\n  \"sectionLevel\": {\n    \"Section 1\": {\n      \"cansubmitsessioninsection\": true\n    }\n  },\n  \"sessionLevel\": {}\n}"
         },
         "IFSubmitUiT.instr3":{
             "googleId":"IFSubmitUiT.instr3",
@@ -89,7 +91,8 @@
             "name":"Teammates Test3",
             "email":"IFSubmitUiT.instr3@gmail.com",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "IFSubmitUiT.instr4":{
@@ -98,7 +101,8 @@
             "name":"Teammates Test4",
             "email":"IFSubmitUiT.instr4@gmail.com",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "IFSubmitUiT.instr5":{
@@ -107,7 +111,8 @@
             "name":"Teammates Test5",
             "email":"IFSubmitUiT.instr5@gmail.com",
             "role":"Co-owner",
-            "displayedName":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         }
     },
@@ -134,7 +139,8 @@
             "course":"IFSubmitUiT.CS2104",
             "name":"Extra guy",
             "comments":"This student will move to a new team after evaluation created",
-            "team":"Team 2"
+            "team":"Team 2",
+            "section":"Section 1"
         },
         "DropOut":{
             "googleId":"drop.out",
@@ -142,7 +148,8 @@
             "course":"IFSubmitUiT.CS2104",
             "name":"Drop out",
             "comments":"This student will drop out after evaluation created",
-            "team":"Team 2"
+            "team":"Team 2",
+            "section":"Section 1"
         },
         "Charlie":{
             "googleId":"IFSubmitUiT.charlie.d",
@@ -150,7 +157,8 @@
             "course":"IFSubmitUiT.CS2104",
             "name":"Charlie Davis",
             "comments":"This student's name is Charlie Davis",
-            "team":"Team 2"
+            "team":"Team 2",
+            "section":"Section 1"
         },
         "Danny":{
             "googleId":"IFSubmitUiT.danny.e",
@@ -158,7 +166,8 @@
             "course":"IFSubmitUiT.CS2104",
             "name":"Danny Engrid",
             "comments":"This student's name is Danny Engrid",
-            "team":"Team 2"
+            "team":"Team 2",
+            "section":"Section 1"
         },
         "Emily":{
             "googleId":"IFSubmitUiT.emily.f",
@@ -166,7 +175,8 @@
             "course":"IFSubmitUiT.CS2104",
             "name":"Emily",
             "comments":"This student's name is Emily",
-            "team":"Team 3"
+            "team":"Team 3",
+            "section":"Section 2"
         }
     },
     "feedbackSessions":{
@@ -741,6 +751,28 @@
                 "INSTRUCTORS"
             ]
         },
+        "qn21InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"Rate the contribution of your team members and yourself.\"}"
+            },
+            "questionNumber":"21",
+            "questionType":"CONTRIB",
+            "giverType":"STUDENTS",
+            "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
 
         
         "qn1InSession2":{
@@ -874,6 +906,28 @@
             "numberOfEntitiesToGiveFeedbackTo":-100,
             "showResponsesTo":[
                 "RECEIVER",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
+        "qn7InSession2":{
+            "feedbackSessionName":"Second Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"Rate the contribution of your team members and yourself.(Closed session)\"}"
+            },
+            "questionNumber":"7",
+            "questionType":"CONTRIB",
+            "giverType":"STUDENTS",
+            "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
                 "INSTRUCTORS"
             ],
             "showGiverNameTo":[

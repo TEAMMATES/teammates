@@ -34,6 +34,7 @@ public class AjaxResult extends ActionResult {
             throws IOException, ServletException {
         
         resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
         String jsonData = (new Gson()).toJson(data);
         
         resp.getWriter().write(jsonData);        

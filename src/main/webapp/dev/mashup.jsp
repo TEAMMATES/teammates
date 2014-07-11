@@ -6,7 +6,7 @@
 <html>
     <head>
         <link rel="shortcut icon" href="/favicon.png"></link>
-        <meta http-equiv="X-UA-Compatible" content="IE=8"></link>
+        <meta http-equiv="X-UA-Compatible" content="IE=8" />
         <meta content="width=device-width, initial-scale=1.0"  name="viewport" />
         <title>Teammates - Webpage Compilation</title>
         
@@ -58,6 +58,7 @@
                                 <li><a href="#instructorFeedbackResultsPageByRecipientQuestionGiver">Instructor Feedback Results Page (By recipient-question-giver)</a></li>
                                 <li><a href="#instructorFeedbackResultsPageByQuestion">Instructor Feedback Results Page (By question)</a></li>
                                 <li><a href="#instructorCommentsPage">Instructor Comments Page</a></li>
+                                <li><a href="#instructorSearchPage">Instructor Search Page</a></li>
                             </ul>
                         </td>
                         <td>
@@ -72,6 +73,7 @@
                                 <li><a href="#studentFeedbackSubmitPage">Student Feedback Submit Page</a></li>
                                 <li><a href="#studentFeedbackQuestionSubmitPage">Student Feedback Question Submit Page</a></li>
                                 <li><a href="#studentFeedbackResultsPage">Student Feedback Results Page</a></li>
+                                <li><a href="#studentCommentsPage">Student Comments Page</a></li>
                             </ul>
                         <td>
                         </td>
@@ -221,6 +223,10 @@
                 
                 <div class="pageinfo">Instructor Comments Page</div>
                 <div id="instructorCommentsPage"></div>
+                <br><hr class="hr-bold"><br>
+                
+                <div class="pageinfo">Instructor Search Page</div>
+                <div id="instructorSearchPage"></div>
                 <br></br>
                 <br></br>
                 <br></br>
@@ -261,6 +267,10 @@
 
                 <div class="pageinfo">Student Feedback Results Page</div>
                 <div id="studentFeedbackResultsPage"></div>
+                <br><hr class="hr-bold"><br>
+                
+                <div class="pageinfo">Student Comments Page</div>
+                <div id="studentCommentsPage"></div>
                 <br></br>
                 <br></br>
                 <br></br>
@@ -467,6 +477,10 @@
                     function (response, status, xml) {
                         $("[data-toggle='tooltip']").tooltip({html: true}); 
                     });
+            $('#instructorSearchPage').load("<%=Const.ActionURIs.INSTRUCTOR_SEARCH_PAGE%>?user=teammates.test&searchkey=teammates #frameBodyWrapper",
+                    function (response, status, xml) {
+                        $("[data-toggle='tooltip']").tooltip({html: true}); 
+                    });
             
             $('#studentHomePage').load("<%=Const.ActionURIs.STUDENT_HOME_PAGE%>?user=teammates.test #frameBodyWrapper",
                 function (response, status, xml) {
@@ -522,6 +536,10 @@
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
+            $('#studentCommentsPage').load("<%=Const.ActionURIs.STUDENT_COMMENTS_PAGE%>?user=alice.b.tmms&courseid=CS2104 #frameBodyWrapper",
+                    function (response, status, xml) {
+                        $("[data-toggle='tooltip']").tooltip({html: true}); 
+                    });
             
             $('#adminHomePage').load("<%=Const.ActionURIs.ADMIN_HOME_PAGE%> #frameBodyWrapper",
                 function (response, status, xml) {
