@@ -36,7 +36,7 @@ public class FeedbackResponseCommentSearchQuery extends SearchQuery {
         }
         //TODO: verify section
         visibilityQueryString = Const.SearchDocumentField.COURSE_ID + ":" + courseIdLimit.toString()
-                + AND + "(" + Const.SearchDocumentField.COMMENT_GIVER_EMAIL + ":" + emailLimit.toString()
+                + AND + "(" + Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_EMAIL + ":" + emailLimit.toString()
                         + OR + "(" + Const.SearchDocumentField.GIVER_EMAIL + ":" + emailLimit.toString() 
                                 + AND + Const.SearchDocumentField.IS_VISIBLE_TO_GIVER + ":true)"
                         + OR + "(" + Const.SearchDocumentField.RECIPIENT_EMAIL + ":" + emailLimit.toString() 

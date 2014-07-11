@@ -458,18 +458,20 @@ public class CommentsLogic {
             FeedbackResponseAttributes relatedResponse = getRelatedResponse(
                     feedbackResponsesTable, frc);
             
-            populateRecipientEmailsForGiver(roster, teamStudentTable,
-                    recipientEmailsList, responseCommentsAddedTable, frc,
-                    relatedQuestion, relatedResponse);
-            populateRecipientEmailsForReceiver(roster, teamStudentTable,
-                    recipientEmailsList, responseCommentsAddedTable, frc,
-                    relatedQuestion, relatedResponse);
-            populateRecipientEmailsForTeamMember(roster, teamStudentTable,
-                    recipientEmailsList, responseCommentsAddedTable, frc,
-                    relatedQuestion, relatedResponse);
-            populateRecipientEmailsForAllStudents(allStudents,
-                    recipientEmailsList, responseCommentsAddedTable, frc,
-                    relatedQuestion);
+            if(relatedQuestion != null && relatedResponse != null){
+                populateRecipientEmailsForGiver(roster, teamStudentTable,
+                        recipientEmailsList, responseCommentsAddedTable, frc,
+                        relatedQuestion, relatedResponse);
+                populateRecipientEmailsForReceiver(roster, teamStudentTable,
+                        recipientEmailsList, responseCommentsAddedTable, frc,
+                        relatedQuestion, relatedResponse);
+                populateRecipientEmailsForTeamMember(roster, teamStudentTable,
+                        recipientEmailsList, responseCommentsAddedTable, frc,
+                        relatedQuestion, relatedResponse);
+                populateRecipientEmailsForAllStudents(allStudents,
+                        recipientEmailsList, responseCommentsAddedTable, frc,
+                        relatedQuestion);
+            }
         }
     }
 

@@ -155,7 +155,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         Document doc = Document.newBuilder()
             //these are used to filter documents visible to certain instructor
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.COURSE_ID).setText(comment.courseId))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_GIVER_EMAIL).setText(comment.giverEmail))
+            .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_EMAIL).setText(comment.giverEmail))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_EMAIL).setText(relatedResponse.giverEmail))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_SECTION).setText(relatedResponse.giverSection))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.RECIPIENT_EMAIL).setText(relatedResponse.recipientEmail))

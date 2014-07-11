@@ -102,10 +102,18 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_RECEIVER_NAME).getText());
             responseRecipientTable.put(response.getId(), getFilteredRecipientName(response, responseRecipientName));
             
-            String commentGiverName = doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).getText();
-            commentGiverTable.put(comment.getId().toString(), extractContentFromQuotedString(commentGiverName));
+            String commentGiverName = extractContentFromQuotedString(
+                    doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).getText());
+            commentGiverTable.put(comment.getId().toString(), getFilteredCommentGiverName(response, comment, commentGiverName));
         }
         return this;
+    }
+    
+    private String getFilteredCommentGiverName(FeedbackResponseAttributes response, FeedbackResponseCommentAttributes comment, String name){
+        if (!isCommentGiverNameVisibleToInstructor(response, comment)) {
+            name = "Anonymous";
+        }
+        return name;
     }
     
     private String getFilteredGiverName(FeedbackResponseAttributes response, String name){
@@ -141,6 +149,28 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             }
         }
         return question;
+    }
+    
+    private boolean isCommentGiverNameVisibleToInstructor(FeedbackResponseAttributes response, 
+            FeedbackResponseCommentAttributes comment){
+        List<FeedbackParticipantType> showNameTo = comment.showGiverNameTo;
+        //comment giver can always see
+        if(instructorEmails.contains(comment.giverEmail)){
+            return true;
+        }
+        for(FeedbackParticipantType type:showNameTo){
+            if(type == FeedbackParticipantType.GIVER
+                    && instructorEmails.contains(response.giverEmail)){
+                return true;
+            } else if(type == FeedbackParticipantType.INSTRUCTORS
+                    && instructorCourseIdList.contains(response.courseId)){
+                return true;
+            } else if(type == FeedbackParticipantType.RECEIVER
+                    && instructorEmails.contains(response.recipientEmail)){
+                return true;
+            }
+        }   
+        return false;
     }
     
     private boolean isNameVisibleToInstructor(FeedbackResponseAttributes response, List<FeedbackParticipantType> showNameTo){

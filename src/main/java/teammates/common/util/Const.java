@@ -474,6 +474,7 @@ public class Const {
         public static final String COMMENT_RECIPIENT_NAME = "commentRecipientName";
         public static final String FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE = "frCommentAttibute";
         public static final String FEEDBACK_RESPONSE_COMMENT_GIVER_NAME = "frCommentGiverName";
+        public static final String FEEDBACK_RESPONSE_COMMENT_GIVER_EMAIL = "frCommentGiverEmail";
         public static final String FEEDBACK_RESPONSE_ATTRIBUTE = "feedbackResponseAttibute";
         public static final String FEEDBACK_RESPONSE_GIVER_NAME = "feedbackResponseGiverName";
         public static final String FEEDBACK_RESPONSE_RECEIVER_NAME = "feedbackResponseReceiverName";
