@@ -47,8 +47,12 @@ public class CommentsDb extends EntitiesDb{
     }
     
     public void deleteDocument(CommentAttributes commentToDelete){
-        CommentAttributes comment = getComment(commentToDelete);
-        deleteDocument(Const.SearchIndex.COMMENT, comment.getCommentId().toString());
+        if(commentToDelete.getCommentId() == null){
+            CommentAttributes comment = getComment(commentToDelete);
+            deleteDocument(Const.SearchIndex.COMMENT, comment.getCommentId().toString());
+        } else {
+            deleteDocument(Const.SearchIndex.COMMENT, commentToDelete.getCommentId().toString());
+        }
     }
     
     public CommentAttributes getComment(Long commentId){

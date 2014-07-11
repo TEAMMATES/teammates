@@ -46,10 +46,12 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     }
     
     public void deleteDocument(FeedbackResponseCommentAttributes commentToDelete){
-        FeedbackResponseComment commentEntity = (FeedbackResponseComment) getEntity(commentToDelete);
-        if(commentEntity != null){
+        if(commentToDelete.getId() == null){
+            FeedbackResponseComment commentEntity = (FeedbackResponseComment) getEntity(commentToDelete);
             FeedbackResponseCommentAttributes comment = new FeedbackResponseCommentAttributes(commentEntity);
             deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, comment.getId().toString());
+        } else {
+            deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, commentToDelete.getId().toString());
         }
     }
 
@@ -219,6 +221,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         frc.setSendingState(newAttributes.sendingState);
         frc.setGiverSection(newAttributes.giverSection);
         frc.setReceiverSection(newAttributes.receiverSection);
+        frc.setShowCommentTo(newAttributes.showCommentTo);
+        frc.setShowGiverNameTo(newAttributes.showGiverNameTo);
+        frc.setIsVisibilityFollowingFeedbackQuestion(Boolean.valueOf(false));
         
         getPM().close();
         
