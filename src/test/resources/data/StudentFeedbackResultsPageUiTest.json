@@ -1279,6 +1279,8 @@
             "giverEmail":"SFResultsUiT.instr@gmail.com",
             "feedbackResponseId":"1%SFResultsUiT.alice.b@gmail.com%SFResultsUiT.alice.b@gmail.com",
             "createdAt":"2016-03-01 11:59 PM UTC",
+            "showCommentTo":[STUDENTS];
+            "showGiverNameTo":[STUDENTS];
             "commentText":{
                 "value":"Instructor first comment to Alice"	
             }
@@ -1290,6 +1292,8 @@
             "giverEmail":"SFResultsUiT.instr@gmail.com",
             "feedbackResponseId":"1%SFResultsUiT.alice.b@gmail.com%SFResultsUiT.alice.b@gmail.com",
             "createdAt":"2016-03-02 11:59 PM UTC",
+            "showCommentTo":[STUDENTS];
+            "showGiverNameTo":[STUDENTS];
             "commentText":{
                 "value":"Instructor second comment to Alice"	
             }
