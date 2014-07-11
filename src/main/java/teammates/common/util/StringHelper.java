@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
+
 /** Holds String-related helper functions
  */
 public class StringHelper {
@@ -160,6 +161,56 @@ public class StringHelper {
         return wordCount;
     }
     
+    
+    
+    /**
+     * split a full name string into first and last names
+     * 
+     * 1.If passed in empty string, both last and first name will be empty string
+     * 
+     * 2.If single word, this will be last name and first name will be an empty string
+     * 
+     * 3.If more than two words, the last word will be last name and 
+     * the rest will be first name.
+     * 
+     * Example: 
+     * 
+     * full name "Danny Tim Lin"
+     * first name: "Danny Tim"
+     * last name: "Lin"
+     * 
+     * @return split name array{0--> first name, 1--> last name}
+     */
+    
+    public static String[] splitName(String fullName){  
+        
+        if(fullName == null){
+            return null;
+        }
+        
+        String lastName = fullName.substring(fullName.lastIndexOf(" ")+1).trim();
+        String firstName = fullName.replace(lastName, "").trim();
+        
+        String[] splitNames = {firstName, lastName};       
+        return splitNames;
+    }
+    
+    
+    /**
+     * trims the string and reduces consecutive white spaces to only one space
+     * Example: " a   a  " --> "a a"
+     * @return processed string, returns null if parameter is null
+     */
+    public static String removeExtraSpace(String str){       
+        if(str == null){
+            return null;
+        }
+        
+        return str.trim().replaceAll("\\s+", " ");
+        
+    }
+    
+    
     private static String byteArrayToHexString(byte[] b) {
         StringBuffer sb = new StringBuffer(b.length * 2);
         for (int i = 0; i < b.length; i++) {
@@ -181,5 +232,5 @@ public class StringHelper {
         }
         return b;
     }
-
+    
 }
