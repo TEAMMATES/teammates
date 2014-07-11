@@ -84,8 +84,7 @@ public abstract class Action {
         //---- initialise other attributes
         UserType loggedInUserType = getLoggedInUserType();
         loggedInUser = getLoggedInUser(loggedInUserType);
-        account = getNominalUser(req, loggedInUserType);
-        
+        account = authenticateAndGetNominalUser(req, loggedInUserType);
     }
 
     /**
@@ -333,7 +332,7 @@ public abstract class Action {
     }
 
     protected AccountAttributes getLoggedInUser(UserType loggedInUserType) {
-        logic.getAccount(loggedInUserType.id);
+        AccountAttributes loggedInUser = logic.getAccount(loggedInUserType.id);
         
         if(loggedInUser==null){ //Unregistered user
             isUnregistered = true;
@@ -344,7 +343,7 @@ public abstract class Action {
         return loggedInUser;
     }
 
-    protected AccountAttributes getNominalUser(HttpServletRequest req,
+    protected AccountAttributes authenticateAndGetNominalUser(HttpServletRequest req,
             UserType loggedInUserType) {
         String paramRequestedUserId = req.getParameter(Const.ParamsNames.USER_ID);
         AccountAttributes account = null;

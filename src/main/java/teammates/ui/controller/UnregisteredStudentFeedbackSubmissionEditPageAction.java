@@ -2,7 +2,9 @@ package teammates.ui.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -18,23 +20,20 @@ public class UnregisteredStudentFeedbackSubmissionEditPageAction extends
     private String regkey;
     
     @Override
-    @SuppressWarnings("unchecked")
-    public void init(HttpServletRequest req){
+    protected UserType getLoggedInUserType() {
+        return null;
+    }
+    
+    @Override
+    protected AccountAttributes getLoggedInUser(UserType loggedInUserType) {
+        return null;
+    }
+    
+    @Override
+    protected AccountAttributes authenticateAndGetNominalUser(HttpServletRequest req,
+            UserType loggedInUserType) {
         
-        request = req;
-        requestUrl = HttpRequestHelper.getRequestedURL(req);
-        logic = new Logic();
-        requestParameters = req.getParameterMap();
-        session = req.getSession();
         isUnregistered = true;
-        account = null;
-        
-        //---- set error status forwarded from the previous action
-        
-        isError = getRequestParamAsBoolean(Const.ParamsNames.ERROR);
-        
-        //---- set logged in user ------------------------------------------
-
         regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
         String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -51,6 +50,8 @@ public class UnregisteredStudentFeedbackSubmissionEditPageAction extends
                 || !student.course.equals(courseId)) {
             throw new UnauthorizedAccessException("Invalid email/course for given Registration Key");
         }
+        
+        return null;
     }
     
     @Override
