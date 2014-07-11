@@ -1,5 +1,7 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
+
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -51,6 +53,23 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
                 courseId, feedbackSessionName, null, instructor.email, null, null,
                 new Text(commentText), response.giverSection, response.recipientSection);
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
+        
+        String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
+        String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO);
+        feedbackResponseComment.showCommentTo = new ArrayList<FeedbackParticipantType>();
+        if(showCommentTo != null && !showCommentTo.isEmpty()){
+            String[] showCommentToArray = showCommentTo.split(",");
+            for(String viewer:showCommentToArray){
+                feedbackResponseComment.showCommentTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
+            }
+        }
+        feedbackResponseComment.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        if(showGiverNameTo != null && !showGiverNameTo.isEmpty()){
+            String[] showGiverNameToArray = showGiverNameTo.split(",");
+            for(String viewer:showGiverNameToArray){
+                feedbackResponseComment.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
+            }
+        }
         
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(response.feedbackQuestionId);
         if(isResponseCommentPublicToRecipient(question)){

@@ -155,14 +155,17 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         Document doc = Document.newBuilder()
             //these are used to filter documents visible to certain instructor
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.COURSE_ID).setText(comment.courseId))
+            .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_EMAIL).setText(comment.giverEmail))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_EMAIL).setText(relatedResponse.giverEmail))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_SECTION).setText(relatedResponse.giverSection))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.RECIPIENT_EMAIL).setText(relatedResponse.recipientEmail))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.RECIPIENT_SECTION).setText(relatedResponse.recipientSection))
+            .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_GIVER).setText(
+                    Boolean.valueOf(comment.isVisibleTo(FeedbackParticipantType.GIVER)).toString()))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_RECEIVER).setText(
-                    Boolean.valueOf(relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)).toString()))
+                    Boolean.valueOf(comment.isVisibleTo(FeedbackParticipantType.RECEIVER)).toString()))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_INSTRUCTOR).setText(
-                    Boolean.valueOf(relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)).toString()))
+                    Boolean.valueOf(comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS)).toString()))
             //searchableText and createdDate are used to match the query string
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT).setText(searchableTextBuilder.toString()))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.CREATED_DATE).setDate(comment.createdAt))
