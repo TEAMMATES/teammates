@@ -65,20 +65,13 @@ public class StringHelperTest extends BaseTestCase {
     @Test
     public void testSplitName(){
         
-        
-        
+            
         String fullName = "singleWord";
         String[] splitName = StringHelper.splitName(fullName);
         
         assertEquals(splitName[0],"");
         assertEquals(splitName[1],"singleWord");
-        
-        fullName = "   ";
-        splitName = StringHelper.splitName(fullName);
-        
-        assertEquals(splitName[0],"");
-        assertEquals(splitName[1],"");
-        
+       
         fullName = "";
         splitName = StringHelper.splitName(fullName);
         
@@ -90,34 +83,48 @@ public class StringHelperTest extends BaseTestCase {
         
         assertEquals(splitName,null);
         
-        fullName = "     singleWord    ";
-        splitName = StringHelper.splitName(fullName);
         
-        assertEquals(splitName[0],"");
-        assertEquals(splitName[1],"singleWord");
-        
-        
-        fullName = "     two     words    ";
+        fullName = "two words";
         splitName = StringHelper.splitName(fullName);
         
         assertEquals(splitName[0],"two");
         assertEquals(splitName[1],"words");
         
-        fullName = "     now      three       words    ";
+        fullName = "now three words";
         splitName = StringHelper.splitName(fullName);
         
         assertEquals(splitName[0],"now three");
         assertEquals(splitName[1],"words");
         
         
-        fullName = "  what   if      four       words    ";
+        fullName = "what if four words";
         splitName = StringHelper.splitName(fullName);
         
         assertEquals(splitName[0],"what if four");
         assertEquals(splitName[1],"words");
         
+    }
+    
+    @Test 
+    public void testRemoveExtraSpace(){
         
-        
+       String str = "";
+       assertEquals("",StringHelper.removeExtraSpace(str));
+       
+       str = null;
+       assertEquals(null,StringHelper.removeExtraSpace(str));
+       
+       str = "a    a";
+       assertEquals("a a",StringHelper.removeExtraSpace(str));
+       
+       str = "  a    a   ";
+       assertEquals("a a",StringHelper.removeExtraSpace(str));
+       
+       str = "    ";
+       assertEquals("",StringHelper.removeExtraSpace(str));
+       
+       str = " a      b       c       d      ";
+       assertEquals("a b c d",StringHelper.removeExtraSpace(str));
     }
 
 }

@@ -179,7 +179,7 @@ public class StringHelper {
      * first name: "Danny Tim"
      * last name: "Lin"
      * 
-     * @return splited name array{0--> first name, 1--> last name}
+     * @return split name array{0--> first name, 1--> last name}
      */
     
     public static String[] splitName(String fullName){  
@@ -188,7 +188,6 @@ public class StringHelper {
             return null;
         }
         
-        fullName = removeExtraSpace(fullName);    
         String lastName = fullName.substring(fullName.lastIndexOf(" ")+1).trim();
         String firstName = fullName.replace(lastName, "").trim();
         
@@ -198,10 +197,14 @@ public class StringHelper {
     
     
     /**
-     * trim the string and reduce consecutive white spaces to only one space
+     * trims the string and reduces consecutive white spaces to only one space
      * Example: " a   a  " --> "a a"
+     * @return processed string, returns null if parameter is null
      */
-    public static String removeExtraSpace(String str){
+    public static String removeExtraSpace(String str){       
+        if(str == null){
+            return null;
+        }
         
         return str.trim().replaceAll("\\s+", " ");
         
