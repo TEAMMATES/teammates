@@ -541,7 +541,7 @@ public class Logic {
     }
     
     
-    public void sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute)
+    public String sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute)
             throws EntityDoesNotExistException{
          
          
@@ -549,7 +549,7 @@ public class Logic {
          Assumption.assertNotNull(ERROR_NULL_PARAMETER, shortName);
          Assumption.assertNotNull(ERROR_NULL_PARAMETER, institute);
          
-         instructorsLogic.sendJoinLinkToNewInstructor(instructor, shortName, institute);
+         return instructorsLogic.sendJoinLinkToNewInstructor(instructor, shortName, institute);
          
      }
      
