@@ -155,6 +155,7 @@ public class InstructorCourseEditPage extends AppPage {
         WebElement closeButton = browser.driver.findElement(By.className("close"));
         
         closeButton.click();
+        browser.selenium.waitForPageToLoad("500");
     }
     
     public WebElement addSessionLevelPrivilegesLink(int instrNum) {
