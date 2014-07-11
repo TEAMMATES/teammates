@@ -1,5 +1,9 @@
 var addCount = 0;
 
+function isInCommentsPage(){
+	return $(location).attr('href').indexOf('instructorCommentsPage') != -1;
+}
+
 var addCommentHandler = function(e) {
     var submitButton = $(this);
     var formObject = $(this).parent().parent();
@@ -23,7 +27,7 @@ var addCommentHandler = function(e) {
         success : function(data) {
             setTimeout(function(){
                 if (!data.isError) {
-                    if($(location).attr('href').indexOf('instructorCommentsPage') != -1){
+                    if(isInCommentsPage()){
                         location.reload();
                     }
                     
@@ -76,7 +80,7 @@ var editCommentHandler = function(e) {
         success : function(data) {
             setTimeout(function(){
                 if (!data.isError) {
-                    if($(location).attr('href').indexOf('instructorCommentsPage') != -1){
+                    if(isInCommentsPage()){
                         location.reload();
                     }
                     
@@ -128,7 +132,7 @@ var deleteCommentHandler = function(e) {
         success : function(data) {
             setTimeout(function(){
                 if (!data.isError) {
-                    if($(location).attr('href').indexOf('instructorCommentsPage') != -1){
+                    if(isInCommentsPage()){
                         location.reload();
                     }
                     
@@ -155,10 +159,25 @@ var deleteCommentHandler = function(e) {
 };
 
 $(document).ready(function(){
-    
     $("form[class*='responseCommentAddForm'] > div > a").click(addCommentHandler);
     $("form[class*='responseCommentEditForm'] > div > a").click(editCommentHandler);
     $("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
+    
+    $("input[type=checkbox]").click(function(){
+    	var table = $(this).parent().parent().parent().parent();
+    	var form = table.parent().parent().parent();
+    	var visibilityOptions = [];
+    	table.find('.answerCheckbox:checked').each(function () {
+			visibilityOptions.push($(this).val());
+	    });
+    	form.find("input[name='showresponsecommentsto']").val(visibilityOptions.toString());
+	    
+	    visibilityOptions = [];
+	    table.find('.giverCheckbox:checked').each(function () {
+			visibilityOptions.push($(this).val());
+	    });
+	    form.find("input[name='showresponsegiverto']").val(visibilityOptions.toString());
+    });
 });
 
 function generateNewCommentRow(data) {
@@ -170,7 +189,7 @@ function generateNewCommentRow(data) {
 	var formattedTime = commentDateStr.substring(indexOfYear + 5, indexOfYear + 14);
 	var commentTime = formattedDate + " " + formattedTime + " UTC " + thisYear;
 	
-	var classNameForRow = $(location).attr('href').indexOf('instructorCommentsPage') != -1? "list-group-item list-group-item-warning giver_display-by-you":
+	var classNameForRow = isInCommentsPage()? "list-group-item list-group-item-warning giver_display-by-you":
 			"list-group-item list-group-item-warning";
 	
     var newRow =
@@ -264,6 +283,28 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     $("#responseCommentEditForm"+id+" > div > textarea").val($("#plainCommentText"+id).text());
     $("#responseCommentEditForm"+id).show();
     $("#responseCommentEditForm"+id+" > div > textarea").focus();
+}
+
+function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentIndex) {
+	var id;
+	if(questionIdx || responseIdx || commentIndex){
+		if(commentIndex){
+			id = "-"+sessionIdx+"-"+questionIdx+"-"+responseIdx+"-"+commentIndex;
+		} else {
+			id = "-"+sessionIdx+"-"+questionIdx+"-"+responseIdx;
+		}
+	} else {
+		id = "-"+sessionIdx;
+	}
+	var visibilityEditForm = $("#visibility-options"+id);
+	if(visibilityEditForm.is(':visible')){
+		visibilityEditForm.hide();
+		$("#frComment-visibility-options-trigger"+id).html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
+		
+	} else {
+		visibilityEditForm.show();
+		$("#frComment-visibility-options-trigger"+id).html('<span class="glyphicon glyphicon-eye-close"></span> Hide Visibility Options');
+	}
 }
 
 function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex) {
