@@ -8,6 +8,10 @@ import java.util.Map;
 import java.util.Set;
 
 import teammates.common.util.Const;
+import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.logic.core.FeedbackResponseCommentsLogic;
+import teammates.logic.core.FeedbackResponsesLogic;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 
 import com.google.appengine.api.search.Cursor;
@@ -31,6 +35,11 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     private Set<String> instructorEmails = new HashSet<String>();
     private Set<String> instructorCourseIdList = new HashSet<String>();
     
+    private FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    
     public FeedbackResponseCommentSearchResultBundle(){}
 
     public FeedbackResponseCommentSearchResultBundle fromResults(Results<ScoredDocument> results, String googleId){
@@ -52,6 +61,10 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             FeedbackResponseCommentAttributes comment = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE).getText(), 
                     FeedbackResponseCommentAttributes.class);
+            if(frcLogic.getFeedbackResponseComment(comment.getId()) == null){
+                frcLogic.deleteDocument(comment);
+                continue;
+            }
             comment.sendingState = CommentSendingState.SENT;
             List<FeedbackResponseCommentAttributes> commentList = comments.get(comment.feedbackResponseId);
             if(commentList == null){
@@ -63,6 +76,10 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             FeedbackResponseAttributes response = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE).getText(), 
                     FeedbackResponseAttributes.class);
+            if(frLogic.getFeedbackResponse(response.getId()) == null){
+                frcLogic.deleteDocument(comment);
+                continue;
+            }
             List<FeedbackResponseAttributes> responseList = responses.get(response.feedbackQuestionId);
             if(responseList == null){
                 responseList = new ArrayList<FeedbackResponseAttributes>();
@@ -76,6 +93,10 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             FeedbackQuestionAttributes question = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE).getText(), 
                     FeedbackQuestionAttributes.class);
+            if(fqLogic.getFeedbackQuestion(question.getId()) == null){
+                frcLogic.deleteDocument(comment);
+                continue;
+            }
             List<FeedbackQuestionAttributes> questionList = questions.get(question.feedbackSessionName);
             if(questionList == null){
                 questionList = new ArrayList<FeedbackQuestionAttributes>();
@@ -89,6 +110,10 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             FeedbackSessionAttributes session = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE).getText(), 
                     FeedbackSessionAttributes.class);
+            if(fsLogic.getFeedbackSession(session.getSessionName(), session.courseId) == null){
+                frcLogic.deleteDocument(comment);
+                continue;
+            }
             if(!isAdded.contains(session.feedbackSessionName)){
                 isAdded.add(session.feedbackSessionName);
                 sessions.put(session.getSessionName(), session);
