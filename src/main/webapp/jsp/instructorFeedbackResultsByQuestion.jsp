@@ -90,18 +90,23 @@
                                 <tr>
                                     <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
                                         Giver
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
                                         Recipient
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFeedback" onclick="toggleSort(this,5)">
                                         Feedback
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                 </tr>
                             <thead>

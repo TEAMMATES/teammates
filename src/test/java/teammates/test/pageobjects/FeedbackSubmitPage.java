@@ -1,6 +1,7 @@
 package teammates.test.pageobjects;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 import teammates.common.util.Const;
@@ -40,6 +41,10 @@ public class FeedbackSubmitPage extends AppPage {
                 By.name(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         element.click();
         fillTextBox(element, text);
+        //Fire the change event using javascript since firefox with selenium
+        //might be buggy and fail to trigger.
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("$(arguments[0]).change();", element);
     }
     
     public void fillResponseTextBox(int qnNumber, int responseNumber, int responseSubNumber, String text) {

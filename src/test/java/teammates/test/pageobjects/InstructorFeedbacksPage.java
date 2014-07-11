@@ -173,6 +173,7 @@ public class InstructorFeedbacksPage extends AppPage {
     
     public void clickCopySubmitButton(){
         copySubmitButton.click();
+        browser.selenium.waitForPageToLoad("15000");
     }
     
     
