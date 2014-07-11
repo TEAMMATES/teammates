@@ -32,6 +32,7 @@ import teammates.test.util.TestHelper;
 public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTaskQueueTestCase {
 
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static final DataBundle dataBundle = getTypicalDataBundle();
     
     @SuppressWarnings("serial")
     public static class FeedbackSessionPublishedCallback extends BaseTaskQueueCallback {
@@ -68,12 +69,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         gaeSimulation.tearDown();
         gaeSimulation.setupWithTaskQueueCallbackClass(FeedbackSessionPublishedCallback.class);
         gaeSimulation.resetDatastore();
-    }
-    
-    @Test
-    public void testAll() throws Exception{
-        testAdditionOfTaskToTaskQueue();
-        testFeedbackSessionOpeningMailAction();
+        restoreTypicalDataInDatastore();
     }
     
     @AfterClass
@@ -81,9 +77,8 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         printTestClassFooter();
     }
     
-    private void testAdditionOfTaskToTaskQueue() throws Exception {
-        DataBundle dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
+    @Test(priority = 1)
+    public void testAdditionOfTaskToTaskQueue() throws Exception {        
         FeedbackSessionPublishedCallback.resetTaskCount();
         
         ______TS("3 sessions unpublished, 1 published and emails unsent");
@@ -97,9 +92,8 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
             }
             counter++;
         }
-        if(counter == 10){
-            assertEquals(FeedbackSessionPublishedCallback.taskCount, 1);
-        }
+        
+        assertEquals(FeedbackSessionPublishedCallback.taskCount, 1);
        
         ______TS("publish sessions");
         //  1 sessions unpublished, 1 published and email sent,
@@ -138,9 +132,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
             }
             counter++;
         }
-        if(counter == 10){
-            assertEquals(FeedbackSessionPublishedCallback.taskCount, 3);
-        }
+        assertEquals(FeedbackSessionPublishedCallback.taskCount, 3);
         
         ______TS("unpublish a session");
         fsLogic.unpublishFeedbackSession(session2.feedbackSessionName, session2.courseId);
@@ -161,10 +153,9 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
        
     }
 
-    private void testFeedbackSessionOpeningMailAction() throws Exception{
-        DataBundle dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-        
+    @Test(priority = 2)
+    public void testFeedbackSessionOpeningMailAction() throws Exception{
+
         ______TS("MimeMessage Test : activate all sessions with mails sent");
         for (FeedbackSessionAttributes fs : dataBundle.feedbackSessions.values()) {
             fs.sentPublishedEmail = true;

@@ -14,25 +14,13 @@ import teammates.ui.controller.StudentProfilePictureEditAction;
 
 public class StudentProfilePictureEditActionTest extends BaseActionTest {
     
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
-    }
-
-    @BeforeMethod
-    public void methodSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        String[] submissionParams = createValidParamsForProfilePictureEdit();
-        verifyAnyRegisteredUserCanAccess(submissionParams);
-        
     }
 
     @Test

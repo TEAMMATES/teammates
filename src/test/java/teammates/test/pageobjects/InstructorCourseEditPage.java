@@ -1,6 +1,7 @@
 package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -83,6 +84,7 @@ public class InstructorCourseEditPage extends AppPage {
         
         editInstructorName(name);
         editInstructorEmail(email);
+        selectRoleForInstructor(1, "Co-owner");
         
         saveInstructorButton.click();
         waitForPageToLoad();
@@ -133,20 +135,26 @@ public class InstructorCourseEditPage extends AppPage {
         this.displayedToStudentCheckBox(instrNum).click();
     }
     
-    public WebElement fineTunePermissionLink(int instrNum) {
-        String cssSelectorStr = "#accessControlEditDivForInstr" + instrNum
-                + " > div:nth-child(2) > div:nth-child(1) > div:nth-child(6) > a:nth-child(1)";
-        return browser.driver.findElement(By.cssSelector(cssSelectorStr));
-    }
-    
-    public void clickFineTunePermissionLink(int instrNum) {
-        this.fineTunePermissionLink(instrNum).click();
-    }
-    
     public void selectRoleForInstructor(int instrNum, String role) {
         WebElement roleRadioButton = browser.driver.findElement(By.cssSelector(
                 "input[id='instructorroleforinstructor" + instrNum + "'][value='" + role + "']"));
         roleRadioButton.click();
+    }
+    
+    public void clickViewDetailsLinkForInstructor(int instrNum, int viewLinkNum) {
+        // there is one link before view details link group
+        int cssLinkNum = viewLinkNum + 1;
+        WebElement viewLink = browser.driver.findElement(By.cssSelector("#accessControlEditDivForInstr" + instrNum +
+                " > div:nth-child(2) > div.col-sm-9 > a:nth-child(" + cssLinkNum + ")"));
+        
+        viewLink.click();
+        browser.selenium.waitForPageToLoad("500");
+    }
+    
+    public void closeModal() {
+        WebElement closeButton = browser.driver.findElement(By.className("close"));
+        
+        closeButton.click();
     }
     
     public WebElement addSessionLevelPrivilegesLink(int instrNum) {

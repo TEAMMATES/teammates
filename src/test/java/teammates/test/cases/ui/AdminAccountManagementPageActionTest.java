@@ -13,27 +13,14 @@ import teammates.ui.controller.ShowPageResult;
 
 public class AdminAccountManagementPageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
-    
+    // private static final DataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE;
+        // restoreTypicalDataInDatastore();
     }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        String[] submissionParams = new String[]{};
-        verifyOnlyAdminsCanAccess(submissionParams);
-    }
-
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
@@ -61,6 +48,4 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
         return (AdminAccountManagementPageAction) (gaeSimulation.getActionObject(uri, params));
     }
     
-    
-
 }
