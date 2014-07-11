@@ -118,14 +118,6 @@ function bindCollapseEvents(panels, numPanels){
             $(bodyCollapse[0]).attr('id', "panelBodyCollapse-"+numPanels);
         }
     }
-
-    $(".glyphicon").click(function(){
-        var parent = $(this).parent();
-        if(parent.length){
-            $(parent).trigger('click');
-        }
-    });
-
     return numPanels;
 }
 
