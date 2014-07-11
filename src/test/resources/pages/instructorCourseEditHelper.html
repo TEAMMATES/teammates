@@ -335,15 +335,15 @@ ul #nav {
                         <span class="glyphicon glyphicon-trash"></span> Delete</a>
                 </div>
             </div>
-            
+                 
             <!-- Attention: 
             This join link is printed as a hidden html element and is only used for testing purpose. 
             This should not be shown to the user. Please go to element inspector to get this link.        
-            --> 
-            <div class="form-group" hidden="hidden" id="joinLink">
-              http://{*}/page/instructorCourseJoin?regkey={*}
+            -->       
+            <div hidden="hidden" class="form-group" id="joinLink">
+                {$app.url}/page/instructorCourseJoin?regkey={*}
             </div>
-            
+
             <div class="panel-body">
                 <form class="form form-horizontal" name="formEditInstructors" id="formEditInstructor1&gt;" action="/page/instructorCourseInstructorEditSave" method="post">
                     <input type="hidden" value="InsCrsEdit.CS2104" name="courseid" />
@@ -376,6 +376,7 @@ ul #nav {
                                 </div>
                             </div>
                         </div>
+
                         <div style="display:none;" id="accessControlEditDivForInstr1">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">
@@ -411,7 +412,7 @@ ul #nav {
                                          Custom: No access by default. Any access needs to be granted explicitly.<br />
                                 </div>
                             </div>
-                            <div style="display: none;" id="tunePermissionsDivForInstructor1">
+                            <div style="" id="tunePermissionsDivForInstructor1">
                                 <div class="form-group">
                                     <div class="col-xs-12">
                                         <div class="panel panel-info">
@@ -592,13 +593,13 @@ ul #nav {
                         <span class="glyphicon glyphicon-trash"></span> Delete</a>
                 </div>
             </div>
-            
+                 
             <!-- Attention: 
             This join link is printed as a hidden html element and is only used for testing purpose. 
             This should not be shown to the user. Please go to element inspector to get this link.        
-            --> 
-            <div class="form-group" hidden="hidden" id="joinLink">
-              http://{*}/page/instructorCourseJoin?regkey={*}
+            -->       
+            <div hidden="hidden" class="form-group" id="joinLink">
+                {$app.url}/page/instructorCourseJoin?regkey={*}
             </div>
 
             <div class="panel-body">
@@ -633,6 +634,7 @@ ul #nav {
                                 </div>
                             </div>
                         </div>
+
                         <div style="display:none;" id="accessControlEditDivForInstr2">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">
@@ -849,15 +851,15 @@ ul #nav {
                         <span class="glyphicon glyphicon-trash"></span> Delete</a>
                 </div>
             </div>
-            
+                 
             <!-- Attention: 
             This join link is printed as a hidden html element and is only used for testing purpose. 
             This should not be shown to the user. Please go to element inspector to get this link.        
-            --> 
-            <div class="form-group" hidden="hidden" id="joinLink">
-              http://{*}/page/instructorCourseJoin?regkey={*}
+            -->       
+            <div hidden="hidden" class="form-group" id="joinLink">
+                {$app.url}/page/instructorCourseJoin?regkey={*}
             </div>
-            
+
             <div class="panel-body">
                 <form class="form form-horizontal" name="formEditInstructors" id="formEditInstructor3&gt;" action="/page/instructorCourseInstructorEditSave" method="post">
                     <input type="hidden" value="InsCrsEdit.CS2104" name="courseid" />
@@ -884,6 +886,7 @@ ul #nav {
                                 </div>
                             </div>
                         </div>
+
                         <div style="display:none;" id="accessControlEditDivForInstr3">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">
@@ -919,7 +922,7 @@ ul #nav {
                                          Custom: No access by default. Any access needs to be granted explicitly.<br />
                                 </div>
                             </div>
-                            <div style="display: none;" id="tunePermissionsDivForInstructor3">
+                            <div style="" id="tunePermissionsDivForInstructor3">
                                 <div class="form-group">
                                     <div class="col-xs-12">
                                         <div class="panel panel-info">
@@ -1100,15 +1103,15 @@ ul #nav {
                         <span class="glyphicon glyphicon-trash"></span> Delete</a>
                 </div>
             </div>
-            
+                 
             <!-- Attention: 
             This join link is printed as a hidden html element and is only used for testing purpose. 
             This should not be shown to the user. Please go to element inspector to get this link.        
-            --> 
-            <div class="form-group" hidden="hidden" id="joinLink">
-              http://{*}/page/instructorCourseJoin?regkey={*}
+            -->       
+            <div hidden="hidden" class="form-group" id="joinLink">
+                {$app.url}/page/instructorCourseJoin?regkey={*}
             </div>
-            
+
             <div class="panel-body">
                 <form class="form form-horizontal" name="formEditInstructors" id="formEditInstructor4&gt;" action="/page/instructorCourseInstructorEditSave" method="post">
                     <input type="hidden" value="InsCrsEdit.CS2104" name="courseid" />
@@ -1141,6 +1144,7 @@ ul #nav {
                                 </div>
                             </div>
                         </div>
+
                         <div style="display:none;" id="accessControlEditDivForInstr4">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">
@@ -1410,28 +1414,28 @@ ul #nav {
                                             </div>
                                             <div class="panel-body">
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" value="true" name="canmodifycourse" /> Edit/Delete Course
+                                                    <input type="checkbox" checked="checked" value="true" name="canmodifycourse" /> Edit/Delete Course
                                                 </div>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" value="true" name="canmodifyinstructor" /> Add/Edit/Delete Instructors
+                                                    <input type="checkbox" checked="checked" value="true" name="canmodifyinstructor" /> Add/Edit/Delete Instructors
                                                 </div>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" value="true" name="canmodifysession" /> Create/Edit/Delete Sessions
+                                                    <input type="checkbox" checked="checked" value="true" name="canmodifysession" /> Create/Edit/Delete Sessions
                                                 </div>
                                                 <div class="col-sm-3">
-                                                    <input type="checkbox" value="true" name="canmodifystudent" /> Enroll/Edit/Delete Students
+                                                    <input type="checkbox" checked="checked" value="true" name="canmodifystudent" /> Enroll/Edit/Delete Students
                                                 </div>
                                                 <br /><br />
                                                 <div class="col-sm-6 border-right-gray">
-                                                    <input type="checkbox" value="true" name="canviewstudentinsection" /> View Students' Details<br />
-                                                    <input type="checkbox" value="true" name="cangivecommentinsection" /> Give Comments for Students<br />
-                                                    <input type="checkbox" value="true" name="canviewcommentinsection" /> View Others' Comments on Students<br />
-                                                    <input type="checkbox" value="true" name="canmodifycommentinsection" /> Edit/Delete Others' Comments on Students<br />
+                                                    <input type="checkbox" checked="checked" value="true" name="canviewstudentinsection" /> View Students' Details<br />
+                                                    <input type="checkbox" checked="checked" value="true" name="cangivecommentinsection" /> Give Comments for Students<br />
+                                                    <input type="checkbox" checked="checked" value="true" name="canviewcommentinsection" /> View Others' Comments on Students<br />
+                                                    <input type="checkbox" checked="checked" value="true" name="canmodifycommentinsection" /> Edit/Delete Others' Comments on Students<br />
                                                 </div>
                                                 <div class="col-sm-5 col-sm-offset-1">
-                                                    <input type="checkbox" value="true" name="cansubmitsessioninsection" /> Sessions: Submit Responses and Add Comments<br />
-                                                    <input type="checkbox" value="true" name="canviewsessioninsection" /> Sessions: View Responses and Comments<br />
-                                                    <input type="checkbox" value="true" name="canmodifysessioncommentinsection" /> Sessions: Edit/Delete Responses/Comments by others<br />
+                                                    <input type="checkbox" checked="checked" value="true" name="cansubmitsessioninsection" /> Sessions: Submit Responses and Add Comments<br />
+                                                    <input type="checkbox" checked="checked" value="true" name="canviewsessioninsection" /> Sessions: View Responses and Comments<br />
+                                                    <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsection" /> Sessions: Edit/Delete Responses/Comments by others<br />
                                                 </div>
                                             </div>
                                         </div>
@@ -1573,27 +1577,27 @@ ul #nav {
                     <div class="modal-body">
                         <div class="row">
                         <div class="col-sm-6">
-                            <input type="checkbox" checked="checked" value="true" name="canmodifycourse" /> Edit/Delete Course
+                            <input type="checkbox" disabled="disabled" checked="checked" value="true" name="canmodifycourse" /> Edit/Delete Course
                         </div>
                         <div class="col-sm-6">
-                            <input type="checkbox" checked="checked" value="true" name="canmodifyinstructor" /> Add/Edit/Delete Instructors
+                            <input type="checkbox" disabled="disabled" checked="checked" value="true" name="canmodifyinstructor" /> Add/Edit/Delete Instructors
                         </div>
                         <div class="col-sm-6">
-                            <input type="checkbox" checked="checked" value="true" name="canmodifysession" /> Create/Edit/Delete Sessions
+                            <input type="checkbox" disabled="disabled" checked="checked" value="true" name="canmodifysession" /> Create/Edit/Delete Sessions
                         </div>
                         <div class="col-sm-6">
-                            <input type="checkbox" checked="checked" value="true" name="canmodifystudent" /> Enroll/Edit/Delete Students
+                            <input type="checkbox" disabled="disabled" checked="checked" value="true" name="canmodifystudent" /> Enroll/Edit/Delete Students
                         </div>
                         <div class="col-sm-6">
-                            <input type="checkbox" checked="checked" value="true" name="canviewstudentinsection" /> View Students' Details<br />
-                            <input type="checkbox" checked="checked" value="true" name="cangivecommentinsection" /> Give Comments for Students<br />
-                            <input type="checkbox" checked="checked" value="true" name="canviewcommentinsection" /> View Others' Comments on Students<br />
-                            <input type="checkbox" checked="checked" value="true" name="canmodifycommentinsection" /> Edit/Delete Others' Comments on Students<br />
+                            <input type="checkbox" disabled="disabled" checked="checked" value="true" name="canviewstudentinsection" /> View Students' Details<br />
+                            <input type="checkbox" disabled="disabled" checked="checked" value="true" name="cangivecommentinsection" /> Give Comments for Students<br />
+                            <input type="checkbox" disabled="disabled" checked="checked" value="true" name="canviewcommentinsection" /> View Others' Comments on Students<br />
+                            <input type="checkbox" disabled="disabled" checked="checked" value="true" name="canmodifycommentinsection" /> Edit/Delete Others' Comments on Students<br />
                         </div>
                         <div class="col-sm-6">
-                            <input type="checkbox" checked="checked" value="true" name="cansubmitsessioninsection" /> Sessions: Submit Responses and Add Comments<br />
-                            <input type="checkbox" checked="checked" value="true" name="canviewsessioninsection" /> Sessions: View Responses and Comments<br />
-                            <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsection" /> Sessions: Edit/Delete Responses/Comments by others<br />
+                            <input type="checkbox" disabled="disabled" checked="checked" value="true" name="cansubmitsessioninsection" /> Sessions: Submit Responses and Add Comments<br />
+                            <input type="checkbox" disabled="disabled" checked="checked" value="true" name="canviewsessioninsection" /> Sessions: View Responses and Comments<br />
+                            <input type="checkbox" disabled="disabled" checked="checked" value="true" name="canmodifysessioncommentinsection" /> Sessions: Edit/Delete Responses/Comments by others<br />
                         </div>
                         </div>
                     </div>
