@@ -23,11 +23,13 @@ import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
+import teammates.test.util.Priority;
 import teammates.test.util.TestHelper;
 
 /**
  * Covers Ui aspect of submission adjustment for evaluations and feedbacks
  */
+@Priority(-1)
 public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;

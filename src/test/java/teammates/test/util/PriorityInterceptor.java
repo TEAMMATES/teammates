@@ -31,7 +31,7 @@ public class PriorityInterceptor implements IMethodInterceptor {
             ITestContext context) {
         Comparator<IMethodInstance> comparator = new Comparator<IMethodInstance>() {
 
-            private int getClassPriority(IMethodInstance mi) {
+            private int getMethodPriority(IMethodInstance mi) {
                 int result = 0;
                 Method method = mi.getMethod().getMethod();
                 Priority a1 = method.getAnnotation(Priority.class);
@@ -42,7 +42,7 @@ public class PriorityInterceptor implements IMethodInterceptor {
             }
             
             @SuppressWarnings({ "rawtypes", "unchecked" })
-            private int getMethodPriority(IMethodInstance mi) {
+            private int getClassPriority(IMethodInstance mi) {
                 int result = 0;
                 Method method = mi.getMethod().getMethod();
                 Class cls = method.getDeclaringClass();

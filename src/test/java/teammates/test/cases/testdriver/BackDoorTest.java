@@ -31,6 +31,7 @@ import teammates.test.util.Priority;
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 
+@Priority(2)
 public class BackDoorTest extends BaseTestCase {
 
     private static Gson gson = Utils.getTeammatesGson();

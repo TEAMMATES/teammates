@@ -9,8 +9,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.common.util.ThreadHelper;
-
 public class InstructorCommentsPage extends AppPage {
 
     @FindBy(id = "option-check")
@@ -206,9 +204,10 @@ public class InstructorCommentsPage extends AppPage {
 
     public void search(String text) {
         WebElement searchBox = browser.driver.findElement(By.id("searchBox"));
-        searchBox.click();
+        //This click somehow causes an error.
+        //searchBox.click();
         this.waitForElementPresence(By.id("searchBox"), 10);
-        searchBox.clear();
+        //searchBox.clear();
         this.waitForElementPresence(By.id("searchBox"), 10);
         searchBox.sendKeys(text);
         this.waitForElementPresence(By.id("buttonSearch"), 10);

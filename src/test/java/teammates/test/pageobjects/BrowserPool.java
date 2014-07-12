@@ -72,14 +72,14 @@ public class BrowserPool {
                 // Look for instantiated and available object.
                 int n=0;
                 for (Browser b : pool) {
-                    if(!sequentialUiTest && n==0){
+                    n++;
+                    if((!sequentialUiTest && n==1) || (sequentialUiTest && n!=1)){
                         continue;
                     }
                     if (!b.isInUse) {
                         b.isInUse = true;
                         return b;
                     }
-                    n++;
                 }
 
                 // If less than capacity, create new object
