@@ -47,13 +47,13 @@ public class BackDoorTest extends BaseTestCase {
     private void ____SYSTEM_level_methods_________________________________() {
     }
     
-    @Test(priority = -1)
+    @Test
     public void testPersistence() {
         // typical bundle should be restored in the @BeforeClass method above
         verifyPresentInDatastore(jsonString);
     }
 
-    @Test(priority = 1)
+    @Test
     public void testDeletion() {
         
         // ----------deleting Instructor entities-------------------------

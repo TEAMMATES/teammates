@@ -77,7 +77,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         printTestClassFooter();
     }
     
-    @Test(priority = 1)
+    @Test
     public void testAdditionOfTaskToTaskQueue() throws Exception {        
         FeedbackSessionPublishedCallback.resetTaskCount();
         
@@ -153,7 +153,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
        
     }
 
-    @Test(priority = 2)
+    @Test
     public void testFeedbackSessionOpeningMailAction() throws Exception{
 
         ______TS("MimeMessage Test : activate all sessions with mails sent");

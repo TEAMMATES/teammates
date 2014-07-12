@@ -45,7 +45,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         restoreTypicalDataInDatastore();
     }
 
-    @Test(priority = 3)
+    @Test
     public void testUpdateFeedbackResponse() throws Exception {
         
         ______TS("success: standard update with carried params ");
@@ -159,7 +159,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test(priority = 3)
+    @Test
     public void testUpdateFeedbackResponsesForChangingTeam() throws Exception {
         
         ______TS("standard update team case");
@@ -210,7 +210,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
     }
     
-    @Test(priority = 3)
+    @Test
     public void testUpdateFeedbackResponsesForChangingEmail() throws Exception {
         ______TS("standard update email case");
         
@@ -237,7 +237,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                 studentToUpdate.courseId, "new@email.com", studentToUpdate.email);
     }
     
-    @Test(priority = 2)
+    @Test
     public void testGetViewableResponsesForQuestionInSection() throws Exception {
         
         ______TS("success: GetViewableResponsesForQuestion - instructor");
@@ -320,7 +320,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         }   
     }
     
-    @Test(priority = 1)
+    @Test
     public void testIsNameVisibleTo() throws Exception {
         
         
@@ -380,7 +380,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
     }
     
-    @Test(priority = 4)
+    @Test
     public void testDeleteFeedbackResponsesForStudent() throws Exception {    
         
         ______TS("standard delete");

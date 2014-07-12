@@ -2,7 +2,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="all-tests-in-parallel" parallel="tests" thread-count="5">
     <test name="component-tests">
-    <!--These can be run without starting the server. Should be run often. -->
+        <listeners>
+            <listener class-name="teammates.test.util.PriorityInterceptor" />
+        </listeners>
+        <!--These can be run without starting the server. Should be run often. -->
         <packages>
             <package name="teammates.test.cases.common" />
             <package name="teammates.test.cases.pageobjects" />

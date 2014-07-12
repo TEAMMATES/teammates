@@ -44,7 +44,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         restoreTypicalDataInDatastore();
     }
     
-    @Test(priority = 2)
+    @Test
     public void testGetRecipientsForQuestion() throws Exception {
         FeedbackQuestionAttributes question;
         String email;
@@ -104,7 +104,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 
     }
     
-    @Test(priority = 2)
+    @Test
     public void testUpdateQuestionNumber() throws Exception{
         ______TS("shift question up");
         List<FeedbackQuestionAttributes> expectedList = new ArrayList<FeedbackQuestionAttributes>();
@@ -161,7 +161,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test(priority = 3)
+    @Test
     public void testAddQuestion() throws Exception{
         
         ______TS("Add question for feedback session that does not exist");
@@ -270,7 +270,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test(priority = 3)
+    @Test
     public void testCopyQuestion() throws Exception {
         
         InstructorAttributes instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
@@ -293,7 +293,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     }
     
     
-    @Test(priority = 3)
+    @Test
     public void testUpdateQuestion() throws Exception {
         ______TS("standard update, no existing responses, with 'keep existing' policy");
         FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn2InSession2InCourse2");
@@ -374,7 +374,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test(priority = 4)
+    @Test
     public void testDeleteQuestion() throws Exception {
         //Success case already tested in update
         ______TS("question already does not exist, silently fail");
@@ -384,7 +384,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
     }
 
-    @Test(priority = 2)
+    @Test
     public void testGetFeedbackQuestionsForInstructor() throws Exception{
         List<FeedbackQuestionAttributes> expectedQuestions, actualQuestions, allQuestions;
         
@@ -458,7 +458,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         assertEquals(actualQuestions, expectedQuestions);
     }
     
-    @Test(priority = 2)
+    @Test
     public void testGetFeedbackQuestionsForStudents() throws Exception{
         List<FeedbackQuestionAttributes> expectedQuestions, actualQuestions, allQuestions;
         
@@ -512,7 +512,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         assertEquals(actualQuestions, expectedQuestions);
     }
     
-    @Test(priority = 2)
+    @Test
     public void testGetFeedbackQuestionsForTeam() throws Exception{
         List<FeedbackQuestionAttributes> expectedQuestions, actualQuestions;
         
@@ -525,7 +525,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
     }
     
-    @Test(priority = 1)
+    @Test
     public void testIsQuestionHasResponses() {
         FeedbackQuestionAttributes questionWithResponse, questionWithoutResponse;
         
@@ -540,7 +540,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         assertFalse(fqLogic.isQuestionHasResponses(questionWithoutResponse.getId()));
     }
     
-    @Test(priority = 1)
+    @Test
     public void testIsQuestionAnswered() throws Exception {
         FeedbackQuestionAttributes question;
         ______TS("test question is answered by user");
@@ -568,7 +568,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
     }  
     
-    @Test(priority = 2)
+    @Test
     public void testGetFeedbackQuestionBundle() throws Exception {
         testGetFeedbackQuestionBundleForInstructor();
         testGetFeedbackQuestionBundleForStudent();

@@ -43,7 +43,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         restoreTypicalDataInDatastore();
     }
     
-    @Test(priority = 2)
+    @Test
     public void testAddInstructor() throws Exception {
         
         ______TS("success: add an instructor");
@@ -94,7 +94,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         }    
     }   
     
-    @Test(priority = 1)
+    @Test
     public void testGetInstructorForEmail() throws Exception {
         
         ______TS("failure: instructor doesn't exist");
@@ -131,7 +131,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         
     }
     
-    @Test(priority = 1)
+    @Test
     public void testGetInstructorForGoogleId() throws Exception {
         
         ______TS("failure: instructor doesn't exist");
@@ -168,7 +168,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         
     }
     
-    @Test(priority = 1)
+    @Test
     public void testGetInstructorForRegistrationKey() throws Exception {
         
         ______TS("failure: instructor doesn't exist");
@@ -198,7 +198,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test(priority = 1)
+    @Test
     public void testGetInstructorsForCourse() throws Exception {
 
         ______TS("success: get all instructors for a course");
@@ -241,7 +241,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test(priority = 1)
+    @Test
     public void testGetInstructorsForGoogleId() throws Exception {
         
         ______TS("success: get all instructors for a google id");
@@ -274,7 +274,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test(priority = 1)
+    @Test
     public void testGetInstructorsForEmail() throws Exception {
         
         ______TS("success: get all instructors for a google id");
@@ -304,7 +304,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         }
     }
     
-    @Test(priority = 1)
+    @Test
     public void testGetKeyForInstructor() throws Exception {
     
         ______TS("success: get encrypted key for instructor");
@@ -346,7 +346,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 
     }
     
-    @Test(priority = 1)
+    @Test
     public void testIsGoogleIdOfInstructorOfCourse() throws Exception {
         
         ______TS("success: is an instructor of a given course");
@@ -383,7 +383,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         }
     }
     
-    @Test(priority = 1)
+    @Test
     public void testIsEmailOfInstructorOfCourse() throws Exception {
         
         ______TS("success: is an instructor of a given course");
@@ -421,7 +421,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 
     }
 
-    @Test(priority = 1)
+    @Test
     public void testVerifyInstructorExists() throws Exception  {
         
         ______TS("success: instructor does exist");
@@ -450,7 +450,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         }
     }
     
-    @Test(priority = 1)
+    @Test
     public void testVerifyIsGoogleIdOfInstructorOfCourse() throws Exception  {
         
         ______TS("success: instructor belongs to course");
@@ -488,7 +488,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         }
     }
     
-    @Test(priority = 1)
+    @Test
     public void testVerifyIsEmailOfInstructorOfCourse() throws Exception  {
         
         ______TS("success: instructor belongs to course");
@@ -524,7 +524,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         }
     }
     
-    @Test(priority = 1)
+    @Test
     public void testIsNewInstructor() throws Exception {
         
         ______TS("success: instructor with only 1 sample course");
@@ -558,7 +558,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 
     }
 
-    @Test(priority = 3)
+    @Test
     public void testUpdateInstructorByGoogleId() throws Exception {
         
         ______TS("typical case: update an instructor");
@@ -609,7 +609,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         
     }
     
-    @Test(priority = 3)
+    @Test
     public void testUpdateInstructorByEmail() throws Exception {
         
         ______TS("typical case: update an instructor");
@@ -663,7 +663,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 
     }
     
-    @Test(priority = 4)
+    @Test
     public void testDeleteInstructor() throws Exception {
         
         ______TS("typical case: delete an instructor for specific course");
@@ -699,7 +699,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 
     }
 
-    @Test(priority = 4)
+    @Test
     public void testDeleteInstructorsForGoogleId() throws Exception {
         
         ______TS("typical case: delete all instructors for a given googleId");
@@ -726,7 +726,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test(priority = 4)
+    @Test
     public void testDeleteInstructorsForCourse() throws Exception {
         
         ______TS("typical case: delete all instructors of a given course");
@@ -754,7 +754,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     
     }
 
-    @Test(priority = 2)
+    @Test
     public void testSendRegistrationInviteToInstructor() throws Exception {
        
         ______TS("success: send invite to instructor");

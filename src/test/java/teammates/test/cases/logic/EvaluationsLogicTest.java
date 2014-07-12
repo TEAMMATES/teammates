@@ -70,7 +70,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         restoreTypicalDataInDatastore();
     }
     
-    @Test(priority = 3)
+    @Test
     public void testCreateEvaluationCascadeWithSubmissionQueue() throws Exception{
     
         ______TS("Typical case : create a valid evaluation");
@@ -123,7 +123,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test(priority = 1)
+    @Test
     public void testCreateSubmissionsForEvaluation() throws Exception {
         
         EvaluationAttributes createdEval = new EvaluationAttributes();
@@ -162,7 +162,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
     }
 
 
-    @Test(priority = 1)
+    @Test
     public void testGetEvaluation() throws Exception {
 
         ______TS("Typical case");
@@ -189,7 +189,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 
     }
 
-    @Test(priority = 1) 
+    @Test 
     public void testGetEvaluationsForCourse() throws Exception {
 
         ______TS("Typical case");
@@ -219,7 +219,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
    
-    @Test(priority = 1)
+    @Test
     public void testGetEvaluationsClosingWithinTimeLimit() throws Exception {
         
         ______TS("Typical case : no evaluations closing within a certain period");
@@ -244,7 +244,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         
     }
     
-    @Test(priority = 2)
+    @Test
     public void testGetEvaluationsDetailsForInstructor() throws Exception {
     
         ______TS("Typical case: instructor has 3 evaluations");
@@ -296,7 +296,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 
     }
 
-    @Test(priority = 1) 
+    @Test 
     public void testGetEvaluationsListForInstructor() throws Exception {
         
         ______TS("Typical case: instructor has 3 evaluations");
@@ -347,7 +347,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 
     }
 
-    @Test(priority = 2)
+    @Test
     public void testGetEvaluationsDetailsForCourse() throws Exception {
 
         ______TS("Typical case");
@@ -384,7 +384,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test(priority = 1)
+    @Test
     public void testGetEvaluationsDetailsForCourseAndEval() throws Exception {
 
         EvaluationAttributes expectedEvaluation = new EvaluationAttributes();
@@ -424,7 +424,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
     }
 
     @SuppressWarnings("deprecation")
-    @Test(priority = 3)
+    @Test
     public void testGetReadyEvaluations() throws Exception {
         
         ______TS("No evaluations activated");
@@ -506,7 +506,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         // Evaluation level
     }
     
-    @Test(priority = 2)
+    @Test
     public void testGetEvaluationResult() throws Exception {
     
         ______TS("Typical case");
@@ -687,7 +687,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         */
     }
 
-    @Test(priority = 2)
+    @Test
     public void testGetEvaluationResultForStudent() throws Exception {
     
         CourseAttributes course;
@@ -817,7 +817,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
     
     }
 
-    @Test(priority = 1)
+    @Test
     public void testGetEvaluationResultSummaryAsCsv() throws Exception {
     
         ______TS("Typical case");
@@ -883,7 +883,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test(priority = 1) 
+    @Test 
     public void testIsEvaluationCompletedByStudent() throws Exception {
 
         ______TS("Typical case");
@@ -909,7 +909,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test(priority = 1) 
+    @Test 
     public void testIsEvaluationExists() throws Exception {
 
         ______TS("Typical case");
@@ -934,7 +934,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 
     }
 
-    @Test(priority = 3)
+    @Test
     public void testUpdateEvaluation() throws Exception {
         
         ______TS("Typical case");
@@ -1012,7 +1012,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         
     }
 
-    @Test(priority = 3)
+    @Test
     public void testPublishAndUnpublishEvaluation() throws Exception {
 
         ______TS("Typical cases");
@@ -1123,7 +1123,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 
     }
 
-    @Test(priority = 3)
+    @Test
     public void testDeleteEvaluationCascade() throws Exception {
     
         ______TS("Typical cases");
@@ -1167,7 +1167,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test(priority = 1)
+    @Test
     public void testAdjustSubmissionsForNewStudentInEvaluation() throws Exception {
 
         ______TS("Typical case");
@@ -1238,7 +1238,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
     
-    @Test(priority = 1)
+    @Test
     public void testSendEvaluationPublishedEmails() throws Exception {
         
         ______TS("Typical case");
@@ -1287,7 +1287,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test(priority = 1)
+    @Test
     public void testSendReminderForEvaluation() throws Exception {
        
         ______TS("Typical case");
@@ -1340,7 +1340,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
     
-    @Test(priority = 3)
+    @Test
     public void testSetEvaluationActivationStatus() throws Exception {
         
         EvaluationAttributes eval1 = dataBundle.evaluations.get("evaluation1InCourse1");
@@ -1406,7 +1406,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test(priority = 3)
+    @Test
     public void testCalculateTeamResult() throws Exception {
 
         TeamDetailsBundle teamDetails = new TeamDetailsBundle();

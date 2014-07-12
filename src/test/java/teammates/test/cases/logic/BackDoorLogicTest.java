@@ -41,7 +41,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         turnLoggingUp(BackDoorLogic.class);
     }
 
-    @Test(priority = 2)
+    @Test
     public void testPersistDataBundle() throws Exception {
 
         BackDoorLogic logic = new BackDoorLogic();
@@ -83,7 +83,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         // should be checked at lower level methods
     }
 
-    @Test(priority = 1)
+    @Test
     public void testGetSubmission() throws Exception {
 
         ______TS("typical case");

@@ -131,7 +131,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
     }
     
-    @Test(priority = -1)
+    @Test
     public void testAccountFunctions() throws Exception {
         
         ______TS("test isAccountPresent");

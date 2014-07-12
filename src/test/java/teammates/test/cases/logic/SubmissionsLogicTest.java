@@ -35,7 +35,7 @@ public class SubmissionsLogicTest extends BaseComponentTestCase{
         restoreTypicalDataInDatastore();
     }
     
-    @Test(priority = 2)
+    @Test
     public void testGetSubmissionsForEvaluation() throws Exception {
         Logic logic = new Logic();
 
@@ -101,7 +101,7 @@ public class SubmissionsLogicTest extends BaseComponentTestCase{
         // no need to check for invalid parameters as it is a private method
     }
     
-    @Test(priority = 1)
+    @Test
     public void testUpdateSubmission() throws Exception {
 
         SubmissionAttributes s = new SubmissionAttributes();
