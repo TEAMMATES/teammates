@@ -166,6 +166,11 @@ public class FeedbackResponseCommentsLogic {
             FeedbackResponseAttributes response,
             String userEmail, CourseRoster roster){
         List<FeedbackParticipantType> showNameTo = comment.showGiverNameTo;
+        //in the old ver, name is always visible
+        if(showNameTo == null){
+            return true;
+        }
+        
         //comment giver can always see
         if(userEmail.equals(comment.giverEmail)){
             return true;
