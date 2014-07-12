@@ -1,8 +1,8 @@
 package teammates.test.cases.ui;
 
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,8 +11,6 @@ import java.util.List;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
@@ -30,7 +28,6 @@ import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
-import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
@@ -42,6 +39,8 @@ import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
+
+import com.google.appengine.api.datastore.Text;
 
 public class AllActionsAccessControlTest extends BaseActionTest {
     
@@ -59,6 +58,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+        removeTypicalDataInDatastore();
 		restoreTypicalDataInDatastore();
     }
     

@@ -76,7 +76,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         printTestClassFooter();
     }
     
-    @Test(priority = 1)
+    @Test
     public void testAdditionOfTaskToTaskQueue() throws Exception {        
         FeedbackSessionClosingCallback.resetTaskCount();
         
@@ -136,7 +136,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         }
     }
 
-    @Test(priority = 2)
+    @Test
     public void testFeedbackSessionClosingMailAction() throws Exception{
         
         ______TS("typical case, testing mime messages");

@@ -21,6 +21,7 @@ public class TeamEvalResultTest extends BaseTestCase{
     
     @BeforeClass
     public static void setup() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException{
+        printTestClassHeader();
         setGeneralLoggingLevel(Level.WARNING);
         setLogLevelOfClass(TeamEvalResult.class, Level.FINE);
         setConsoleLoggingLevel(Level.FINE);

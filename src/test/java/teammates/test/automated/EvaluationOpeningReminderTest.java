@@ -79,7 +79,7 @@ public class EvaluationOpeningReminderTest extends BaseComponentUsingTaskQueueTe
         printTestClassFooter();
     }
     
-    @Test(priority = 1)
+    @Test
     @SuppressWarnings("deprecation")
     public void testAdditionOfTaskToTaskQueue() throws Exception {
         
@@ -152,7 +152,7 @@ public class EvaluationOpeningReminderTest extends BaseComponentUsingTaskQueueTe
         evaluationsLogic.deleteEvaluationCascade(evaluation2.courseId, evaluation2.name);
     }
 
-    @Test(priority = 2)
+    @Test
     @SuppressWarnings("deprecation")
     public void testEvaluationOpeningMailAction() throws Exception{
         
