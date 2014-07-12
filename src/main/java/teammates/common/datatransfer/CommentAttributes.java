@@ -185,7 +185,9 @@ public class CommentAttributes extends EntityAttributes
             this.commentText = new Text(Sanitizer.sanitizeForHtml(commentText.getValue()));
         }
         
-        sanitizeForVisibilityOptions();
+        if(recipientType != null){
+            sanitizeForVisibilityOptions();
+        }
     }
 
     private void sanitizeForVisibilityOptions() {
