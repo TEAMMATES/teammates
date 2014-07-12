@@ -78,7 +78,6 @@ public class ActionFactory {
         map(INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_RGQ, InstructorFeedbackResultsByRGQSeeMorePageAction.class);
         map(INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_RQG, InstructorFeedbackResultsByRQGSeeMorePageAction.class);
         map(INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_GQR, InstructorFeedbackResultsByGQRSeeMorePageAction.class);
-        map(INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_GRQ, InstructorFeedbackResultsByGRQSeeMorePageAction.class);
         map(INSTRUCTOR_FEEDBACK_RESULTS_AJAX_RESPONSE_RATE, InstructorFeedbackResultsResponseRatePageAction.class);
         map(INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD, InstructorFeedbackResultsDownloadAction.class);
         map(INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD, InstructorFeedbackResponseCommentAddAction.class);

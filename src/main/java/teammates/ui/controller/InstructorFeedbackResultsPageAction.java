@@ -51,6 +51,11 @@ public class InstructorFeedbackResultsPageAction extends Action {
         data.showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
         data.groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
         data.sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
+        String startIndex = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_MAIN_INDEX);
+        if(startIndex != null){
+            data.startIndex = Integer.parseInt(startIndex);
+        }
+
         if (data.sortType == null) {
             // default: sort by question, stats shown, grouped by team.
             data.showStats = new String("on");

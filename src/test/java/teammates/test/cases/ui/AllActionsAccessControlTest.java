@@ -950,19 +950,6 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void InstructorFeedbackResultsAjaxByGrq() throws Exception {
-        uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_GRQ;
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.SECTION_NAME, "Section A"
-        };
-        verifyOnlyInstructorsCanAccess(submissionParams);
-    }
-
-    @Test
     public void InstructorFeedbackResultsAjaxByQuestions() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_QUESTIONS;
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
