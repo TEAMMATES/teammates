@@ -167,7 +167,7 @@ public class FeedbackResponseCommentsLogic {
             String userEmail, CourseRoster roster){
         List<FeedbackParticipantType> showNameTo = comment.showGiverNameTo;
         //in the old ver, name is always visible
-        if(showNameTo == null){
+        if(showNameTo == null || comment.isVisibilityFollowingFeedbackQuestion){
             return true;
         }
         
