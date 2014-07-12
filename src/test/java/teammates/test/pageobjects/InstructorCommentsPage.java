@@ -206,10 +206,12 @@ public class InstructorCommentsPage extends AppPage {
 
     public void search(String text) {
         WebElement searchBox = browser.driver.findElement(By.id("searchBox"));
-        //searchBox.click();
+        searchBox.click();
+        this.waitForElementPresence(By.id("searchBox"), 10);
         searchBox.clear();
+        this.waitForElementPresence(By.id("searchBox"), 10);
         searchBox.sendKeys(text);
-        ThreadHelper.waitBriefly();
+        this.waitForElementPresence(By.id("buttonSearch"), 10);
         browser.driver.findElement(By.id("buttonSearch")).click();
     }
 }

@@ -60,7 +60,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         courseId = testData.courses.get("course").id;
         feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
 
-        browser = BrowserPool.getBrowser();
+        browser = BrowserPool.getBrowser(true);
     }
 
     @Test
