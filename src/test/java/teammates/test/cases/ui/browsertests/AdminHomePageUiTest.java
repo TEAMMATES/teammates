@@ -42,7 +42,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();      
-        browser = BrowserPool.getBrowser();
+        browser = BrowserPool.getBrowser(true);
         browser.driver.manage().deleteAllCookies();
     }
     

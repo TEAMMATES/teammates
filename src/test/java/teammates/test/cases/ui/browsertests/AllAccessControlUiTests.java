@@ -71,7 +71,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         ownCourse = testData.courses.get("typicalCourse1");
         ownEvaluation = testData.evaluations.get("evaluation1InCourse1");
 
-        browser = BrowserPool.getBrowser();
+        browser = BrowserPool.getBrowser(true);
         
         currentPage = HomePage.getNewInstance(browser);
         

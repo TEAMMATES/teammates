@@ -230,6 +230,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void clickCollapseSectionButton(int index){
+        this.waitForElementPresence(By.id("collapse-panels-button-section-" + index), 10);
         WebElement collapseButton = browser.driver.findElement(By.id("collapse-panels-button-section-" + index));
         collapseButton.click();
     }

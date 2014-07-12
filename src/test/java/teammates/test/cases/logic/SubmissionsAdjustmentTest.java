@@ -102,7 +102,7 @@ public class SubmissionsAdjustmentTest extends
         turnLoggingDown(EvaluationsLogic.class);
     }
     
-    @Test(priority = 2)
+    @Test
     public void testEnrollStudentsWithScheduledSubmissionAdjustment() throws Exception{
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");        
         
@@ -259,7 +259,7 @@ public class SubmissionsAdjustmentTest extends
         }
     }
     
-    @Test(priority = 1)
+    @Test
     private void testAdjustmentOfResponses() throws Exception {
         
         ______TS("typical case: add new student to existing team");

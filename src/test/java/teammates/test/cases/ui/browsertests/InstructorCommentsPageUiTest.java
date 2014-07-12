@@ -24,7 +24,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCommentsPageUiTest.json");
         restoreTestDataOnServer(testData);
-        browser = BrowserPool.getBrowser();
+        browser = BrowserPool.getBrowser(true);
     }
     
     @Test 

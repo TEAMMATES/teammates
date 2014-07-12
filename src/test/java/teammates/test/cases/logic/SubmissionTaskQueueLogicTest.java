@@ -70,7 +70,7 @@ public class SubmissionTaskQueueLogicTest extends
         turnLoggingDown(EvaluationsLogic.class);
     }
     
-    @Test(priority = 2)
+    @Test
     public void testSchedulingOfCreationOfSubmissions() throws Exception{
         
         ______TS("scheduling test case : create a valid evaluation");
@@ -110,7 +110,7 @@ public class SubmissionTaskQueueLogicTest extends
         }
     }
     
-    @Test(priority = 1)
+    @Test
     private void testCreationOfSubmissions() throws Exception {
         
         ______TS("creation test case : verify submissions of a valid evaluation");

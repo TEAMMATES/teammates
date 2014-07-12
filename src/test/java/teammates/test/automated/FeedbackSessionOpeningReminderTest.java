@@ -73,7 +73,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         printTestClassFooter();
     }
     
-    @Test(priority = 1)
+    @Test
     public void testAdditionOfTaskToTaskQueue() throws Exception {
         
         FeedbackSessionOpeningCallback.resetTaskCount();
@@ -123,7 +123,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         assertEquals(1, FeedbackSessionOpeningCallback.taskCount);
     }
 
-    @Test(priority = 2)
+    @Test
     public void testFeedbackSessionOpeningMailAction() throws Exception{
         
         ______TS("MimeMessage Test : 2 sessions opened and emails sent, 1 session opened without emails sent, "

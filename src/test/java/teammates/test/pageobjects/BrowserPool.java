@@ -13,7 +13,7 @@ public class BrowserPool {
      */
     
     /** Ideally, should be equal to the number of threads used for testing */
-    private static final int CAPACITY = 5;
+    private static final int CAPACITY = 5 + 1;//+1 in case a sequential ui test uses a browser other than the first in pool
 
     private static BrowserPool instance = null;
     private ArrayList<Browser> pool;
@@ -36,7 +36,19 @@ public class BrowserPool {
      * @return a Browser object ready to be used.
      */
     public static Browser getBrowser() {
-        Browser b = getInstance().requestInstance();
+        Browser b = getInstance().requestInstance(false);
+        return b;
+    }
+    
+    /**
+     *  Gives 'priority' to sequential ui tests, allowing the browser pool to use
+     *  the first browser in pool.
+     *  Allocates the first browser to sequential ui tests only,
+     *  since it takes a thread by itself and should not spend
+     *  time waiting for a free browser.
+     */
+    public static Browser getBrowser(boolean sequentialUiTest) {
+        Browser b = getInstance().requestInstance(sequentialUiTest);
         return b;
     }
 
@@ -53,12 +65,17 @@ public class BrowserPool {
         }
     }
 
-    private Browser requestInstance() {
+    private Browser requestInstance(boolean sequentialUiTest) {
         while (true) {
             //synchronized to ensure thread-safety
             synchronized (this) {
                 // Look for instantiated and available object.
+                int n=0;
                 for (Browser b : pool) {
+                    n++;
+                    if((!sequentialUiTest && n==1) || (sequentialUiTest && n!=1)){
+                        continue;
+                    }
                     if (!b.isInUse) {
                         b.isInUse = true;
                         return b;

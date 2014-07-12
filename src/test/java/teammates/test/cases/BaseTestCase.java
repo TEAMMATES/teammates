@@ -127,6 +127,12 @@ public class BaseTestCase {
         backDoorLogic.persistDataBundle(dataBundle);
     }
     
+    protected static void removeTypicalDataInDatastore() throws Exception {
+        BackDoorLogic backDoorLogic = new BackDoorLogic();
+        DataBundle dataBundle = getTypicalDataBundle();
+        backDoorLogic.deleteExistingData(dataBundle);
+    }
+    
     /**
      * Creates in the datastore a fresh copy of data in the given json file
      */

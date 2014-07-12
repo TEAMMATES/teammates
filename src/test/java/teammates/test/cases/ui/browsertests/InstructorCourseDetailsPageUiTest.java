@@ -42,7 +42,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseDetailsPageUiTest.json");
         restoreTestDataOnServer(testData);
-        browser = BrowserPool.getBrowser();
+        browser = BrowserPool.getBrowser(true);
     }
     
     @Test 
