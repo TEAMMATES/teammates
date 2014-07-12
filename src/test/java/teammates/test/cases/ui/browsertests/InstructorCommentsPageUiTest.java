@@ -126,6 +126,8 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     private void testActions() {
         ______TS("action: edit student comment");
         commentsPage.clickStudentCommentEditForRow(1);
+        commentsPage.clickStudentCommentVisibilityEdit(1);
+        commentsPage.clickAllCheckboxes(1);
         commentsPage.fillTextareaToEditStudentCommentForRow(1, "");
         commentsPage.saveEditStudentCommentForRow(1);
         commentsPage.verifyStatus("Please enter a valid comment. The comment can't be empty.");
@@ -150,6 +152,8 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         
         ______TS("action: edit feedback response comment");
         commentsPage.clickResponseCommentEdit(1, 1, 1, 1);
+        commentsPage.clickResponseCommentVisibilityEdit("1-1-1-1");
+        commentsPage.clickAllCheckboxes("1-1-1-1");
         commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "");
         commentsPage.saveResponseComment(1, 1, 1, 1);
         commentsPage.verifyCommentFormErrorMessage("1-1-1-1", "Comment cannot be empty");
