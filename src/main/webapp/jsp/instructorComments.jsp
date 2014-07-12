@@ -621,7 +621,6 @@
                                             FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
                                             FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                                             out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
-                                            Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(question);
                                 %>
                             </div>
                             <table class="table">
@@ -691,6 +690,7 @@
                                                                     } else if (data.roster.getInstructorForEmail(frc.giverEmail) != null) {
                                                                         frCommentGiver = data.roster.getInstructorForEmail(frc.giverEmail).name;
                                                                     }
+                                                                    Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(frc);
                                                 %>
                                                 <li id="<%=frc.getId()%>"
                                                     class="list-group-item list-group-item-warning <%=frCommentGiver.equals("you")?"giver_display-by-you":"giver_display-by-others"%> <%=isPublicResponseComment && bundle.feedbackSession.isPublished()?"status_display-public":"status_display-private"%>"
@@ -701,7 +701,10 @@
                                                             <b><%=frCommentGiver%></b>
                                                             [<%=frc.createdAt%>]
                                                         </span>
-                                                        <% if(isPublicResponseComment && bundle.feedbackSession.isPublished()){ %>
+                                                        <% 
+                                                        
+                                                        if(isPublicResponseComment && bundle.feedbackSession.isPublished()){ 
+                                                        %>
                                                         <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" 
                                                             data-placement="top" style="margin-left: 5px;"
                                                             title="This response comment is public"></span>

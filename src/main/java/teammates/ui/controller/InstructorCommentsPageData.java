@@ -9,8 +9,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -76,13 +75,8 @@ public class InstructorCommentsPageData extends PageData {
         return removeEndComma(namesString);
     }
     
-    public boolean isResponseCommentPublicToRecipient(FeedbackQuestionAttributes question) {
-        return (question.giverType == FeedbackParticipantType.STUDENTS
-                || question.giverType == FeedbackParticipantType.TEAMS) 
-                    || (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                            || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                            || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                            || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS));
+    public boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
+        return comment.showCommentTo.size() > 0;
     }
         
     public boolean isInstructorAllowedForPrivilegeOnComment(CommentAttributes comment, String privilegeName) {
