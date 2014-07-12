@@ -9,6 +9,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.common.util.ThreadHelper;
+
 public class InstructorCommentsPage extends AppPage {
 
     @FindBy(id = "option-check")
@@ -24,6 +26,10 @@ public class InstructorCommentsPage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("<h1>Comments from Instructors</h1>");
+    }
+    
+    public void clickCommentsPageLinkInHeader(){
+        browser.driver.findElement(By.xpath("//*[@id=\"contentLinks\"]/ul[1]/li[5]/a")).click();
     }
     
     public void clickShowMoreOptions(){
@@ -196,5 +202,14 @@ public class InstructorCommentsPage extends AppPage {
             waitForPageToLoad();
             assertEquals(errorMessage, commentRow.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("span")).getText());
         }
+    }
+
+    public void search(String text) {
+        WebElement searchBox = browser.driver.findElement(By.id("searchBox"));
+        searchBox.click();
+        searchBox.clear();
+        searchBox.sendKeys(text);
+        ThreadHelper.waitBriefly();
+        browser.driver.findElement(By.id("buttonSearch")).click();
     }
 }

@@ -32,8 +32,9 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         testConent();
         testScripts();
         testActions();
+        testSearch();
     }
-    
+
     private void testConent() {
         
         ______TS("content: no course");
@@ -163,9 +164,29 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         
         ______TS("action: delete feedback response comment");
         commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
-        commentsPage.reloadPage();
         ThreadHelper.waitFor(1500);
+        commentsPage.clickCommentsPageLinkInHeader();
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageAfterTestScript.html");
+    }
+    
+    private void testSearch() {
+        ______TS("search: empty string");
+        commentsPage.search("");
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageSearchEmpty.html");
+        commentsPage.clickCommentsPageLinkInHeader();
+        
+        ______TS("search: typical successful case");
+        //prepare search document
+        commentsPage.clickStudentCommentEditForRow(1);
+        commentsPage.saveEditStudentCommentForRow(1);
+        commentsPage.clickStudentCommentEditForRow(2);
+        commentsPage.saveEditStudentCommentForRow(2);
+        commentsPage.clickResponseCommentEdit(1, 1, 1, 1);
+        commentsPage.saveResponseComment(1, 1, 1, 1);
+        
+        commentsPage.search("comments");
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageSearchNormal.html");
+        commentsPage.clickCommentsPageLinkInHeader();
     }
     
     @AfterClass
