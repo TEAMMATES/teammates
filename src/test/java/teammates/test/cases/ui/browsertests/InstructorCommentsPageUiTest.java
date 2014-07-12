@@ -32,8 +32,9 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         testConent();
         testScripts();
         testActions();
+        testSearch();
     }
-    
+
     private void testConent() {
         
         ______TS("content: no course");
@@ -112,11 +113,22 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         
         commentsPage.showCommentsFromGiver("others");
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromOthers.html");
+        
+        commentsPage.showCommentsFromAllStatus();
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromAllStatus.html");
+        
+        commentsPage.showCommentsForStatus("public");
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsForPublic.html");
+        
+        commentsPage.showCommentsForStatus("private");
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsForPrivate.html");
     }
 
     private void testActions() {
         ______TS("action: edit student comment");
         commentsPage.clickStudentCommentEditForRow(1);
+        commentsPage.clickStudentCommentVisibilityEdit(1);
+        commentsPage.clickAllCheckboxes(1);
         commentsPage.fillTextareaToEditStudentCommentForRow(1, "");
         commentsPage.saveEditStudentCommentForRow(1);
         commentsPage.verifyStatus("Please enter a valid comment. The comment can't be empty.");
@@ -141,6 +153,8 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         
         ______TS("action: edit feedback response comment");
         commentsPage.clickResponseCommentEdit(1, 1, 1, 1);
+        commentsPage.clickResponseCommentVisibilityEdit("1-1-1-1");
+        commentsPage.clickAllCheckboxes("1-1-1-1");
         commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "");
         commentsPage.saveResponseComment(1, 1, 1, 1);
         commentsPage.verifyCommentFormErrorMessage("1-1-1-1", "Comment cannot be empty");
@@ -150,9 +164,29 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         
         ______TS("action: delete feedback response comment");
         commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
-        commentsPage.reloadPage();
         ThreadHelper.waitFor(1500);
+        commentsPage.clickCommentsPageLinkInHeader();
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageAfterTestScript.html");
+    }
+    
+    private void testSearch() {
+        ______TS("search: empty string");
+        commentsPage.search("");
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageSearchEmpty.html");
+        commentsPage.clickCommentsPageLinkInHeader();
+        
+        ______TS("search: typical successful case");
+        //prepare search document
+        commentsPage.clickStudentCommentEditForRow(1);
+        commentsPage.saveEditStudentCommentForRow(1);
+        commentsPage.clickStudentCommentEditForRow(2);
+        commentsPage.saveEditStudentCommentForRow(2);
+        commentsPage.clickResponseCommentEdit(1, 1, 1, 1);
+        commentsPage.saveResponseComment(1, 1, 1, 1);
+        
+        commentsPage.search("comments");
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageSearchNormal.html");
+        commentsPage.clickCommentsPageLinkInHeader();
     }
     
     @AfterClass
