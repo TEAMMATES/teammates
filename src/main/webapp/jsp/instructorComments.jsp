@@ -563,9 +563,6 @@
                                             name=<%=Const.ParamsNames.RECIPIENT_TYPE%> 
                                             value="<%=comment.recipientType%>">
                                         <input type="hidden" 
-                                            name=<%=Const.ParamsNames.RECIPIENTS%> 
-                                            value="<%=data.removeBracketsForArrayString(comment.recipients.toString())%>">
-                                        <input type="hidden" 
                                             name=<%=Const.ParamsNames.COMMENTS_SHOWCOMMENTSTO%> 
                                             value="<%=data.removeBracketsForArrayString(comment.showCommentTo.toString())%>">
                                         <input type="hidden" 
