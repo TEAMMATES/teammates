@@ -26,6 +26,7 @@ import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.BackDoor;
+import teammates.test.util.Priority;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
@@ -47,6 +48,7 @@ public class BackDoorTest extends BaseTestCase {
     private void ____SYSTEM_level_methods_________________________________() {
     }
     
+    @Priority(-2)
     @Test
     public void testPersistence() {
         // typical bundle should be restored in the @BeforeClass method above
@@ -474,6 +476,7 @@ public class BackDoorTest extends BaseTestCase {
         // already tested by testPersistenceAndDeletion
     }
 
+    @Priority(-1)
     @Test
     public void testEditSubmission() {
 

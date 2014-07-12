@@ -788,8 +788,11 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyStatus(String expectedStatus){
-        if(!statusMessage.isDisplayed()){
-            this.waitForElementVisible(statusMessage);
+        if(!expectedStatus.equals("")){
+        this.waitForElementPresence(By.id("statusMessage"), 10);
+            if(!statusMessage.isDisplayed()){
+                this.waitForElementVisible(statusMessage);
+            }
         }
         boolean isSameStatus = expectedStatus.equals(this.getStatus());
         if(!isSameStatus){
