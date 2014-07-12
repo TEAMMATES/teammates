@@ -40,6 +40,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         turnLoggingUp(InstructorsLogic.class);
+        gaeSimulation.resetDatastore();
         removeTypicalDataInDatastore();
         restoreTypicalDataInDatastore();
     }

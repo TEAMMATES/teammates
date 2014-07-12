@@ -68,6 +68,10 @@ public class PriorityInterceptor implements IMethodInterceptor {
                 if(packageName.contains("storage")){
                     return 1000000;
                 }
+                //Action tests go last. (in component tests)
+                if(packageName.contains("teammates.test.cases.ui")){
+                    return -1000000;
+                }
                 if(index != -1){
                     return -index;
                 } else {

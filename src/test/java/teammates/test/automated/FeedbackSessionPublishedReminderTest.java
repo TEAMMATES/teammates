@@ -69,6 +69,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         gaeSimulation.tearDown();
         gaeSimulation.setupWithTaskQueueCallbackClass(FeedbackSessionPublishedCallback.class);
         gaeSimulation.resetDatastore();
+        removeTypicalDataInDatastore();
         restoreTypicalDataInDatastore();
     }
     
