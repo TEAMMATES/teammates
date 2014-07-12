@@ -5,7 +5,6 @@ import java.util.Date;
 
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -78,8 +77,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
             }
         }
         
-        FeedbackQuestionAttributes question = logic.getFeedbackQuestion(feedbackQuestionId);
-        if(isResponseCommentPublicToRecipient(question)){
+        if(isResponseCommentPublicToRecipient(feedbackResponseComment)){
             feedbackResponseComment.sendingState = CommentSendingState.PENDING;
         }
         
@@ -130,12 +128,11 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
     }
 
-    private boolean isResponseCommentPublicToRecipient(FeedbackQuestionAttributes question) {
-        return (question.giverType == FeedbackParticipantType.STUDENTS
-                || question.giverType == FeedbackParticipantType.TEAMS) 
-                    || (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                            || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                            || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                            || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS));
+    private boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
+        return (comment.isVisibleTo(FeedbackParticipantType.GIVER)
+                    || comment.isVisibleTo(FeedbackParticipantType.RECEIVER)
+                    || comment.isVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                    || comment.isVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                    || comment.isVisibleTo(FeedbackParticipantType.STUDENTS));
     }
 }

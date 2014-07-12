@@ -176,7 +176,7 @@
             "startTime":"2012-04-01 11:59 PM UTC",
             "endTime":"2017-04-30 11:59 PM UTC",
             "sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
-            "resultsVisibleFromTime":"2017-05-01 11:59 PM UTC",
+            "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
             "timeZone":2.0,
             "gracePeriod":10,
             "feedbackSessionType":"STANDARD",
@@ -223,7 +223,9 @@
             "numberOfEntitiesToGiveFeedbackTo":1,
             "showResponsesTo":[
                 "INSTRUCTORS",
-                "RECEIVER"
+                "RECEIVER",
+                "RECEIVER_TEAM_MEMBERS",
+                "STUDENTS"
             ],
             "showGiverNameTo":[
                 "INSTRUCTORS"
@@ -401,11 +403,37 @@
             "courseId":"comments.idOfTypicalCourse1",
             "feedbackSessionName":"comments.First feedback session",
             "feedbackQuestionId":"2",
+            "giverEmail":"comments.instructor2@course1.com",
+            "feedbackResponseId":"2%comments.student3InCourse1@gmail.com%comments.student2InCourse1@gmail.com",
+            "showCommentTo": [STUDENTS,INSTRUCTORS],
+            "showGiverNameTo": [],
+            "createdAt":"2016-02-02 11:59 PM UTC",
+            "commentText":{
+                "value":"Anonymous comment to feedback Question 2"   
+            }
+        },
+        "comment2FromT1C1ToR1Q2S1C1": {
+            "courseId":"comments.idOfTypicalCourse1",
+            "feedbackSessionName":"comments.First feedback session",
+            "feedbackQuestionId":"2",
+            "giverEmail":"comments.instructor2@course1.com",
+            "feedbackResponseId":"2%comments.student3InCourse1@gmail.com%comments.student2InCourse1@gmail.com",
+            "showCommentTo": [GIVER,RECEIVER,STUDENTS,INSTRUCTORS],
+            "showGiverNameTo": [INSTRUCTORS,RECEIVER_TEAM_MEMBERS],
+            "createdAt":"2016-02-03 11:59 PM UTC",
+            "commentText":{
+                "value":"Instructor 2 comment to feedback Question 2 (Student 3 see this as anonymous comment)"   
+            }
+        },
+        "comment3FromT1C1ToR1Q2S1C1": {
+            "courseId":"comments.idOfTypicalCourse1",
+            "feedbackSessionName":"comments.First feedback session",
+            "feedbackQuestionId":"2",
             "giverEmail":"comments.instructor1@course1.com",
             "feedbackResponseId":"2%comments.student3InCourse1@gmail.com%comments.student2InCourse1@gmail.com",
             "createdAt":"2016-02-01 11:59 PM UTC",
             "commentText":{
-                "value":"Instructor 1 comment to student 1 self feedback Question 2"   
+                "value":"Instructor 1 comment to feedback Question 2"   
             }
         }
     },
