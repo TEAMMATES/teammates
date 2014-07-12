@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -164,7 +163,6 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         
         ______TS("action: delete feedback response comment");
         commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
-        ThreadHelper.waitFor(1500);
         commentsPage.clickCommentsPageLinkInHeader();
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageAfterTestScript.html");
     }
@@ -183,6 +181,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.saveEditStudentCommentForRow(2);
         commentsPage.clickResponseCommentEdit(1, 1, 1, 1);
         commentsPage.saveResponseComment(1, 1, 1, 1);
+        commentsPage.clickCommentsPageLinkInHeader();
         
         commentsPage.search("comments");
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageSearchNormal.html");
