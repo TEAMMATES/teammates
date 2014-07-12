@@ -45,6 +45,21 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     }
     
     @Test
+    public void allTests() throws Exception{
+        testGetRecipientsForQuestion();
+        testGetFeedbackQuestionsForInstructor();
+        testGetFeedbackQuestionsForStudents();
+        testGetFeedbackQuestionsForTeam();
+        testIsQuestionHasResponses();
+        testIsQuestionAnswered();
+        testGetFeedbackQuestionBundle();
+        testUpdateQuestionNumber();
+        testAddQuestion();
+        testCopyQuestion();
+        testUpdateQuestion();
+        testDeleteQuestion();
+    }
+    
     public void testGetRecipientsForQuestion() throws Exception {
         FeedbackQuestionAttributes question;
         String email;
@@ -104,7 +119,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
 
     }
     
-    @Test
     public void testUpdateQuestionNumber() throws Exception{
         ______TS("shift question up");
         List<FeedbackQuestionAttributes> expectedList = new ArrayList<FeedbackQuestionAttributes>();
@@ -161,7 +175,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test
     public void testAddQuestion() throws Exception{
         
         ______TS("Add question for feedback session that does not exist");
@@ -270,7 +283,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test
     public void testCopyQuestion() throws Exception {
         
         InstructorAttributes instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
@@ -292,8 +304,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
     }
     
-    
-    @Test
     public void testUpdateQuestion() throws Exception {
         ______TS("standard update, no existing responses, with 'keep existing' policy");
         FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn2InSession2InCourse2");
@@ -374,7 +384,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test
+    
     public void testDeleteQuestion() throws Exception {
         //Success case already tested in update
         ______TS("question already does not exist, silently fail");
@@ -384,7 +394,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
     }
 
-    @Test
+    
     public void testGetFeedbackQuestionsForInstructor() throws Exception{
         List<FeedbackQuestionAttributes> expectedQuestions, actualQuestions, allQuestions;
         
@@ -458,7 +468,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         assertEquals(actualQuestions, expectedQuestions);
     }
     
-    @Test
+    
     public void testGetFeedbackQuestionsForStudents() throws Exception{
         List<FeedbackQuestionAttributes> expectedQuestions, actualQuestions, allQuestions;
         
@@ -512,7 +522,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         assertEquals(actualQuestions, expectedQuestions);
     }
     
-    @Test
+    
     public void testGetFeedbackQuestionsForTeam() throws Exception{
         List<FeedbackQuestionAttributes> expectedQuestions, actualQuestions;
         
@@ -525,7 +535,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
     }
     
-    @Test
     public void testIsQuestionHasResponses() {
         FeedbackQuestionAttributes questionWithResponse, questionWithoutResponse;
         
@@ -540,7 +549,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         assertFalse(fqLogic.isQuestionHasResponses(questionWithoutResponse.getId()));
     }
     
-    @Test
     public void testIsQuestionAnswered() throws Exception {
         FeedbackQuestionAttributes question;
         ______TS("test question is answered by user");
@@ -568,7 +576,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
     }  
     
-    @Test
     public void testGetFeedbackQuestionBundle() throws Exception {
         testGetFeedbackQuestionBundleForInstructor();
         testGetFeedbackQuestionBundleForStudent();

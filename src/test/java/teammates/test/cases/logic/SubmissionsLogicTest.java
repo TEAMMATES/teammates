@@ -36,6 +36,11 @@ public class SubmissionsLogicTest extends BaseComponentTestCase{
     }
     
     @Test
+    public void testAll() throws Exception{
+        testUpdateSubmission();
+        testGetSubmissionsForEvaluation();
+    }
+
     public void testGetSubmissionsForEvaluation() throws Exception {
         Logic logic = new Logic();
 
@@ -101,7 +106,6 @@ public class SubmissionsLogicTest extends BaseComponentTestCase{
         // no need to check for invalid parameters as it is a private method
     }
     
-    @Test
     public void testUpdateSubmission() throws Exception {
 
         SubmissionAttributes s = new SubmissionAttributes();

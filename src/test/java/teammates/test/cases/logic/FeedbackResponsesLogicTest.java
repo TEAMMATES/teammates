@@ -1,6 +1,10 @@
 package teammates.test.cases.logic;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +12,6 @@ import java.util.List;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.DataBundle;
@@ -19,6 +21,7 @@ import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.core.FeedbackQuestionsLogic;
@@ -29,7 +32,8 @@ import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.common.datatransfer.UserType;
+
+import com.google.appengine.api.datastore.Text;
 
 public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     
@@ -44,8 +48,17 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         turnLoggingUp(FeedbackResponsesLogic.class);
         restoreTypicalDataInDatastore();
     }
-
+    
     @Test
+    public void allTests() throws Exception{
+        testIsNameVisibleTo();
+        testGetViewableResponsesForQuestionInSection();
+        testUpdateFeedbackResponse();
+        testUpdateFeedbackResponsesForChangingTeam();
+        testUpdateFeedbackResponsesForChangingEmail();
+        testDeleteFeedbackResponsesForStudent();
+    }
+
     public void testUpdateFeedbackResponse() throws Exception {
         
         ______TS("success: standard update with carried params ");
@@ -159,7 +172,6 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test
     public void testUpdateFeedbackResponsesForChangingTeam() throws Exception {
         
         ______TS("standard update team case");
@@ -210,7 +222,6 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
     }
     
-    @Test
     public void testUpdateFeedbackResponsesForChangingEmail() throws Exception {
         ______TS("standard update email case");
         
@@ -237,7 +248,6 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                 studentToUpdate.courseId, "new@email.com", studentToUpdate.email);
     }
     
-    @Test
     public void testGetViewableResponsesForQuestionInSection() throws Exception {
         
         ______TS("success: GetViewableResponsesForQuestion - instructor");
@@ -320,7 +330,6 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         }   
     }
     
-    @Test
     public void testIsNameVisibleTo() throws Exception {
         
         
@@ -380,7 +389,6 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
     }
     
-    @Test
     public void testDeleteFeedbackResponsesForStudent() throws Exception {    
         
         ______TS("standard delete");

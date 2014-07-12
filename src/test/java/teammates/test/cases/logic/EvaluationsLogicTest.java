@@ -71,6 +71,41 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
     }
     
     @Test
+    public void testAll() throws Exception{
+        
+        testSendReminderForEvaluation();
+        
+        testIsEvaluationCompletedByStudent();
+        testIsEvaluationExists();
+        testGetEvaluation();
+        testGetEvaluationsForCourse();
+        testGetEvaluationsClosingWithinTimeLimit();
+        testGetEvaluationsDetailsForInstructor();
+        testGetEvaluationsListForInstructor();
+        testGetEvaluationsDetailsForCourse();
+        testGetEvaluationsDetailsForCourseAndEval();
+        testGetEvaluationResultSummaryAsCsv();
+        testGetEvaluationResultForStudent();
+        testGetEvaluationResult();
+        
+        testPublishAndUnpublishEvaluation();
+        testSendEvaluationPublishedEmails();
+        testSetEvaluationActivationStatus();
+        
+        testAdjustSubmissionsForNewStudentInEvaluation();
+        testGetReadyEvaluations();
+        
+        
+        testCalculateTeamResult();
+        
+        testCreateEvaluationCascadeWithSubmissionQueue();
+        testCreateSubmissionsForEvaluation();
+        testUpdateEvaluation();
+        testDeleteEvaluationCascade();
+        
+        
+    }
+
     public void testCreateEvaluationCascadeWithSubmissionQueue() throws Exception{
     
         ______TS("Typical case : create a valid evaluation");
@@ -123,7 +158,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test
     public void testCreateSubmissionsForEvaluation() throws Exception {
         
         EvaluationAttributes createdEval = new EvaluationAttributes();
@@ -162,7 +196,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
     }
 
 
-    @Test
     public void testGetEvaluation() throws Exception {
 
         ______TS("Typical case");
@@ -189,7 +222,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 
     }
 
-    @Test 
     public void testGetEvaluationsForCourse() throws Exception {
 
         ______TS("Typical case");
@@ -219,7 +251,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
    
-    @Test
     public void testGetEvaluationsClosingWithinTimeLimit() throws Exception {
         
         ______TS("Typical case : no evaluations closing within a certain period");
@@ -244,7 +275,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         
     }
     
-    @Test
     public void testGetEvaluationsDetailsForInstructor() throws Exception {
     
         ______TS("Typical case: instructor has 3 evaluations");
@@ -296,7 +326,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 
     }
 
-    @Test 
     public void testGetEvaluationsListForInstructor() throws Exception {
         
         ______TS("Typical case: instructor has 3 evaluations");
@@ -347,7 +376,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 
     }
 
-    @Test
     public void testGetEvaluationsDetailsForCourse() throws Exception {
 
         ______TS("Typical case");
@@ -384,7 +412,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test
     public void testGetEvaluationsDetailsForCourseAndEval() throws Exception {
 
         EvaluationAttributes expectedEvaluation = new EvaluationAttributes();
@@ -424,7 +451,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
     }
 
     @SuppressWarnings("deprecation")
-    @Test
     public void testGetReadyEvaluations() throws Exception {
         
         ______TS("No evaluations activated");
@@ -506,7 +532,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         // Evaluation level
     }
     
-    @Test
     public void testGetEvaluationResult() throws Exception {
     
         ______TS("Typical case");
@@ -687,7 +712,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         */
     }
 
-    @Test
     public void testGetEvaluationResultForStudent() throws Exception {
     
         CourseAttributes course;
@@ -817,7 +841,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
     
     }
 
-    @Test
     public void testGetEvaluationResultSummaryAsCsv() throws Exception {
     
         ______TS("Typical case");
@@ -883,7 +906,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test 
     public void testIsEvaluationCompletedByStudent() throws Exception {
 
         ______TS("Typical case");
@@ -909,7 +931,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test 
     public void testIsEvaluationExists() throws Exception {
 
         ______TS("Typical case");
@@ -934,7 +955,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 
     }
 
-    @Test
     public void testUpdateEvaluation() throws Exception {
         
         ______TS("Typical case");
@@ -1012,7 +1032,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         
     }
 
-    @Test
     public void testPublishAndUnpublishEvaluation() throws Exception {
 
         ______TS("Typical cases");
@@ -1123,7 +1142,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 
     }
 
-    @Test
     public void testDeleteEvaluationCascade() throws Exception {
     
         ______TS("Typical cases");
@@ -1167,7 +1185,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test
     public void testAdjustSubmissionsForNewStudentInEvaluation() throws Exception {
 
         ______TS("Typical case");
@@ -1238,7 +1255,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
     
-    @Test
     public void testSendEvaluationPublishedEmails() throws Exception {
         
         ______TS("Typical case");
@@ -1287,7 +1303,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test
     public void testSendReminderForEvaluation() throws Exception {
        
         ______TS("Typical case");
@@ -1340,7 +1355,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
     
-    @Test
     public void testSetEvaluationActivationStatus() throws Exception {
         
         EvaluationAttributes eval1 = dataBundle.evaluations.get("evaluation1InCourse1");
@@ -1406,7 +1420,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test
     public void testCalculateTeamResult() throws Exception {
 
         TeamDetailsBundle teamDetails = new TeamDetailsBundle();

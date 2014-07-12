@@ -1,8 +1,8 @@
 package teammates.test.cases.logic;
 
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,6 +58,35 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     }
     
     @Test
+    public void testAll() throws Exception {
+        testGetCourse();
+        testGetArchivedCoursesForInstructor();
+        testGetCoursesForInstructor();
+        testIsSampleCourse() ;
+        testIsCoursePresent() ;
+        testVerifyCourseIsPresent();
+        testSetArchiveStatusOfCourse();
+        testGetCourseSummary();
+        testGetCourseSummaryWithoutStats();
+        testGetCourseDetails();
+        testGetTeamsForCourse();
+        testGetNumberOfSections();
+        testGetNumberOfTeams();
+        testGetTotalEnrolledInCourse();
+        testGetTotalUnregisteredInCourse();
+        testGetCoursesForStudentAccount();
+        testGetCourseDetailsListForStudent();
+        testGetCourseSummariesForInstructor();
+        testGetCourseDetailsListForInstructor();
+        testGetCoursesSummaryWithoutStatsForInstructor();
+        testGetCourseStudentListAsCsv();
+        testHasIndicatedSections();
+        testCreateCourse();
+        testCreateCourseAndInstructor();
+        testDeleteCourse() ;
+    }
+
+
     public void testGetCourse() throws Exception {
 
         ______TS("failure: course doesn't exist");
@@ -85,7 +114,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test
     public void testGetArchivedCoursesForInstructor() throws Exception {
         
         ______TS("success: instructor with archive course");
@@ -113,7 +141,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test
     public void testGetCoursesForInstructor() throws Exception {
 
         ______TS("success: instructor with present courses");
@@ -142,7 +169,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
     public void testIsSampleCourse() {
         
         ______TS("typical case: not a sample course");
@@ -172,7 +198,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
     public void testIsCoursePresent() {
 
         ______TS("typical case: not an existent course");
@@ -198,7 +223,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
     public void testVerifyCourseIsPresent() throws Exception {
 
         ______TS("typical case: verify an inexistent course");
@@ -228,7 +252,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test
     public void testSetArchiveStatusOfCourse() throws Exception {
         
         CourseAttributes course = new CourseAttributes("CLogicT.new-course", "New course");
@@ -269,7 +292,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
     public void testGetCourseSummary() throws Exception {
 
         ______TS("typical case");
@@ -329,7 +351,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
     public void testGetCourseSummaryWithoutStats() throws Exception {
 
         ______TS("typical case");
@@ -380,7 +401,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
     public void testGetCourseDetails() throws Exception {
 
         ______TS("typical case");
@@ -443,7 +463,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
     public void testGetTeamsForCourse() throws Exception {
        
         ______TS("typical case");
@@ -489,8 +508,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
             assertEquals("Supplied parameter was null\n", e.getMessage());
         }
     }
-
-    @Test 
+ 
     public void testGetNumberOfSections() throws Exception {
 
         ______TS("Typical case");
@@ -525,8 +543,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
             assertEquals("Supplied parameter was null\n", e.getMessage());
         }
     }
-
-    @Test 
+ 
     public void testGetNumberOfTeams() throws Exception {
         
         ______TS("typical case");
@@ -570,7 +587,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
     public void testGetTotalEnrolledInCourse() throws Exception {
         
         ______TS("typical case");
@@ -614,7 +630,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
     public void testGetTotalUnregisteredInCourse() throws Exception {
 
         ______TS("typical case");
@@ -658,7 +673,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
     public void testGetCoursesForStudentAccount() throws Exception {
 
         ______TS("student having two courses");
@@ -711,7 +725,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
     public void testGetCourseDetailsListForStudent() throws Exception {
 
         ______TS("student having multiple evaluations in multiple courses");
@@ -810,7 +823,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
     public void testGetCourseSummariesForInstructor() throws Exception {
 
         ______TS("Instructor with 2 courses");
@@ -848,7 +860,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
        
     }
 
-    @Test
     public void testGetCourseDetailsListForInstructor() throws Exception {
 
         ______TS("Typical case");
@@ -919,7 +930,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
     public void testGetCoursesSummaryWithoutStatsForInstructor() throws Exception {
 
         ______TS("Typical case");
@@ -990,7 +1000,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
     public void testGetCourseStudentListAsCsv() throws Exception {
 
         ______TS("Typical case: course with section");
@@ -1073,7 +1082,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
     public void testHasIndicatedSections() throws Exception {
 
         ______TS("Typical case: course with sections");
@@ -1107,7 +1115,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
     }
 
-    @Test
     public void testCreateCourse() throws Exception {
         
         /*Explanation:
@@ -1132,7 +1139,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
     
-    @Test
     public void testCreateCourseAndInstructor() throws Exception {
         
         /* Explanation: SUT has 5 paths. They are,
@@ -1150,6 +1156,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         c.id = "fresh-course-tccai";
         c.name = "Fresh course for tccai";
         
+        @SuppressWarnings("deprecation")
         InstructorAttributes i = new InstructorAttributes("instructor-for-tccai", c.id, "Instructor for tccai", "ins.for.iccai@gmail.com");       
         
         try {
@@ -1243,7 +1250,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
     public void testDeleteCourse() throws Exception {
     
         ______TS("typical case");
