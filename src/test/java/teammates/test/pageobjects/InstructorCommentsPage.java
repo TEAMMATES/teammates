@@ -206,7 +206,7 @@ public class InstructorCommentsPage extends AppPage {
 
     public void search(String text) {
         WebElement searchBox = browser.driver.findElement(By.id("searchBox"));
-        searchBox.click();
+        //searchBox.click();
         searchBox.clear();
         searchBox.sendKeys(text);
         ThreadHelper.waitBriefly();

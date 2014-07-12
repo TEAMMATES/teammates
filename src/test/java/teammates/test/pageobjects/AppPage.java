@@ -788,18 +788,19 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyStatus(String expectedStatus){
-        if(!expectedStatus.equals("")){
-        this.waitForElementPresence(By.id("statusMessage"), 10);
-            if(!statusMessage.isDisplayed()){
-                this.waitForElementVisible(statusMessage);
+        
+        try{
+            boolean isSameStatus = expectedStatus.equals(this.getStatus());
+            assertEquals(true, isSameStatus);
+        } catch(Exception e){
+            if(!expectedStatus.equals("")){
+                this.waitForElementPresence(By.id("statusMessage"), 10);
+                if(!statusMessage.isDisplayed()){
+                    this.waitForElementVisible(statusMessage);
+                }
             }
         }
-        boolean isSameStatus = expectedStatus.equals(this.getStatus());
-        if(!isSameStatus){
-            //try one more time (to account for delays in displaying the status message).
-            ThreadHelper.waitFor(2000);
-            assertEquals(expectedStatus, this.getStatus());
-        }
+        assertEquals(expectedStatus, this.getStatus());
         return this;
     }
 

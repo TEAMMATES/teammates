@@ -210,6 +210,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
         WebElement maxScaleBox = browser.driver.findElement(By.id("maxScaleBox" + idSuffix));
         fillTextBox(maxScaleBox, maxScale);
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("$(arguments[0]).change();", maxScaleBox);
     }
     
     public String getMaxNumScaleBox(int qnNumber) {
