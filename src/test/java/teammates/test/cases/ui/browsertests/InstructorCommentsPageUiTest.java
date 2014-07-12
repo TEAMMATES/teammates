@@ -112,6 +112,15 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         
         commentsPage.showCommentsFromGiver("others");
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromOthers.html");
+        
+        commentsPage.showCommentsFromAllStatus();
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsFromAllStatus.html");
+        
+        commentsPage.showCommentsForStatus("public");
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsForPublic.html");
+        
+        commentsPage.showCommentsForStatus("private");
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsForPrivate.html");
     }
 
     private void testActions() {

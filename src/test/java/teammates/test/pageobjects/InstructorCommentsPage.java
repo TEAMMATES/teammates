@@ -52,12 +52,20 @@ public class InstructorCommentsPage extends AppPage {
         browser.driver.findElement(By.id("giver_all")).click();;
     }
     
+    public void showCommentsFromAllStatus(){
+        browser.driver.findElement(By.id("status_all")).click();;
+    }
+    
     public void showCommentsForPanel(int panelIdx){
         browser.driver.findElement(By.id("panel_check-" + panelIdx)).click();;
     }
     
     public void showCommentsFromGiver(String giverIdx){
         browser.driver.findElement(By.id("giver_check-by-" + giverIdx)).click();;
+    }
+    
+    public void showCommentsForStatus(String status){
+        browser.driver.findElement(By.id("status_check-" + status)).click();;
     }
 
     public WebElement getNextCourseLink() {
