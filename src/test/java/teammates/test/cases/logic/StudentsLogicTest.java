@@ -71,6 +71,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         turnLoggingUp(StudentsLogic.class);
+        removeTypicalDataInDatastore();
         restoreTypicalDataInDatastore();
     }
     

@@ -40,18 +40,18 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         turnLoggingUp(InstructorsLogic.class);
+        removeTypicalDataInDatastore();
         restoreTypicalDataInDatastore();
     }
 
     @Test
     public void testAll() throws Exception{
-        testAddInstructor();
         testGetInstructorForEmail();
+        testGetInstructorsForEmail();
         testGetInstructorForGoogleId();
+        testGetInstructorsForGoogleId();
         testGetInstructorForRegistrationKey();
         testGetInstructorsForCourse();
-        testGetInstructorsForGoogleId();
-        testGetInstructorsForEmail();
         testGetKeyForInstructor();
         testIsGoogleIdOfInstructorOfCourse();
         testIsEmailOfInstructorOfCourse();
@@ -59,6 +59,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         testVerifyIsGoogleIdOfInstructorOfCourse();
         testVerifyIsEmailOfInstructorOfCourse();
         testIsNewInstructor();
+        testAddInstructor();
         testUpdateInstructorByGoogleId();
         testUpdateInstructorByEmail();
         testDeleteInstructor();

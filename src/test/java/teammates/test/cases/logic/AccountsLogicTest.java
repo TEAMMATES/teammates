@@ -29,6 +29,7 @@ import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
+import teammates.test.util.Priority;
 import teammates.test.util.TestHelper;
 
 public class AccountsLogicTest extends BaseComponentTestCase {
@@ -42,6 +43,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         turnLoggingUp(AccountsLogic.class);
+        removeTypicalDataInDatastore();
         restoreTypicalDataInDatastore();
     }
 
@@ -131,6 +133,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         
     }
     
+    @Priority(-1)
     @Test
     public void testAccountFunctions() throws Exception {
         

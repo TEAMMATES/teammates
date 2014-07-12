@@ -25,6 +25,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+        removeTypicalDataInDatastore();
 		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
     }

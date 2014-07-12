@@ -1,13 +1,12 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.Assert.fail;
+import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -33,6 +32,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+        removeTypicalDataInDatastore();
 		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE;
     }
