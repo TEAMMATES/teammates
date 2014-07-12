@@ -45,8 +45,9 @@ public class BackDoorLogic extends Logic {
     
     /**
      * Persists given data in the datastore Works ONLY if the data is correct.
-     * Any existing copies of the data in the datastore will be overwritten.
-     * 
+     *  //Any existing copies of the data in the datastore will be overwritten.
+     *      - edit: use removeDataBundle/deleteExistingData to remove.
+     *              made this change for speed when deletion is not necessary.
      * @return status of the request in the form 'status meassage'+'additional
      *         info (if any)' e.g., "[BACKEND_STATUS_SUCCESS]" e.g.,
      *         "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
