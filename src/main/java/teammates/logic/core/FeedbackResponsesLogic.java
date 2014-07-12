@@ -416,7 +416,8 @@ public class FeedbackResponsesLogic {
         for (FeedbackResponseAttributes response : responsesFromUser) {
             question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
             if (question.giverType == FeedbackParticipantType.TEAMS
-                    || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+                    || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
+                    || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
                 frDb.deleteEntity(response);
             }
         }
@@ -426,7 +427,8 @@ public class FeedbackResponsesLogic {
 
         for (FeedbackResponseAttributes response : responsesToUser) {
             question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
-            if (question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+            if (question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
+                    || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF ) {
                 frDb.deleteEntity(response);
             }
         }

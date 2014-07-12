@@ -14,7 +14,6 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.api.Logic;
 
 public class InstructorCommentsPageData extends PageData {
@@ -37,10 +36,6 @@ public class InstructorCommentsPageData extends PageData {
     
     public InstructorCommentsPageData(AccountAttributes account) {
         super(account);
-    }
-    
-    public String removeBracketsForArrayString(String arrayString){
-        return arrayString.substring(1, arrayString.length() - 1).trim();
     }
     
     public String getGiverName(String giverEmail){

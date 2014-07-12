@@ -402,6 +402,8 @@ public class Const {
         public static final String STUDENT_NAME = "studentname";
         public static final String RECIPIENT_TYPE = "recipienttype";
         public static final String RECIPIENTS = "recipients";
+        public static final String RESPONSE_COMMENTS_SHOWCOMMENTSTO = "showresponsecommentsto";
+        public static final String RESPONSE_COMMENTS_SHOWGIVERTO = "showresponsegiverto";
         public static final String COMMENTS_SHOWCOMMENTSTO = "showcommentsto";
         public static final String COMMENTS_SHOWGIVERTO = "showgiverto";
         public static final String COMMENTS_SHOWRECIPIENTTO = "showrecipientto";
@@ -473,9 +475,11 @@ public class Const {
         public static final String ATTRIBUTE = "attribute";
         public static final String COMMENT_ATTRIBUTE = "commentAttibute";
         public static final String COMMENT_GIVER_NAME = "commentGiverName";
+        public static final String COMMENT_GIVER_EMAIL = "commentGiverEmail";
         public static final String COMMENT_RECIPIENT_NAME = "commentRecipientName";
         public static final String FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE = "frCommentAttibute";
         public static final String FEEDBACK_RESPONSE_COMMENT_GIVER_NAME = "frCommentGiverName";
+        public static final String FEEDBACK_RESPONSE_COMMENT_GIVER_EMAIL = "frCommentGiverEmail";
         public static final String FEEDBACK_RESPONSE_ATTRIBUTE = "feedbackResponseAttibute";
         public static final String FEEDBACK_RESPONSE_GIVER_NAME = "feedbackResponseGiverName";
         public static final String FEEDBACK_RESPONSE_RECEIVER_NAME = "feedbackResponseReceiverName";
@@ -490,6 +494,7 @@ public class Const {
         public static final String RECIPIENT_SECTION = "recipientSection";
         public static final String IS_VISIBLE_TO_INSTRUCTOR = "isVisibleToInstructor";
         public static final String IS_VISIBLE_TO_RECEIVER = "isVisibleToReceiver";
+        public static final String IS_VISIBLE_TO_GIVER = "isVisibleToGiver";
     }
 
     public class ActionURIs{

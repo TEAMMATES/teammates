@@ -47,8 +47,12 @@ public class CommentsDb extends EntitiesDb{
     }
     
     public void deleteDocument(CommentAttributes commentToDelete){
-        CommentAttributes comment = getComment(commentToDelete);
-        deleteDocument(Const.SearchIndex.COMMENT, comment.getCommentId().toString());
+        if(commentToDelete.getCommentId() == null){
+            CommentAttributes comment = getComment(commentToDelete);
+            deleteDocument(Const.SearchIndex.COMMENT, comment.getCommentId().toString());
+        } else {
+            deleteDocument(Const.SearchIndex.COMMENT, commentToDelete.getCommentId().toString());
+        }
     }
     
     public CommentAttributes getComment(Long commentId){
@@ -248,7 +252,19 @@ public class CommentsDb extends EntitiesDb{
         List<Comment> commentList = (List<Comment>) getPM()
                 .newQuery(query).execute();
     
-        return commentList;
+        return getCommentsWithoutDeletedEntity(commentList);
+    }
+
+    private List<Comment> getCommentsWithoutDeletedEntity(
+            List<Comment> commentList) {
+        List<Comment> resultList = new ArrayList<Comment>();
+        for(Comment c:commentList){
+            if(!JDOHelper.isDeleted(c)){
+                resultList.add(c);
+            }
+        }
+        
+        return resultList;
     }
     
     private List<Comment> getCommentEntitiesForSendingState(String courseId, CommentSendingState sendingState){
@@ -259,7 +275,7 @@ public class CommentsDb extends EntitiesDb{
         @SuppressWarnings("unchecked")
         List<Comment> commentList = (List<Comment>) q.execute(courseId, sendingState.toString());
         
-        return commentList;
+        return getCommentsWithoutDeletedEntity(commentList);
     }
     
     private List<Comment> getCommentEntitiesForGiver(String courseId, String giverEmail){
@@ -270,7 +286,7 @@ public class CommentsDb extends EntitiesDb{
         @SuppressWarnings("unchecked")
         List<Comment> commentList = (List<Comment>) q.execute(courseId, giverEmail);
         
-        return commentList;
+        return getCommentsWithoutDeletedEntity(commentList);
     }
     
     private List<Comment> getCommentEntitiesForGiverAndStatus(String courseId,
@@ -282,7 +298,7 @@ public class CommentsDb extends EntitiesDb{
         @SuppressWarnings("unchecked")
         List<Comment> commentList = (List<Comment>) q.execute(courseId, giverEmail, status.toString());
         
-        return commentList;
+        return getCommentsWithoutDeletedEntity(commentList);
     }
     
     private List<Comment> getCommentEntitiesForDraft(String giverEmail) {
@@ -293,7 +309,7 @@ public class CommentsDb extends EntitiesDb{
         @SuppressWarnings("unchecked")
         List<Comment> commentList = (List<Comment>) q.execute(giverEmail, CommentStatus.DRAFT.toString());
         
-        return commentList;
+        return getCommentsWithoutDeletedEntity(commentList);
     }
     
     private List<Comment> getCommentEntitiesForReceiver(String courseId, CommentRecipientType recipientType, String recipient){
@@ -304,7 +320,7 @@ public class CommentsDb extends EntitiesDb{
         @SuppressWarnings("unchecked")
         List<Comment> commentList = (List<Comment>) q.execute(courseId, recipientType.toString(), recipient);
         
-        return commentList;
+        return getCommentsWithoutDeletedEntity(commentList);
     }
     
     private List<Comment> getCommentEntitiesForCommentViewer(String courseId, CommentRecipientType commentViewerType){
@@ -314,7 +330,8 @@ public class CommentsDb extends EntitiesDb{
                 + "&& showCommentTo.contains(commentViewerTypeParam)");
         @SuppressWarnings("unchecked")
         List<Comment> commentList = (List<Comment>) q.execute(courseId, commentViewerType.toString());
-        return commentList;
+        
+        return getCommentsWithoutDeletedEntity(commentList);
     }
 
     @Override
@@ -356,7 +373,8 @@ public class CommentsDb extends EntitiesDb{
         //JDO query can't seem to handle Text comparison correctly,
         //we have to compare the texts separately.
         for(Comment comment : commentList){
-            if(comment.getGiverEmail().equals(giverEmail)
+            if(!JDOHelper.isDeleted(comment) 
+                    && comment.getGiverEmail().equals(giverEmail)
                     && comment.getCreatedAt().equals(date)
                     && comment.getRecipients().equals(recipients)) {
                 return comment;

@@ -52,8 +52,9 @@ public class InstructorFeedbackResultsPageAction extends Action {
         data.groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
         data.sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
         if (data.sortType == null) {
-            // default: sort by recipients, stats shown.
+            // default: sort by question, stats shown, grouped by team.
             data.showStats = new String("on");
+            data.groupByTeam = new String("on");
             data.sortType = new String("question");
         }
         data.sections = logic.getSectionNamesForCourse(courseId);
