@@ -135,7 +135,10 @@ public class InstructorStudentCommentEditAction extends Action {
         comment.giverEmail = instructorDetailForCourse.email; 
         if(recipientType != null){
             comment.recipientType = CommentRecipientType.valueOf(recipientType);
+        } else {
+            comment.recipientType = null;
         }
+        
         if(recipients != null){
             comment.recipients = new HashSet<String>();
             if(recipients != null && !recipients.isEmpty()){
