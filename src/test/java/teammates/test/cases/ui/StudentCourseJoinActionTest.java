@@ -4,7 +4,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -12,6 +11,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.logic.core.AccountsLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.ui.controller.RedirectResult;
@@ -19,27 +19,13 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentCourseJoinAction;
 
 public class StudentCourseJoinActionTest extends BaseActionTest {
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_COURSE_JOIN;
-    }
-
-    @BeforeMethod
-    public void methodSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-
-    @Test
-    public void testAccessControl() throws Exception {
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.REGKEY, "sample-key"
-        };
-
-        verifyOnlyLoggedInUsersCanAccess(submissionParams);
     }
 
     @Test
@@ -89,12 +75,6 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         assertEquals("", pageResult.getStatusMessage());
 
         ______TS("typical case");
-
-        AccountAttributes accountToAdd = new AccountAttributes(
-                "idOfNewStudnet", "nameOfNewStudent", false,
-                "newStudent@gmail.com", "NUS");
-        
-        accountsDb.createAccount(accountToAdd);
         
         StudentAttributes newStudentData = new StudentAttributes(
                 student1InCourse1.section,
@@ -125,6 +105,9 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
                 pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
+        
+        // delete the new student
+        studentsDb.deleteStudent(newStudentData.course, newStudentData.email);
 
     }
 

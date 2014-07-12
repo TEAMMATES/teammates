@@ -10,7 +10,7 @@ import teammates.logic.api.GateKeeper;
 public class InstructorFeedbackResultsPageAction extends Action {
 
     private static final String ALL_SECTION_OPTION = "All";
-    private static final int DEFAULT_QUERY_RANGE = 1000;
+    private static final int DEFAULT_QUERY_RANGE = 5;
     private static final int QUERY_RANGE_FOR_AJAX_TESTING = 5;
     
     @Override

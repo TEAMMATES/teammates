@@ -2,14 +2,19 @@ package teammates.test.cases.ui;
 
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 import java.lang.reflect.Method;
+
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.logic.api.Logic;
+import teammates.logic.core.CommentsLogic;
 import teammates.ui.controller.AdminInstructorAccountAddAction;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.AdminHomePageData;
@@ -19,25 +24,14 @@ import teammates.ui.controller.ShowPageResult;
 
 public class AdminInstructorAccountAddActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    // private final DataBundle dataBundle = getTypicalDataBundle();
     //TODO: move all the input validation/sanitization js code to server side
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        String[] submissionParams = new String[]{};
-        verifyOnlyAdminsCanAccess(submissionParams);
+        // restoreTypicalDataInDatastore();
     }
 
     @Test
@@ -90,8 +84,8 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         
         RedirectResult r = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(false, r.isError);
-        assertEquals("Instructor " + name + " has been successfully created", r.getStatusMessage());
+        assertEquals(false, r.isError);      
+        assertTrue(r.getStatusMessage().contains("Instructor " + name + " has been successfully created"));
         assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE, r.destination);
         assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE + "?error=false&user=" + adminUserId, r.getDestinationWithParams());
              
@@ -126,14 +120,18 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
                 Const.ParamsNames.INSTRUCTOR_SHORT_NAME, anotherNewInstructorShortName,
                 Const.ParamsNames.INSTRUCTOR_NAME, name,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, email,
-                Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute,
-                Const.ParamsNames.INSTRUCTOR_IMPORT_SAMPLE, "SELECTED");
+                Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
         
         r = (RedirectResult) a.executeAndPostProcess();
         assertEquals(false, r.isError);
-        assertEquals("Instructor " + name + " has been successfully created", r.getStatusMessage());
+        assertTrue(r.getStatusMessage().contains("Instructor " + name + " has been successfully created"));
         assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE, r.destination);
         assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE + "?error=false&user=" + adminUserId, r.getDestinationWithParams());
+        
+        // delete the comment that was created
+        CommentAttributes comment = CommentsLogic.inst().getCommentsForReceiver(getDemoCourseIdRoot(email), CommentRecipientType.PERSON,  "alice.b.tmms@gmail.com").get(0);
+        CommentsLogic.inst().deleteComment(comment);
+        new Logic().deleteCourse(getDemoCourseIdRoot(email));
     }
     
 
@@ -165,5 +163,12 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         return (Action)gaeSimulation.getActionObject(uri, parameters);
     }
 
+    private String getDemoCourseIdRoot(String instructorEmail){
+        final String[] splitedEmail = instructorEmail.split("@");
+        final String head = splitedEmail[0];
+        final String emailAbbreviation = splitedEmail[1].substring(0, 3);
+        return head + "." + emailAbbreviation
+                + "-demo";
+    }
 
 }

@@ -19,12 +19,6 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-2">
-                                <div class="checkbox">
-                                    <input id="option_check" type="checkbox">
-                                    <label for="option_check">Show More Options</label>
-                                </div>
-                            </div>
                             <div class="col-md-3">
                                 <div class="checkbox">
                                     <input id="displayArchivedCourses_check" type="checkbox">
@@ -36,7 +30,7 @@
                  </div>
              </div>
             <br>
-            <div id="moreOptionsDiv" class="well well-plain" style="display: none;">
+            <div id="moreOptionsDiv" class="well well-plain">
                 <form class="form-horizontal" role="form">
                     <div class="row">
                         <div class="col-sm-3">
@@ -45,91 +39,68 @@
                             </div>
                             <br>
                             <div class="checkbox">
-                                <input value="" id="course_all" checked="checked" type="checkbox"> 
+                                <input value="" id="course_all" type="checkbox"> 
                                 <label for="course_all"><strong>Select all</strong></label>
                             </div>
                             <br>
                             
-                                <div class="checkbox"><input id="course_check-0" checked="checked" type="checkbox">
+                                <div class="checkbox"><input id="course_check-0" type="checkbox">
                                     <label for="course_check-0">
-                                    [course3] : Name of Course 3
-                                    </label>
-                                </div>
-                            
-                                <div class="checkbox"><input id="course_check-1" checked="checked" type="checkbox">
-                                    <label for="course_check-1">
                                     [course1] : Name of Course 1
                                     </label>
                                 </div>
                             
+                                <div class="checkbox"><input id="course_check-1" type="checkbox">
+                                    <label for="course_check-1">
+                                    [course3] : Name of Course 3
+                                    </label>
+                                </div>
+                            
                         </div>
-                        
+                         
                         <div class="col-sm-3">
                             <div class="text-color-primary">
                                 <strong>Sections</strong>
                             </div>
                             <br>
-                            <div class="checkbox">
-                                <input value="" id="section_all" checked="checked" type="checkbox"> 
+                            <div class="checkbox" style="">
+                                <input value="" id="section_all" type="checkbox"> 
                                 <label for="section_all"><strong>Select all</strong></label>
                             </div>
                             <br>
-                            
-                                <div class="checkbox"><input id="section_check-0-0" checked="checked" type="checkbox">
-                                    <label for="section_check-0-0">
-                                    [course3] : None
-                                    </label>
-                                </div>
-                            
+                            <div id="sectionChoices">
+                     
+                            <div class="checkbox"><input id="section_check-1-0" checked="checked" class="section_check" type="checkbox"><label for="section_check-1-0">[course3] : None</label></div></div>
                         </div>
-
+                          
                         <div class="col-sm-3">
                             <div class="text-color-primary">
                                 <strong>Teams</strong>
                             </div>
                             <br>
-                            <div class="checkbox">
-                                <input id="team_all" checked="checked" type="checkbox">
+                            <div class="checkbox" style="">
+                                <input id="team_all" type="checkbox">
                                 <label for="team_all"><strong>Select All</strong></label>
                             </div>
                             <br>
-                            
-                                <div class="checkbox">
-                                    <input id="team_check-0-0-0" checked="checked" type="checkbox">
-                                    <label for="team_check-0-0-0">
-                                    [course3] : Team 1
-                                    </label>
-                                </div>
-                            
-                                <div class="checkbox">
-                                    <input id="team_check-0-0-1" checked="checked" type="checkbox">
-                                    <label for="team_check-0-0-1">
-                                    [course3] : Team 2
-                                    </label>
-                                </div>
-                            
+                            <div id="teamChoices">
+
+                            <div class="checkbox"><input id="team_check-1-0-0" checked="checked" class="team_check" type="checkbox"><label for="team_check-1-0-0">[course3] : Team 1</label></div><div class="checkbox"><input id="team_check-1-0-1" checked="checked" class="team_check" type="checkbox"><label for="team_check-1-0-1">[course3] : Team 2</label></div></div>
                         </div>
+                        
                         <div class="col-sm-3">
                             <div class="text-color-primary">
                                 <strong>Emails</strong>
                             </div>
                             <br>
-                            <div class="checkbox">
+                            <div class="checkbox" style="">
                                 <input id="show_email" checked="checked" type="checkbox">
                                     <label for="show_email"><strong>Show Emails</strong></label>
                             </div>
                             <br>
                             <div id="emails">
                                 
-                                        <div id="student_email-c0.0">CCSDetailsUiT.alice.tmms@gmail.com</div>
-                                
-                                        <div id="student_email-c0.1">benny.c.tmms@gmail.com</div>
-                                
-                                        <div id="student_email-c0.2">CCSDetailsUiT.charlie.tmms@gmail.com</div>
-                                
-                                        <div id="student_email-c0.3">denny.c.tmms@gmail.com</div>
-                                
-                            </div>
+                            <div id="student_email-c1.0">CCSDetailsUiT.{$test.student1}@gmail.com</div><div id="student_email-c1.1">benny.c.tmms@gmail.com</div><div id="student_email-c1.2">CCSDetailsUiT.{$test.student2}@gmail.com</div><div id="student_email-c1.3">denny.c.tmms@gmail.com</div></div>
                         </div>
                     </div>
                 </form>
@@ -144,201 +115,41 @@
 
             
 
-            <div class="well well-plain" id="course-0">
-                <div class="row">
-                    <div class="col-md-10 text-color-primary">
-                        <h4>
-                            <strong>
-                                [course3] : Name of Course 3
-                            </strong>
-                        </h4>
-                    </div>
-                    <div class="col-md-2">
-                        <a data-original-title="Enroll student into the course" class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test" href="/page/instructorCourseEnrollPage?courseid=course3&amp;user=instructorOfCourse4" title="" data-toggle="tooltip" data-placement="top">
-                                <span class="glyphicon glyphicon-list"></span> Enroll
-                        </a>
-                    </div>
+            <div class="panel panel-info">
+                <div style="cursor: pointer;" id="panelHeading-0" data-target="#panelBodyCollapse-0" class="panel-heading">
+                    <form style="display:none;" id="seeMore-0" class="seeMoreForm-0" action="/page/instructorStudentListAjaxPage">
+                        <input name="courseid" value="course1" type="hidden">
+                        <input name="user" value="instructorOfCourse4" type="hidden">
+                        <input id="numStudents-0" value="0" type="hidden">
+                    </form>
+                    <a data-original-title="Enroll student into the course" class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test" id="enroll-0" href="/page/instructorCourseEnrollPage?courseid=course1&amp;user=instructorOfCourse4" title="" data-toggle="tooltip" data-placement="top">
+                                    <span class="glyphicon glyphicon-list"></span> Enroll
+                    </a>
+                    <div class="display-icon pull-right"></div>
+                    <strong>[course1] : </strong>Name of Course 1
                 </div>
-                
-                        <table class="table table-responsive table-striped table-bordered">
-                            <thead class="fill-primary">
-                                <tr>
-                                    <th>
-                                        Photo
-                                    </th>
-                                    
-                                    <th id="button_sortteam-course3" class="button-sort-none" onclick="toggleSort(this,2)">
-                                        Team <span class="icon-sort unsorted"></span>
-                                    </th>
-                                    <th id="button_sortstudentname-course3" class="button-sort-none" onclick="toggleSort(this,3)">
-                                        Student Name <span class="icon-sort unsorted"></span>
-                                    </th>
-                                    <th id="button_sortemail-course3" class="button-sort-none" onclick="toggleSort(this,4)"> 
-                                        Email <span class="icon-sort unsorted"></span>
-                                    </th>
-                                    <th>Action(s)
-                                    </th>
-                                </tr>
-                            </thead>
-                            
-                            <tbody><tr id="student-c0.0" style="display: table-row;">
-                                <td id="studentphoto-c0.0" class="profile-pic-icon">
-                                    <a class="student-photo-link-for-test btn-link" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}">
-                                       View Photo</a>
-                                    <img src="" alt="No Image Given" class="hidden">
-                                </td>
-                                
-                                <td id="studentteam-c0.0.0">Team 1</td>
-                                <td id="studentname-c0.0">Alice Betsy</td>
-                                <td id="studentemail-c0.0">CCSDetailsUiT.alice.tmms@gmail.com</td>
-                                <td class="no-print align-center">
-                                    <a data-original-title="View the details of the student" class="btn btn-default btn-xs student-view-for-test" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&amp;user=instructorOfCourse4" title="" data-toggle="tooltip" data-placement="top"> View</a> 
-                                    
-                                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" class="btn btn-default btn-xs student-edit-for-test" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&amp;studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&amp;user=instructorOfCourse4" title="" data-toggle="tooltip" data-placement="top"> Edit</a> 
-                                    
-                                    <a data-original-title="Delete the student and the corresponding evaluations from the course" class="btn btn-default btn-xs student-delete-for-test" href="/page/instructorCourseStudentDelete?courseid=course3&amp;studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&amp;user=instructorOfCourse4" onclick="return toggleDeleteStudentConfirmation('course3','Alice Betsy')" title="" data-toggle="tooltip" data-placement="top"> Delete</a>
-                                    
-                                    <a data-original-title="View all student's evaluations and feedbacks" class="btn btn-default btn-xs student-records-for-test" href="/page/instructorStudentRecordsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&amp;user=instructorOfCourse4" title="" data-toggle="tooltip" data-placement="top"> All Records</a>
-                                    
-                                    <div class="dropdown" style="display:inline;">
-                                      <a class="btn btn-default btn-xs dropdown-toggle" href="javascript:;" data-toggle="dropdown"> Add Comment</a>
-                                      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&amp;user=instructorOfCourse4&amp;addComment=student">
-                                            Comment on Alice Betsy</a></li>
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.alice.tmms%40gmail.com&amp;user=instructorOfCourse4&amp;addComment=team">
-                                            Comment on Team 1</a></li>
-                                        
-                                      </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                            
-                            <tr id="student-c0.1" style="display: table-row;">
-                                <td id="studentphoto-c0.1" class="profile-pic-icon">
-                                    <a class="student-photo-link-for-test btn-link" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}">
-                                       View Photo</a>
-                                    <img src="" alt="No Image Given" class="hidden">
-                                </td>
-                                
-                                <td id="studentteam-c0.0.0">Team 1</td>
-                                <td id="studentname-c0.1">Benny Charles</td>
-                                <td id="studentemail-c0.1">benny.c.tmms@gmail.com</td>
-                                <td class="no-print align-center">
-                                    <a data-original-title="View the details of the student" class="btn btn-default btn-xs student-view-for-test" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=benny.c.tmms%40gmail.com&amp;user=instructorOfCourse4" title="" data-toggle="tooltip" data-placement="top"> View</a> 
-                                    
-                                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" class="btn btn-default btn-xs student-edit-for-test" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&amp;studentemail=benny.c.tmms%40gmail.com&amp;user=instructorOfCourse4" title="" data-toggle="tooltip" data-placement="top"> Edit</a> 
-                                    
-                                    <a data-original-title="Delete the student and the corresponding evaluations from the course" class="btn btn-default btn-xs student-delete-for-test" href="/page/instructorCourseStudentDelete?courseid=course3&amp;studentemail=benny.c.tmms%40gmail.com&amp;user=instructorOfCourse4" onclick="return toggleDeleteStudentConfirmation('course3','Benny Charles')" title="" data-toggle="tooltip" data-placement="top"> Delete</a>
-                                    
-                                    <a data-original-title="View all student's evaluations and feedbacks" class="btn btn-default btn-xs student-records-for-test" href="/page/instructorStudentRecordsPage?courseid=course3&amp;studentemail=benny.c.tmms%40gmail.com&amp;user=instructorOfCourse4" title="" data-toggle="tooltip" data-placement="top"> All Records</a>
-                                    
-                                    <div class="dropdown" style="display:inline;">
-                                      <a class="btn btn-default btn-xs dropdown-toggle" href="javascript:;" data-toggle="dropdown"> Add Comment</a>
-                                      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=benny.c.tmms%40gmail.com&amp;user=instructorOfCourse4&amp;addComment=student">
-                                            Comment on Benny Charles</a></li>
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=benny.c.tmms%40gmail.com&amp;user=instructorOfCourse4&amp;addComment=team">
-                                            Comment on Team 1</a></li>
-                                        
-                                      </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                            
-                            <tr id="student-c0.2" style="display: table-row;">
-                                <td id="studentphoto-c0.2" class="profile-pic-icon">
-                                    <a class="student-photo-link-for-test btn-link" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}">
-                                       View Photo</a>
-                                    <img src="" alt="No Image Given" class="hidden">
-                                </td>
-                                
-                                <td id="studentteam-c0.0.1">Team 2</td>
-                                <td id="studentname-c0.2">Charlie D</td>
-                                <td id="studentemail-c0.2">CCSDetailsUiT.charlie.tmms@gmail.com</td>
-                                <td class="no-print align-center">
-                                    <a data-original-title="View the details of the student" class="btn btn-default btn-xs student-view-for-test" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.charlie.tmms%40gmail.com&amp;user=instructorOfCourse4" title="" data-toggle="tooltip" data-placement="top"> View</a> 
-                                    
-                                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" class="btn btn-default btn-xs student-edit-for-test" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&amp;studentemail=CCSDetailsUiT.charlie.tmms%40gmail.com&amp;user=instructorOfCourse4" title="" data-toggle="tooltip" data-placement="top"> Edit</a> 
-                                    
-                                    <a data-original-title="Delete the student and the corresponding evaluations from the course" class="btn btn-default btn-xs student-delete-for-test" href="/page/instructorCourseStudentDelete?courseid=course3&amp;studentemail=CCSDetailsUiT.charlie.tmms%40gmail.com&amp;user=instructorOfCourse4" onclick="return toggleDeleteStudentConfirmation('course3','Charlie D')" title="" data-toggle="tooltip" data-placement="top"> Delete</a>
-                                    
-                                    <a data-original-title="View all student's evaluations and feedbacks" class="btn btn-default btn-xs student-records-for-test" href="/page/instructorStudentRecordsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.charlie.tmms%40gmail.com&amp;user=instructorOfCourse4" title="" data-toggle="tooltip" data-placement="top"> All Records</a>
-                                    
-                                    <div class="dropdown" style="display:inline;">
-                                      <a class="btn btn-default btn-xs dropdown-toggle" href="javascript:;" data-toggle="dropdown"> Add Comment</a>
-                                      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.charlie.tmms%40gmail.com&amp;user=instructorOfCourse4&amp;addComment=student">
-                                            Comment on Charlie D</a></li>
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.charlie.tmms%40gmail.com&amp;user=instructorOfCourse4&amp;addComment=team">
-                                            Comment on Team 2</a></li>
-                                        
-                                      </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                            
-                            <tr id="student-c0.3" style="display: table-row;">
-                                <td id="studentphoto-c0.3" class="profile-pic-icon">
-                                    <a class="student-photo-link-for-test btn-link" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}">
-                                       View Photo</a>
-                                    <img src="" alt="No Image Given" class="hidden">
-                                </td>
-                                
-                                <td id="studentteam-c0.0.1">Team 2</td>
-                                <td id="studentname-c0.3">Denny Charlés</td>
-                                <td id="studentemail-c0.3">denny.c.tmms@gmail.com</td>
-                                <td class="no-print align-center">
-                                    <a data-original-title="View the details of the student" class="btn btn-default btn-xs student-view-for-test" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=denny.c.tmms%40gmail.com&amp;user=instructorOfCourse4" title="" data-toggle="tooltip" data-placement="top"> View</a> 
-                                    
-                                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" class="btn btn-default btn-xs student-edit-for-test" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&amp;studentemail=denny.c.tmms%40gmail.com&amp;user=instructorOfCourse4" title="" data-toggle="tooltip" data-placement="top"> Edit</a> 
-                                    
-                                    <a data-original-title="Delete the student and the corresponding evaluations from the course" class="btn btn-default btn-xs student-delete-for-test" href="/page/instructorCourseStudentDelete?courseid=course3&amp;studentemail=denny.c.tmms%40gmail.com&amp;user=instructorOfCourse4" onclick="return toggleDeleteStudentConfirmation('course3','Denny Charlés')" title="" data-toggle="tooltip" data-placement="top"> Delete</a>
-                                    
-                                    <a data-original-title="View all student's evaluations and feedbacks" class="btn btn-default btn-xs student-records-for-test" href="/page/instructorStudentRecordsPage?courseid=course3&amp;studentemail=denny.c.tmms%40gmail.com&amp;user=instructorOfCourse4" title="" data-toggle="tooltip" data-placement="top"> All Records</a>
-                                    
-                                    <div class="dropdown" style="display:inline;">
-                                      <a class="btn btn-default btn-xs dropdown-toggle" href="javascript:;" data-toggle="dropdown"> Add Comment</a>
-                                      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=denny.c.tmms%40gmail.com&amp;user=instructorOfCourse4&amp;addComment=student">
-                                            Comment on Denny Charlés</a></li>
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=denny.c.tmms%40gmail.com&amp;user=instructorOfCourse4&amp;addComment=team">
-                                            Comment on Team 2</a></li>
-                                        
-                                      </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                            
-                        </tbody></table>
-                        
-                    </div>
+                <div style="height: auto;" id="panelBodyCollapse-0" class="panel-collapse checked collapse in">
+                <div class="panel-body padding-0"><table class="table table-responsive table-striped table-bordered margin-0"><thead class="background-color-medium-gray text-color-gray font-weight-normal"><tr><th class="align-center color_white bold">There are no students in this course</th></tr></thead></table></div>
+                </div>
+            </div>
             
 
-            <div class="well well-plain" id="course-1">
-                <div class="row">
-                    <div class="col-md-10 text-color-primary">
-                        <h4>
-                            <strong>
-                                [course1] : Name of Course 1
-                            </strong>
-                        </h4>
-                    </div>
-                    <div class="col-md-2">
-                        <a data-original-title="Enroll student into the course" class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test" href="/page/instructorCourseEnrollPage?courseid=course1&amp;user=instructorOfCourse4" title="" data-toggle="tooltip" data-placement="top">
-                                <span class="glyphicon glyphicon-list"></span> Enroll
-                        </a>
-                    </div>
+            <div class="panel panel-info">
+                <div style="cursor: pointer;" id="panelHeading-1" data-target="#panelBodyCollapse-1" class="panel-heading">
+                    <form style="display:none;" id="seeMore-1" class="seeMoreForm-1" action="/page/instructorStudentListAjaxPage">
+                        <input name="courseid" value="course3" type="hidden">
+                        <input name="user" value="instructorOfCourse4" type="hidden">
+                        <input id="numStudents-1" value="4" type="hidden">
+                    </form>
+                    <a data-original-title="Enroll student into the course" class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test" id="enroll-1" href="/page/instructorCourseEnrollPage?courseid=course3&amp;user=instructorOfCourse4" title="" data-toggle="tooltip" data-placement="top">
+                                    <span class="glyphicon glyphicon-list"></span> Enroll
+                    </a>
+                    <div class="display-icon pull-right"></div>
+                    <strong>[course3] : </strong>Name of Course 3
                 </div>
-                
-                        <table class="table table-responsive table-striped table-bordered">
-                            <thead>
-                                <tr class="fill-primary">
-                                    <th class="align-center color_white bold">There are no students in this course</th>
-                                </tr>
-                            </thead>
-                        </table>
-                        
-                    </div>
+                <div style="height: auto;" id="panelBodyCollapse-1" class="panel-collapse checked collapse in">
+                <div class="panel-body padding-0"><table class="table table-responsive table-striped table-bordered margin-0"><thead class="background-color-medium-gray text-color-gray font-weight-normal"><tr><th>Photo</th><th id="button_sortteam-1" class="button-sort-none" onclick="toggleSort(this,2)">Team <span class="icon-sort unsorted"></span></th><th id="button_sortstudentname-1" class="button-sort-none" onclick="toggleSort(this,3)">Student Name <span class="icon-sort unsorted"></span></th><th id="button_sortemail-1" class="button-sort-none" onclick="toggleSort(this,4)">Email <span class="icon-sort unsorted"></span></th><th>Action(s)</th></tr></thead><tbody><tr id="student-c1.0" style="display: table-row;"><td id="studentphoto-c1.0" class="profile-pic-icon"><a class="student-photo-link-for-test btn-link" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}">View Photo</a><img src="" alt="No Image Given" class="hidden"></td><td style="display: table-cell;" id="studentsection-c1.0" class="hidden">None</td><td id="studentteam-c1.0.0">Team 1</td><td id="studentname-c1.0">Alice Betsy</td><td id="studentemail-c1.0">CCSDetailsUiT.{$test.student1}@gmail.com</td><td class="no-print align-center"><a class="btn btn-default btn-xs student-view-for-test" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.{$test.student1}@gmail.com&amp;user=instructorOfCourse4" title="View the details of the student" data-toggle="tooltip" data-placement="top"> View</a><a class="btn btn-default btn-xs student-edit-for-test" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&amp;studentemail=CCSDetailsUiT.{$test.student1}@gmail.com&amp;user=instructorOfCourse4" title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-toggle="tooltip" data-placement="top"> Edit</a><a class="btn btn-default btn-xs student-delete-for-test" href="/page/instructorCourseStudentDelete?courseid=course3&amp;studentemail=CCSDetailsUiT.{$test.student1}@gmail.com&amp;user=instructorOfCourse4" onclick="return toggleDeleteStudentConfirmation('course3','Alice Betsy')"> Delete</a><a class="btn btn-default btn-xs student-records-for-test" href="/page/instructorStudentRecordsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.{$test.student1}@gmail.com&amp;user=instructorOfCourse4" title="View all student's evaluations and feedbacks" data-toggle="tooltip" data-placement="top"> All Records</a><div class="dropdown" style="display:inline;"><a class="btn btn-default btn-xs dropdown-toggle" href="javascript:;" data-toggle="dropdown"> Add Comment</a><ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;"><li role="presentation"><a role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.{$test.student1}@gmail.com&amp;user=instructorOfCourse4&amp;addComment=student">Comment on Alice Betsy</a></li><li role="presentation"><a role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.{$test.student1}@gmail.com&amp;user=instructorOfCourse4&amp;addComment=team">Comment on Team 1</a></li></ul></div></td></tr><tr id="student-c1.1" style="display: table-row;"><td id="studentphoto-c1.1" class="profile-pic-icon"><a class="student-photo-link-for-test btn-link" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}">View Photo</a><img src="" alt="No Image Given" class="hidden"></td><td style="display: table-cell;" id="studentsection-c1.0" class="hidden">None</td><td id="studentteam-c1.0.0">Team 1</td><td id="studentname-c1.1">Benny Charles</td><td id="studentemail-c1.1">benny.c.tmms@gmail.com</td><td class="no-print align-center"><a class="btn btn-default btn-xs student-view-for-test" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=benny.c.tmms@gmail.com&amp;user=instructorOfCourse4" title="View the details of the student" data-toggle="tooltip" data-placement="top"> View</a><a class="btn btn-default btn-xs student-edit-for-test" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&amp;studentemail=benny.c.tmms@gmail.com&amp;user=instructorOfCourse4" title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-toggle="tooltip" data-placement="top"> Edit</a><a class="btn btn-default btn-xs student-delete-for-test" href="/page/instructorCourseStudentDelete?courseid=course3&amp;studentemail=benny.c.tmms@gmail.com&amp;user=instructorOfCourse4" onclick="return toggleDeleteStudentConfirmation('course3','Benny Charles')"> Delete</a><a class="btn btn-default btn-xs student-records-for-test" href="/page/instructorStudentRecordsPage?courseid=course3&amp;studentemail=benny.c.tmms@gmail.com&amp;user=instructorOfCourse4" title="View all student's evaluations and feedbacks" data-toggle="tooltip" data-placement="top"> All Records</a><div class="dropdown" style="display:inline;"><a class="btn btn-default btn-xs dropdown-toggle" href="javascript:;" data-toggle="dropdown"> Add Comment</a><ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;"><li role="presentation"><a role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=benny.c.tmms@gmail.com&amp;user=instructorOfCourse4&amp;addComment=student">Comment on Benny Charles</a></li><li role="presentation"><a role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=benny.c.tmms@gmail.com&amp;user=instructorOfCourse4&amp;addComment=team">Comment on Team 1</a></li></ul></div></td></tr><tr id="student-c1.2" style="display: table-row;"><td id="studentphoto-c1.2" class="profile-pic-icon"><a class="student-photo-link-for-test btn-link" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}">View Photo</a><img src="" alt="No Image Given" class="hidden"></td><td style="display: table-cell;" id="studentsection-c1.0" class="hidden">None</td><td id="studentteam-c1.0.1">Team 2</td><td id="studentname-c1.2">Charlie D</td><td id="studentemail-c1.2">CCSDetailsUiT.{$test.student2}@gmail.com</td><td class="no-print align-center"><a class="btn btn-default btn-xs student-view-for-test" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.{$test.student2}@gmail.com&amp;user=instructorOfCourse4" title="View the details of the student" data-toggle="tooltip" data-placement="top"> View</a><a class="btn btn-default btn-xs student-edit-for-test" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&amp;studentemail=CCSDetailsUiT.{$test.student2}@gmail.com&amp;user=instructorOfCourse4" title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-toggle="tooltip" data-placement="top"> Edit</a><a class="btn btn-default btn-xs student-delete-for-test" href="/page/instructorCourseStudentDelete?courseid=course3&amp;studentemail=CCSDetailsUiT.{$test.student2}@gmail.com&amp;user=instructorOfCourse4" onclick="return toggleDeleteStudentConfirmation('course3','Charlie D')"> Delete</a><a class="btn btn-default btn-xs student-records-for-test" href="/page/instructorStudentRecordsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.{$test.student2}@gmail.com&amp;user=instructorOfCourse4" title="View all student's evaluations and feedbacks" data-toggle="tooltip" data-placement="top"> All Records</a><div class="dropdown" style="display:inline;"><a class="btn btn-default btn-xs dropdown-toggle" href="javascript:;" data-toggle="dropdown"> Add Comment</a><ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;"><li role="presentation"><a role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.{$test.student2}@gmail.com&amp;user=instructorOfCourse4&amp;addComment=student">Comment on Charlie D</a></li><li role="presentation"><a role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=CCSDetailsUiT.{$test.student2}@gmail.com&amp;user=instructorOfCourse4&amp;addComment=team">Comment on Team 2</a></li></ul></div></td></tr><tr id="student-c1.3" style="display: table-row;"><td id="studentphoto-c1.3" class="profile-pic-icon"><a class="student-photo-link-for-test btn-link" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}">View Photo</a><img src="" alt="No Image Given" class="hidden"></td><td style="display: table-cell;" id="studentsection-c1.0" class="hidden">None</td><td id="studentteam-c1.0.1">Team 2</td><td id="studentname-c1.3">Denny Charlés</td><td id="studentemail-c1.3">denny.c.tmms@gmail.com</td><td class="no-print align-center"><a class="btn btn-default btn-xs student-view-for-test" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=denny.c.tmms@gmail.com&amp;user=instructorOfCourse4" title="View the details of the student" data-toggle="tooltip" data-placement="top"> View</a><a class="btn btn-default btn-xs student-edit-for-test" href="/page/instructorCourseStudentDetailsEdit?courseid=course3&amp;studentemail=denny.c.tmms@gmail.com&amp;user=instructorOfCourse4" title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-toggle="tooltip" data-placement="top"> Edit</a><a class="btn btn-default btn-xs student-delete-for-test" href="/page/instructorCourseStudentDelete?courseid=course3&amp;studentemail=denny.c.tmms@gmail.com&amp;user=instructorOfCourse4" onclick="return toggleDeleteStudentConfirmation('course3','Denny Charlés')"> Delete</a><a class="btn btn-default btn-xs student-records-for-test" href="/page/instructorStudentRecordsPage?courseid=course3&amp;studentemail=denny.c.tmms@gmail.com&amp;user=instructorOfCourse4" title="View all student's evaluations and feedbacks" data-toggle="tooltip" data-placement="top"> All Records</a><div class="dropdown" style="display:inline;"><a class="btn btn-default btn-xs dropdown-toggle" href="javascript:;" data-toggle="dropdown"> Add Comment</a><ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;"><li role="presentation"><a role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=denny.c.tmms@gmail.com&amp;user=instructorOfCourse4&amp;addComment=student">Comment on Denny Charlés</a></li><li role="presentation"><a role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=course3&amp;studentemail=denny.c.tmms@gmail.com&amp;user=instructorOfCourse4&amp;addComment=team">Comment on Team 2</a></li></ul></div></td></tr></tbody></table></div>
+                </div>
+            </div>
             
-            <br> <br> <br>
         </div>
