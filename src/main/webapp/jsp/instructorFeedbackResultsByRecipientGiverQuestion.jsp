@@ -62,7 +62,7 @@
             <br>
 
             <% if(!showAll) {
-                    int sectionIndex = -1; 
+                    int sectionIndex = 0; 
                     for(String section: data.sections){
             %>
                         <div class="panel panel-success">

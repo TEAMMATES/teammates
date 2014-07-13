@@ -63,6 +63,7 @@ $(document).ready(function(){
 
                 $(panelHeading).click(toggleSingleCollapse);
                 $(panelHeading).trigger('click');
+                showHideStats();
                 giverIndex += $(panelBody[0]).find('.panel-primary').length;
             }
         });
