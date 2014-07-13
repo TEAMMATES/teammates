@@ -102,7 +102,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
         String expectedLogMessage = "TEAMMATESLOG|||instructorStudentCommentEdit|||instructorStudentCommentEdit"+
                 "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"+
                 "|||instr3@course1n2.com|||" +
-                "Edited Comment for Student:<span class=\"bold\">([" + student.email + "])</span> " +
+                "Edited Comment for Student:<span class=\"bold\">(null)</span> " +
                 "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>" +
                 "<span class=\"bold\">Comment:</span> "  + "<Text: An edited comment text>" +
                 "|||/page/instructorStudentCommentEdit";

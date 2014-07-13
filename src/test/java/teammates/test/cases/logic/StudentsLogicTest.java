@@ -71,9 +71,40 @@ public class StudentsLogicTest extends BaseComponentTestCase{
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         turnLoggingUp(StudentsLogic.class);
+        removeTypicalDataInDatastore();
         restoreTypicalDataInDatastore();
     }
     
+    @Test
+    public void testAll() throws Exception{
+        
+        testGetStudentProfile();
+        testGetStudentForEmail();
+        testGetStudentForRegistrationKey();
+        testGetStudentsForGoogleId();
+        testGetStudentForCourseIdAndGoogleId();
+        testGetStudentsForCourse();
+        testGetKeyForStudent();
+        testGetEncryptedKeyForStudent();
+        testIsStudentInAnyCourse();
+        testIsStudentInCourse();
+        testIsStudentInTeam();
+        testIsStudentsInSameTeam();
+        
+        testEnrollStudent();
+        testAdjustFeedbackResponseForEnrollments();
+        testCreateStudentWithSubmissionAdjustment();
+        testValidateSections();
+        testUpdateStudentCascade();
+        testSendRegistrationInviteToStudent();
+        testKeyGeneration();
+        testEnrollLinesChecking();
+        testEnrollStudents();
+        
+        testSendRegistrationInviteForCourse();
+        testDeleteStudent();
+    }
+
     /*
      * NOTE: enrollStudents() tested in SubmissionsAdjustmentTest.
      * This is because it uses Task Queues for scheduling and therefore has to be
@@ -81,7 +112,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
      */
     
     @SuppressWarnings("deprecation")
-    @Test(priority = 3)
     public void testEnrollStudent() throws Exception {
 
         String instructorId = "instructorForEnrollTesting";
@@ -182,7 +212,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         assertEquals(4, studentsLogic.getStudentsForCourse(instructorCourse).size());
     }
     
-    @Test(priority = 1)
     public void testGetStudentProfile() throws Exception {
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
@@ -219,7 +248,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         assertEquals(expectedStudentProfile.toString(), actualStudentProfile.toString());
     }
     
-    @Test(priority = 2)
     public void testValidateSections() throws Exception {
 
         CourseAttributes typicalCourse1 = dataBundle.courses.get("typicalCourse1");
@@ -261,7 +289,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test(priority = 2)
     public void testUpdateStudentCascade() throws Exception {
         
         ______TS("typical edit");
@@ -344,7 +371,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
     }
     
-    @Test(priority = 1)
     public void testSendRegistrationInviteToStudent() throws Exception {
         
         ______TS("typical case: send invite to one student");
@@ -387,7 +413,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
     }
     
-    @Test(priority = 2)
     public void testKeyGeneration() {
         
         ______TS("key generation");
@@ -399,7 +424,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         assertEquals("Student", KeyFactory.stringToKey(longKey).getKind());
     }
     
-    @Test(priority = 2)
     public void testAdjustFeedbackResponseForEnrollments() throws Exception {
         
         
@@ -475,7 +499,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
     }
     
-    @Test(priority = 2)
     public void testEnrollLinesChecking() throws Exception {
         String info;
         String enrollLines;
@@ -625,7 +648,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
     }
     
-    @Test(priority = 2)
     public void testEnrollStudents() throws Exception {
         
         String instructorId = "instructorForEnrollTesting";
@@ -794,7 +816,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
     }
     
-    @Test(priority = 2)
     public void testCreateStudentWithSubmissionAdjustment() throws Exception {
 
         ______TS("typical case");
@@ -864,7 +885,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
     }
 
-    @Test(priority = 1)
     public void testGetStudentForEmail() throws Exception {
 
         ______TS("null parameters");
@@ -889,7 +909,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         assertEquals(student1InCourse1.googleId, studentsLogic.getStudentForEmail(course1Id, student1InCourse1.email).googleId);
     }
     
-    @Test(priority = 1)
     public void testGetStudentForRegistrationKey() {
         
         ______TS("null parameter");
@@ -917,7 +936,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         assertEquals(student1InCourse1.googleId, actualStudent.googleId);
     }
 
-    @Test(priority = 1)
     public void testGetStudentsForGoogleId() throws Exception {
     
         ______TS("student in one course");
@@ -986,7 +1004,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test(priority = 1)
     public void testGetStudentForCourseIdAndGoogleId() throws Exception {
     
         ______TS("student in two courses");
@@ -1022,7 +1039,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test(priority = 1)
     public void testGetStudentsForCourse() throws Exception {
         
         ______TS("course with multiple students");
@@ -1057,7 +1073,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
     }
 
-    @Test(priority = 1)
     public void testGetKeyForStudent() throws Exception {
     
         ______TS("null parameters");
@@ -1093,7 +1108,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         assertEquals(expectedKey, actualKey);
     }
     
-    @Test(priority = 1)
     public void testGetEncryptedKeyForStudent() throws Exception {
         
         ______TS("null parameters");
@@ -1129,7 +1143,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         assertEquals(expectedKey, actualKey);
     }
     
-    @Test(priority = 1)
     public void testIsStudentInAnyCourse() {
         
         ______TS("non-existent student");
@@ -1144,7 +1157,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         assertTrue(studentsLogic.isStudentInAnyCourse(student1InCourse1.googleId));
     }
     
-    @Test(priority = 1)
     public void testIsStudentInCourse() {
         
         ______TS("non-existent student");
@@ -1160,7 +1172,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         assertTrue(studentsLogic.isStudentInCourse(course1.id, student1InCourse1.email));
     }
     
-    @Test(priority = 1)
     public void testIsStudentInTeam() {
         
         ______TS("non-existent student");
@@ -1181,7 +1192,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         assertTrue(studentsLogic.isStudentInTeam(course1.id, teamName, student1InCourse1.email));
     }
     
-    @Test(priority = 1)
     public void testIsStudentsInSameTeam() {
         
         ______TS("non-existent student1");
@@ -1205,7 +1215,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
     }
 
-    @Test(priority = 2)
     public void testSendRegistrationInviteForCourse() throws Exception {
         
         ______TS("all students already registered");
@@ -1278,7 +1287,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         }
     }
     
-    @Test(priority = 4)
     public void testDeleteStudent() throws Exception {
 
         ______TS("typical delete");

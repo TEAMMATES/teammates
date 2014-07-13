@@ -52,6 +52,8 @@ public class FeedbackSubmitPage extends AppPage {
                 By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber + "-" + responseSubNumber));
         element.click();
         fillTextBox(element, text);
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("$(arguments[0]).change();", element);
     }
     
     public String getResponseTextBoxValue(int qnNumber, int responseNumber) {

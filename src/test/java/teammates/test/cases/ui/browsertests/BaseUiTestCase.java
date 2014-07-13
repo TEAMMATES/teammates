@@ -3,7 +3,6 @@ package teammates.test.cases.ui.browsertests;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.BackDoor;

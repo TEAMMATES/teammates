@@ -15,6 +15,7 @@ public class AdminAccountDetailsPage extends AppPage {
     }
 
     public AdminAccountDetailsPage clickRemoveInstructorFromCourse(String courseId) {
+        this.waitForElementPresence(By.id("instructor_"+courseId), 10);
         browser.driver.findElement(By.id("instructor_"+courseId)).click();
         waitForPageToLoad();
         return this;

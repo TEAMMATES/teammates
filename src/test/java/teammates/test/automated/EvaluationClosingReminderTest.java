@@ -84,7 +84,7 @@ public class EvaluationClosingReminderTest extends BaseComponentUsingTaskQueueTe
         printTestClassFooter();
     }
     
-    @Test(priority = 1)
+    @Test
     @SuppressWarnings("deprecation")
     public void testAdditionOfTaskToTaskQueue() throws Exception {
         EvaluationClosingCallback.resetTaskCount();
@@ -160,7 +160,7 @@ public class EvaluationClosingReminderTest extends BaseComponentUsingTaskQueueTe
         evaluationsLogic.deleteEvaluationCascade(evaluation2.courseId, evaluation2.name);   
     }
 
-    @Test(priority = 2)
+    @Test
     @SuppressWarnings("deprecation")
     private void testEvaluationClosingMailAction() throws Exception{        
         // Reuse an existing evaluation to create a new one that is

@@ -94,6 +94,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
 
     private void setDefaultVisibilityOptions() {
         isVisibilityFollowingFeedbackQuestion = true;
+        this.showCommentTo = new ArrayList<FeedbackParticipantType>();
+        this.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
     }
     
     public boolean isVisibleTo(FeedbackParticipantType viewerType){

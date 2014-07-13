@@ -5,8 +5,6 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.HashMap;
 
-import javax.servlet.ServletException;
-
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -41,7 +39,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         turnLoggingUp(BackDoorLogic.class);
     }
 
-    @Test(priority = 2)
+    @Test
     public void testPersistDataBundle() throws Exception {
 
         BackDoorLogic logic = new BackDoorLogic();
@@ -50,6 +48,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         String status = logic.persistDataBundle(new DataBundle());
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 
+        logic.deleteExistingData(dataBundle);
         logic.persistDataBundle(dataBundle);
         verifyPresentInDatastore(dataBundle);
 
@@ -83,7 +82,7 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         // should be checked at lower level methods
     }
 
-    @Test(priority = 1)
+    @Test
     public void testGetSubmission() throws Exception {
 
         ______TS("typical case");
