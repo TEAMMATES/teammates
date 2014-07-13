@@ -12,9 +12,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
 import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.datastore.Text;
@@ -81,9 +79,9 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
             feedbackResponseComment.sendingState = CommentSendingState.PENDING;
         }
         
+        FeedbackResponseCommentAttributes createdComment = new FeedbackResponseCommentAttributes();
         try {
-            FeedbackResponseCommentAttributes createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
-            //TODO: move putDocument to taskQueue
+            createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
             logic.putDocument(createdComment);
         } catch (InvalidParametersException e) {
             setStatusForException(e);
@@ -99,31 +97,8 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
                     + "by: " + feedbackResponseComment.giverEmail + " at " + feedbackResponseComment.createdAt + "<br>"
                     + "comment text: " + feedbackResponseComment.commentText.getValue();
         }
-
-        // Wait for the operation to persist
-        int elapsedTime = 0;
-        data.comment = logic.getFeedbackResponseComment(
-                feedbackResponseComment.feedbackResponseId, 
-                feedbackResponseComment.giverEmail, 
-                feedbackResponseComment.createdAt);
-        while ((data.comment == null) &&
-                (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
-            ThreadHelper.waitBriefly();
-            data.comment = logic.getFeedbackResponseComment(
-                    feedbackResponseComment.feedbackResponseId, 
-                    feedbackResponseComment.giverEmail, 
-                    feedbackResponseComment.createdAt);
-            //check before incrementing to avoid boundary case problem
-            if (data.comment == null) {
-                elapsedTime += ThreadHelper.WAIT_DURATION;
-            }
-        }
-        if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
-            log.severe("Operation did not persist in time: getFeedbackResponseComment "
-                    + feedbackResponseComment.feedbackResponseId + ", "
-                    + feedbackResponseComment.giverEmail + ", "
-                    + feedbackResponseComment.createdAt);
-        }
+        
+        data.comment = createdComment;
         
         return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
     }
