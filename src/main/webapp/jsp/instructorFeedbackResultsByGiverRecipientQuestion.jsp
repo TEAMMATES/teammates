@@ -14,7 +14,7 @@
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData) request.getAttribute("data");
     boolean showAll = data.bundle.isComplete;
     boolean shouldCollapsed = data.bundle.responses.size() > 500;
-    boolean groupByTeamEnabled = data.groupByTeam==null ? false : true;
+    boolean groupByTeamEnabled = (data.groupByTeam == null || !data.groupByTeam.equals("on")) ? false : true;
 %>
 <!DOCTYPE html>
 <html>

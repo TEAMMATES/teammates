@@ -11,7 +11,7 @@ $(document).ready(function(){
         }
         $(panelHeading).find('[id^="mainIndex-"]').val(giverIndex);
 
-        var displayIcon = $(this).children('.display-icon');
+        var displayIcon = $(this).find('.display-icon');
         var formObject = $(this).children("form");
         var panelCollapse = $(this).parent().children('.panel-collapse');
         var panelBody = $(panelCollapse[0]).children('.panel-body');
@@ -40,7 +40,7 @@ $(document).ready(function(){
                 
                 $(panelHeading).removeClass('ajax_submit');
                 $(panelHeading).off('click');
-                displayIcon.html('<span class="glyphicon glyphicon-chevron-down pull-right"></span>');
+                displayIcon.html('<span class="glyphicon glyphicon-chevron-down"></span>');
                 var childrenPanels = $(panelBody[0]).find("div.panel");
                 numPanels = bindCollapseEvents(childrenPanels, numPanels);
 

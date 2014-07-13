@@ -75,7 +75,6 @@ public class ActionFactory {
         map(INSTRUCTOR_FEEDBACK_QUESTION_EDIT, InstructorFeedbackQuestionEditAction.class);
         map(INSTRUCTOR_FEEDBACK_RESULTS_PAGE, InstructorFeedbackResultsPageAction.class);
         map(INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_QUESTIONS, InstructorFeedbackResultsByQuestionSeeMorePageAction.class);
-        map(INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_RGQ, InstructorFeedbackResultsByRGQSeeMorePageAction.class);
         map(INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_RQG, InstructorFeedbackResultsByRQGSeeMorePageAction.class);
         map(INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_GQR, InstructorFeedbackResultsByGQRSeeMorePageAction.class);
         map(INSTRUCTOR_FEEDBACK_RESULTS_AJAX_RESPONSE_RATE, InstructorFeedbackResultsResponseRatePageAction.class);
