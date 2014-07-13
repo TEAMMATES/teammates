@@ -63,15 +63,21 @@ public class InstructorFeedbackResultsPageAction extends Action {
             data.sortType = new String("question");
         }
         data.sections = logic.getSectionNamesForCourse(courseId);
-
-        if (data.selectedSection.equals(ALL_SECTION_OPTION)) {
+        String questionNumStr = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
+        if (data.selectedSection.equals(ALL_SECTION_OPTION) && questionNumStr == null) {
             data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                     feedbackSessionName, courseId, data.instructor.email, queryRange, data.sortType);
         } else if (data.sortType.equals("question")) {
-            data.bundle = logic
-                    .getFeedbackSessionResultsForInstructorInSection(
-                            feedbackSessionName, courseId,
-                            data.instructor.email, data.selectedSection);
+            if(questionNumStr == null){
+                data.bundle = logic.getFeedbackSessionResultsForInstructorInSection(
+                                feedbackSessionName, courseId,
+                                data.instructor.email, data.selectedSection);
+            } else {
+                int questionNum = Integer.parseInt(questionNumStr);
+                data.bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(
+                                feedbackSessionName, courseId, 
+                                data.instructor.email, questionNum);
+            }
         } else if (data.sortType.equals("giver-question-recipient")
                 || data.sortType.equals("giver-recipient-question")) {
             data.bundle = logic
