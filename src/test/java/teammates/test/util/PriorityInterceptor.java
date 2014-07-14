@@ -24,7 +24,14 @@ import org.testng.ITestContext;
  */
 
 public class PriorityInterceptor implements IMethodInterceptor {
-    static final String packageOrder = FileHelper.readFile("src\\test\\testng.xml", Charset.defaultCharset());
+    static String packageOrder;
+    static{
+        try{
+            packageOrder = FileHelper.readFile("src\\test\\testng.xml", Charset.defaultCharset());
+        } catch (Exception e){
+            packageOrder = FileHelper.readFile("src/test/testng.xml", Charset.defaultCharset());
+        }
+    }
     
     @SuppressWarnings("deprecation")
     public List<IMethodInstance> intercept(List<IMethodInstance> methods,
