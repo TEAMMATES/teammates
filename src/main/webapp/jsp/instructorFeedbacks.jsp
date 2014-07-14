@@ -59,9 +59,8 @@
                 title="Select a different type of session here."
                 data-toggle="tooltip" 
                 data-placement="top">
-                <h4 class="label-control col-md-2 text-md">Session
-                    Type</h4>
-                <div class="col-md-10">
+                <h4 class="label-control col-md-2 text-md">Create new </h4>
+                <div class="col-md-5">
                     <select class="form-control"
                         name="feedbackchangetype"
                         id="feedbackchangetype">
@@ -70,6 +69,11 @@
                             selected="selected">Feedback
                             Session with customizable questions</option>
                     </select>
+                </div>
+                <h4 class="label-control col-md-1 text-md">Or: </h4>
+                <div class="col-md-3">
+                    <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy
+                        from previous feedback sessions</a>
                 </div>
             </div>
             <br>
@@ -566,13 +570,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-md-offset-3 col-md-3">
+                    <div class="col-md-offset-5 col-md-3">
                         <button id="button_submit" type="submit" class="btn btn-primary">Create
                             Feedback Session</button>
-                    </div>
-                    <div class="col-md-3">
-                        <a id="button_copy" class="btn btn-primary">Copy
-                            Feedback Session</a>
                     </div>
                 </div>
                 <input type="hidden"
@@ -710,17 +710,18 @@
                     <label> Copied Session </label>
                     <table class="table-responsive table table-bordered table-hover margin-0" id="copyTableModal">
                         <thead class="fill-primary">
+                            <th style="width:20px;">&nbsp;</th>
                             <th> Course ID </th>
                             <th> Feedback Session Name </th>
                         </thead>
 
                         <% for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {%>
                             <tr style="cursor:pointer;">
+                                <td><input type="radio"></td>
                                 <td><%=fdb.courseId%></td>
                                 <td>
                                     <%=InstructorFeedbacksPageData.sanitizeForHtml(fdb.feedbackSessionName)%>
                                 </td>
-
                             </tr>
                         <% } %>
                     </table>
@@ -731,7 +732,7 @@
                     </form>
               </div>
               <div class="modal-footer margin-0">
-                <button type="button" class="btn btn-primary" id="button_copy_submit">Copy</button>
+                <button type="button" class="btn btn-primary" id="button_copy_submit" disabled="disabled">Copy</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
               </div>
             </div>

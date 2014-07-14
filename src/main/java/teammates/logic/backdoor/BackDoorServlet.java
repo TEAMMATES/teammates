@@ -216,6 +216,7 @@ public class BackDoorServlet extends HttpServlet {
                     .getParameter(PARAMETER_DATABUNDLE_JSON);
             DataBundle dataBundle = Utils.getTeammatesGson().fromJson(
                     dataBundleJsonString, DataBundle.class);
+            backDoorLogic.deleteExistingData(dataBundle);
             backDoorLogic.persistDataBundle(dataBundle);
         } else if (action.equals(OPERATION_REMOVE_DATABUNDLE)) {
             String dataBundleJsonString = req

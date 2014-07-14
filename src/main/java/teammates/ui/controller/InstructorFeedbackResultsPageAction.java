@@ -51,21 +51,33 @@ public class InstructorFeedbackResultsPageAction extends Action {
         data.showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
         data.groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
         data.sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
+        String startIndex = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_MAIN_INDEX);
+        if(startIndex != null){
+            data.startIndex = Integer.parseInt(startIndex);
+        }
+
         if (data.sortType == null) {
-            // default: sort by recipients, stats shown.
+            // default: sort by question, stats shown, grouped by team.
             data.showStats = new String("on");
+            data.groupByTeam = new String("on");
             data.sortType = new String("question");
         }
         data.sections = logic.getSectionNamesForCourse(courseId);
-
-        if (data.selectedSection.equals(ALL_SECTION_OPTION)) {
+        String questionNumStr = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
+        if (data.selectedSection.equals(ALL_SECTION_OPTION) && questionNumStr == null) {
             data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                     feedbackSessionName, courseId, data.instructor.email, queryRange, data.sortType);
         } else if (data.sortType.equals("question")) {
-            data.bundle = logic
-                    .getFeedbackSessionResultsForInstructorInSection(
-                            feedbackSessionName, courseId,
-                            data.instructor.email, data.selectedSection);
+            if(questionNumStr == null){
+                data.bundle = logic.getFeedbackSessionResultsForInstructorInSection(
+                                feedbackSessionName, courseId,
+                                data.instructor.email, data.selectedSection);
+            } else {
+                int questionNum = Integer.parseInt(questionNumStr);
+                data.bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(
+                                feedbackSessionName, courseId, 
+                                data.instructor.email, questionNum);
+            }
         } else if (data.sortType.equals("giver-question-recipient")
                 || data.sortType.equals("giver-recipient-question")) {
             data.bundle = logic

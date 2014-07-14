@@ -1,3 +1,7 @@
+// global parameter to remember settings for custom access level
+
+var INSTRUCTOR_COURSE_EDIT_INSTRUCTOR_ACCESS_LEVEL_WHEN_LOADING_PAGE = [];
+
 /**
  * Enable the user to edit one instructor and disable editting for other instructors
  * @param instructorNum
@@ -61,8 +65,12 @@ function toggleSendRegistrationKey(courseID, email) {
     return confirm("Do you wish to re-send the invitation email to this instructor now?");
 }
 
-function toggleTunePermissionsDiv(instrNum) {
-    $("#tunePermissionsDivForInstructor" + instrNum).toggle();
+function showTunePermissionsDiv(instrNum) {
+    $("#tunePermissionsDivForInstructor" + instrNum).show();
+}
+
+function hideTunePermissionDiv(instrNum) {
+	$("#tunePermissionsDivForInstructor" + instrNum).hide();
 }
 
 function showTuneSectionPermissionsDiv(instrNum, sectionNum) {
@@ -103,14 +111,14 @@ function hideTuneSectionPermissionsDiv(instrNum, sectionNum) {
 
 function showTuneSessionnPermissionsDiv(instrNum, sectionNum) {
 	$("#tuneSessionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum).show();
-	$("#toggleSessionLevelInSection" + sectionNum + "ForInstructor" + instrNum).html("Hide session-level privileges");
+	$("#toggleSessionLevelInSection" + sectionNum + "ForInstructor" + instrNum).html("Hide session-level permissions");
 	$("#toggleSessionLevelInSection" + sectionNum + "ForInstructor" + instrNum).attr("onclick", "hideTuneSessionnPermissionsDiv(" + instrNum + ", " + sectionNum + ")");
     $("#tuneSectionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum + " input[name='issection" + sectionNum + "sessionsset']").attr("value", "true");
 }
 
 function hideTuneSessionnPermissionsDiv(instrNum, sectionNum) {
 	$("#tuneSessionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum).hide();
-	$("#toggleSessionLevelInSection" + sectionNum + "ForInstructor" + instrNum).html("Configure session-level privileges");
+	$("#toggleSessionLevelInSection" + sectionNum + "ForInstructor" + instrNum).html("Give different permissions for sessions in this section");
 	$("#toggleSessionLevelInSection" + sectionNum + "ForInstructor" + instrNum).attr("onclick", "showTuneSessionnPermissionsDiv(" + instrNum + ", " + sectionNum + ")");
 	$("#tuneSectionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum + " input[name='issection" + sectionNum + "sessionsset']").attr("value", "false");
 }
@@ -118,6 +126,9 @@ function hideTuneSessionnPermissionsDiv(instrNum, sectionNum) {
 function checkTheRoleThatApplies(instrNum) {
 	var instrRole = $("#accessControlInfoForInstr"+instrNum+" div div p").html();
 	$("input[id='instructorroleforinstructor" + instrNum + "']").filter("[value='" + instrRole + "']").prop("checked", true);
+	if (instrRole === "Custom") {
+		checkPrivilegesOfRoleForInstructor(instrNum, instrRole);
+	}
 }
 
 function checkPrivilegesOfRoleForInstructor(instrNum, role) {
@@ -129,14 +140,16 @@ function checkPrivilegesOfRoleForInstructor(instrNum, role) {
 		checkPrivilegesOfObserverForInstructor(instrNum);
 	} else if (role === "Tutor") {
 		checkPrivilegesOfTutorForInstructor(instrNum);
-	} else if (role === "Helper") {
-		checkPrivilegesOfHelperForInstructor(instrNum);
+	} else if (role === "Custom") {
+		checkPrivilegesOfCustomForInstructor(instrNum);
 	} else {
-		console.log(Role + " is not properly defined");
+		console.log(role + " is not properly defined");
 	}
 }
 
 function checkPrivilegesOfCoownerForInstructor(instrNum) {
+	hideTunePermissionDiv(instrNum);
+	
 	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifycourse']").prop("checked", true);
 	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifyinstructor']").prop("checked", true);
 	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifysession']").prop("checked", true);
@@ -156,28 +169,121 @@ function checkPrivilegesOfManagerForInstructor(instrNum) {
 }
 
 function checkPrivilegesOfObserverForInstructor(instrNum) {
-	checkPrivilegesOfHelperForInstructor(instrNum);
-	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canviewstudentinsection']").prop("checked", true);
-	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canviewcommentinsection']").prop("checked", true);
-	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canviewsessioninsection']").prop("checked", true);
-}
-
-function checkPrivilegesOfTutorForInstructor(instrNum) {
-	checkPrivilegesOfHelperForInstructor(instrNum);
-}
-
-function checkPrivilegesOfHelperForInstructor(instrNum) {
+	checkPrivilegesOfCoownerForInstructor(instrNum);
 	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifycourse']").prop("checked", false);
 	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifyinstructor']").prop("checked", false);
 	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifysession']").prop("checked", false);
 	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifystudent']").prop("checked", false);
-	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canviewstudentinsection']").prop("checked", false);
 	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='cangivecommentinsection']").prop("checked", false);
-	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canviewcommentinsection']").prop("checked", false);
 	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifycommentinsection']").prop("checked", false);
 	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='cansubmitsessioninsection']").prop("checked", false);
-	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canviewsessioninsection']").prop("checked", false);
 	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifysessioncommentinsection']").prop("checked", false);
+}
+
+function checkPrivilegesOfTutorForInstructor(instrNum) {
+	checkPrivilegesOfCoownerForInstructor(instrNum);
+	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifycourse']").prop("checked", false);
+	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifyinstructor']").prop("checked", false);
+	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifysession']").prop("checked", false);
+	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifystudent']").prop("checked", false);
+	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canviewcommentinsection']").prop("checked", false);
+	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifycommentinsection']").prop("checked", false);
+	$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifysessioncommentinsection']").prop("checked", false);
+}
+
+function checkPrivilegesOfCustomForInstructor(instrNum) {
+	var numOfInstr = $("form[id^='formEditInstructor']").length;
+	if (instrNum <= numOfInstr && 
+			(INSTRUCTOR_COURSE_EDIT_INSTRUCTOR_ACCESS_LEVEL_WHEN_LOADING_PAGE.length >= instrNum 
+					&& INSTRUCTOR_COURSE_EDIT_INSTRUCTOR_ACCESS_LEVEL_WHEN_LOADING_PAGE[instrNum-1] === "Custom")) {
+		$("#tunePermissionsDivForInstructor" + 1 + " input[checked='checked']").prop("checked", true);
+		$("#tunePermissionsDivForInstructor" + 1 + " input[checked!='checked']").prop("checked", false);
+	} else {
+		$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifycourse']").prop("checked", false);
+		$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifyinstructor']").prop("checked", false);
+		$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifysession']").prop("checked", false);
+		$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifystudent']").prop("checked", false);
+		$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canviewstudentinsection']").prop("checked", false);
+		$("#tunePermissionsDivForInstructor" + instrNum + " input[name='cangivecommentinsection']").prop("checked", false);
+		$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canviewcommentinsection']").prop("checked", false);
+		$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifycommentinsection']").prop("checked", false);
+		$("#tunePermissionsDivForInstructor" + instrNum + " input[name='cansubmitsessioninsection']").prop("checked", false);
+		$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canviewsessioninsection']").prop("checked", false);
+		$("#tunePermissionsDivForInstructor" + instrNum + " input[name='canmodifysessioncommentinsection']").prop("checked", false);
+	}
+	showTunePermissionsDiv(instrNum);
+}
+
+function showInstructorRoleModal(instrRole) {
+	checkPrivilegesOfRoleForModal(instrRole);
+	$('#tunePermissionsDivForInstructorAll').modal();
+}
+
+function checkPrivilegesOfRoleForModal(role) {
+	if (role === "Co-owner") {
+		checkPrivilegesOfCoownerForModal();
+	} else if (role === "Manager") {
+		checkPrivilegesOfManagerForModal();
+	} else if (role === "Observer") {
+		checkPrivilegesOfObserverForModal();
+	} else if (role === "Tutor") {
+		checkPrivilegesOfTutorForModal();
+	} else {
+		console.log(role + " is not properly defined");
+	}
+}
+
+function checkPrivilegesOfCoownerForModal() {
+	$("#tunePermissionsDivForInstructorAll input[name='canmodifycourse']").prop("checked", true);
+	$("#tunePermissionsDivForInstructorAll input[name='canmodifyinstructor']").prop("checked", true);
+	$("#tunePermissionsDivForInstructorAll input[name='canmodifysession']").prop("checked", true);
+	$("#tunePermissionsDivForInstructorAll input[name='canmodifystudent']").prop("checked", true);
+	$("#tunePermissionsDivForInstructorAll input[name='canviewstudentinsection']").prop("checked", true);
+	$("#tunePermissionsDivForInstructorAll input[name='cangivecommentinsection']").prop("checked", true);
+	$("#tunePermissionsDivForInstructorAll input[name='canviewcommentinsection']").prop("checked", true);
+	$("#tunePermissionsDivForInstructorAll input[name='canmodifycommentinsection']").prop("checked", true);
+	$("#tunePermissionsDivForInstructorAll input[name='cansubmitsessioninsection']").prop("checked", true);
+	$("#tunePermissionsDivForInstructorAll input[name='canviewsessioninsection']").prop("checked", true);
+	$("#tunePermissionsDivForInstructorAll input[name='canmodifysessioncommentinsection']").prop("checked", true);
+	
+	$("#tunePermissionsDivForInstructorAll #instructorRoleModalLabel").html("Permissions for Co-owner");
+}
+
+function checkPrivilegesOfManagerForModal() {
+	checkPrivilegesOfCoownerForModal();
+	
+	$("#tunePermissionsDivForInstructorAll input[name='canmodifycourse']").prop("checked", false);
+	
+	$("#tunePermissionsDivForInstructorAll #instructorRoleModalLabel").html("Permissions for Manager");
+}
+
+function checkPrivilegesOfObserverForModal() {
+	checkPrivilegesOfCoownerForModal();
+	
+	$("#tunePermissionsDivForInstructorAll input[name='canmodifycourse']").prop("checked", false);
+	$("#tunePermissionsDivForInstructorAll input[name='canmodifyinstructor']").prop("checked", false);
+	$("#tunePermissionsDivForInstructorAll input[name='canmodifysession']").prop("checked", false);
+	$("#tunePermissionsDivForInstructorAll input[name='canmodifystudent']").prop("checked", false);
+	$("#tunePermissionsDivForInstructorAll input[name='cangivecommentinsection']").prop("checked", false);
+	$("#tunePermissionsDivForInstructorAll input[name='canmodifycommentinsection']").prop("checked", false);
+	$("#tunePermissionsDivForInstructorAll input[name='cansubmitsessioninsection']").prop("checked", false);
+	$("#tunePermissionsDivForInstructorAll input[name='canmodifysessioncommentinsection']").prop("checked", false);
+	
+	$("#tunePermissionsDivForInstructorAll #instructorRoleModalLabel").html("Permissions for Observer");
+}
+
+function checkPrivilegesOfTutorForModal() {
+	checkPrivilegesOfCoownerForModal();
+	
+	$("#tunePermissionsDivForInstructorAll input[name='canmodifycourse']").prop("checked", false);
+	$("#tunePermissionsDivForInstructorAll input[name='canmodifyinstructor']").prop("checked", false);
+	$("#tunePermissionsDivForInstructorAll input[name='canmodifysession']").prop("checked", false);
+	$("#tunePermissionsDivForInstructorAll input[name='canmodifystudent']").prop("checked", false);
+	$("#tunePermissionsDivForInstructorAll input[name='canviewcommentinsection']").prop("checked", false);
+	$("#tunePermissionsDivForInstructorAll input[name='canmodifycommentinsection']").prop("checked", false);
+	$("#tunePermissionsDivForInstructorAll input[name='canmodifysessioncommentinsection']").prop("checked", false);
+	
+	$("#tunePermissionsDivForInstructorAll #instructorRoleModalLabel").html("Permissions for Tutor");
 }
 
 
@@ -201,6 +307,9 @@ function toggleDeleteInstructorConfirmation(courseID, instructorName, isDeleteOw
 $(function(){
 	var numOfInstr = $("form[id^='formEditInstructor']").length;
 	for (var i=0; i<numOfInstr;i++) {
+		var instrNum = i+1;
+		var instrRole = $("#accessControlInfoForInstr"+instrNum+" div div p").html();
+		INSTRUCTOR_COURSE_EDIT_INSTRUCTOR_ACCESS_LEVEL_WHEN_LOADING_PAGE.push(instrRole);
 		checkTheRoleThatApplies(i+1);
 	}
 	$("input[id^='instructorroleforinstructor']").change(function(){

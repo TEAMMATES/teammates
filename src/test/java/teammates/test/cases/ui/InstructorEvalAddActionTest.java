@@ -10,31 +10,14 @@ import teammates.common.util.Const;
 
 public class InstructorEvalAddActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    // private final DataBundle dataBundle = getTypicalDataBundle();
     
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		// restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_EVAL_ADD;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        
-        String[] submissionParams = 
-                createParamsForTypicalEval(instructor1ofCourse1.courseId, "ieaat tca eval");
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
     }
     
     @Test

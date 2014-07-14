@@ -22,45 +22,14 @@ import teammates.ui.controller.RedirectResult;
 
 public class InstructorStudentCommentEditActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
-    BackDoorLogic backDoorLogic;
+    private final DataBundle dataBundle = getTypicalDataBundle();
+    BackDoorLogic backDoorLogic = new BackDoorLogic();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        backDoorLogic = new BackDoorLogic();
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-
-    @Test
-    public void testAccessControl() throws Exception {
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
-        StudentAttributes student = dataBundle.students.get("student2InCourse1");
-        List<CommentAttributes> comments = backDoorLogic.getCommentsForReceiver(instructor.courseId, CommentRecipientType.PERSON, student.email);
-        Iterator<CommentAttributes> iterator = comments.iterator();
-        while(iterator.hasNext()){
-            CommentAttributes commentAttributes = iterator.next();
-            if(!commentAttributes.giverEmail.equals(instructor.email)){
-                iterator.remove();
-            }
-        }
-        Assumption.assertEquals(1, comments.size());
-        
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COMMENT_ID, comments.get(0).getCommentId().toString(),
-                Const.ParamsNames.COMMENT_EDITTYPE, "edit",
-                Const.ParamsNames.COMMENT_TEXT, "Comment from Instructor 3 to Student 2 in course 1",
-                Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student.email
-        };
-        verifyUnaccessibleWithoutModifyCommentInSectionsPrivilege(submissionParams);
-        verifyOnlyInstructorsCanAccess(submissionParams);
     }
 
     @Test
@@ -133,7 +102,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
         String expectedLogMessage = "TEAMMATESLOG|||instructorStudentCommentEdit|||instructorStudentCommentEdit"+
                 "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"+
                 "|||instr3@course1n2.com|||" +
-                "Edited Comment for Student:<span class=\"bold\">([" + student.email + "])</span> " +
+                "Edited Comment for Student:<span class=\"bold\">(null)</span> " +
                 "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>" +
                 "<span class=\"bold\">Comment:</span> "  + "<Text: An edited comment text>" +
                 "|||/page/instructorStudentCommentEdit";

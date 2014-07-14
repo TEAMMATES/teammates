@@ -35,7 +35,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     @FindBy(id = "button_add_comment")
     private WebElement showResponseCommentAddFormButton;
     
-    @FindBy(id = "showResponseCommentAddForm-1-1-1")
+    @FindBy(id = "showResponseCommentAddForm-0-1-1")
     private WebElement addResponseCommentForm;
     
     
@@ -161,7 +161,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void addFeedbackResponseComment(String commentText) {
         showResponseCommentAddFormButton.click();
         fillTextBox(addResponseCommentForm.findElement(By.tagName("textarea")), commentText);
-        addResponseCommentForm.findElement(By.tagName("a")).click();
+        addResponseCommentForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
         ThreadHelper.waitFor(1000);
     }
     
@@ -171,7 +171,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         
         WebElement commentEditForm = browser.driver.findElement(By.id("responseCommentEditForm" + commentIdSuffix));
         fillTextBox(commentEditForm.findElement(By.name("responsecommenttext")), newCommentText);
-        commentEditForm.findElement(By.tagName("a")).click();
+        commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
         ThreadHelper.waitFor(1000);
     }
     
@@ -212,7 +212,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     
     public void verifyCommentFormErrorMessage(String commentTableIdSuffix, String errorMessage) {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentTable" + commentTableIdSuffix));
-        assertEquals(errorMessage, commentRow.findElement(By.tagName("span")).getText());
+        assertEquals(errorMessage, commentRow.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("span")).getText());
     }
     
     public void verifyRowMissing(String rowIdSuffix) {
@@ -230,6 +230,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void clickCollapseSectionButton(int index){
+        this.waitForElementPresence(By.id("collapse-panels-button-section-" + index), 10);
         WebElement collapseButton = browser.driver.findElement(By.id("collapse-panels-button-section-" + index));
         collapseButton.click();
     }

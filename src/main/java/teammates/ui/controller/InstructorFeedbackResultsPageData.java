@@ -16,9 +16,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public String sortType = null;
     public String groupByTeam = null;
     public String showStats = null;
+    public int startIndex;
     
     public InstructorFeedbackResultsPageData(AccountAttributes account) {
         super(account);
+        startIndex = -1;
     }
     
     public String getResultsVisibleFromText(){

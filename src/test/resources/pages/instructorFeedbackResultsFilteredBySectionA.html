@@ -114,7 +114,7 @@
                   <div data-original-title="Group results in the current view by team" class="col-sm-12" data-toggle="tooltip" title="">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label class="text-strike">
-                              <input name="frgroupbyteam" id="frgroupbyteam" checked="checked" type="checkbox"> Group by Teams
+                              <input name="frgroupbyteam" id="frgroupbyteam" type="checkbox"> Group by Teams
                           </label>
                       </div>
                   </div>
@@ -183,12 +183,14 @@
             
             <div class="panel panel-info">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-1" class="panel-heading">
-                    <form style="display:none;" id="seeMore-1" class="seeMoreForm-1" action="/page/instructorFeedbackResultsAjaxByQuestions">
-                        <input name="questionnum" value="1" type="hidden">
+                    <form style="display:none;" id="seeMore-1" class="seeMoreForm-1" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                         <input name="fsname" value="First Session" type="hidden">
                         <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frgroupbyteam" value="null" type="hidden">
                         <input name="frsorttype" value="question" type="hidden">
+                        <input name="frshowstats" value="on" id="showStats-1" type="hidden">
+                        <input name="questionnum" value="1" type="hidden">
                     </form>
                     <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
@@ -196,7 +198,7 @@
                     <strong>Question 1: </strong>Rate 3 other students' products
                 </div>
                 <div id="panelBodyCollapse-1" class="panel-collapse collapse in">
-                <div class="panel-body padding-0">
+                <div class="panel-body padding-0" id="questionBody-0">
                                     
                     <div class="resultStatistics">
                         
@@ -207,18 +209,23 @@
                                 <tr>
                                     <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
                                         Giver
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
                                         Recipient
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFeedback" onclick="toggleSort(this,5)">
                                         Feedback
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                 </tr>
                             </thead><thead>
@@ -270,12 +277,14 @@
             
             <div class="panel panel-info">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-2" class="panel-heading">
-                    <form style="display:none;" id="seeMore-2" class="seeMoreForm-2" action="/page/instructorFeedbackResultsAjaxByQuestions">
-                        <input name="questionnum" value="2" type="hidden">
+                    <form style="display:none;" id="seeMore-2" class="seeMoreForm-2" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                         <input name="fsname" value="First Session" type="hidden">
                         <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frgroupbyteam" value="null" type="hidden">
                         <input name="frsorttype" value="question" type="hidden">
+                        <input name="frshowstats" value="on" id="showStats-2" type="hidden">
+                        <input name="questionnum" value="2" type="hidden">
                     </form>
                     <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
@@ -283,7 +292,7 @@
                     <strong>Question 2: </strong>What is the best selling point of your product?
                 </div>
                 <div id="panelBodyCollapse-2" class="panel-collapse collapse in">
-                <div class="panel-body padding-0">
+                <div class="panel-body padding-0" id="questionBody-1">
                                     
                     <div class="resultStatistics">
                         
@@ -294,18 +303,23 @@
                                 <tr>
                                     <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
                                         Giver
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
                                         Recipient
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFeedback" onclick="toggleSort(this,5)">
                                         Feedback
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                 </tr>
                             </thead><thead>
@@ -330,12 +344,14 @@
             
             <div class="panel panel-info">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-3" class="panel-heading">
-                    <form style="display:none;" id="seeMore-4" class="seeMoreForm-4" action="/page/instructorFeedbackResultsAjaxByQuestions">
-                        <input name="questionnum" value="4" type="hidden">
+                    <form style="display:none;" id="seeMore-4" class="seeMoreForm-4" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                         <input name="fsname" value="First Session" type="hidden">
                         <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frgroupbyteam" value="null" type="hidden">
                         <input name="frsorttype" value="question" type="hidden">
+                        <input name="frshowstats" value="on" id="showStats-4" type="hidden">
+                        <input name="questionnum" value="4" type="hidden">
                     </form>
                     <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
@@ -343,7 +359,7 @@
                     <strong>Question 4: </strong>Give feedback to 3 other teams.
                 </div>
                 <div id="panelBodyCollapse-3" class="panel-collapse collapse in">
-                <div class="panel-body padding-0">
+                <div class="panel-body padding-0" id="questionBody-2">
                                     
                     <div class="resultStatistics">
                         
@@ -354,18 +370,23 @@
                                 <tr>
                                     <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
                                         Giver
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
                                         Recipient
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFeedback" onclick="toggleSort(this,5)">
                                         Feedback
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                 </tr>
                             </thead><thead>
@@ -390,12 +411,14 @@
             
             <div class="panel panel-info">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-4" class="panel-heading">
-                    <form style="display:none;" id="seeMore-7" class="seeMoreForm-7" action="/page/instructorFeedbackResultsAjaxByQuestions">
-                        <input name="questionnum" value="7" type="hidden">
+                    <form style="display:none;" id="seeMore-7" class="seeMoreForm-7" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                         <input name="fsname" value="First Session" type="hidden">
                         <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frgroupbyteam" value="null" type="hidden">
                         <input name="frsorttype" value="question" type="hidden">
+                        <input name="frshowstats" value="on" id="showStats-7" type="hidden">
+                        <input name="questionnum" value="7" type="hidden">
                     </form>
                     <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
@@ -408,7 +431,7 @@
 </span>
                 </div>
                 <div id="panelBodyCollapse-4" class="panel-collapse collapse in">
-                <div class="panel-body padding-0">
+                <div class="panel-body padding-0" id="questionBody-3">
                                     
                     <div class="resultStatistics">
                         <div class="panel-body">
@@ -489,18 +512,23 @@
                                 <tr>
                                     <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
                                         Giver
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
                                         Recipient
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFeedback" onclick="toggleSort(this,5)">
                                         Feedback
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                 </tr>
                             </thead><thead>
@@ -525,12 +553,14 @@
             
             <div class="panel panel-info">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-5" class="panel-heading">
-                    <form style="display:none;" id="seeMore-8" class="seeMoreForm-8" action="/page/instructorFeedbackResultsAjaxByQuestions">
-                        <input name="questionnum" value="8" type="hidden">
+                    <form style="display:none;" id="seeMore-8" class="seeMoreForm-8" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                         <input name="fsname" value="First Session" type="hidden">
                         <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frgroupbyteam" value="null" type="hidden">
                         <input name="frsorttype" value="question" type="hidden">
+                        <input name="frshowstats" value="on" id="showStats-8" type="hidden">
+                        <input name="questionnum" value="8" type="hidden">
                     </form>
                     <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
@@ -543,7 +573,7 @@
 </span>
                 </div>
                 <div id="panelBodyCollapse-5" class="panel-collapse collapse in">
-                <div class="panel-body padding-0">
+                <div class="panel-body padding-0" id="questionBody-4">
                                     
                     <div class="resultStatistics">
                         <div class="panel-body">
@@ -624,18 +654,23 @@
                                 <tr>
                                     <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
                                         Giver
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
                                         Recipient
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFeedback" onclick="toggleSort(this,5)">
                                         Feedback
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                 </tr>
                             </thead><thead>
@@ -660,12 +695,14 @@
             
             <div class="panel panel-info">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-6" class="panel-heading">
-                    <form style="display:none;" id="seeMore-9" class="seeMoreForm-9" action="/page/instructorFeedbackResultsAjaxByQuestions">
-                        <input name="questionnum" value="9" type="hidden">
+                    <form style="display:none;" id="seeMore-9" class="seeMoreForm-9" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                         <input name="fsname" value="First Session" type="hidden">
                         <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frgroupbyteam" value="null" type="hidden">
                         <input name="frsorttype" value="question" type="hidden">
+                        <input name="frshowstats" value="on" id="showStats-9" type="hidden">
+                        <input name="questionnum" value="9" type="hidden">
                     </form>
                     <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
@@ -678,7 +715,7 @@
 </span>
                 </div>
                 <div id="panelBodyCollapse-6" class="panel-collapse collapse in">
-                <div class="panel-body padding-0">
+                <div class="panel-body padding-0" id="questionBody-5">
                                     
                     <div class="resultStatistics">
                         <div class="panel-body">
@@ -729,18 +766,23 @@
                                 <tr>
                                     <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
                                         Giver
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
                                         Recipient
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFeedback" onclick="toggleSort(this,5)">
                                         Feedback
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                 </tr>
                             </thead><thead>
@@ -765,12 +807,14 @@
             
             <div class="panel panel-info">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-7" class="panel-heading">
-                    <form style="display:none;" id="seeMore-10" class="seeMoreForm-10" action="/page/instructorFeedbackResultsAjaxByQuestions">
-                        <input name="questionnum" value="10" type="hidden">
+                    <form style="display:none;" id="seeMore-10" class="seeMoreForm-10" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                         <input name="fsname" value="First Session" type="hidden">
                         <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frgroupbyteam" value="null" type="hidden">
                         <input name="frsorttype" value="question" type="hidden">
+                        <input name="frshowstats" value="on" id="showStats-10" type="hidden">
+                        <input name="questionnum" value="10" type="hidden">
                     </form>
                     <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
@@ -783,7 +827,7 @@
 </span>
                 </div>
                 <div id="panelBodyCollapse-7" class="panel-collapse collapse in">
-                <div class="panel-body padding-0">
+                <div class="panel-body padding-0" id="questionBody-6">
                                     
                     <div class="resultStatistics">
                         <div class="panel-body">
@@ -834,18 +878,23 @@
                                 <tr>
                                     <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
                                         Giver
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
                                         Recipient
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFeedback" onclick="toggleSort(this,5)">
                                         Feedback
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                 </tr>
                             </thead><thead>
@@ -870,12 +919,14 @@
             
             <div class="panel panel-info">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-8" class="panel-heading">
-                    <form style="display:none;" id="seeMore-11" class="seeMoreForm-11" action="/page/instructorFeedbackResultsAjaxByQuestions">
-                        <input name="questionnum" value="11" type="hidden">
+                    <form style="display:none;" id="seeMore-11" class="seeMoreForm-11" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                         <input name="fsname" value="First Session" type="hidden">
                         <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frgroupbyteam" value="null" type="hidden">
                         <input name="frsorttype" value="question" type="hidden">
+                        <input name="frshowstats" value="on" id="showStats-11" type="hidden">
+                        <input name="questionnum" value="11" type="hidden">
                     </form>
                     <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
@@ -888,7 +939,7 @@
 </span>
                 </div>
                 <div id="panelBodyCollapse-8" class="panel-collapse collapse in">
-                <div class="panel-body padding-0">
+                <div class="panel-body padding-0" id="questionBody-7">
                                     
                     <div class="resultStatistics">
                         <div class="panel-body">
@@ -939,18 +990,23 @@
                                 <tr>
                                     <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
                                         Giver
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
                                         Recipient
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFeedback" onclick="toggleSort(this,5)">
                                         Feedback
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                 </tr>
                             </thead><thead>
@@ -975,12 +1031,14 @@
             
             <div class="panel panel-info">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-9" class="panel-heading">
-                    <form style="display:none;" id="seeMore-12" class="seeMoreForm-12" action="/page/instructorFeedbackResultsAjaxByQuestions">
-                        <input name="questionnum" value="12" type="hidden">
+                    <form style="display:none;" id="seeMore-12" class="seeMoreForm-12" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                         <input name="fsname" value="First Session" type="hidden">
                         <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frgroupbyteam" value="null" type="hidden">
                         <input name="frsorttype" value="question" type="hidden">
+                        <input name="frshowstats" value="on" id="showStats-12" type="hidden">
+                        <input name="questionnum" value="12" type="hidden">
                     </form>
                     <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
@@ -993,7 +1051,7 @@
 </span>
                 </div>
                 <div id="panelBodyCollapse-9" class="panel-collapse collapse in">
-                <div class="panel-body padding-0">
+                <div class="panel-body padding-0" id="questionBody-8">
                                     
                     <div class="resultStatistics">
                         <div class="panel-body">
@@ -1054,18 +1112,23 @@
                                 <tr>
                                     <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
                                         Giver
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
                                         Recipient
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFeedback" onclick="toggleSort(this,5)">
                                         Feedback
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                 </tr>
                             </thead><thead>
@@ -1090,12 +1153,14 @@
             
             <div class="panel panel-info">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-10" class="panel-heading">
-                    <form style="display:none;" id="seeMore-13" class="seeMoreForm-13" action="/page/instructorFeedbackResultsAjaxByQuestions">
-                        <input name="questionnum" value="13" type="hidden">
+                    <form style="display:none;" id="seeMore-13" class="seeMoreForm-13" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                         <input name="fsname" value="First Session" type="hidden">
                         <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frgroupbyteam" value="null" type="hidden">
                         <input name="frsorttype" value="question" type="hidden">
+                        <input name="frshowstats" value="on" id="showStats-13" type="hidden">
+                        <input name="questionnum" value="13" type="hidden">
                     </form>
                     <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
@@ -1107,7 +1172,7 @@
 </span>
                 </div>
                 <div id="panelBodyCollapse-10" class="panel-collapse collapse in">
-                <div class="panel-body padding-0">
+                <div class="panel-body padding-0" id="questionBody-9">
                                     
                     <div class="resultStatistics">
                         <div class="panel-body">
@@ -1148,18 +1213,23 @@
                                 <tr>
                                     <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
                                         Giver
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
                                         Recipient
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFeedback" onclick="toggleSort(this,5)">
                                         Feedback
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                 </tr>
                             </thead><thead>

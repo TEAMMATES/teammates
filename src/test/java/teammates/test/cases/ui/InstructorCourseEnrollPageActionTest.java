@@ -16,29 +16,13 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        uri = Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
         restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyUnaccessibleWithoutModifyStudentPrivilege(submissionParams);
+        uri = Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE;
     }
     
     @Test

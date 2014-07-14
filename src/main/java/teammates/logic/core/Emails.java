@@ -783,6 +783,7 @@ public class Emails {
 
         MimeMessage messageToUser = getEmptyEmailAddressedToEmail(instructor.email);
         MimeMessage messageToAdmin = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
+        MimeMessage messageWithJoinLinkOnly = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
         
         List<MimeMessage> messages = new ArrayList<MimeMessage>();
         messages.add(messageToUser);
@@ -793,33 +794,49 @@ public class Emails {
         messageToAdmin.setSubject(String.format(SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT_COPY +
                                                 " " + shortName+" "+ "[" + instructor.email + "]"));
         
+        String joinUrl = generateNewInstructorAccountJoinLink(instructor, institute);
+        
         for(MimeMessage message : messages){
          
             String emailBody = EmailTemplates.NEW_INSTRCUTOR_ACCOUNT_WELCOME;
             emailBody = emailBody.replace("${userName}", shortName);
-            
-            String joinUrl = "";
-            if (instructor != null) {
-                String key;
-                key = StringHelper.encrypt(instructor.key);
-                joinUrl = Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
-                joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, key);
-                joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
-            }
-            
             emailBody = emailBody.replace("${joinUrl}",joinUrl);
             message.setContent(emailBody, "text/html");
             
         }
+        
+        messageWithJoinLinkOnly.setContent(joinUrl, "text/html");
+        messages.add(messageWithJoinLinkOnly);
+        
         return messages;
 
     }
     
+    
+    @Deprecated
+    /**
+     * Generate the join link to be sent to the account requester's email
+     * This method should only be used in adminHomePage for easy manual testing purpose
+     */
+    public String generateNewInstructorAccountJoinLink(InstructorAttributes instructor, String institute){
+        
+        String joinUrl = "";
+        if (instructor != null) {
+            String key = StringHelper.encrypt(instructor.key);
+            joinUrl = Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
+            joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, key);
+            joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        }
+        
+        return joinUrl;
+    }
+    
+    
     public MimeMessage generateInstructorCourseJoinEmail(
             CourseAttributes course, InstructorAttributes instructor) 
                     throws AddressException, MessagingException, UnsupportedEncodingException {
-
-        MimeMessage message = getEmptyEmailAddressedToEmail(instructor.email);
+        
+        MimeMessage message = getEmptyEmailAddressedToEmail(instructor.email);    
         message.setSubject(String.format(SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN
                 + " [%s][Course ID: %s]", course.name, course.id));
 
@@ -828,7 +845,7 @@ public class Emails {
         emailBody = emailBody.replace("${userName}", instructor.name);
         emailBody = emailBody.replace("${courseName}", course.name);
 
-        message.setContent(emailBody, "text/html");
+        message.setContent(emailBody, "text/html");  
         return message;
     }
     
