@@ -321,7 +321,7 @@
                                         %>
                                             <td class="middlealign"><%=recipientName%></td>
                                             <td class="middlealign"><%=recipientTeamName%></td>
-                                            <td class="multiline"><%=responseEntry.getResponseDetails().getAnswerHtml(questionDetails)%></td>
+                                            <td class="multiline"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
                                         </tr>        
                                         <%
                                             }
