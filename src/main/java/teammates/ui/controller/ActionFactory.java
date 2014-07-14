@@ -74,11 +74,6 @@ public class ActionFactory {
         map(INSTRUCTOR_FEEDBACK_QUESTION_COPY, InstructorFeedbackQuestionCopyAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_EDIT, InstructorFeedbackQuestionEditAction.class);
         map(INSTRUCTOR_FEEDBACK_RESULTS_PAGE, InstructorFeedbackResultsPageAction.class);
-        map(INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_QUESTIONS, InstructorFeedbackResultsByQuestionSeeMorePageAction.class);
-        map(INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_RGQ, InstructorFeedbackResultsByRGQSeeMorePageAction.class);
-        map(INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_RQG, InstructorFeedbackResultsByRQGSeeMorePageAction.class);
-        map(INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_GQR, InstructorFeedbackResultsByGQRSeeMorePageAction.class);
-        map(INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_GRQ, InstructorFeedbackResultsByGRQSeeMorePageAction.class);
         map(INSTRUCTOR_FEEDBACK_RESULTS_AJAX_RESPONSE_RATE, InstructorFeedbackResultsResponseRatePageAction.class);
         map(INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD, InstructorFeedbackResultsDownloadAction.class);
         map(INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD, InstructorFeedbackResponseCommentAddAction.class);
@@ -94,6 +89,7 @@ public class ActionFactory {
         map(INSTRUCTOR_HOME_PAGE, InstructorHomePageAction.class);
         map(INSTRUCTOR_SEARCH_PAGE, InstructorSearchPageAction.class);
         map(INSTRUCTOR_STUDENT_LIST_PAGE, InstructorStudentListPageAction.class);
+        map(INSTRUCTOR_STUDENT_LIST_AJAX_PAGE, InstructorStudentListAjaxPageAction.class);
         map(INSTRUCTOR_STUDENT_RECORDS_PAGE, InstructorStudentRecordsPageAction.class);
         
         map(INSTRUCTOR_STUDENT_COMMENT_ADD, InstructorStudentCommentAddAction.class);
