@@ -15,12 +15,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
+
+import com.google.appengine.api.datastore.Text;
 
 public class InstructorFeedbacksPage extends AppPage {
     
@@ -173,6 +172,7 @@ public class InstructorFeedbacksPage extends AppPage {
     
     public void clickCopySubmitButton(){
         copySubmitButton.click();
+        browser.selenium.waitForPageToLoad("15000");
     }
     
     
@@ -233,7 +233,7 @@ public class InstructorFeedbacksPage extends AppPage {
         
         clickCopyButton();
         
-        ThreadHelper.waitFor(1000);
+        this.waitForElementVisible(copiedFsNameTextBox);
         
         fillTextBox(copiedFsNameTextBox, feedbackSessionName);
         

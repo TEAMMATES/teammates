@@ -32,7 +32,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         printTestClassHeader();
         testData = loadDataBundle("/StudentProfilePageUiTest.json");
         restoreTestDataOnServer(testData);
-        browser = BrowserPool.getBrowser();
+        browser = BrowserPool.getBrowser(true);
     }
     
     @Test
@@ -217,7 +217,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     
     @AfterClass
     public void testAfter() {
-        BackDoor.removeDataBundleFromDb(testData);
+        //BackDoor.removeDataBundleFromDb(testData);
         BrowserPool.release(browser);
     }
 }

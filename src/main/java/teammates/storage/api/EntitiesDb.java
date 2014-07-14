@@ -167,6 +167,10 @@ public abstract class EntitiesDb {
         }
     }
     
+    public void commitOutstandingChanges() {
+        closePM();
+    }
+    
     protected void closePM() {
         if (!getPM().isClosed()) {
             getPM().close();

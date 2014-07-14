@@ -69,12 +69,14 @@ public class CommentsDbTest extends BaseComponentTestCase {
         c.courseId = "course-id";
         commentsDb.createEntity(c);
         TestHelper.verifyPresentInDatastore(c);
+        commentsDb.deleteEntity(c);
         
         ______TS("success: another comment with different text");
         
         c.createdAt = new Date();
         commentsDb.createEntity(c);
         TestHelper.verifyPresentInDatastore(c);
+        commentsDb.deleteEntity(c);
         
         ______TS("null params check");
         verifyExceptionThrownFromCreateEntity(null,

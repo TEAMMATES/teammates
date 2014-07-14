@@ -11,35 +11,14 @@ import teammates.common.util.Const;
 
 public class InstructorEvalSubmissionEditSaveActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    // private final DataBundle dataBundle = getTypicalDataBundle();
     
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		// restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT_SAVE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse1");
-        StudentAttributes student = dataBundle.students.get("student1InCourse1");
-                
-        String[] submissionParams = {
-                Const.ParamsNames.COURSE_ID, eval.courseId,
-                Const.ParamsNames.EVALUATION_NAME, eval.name,
-                Const.ParamsNames.FROM_EMAIL, student.email
-            };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyUnaccessibleWithoutModifySessionInSectionsPrivilege(submissionParams);
     }
     
     @Test

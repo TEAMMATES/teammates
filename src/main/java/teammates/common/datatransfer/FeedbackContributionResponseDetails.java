@@ -34,7 +34,7 @@ public class FeedbackContributionResponseDetails extends FeedbackAbstractRespons
 
     @Override
     public String getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails) {
-        return Sanitizer.sanitizeForHtml(FeedbackContributionQuestionDetails.convertToEqualShareFormat(getAnswer()));
+        return FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(getAnswer());
     }
 
     @Override

@@ -123,6 +123,11 @@ public class Const {
     
         public static final String EVALUATION_SUBMISSION_NOT_AVAILABLE = "Not Available: There is no data for this or the data is not enough";
         public static final String EVALUATION_SUBMISSION_NOT_SURE = "Not sure about the contribution";
+        
+        public static final String INSTRUCTOR_DISPLAYED_TO_STUDENT = "If this is unselected, the instructor will be completely invisible to students." 
+                + " E.g. to give access to a colleague for ‘auditing’ your course";
+        
+        public static final String INSTRUCTOR_DISPLAYED_AS = "Specify the role of this instructor in this course as shown to the students";
     
         public static final String STUDENT_COURSE_PROFILE = "Your profile in this course";
         public static final String STUDENT_COURSE_DETAILS = "View and edit information regarding your team";
@@ -248,7 +253,7 @@ public class Const {
         public final static String INSTRUCTOR_PERMISSION_ROLE_MANAGER = "Manager";
         public final static String INSTRUCTOR_PERMISSION_ROLE_OBSERVER = "Observer";
         public final static String INSTRUCTOR_PERMISSION_ROLE_TUTOR = "Tutor";
-        public final static String INSTRUCTOR_PERMISSION_ROLE_HELPER = "Helper";
+        public final static String INSTRUCTOR_PERMISSION_ROLE_CUSTOM = "Custom";
     }
     
     public class GenderTypes{
@@ -404,6 +409,8 @@ public class Const {
         public static final String STUDENT_NAME = "studentname";
         public static final String RECIPIENT_TYPE = "recipienttype";
         public static final String RECIPIENTS = "recipients";
+        public static final String RESPONSE_COMMENTS_SHOWCOMMENTSTO = "showresponsecommentsto";
+        public static final String RESPONSE_COMMENTS_SHOWGIVERTO = "showresponsegiverto";
         public static final String COMMENTS_SHOWCOMMENTSTO = "showcommentsto";
         public static final String COMMENTS_SHOWGIVERTO = "showgiverto";
         public static final String COMMENTS_SHOWRECIPIENTTO = "showrecipientto";
@@ -475,9 +482,11 @@ public class Const {
         public static final String ATTRIBUTE = "attribute";
         public static final String COMMENT_ATTRIBUTE = "commentAttibute";
         public static final String COMMENT_GIVER_NAME = "commentGiverName";
+        public static final String COMMENT_GIVER_EMAIL = "commentGiverEmail";
         public static final String COMMENT_RECIPIENT_NAME = "commentRecipientName";
         public static final String FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE = "frCommentAttibute";
         public static final String FEEDBACK_RESPONSE_COMMENT_GIVER_NAME = "frCommentGiverName";
+        public static final String FEEDBACK_RESPONSE_COMMENT_GIVER_EMAIL = "frCommentGiverEmail";
         public static final String FEEDBACK_RESPONSE_ATTRIBUTE = "feedbackResponseAttibute";
         public static final String FEEDBACK_RESPONSE_GIVER_NAME = "feedbackResponseGiverName";
         public static final String FEEDBACK_RESPONSE_RECEIVER_NAME = "feedbackResponseReceiverName";
@@ -492,6 +501,7 @@ public class Const {
         public static final String RECIPIENT_SECTION = "recipientSection";
         public static final String IS_VISIBLE_TO_INSTRUCTOR = "isVisibleToInstructor";
         public static final String IS_VISIBLE_TO_RECEIVER = "isVisibleToReceiver";
+        public static final String IS_VISIBLE_TO_GIVER = "isVisibleToGiver";
     }
 
     public class ActionURIs{

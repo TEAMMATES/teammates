@@ -7,6 +7,7 @@
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.ui.controller.FeedbackSubmissionEditPageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
+
 <%
     FeedbackSubmissionEditPageData data = (FeedbackSubmissionEditPageData)request.getAttribute("data");
 %>    
@@ -49,7 +50,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Instructions:</label>
                             <div class="col-sm-10">
-                                <p class="form-control-static"><%=sanitizeForHtml(data.bundle.feedbackSession.instructions.getValue())%></p>
+                                <pre><p class="form-control-static"><%=sanitizeForHtml(data.bundle.feedbackSession.instructions.getValue())%></p></pre>
                             </div>
                         </div> 
                     </div> 
