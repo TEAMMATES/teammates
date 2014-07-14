@@ -42,7 +42,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         gracedFeedbackSession.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
         BackDoor.editFeedbackSession(gracedFeedbackSession);
 
-        browser = BrowserPool.getBrowser();
+        browser = BrowserPool.getBrowser(true);
     }
 
 

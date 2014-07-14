@@ -1,5 +1,11 @@
 $(document).ready(function(){
     
+    $("a[id^=enroll-]").on('click', function(e){
+        e.stopImmediatePropagation(); // not executing click event for parent elements
+        window.location = $(this).attr('href');
+        return false;
+    });
+
     //On page load, if the searchKey param exist, applyFilters.
     if($("#searchbox").val()){
         applyFilters();
@@ -9,19 +15,14 @@ $(document).ready(function(){
     $('input#searchbox').keyup(function(e){
         applyFilters();
     });
-    
-    //Binding for "Show More Options" check box.
-    $("#option_check").change(function(){
-        if(this.checked){
-        	applyFilters();
-            $("#moreOptionsDiv").show();
-        } else{
-            $("#moreOptionsDiv").hide();
-        }
-    });
+
+    var panels = $("div.panel");
+    var numPanels = -1;
+
+    bindCollapseEvents(panels, numPanels);
     
     //Binding for "Display Archived Courses" check box.
-    $("#displayArchivedCourses_check").change(function(){
+    $("#displayArchivedCourses_check").on('change', function(){
         var urlToGo = $(location).attr('href');
         if(this.checked){
             gotoUrlWithParam(urlToGo, "displayarchive", "true");
@@ -31,7 +32,7 @@ $(document).ready(function(){
     });
     
     //Binding for "Show Emails" check box.
-    $("#show_email").change(function(){
+    $("#show_email").on('change', function(){
         if(this.checked){
             $("#emails").show();
         } else{
@@ -41,56 +42,17 @@ $(document).ready(function(){
     });
     
     //Binding for changes in the Courses checkboxes.
-    $("input[id^=course_check]").change(function(){
+    $("input[id^=course_check]").on('change', function(){
         var $courseIdx = $(this).attr("id").split('-')[1];
-        
+        var heading = $("#panelHeading-" + $courseIdx);
         //Check/hide all section that is in this course
-        if(this.checked){
-            $("input[id^=section_check-"+$courseIdx+"]").prop("checked", true);
-            $("input[id^=section_check-"+$courseIdx+"]").parent().show();
-            $("input[id^=team_check-"+$courseIdx+"]").prop("checked", true);
-            $("input[id^=team_check-"+$courseIdx+"]").parent().show();
-        } else{
-            $("input[id^=section_check-"+$courseIdx+"]").prop("checked", false);
-            $("input[id^=section_check-"+$courseIdx+"]").parent().hide();
-            $("input[id^=team_check-"+$courseIdx+"]").prop("checked", false);
-            $("input[id^=team_check-"+$courseIdx+"]").parent().hide();
-        }
-        
-        //If all the courses are selected, check the "Select All" option
-        if($("input[id^='course_check']:checked").length == $("input[id^='course_check']").length){
-            $("#course_all").prop("checked", true);
-        } else{
-            $("#course_all").prop("checked", false);
-        }
-        
-        //If none of of the courses are selected, hide the section's "Select All" option
-        if($("input[id^='course_check']:checked").length == 0){
-            $("#section_all").parent().hide();
-            $("#team_all").parent().hide();
-            $("#show_email").parent().hide();
-        } else{
-            $("#section_all").parent().show();
-            $("#team_all").parent().show();
-            $("#show_email").parent().show();
-        }
-        
-        //If all the currently visible sections are selected, check the "Select All" option
-        //This is necessary here because we show/hide the section's "Select All" previously
-        if($("input[id^='section_check']:visible:checked").length == $("input[id^='section_check']:visible").length){
-            $("#section_all").prop("checked", true);
-        } else{
-            $("#section_all").prop("checked", false);
-        }
-        
-        applyFilters();
+        $(heading).trigger('click');
     });
     
     // Binding for Sections checkboxes
-    $("input[id^=section_check]").change(function(){
+    $(document).on('change','.section_check', function(){
         var $courseIdx = $(this).attr("id").split('-')[1];
         var $sectionIdx = $(this).attr("id").split('-')[2];
-
         //Check/hide all teams that is in this section
         if(this.checked){
             $("input[id^=team_check-"+$courseIdx+"-"+$sectionIdx+"]").prop("checked", true);
@@ -100,7 +62,7 @@ $(document).ready(function(){
             $("input[id^=team_check-"+$courseIdx+"-"+$sectionIdx+"]").parent().hide();
         }
 
-        //If none of of the courses are selected, hide the section's "Select All" option
+        //If none of of the sections are selected, hide the team's "Select All" option
         if($("input[id^='section_check']:checked").length == 0){
             $("#team_all").parent().hide();
             $("#show_email").parent().hide();
@@ -110,38 +72,32 @@ $(document).ready(function(){
         }
 
         // If all the currently visible sections are selected, check the "Select All" option
-        if($("input[id^='section_check']:visible:checked").length == $("input[id^='section_check']:visible").length){
-            $("#section_all").prop("checked", true);
-        } else {
-            $("#section_all").prop("checked", false);
-        }
+        checkAllSectionsSelected();
 
         //If all the currently visible teams are selected, check the "Select All" option
         //This is necessary here because we show/hide the teams's "Select All" previously
-        if($("input[id^='team_check']:visible:checked").length == $("input[id^='team_check']:visible").length){
-            $("#team_all").prop("checked", true);
-        } else{
-            $("#team_all").prop("checked", false);
-        }
+        checkAllTeamsSelected();
 
         applyFilters();
+
     });
 
     //Binding for Teams checkboxes.
-    $("input[id^=team_check]").change(function(){
+    $(document).on('change', '.team_check', function(){
         
-        //If all the currently visible teams are selected, check the "Select All" option
-        if($("input[id^='team_check']:visible:checked").length == $("input[id^='team_check']:visible").length){
-            $("#team_all").prop("checked", true);
+         if($("input[id^='team_check']:checked").length == 0){
+            $("#show_email").parent().hide();
         } else{
-            $("#team_all").prop("checked", false);
+            $("#show_email").parent().show();
         }
-        
+
+        //If all the currently visible teams are selected, check the "Select All" option
+        checkAllTeamsSelected();
         applyFilters();
     });
     
     //Binding for "Select All" course option
-    $("#course_all").change(function(){
+    $("#course_all").on('change', function(){
         if(this.checked){
             $("#section_all").prop("checked", true);
             $("#section_all").parent().show();
@@ -153,23 +109,38 @@ $(document).ready(function(){
             $("input[id^=section_check-]").parent().show();
             $("input[id^=team_check-]").prop("checked", true);
             $("input[id^=team_check-]").parent().show();
-        } else{
+
+            var i = 0;
+            var headings = $('.ajax_submit');
+            for(var idx = 0; idx < headings.length; idx++){
+                setTimeout(triggerAjax, 400 * i, headings[idx]);
+                i++;
+            }
+        } else {
             $("#section_all").prop("checked", false);
             $("#section_all").parent().hide();
             $("#team_all").prop("checked", false);
             $("#team_all").parent().hide();
             $("#show_email").parent().hide();
             $("input[id^=section_check-]").prop("checked", false);
-            $("input[id^=section_check-]").parent().hide();
+            $("input[id^=section_check-]").parent().remove();
             $("input[id^=course_check]").prop("checked", false);
             $("input[id^=team_check-]").prop("checked", false);
-            $("input[id^=team_check-]").parent().hide();
+            $("input[id^=team_check-]").parent().remove();
+
+            var headings = $('.panel-heading');
+            for(var idx = 0; idx < headings.length; idx++){
+                var className = $(headings[idx]).attr('class');
+                if(className.indexOf('ajax_submit') == -1){
+                    $(headings[idx]).trigger('click');
+                }
+            }
         }
         applyFilters();
     });
     
     // Binding for "Select All" section option
-    $("#section_all").change(function(){
+    $("#section_all").on('change', function(){
         if(this.checked){
             $("#team_all").prop("checked", true);
             $("#team_all").parent().show();
@@ -190,14 +161,13 @@ $(document).ready(function(){
     }); 
 
     //Binding for "Select All" team option
-    $("#team_all").change(function(){
+    $("#team_all").on('change', function(){
         $("input[id^=team_check]:visible").prop("checked", this.checked);
         applyFilters();
     });
 
 
     // Pre-sort each table
-
     $("th[id^=button_sortsection-]").each(function(){
         toggleSort($(this), 2);
     });
@@ -208,20 +178,94 @@ $(document).ready(function(){
             toggleSort($(this), 2);
         }
     });
+});
+
+/* Trigger ajax request for a course through clicking the heading*/
+function triggerAjax(e){
+    $(e).trigger('click');
+}
+
+/* Binding check for course selection */
+function checkCourseBinding(e){
+    var $courseIdx = $(e).attr("id").split('-')[1];
+    var heading = $("#panelHeading-" + $courseIdx);
+    var haveAjaxRequest = heading.attr('class').indexOf('ajax_submit') != -1;
+    //Check/hide all section that is in this course
+    if($(e).prop('checked')){
+        $("input[id^=section_check-"+$courseIdx+"]").prop("checked", true);
+        $("input[id^=section_check-"+$courseIdx+"]").parent().show();
+        $("input[id^=team_check-"+$courseIdx+"]").prop("checked", true);
+        $("input[id^=team_check-"+$courseIdx+"]").parent().show();
+    } else{
+        $("input[id^=section_check-"+$courseIdx+"]").prop("checked", false);
+        $("input[id^=section_check-"+$courseIdx+"]").parent().remove();
+        $("input[id^=team_check-"+$courseIdx+"]").prop("checked", false);
+        $("input[id^=team_check-"+$courseIdx+"]").parent().remove();
+        $("div[id^=student_email-c"+$courseIdx+"]").remove();
+    }
     
-    // Binding for photo retrieval
-    $(".student-photo-link-for-test").on('click', function() {
-    	var link = $(this).attr('data-link');
-    	$(this).siblings('img')
-    		.attr("src", link)
-    		.removeClass('hidden');
+    //If all the courses are selected, check the "Select All" option
+    if($("input[id^='course_check']:checked").length == $("input[id^='course_check']").length){
+        $("#course_all").prop("checked", true);
+    } else{
+        $("#course_all").prop("checked", false);
+    }
+    
+    //If none of of the courses are selected, hide the section's "Select All" option
+    if($("input[id^='course_check']:checked").length == 0){
+        $("#section_all").parent().hide();
+        $("#team_all").parent().hide();
+        $("#show_email").parent().hide();
+    } else{
+        $("#section_all").parent().show();
+        $("#team_all").parent().show();
+        $("#show_email").parent().show();
+    }
+    
+    //If all the currently visible sections are selected, check the "Select All" option
+    //This is necessary here because we show/hide the section's "Select All" previously
+    checkAllSectionsSelected();
+    checkAllTeamsSelected();
+
+    if(!haveAjaxRequest){
+        applyFilters();
+    }
+}
+
+/* Check if all available sections are selected */
+function checkAllSectionsSelected(){
+    if($("input[id^='section_check']:visible:checked").length == $("input[id^='section_check']:visible").length){
+        $("#section_all").prop("checked", true);
+    } else {
+        $("#section_all").prop("checked", false);
+    }
+}
+
+/* Check if all available teams are selected */
+function checkAllTeamsSelected(){
+    if($("input[id^='team_check']:visible:checked").length == $("input[id^='team_check']:visible").length){
+        $("#team_all").prop("checked", true);
+    } else{
+        $("#team_all").prop("checked", false);
+    }
+}
+
+function bindStudentPhotoLink(elements){
+    $(elements).on('click', function(){
+        var link = $(this).attr('data-link');
+        $(this).siblings('img')
+            .attr("src", link)
+            .removeClass('hidden');
         $(this).remove();
     });
-    
-    $("img").on('error', function() {
-    	$(this).attr("src","../images/profile_picture_default.png");
+}
+
+function bindErrorImages(elements){
+    $(elements).on('error', function() {
+        $(this).attr("src","../images/profile_picture_default.png");
     });
-});
+}
+
 
 /**
  * Check whether a string contains the substr or not
@@ -264,32 +308,10 @@ function removeParamInUrl(url, param){
  */
 function applyFilters(){
     $("tr[id^='student-c']").show();
-    filterCourse();
     filterSection();
     filterTeam();
     filterBySearchWord();
     filterEmails();
-    
-    //Give message if there are no result
-    if($("td[id^='studentteam']:visible").length == 0){
-        setStatusMessage("Your search criteria did not match any students");
-    } else{
-        clearStatusMessage();
-    }
-}
-
-/**
- * Hide courses that are not selected 
- */
-function filterCourse(){
-    $("input[id^=course_check]").each(function(){
-        var $courseIdx = $(this).attr("id").split('-')[1];
-        if(this.checked){
-            $("#course-" + $courseIdx).show();
-        } else{
-            $("#course-" + $courseIdx).hide();
-        }
-    });
 }
 
 /**
@@ -377,7 +399,7 @@ function filterEmails(){
     $("tr[id^='student-c']").each(function(){
         var $elementId = $(this).attr('id');
         var $studentId = $elementId.split('-')[1];
-        var $emailElement = $("#student_email-" + $studentId.replace('.','\\.'));
+        var $emailElement = $("#student_email-" + $studentId.replace('.', '\\.'));
         var $emailText = $emailElement.text();
         if($(this).is(':hidden') || uniqueEmails[$emailText]){
             $emailElement.hide();
@@ -407,4 +429,20 @@ $.extend($.expr[":"], {
 function toggleDeleteStudentConfirmation(courseId, studentName) {
     return confirm("Are you sure you want to remove " + studentName + " from " +
             "the course " + courseId + "?");
+}
+ 
+function bindCollapseEvents(panels, numPanels){
+    for(var i=0 ; i<panels.length ; i++){
+        var heading = $(panels[i]).children(".panel-heading");
+        var bodyCollapse = $(panels[i]).children(".panel-collapse");
+        if(heading.length != 0 && bodyCollapse.length != 0){
+            numPanels++;
+            $(heading[0]).attr("data-target","#panelBodyCollapse-"+numPanels);
+            $(heading[0]).attr("id", "panelHeading-"+numPanels);
+            $(heading[0]).css("cursor", "pointer");
+            $(bodyCollapse[0]).attr('id', "panelBodyCollapse-"+numPanels);
+        }
+    }
+
+    return numPanels;
 }

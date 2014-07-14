@@ -5,7 +5,6 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -23,66 +22,16 @@ import teammates.ui.controller.StudentEvalSubmissionEditSaveAction;
 
 public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
-    String unregUserId;
-    String instructorId;
-    String studentId;
-    String otherStudentId;
-    String adminUserId;
+    String studentId = dataBundle.students.get("student1InCourse1").googleId;
     EvaluationsDb evaluationsDb = new EvaluationsDb();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_SAVE;
-    }
-
-    @BeforeMethod
-    public void methodSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-
-        unregUserId = "unreg.user";
-        
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        instructorId = instructor1OfCourse1.googleId;
-        
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        studentId = student1InCourse1.googleId;
-        
-        otherStudentId = dataBundle.students.get("student2InCourse1").googleId;
-        
-        adminUserId = "admin.user";
-        
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse1");
-        assertEquals(EvalStatus.OPEN, eval.getStatus());
-        SubmissionAttributes sub = dataBundle.submissions.get("submissionFromS1C1ToS2C1");
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, eval.courseId,
-                Const.ParamsNames.EVALUATION_NAME, eval.name,
-                Const.ParamsNames.FROM_EMAIL, dataBundle.students.get("student1InCourse1").email,
-                Const.ParamsNames.TEAM_NAME, sub.team,
-                Const.ParamsNames.TO_EMAIL, sub.reviewee,
-                Const.ParamsNames.POINTS, sub.points+"",
-                Const.ParamsNames.JUSTIFICATION, sub.justification.toString(),
-                Const.ParamsNames.COMMENTS, sub.p2pFeedback.toString()
-            };
-        
-        verifyUnaccessibleWithoutLogin(submissionParams);
-        verifyUnaccessibleForUnregisteredUsers(submissionParams);
-        
-        verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
-        verifyUnaccessibleForDifferentStudentOfTheSameCourses(submissionParams);
-        
-        verifyUnaccessibleForInstructors(submissionParams);
-        verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
     }
 
     @Test
@@ -196,27 +145,15 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
                 
                 };
         StudentEvalSubmissionEditSaveAction a = getAction(submissionParams);
-        ______TS("opened");
-        
-        eval.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
-        evaluationsDb.updateEvaluation(eval);
-        
-        assertEquals(EvalStatus.OPEN, eval.getStatus());
-
         ActionResult r = a.executeAndPostProcess();
         
-        assertEquals(
-                Const.ActionURIs.STUDENT_HOME_PAGE+"?"+Const.ParamsNames.CHECK_PERSISTENCE_EVALUATION+"=idOfTypicalCourse1evaluation1+In+Course1"+
-                "&error=false&user="+student1InCourse1.googleId,r.getDestinationWithParams());
         assertEquals("Your submission for evaluation1 In Course1 in course idOfTypicalCourse1 has been saved successfully", r.getStatusMessage());
-        assertFalse(r.isError);
-        
         ______TS("closed");
         eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-10);
         
         evaluationsDb.updateEvaluation(eval);
         assertEquals(EvalStatus.CLOSED, eval.getStatus());
-            
+         
         try{
             r = a.executeAndPostProcess();
         }
@@ -254,6 +191,19 @@ public class StudentEvalSubmissionEditSaveActionTest extends BaseActionTest {
         }
         assertEquals(Const.Tooltips.EVALUATION_STATUS_AWAITING, submissionFailMessage);
         
+        ______TS("opened");
+        eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
+        evaluationsDb.updateEvaluation(eval);
+        
+        assertEquals(EvalStatus.OPEN, eval.getStatus());
+
+        r = a.executeAndPostProcess();
+        
+        assertEquals(
+                Const.ActionURIs.STUDENT_HOME_PAGE+"?"+Const.ParamsNames.CHECK_PERSISTENCE_EVALUATION+"=idOfTypicalCourse1evaluation1+In+Course1"+
+                "&error=false&user="+student1InCourse1.googleId,r.getDestinationWithParams());
+        
+        assertFalse(r.isError);
         
         ______TS("Null parameters");
         submissionParams = new String[]{};

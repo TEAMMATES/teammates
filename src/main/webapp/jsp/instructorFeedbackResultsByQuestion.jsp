@@ -56,19 +56,23 @@
             </div>            
             <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
             <br>
-            <%
+            <%  
+                int questionIndex = -1;
                 for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries : data.bundle
                         .getQuestionResponseMap().entrySet()) {
+                    questionIndex++;
                     FeedbackQuestionAttributes question = responseEntries.getKey();
             %>
             <div class="panel panel-info">
                 <div class="panel-heading<%= showAll ? "" : " ajax_submit"%>">
-                    <form style="display:none;" id="seeMore-<%=question.questionNumber%>" class="seeMoreForm-<%=question.questionNumber%>" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_QUESTIONS%>">
-                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>" value="<%=question.questionNumber %>">
+                    <form style="display:none;" id="seeMore-<%=question.questionNumber%>" class="seeMoreForm-<%=question.questionNumber%>" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
                         <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=data.bundle.feedbackSession.courseId %>">
                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=data.bundle.feedbackSession.feedbackSessionName %>">
                         <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" value="<%=data.groupByTeam%>">
                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="<%=data.sortType%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>" value="on" id="showStats-<%=question.questionNumber%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>" value="<%=question.questionNumber %>">
                     </form>
                     <div class='display-icon pull-right'>
                     <span class="glyphicon <%= showAll && !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
@@ -79,7 +83,7 @@
                     %>
                 </div>
                 <div class="panel-collapse collapse <%= showAll && !shouldCollapsed ? "in" : "" %>">
-                <div class="panel-body padding-0">
+                <div class="panel-body padding-0" id="questionBody-<%=questionIndex%>">
                     <% if(showAll) { %>                
                     <div class="resultStatistics">
                         <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries.getValue(), question, data.account, data.bundle, "question")%>
@@ -90,18 +94,23 @@
                                 <tr>
                                     <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
                                         Giver
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
                                         Recipient
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
                                         Team
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                     <th id="button_sortFeedback" onclick="toggleSort(this,5)">
                                         Feedback
+                                        <span class="icon-sort unsorted"></span>
                                     </th>
                                 </tr>
                             <thead>
@@ -121,7 +130,7 @@
                                     <td class="middlealign"><%=giverTeamName%></td>
                                     <td class="middlealign"><%=recipientName%></td>
                                     <td class="middlealign"><%=recipientTeamName%></td>
-                                    <td class="multiline"><%=responseEntry.getResponseDetails().getAnswerHtml(questionDetails)%></td>
+                                    <td class="multiline"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
                                 </tr>        
                                 <%
                                     }

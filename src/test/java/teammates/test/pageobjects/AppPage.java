@@ -1,6 +1,6 @@
 package teammates.test.pageobjects;
 
-    import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
+import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.File;
@@ -13,6 +13,7 @@ import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -34,6 +35,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.remote.UselessFileDetector;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -46,6 +48,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
+import teammates.common.util.Utils;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
@@ -60,7 +63,7 @@ import teammates.test.driver.TestProperties;
  * 
  */
 public abstract class AppPage {
-
+    protected static Logger log = Utils.getLogger();
     /**Home page of the application, as per test.properties file*/
     protected static final String HOMEPAGE = TestProperties.inst().TEAMMATES_URL;
     /** Browser instance the page is loaded into */
@@ -654,7 +657,7 @@ public abstract class AppPage {
                 .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "{$test.unreg}")
                 .replace(Config.SUPPORT_EMAIL, "{$support.email}")
                 // today's date
-                .replace("\""+ new SimpleDateFormat("DD/MM/YYYY").format(new Date()) + "\"", "\"{*}\"");
+                .replace("\""+ new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + "\"", "\"{*}\"");
     }
 
     private boolean areTestAccountsDefaultValues() {
@@ -787,12 +790,19 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyStatus(String expectedStatus){
-        boolean isSameStatus = expectedStatus.equals(this.getStatus());
-        if(!isSameStatus){
-            //try one more time (to account for delays in displaying the status message).
-            ThreadHelper.waitFor(2000);
-            assertEquals(expectedStatus, this.getStatus());
+        
+        try{
+            boolean isSameStatus = expectedStatus.equals(this.getStatus());
+            assertEquals(true, isSameStatus);
+        } catch(Exception e){
+            if(!expectedStatus.equals("")){
+                this.waitForElementPresence(By.id("statusMessage"), 10);
+                if(!statusMessage.isDisplayed()){
+                    this.waitForElementVisible(statusMessage);
+                }
+            }
         }
+        assertEquals(expectedStatus, this.getStatus());
         return this;
     }
 
@@ -859,6 +869,11 @@ public abstract class AppPage {
         
     @SuppressWarnings("unused")
     private void ____private_utility_methods________________________________() {
+    }
+    
+    public void waitForElementVisible(WebElement element){
+        WebDriverWait wait = new WebDriverWait(browser.driver, 10);
+        wait.until(ExpectedConditions.visibilityOf(element));
     }
 
     private static <T extends AppPage> T createNewPage(Browser currentBrowser,    Class<T> typeOfPage) {

@@ -36,12 +36,12 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     public static void setupClass() throws Exception {
         printTestClassHeader();
         turnLoggingUp(CommentsLogic.class);
+        restoreTypicalDataInDatastore();
     }
     
     @Test
     public void testCreateComment() throws Exception {
         
-        restoreTypicalDataInDatastore();
         CommentAttributes existingComment1 = dataBundle.comments.get("comment1FromI1C1toS1C1");
         
         ______TS("fail: non-existent course");
@@ -91,7 +91,6 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     @Test
     public void testGetComments() throws Exception {
         
-        restoreTypicalDataInDatastore();
         CommentAttributes existingComment1 = dataBundle.comments.get("comment1FromI1C1toS1C1");
         
         ______TS("fail: invalid parameters");
@@ -343,7 +342,6 @@ public class CommentsLogicTest extends BaseComponentTestCase {
 
     @Test
     public void testUpdateComment() throws Exception{
-        restoreTypicalDataInDatastore();
         CommentAttributes existingComment = dataBundle.comments.get("comment1FromI3C1toS2C1");
         
         ______TS("fail: invalid params");
@@ -377,7 +375,6 @@ public class CommentsLogicTest extends BaseComponentTestCase {
 
     @Test
     public void testDeleteComment() throws Exception{
-        restoreTypicalDataInDatastore();
         CommentAttributes existingComment1 = dataBundle.comments.get("comment1FromI1C1toS1C1");
         
         ______TS("silent fail nothing to delete");

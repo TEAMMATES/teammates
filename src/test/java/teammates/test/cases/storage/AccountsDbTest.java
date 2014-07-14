@@ -69,29 +69,46 @@ public class AccountsDbTest extends BaseComponentTestCase {
         }
     }
     
-    private void testGetInstructorAccounts() throws Exception {
+    @Test
+    public void testGetInstructorAccounts() throws Exception {
+        int numOfInstructors = 3;
         
-        restoreTypicalDataInDatastore();
-        DataBundle dataBundle = getTypicalDataBundle();
+        // a non-instructor account
+        createNewAccount();
         
+        List<AccountAttributes> instructorAccountsExpected = createInstructorAccounts(numOfInstructors);
         List<AccountAttributes> instructorAccountsActual = accountsDb.getInstructorAccounts();
         
-        List<AccountAttributes> typicalAccounts = new ArrayList<AccountAttributes>(dataBundle.accounts.values());
-        List<AccountAttributes> instructorAccountsExpected = new ArrayList<AccountAttributes>();
-        for (AccountAttributes acc : typicalAccounts) {
-            if (acc.isInstructor) {
-                instructorAccountsExpected.add(acc);
-            }
-        }
-        assertEquals(11, instructorAccountsActual.size());
+        assertEquals(numOfInstructors, instructorAccountsActual.size());
         TestHelper.isSameContentIgnoreOrder(instructorAccountsExpected, instructorAccountsActual);
+        
+        deleteInstructorAccounts(numOfInstructors);
     }
     
+    private List<AccountAttributes> createInstructorAccounts(
+            int numOfInstructors) throws Exception {
+        AccountAttributes a;
+        List<AccountAttributes> result = new ArrayList<AccountAttributes>();
+        for (int i = 0; i < numOfInstructors ; i++) {
+            a = getNewAccountAttributes();
+            a.googleId = "id." + i;
+            a.isInstructor = true;
+            accountsDb.createAccount(a);
+            result.add(a);
+        }
+        return result;
+    }
+    
+    private void deleteInstructorAccounts(int numOfInstructors) {
+        String googleId;
+        for (int i = 0; i < numOfInstructors ; i++) {
+            googleId = "id." + i;
+            accountsDb.deleteAccount(googleId);
+        }
+    }
+
     @Test
     public void testCreateAccount() throws Exception {
-
-        // TODO: dont use this function
-        testGetInstructorAccounts();
         
         ______TS("typical success case (legacy data)");
         AccountAttributes a = new AccountAttributes();
@@ -284,6 +301,12 @@ public class AccountsDbTest extends BaseComponentTestCase {
     }
 
     private AccountAttributes createNewAccount() throws Exception {
+        AccountAttributes a = getNewAccountAttributes();
+        accountsDb.createAccount(a);
+        return a;
+    }
+    
+    private AccountAttributes getNewAccountAttributes() throws Exception {
         AccountAttributes a = new AccountAttributes();
         a.googleId = "valid.googleId";
         a.name = "Valid Fresh Account";
@@ -294,7 +317,6 @@ public class AccountsDbTest extends BaseComponentTestCase {
         a.studentProfile.googleId = a.googleId;
         a.studentProfile.institute = "National University of Singapore";
         
-        accountsDb.createAccount(a);
         return a;
     }
 }

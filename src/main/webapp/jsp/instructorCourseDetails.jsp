@@ -120,7 +120,11 @@
                                  id="button_remind"
                                  data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_REMIND%>"
                                  onclick="if(toggleSendRegistrationKeysConfirmation('<%=data.courseDetails.course.id%>')) window.location.href='<%=data.getInstructorCourseRemindLink()%>';"
-                                 value="Remind Students to Join" tabindex="1">
+                                 value="Remind Students to Join" tabindex="1"
+                                 <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
+                                 disabled="disabled"
+                                 <% } %>
+                                 >
                          <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD%>" style="display:inline;">
                             <input id="button_download" type="submit" class="btn btn-primary"
                                 name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
@@ -271,13 +275,13 @@
                                     href="<%=data.getCourseStudentDetailsLink(student)%>"
                                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>" 
                                     <% if (!data.currentInstructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) { %>
-                                        disabled="disabled"
+                                    disabled="disabled"
                                     <% } %>
                                     > View</a>
                             <a class="btn btn-default btn-xs t_student_edit<%=idx%>" href="<%=data.getCourseStudentEditLink(student)%>"
                                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_EDIT%>"
                                     <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
-                                        disabled="disabled"
+                                    disabled="disabled"
                                     <% } %>
                                     > Edit</a>
                             <%
@@ -285,7 +289,11 @@
                             %>
                                 <a class="btn btn-default btn-xs t_student_resend<%=idx%>" href="<%=data.getCourseStudentRemindLink(student)%>"
                                         onclick="return toggleSendRegistrationKey()"
-                                        data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_REMIND%>">
+                                        data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_REMIND%>"
+                                        <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
+                                        disabled="disabled"
+                                        <% } %>
+                                        >
                                         Send Invite</a>
                             <%
                                 }
@@ -294,7 +302,7 @@
                                     onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(student.name)%>')"
                                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_DELETE%>"
                                     <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
-                                        disabled="disabled"
+                                    disabled="disabled"
                                     <% } %>
                                     > Delete</a>
                             <div class="dropdown" style="display:inline;">
@@ -302,7 +310,7 @@
                                 href="javascript:;"
                                 data-toggle="dropdown"
                                 <% if (!data.currentInstructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS)) { %>
-                                    disabled="disabled"
+                                disabled="disabled"
                                 <% } %>
                                 > Add Comment</a>
                               <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">

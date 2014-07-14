@@ -6,10 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -36,6 +32,10 @@ import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 import teammates.storage.api.EvaluationsDb;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+
 public class BackDoorLogic extends Logic {
     private static Logger log = Utils.getLogger();
     
@@ -45,13 +45,15 @@ public class BackDoorLogic extends Logic {
     
     /**
      * Persists given data in the datastore Works ONLY if the data is correct.
-     * Any existing copies of the data in the datastore will be overwritten.
-     * 
+     *  //Any existing copies of the data in the datastore will be overwritten.
+     *      - edit: use removeDataBundle/deleteExistingData to remove.
+     *              made this change for speed when deletion is not necessary.
      * @return status of the request in the form 'status meassage'+'additional
      *         info (if any)' e.g., "[BACKEND_STATUS_SUCCESS]" e.g.,
      *         "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
      */
 
+    @SuppressWarnings("deprecation")
     public String persistDataBundle(DataBundle dataBundle)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
 
@@ -60,19 +62,28 @@ public class BackDoorLogic extends Logic {
                     Const.StatusCodes.NULL_PARAMETER, "Null data bundle");
         }
         
-        deleteExistingData(dataBundle);
+        //deleteExistingData(dataBundle);
         
         HashMap<String, AccountAttributes> accounts = dataBundle.accounts;
         for (AccountAttributes account : accounts.values()) {
             log.fine("API Servlet adding account :" + account.googleId);
-            super.createAccount(account.googleId, account.name, account.isInstructor,
-                                    account.email, account.institute, account.studentProfile);
+            try {
+                if(account.studentProfile == null) {
+                    account.studentProfile = new StudentProfileAttributes();
+                    account.studentProfile.googleId = account.googleId;
+                }
+                super.updateStudentProfile(account.studentProfile);
+                super.updateAccount(account);
+            } catch (EntityDoesNotExistException edne) {
+                super.createAccount(account.googleId, account.name, account.isInstructor,
+                account.email, account.institute, account.studentProfile);
+            }
         }
 
         HashMap<String, CourseAttributes> courses = dataBundle.courses;
         for (CourseAttributes course : courses.values()) {
             log.fine("API Servlet adding course :" + course.id);
-            this.createCourseWithArchiveStatus(course.id, course.name, course.isArchived);
+            this.createCourseWithArchiveStatus(course);
             
         }
 
@@ -80,17 +91,26 @@ public class BackDoorLogic extends Logic {
         for (InstructorAttributes instructor : instructors.values()) {
             if (instructor.googleId != null) {
                 log.fine("API Servlet adding instructor :" + instructor.googleId);
-                AccountAttributes existingAccount = getAccount(instructor.googleId);
-                if (existingAccount != null) {
-                    super.createInstructor(instructor);
-                } else {
-                    super.createInstructorAccount(instructor.googleId, instructor.courseId, 
-                            instructor.name, instructor.email, existingAccount==null? "National University of Singapore" : existingAccount.institute);
+                try {
                     super.updateInstructorByGoogleId(instructor.googleId, instructor);
+                } catch (EntityDoesNotExistException e) {
+                    if (e.getMessage().equals("Instructor " + instructor.googleId + 
+                            " does not belong to course " + instructor.courseId)) {
+                        instructorsLogic.deleteInstructor(instructor.courseId, instructor.email);
+                    }
+                    super.createInstructorAccount(
+                            instructor.googleId, instructor.courseId, instructor.name,
+                            instructor.email, instructor.isArchived, instructor.role,
+                            instructor.isDisplayedToStudents, instructor.displayedName,
+                            instructor.instructorPrivilegesAsText, "National University of Singapore");
                 }
             } else {
                 log.fine("API Servlet adding instructor :" + instructor.email);
-                super.createInstructor(instructor);
+                try {
+                    super.createInstructor(instructor);
+                } catch (EntityAlreadyExistsException e) {
+                    // ignore if it already exists
+                }
             }
         }
 
@@ -99,14 +119,28 @@ public class BackDoorLogic extends Logic {
             log.fine("API Servlet adding student :" + student.email
                     + " to course " + student.course);
             student.section = (student.section == null) ? "None" : student.section;
-            super.createStudent(student);
+            try {
+                super.updateStudent(student.email, student);
+            } catch (EntityDoesNotExistException e) {
+                if (student.googleId != null && !student.googleId.isEmpty() 
+                        && super.getAccount(student.googleId) == null) {
+                    super.createAccount(student.googleId, student.name, false, student.email, "NUS");
+                }
+                super.createStudent(student);
+            }
         }
 
         HashMap<String, EvaluationAttributes> evaluations = dataBundle.evaluations;
         for (EvaluationAttributes evaluation : evaluations.values()) {
             log.fine("API Servlet adding evaluation :" + evaluation.name
                     + " to course " + evaluation.courseId);
-            createEvaluationWithoutSubmissionQueue(evaluation);
+            try {
+                super.updateEvaluation(evaluation.courseId, evaluation.name, 
+                        evaluation.instructions.getValue(), evaluation.startTime, evaluation.endTime, 
+                        evaluation.timeZone, evaluation.gracePeriod, evaluation.p2pEnabled);
+            } catch (EntityDoesNotExistException e) {
+                createEvaluationWithoutSubmissionQueue(evaluation);
+            }
         }
 
         // processing is slightly different for submissions because we are
@@ -125,8 +159,13 @@ public class BackDoorLogic extends Logic {
         HashMap<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
         for (FeedbackSessionAttributes session : sessions.values()) {
             log.info("API Servlet adding feedback session :" + session.feedbackSessionName
-                    + " to course " + session.courseId);            
-            this.createFeedbackSession(session);
+                    + " to course " + session.courseId); 
+            session = cleanSessionData(session);
+            try {
+                super.updateFeedbackSession(session);
+            } catch (EntityDoesNotExistException e) {
+                this.createFeedbackSession(session);
+            }
         }
         
         HashMap<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
@@ -136,30 +175,56 @@ public class BackDoorLogic extends Logic {
         for (FeedbackQuestionAttributes question : questionList) {
             log.fine("API Servlet adding feedback question :" + question.getId()
                     + " to session " + question.feedbackSessionName);
-            super.createFeedbackQuestion(question);
+            try {
+                FeedbackQuestionAttributes fqa = 
+                        this.getFeedbackQuestion(question.feedbackSessionName, question.courseId, question.questionNumber);
+                if (fqa == null) {
+                    super.createFeedbackQuestion(question);
+                }
+                super.updateFeedbackQuestion(question);
+            } catch(EntityDoesNotExistException e) {
+                super.createFeedbackQuestion(question);
+            }
         }
         
         HashMap<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
         for (FeedbackResponseAttributes response : responses.values()) {
             log.fine("API Servlet adding feedback response :" + response.getId()
                     + " to session " + response.feedbackSessionName);
-            this.createFeedbackResponse(response);
+            response = injectRealIds(response);
+            try {
+               this.updateFeedbackResponse(response);
+            } catch(EntityDoesNotExistException e) {
+                this.createFeedbackResponse(response);
+            }
         }
         
         HashMap<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
         for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
             log.fine("API Servlet adding feedback response comment :" + responseComment.getId()
                     + " to session " + responseComment.feedbackSessionName);
-            this.createFeedbackResponseComment(responseComment);
+            responseComment = injectRealIds(responseComment);
+            try {
+                this.updateFeedbackResponseComment(responseComment);
+            } catch(EntityDoesNotExistException e) {
+                this.createFeedbackResponseComment(responseComment);
+            }
         }
         
         HashMap<String, CommentAttributes> comments = dataBundle.comments;
         for(CommentAttributes comment : comments.values()){
             log.fine("API Servlet adding comment :" + comment.getCommentId() + " from "
                     + comment.giverEmail + " to " + comment.recipientType + ":" + comment.recipients + " in course " + comment.courseId);
-            this.createComment(comment);
+            try {
+                this.updateComment(comment);
+            } catch(EntityDoesNotExistException e) {
+                this.createComment(comment);
+            }
         }
         
+        // any Db can be used to commit the changes. 
+        // Eval is used as it is already used in the file
+        new EvaluationsDb().commitOutstandingChanges();
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
 
@@ -272,6 +337,7 @@ public class BackDoorLogic extends Logic {
             throws InvalidParametersException, EntityDoesNotExistException, EnrollException {
         StudentAttributes student = Utils.getTeammatesGson().fromJson(newValues,
                 StudentAttributes.class);
+        student.section = (student.section == null) ? "None" : student.section;
         updateStudent(originalEmail, student);
     }
 
@@ -309,14 +375,12 @@ public class BackDoorLogic extends Logic {
      * of private sessions by setting the feedbackSessionType field as PRIVATE
      * in the json file.
      */
-    @Override
-    public void createFeedbackSession(FeedbackSessionAttributes session) 
-            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+    private FeedbackSessionAttributes cleanSessionData(FeedbackSessionAttributes session) {
         if (session.feedbackSessionType.equals(FeedbackSessionType.PRIVATE)) {
             session.sessionVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
             session.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
         }
-        super.createFeedbackSession(session);
+        return session;
     }
                 
     /**
@@ -328,10 +392,7 @@ public class BackDoorLogic extends Logic {
     * should be inserted in the json file in place of the actual response ID.<br />
     * This method will then generate the correct ID and replace the field.
     **/
-    @Override
-    public void createFeedbackResponse(FeedbackResponseAttributes response) 
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        
+    private FeedbackResponseAttributes injectRealIds(FeedbackResponseAttributes response) {
         try {
             int qnNumber = Integer.parseInt(response.feedbackQuestionId);
         
@@ -342,8 +403,8 @@ public class BackDoorLogic extends Logic {
         } catch (NumberFormatException e) {
             // Correct question ID was already attached to response.
         }
-
-        super.createFeedbackResponse(response);
+        
+        return response;
     }
     
     /**
@@ -357,10 +418,7 @@ public class BackDoorLogic extends Logic {
     * This method will then generate the correct ID and replace the field.
      * @throws EntityDoesNotExistException 
     **/
-    @Override
-    public FeedbackResponseCommentAttributes createFeedbackResponseComment(FeedbackResponseCommentAttributes responseComment) 
-            throws InvalidParametersException, EntityDoesNotExistException {
-        
+    private FeedbackResponseCommentAttributes injectRealIds(FeedbackResponseCommentAttributes responseComment) {
         try {
             int qnNumber = Integer.parseInt(responseComment.feedbackQuestionId);
             
@@ -378,8 +436,8 @@ public class BackDoorLogic extends Logic {
         responseComment.feedbackResponseId = 
                 responseComment.feedbackQuestionId
                 + "%" + responseIdParam[1] + "%" + responseIdParam[2];
-
-        return super.createFeedbackResponseComment(responseComment);
+        
+        return responseComment;
     }
     
 
@@ -387,16 +445,18 @@ public class BackDoorLogic extends Logic {
      * Creates a COURSE without an INSTRUCTOR relation
      * Used in persisting DataBundles for Test cases
      */
-    public void createCourseWithArchiveStatus(String courseId, String courseName, boolean archiveStatus) 
+    public void createCourseWithArchiveStatus(CourseAttributes course) 
             throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseName);
-
-        coursesLogic.createCourse(courseId, courseName);
-        coursesLogic.setArchiveStatusOfCourse(courseId, archiveStatus);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, course);
+        try {
+            coursesLogic.setArchiveStatusOfCourse(course.id, course.isArchived);
+        } catch (EntityDoesNotExistException e) {
+            coursesLogic.createCourse(course.id, course.name);
+            coursesLogic.setArchiveStatusOfCourse(course.id, course.isArchived);
+        }
     }
 
-    private void deleteExistingData(DataBundle dataBundle) {
+    public void deleteExistingData(DataBundle dataBundle) {
         
         //Deleting submissions is not supported at Logic level. However, they
         //  will be deleted automatically when we delete evaluations.

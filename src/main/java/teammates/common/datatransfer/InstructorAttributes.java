@@ -34,6 +34,15 @@ public class InstructorAttributes extends EntityAttributes {
     
     public static final String DEFAULT_DISPLAY_NAME = "Instructor";
     
+    /**
+     * Creates a new instructor with default access controls
+     * Deprecated as it is only to be used for testing
+     * 
+     * @param googleId
+     * @param courseId
+     * @param name
+     * @param email
+     */
     @Deprecated
     public InstructorAttributes(String googleId, String courseId, String name, String email) {
         this(googleId, courseId, name, email,

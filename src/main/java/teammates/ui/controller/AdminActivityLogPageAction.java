@@ -44,32 +44,87 @@ public class AdminActivityLogPageAction extends Action {
         data.generateQueryParameters(data.filterQuery);
         
         
-        LogQuery query = buildQuery(data.offset, includeAppLogs);
+        LogQuery query = buildQuery(data.offset, includeAppLogs, data.versions);
         data.logs = getAppLogs(query, data);
         
         return createShowPageResult(Const.ViewURIs.ADMIN_ACTIVITY_LOG, data);
         
     }
     
-    private LogQuery buildQuery(String offset, boolean includeAppLogs) {
+    private LogQuery buildQuery(String offset, boolean includeAppLogs, List<String> versions) {
         LogQuery query = LogQuery.Builder.withDefaults();
-        
-        String currentVersion = Config.inst().getAppVersion().replace(".", "-");
-        String[] tokens = currentVersion.split("-");
-        List<String> appVersions = new ArrayList<String>();
-        appVersions.add(currentVersion);
-        appVersions.add(tokens[0] + "-" + (Integer.parseInt(tokens[1]) - 1));
-        appVersions.add(tokens[0] + "-" + (Integer.parseInt(tokens[1]) - 2));
-        appVersions.add(tokens[0] + "-" + (Integer.parseInt(tokens[1]) - 3));
-        query.majorVersionIds(appVersions);
         
         query.includeAppLogs(includeAppLogs);
         query.batchSize(1000);
+        
+        try {
+            query.majorVersionIds(getVersionIdsForQuery(versions));
+        } catch (Exception e) {
+            isError = true;
+            statusToUser.add(e.getMessage());
+        }
         
         if (offset != null && !offset.equals("null")) {
             query.offset(offset);
         }
         return query;
+    }
+    
+    private List<String> getVersionIdsForQuery(List<String> versions){
+        
+        boolean isVersionSpecifiedInRequest = (versions != null && !versions.isEmpty());
+        if(isVersionSpecifiedInRequest){   
+            return versions;        
+        }       
+        return getDefaultVersionIdsForQuery();
+    }
+    
+    private List<String> getDefaultVersionIdsForQuery(){
+    
+        String currentVersion = Config.inst().getAppVersion();
+        List<String> defaultVersions = new ArrayList<String>();
+        
+        //Check whether version Id contains alphabet 
+        //Eg. 5.05rc
+        if (currentVersion.matches(".*[A-z.*]")) {
+            //if current version contains alphatet,
+            //by default just prepare current version as a single element for the query
+            defaultVersions.add(currentVersion.replace(".", "-"));
+            
+        } else {
+            //current version does not contain alphabet
+            //by default prepare current version with preceding 3 versions
+            defaultVersions = getRecentVersionIdsWithDigitOnly(currentVersion);
+        }
+        
+        return defaultVersions;        
+    }
+    
+    private List<String> getRecentVersionIdsWithDigitOnly(String currentVersion){
+        
+        List<String> recentVersions = new ArrayList<String>();
+        
+        double curVersionAsDouble = Double.parseDouble(currentVersion);
+        recentVersions.add(currentVersion.replace(".", "-"));
+        
+        //preceding versions
+        String[] preVer = { null, null, null };
+        
+        //go back for three preceding versions
+        //subtract from double form of current version id
+        //Eg. current version is 4.01 --> 4.00, 3.99, 3.98  --> 4-00, 3-99, 3-98
+        for (int i = 1; i < 4; i++) {
+
+            double preVersionAsDouble = curVersionAsDouble - 0.01 * i;
+            if (preVersionAsDouble > 0) {
+                String preVersion = String.format("%.2f", preVersionAsDouble)
+                                          .replace(".", "-");
+                
+                recentVersions.add(preVersion);
+            }
+        }
+        
+        return recentVersions;
     }
     
     private List<ActivityLogEntry> getAppLogs(LogQuery query, AdminActivityLogPageData data) {
