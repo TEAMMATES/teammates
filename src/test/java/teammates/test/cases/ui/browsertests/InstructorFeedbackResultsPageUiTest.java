@@ -75,40 +75,40 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByGiverRecipientQuestion();
         
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-2-recipient-1"));
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-2-recipient-1"));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-2-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-2-recipient-1"));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-2-recipient-1"));
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
+        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-1"));
+        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
+        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-1"));
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
 
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(10,"giver-2-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(10,"giver-2-recipient-1"));
+        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(10,"giver-1-recipient-1"));
+        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(10,"giver-1-recipient-1"));
 
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(11,"giver-2-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(11,"giver-2-recipient-1"));
+        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(11,"giver-1-recipient-1"));
+        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(11,"giver-1-recipient-1"));
 
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-2-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-2-recipient-1"));
+        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
+        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
 
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestion.html");
         
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientGiverQuestion.html");
 
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-2"));
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-2"));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-2"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-2"));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-2"));
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
+        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-1"));
+        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
+        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(9,"giver-1-recipient-1"));
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9,"giver-1-recipient-1"));
 
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(10,"giver-1-recipient-2"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(10,"giver-1-recipient-2"));
+        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(10,"giver-1-recipient-1"));
+        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(10,"giver-1-recipient-1"));
 
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(11,"giver-1-recipient-2"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(11,"giver-1-recipient-2"));
+        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(11,"giver-1-recipient-1"));
+        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(11,"giver-1-recipient-1"));
 
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-2"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-2"));
+        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
+        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
         
         
         resultsPage.displayByGiverQuestionRecipient();
@@ -258,7 +258,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("failure: add empty feedback response comment");
         
         resultsPage.addFeedbackResponseComment("");
-        resultsPage.verifyCommentFormErrorMessage("-1-1-1", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
+        resultsPage.verifyCommentFormErrorMessage("-0-1-1", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
         
         ______TS("action: add new feedback response comments");
         
@@ -272,26 +272,26 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.verifyCommentRowContent("-1-1-1-1",
+        resultsPage.verifyCommentRowContent("-0-1-1-1",
                 "test comment 1", "CFResultsUiT.instr@gmail.com");
-        resultsPage.verifyCommentRowContent("-1-1-1-2",
+        resultsPage.verifyCommentRowContent("-0-1-1-2",
                 "test comment 2", "CFResultsUiT.instr@gmail.com");
         
         ______TS("action: edit existing feedback response comment");
 
-        resultsPage.editFeedbackResponseComment("-1-1-1-1",
+        resultsPage.editFeedbackResponseComment("-0-1-1-1",
                 "edited test comment");
-        resultsPage.verifyCommentRowContent("-1-1-1-1",
+        resultsPage.verifyCommentRowContent("-0-1-1-1",
                 "edited test comment", "CFResultsUiT.instr@gmail.com");
         
         ______TS("action: delete existing feedback response comment");
 
-        resultsPage.deleteFeedbackResponseComment("-1-1-1-1");
-        resultsPage.verifyRowMissing("-1-1-1-1");
+        resultsPage.deleteFeedbackResponseComment("-0-1-1-1");
+        resultsPage.verifyRowMissing("-0-1-1-1");
         
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.verifyCommentRowContent("-1-1-1-1",
+        resultsPage.verifyCommentRowContent("-0-1-1-1",
                 "test comment 2", "CFResultsUiT.instr@gmail.com");
         
         ______TS("action: add edit and delete successively");
@@ -311,9 +311,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.verifyCommentRowContent("-1-1-1-1",
+        resultsPage.verifyCommentRowContent("-0-1-1-1",
                 "test comment 2", "CFResultsUiT.instr@gmail.com");
-        resultsPage.verifyRowMissing("-1-1-1-2");
+        resultsPage.verifyRowMissing("-0-1-1-2");
         
     }
     

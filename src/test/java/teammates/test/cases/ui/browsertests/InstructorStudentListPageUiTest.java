@@ -36,7 +36,6 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/InstructorStudentListPageUiTest.json");
         restoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
-        //System.setProperty("godmode", "true");
     }
     
     
@@ -226,24 +225,12 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.checkCourse(2);
         viewPage.verifyHtmlAjax("/instructorStudentListPageDisplayArchivedCourses.html");
         
-        ______TS("action: test 'Show More Options' when archived courses are displayed");
-        viewPage.clickShowEmail();
-        viewPage.clickSelectAll();
-        viewPage.clickCheckBoxOne();
-        viewPage.verifyHtmlMainContent("/instructorStudentListPageDisplayArchivedCoursesWithMoreOptions.html");
-        
         ______TS("action: hide archive");
         
         viewPage.clickDisplayArchiveOptions();
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
         viewPage.verifyHtmlAjax("/instructorStudentListPageHideArchivedCourses.html");
-        
-        ______TS("action: test 'Show More Options' when archived courses are hidden");
-        viewPage.clickShowEmail();
-        viewPage.clickSelectAll();
-        viewPage.clickCheckBoxOne();
-        viewPage.verifyHtmlMainContent("/instructorStudentListPageHideArchivedCoursesWithMoreOptions.html");
         
         ______TS("action: re-display archive");
         
