@@ -23,13 +23,18 @@ public class AdminActivityLogPage extends AppPage {
     
     public String getPersonInfoOfFirstEntry(){
         
-        WebElement element = browser.driver.findElement(By.id("personInfo_0"));
-        return element.getText();
+       // WebElement element = browser.driver.findElement(By.id("personInfo_0"));
+        WebElement table = browser.driver.findElement(By.id("logsTable"));
+        WebElement tableRow = table.findElements(By.tagName("tr")).get(1);
+        WebElement element = tableRow.findElement(By.tagName("small"));
+        return element.getText().trim();
     }
     
     public void clickViewActionsButtonOfFirstEntry(){
         
-        WebElement element = browser.driver.findElement(By.id("actionButton_0"));
+        WebElement table = browser.driver.findElement(By.id("logsTable"));
+        WebElement tableRow = table.findElements(By.tagName("tr")).get(1);
+        WebElement element = tableRow.findElement(By.tagName("button"));
         element.click();
     }
     

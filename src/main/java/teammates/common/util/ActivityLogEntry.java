@@ -26,8 +26,7 @@ public class ActivityLogEntry {
     private String url;
     private Long timeTaken;
     
-    //for ajax    
-    private String ajaxRowInfo;
+    private String logInfoAsHtml;
     
     /**
      * Constructor that creates a empty ActivityLog
@@ -82,7 +81,7 @@ public class ActivityLogEntry {
             timeTaken = null;
         }
         
-        ajaxRowInfo = getAjaxInfo();
+        logInfoAsHtml = getLogInfoForTableRowAsHtml();
     }
     
     
@@ -384,7 +383,7 @@ public class ActivityLogEntry {
     }
     
     
-    public String getAjaxInfo(){
+    public String getLogInfoForTableRowAsHtml(){
         
         
         String result = "";

@@ -14,14 +14,13 @@ import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogQuery;
 import com.google.appengine.api.log.LogServiceFactory;
 import com.google.appengine.api.log.RequestLogs;
-import com.google.gson.Gson;
 
 public class AdminActivityLogPageAction extends Action {
     
     //We want to pull out the application logs
     private boolean includeAppLogs = true;
     private static final int LOGS_PER_PAGE = 50;
-    private static final int MAX_LOGSEARCH_LIMIT = 15000;
+    private static final int MAX_LOGSEARCH_LIMIT = 150;
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException{
@@ -169,21 +168,20 @@ public class AdminActivityLogPageAction extends Action {
                 }
             }    
         }
-        data.statusForAjax = "Total logs searched: " + totalLogsSearched + "<br>";
-        statusToUser.add("Total logs searched: " + totalLogsSearched + "<br>");
+        
+        String status="&nbsp;&nbsp;Total Logs gone through in last search: " + totalLogsSearched + "<br>";
         //link for Next button, will fetch older logs
         if (totalLogsSearched >= MAX_LOGSEARCH_LIMIT){
-            statusToUser.add("<br><span class=\"red\">Maximum amount of logs searched.</span><br>");
-            data.statusForAjax += "<br><span class=\"red\">Maximum amount of logs searched.</span><br>";
+            status += "<br><span class=\"red\">&nbsp;&nbsp;Maximum amount of logs per requst have been searched.</span><br>";
+            status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "');\">Search More</button>";
         }
-//        if (currentLogsInPage >= LOGS_PER_PAGE) {            
-//            statusToUser.add("<a href=\"#\" onclick=\"submitForm('" + lastOffset + "');\">Older</a>");
-//        }
         
-        if (currentLogsInPage >= LOGS_PER_PAGE) {    
-            data.statusForAjax += "<button class=\"btn btn-info btn-sm\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "');\">Older </button>";
-            statusToUser.add("<button class=\"btn btn-info btn-sm\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "');\">Older </button>");
+        if (currentLogsInPage >= LOGS_PER_PAGE) {   
+            status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "');\">Older Logs </button>";
         }
+        
+        data.statusForAjax = status;
+        statusToUser.add(status);
         
         return appLogs;
     }

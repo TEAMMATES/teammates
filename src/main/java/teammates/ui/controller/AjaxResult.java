@@ -34,8 +34,7 @@ public class AjaxResult extends ActionResult {
     public void send(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
         
-        req.setAttribute(Const.ParamsNames.ERROR, ""+isError);
-        
+        req.setAttribute(Const.ParamsNames.ERROR, ""+isError);        
         clearStatusMessageForRequest(req);
         
         resp.setContentType("application/json");
@@ -50,8 +49,6 @@ public class AjaxResult extends ActionResult {
         if(statusMessageInSession != null){
             //Remove status message in session, thus it becomes an one-time message
             req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE);
-        } else {
-            req.setAttribute(Const.ParamsNames.STATUS_MESSAGE, "");
         }
     }
 }

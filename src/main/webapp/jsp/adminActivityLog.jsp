@@ -438,7 +438,7 @@
                                         for (ActivityLogEntry log : appLogs) {
                             %>
                             
-                            <%=log.getAjaxInfo()%>
+                            <%=log.getLogInfoForTableRowAsHtml()%>
                             
                             <%
                                 index++;

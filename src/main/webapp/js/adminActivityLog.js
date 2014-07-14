@@ -31,8 +31,6 @@ function submitFormAjax(offset) {
 	var button = $('#button_older');
 	var lastLogRow = $('#logsTable tr:last');
 	
-//	this.preventDefault();
-	
 	$.ajax({
         type : 'POST',
         url :   "/admin/adminActivityLogPage?" + formData,
@@ -41,7 +39,7 @@ function submitFormAjax(offset) {
         },
         error : function() {
             setFormErrorMessage(olderButton, "Failed to load older logs. Please try again.");
-            button.html("Older");        	
+            button.html("Retry");        	
         },
         success : function(data) {
             setTimeout(function(){
@@ -49,13 +47,12 @@ function submitFormAjax(offset) {
                     // Inject new log row              	
                 	var logs = data.logs;                	
                 	jQuery.each(logs, function(i, value){                		
-                	lastLogRow.after(value.ajaxRowInfo);
+                	lastLogRow.after(value.logInfoAsHtml);
                 	lastLogRow = $('#logsTable tr:last');	                		
                 	});
                 	             
                 } else {
                     setFormErrorMessage(button, data.errorMessage);
-                    button.text("Older");
                 }
             	               
                 $("#statusMessage").html(data.statusForAjax);
