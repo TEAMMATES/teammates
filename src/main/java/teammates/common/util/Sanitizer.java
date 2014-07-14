@@ -4,6 +4,7 @@ package teammates.common.util;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -107,9 +108,17 @@ public class Sanitizer {
                 .replace("\"", "&quot;")
                 .replace("/", "&#x2f;")
                 .replace("'", "&#39;")
+                .replace("\n", "<br>")
                 //To ensure when apply sanitizeForHtml for multiple times, the string's still fine
                 //Regex meaning: replace '&' with safe encoding, but not the one that is safe already
                 .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
+    }
+    
+    public static String sanitizeForRichText(String richText) {
+        if (richText == null) {
+            return null;
+        }
+        return escapeHtml4(richText);
     }
     
     /**

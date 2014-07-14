@@ -35,12 +35,6 @@ $(document).ready(function(){
 		scrollEventCounter++;
 	});
 	
-	//make textarea supports displaying breakline
-    $('div[id^="plainCommentText"]').each(function(){
-	    //var commentTextWithBreakLine = $(this).text().replace(/\n/g, '\n<br />');
-	    //$(this).html(commentTextWithBreakLine);
-    });
-	
 	//show on hover for comment
 	$('.comments > .list-group-item').hover(
 	   function(){
