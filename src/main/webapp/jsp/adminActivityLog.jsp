@@ -414,7 +414,7 @@
                             Instructor </strong>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-condensed"dataTable">
+                    <table class="table table-condensed dataTable" id="logsTable">
 
                         <thead>
                             <tr>
@@ -437,58 +437,9 @@
                                         int index = 0;
                                         for (ActivityLogEntry log : appLogs) {
                             %>
-                            <tr>
-
-                                <td style="vertical-align: middle;"> <strong><%=log.getDateInfo()%></strong>
-                                   
-                                   <br>
-                                   
-                                   <p class="<%=log.getColorCode(log.getTimeTaken())%>">
-                                   <%=TimeHelper.ConvertToStandardDuration(log.getTimeTaken())%>
-                                   </p>
-                                </td>
-
-                                <td>
-
-                                    <form method="post"
-                                        action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
-
-
-                                        <h4
-                                            class="list-group-item-heading">
-                                            <%=log.getIconRoleForShow()%>
-                                            <%=log.getActionInfo()%>
-                                            <small> <span
-                                                id="personInfo_<%=index%>"><%=log.getPersonInfo()%></span>
-
-                                                <button
-                                                    id="actionButton_<%=index%>"
-                                                    type="submit"
-                                                    class="btn <%=log.getLogEntryActionsButtonClass()%> btn-xs">
-                                                    <span
-                                                        class="glyphicon glyphicon-zoom-in"></span>
-
-                                                </button> <input type="hidden"
-                                                name="filterQuery"
-                                                value="person:<%=log.getId()%>">
-
-                                            </small>
-
-                                        </h4>
-                                       
-                                 
-                                        <div>
-                                            <%=log.getMessageInfo()%>
-
-                                        </div>
-
-
-
-
-                                    </form>
-                                </td>
-
-                            </tr>
+                            
+                            <%=log.getAjaxInfo()%>
+                            
                             <%
                                 index++;
                                         }
@@ -503,11 +454,13 @@
             <%
                 }
             %>
-
+            
+            
             <jsp:include
                 page="<%=Const.ViewURIs.STATUS_MESSAGE_WITHOUT_FOCUS%>" />
+                
             <br>
-
+            
             <div>
                 <a href="#frameBodyWrapper" class="btn  btn-primary"><span
                     class="glyphicon glyphicon-arrow-up"></span> Back To

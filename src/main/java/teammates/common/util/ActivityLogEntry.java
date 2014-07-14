@@ -26,6 +26,9 @@ public class ActivityLogEntry {
     private String url;
     private Long timeTaken;
     
+    //for ajax    
+    private String ajaxRowInfo;
+    
     /**
      * Constructor that creates a empty ActivityLog
      */
@@ -78,6 +81,8 @@ public class ActivityLogEntry {
             url = "Unknown";
             timeTaken = null;
         }
+        
+        ajaxRowInfo = getAjaxInfo();
     }
     
     
@@ -377,5 +382,27 @@ public class ActivityLogEntry {
         link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
         return link;
     }
-
+    
+    
+    public String getAjaxInfo(){
+        
+        
+        String result = "";
+        result += "<tr> <td style=\"vertical-align: middle;\"> <strong>"+ getDateInfo() + "</strong>"
+               + "<br> <p class=\"" + getColorCode(getTimeTaken()) + "\">"
+               + TimeHelper.ConvertToStandardDuration(getTimeTaken())
+               + "</p> </td> <td> "
+               + "<form method=\"post\" action=\"" + Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE + "\"> "
+               + "<h4 class=\"list-group-item-heading\">" 
+               + getIconRoleForShow() + "&nbsp;" + getActionInfo() + "&nbsp;"
+               + "<small>" + getPersonInfo() + "</span>" + "&nbsp;"
+               + "<button type=\"submit\" class=\"btn " + getLogEntryActionsButtonClass() +  " btn-xs\">"
+               + "<span class=\"glyphicon glyphicon-zoom-in\"></span>"
+               + "</button> <input type=\"hidden\" name=\"filterQuery\" value=\"person:" + getId() + "\">"
+               + "</small> </h4> <div>" + getMessageInfo()
+               + "</div> </form> </td> </tr>";      
+        return result;
+        
+    }
+    
 }

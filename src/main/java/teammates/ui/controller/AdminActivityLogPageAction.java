@@ -14,6 +14,7 @@ import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogQuery;
 import com.google.appengine.api.log.LogServiceFactory;
 import com.google.appengine.api.log.RequestLogs;
+import com.google.gson.Gson;
 
 public class AdminActivityLogPageAction extends Action {
     
@@ -47,8 +48,11 @@ public class AdminActivityLogPageAction extends Action {
         LogQuery query = buildQuery(data.offset, includeAppLogs, data.versions);
         data.logs = getAppLogs(query, data);
         
-        return createShowPageResult(Const.ViewURIs.ADMIN_ACTIVITY_LOG, data);
+        if(data.offset == null){
+            return createShowPageResult(Const.ViewURIs.ADMIN_ACTIVITY_LOG, data);
+        }
         
+        return createAjaxResult(Const.ViewURIs.ADMIN_ACTIVITY_LOG, data);
     }
     
     private LogQuery buildQuery(String offset, boolean includeAppLogs, List<String> versions) {
@@ -165,14 +169,20 @@ public class AdminActivityLogPageAction extends Action {
                 }
             }    
         }
-        
+        data.statusForAjax = "Total logs searched: " + totalLogsSearched + "<br>";
         statusToUser.add("Total logs searched: " + totalLogsSearched + "<br>");
         //link for Next button, will fetch older logs
         if (totalLogsSearched >= MAX_LOGSEARCH_LIMIT){
             statusToUser.add("<br><span class=\"red\">Maximum amount of logs searched.</span><br>");
+            data.statusForAjax += "<br><span class=\"red\">Maximum amount of logs searched.</span><br>";
         }
-        if (currentLogsInPage >= LOGS_PER_PAGE) {            
-            statusToUser.add("<a href=\"#\" onclick=\"submitForm('" + lastOffset + "');\">Older</a>");
+//        if (currentLogsInPage >= LOGS_PER_PAGE) {            
+//            statusToUser.add("<a href=\"#\" onclick=\"submitForm('" + lastOffset + "');\">Older</a>");
+//        }
+        
+        if (currentLogsInPage >= LOGS_PER_PAGE) {    
+            data.statusForAjax += "<button class=\"btn btn-info btn-sm\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "');\">Older </button>";
+            statusToUser.add("<button class=\"btn btn-info btn-sm\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "');\">Older </button>");
         }
         
         return appLogs;
