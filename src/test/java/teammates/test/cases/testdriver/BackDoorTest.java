@@ -26,10 +26,12 @@ import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.BackDoor;
+import teammates.test.util.Priority;
 
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 
+@Priority(2)
 public class BackDoorTest extends BaseTestCase {
 
     private static Gson gson = Utils.getTeammatesGson();
@@ -47,13 +49,14 @@ public class BackDoorTest extends BaseTestCase {
     private void ____SYSTEM_level_methods_________________________________() {
     }
     
-    @Test(priority = -1)
+    @Priority(-2)
+    @Test
     public void testPersistence() {
         // typical bundle should be restored in the @BeforeClass method above
         verifyPresentInDatastore(jsonString);
     }
 
-    @Test(priority = 1)
+    @Test
     public void testDeletion() {
         
         // ----------deleting Instructor entities-------------------------
@@ -474,6 +477,7 @@ public class BackDoorTest extends BaseTestCase {
         // already tested by testPersistenceAndDeletion
     }
 
+    @Priority(-1)
     @Test
     public void testEditSubmission() {
 

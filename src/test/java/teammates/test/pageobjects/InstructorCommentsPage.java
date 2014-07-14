@@ -2,6 +2,8 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -22,6 +24,10 @@ public class InstructorCommentsPage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("<h1>Comments from Instructors</h1>");
+    }
+    
+    public void clickCommentsPageLinkInHeader(){
+        browser.driver.findElement(By.xpath("//*[@id=\"contentLinks\"]/ul[1]/li[5]/a")).click();
     }
     
     public void clickShowMoreOptions(){
@@ -52,12 +58,20 @@ public class InstructorCommentsPage extends AppPage {
         browser.driver.findElement(By.id("giver_all")).click();;
     }
     
+    public void showCommentsFromAllStatus(){
+        browser.driver.findElement(By.id("status_all")).click();;
+    }
+    
     public void showCommentsForPanel(int panelIdx){
         browser.driver.findElement(By.id("panel_check-" + panelIdx)).click();;
     }
     
     public void showCommentsFromGiver(String giverIdx){
         browser.driver.findElement(By.id("giver_check-by-" + giverIdx)).click();;
+    }
+    
+    public void showCommentsForStatus(String status){
+        browser.driver.findElement(By.id("status_check-" + status)).click();;
     }
 
     public WebElement getNextCourseLink() {
@@ -77,6 +91,46 @@ public class InstructorCommentsPage extends AppPage {
     public void clickStudentCommentEditForRow(int i) {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         jsExecutor.executeScript("document.getElementById('"+"commentedit-"+i+"').click();");
+    }
+    
+    public void clickStudentCommentVisibilityEdit(int row){
+        browser.driver.findElement(By.id("visibility-options-trigger" + row)).click();
+    }
+    
+    public void clickResponseCommentVisibilityEdit(String suffix){
+        browser.driver.findElement(By.id("frComment-visibility-options-trigger-" + suffix)).click();
+    }
+    
+    public void clickAllCheckboxes(int row){
+        List<WebElement> answerCheckboxes = browser.driver
+                .findElement(By.id("visibility-options" + row))
+                .findElements(By.className("answerCheckbox"));
+        List<WebElement> giverCheckboxes = browser.driver
+                .findElement(By.id("visibility-options" + row))
+                .findElements(By.className("giverCheckbox"));
+        List<WebElement> recipientCheckboxes = browser.driver
+                .findElement(By.id("visibility-options" + row))
+                .findElements(By.className("recipientCheckbox"));
+        List<WebElement> checkboxes = answerCheckboxes;
+        checkboxes.addAll(giverCheckboxes);
+        checkboxes.addAll(recipientCheckboxes);
+        for(WebElement checkbox:checkboxes){
+            checkbox.click();
+        }
+    }
+    
+    public void clickAllCheckboxes(String suffix){
+        List<WebElement> answerCheckboxes = browser.driver
+                .findElement(By.id("visibility-options-" + suffix))
+                .findElements(By.className("answerCheckbox"));
+        List<WebElement> giverCheckboxes = browser.driver
+                .findElement(By.id("visibility-options-" + suffix))
+                .findElements(By.className("giverCheckbox"));
+        List<WebElement> checkboxes = answerCheckboxes;
+        checkboxes.addAll(giverCheckboxes);
+        for(WebElement checkbox:checkboxes){
+            checkbox.click();
+        }
     }
 
     public void fillTextareaToEditStudentCommentForRow(int i, String text){
@@ -146,5 +200,17 @@ public class InstructorCommentsPage extends AppPage {
             waitForPageToLoad();
             assertEquals(errorMessage, commentRow.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("span")).getText());
         }
+    }
+
+    public void search(String text) {
+        WebElement searchBox = browser.driver.findElement(By.id("searchBox"));
+        //This click somehow causes an error.
+        //searchBox.click();
+        this.waitForElementPresence(By.id("searchBox"), 10);
+        //searchBox.clear();
+        this.waitForElementPresence(By.id("searchBox"), 10);
+        searchBox.sendKeys(text);
+        this.waitForElementPresence(By.id("buttonSearch"), 10);
+        browser.driver.findElement(By.id("buttonSearch")).click();
     }
 }

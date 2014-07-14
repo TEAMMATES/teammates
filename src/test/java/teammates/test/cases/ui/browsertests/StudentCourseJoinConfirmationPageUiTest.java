@@ -36,7 +36,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/StudentCourseJoinConfirmationPageUiTest.json");
         restoreTestDataOnServer(testData);
 
-        browser = BrowserPool.getBrowser();
+        browser = BrowserPool.getBrowser(true);
         browser.driver.manage().deleteAllCookies();
     }
     
