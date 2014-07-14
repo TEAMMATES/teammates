@@ -21,14 +21,14 @@ public class InstructorEvalsPageAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
+
+        new GateKeeper().verifyInstructorPrivileges(account);
         
         return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
         /*
         //This can be null. Non-null value indicates the page is being loaded 
         //   to add an evaluation to the specified course
         String courseIdForNewEvaluation = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        
-        new GateKeeper().verifyInstructorPrivileges(account);
         
         if (courseIdForNewEvaluation!=null) {
             new GateKeeper().verifyAccessible(
