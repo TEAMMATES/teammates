@@ -15,6 +15,7 @@ $(document).ready(function(){
         e.preventDefault();
         $.ajax({
             type : 'POST',
+            cache: false,
             url :   $(formObject[0]).attr('action') + "?" + formData,
             beforeSend : function() {
                 displayIcon.html("<img height='25' width='25' src='/images/ajax-preload.gif'/>")
@@ -24,7 +25,7 @@ $(document).ready(function(){
             },
             success : function(data) {
                 var appendedQuestion = $(data).find('#questionBody-0').html();
-                
+                $(data).remove();
                 if(typeof appendedQuestion != 'undefined'){
                     if(appendedQuestion.indexOf('resultStatistics') == -1){
                        $(panelBody[0]).removeClass('padding-0');

@@ -19,6 +19,7 @@ $(document).ready(function(){
         e.preventDefault();
         $.ajax({
             type : 'POST',
+            cache: false,
             url :   $(formObject[0]).attr('action') + "?" + formData,
             beforeSend : function() {
                 displayIcon.html("<img height='25' width='25' src='/images/ajax-preload.gif'/>")
@@ -32,6 +33,7 @@ $(document).ready(function(){
                 }
 
                 var appendedSection = $(data).find('#sectionBody-0').html();
+                $(data).remove();
                 if(typeof appendedSection != 'undefined'){
                     $(panelBody[0]).html(appendedSection);
                 } else {
