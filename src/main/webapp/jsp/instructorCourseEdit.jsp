@@ -137,23 +137,14 @@
                 </div>
             </div>
                  
-            
-            <% if(data.getJoinLink(instructor).isEmpty()) 
-                {
-            %>
-            
             <!-- Attention: 
             This join link is printed as a hidden html element and is only used for testing purpose. 
             This should not be shown to the user. Please go to element inspector to get this link.        
-            -->
+            -->       
             <div id="joinLink" class="form-group" hidden="hidden">
                 <%=data.getJoinLink(instructor)%>
             </div>
 
-
-            <%
-                }
-            %>
             <div class="panel-body">
                 <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE%>"
                     id="formEditInstructor<%=index%>>" name="formEditInstructors" class="form form-horizontal" >
