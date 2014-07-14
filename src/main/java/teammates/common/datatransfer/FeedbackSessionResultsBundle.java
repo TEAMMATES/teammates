@@ -116,10 +116,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             if (visibilityTable.get(response.getId())[1] == false &&
                     type != FeedbackParticipantType.SELF &&
                     type != FeedbackParticipantType.NONE) {
-                String hash = getHashOfName(name);
-                name = getAnonName(type, hash);
+                String anonEmail = getAnonEmail(type, name);
+                name = getAnonName(type, name);
                 
-                String anonEmail = getAnonEmail(name);
                 emailNameTable.put(anonEmail, name);
                 emailTeamNameTable.put(anonEmail, name + Const.TEAM_OF_EMAIL_OWNER);
                 
@@ -131,9 +130,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             type = question.giverType;
             if (visibilityTable.get(response.getId())[0] == false &&
                     type != FeedbackParticipantType.SELF) {
+                String anonEmail = getAnonEmail(type, name);
                 name = getAnonName(type, name);
                 
-                String anonEmail = getAnonEmail(name);
                 emailNameTable.put(anonEmail, name);
                 emailTeamNameTable.put(anonEmail, name + Const.TEAM_OF_EMAIL_OWNER);
                 if(type == FeedbackParticipantType.TEAMS){
@@ -144,14 +143,14 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         }
     }
 
-    private String getAnonEmail(String name) {
-        String hash = getHashOfName(name);
-        return hash+"@@"+hash+".com";
+    private String getAnonEmail(FeedbackParticipantType type, String name) {
+        String anonName = getAnonName(type, name);
+        return anonName+"@@"+anonName+".com";
     }
     
     private String getAnonEmailFromEmail(String email) {
         String name = emailNameTable.get(email);
-        return getAnonEmail(name);
+        return getAnonEmail(FeedbackParticipantType.STUDENTS, name);
     }
 
     private String getAnonName(FeedbackParticipantType type, String name) {
@@ -180,10 +179,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 if(studentResult != null){
                     int pc = studentResult.perceivedToInstructor;
                     String pcHtml = ((FeedbackContributionQuestionDetails) questionDetails).convertToEqualShareFormatHtml(pc);
-                    responseAnswerHtml += "&nbsp;&nbsp;"
+                    responseAnswerHtml += "&nbsp;&nbsp;["
                             + "<abbr title=\"Percived Contribution\">PC:</abbr>"
                             + "&nbsp;"
-                            + pcHtml;
+                            + pcHtml
+                            + "]";
                 }
             }
             return responseAnswerHtml;
