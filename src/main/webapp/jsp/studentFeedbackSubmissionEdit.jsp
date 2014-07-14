@@ -58,7 +58,7 @@
             </div>
         <% } %>
         <form method="post" name="form_student_submit_response"
-              action="<%=data.account != null ? Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE : Const.ActionURIs.UNREGISTERED_STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE %>" >
+              action="<%=Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE %>" >
             
             <jsp:include page="<%=Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT%>" />
             

@@ -36,13 +36,16 @@ public abstract class Action {
     protected Logic logic;
     
     /** This is used to ensure unregistered users don't access certain pages in the system */
-    public boolean isUnregistered = false;
+    public String regkey = null;
     
     /** This will be the admin user if the application is running under the masquerade mode. */
     public AccountAttributes loggedInUser;
     
     /** This is the 'nominal' user. Need not be the logged in user */
     public AccountAttributes account;
+    
+    /** This is the unregistered and not loggedin student's attributes. */
+    public StudentAttributes student = null;
     
     /** The full request URL e.g., {@code /page/instructorHome?user=abc&course=c1} */
     protected String requestUrl;
@@ -62,29 +65,143 @@ public abstract class Action {
     /** Session that contains status message information */
     protected HttpSession session;
 
+    /** This is to get the blobInfo for any file upload from prev pages */
     protected HttpServletRequest request;
+    
+    /** This is for authentication at Action Level */
+    private String authenticationRedirectUrl = ""; 
     
     /** Initializes variables. 
      * Aborts with an {@link UnauthorizedAccessException} if the user is not
      * logged in or if a non-admin tried to masquerade as another user.
      * 
      */
-    @SuppressWarnings("unchecked")
     public void init(HttpServletRequest req){
+        initialiseAttributes(req);
+        authenticateUser();
+    }
+
+    protected void authenticateUser() {
+        UserType currentUser = logic.getCurrentUser();
+        loggedInUser = authenticateAndGetActualUser(currentUser);
+        if (isValidUser()) {
+            account = authenticateAndGetNominalUser(request, currentUser);
+        }
+    }
+    
+    protected AccountAttributes authenticateAndGetActualUser(UserType currentUser) {
+        if (userNeedsToLogin(currentUser)) return null;
         
+        AccountAttributes loggedInUser = null;
+        
+        regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
+        String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        
+        if (currentUser == null) {
+            if(regkey == null) throw new UnauthorizedAccessException("No regkey given");
+            
+            student = logic.getStudentForRegistrationKey(regkey);
+            boolean isUnknownKey = student == null;
+            boolean isARegisteredUser = !isUnknownKey && student.googleId != null && !student.googleId.isEmpty();
+            boolean isAuthenticationFailure = !isUnknownKey &&  !student.email.equals(email) || !student.course.equals(courseId);
+            boolean isMissingAdditionalAuthenticationInfo = email == null || courseId == null;
+            
+            if (isUnknownKey) {
+                throw new UnauthorizedAccessException("Unknown Registration Key");
+            } else if (isARegisteredUser) {
+                setRedirectPage(Logic.getLoginUrl(requestUrl));
+                return null;
+            } else if (isMissingAdditionalAuthenticationInfo) {
+                throw new UnauthorizedAccessException("Insufficient information to authenticate user");
+            } else if (isAuthenticationFailure) {
+                throw new UnauthorizedAccessException("Invalid email/course for given Registration Key");
+            } else {
+                // unregistered and not loggedin access given to page
+                loggedInUser = new AccountAttributes();
+                loggedInUser.email = student.email;
+            }
+            
+        } else {
+            loggedInUser = logic.getAccount(currentUser.id);
+            
+            if(regkey != null && loggedInUser != null) {
+                // TODO: cross-check if the loggedin user is the correct user
+                // if not use LogoutAction to get the user to login appropriately
+            }
+            
+            if(loggedInUser==null){ //Unregistered but loggedin user
+                loggedInUser = new AccountAttributes();
+                loggedInUser.googleId = currentUser.id;
+            }
+        }
+        return loggedInUser;
+    }
+
+    private boolean userNeedsToLogin(UserType currentUser) {
+        boolean userNeedsGoogleAccountForPage = !Const.SystemParams.PAGES_EXCLUDED_FROM_GOOGLE_LOGIN.contains(request.getRequestURI());
+        boolean userIsNotLoggedIn = currentUser == null;
+        
+        if (userIsNotLoggedIn && userNeedsGoogleAccountForPage) {
+            setRedirectPage(Logic.getLoginUrl(requestUrl));
+            return true;
+        }
+        return false;
+    }
+
+    protected boolean isValidUser() {
+        return authenticationRedirectUrl.isEmpty();
+    }
+    
+    private void setRedirectPage(String redirectUrl) {
+        authenticationRedirectUrl = redirectUrl;
+        statusToAdmin = "Redirecting user to " + redirectUrl;
+    }
+    
+    protected String getAuthenticationRedirectUrl() {
+        return authenticationRedirectUrl;
+    }
+
+    protected AccountAttributes authenticateAndGetNominalUser(HttpServletRequest req,
+            UserType loggedInUserType) {
+        String paramRequestedUserId = req.getParameter(Const.ParamsNames.USER_ID);
+        
+        AccountAttributes account = null;
+        
+        if (!isMasqueradeModeRequested(loggedInUser, paramRequestedUserId)) {
+            account = loggedInUser;
+        } else if (loggedInUserType.isAdmin) {
+            //Allowing admin to masquerade as another user
+            account = logic.getAccount(paramRequestedUserId);
+            if(account==null){ //Unregistered user
+                regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
+                if (regkey == null) {
+                    // since admin is masquerading, fabricate a regkey
+                    regkey = "any-non-null-value";
+                }
+                account = new AccountAttributes();
+                account.googleId = paramRequestedUserId;
+            }
+        
+        } else {
+            throw new UnauthorizedAccessException("User " + loggedInUserType.id
+                    + " is trying to masquerade as " + paramRequestedUserId
+                    + " without admin permission.");
+        }
+        
+        return account;
+    }
+
+    @SuppressWarnings("unchecked")
+    protected void initialiseAttributes(HttpServletRequest req) {
         request = req;
-        requestUrl = HttpRequestHelper.getRequestedURL(req);
+        requestUrl = HttpRequestHelper.getRequestedURL(request);
         logic = new Logic();
-        requestParameters = req.getParameterMap();
-        session = req.getSession();
+        requestParameters = request.getParameterMap();
+        session = request.getSession();
         
         //---- set error status forwarded from the previous action
         isError = getRequestParamAsBoolean(Const.ParamsNames.ERROR);
-        
-        //---- initialise other attributes
-        UserType loggedInUserType = getLoggedInUserType();
-        loggedInUser = getLoggedInUser(loggedInUserType);
-        account = authenticateAndGetNominalUser(req, loggedInUserType);
     }
 
     /**
@@ -114,8 +231,20 @@ public abstract class Action {
         }
         
         //Set the common parameters for the response
-        response.responseParams.put(Const.ParamsNames.USER_ID, account.googleId);
-        response.responseParams.put(Const.ParamsNames.ERROR, ""+response.isError);
+        if (regkey == null) {
+            response.responseParams.put(Const.ParamsNames.USER_ID, account.googleId);
+            response.responseParams.put(Const.ParamsNames.ERROR, ""+response.isError);
+        } else {
+            response.responseParams.put(Const.ParamsNames.REGKEY, regkey);
+            response.responseParams.put(Const.ParamsNames.STUDENT_EMAIL, student.email);
+            response.responseParams.put(Const.ParamsNames.COURSE_ID, student.course);
+            
+            if (getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME) != null) {
+                response.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, 
+                        getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME));
+            }
+            response.responseParams.put(Const.ParamsNames.ERROR, "" + response.isError);
+        }
         
         //Pass status message using session to prevent XSS attack
         if(!response.getStatusMessage().isEmpty()){
@@ -271,13 +400,13 @@ public abstract class Action {
     }
 
     protected boolean isInMasqueradeMode() {
-        return !loggedInUser.googleId.equals(account.googleId);
+        return loggedInUser != null && !loggedInUser.googleId.equals(account.googleId);
     }
 
-    private boolean isMasqueradeModeRequested(String loggedInUserId, String requestedUserId) {
-        return requestedUserId != null
+    private boolean isMasqueradeModeRequested(AccountAttributes loggedInUser, String requestedUserId) {
+        return loggedInUser != null && requestedUserId != null
                 && !requestedUserId.trim().equals("null")
-                && !loggedInUserId.equals(requestedUserId);
+                && !loggedInUser.googleId.equals(requestedUserId);
     }
     
     //===================== Utility methods used by some child classes========
@@ -319,54 +448,4 @@ public abstract class Action {
                 
         return newEval;
     }
-    
-    //====================== Methods overridden by child classes ========
-
-    protected UserType getLoggedInUserType() {
-        UserType loggedInUserType = logic.getCurrentUser();
-        if(loggedInUserType == null) {
-            throw new UnauthorizedAccessException("User not logged in");
-        }
-        
-        return loggedInUserType;
-    }
-
-    protected AccountAttributes getLoggedInUser(UserType loggedInUserType) {
-        AccountAttributes loggedInUser = logic.getAccount(loggedInUserType.id);
-        
-        if(loggedInUser==null){ //Unregistered user
-            isUnregistered = true;
-            loggedInUser = new AccountAttributes();
-            loggedInUser.googleId = loggedInUserType.id;
-        }
-        
-        return loggedInUser;
-    }
-
-    protected AccountAttributes authenticateAndGetNominalUser(HttpServletRequest req,
-            UserType loggedInUserType) {
-        String paramRequestedUserId = req.getParameter(Const.ParamsNames.USER_ID);
-        AccountAttributes account = null;
-        
-        if (!isMasqueradeModeRequested(loggedInUser.googleId, paramRequestedUserId)) {
-            account = loggedInUser;
-        } else if (loggedInUserType.isAdmin) {
-            isUnregistered = false;
-            //Allowing admin to masquerade as another user
-            account = logic.getAccount(paramRequestedUserId);
-            if(account==null){ //Unregistered user
-                isUnregistered = true;
-                account = new AccountAttributes();
-                account.googleId = paramRequestedUserId;
-            }
-        
-        } else {
-            throw new UnauthorizedAccessException("User " + loggedInUserType.id
-                    + " is trying to masquerade as " + paramRequestedUserId
-                    + " without admin permission.");
-        }
-        
-        return account;
-    }
-
 }

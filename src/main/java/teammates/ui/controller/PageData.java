@@ -36,12 +36,22 @@ public class PageData {
     /** The user for whom the pages are displayed (i.e. the 'nominal user'). 
      *    May not be the logged in user (under masquerade mode) */
     public AccountAttributes account;
+    public String regkey;
 
     /**
      * @param account The account for the nominal user.
      */
     public PageData(AccountAttributes account){
         this.account = account;
+        this.regkey = null;
+    }
+    
+    /**
+     * @param account The account for the nominal user.
+     */
+    public PageData(AccountAttributes account, String regkey){
+        this.account = account;
+        this.regkey = regkey;
     }
     
     @SuppressWarnings("unused")

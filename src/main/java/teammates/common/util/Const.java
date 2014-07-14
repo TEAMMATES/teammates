@@ -49,11 +49,12 @@ public class Const {
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
         
-        public static final String[] PAGES_EXCLUDED_FROM_REGISTRATION = {
-            Const.ActionURIs.UNREGISTERED_STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
-            Const.ActionURIs.UNREGISTERED_STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
-            Const.ActionURIs.UNREGISTERED_STUDENT_FEEDBACK_RESULTS_PAGE
-        };
+        public static final List<String> PAGES_EXCLUDED_FROM_GOOGLE_LOGIN = Arrays.asList(
+            Const.ActionURIs.AUTHENTICATE_STUDENT,
+            Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+            Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
+            Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE
+        );
     }
 
     /* Text displayed to the user when the mouse hover over certain elements in
@@ -498,6 +499,7 @@ public class Const {
         /* _PAGE/Page in the Action URI name means 'show page' */
     
         public static final String LOGIN = "/login";
+        public static final String AUTHENTICATE_STUDENT = "/studentAccess";
     
         public static final String INSTRUCTOR_HOME_PAGE = "/page/instructorHomePage";
         public static final String INSTRUCTOR_COURSES_PAGE = "/page/instructorCoursesPage";
@@ -601,10 +603,6 @@ public class Const {
         public static final String STUDENT_PROFILE_PICTURE_UPLOAD = "/page/studentProfilePictureUpload";
         public static final String STUDENT_PROFILE_PICTURE_EDIT = "/page/studentProfilePictureEdit";
         public static final String STUDENT_PROFILE_CREATEUPLOADFORMURL = "/page/studentProfileCreateFormUrl";
-        
-        public static final String UNREGISTERED_STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/unregisteredStudentFeedbackSubmissionEditPage";
-        public static final String UNREGISTERED_STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/unregisteredStudentFeedbackSubmissionEditSave";
-        public static final String UNREGISTERED_STUDENT_FEEDBACK_RESULTS_PAGE = "/page/unregisteredStudentFeedbackResultsPage";
         
         public static final String ADMIN_HOME_PAGE = "/admin/adminHomePage";
         public static final String ADMIN_INSTRUCTORACCOUNT_ADD = "/admin/adminInstructorAccountAdd";

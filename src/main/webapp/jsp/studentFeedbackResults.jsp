@@ -21,11 +21,6 @@
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 <%
     StudentFeedbackResultsPageData data = (StudentFeedbackResultsPageData)request.getAttribute("data");
-    AccountAttributes placeHolderAccount = data.account;
-    if (placeHolderAccount == null) {
-    	placeHolderAccount = new AccountAttributes();
-    	placeHolderAccount.email = data.student.email;
-    }
 %>
 <!DOCTYPE html>
 <html>
@@ -63,7 +58,7 @@
             <div id="topOfPage"></div>
             <h1>Feedback Results - Student</h1>
             <br />
-            <% if (data.account == null) { %>
+            <% if (data.regkey != null) { %>
                 <div id="registerMessage" class="alert alert-danger">
                     <%=Const.StatusMessages.UNREGISTERED_STUDENT%>
                 </div>
@@ -121,7 +116,7 @@
                         <%=questionDetails.getQuestionAdditionalInfoHtml(qnIndx, "")%></h4>
                         <%=
                             questionDetails.getQuestionResultStatisticsHtml(questionWithResponses
-                                    .getValue(), question, placeHolderAccount, data.bundle, "student")
+                                    .getValue(), question, data.account, data.bundle, "student")
                         %>
                     <%
                     	ListIterator<FeedbackResponseAttributes> itr = questionWithResponses

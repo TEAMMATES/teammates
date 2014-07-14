@@ -24,17 +24,17 @@
                     <ul class="nav navbar-nav">
                         <li class="<%=data.getClass().toString().contains("StudentHome") ? "active":"" %>">
                             <a id="studentHomeLink" data-link="studentHome" 
-                            href="<%=data.account == null ? "" : data.getStudentHomeLink()%>">Home</a>
+                            href="<%=data.regkey != null ? "" : data.getStudentHomeLink()%>">Home</a>
                         </li>
                         <li class="<%=data.getClass().toString().contains("StudentProfilePage") ? "active":""%>">
                             <a id="studentProfileLink" data-link="studentProfilePage" 
-                            href="<%=data.account == null ? "" : data.getStudentProfileLink()%>">
+                            href="<%=data.regkey != null ? "" : data.getStudentProfileLink()%>">
                                 Profile
                             </a>
                         </li>
                         <li class="<%=data.getClass().toString().contains("StudentComments") ? "active":""%>">
                             <a id="studentCommentsLink" data-link="studentCommentsPage" 
-                            href="<%=data.account == null ? "" : data.getStudentCommentsLink()%>">
+                            href="<%=data.regkey != null ? "" : data.getStudentCommentsLink()%>">
                                 Comments
                             </a>
                         </li>
@@ -42,7 +42,7 @@
                             <a id="studentHelpLink" class='nav' href="/studentHelp.html" target="_blank">Help</a>
                         </li>
                     </ul>
-                    <% if (data.account != null) { %>
+                    <% if (data.regkey == null) { %>
                     <ul class="nav navbar-nav pull-right">
                         <li><a class='nav logout' href="<%=Const.ViewURIs.LOGOUT%>">Logout
                                 <%

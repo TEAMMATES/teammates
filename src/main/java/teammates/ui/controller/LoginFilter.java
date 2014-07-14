@@ -28,8 +28,8 @@ public class LoginFilter implements Filter {
         for(int i=0; i<excludedFiles.length; i++){
             exclude.add(excludedFiles[i].trim());
         }
-        for (int i = 0 ; i < Const.SystemParams.PAGES_EXCLUDED_FROM_REGISTRATION.length ; i ++) {
-            exclude.add(Const.SystemParams.PAGES_EXCLUDED_FROM_REGISTRATION[i]);
+        for (int i = 0 ; i < Const.SystemParams.PAGES_EXCLUDED_FROM_GOOGLE_LOGIN.size() ; i ++) {
+            exclude.add(Const.SystemParams.PAGES_EXCLUDED_FROM_GOOGLE_LOGIN.get(i));
         }
     }
 

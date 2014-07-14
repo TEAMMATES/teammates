@@ -11,6 +11,7 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -18,19 +19,28 @@ import teammates.logic.api.GateKeeper;
 public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionEditPageAction {
     @Override
     protected boolean isSpecificUserJoinedCourse() {
-        return isJoinedCourse(courseId, account.googleId);
+        if (regkey != null) {
+            return student.course.equals(courseId);
+        } else {
+            return isJoinedCourse(courseId, account.googleId);
+        }
     }
     
     @Override
     protected void verifyAccesibleForSpecificUser() {
+        
         new GateKeeper().verifyAccessible(
-                logic.getStudentForGoogleId(courseId, account.googleId), 
+                getStudent(), 
                 logic.getFeedbackSession(feedbackSessionName, courseId));
     }
 
     @Override
     protected String getUserEmailForCourse() {
-        return logic.getStudentForGoogleId(courseId, account.googleId).email;
+        if (regkey != null) {
+            return student.email;
+        } else {
+            return getStudent().email;
+        }
     }
 
     @Override
@@ -102,5 +112,13 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
     @Override
     protected RedirectResult createSpecificRedirectResult() {
         return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+    }
+    
+    protected StudentAttributes getStudent() {
+        if (student == null) {
+            student = logic.getStudentForGoogleId(courseId, account.googleId);
+        }
+        
+        return student;
     }
 }

@@ -51,8 +51,12 @@ public class ControllerServlet extends HttpServlet {
             log.info("User agent : " + req.getHeader("User-Agent"));
             
             Action c = new ActionFactory().getAction(req);
-            ActionResult actionResult = c.executeAndPostProcess();
-            actionResult.send(req, resp);
+            if (c.isValidUser()) {
+                ActionResult actionResult = c.executeAndPostProcess();
+                actionResult.send(req, resp);
+            } else {
+                resp.sendRedirect(c.getAuthenticationRedirectUrl());
+            }
             
             // This is the log message that is used to generate the 'activity log' for the admin.
             log.info(c.getLogMessage());

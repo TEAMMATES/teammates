@@ -998,7 +998,7 @@ public class Emails {
         
         if (s != null) {
             String key = StringHelper.encrypt(s.key);
-            unregSubmissionUrl = Config.APP_URL + Const.ActionURIs.UNREGISTERED_STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
+            unregSubmissionUrl = Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
             unregSubmissionUrl = Url.addParamToUrl(unregSubmissionUrl, Const.ParamsNames.REGKEY, key);
             unregSubmissionUrl = Url.addParamToUrl(unregSubmissionUrl, Const.ParamsNames.STUDENT_EMAIL, s.email);
             unregSubmissionUrl = Url.addParamToUrl(unregSubmissionUrl, Const.ParamsNames.COURSE_ID, fs.courseId);
@@ -1021,7 +1021,7 @@ public class Emails {
         
         if (s != null) {
             String key = StringHelper.encrypt(s.key);
-            unregViewResponsesUrl = Config.APP_URL + Const.ActionURIs.UNREGISTERED_STUDENT_FEEDBACK_RESULTS_PAGE;
+            unregViewResponsesUrl = Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
             unregViewResponsesUrl = Url.addParamToUrl(unregViewResponsesUrl, Const.ParamsNames.REGKEY, key);
             unregViewResponsesUrl = Url.addParamToUrl(unregViewResponsesUrl, Const.ParamsNames.STUDENT_EMAIL, s.email);
             unregViewResponsesUrl = Url.addParamToUrl(unregViewResponsesUrl, Const.ParamsNames.COURSE_ID, fs.courseId);
