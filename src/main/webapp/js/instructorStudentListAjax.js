@@ -6,6 +6,28 @@ var PERFORMANCE_ISSUE_MESSAGE = 'Due to performance issue, it is not allowed to 
                                 + ' students. Please deselect some courses to view student list of other courses.';
 var numStudents = 0;
 
+function sanitizeForHtml(str){
+    if(typeof str == 'undefined')
+        return "";
+
+    return str.replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/\"/g, "&quot;")
+                .replace(/\//g, "&#x2f;")
+                .replace(/\'/, "&#39;")
+                //To ensure when apply sanitizeForHtml for multiple times, the string's still fine
+                //Regex meaning: replace '&' with safe encoding, but not the one that is safe already
+                .replace(/&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))/g, "&amp;");
+}
+
+function sanitizeForJs(str){
+    return  sanitizeForHtml(
+                str.replace(/\/\//g, "\\\\")
+                .replace(/\"/g, "\\\"")
+                .replace(/\'/g, "\\'")
+                .replace(/#/g, "\\#"));
+}
+
 function getCourseStudentDetailsLink(student, userId){
     var link = '/page/instructorCourseStudentDetailsPage';
     link = addParamToUrl(link, 'courseid', student.course);
@@ -87,7 +109,7 @@ function getAppendedData(data, courseIdx) {
             var appendedSection = '';
             appendedSection += '<div class="checkbox"><input id="section_check-' + courseIdx + '-' + sectionIdx + '" type="checkbox" checked="checked" class="section_check">';
             appendedSection += '<label for="section_check-' + courseIdx + '-' + sectionIdx + '">';
-            appendedSection += '[' + data.course.id + '] : ' + section.name + '</label></div>';
+            appendedSection += '[' + data.course.id + '] : ' + sanitizeForHtml(section.name) + '</label></div>';
             $("#sectionChoices").append(appendedSection);
             
             for(var j = 0; j < section.teams.length; j++){
@@ -96,7 +118,7 @@ function getAppendedData(data, courseIdx) {
                 var appendedTeam = '';
                 appendedTeam += '<div class="checkbox"><input id="team_check-' + courseIdx + '-' + sectionIdx + '-' + teamIdx + '" type="checkbox" checked="checked" class="team_check">';
                 appendedTeam += '<label for="team_check-' + courseIdx + '-' + sectionIdx + '-' + teamIdx + '">';
-                appendedTeam += '[' + data.course.id + '] : ' + team.name + '</label></div>';
+                appendedTeam += '[' + data.course.id + '] : ' + sanitizeForHtml(team.name) + '</label></div>';
                 $('#teamChoices').append(appendedTeam);
 
                 for(var k = 0; k < team.students.length; k++){
@@ -110,13 +132,13 @@ function getAppendedData(data, courseIdx) {
                     appendedHtml += '<a class="student-photo-link-for-test btn-link" data-link="' + data.emailPhotoUrlMapping[student.email] + '">'
                                        + 'View Photo</a><img src="" alt="No Image Given" class="hidden"></td>';
                     if(data.hasSection) { 
-                        appendedHtml += '<td id="studentsection-c' + courseIdx + '.' + sectionIdx + '">' + section.name + '</td>';
+                        appendedHtml += '<td id="studentsection-c' + courseIdx + '.' + sectionIdx + '">' + sanitizeForHtml(section.name) + '</td>';
                     } else {
-                        appendedHtml += '<td id="studentsection-c' + courseIdx + '.' + sectionIdx + '" class="hidden">' + section.name + '</td>';
+                        appendedHtml += '<td id="studentsection-c' + courseIdx + '.' + sectionIdx + '" class="hidden">' + sanitizeForHtml(section.name) + '</td>';
                     }
-                    appendedHtml += '<td id="studentteam-c' + courseIdx + '.' + sectionIdx + '.' + teamIdx + '">' + team.name + '</td>';
-                    appendedHtml += '<td id="studentname-c' + courseIdx + '.' + studentIdx + '">' + student.name + '</td>';
-                    appendedHtml += '<td id="studentemail-c' + courseIdx + '.' + studentIdx + '">' + student.email + '</td>';
+                    appendedHtml += '<td id="studentteam-c' + courseIdx + '.' + sectionIdx + '.' + teamIdx + '">' + sanitizeForHtml(team.name) + '</td>';
+                    appendedHtml += '<td id="studentname-c' + courseIdx + '.' + studentIdx + '">' + sanitizeForHtml(student.name) + '</td>';
+                    appendedHtml += '<td id="studentemail-c' + courseIdx + '.' + studentIdx + '">' + sanitizeForHtml(student.email) + '</td>';
                     appendedHtml += '<td class="no-print align-center">';
                     appendedHtml += '<a class="btn btn-default btn-xs student-view-for-test"'
                                         + 'href="' + getCourseStudentDetailsLink(student, data.account.googleId) + '"'
@@ -136,7 +158,7 @@ function getAppendedData(data, courseIdx) {
 
                     appendedHtml += '<a class="btn btn-default btn-xs student-delete-for-test"'
                                      + 'href="' + getCourseStudentDeleteLink(student, data.account.googleId) + '"'
-                                     + 'onclick="return toggleDeleteStudentConfirmation(\'' + student.course + '\',\'' + student.name + '\')"';
+                                     + 'onclick="return toggleDeleteStudentConfirmation(\'' + sanitizeForJs(student.course) + '\',\'' + sanitizeForJs(student.name) + '\')"';
                                      + 'title="' + COURSE_STUDENT_DELETE + '" data-toggle="tooltip" data-placement="top"';
                     if(!data.sectionPrivileges[section.name]['canmodifystudent']){
                         appendedHtml += 'disabled="disabled"';
@@ -155,14 +177,14 @@ function getAppendedData(data, courseIdx) {
                     appendedHtml += '<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">';
                     appendedHtml += '<li role="presentation"><a role="menuitem" tabindex="-1" href="' + getCourseStudentDetailsLink(student, data.account.googleId) 
                                             +"&addComment=student" + '">';
-                    appendedHtml += 'Comment on ' + student.name + '</a></li>';
+                    appendedHtml += 'Comment on ' + sanitizeForHtml(student.name) + '</a></li>';
                     appendedHtml += '<li role="presentation"><a role="menuitem" tabindex="-1" href="' + getCourseStudentDetailsLink(student, data.account.googleId) 
                                             + "&addComment=team" + '">';
-                    appendedHtml += 'Comment on ' + team.name + '</a></li>';
+                    appendedHtml += 'Comment on ' + sanitizeForHtml(team.name) + '</a></li>';
                     if(data.hasSection) { 
                         appendedHtml += '<li role="presentation"><a role="menuitem" tabindex="-1" href="' + getCourseStudentDetailsLink(student, data.account.googleId) 
                                             +"&addComment=section" + '">';
-                        appendedHtml += 'Comment on ' + section.name + '</a></li>';
+                        appendedHtml += 'Comment on ' + sanitizeForHtml(section.name) + '</a></li>';
                     } 
                     appendedHtml += '</ul></div></td></tr>';
                 }
