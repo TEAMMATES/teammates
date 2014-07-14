@@ -402,7 +402,8 @@ public class PageData {
     }
     
     public String getInstructorEvaluationLink(){
-        String link = Const.ActionURIs.INSTRUCTOR_EVALS_PAGE;
+        //String link = Const.ActionURIs.INSTRUCTOR_EVALS_PAGE;
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
         link = addUserIdToUrl(link);
         return link;
     }
@@ -464,7 +465,7 @@ public class PageData {
         String link = Const.ActionURIs.INSTRUCTOR_EVAL_PUBLISH;
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
-        link = Url.addParamToUrl(link,Const.ParamsNames.NEXT_URL,(isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE): addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_EVALS_PAGE)));
+        link = Url.addParamToUrl(link,Const.ParamsNames.NEXT_URL,(isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE): addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
         link = addUserIdToUrl(link);
         return link;
     }
@@ -474,7 +475,7 @@ public class PageData {
         String link = Const.ActionURIs.INSTRUCTOR_EVAL_UNPUBLISH;
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
-        link = Url.addParamToUrl(link,Const.ParamsNames.NEXT_URL,(isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE): addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_EVALS_PAGE)));
+        link = Url.addParamToUrl(link,Const.ParamsNames.NEXT_URL,(isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE): addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
         link = addUserIdToUrl(link);
         return link;
     }
@@ -680,7 +681,7 @@ public class PageData {
         );
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions session-delete-for-test\"" + 
-            "href=\"" + getInstructorEvaluationDeleteLink(eval.courseId,eval.name,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_EVALS_PAGE)) + "\" " +
+            "href=\"" + getInstructorEvaluationDeleteLink(eval.courseId,eval.name,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)) + "\" " +
             "title=\"" + Const.Tooltips.EVALUATION_DELETE + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
             "onclick=\"return toggleDeleteEvaluationConfirmation('" + eval.courseId + "','" + eval.name + "');\" " +
             disableDeleteSessionStr + ">Delete</a> "
