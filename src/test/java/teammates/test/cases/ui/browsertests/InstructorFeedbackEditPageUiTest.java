@@ -1027,13 +1027,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     
     private void testCopyQuestion() {
         
-        ______TS("Failure case: no questions are indicated");
-        feedbackEditPage.clickCopyButton();
-        ThreadHelper.waitFor(1000);
-        feedbackEditPage.clickCopyTableAtRow(0);
-        feedbackEditPage.clickCopySubmitButton();
-        feedbackEditPage.verifyStatus("No questions are selected to be copied");
-        
         ______TS("Success case: copy questions successfully");
         
         ThreadHelper.waitFor(1000);

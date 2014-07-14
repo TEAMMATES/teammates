@@ -939,7 +939,7 @@ public class Logic {
         
         return coursesLogic.getSectionForCourse(section, courseId);
     }
-
+    
     /** 
      * Preconditions: <br>
      * * All parameters are non-null    
@@ -948,8 +948,8 @@ public class Logic {
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-
-        return coursesLogic.getSectionsForCourse(courseId);
+        
+        return coursesLogic.getSectionsForCourseWithoutStats(courseId);
     }
 
     /**

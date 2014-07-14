@@ -20,9 +20,6 @@ public class InstructorStudentListPage extends AppPage {
     @FindBy(id = "show_email")
     private WebElement showEmailLink;
     
-    @FindBy(id = "option_check")
-    private WebElement showMoreOptions;
-    
     @FindBy(id = "displayArchivedCourses_check")
     private WebElement displayArchiveOptions;
     
@@ -99,6 +96,10 @@ public class InstructorStudentListPage extends AppPage {
         searchBox.sendKeys(searchKey);
     }
     
+    public void checkCourse(int courseIdx){
+        browser.driver.findElement(By.id("course_check-" + courseIdx)).click();
+    }
+    
     public void clickSelectAll() {
         selectAll.click();
     }
@@ -109,10 +110,6 @@ public class InstructorStudentListPage extends AppPage {
     
     public void clickShowEmail() {
         showEmailLink.click();
-    }
-    
-    public void clickShowMoreOptions(){
-        showMoreOptions.click();
     }
     
     public void clickDisplayArchiveOptions() {
@@ -139,9 +136,9 @@ public class InstructorStudentListPage extends AppPage {
     
     private int getCourseNumber(String courseId) {
         int id = 0;
-        while (isElementPresent(By.id("course-" + id))) {
+        while (isElementPresent(By.id("panelHeading-" + id))) {
             if (getElementText(
-                    By.xpath("//div[@id='course-" + id + "']//h4/strong"))
+                    By.xpath("//div[@id='panelHeading-" + id + "']//strong"))
                     .startsWith("[" + courseId + "]")) {
                 return id;
             }
@@ -150,13 +147,14 @@ public class InstructorStudentListPage extends AppPage {
         return -1;
     }
 
-    private String getStudentRowId(String courseId, String studentName) {
+    public String getStudentRowId(String courseId, String studentName) {
         int courseNumber = getCourseNumber(courseId);
         int studentCount = browser.driver.findElements(By.cssSelector("tr[id^='student-c"+courseNumber+"']"))
                 .size();
         for (int i = 0; i < studentCount; i++) {
             String studentNameInRow = getStudentNameInRow(courseNumber, i);
             if (studentNameInRow.equals(studentName)) {
+                
                 return (courseNumber+"."+i);
             }
         }
@@ -170,7 +168,7 @@ public class InstructorStudentListPage extends AppPage {
     }
     
     private WebElement getEnrollLink(int courseNumber) {
-        return browser.driver.findElement(By.id("course-" + courseNumber))
+        return browser.driver.findElement(By.id("panelHeading-" + courseNumber))
                 .findElement(By.className("course-enroll-for-test"));
     }
     

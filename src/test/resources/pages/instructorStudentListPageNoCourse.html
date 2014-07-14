@@ -19,12 +19,6 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-2">
-                                <div class="checkbox">
-                                    <input id="option_check" type="checkbox">
-                                    <label for="option_check">Show More Options</label>
-                                </div>
-                            </div>
                             <div class="col-md-3">
                                 <div class="checkbox">
                                     <input id="displayArchivedCourses_check" type="checkbox">
@@ -36,7 +30,7 @@
                  </div>
              </div>
             <br>
-            <div id="moreOptionsDiv" class="well well-plain" style="display: none;">
+            <div id="moreOptionsDiv" class="well well-plain" style="display:none;">
                 <form class="form-horizontal" role="form">
                     <div class="row">
                         <div class="col-sm-3">
@@ -45,44 +39,49 @@
                             </div>
                             <br>
                             <div class="checkbox">
-                                <input value="" id="course_all" checked="checked" type="checkbox"> 
+                                <input value="" id="course_all" type="checkbox"> 
                                 <label for="course_all"><strong>Select all</strong></label>
                             </div>
                             <br>
                             
                         </div>
-                        
+                         
                         <div class="col-sm-3">
                             <div class="text-color-primary">
                                 <strong>Sections</strong>
                             </div>
                             <br>
-                            <div class="checkbox">
-                                <input value="" id="section_all" checked="checked" type="checkbox"> 
+                            <div class="checkbox" style="display:none;">
+                                <input value="" id="section_all" type="checkbox"> 
                                 <label for="section_all"><strong>Select all</strong></label>
                             </div>
                             <br>
-                            
+                            <div id="sectionChoices">
+                     
+                            </div>
                         </div>
-
+                          
                         <div class="col-sm-3">
                             <div class="text-color-primary">
                                 <strong>Teams</strong>
                             </div>
                             <br>
-                            <div class="checkbox">
-                                <input id="team_all" checked="checked" type="checkbox">
+                            <div class="checkbox" style="display:none;">
+                                <input id="team_all" type="checkbox">
                                 <label for="team_all"><strong>Select All</strong></label>
                             </div>
                             <br>
-                            
+                            <div id="teamChoices">
+
+                            </div>
                         </div>
+                        
                         <div class="col-sm-3">
                             <div class="text-color-primary">
                                 <strong>Emails</strong>
                             </div>
                             <br>
-                            <div class="checkbox">
+                            <div class="checkbox" style="display:none;">
                                 <input id="show_email" checked="checked" type="checkbox">
                                     <label for="show_email"><strong>Show Emails</strong></label>
                             </div>
@@ -108,5 +107,4 @@
     </script>
 
             
-            <br> <br> <br>
         </div>
