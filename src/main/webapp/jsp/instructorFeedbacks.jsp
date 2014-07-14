@@ -68,10 +68,10 @@
                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_TYPE%>"
                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_TYPE%>">
                             <option value="STANDARD"selected="selected">
-                                Feedback Session with customizable questions
+                                Session with your own questions
                             </option>
                             <option value="TEAMEVALUATION">
-                                Feedback Session for Team Evaluation
+                                Team peer evaluation session
                             </option>
                         </select>
                     </div>
