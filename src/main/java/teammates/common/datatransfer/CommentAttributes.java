@@ -182,7 +182,8 @@ public class CommentAttributes extends EntityAttributes
         }
         
         if (commentText != null) {
-            this.commentText = new Text(Sanitizer.sanitizeForHtml(commentText.getValue()));
+            String sanitizedText = Sanitizer.sanitizeForHtml(commentText.getValue()).replace("\n", "\n<br>");
+            this.commentText = new Text(sanitizedText);
         }
         
         if(recipientType != null){
