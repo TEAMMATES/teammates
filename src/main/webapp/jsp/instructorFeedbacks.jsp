@@ -55,33 +55,34 @@
         <h1>Add New Feedback Session</h1>
 
         <div class="well well-plain">
-            <div class="row"
-                title="Select a different type of session here."
-                data-toggle="tooltip" 
-                data-placement="top">
-                <h4 class="label-control col-md-2 text-md">Create new </h4>
-                <div class="col-md-5">
-                    <select class="form-control"
-                        name="Const.ParamsNames.FEEDBACK_SESSION_TYPE"
-                        id="Const.ParamsNames.FEEDBACK_SESSION_TYPE">
-                        <option value="STANDARD"selected="selected">
-                            Feedback Session with customizable questions
-                        </option>
-                        <option value="TEAMEVALUATION">
-                            Feedback Session for Team Evaluation
-                        </option>
-                    </select>
-                </div>
-                <h4 class="label-control col-md-1 text-md">Or: </h4>
-                <div class="col-md-3">
-                    <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy
-                        from previous feedback sessions</a>
-                </div>
-            </div>
-            <br>
             <form class="form-group" method="post"
                 action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD%>"
                 name="form_addfeedbacksession">
+                <div class="row"
+                    title="Select a different type of session here."
+                    data-toggle="tooltip" 
+                    data-placement="top">
+                    <h4 class="label-control col-md-2 text-md">Create new </h4>
+                    <div class="col-md-5">
+                        <select class="form-control"
+                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_TYPE%>"
+                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_TYPE%>">
+                            <option value="STANDARD"selected="selected">
+                                Feedback Session with customizable questions
+                            </option>
+                            <option value="TEAMEVALUATION">
+                                Feedback Session for Team Evaluation
+                            </option>
+                        </select>
+                    </div>
+                    <h4 class="label-control col-md-1 text-md">Or: </h4>
+                    <div class="col-md-3">
+                        <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy
+                            from previous feedback sessions</a>
+                    </div>
+                </div>
+                <br>
+            
                 <div class="panel panel-primary">
                     <div class="panel-body">
                         <div class="row">

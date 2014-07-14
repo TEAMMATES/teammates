@@ -22,6 +22,8 @@ public class InstructorEvalsPageAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         
+        return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+        /*
         //This can be null. Non-null value indicates the page is being loaded 
         //   to add an evaluation to the specified course
         String courseIdForNewEvaluation = getRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -59,6 +61,7 @@ public class InstructorEvalsPageAction extends Action {
         statusToAdmin = "Number of evaluations :"+data.existingEvalSessions.size();
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_EVALS, data);
+        */
     }
 
     protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(
