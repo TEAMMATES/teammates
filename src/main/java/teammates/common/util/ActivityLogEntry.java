@@ -63,7 +63,7 @@ public class ActivityLogEntry {
             email = tokens[7];
             message = tokens[8];
             url = tokens[9];
-            timeTaken = tokens.length == 11? Long.parseLong(tokens[10]) : null;
+            timeTaken = tokens.length == 11? Long.parseLong(tokens[10].trim()) : null;
         } catch (ArrayIndexOutOfBoundsException e){
             
             servletName = "Unknown";
@@ -240,6 +240,10 @@ public class ActivityLogEntry {
     
 
     public String getColorCode(Long timeTaken){
+        
+        if(timeTaken == null){
+            return "";
+        }
         
         String colorCode = "";
         if (timeTaken >= 10000 && timeTaken <= 20000){

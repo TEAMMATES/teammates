@@ -378,6 +378,7 @@ public class Const {
         public static final String FEEDBACK_RESULTS_GROUPBYSECTION = "frgroupbysection";
         public static final String FEEDBACK_RESULTS_SHOWSTATS = "frshowstats";
         public static final String FEEDBACK_RESULTS_NEED_AJAX = "frneedajax";
+        public static final String FEEDBACK_RESULTS_MAIN_INDEX ="frmainindex";
 
         public static final String PREVIEWAS = "previewas";
         
@@ -541,7 +542,8 @@ public class Const {
         public static final String INSTRUCTOR_EVAL_RESULTS_DOWNLOAD = "/page/instructorEvalResultsDownload";
         public static final String INSTRUCTOR_SEARCH_PAGE = "/page/instructorSearchPage";
         public static final String INSTRUCTOR_STUDENT_LIST_PAGE = "/page/instructorStudentListPage";
-        
+        public static final String INSTRUCTOR_STUDENT_LIST_AJAX_PAGE = "/page/instructorStudentListAjaxPage"; 
+
         public static final String INSTRUCTOR_STUDENT_RECORDS_PAGE = "/page/instructorStudentRecordsPage";
         public static final String INSTRUCTOR_STUDENT_COMMENT_ADD = "/page/instructorStudentCommentAdd";
         public static final String INSTRUCTOR_STUDENT_COMMENT_EDIT = "/page/instructorStudentCommentEdit";
@@ -563,11 +565,6 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT = "/page/instructorFeedbackPreviewAsStudent";
         public static final String INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR = "/page/instructorFeedbackPreviewAsInstructor";
         
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_QUESTIONS = "/page/instructorFeedbackResultsAjaxByQuestions";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_GQR = "/page/instructorFeedbackResultsAjaxByGQR";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_GRQ = "/page/instructorFeedbackResultsAjaxByGRQ";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_RQG = "/page/instructorFeedbackResultsAjaxByRQG";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_RGQ = "/page/instructorFeedbackResultsAjaxByRGQ";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_RESPONSE_RATE = "/page/instructorFeedbackResultsAjaxResponseRate";
 
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_ADD = "/page/instructorFeedbackQuestionAdd";
@@ -807,6 +804,7 @@ public class Const {
         
         public static final String FEEDBACK_SESSION_ADDED = "The feedback session has been added. Click the \"Add New Question\" button below to begin adding questions for the feedback session.";
         public static final String FEEDBACK_SESSION_ADD_DB_INCONSISTENCY = "If you do not see existing feedback sessions in the list below, please refresh the page after a few moments";
+        public static final String FEEDBACK_SESSION_COPIED = "The feedback session has been copied. Please configure the session if needed.";
         public static final String FEEDBACK_SESSION_EDITED = "The feedback session has been updated.";
         public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
         public static final String FEEDBACK_SESSION_PUBLISHED = "The feedback session has been published.";

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -19,7 +19,7 @@ public class InstructorFeedbacksPageData extends PageData {
 
     public String courseIdForNewSession;
     public FeedbackSessionAttributes newFeedbackSession;
-    public List<CourseDetailsBundle> courses;
+    public List<CourseAttributes> courses;
     public List<EvaluationAttributes> existingEvalSessions;
     public List<FeedbackSessionAttributes> existingFeedbackSessions;        
     public HashMap<String, InstructorAttributes> instructors;
@@ -42,26 +42,26 @@ public class InstructorFeedbacksPageData extends PageData {
     public ArrayList<String> getCourseIdOptions() {
         ArrayList<String> result = new ArrayList<String>();
 
-        for (CourseDetailsBundle courseBundle : courses) {
+        for (CourseAttributes course : courses) {
 
             // True if this is a submission of the filled 'new session' form
             // for this course:
             boolean isFilledFormForSessionInThisCourse = (newFeedbackSession != null)
-                    && courseBundle.course.id.equals(newFeedbackSession.courseId);
+                    && course.id.equals(newFeedbackSession.courseId);
 
             // True if this is for displaying an empty form for creating a 
             // session for this course:
             boolean isEmptyFormForSessionInThisCourse = (courseIdForNewSession != null)
-                    && courseBundle.course.id.equals(courseIdForNewSession);
+                    && course.id.equals(courseIdForNewSession);
 
             String selectedAttribute = isFilledFormForSessionInThisCourse
                     || isEmptyFormForSessionInThisCourse ? " selected=\"selected\""
                     : "";
             
-            if (instructors.get(courseBundle.course.id).isAllowedForPrivilege(
+            if (instructors.get(course.id).isAllowedForPrivilege(
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
-                result.add("<option value=\"" + courseBundle.course.id + "\""
-                        + selectedAttribute + ">" + courseBundle.course.id + "</option>");
+                result.add("<option value=\"" + course.id + "\""
+                        + selectedAttribute + ">" + course.id + "</option>");
             }
         }
         return result;

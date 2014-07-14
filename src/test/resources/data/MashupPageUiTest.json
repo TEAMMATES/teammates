@@ -132,7 +132,8 @@
             "course":"CS2104",
             "name":"Teammates Test",
             "comments":"This student's name is Teammates Test",
-            "team":"Team 1"
+            "team":"Team 1",
+            "section":"Section A"
         },
         "benny.c.tmms@CS2104":{
             "googleId":"benny.c.tmms",
@@ -140,7 +141,8 @@
             "course":"CS2104",
             "name":"Benny Charles",
             "comments":"This student's name is Benny Charles",
-            "team":"Team 1"
+            "team":"Team 1",
+            "section":"Section A"
         },
         "charlie.d.tmms@CS2104":{
             "googleId":"charlie.d.tmms",
@@ -148,7 +150,8 @@
             "course":"CS2104",
             "name":"Charlie Davis",
             "comments":"This student's name is Charlie Davis",
-            "team":"Team 1"
+            "team":"Team 1",
+            "section":"Section A"
         },
         "alice.b.tmms@CS2104":{
             "googleId":"alice.b.tmms",
@@ -156,7 +159,8 @@
             "course":"CS2104",
             "name":"Alice Betsy",
             "comments":"This student's name is Alice Betsy",
-            "team":"Team 2"
+            "team":"Team 2",
+            "section":"Section B"
         },
         "danny.e.tmms@CS2104":{
             "googleId":"danny.e.tmms",
@@ -164,7 +168,8 @@
             "course":"CS2104",
             "name":"Danny Engrid",
             "comments":"This student's name is Danny Engrid",
-            "team":"Team 2"
+            "team":"Team 2",
+            "section":"Section B"
         },
         "teammates.test@CS1101":{
             "googleId":"teammates.test",
@@ -914,7 +919,9 @@
             "recipientEmail":"alice.b.tmms@gmail.com",
             "responseMetaData":{
                 "value":"My product is light."
-            }
+            },
+            "giverSection":"Section B",
+            "recipientSection":"Section B"
         },
         "response2":{
             "feedbackSessionName":"First feedback session",
@@ -925,7 +932,9 @@
             "recipientEmail":"benny.c.tmms@gmail.com",
             "responseMetaData":{
                 "value":"Benny is a good student."
-            }
+            },
+            "giverSection":"Section B",
+            "recipientSection":"Section A"
         },
         "response3":{
             "feedbackSessionName":"First feedback session",
@@ -936,7 +945,9 @@
             "recipientEmail":"danny.e.tmms@gmail.com",
             "responseMetaData":{
                 "value":"Danny starts with D."
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section B"
         },
         "response4":{
             "feedbackSessionName":"First feedback session",
@@ -947,7 +958,9 @@
             "recipientEmail":"alice.b.tmms@gmail.com",
             "responseMetaData":{
                 "value":"Alice is a good girl coder."
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section B"
         },
         "response5":{
             "feedbackSessionName":"First feedback session",
@@ -958,7 +971,9 @@
             "recipientEmail":"charlie.d.tmms@gmail.com",
             "responseMetaData":{
                 "value":"Charlie did alot of work."
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         },
         "response6":{
             "feedbackSessionName":"First feedback session",
@@ -969,7 +984,9 @@
             "recipientEmail":"teammates.test@gmail.com",
             "responseMetaData":{
                 "value":"It's awesome!."
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         },
         "response7":{
             "feedbackSessionName":"First feedback session",
@@ -980,7 +997,9 @@
             "recipientEmail":"teammates.test@gmail.com",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"It's good\", \"otherFieldContent\" : \"\"}"
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         },
         "response8":{
             "feedbackSessionName":"First feedback session",
@@ -991,7 +1010,9 @@
             "recipientEmail":"teammates.test@gmail.com",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Alice Betsy (Team 2)\", \"otherFieldContent\" : \"\"}"
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         },
         "response9":{
             "feedbackSessionName":"First feedback session",
@@ -1002,7 +1023,9 @@
             "recipientEmail":"teammates.test@gmail.com",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"It's good\", \"It's perfect\"]}"
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         },
         "response10":{
             "feedbackSessionName":"First feedback session",
@@ -1013,7 +1036,9 @@
             "recipientEmail":"teammates.test@gmail.com",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Team 1\", \"Team 2\"]}"
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         },
         "response11":{
             "feedbackSessionName":"First feedback session",
@@ -1024,7 +1049,9 @@
             "recipientEmail":"teammates.test@gmail.com",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 3.5}"
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         }
     },
     "feedbackResponseComments":{
@@ -1037,7 +1064,9 @@
             "createdAt":"2016-03-01 11:59 PM UTC",
             "commentText":{
                 "value":"This instructor's comment to student self feedback"	
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         },
         "comment2ToResponse6": {
             "courseId":"CS2104",
@@ -1048,7 +1077,9 @@
             "createdAt":"2016-03-02 11:59 PM UTC",
             "commentText":{
                 "value":"Other instructor's comment to student self feedback"	
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         }
     },
     "comments":{

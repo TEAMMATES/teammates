@@ -45,7 +45,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         printTestClassHeader();
         testData = loadDataBundle("/StudentFeedbackSubmitPageUiTest.json");
         restoreTestDataOnServer(testData);
-        browser = BrowserPool.getBrowser();        
+        browser = BrowserPool.getBrowser();
     }
     
     @Test
