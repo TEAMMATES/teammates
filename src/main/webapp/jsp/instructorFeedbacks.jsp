@@ -62,12 +62,14 @@
                 <h4 class="label-control col-md-2 text-md">Create new </h4>
                 <div class="col-md-5">
                     <select class="form-control"
-                        name="feedbackchangetype"
-                        id="feedbackchangetype">
-                        <option
-                            value="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>"
-                            selected="selected">Feedback
-                            Session with customizable questions</option>
+                        name="Const.ParamsNames.FEEDBACK_SESSION_TYPE"
+                        id="Const.ParamsNames.FEEDBACK_SESSION_TYPE">
+                        <option value="STANDARD"selected="selected">
+                            Feedback Session with customizable questions
+                        </option>
+                        <option value="TEAMEVALUATION">
+                            Feedback Session for Team Evaluation
+                        </option>
                     </select>
                 </div>
                 <h4 class="label-control col-md-1 text-md">Or: </h4>
