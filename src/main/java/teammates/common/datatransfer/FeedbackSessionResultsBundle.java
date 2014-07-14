@@ -3,12 +3,15 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import teammates.common.util.Const;
+import teammates.logic.core.TeamEvalResult;
+import teammates.ui.controller.InstructorEvalResultsPageData;
 import teammates.ui.controller.PageData;
 
 /**
@@ -34,6 +37,13 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
      * To be used for anonymous result calculation only, and identities hidden before showing to users.
      */
     public List<FeedbackResponseAttributes> actualResponses = null;
+    
+
+    //For contribution questions.
+    //Key is questionId, value is a map of student email to StudentResultSumary
+    public Map<String, Map<String, StudentResultSummary>> contributionQuestionStats =
+            new HashMap<String, Map<String, StudentResultSummary>>();
+
     
     public FeedbackSessionResultsBundle (FeedbackSessionAttributes feedbackSession,
             List<FeedbackResponseAttributes> responses,
@@ -108,12 +118,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             if (visibilityTable.get(response.getId())[1] == false &&
                     type != FeedbackParticipantType.SELF &&
                     type != FeedbackParticipantType.NONE) {
-                String hash = Integer.toString(Math.abs(name.hashCode()));
-                name = type.toSingularFormString();
+                String hash = getHashOfName(name);
+                name = getAnonName(type, hash);
                 
-                name = "Anonymous " + name + " " + hash;
-                
-                String anonEmail = name+"@@"+name+".com";
+                String anonEmail = getAnonEmail(name);
                 emailNameTable.put(anonEmail, name);
                 emailTeamNameTable.put(anonEmail, name + Const.TEAM_OF_EMAIL_OWNER);
                 
@@ -125,12 +133,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             type = question.giverType;
             if (visibilityTable.get(response.getId())[0] == false &&
                     type != FeedbackParticipantType.SELF) {
-                String hash = Integer.toString(Math.abs(name.hashCode()));
-                name = type.toSingularFormString();
+                name = getAnonName(type, name);
                 
-                name = "Anonymous " + name + " " + hash;
-                
-                String anonEmail = name+"@@"+name+".com";
+                String anonEmail = getAnonEmail(name);
                 emailNameTable.put(anonEmail, name);
                 emailTeamNameTable.put(anonEmail, name + Const.TEAM_OF_EMAIL_OWNER);
                 if(type == FeedbackParticipantType.TEAMS){
@@ -140,7 +145,68 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             }
         }
     }
+
+    private String getAnonEmail(String name) {
+        String hash = getHashOfName(name);
+        return hash+"@@"+hash+".com";
+    }
     
+    private String getAnonEmailFromEmail(String email) {
+        String name = emailNameTable.get(email);
+        return getAnonEmail(name);
+    }
+
+    private String getAnonName(FeedbackParticipantType type, String name) {
+        String hash = getHashOfName(name);
+        String anonName = type.toSingularFormString();
+        anonName = "Anonymous " + anonName + " " + hash;
+        return anonName;
+    }
+
+    private String getHashOfName(String name) {
+        return Integer.toString(Math.abs(name.hashCode()));
+    }
+    
+    /**
+     * Used for instructor feedback results views.
+     */
+    @SuppressWarnings("static-access")
+    public String getResponseAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question){
+        FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+        if(question.questionType == FeedbackQuestionType.CONTRIB){
+            String responseAnswerHtml = response.getResponseDetails().getAnswerHtml(questionDetails);
+            if(response.giverEmail.equals(response.recipientEmail)){
+                //For CONTRIB qns, We want to show PC if giver == recipient.
+                Map<String, StudentResultSummary> stats = getContribQnStats(question);
+                int pc = stats.get(response.giverEmail).perceivedToInstructor;
+                String pcHtml = ((FeedbackContributionQuestionDetails) questionDetails).convertToEqualShareFormatHtml(pc);
+                responseAnswerHtml += "&nbsp;&nbsp;"
+                        + "<abbr title=\"Percived Contribution\">PC:</abbr>"
+                        + "&nbsp;"
+                        + pcHtml;
+            }
+            return responseAnswerHtml;
+        } else {
+            return response.getResponseDetails().getAnswerHtml(questionDetails);
+        }
+    }
+    
+    private Map<String, StudentResultSummary> getContribQnStats(FeedbackQuestionAttributes question) {
+        Map<String, StudentResultSummary> contribQnStats = contributionQuestionStats.get(question.getId());
+        if(contribQnStats == null){
+            FeedbackContributionQuestionDetails fqcd = (FeedbackContributionQuestionDetails) question.getQuestionDetails();
+            contribQnStats = fqcd.getStudentResults(this, question);
+            
+            //Convert email to anonEmail if necessary
+            
+            
+            
+            contributionQuestionStats.put(question.getId(), contribQnStats);
+        }
+        
+        return contribQnStats;
+    }
+
     public String getNameForEmail(String email) {
         String name = emailNameTable.get(email);
         if (name == null || name.equals(Const.USER_IS_TEAM)) {
