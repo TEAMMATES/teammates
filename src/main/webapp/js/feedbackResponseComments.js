@@ -219,6 +219,11 @@ function generateNewCommentRow(data) {
     + "<div id=\"plainCommentText-" + addCount + "\">" + data.comment.commentText.value + "</div>"
     // Edit form
     + "<form style=\"display:none;\" id=\"responseCommentEditForm-" + addCount + "\" class=\"responseCommentEditForm\">"
+	+    "<div class=\"form-group form-inline\">"
+	+	    "<div class=\"form-group text-muted\">"
+	+	        "To change this comment's visibility, kindly reload the current webpage."
+	+	    "</div>"
+	+	"</div>"
     + 	"<div class=\"form-group\">"
     + 		"<textarea class=\"form-control\" rows=\"3\" placeholder=\"Your comment about this response\""
     + 			" name=\"" + FEEDBACK_RESPONSE_COMMENT_TEXT + "\""
@@ -257,6 +262,9 @@ function setFormErrorMessage(submitButton, msg){
 function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
     var id = "-"+recipientIndex+"-"+giverIndex+"-"+qnIndx;
     $("#responseCommentTable"+id).show();
+    if($("#responseCommentTable"+ id + " > li").length <= 1){
+    	$("#responseCommentTable"+id).css('margin-top', '15px');
+    }
     $("#showResponseCommentAddForm"+id).show();
     $("#responseCommentAddForm"+id).focus();
 }
@@ -264,6 +272,7 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
 function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
     var id = "-"+recipientIndex+"-"+giverIndex+"-"+qnIndx;
     if($("#responseCommentTable"+ id + " > li").length <= 1){
+    	$("#responseCommentTable"+id).css('margin-top', '0');
     	$("#responseCommentTable"+id).hide();
     }
     $("#showResponseCommentAddForm"+id).hide();
