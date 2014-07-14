@@ -10,8 +10,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import teammates.common.util.Const;
-import teammates.logic.core.TeamEvalResult;
-import teammates.ui.controller.InstructorEvalResultsPageData;
 import teammates.ui.controller.PageData;
 
 /**
@@ -178,12 +176,15 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             if(response.giverEmail.equals(response.recipientEmail)){
                 //For CONTRIB qns, We want to show PC if giver == recipient.
                 Map<String, StudentResultSummary> stats = getContribQnStats(question);
-                int pc = stats.get(response.giverEmail).perceivedToInstructor;
-                String pcHtml = ((FeedbackContributionQuestionDetails) questionDetails).convertToEqualShareFormatHtml(pc);
-                responseAnswerHtml += "&nbsp;&nbsp;"
-                        + "<abbr title=\"Percived Contribution\">PC:</abbr>"
-                        + "&nbsp;"
-                        + pcHtml;
+                StudentResultSummary studentResult = stats.get(response.giverEmail);
+                if(studentResult != null){
+                    int pc = studentResult.perceivedToInstructor;
+                    String pcHtml = ((FeedbackContributionQuestionDetails) questionDetails).convertToEqualShareFormatHtml(pc);
+                    responseAnswerHtml += "&nbsp;&nbsp;"
+                            + "<abbr title=\"Percived Contribution\">PC:</abbr>"
+                            + "&nbsp;"
+                            + pcHtml;
+                }
             }
             return responseAnswerHtml;
         } else {
@@ -197,9 +198,16 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             FeedbackContributionQuestionDetails fqcd = (FeedbackContributionQuestionDetails) question.getQuestionDetails();
             contribQnStats = fqcd.getStudentResults(this, question);
             
-            //Convert email to anonEmail if necessary
-            
-            
+            //Convert email to anonEmail and add stats.
+            Map<String, StudentResultSummary> anonContribQnStats = new HashMap<String, StudentResultSummary>();
+            for(Map.Entry<String, StudentResultSummary> entry : contribQnStats.entrySet()){
+                anonContribQnStats.put(getAnonEmailFromEmail(entry.getKey()), entry.getValue());
+            }
+            for(Map.Entry<String, StudentResultSummary> entry : anonContribQnStats.entrySet()){
+                if(contribQnStats.get(entry.getKey()) == null){
+                    contribQnStats.put(entry.getKey(), entry.getValue());
+                }
+            }
             
             contributionQuestionStats.put(question.getId(), contribQnStats);
         }
