@@ -220,7 +220,7 @@
                         </div>
                     </div>
                     <div class="panel-collapse collapse in">
-                    <div class="panel-body" id="sectionBody<%=sectionIndex%>">
+                    <div class="panel-body" id="sectionBody-<%=sectionIndex%>">
         <%
             }
         %>

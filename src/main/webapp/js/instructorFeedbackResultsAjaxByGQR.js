@@ -44,12 +44,6 @@ $(document).ready(function(){
                 var childrenPanels = $(panelBody[0]).find("div.panel");
                 numPanels = bindCollapseEvents(childrenPanels, numPanels);
 
-                $(panelBody[0]).find("form[class*='responseCommentAddForm'] > div > a").click(addCommentHandler);
-    
-                $(panelBody[0]).find("form[class*='responseCommentEditForm'] > div > a").click(editCommentHandler);
-    
-                $(panelBody[0]).find("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
-
                 $("a[id^='collapse-panels-button-section-'],a[id^='collapse-panels-button-team-']").off('click');
                 $("a[id^='collapse-panels-button-section-']").on('click', function(){
                     var panels = $(this).closest('.panel-success').children('.panel-collapse').find('div.panel.panel-warning').children('.panel-collapse');
