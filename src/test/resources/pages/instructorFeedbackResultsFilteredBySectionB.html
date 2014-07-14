@@ -183,12 +183,14 @@
             
             <div class="panel panel-info">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-1" class="panel-heading">
-                    <form style="display:none;" id="seeMore-1" class="seeMoreForm-1" action="/page/instructorFeedbackResultsAjaxByQuestions">
-                        <input name="questionnum" value="1" type="hidden">
+                    <form style="display:none;" id="seeMore-1" class="seeMoreForm-1" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                         <input name="fsname" value="First Session" type="hidden">
                         <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input name="frgroupbyteam" value="null" type="hidden">
                         <input name="frsorttype" value="question" type="hidden">
+                        <input name="frshowstats" value="on" id="showStats-1" type="hidden">
+                        <input name="questionnum" value="1" type="hidden">
                     </form>
                     <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
@@ -196,7 +198,7 @@
                     <strong>Question 1: </strong>Rate 3 other students' products
                 </div>
                 <div id="panelBodyCollapse-1" class="panel-collapse collapse in">
-                <div class="panel-body padding-0">
+                <div class="panel-body padding-0" id="questionBody-0">
                                     
                     <div class="resultStatistics">
                         

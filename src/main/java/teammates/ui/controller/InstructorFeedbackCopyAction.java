@@ -39,7 +39,7 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
             FeedbackSessionAttributes fs = logic.copyFeedbackSession(copiedFeedbackSessionName, copiedCourseId, feedbackSessionName, courseId, instructor.email);
             data.newFeedbackSession = fs;
             
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
+            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
             statusToAdmin = "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" +
                     "<span class=\"bold\">From:</span> " + fs.startTime + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" +
                     "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>" +

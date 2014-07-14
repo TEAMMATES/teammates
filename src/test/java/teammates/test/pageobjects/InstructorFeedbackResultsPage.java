@@ -35,7 +35,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     @FindBy(id = "button_add_comment")
     private WebElement showResponseCommentAddFormButton;
     
-    @FindBy(id = "showResponseCommentAddForm-1-1-1")
+    @FindBy(id = "showResponseCommentAddForm-0-1-1")
     private WebElement addResponseCommentForm;
     
     

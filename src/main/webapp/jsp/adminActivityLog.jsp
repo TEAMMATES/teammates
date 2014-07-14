@@ -157,7 +157,7 @@
                                                 <strong>
                                                     Possible Labels:</strong>&nbsp;from,
                                                 to, person, role,
-                                                request, response<br>
+                                                request, response, version<br>
                                                 <ul>
 
                                                     <li>E.g. from:
@@ -183,6 +183,17 @@
                                                         Pageload, System
                                                         Error Report,
                                                         Delete Course</li>
+
+                                                    <li>E.g.
+                                                        version:
+                                                        4.15, 4.16</li>
+
+                                                    <li>E.g.
+                                                        version: 4-15,
+                                                        4.16 (both "." 
+                                                        and "-"
+                                                        are acceptable)
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>

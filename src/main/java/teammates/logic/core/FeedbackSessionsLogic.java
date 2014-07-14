@@ -1292,7 +1292,7 @@ public class FeedbackSessionsLogic {
                     new FeedbackSessionResultsBundle(
                             session, responses, relevantQuestions,
                             emailNameTable, emailTeamNameTable,
-                            visibilityTable, responseStatus, responseComments);
+                            visibilityTable, responseStatus, responseComments, true);
 
             return results;
         }
