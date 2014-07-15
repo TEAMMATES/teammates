@@ -361,7 +361,7 @@ function filterBySearchWord($key){
 
     if($key == null || $key == ""){
         return;
-    }else{
+    } else {
     	//iterate over all tr with students
         $("tr[id^='student-c']").each(function() {
         	var doesNotHaveContent = true;
@@ -378,13 +378,6 @@ function filterBySearchWord($key){
         		$(this).hide();
         	}
             
-        });
-        
-        //If a table only contains the header, then we can hide the course.
-        $('.table').each(function() {
-        	if ($(this).children('tbody').children(':visible').length == 0) {
-                $(this).parent().hide();
-            }
         });
     }
 }
