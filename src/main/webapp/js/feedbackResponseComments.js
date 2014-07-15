@@ -60,7 +60,7 @@ var editCommentHandler = function(e) {
     var submitButton = $(this);
     var formObject = $(this).parent().parent();
     var displayedText = $(this).parent().parent().prev();
-    var commentBar = displayedText.parent().find("div");
+    var commentBar = displayedText.parent().find("div[id^=commentBar]");
     var formData = formObject.serialize();
     
     e.preventDefault();
