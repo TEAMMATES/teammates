@@ -159,7 +159,6 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyCommentFormErrorMessage("1-1-1-1", "Comment cannot be empty");
         commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "edited response comment\na new line");
         commentsPage.saveResponseComment(1, 1, 1, 1);
-        commentsPage.reloadPage();
         
         ______TS("action: delete feedback response comment");
         commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
