@@ -74,7 +74,6 @@ public class CommentsDb extends EntitiesDb{
             comment = getCommentEntity(commentToGet.getCommentId());
         }
         if(comment == null){
-            commentToGet.sanitizeForSaving();
             comment = getCommentEntity(commentToGet.courseId, commentToGet.giverEmail, commentToGet.recipientType,
                 commentToGet.recipients, commentToGet.createdAt);
         }
@@ -340,7 +339,6 @@ public class CommentsDb extends EntitiesDb{
         if(commentToGet.getCommentId() != null){
             return getCommentEntity(commentToGet.getCommentId());
         } else{
-            commentToGet.sanitizeForSaving();
             return getCommentEntity(commentToGet.courseId, commentToGet.giverEmail, commentToGet.recipientType,
                     commentToGet.recipients, commentToGet.createdAt);
         }

@@ -122,6 +122,7 @@ function enableComment(commentIdx){
 	$('#'+'commentBar'+commentIdx).hide();
 	$('#'+'plainCommentText'+commentIdx).hide();
 	$("div[id='commentTextEdit"+commentIdx+"']").show();
+	$("textarea[id='commentText"+commentIdx+"']").val($("#plainCommentText"+commentIdx).text());
     $("textarea[id='commentText"+commentIdx+"']").focus();
 }
 

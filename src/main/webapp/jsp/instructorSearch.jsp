@@ -211,7 +211,7 @@
                                                         </a>
                                                     </div> <!-- frComment Content -->
                                                     <div
-                                                        id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>"><%=InstructorSearchPageData.sanitizeForHtml(frc.commentText.getValue())%></div>
+                                                        id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>"><%=frc.commentText.getValue()%></div>
                                                 </li>
                                                 <%
                                                     }//FeedbackResponseComments loop ends
