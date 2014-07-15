@@ -23,7 +23,6 @@ public class AdminActivityLogPage extends AppPage {
     
     public String getPersonInfoOfFirstEntry(){
         
-       // WebElement element = browser.driver.findElement(By.id("personInfo_0"));
         WebElement table = browser.driver.findElement(By.id("logsTable"));
         WebElement tableRow = table.findElements(By.tagName("tr")).get(1);
         WebElement element = tableRow.findElement(By.tagName("small"));

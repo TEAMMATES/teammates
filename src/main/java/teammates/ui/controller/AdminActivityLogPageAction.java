@@ -20,7 +20,7 @@ public class AdminActivityLogPageAction extends Action {
     //We want to pull out the application logs
     private boolean includeAppLogs = true;
     private static final int LOGS_PER_PAGE = 50;
-    private static final int MAX_LOGSEARCH_LIMIT = 150;
+    private static final int MAX_LOGSEARCH_LIMIT = 15000;
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException{
