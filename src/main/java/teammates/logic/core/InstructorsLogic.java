@@ -248,13 +248,8 @@ public class InstructorsLogic {
         Emails emailMgr = new Emails();
 
         try {
-            List<MimeMessage> emails = emailMgr.generateNewInstructorAccountJoinEmail(instructorData,
-                                                                                      shortName,
-                                                                                      institute);
-            emailMgr.sendEmail(emails.get(0));
-            emailMgr.sendEmail(emails.get(1));
-            
-            //this method is deprecated because it should only be used in adminHomePage for easy manual testing purpose
+            MimeMessage email = emailMgr.generateNewInstructorAccountJoinEmail(instructorData, shortName, institute);
+            emailMgr.sendEmail(email);
             joinLink = emailMgr.generateNewInstructorAccountJoinLink(instructorData, institute);
 
         } catch (Exception e) {
