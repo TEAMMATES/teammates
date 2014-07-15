@@ -57,17 +57,17 @@
                     <div class="well well-plain">
                     <div class="form-group">
                         <div class="input-group">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit" value="Search" id="buttonSearch">Search</button>
-                            </span>
                             <input type="text" name="searchkey" value="<%=InstructorSearchPageData.sanitizeForHtml(data.searchKey)%>" title="Search for comment" placeholder="Your search keyword" class="form-control" id="searchBox">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="submit" value="Search" id="buttonSearch">Search</button>
+                            </span>
                         </div>
                         <input type="hidden" name="user" value="<%=data.account.googleId%>">
                     </div>
                     <div class="form-group">
                         <ul class="list-inline">
                             <li>
-                                <span data-toggle="tooltip" title="Tick the checkboxes to search for their categories" class="glyphicon glyphicon-search"></span>
+                                <span data-toggle="tooltip" title="Tick the checkboxes to limit your search to certain categories" class="glyphicon glyphicon-info-sign"></span>
                             </li>
                             <li>
                                 <input id="comments-for-student-check" type="checkbox" name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_STUDENTS%>" value="true" <%=data.isSearchCommentForStudents?"checked":""%>>

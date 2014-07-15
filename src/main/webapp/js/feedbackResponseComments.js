@@ -45,7 +45,9 @@ var addCommentHandler = function(e) {
                     formObject.find("textarea").val("");
                     submitButton.text("Add");
                     removeFormErrorMessage(submitButton);
+                    addFormRow.prev().find("div[id^=plainCommentText]").css("margin-left","15px");
                     addFormRow.prev().show();
+                    addFormRow.hide();
                 } else {
                     formObject.find("textarea").prop("disabled", false);
                     setFormErrorMessage(submitButton, data.errorMessage);
@@ -178,6 +180,8 @@ $(document).ready(function(){
 	    });
 	    form.find("input[name='showresponsegiverto']").val(visibilityOptions.toString());
     });
+    
+    $("div[id^=plainCommentText]").css("margin-left","15px");
 });
 
 function generateNewCommentRow(data) {

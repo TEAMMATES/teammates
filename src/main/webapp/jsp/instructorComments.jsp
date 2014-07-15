@@ -301,7 +301,7 @@
                                         id="form_commentedit-<%=commentIdx%>">
                                         <div id="commentBar-<%=commentIdx%>">
                                             
-                                            <span class="text-muted">To <b><%=data.getRecipientNames(comment.recipients)%></b> on
+                                            <span class="text-muted">To <%=data.getRecipientNames(comment.recipients)%> on
                                                 <%=TimeHelper.formatTime(comment.createdAt)%></span>
                                             <%
                                                if (comment.giverEmail.equals(data.instructorEmail)
@@ -338,7 +338,7 @@
                                             %>
                                             <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;"
                                                 data-placement="top"
-                                                title="This comment is public to <%=peopleCanSee%>"></span>
+                                                title="This comment is visible to <%=peopleCanSee%>"></span>
                                             <% } %>
                                             <% 
                                                if(comment.sendingState == CommentSendingState.PENDING){ 
@@ -692,10 +692,11 @@
                                                         <% 
                                                         
                                                         if(isPublicResponseComment && bundle.feedbackSession.isPublished()){ 
+                                                            String whoCanSee = data.getTypeOfPeopleCanViewComment(frc, question);
                                                         %>
                                                         <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" 
                                                             data-placement="top" style="margin-left: 5px;"
-                                                            title="This response comment is public"></span>
+                                                            title="This response comment is visible to <%=whoCanSee%>"></span>
                                                         <% } %>
                                                         <% 
                                                            if(frc.sendingState == CommentSendingState.PENDING && bundle.feedbackSession.isPublished()){ 
@@ -1158,7 +1159,7 @@
                                                             <a
                                                                 href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD%>"
                                                                 class="btn btn-primary"
-                                                                id="button_save_comment_for_add-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>">Add</a>
+                                                                id="button_save_comment_for_add-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>">Save</a>
                                                             <input
                                                                 type="button"
                                                                 class="btn btn-default"
