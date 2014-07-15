@@ -60,7 +60,7 @@ public class InstructorAttributes extends EntityAttributes {
         this.role = Sanitizer.sanitizeName(role);
         this.isDisplayedToStudents = true;
         this.displayedName = Sanitizer.sanitizeName(displayedName);
-        this.instructorPrivilegesAsText = Sanitizer.sanitizeTextField(instructorPrivilegesAsText);
+        this.instructorPrivilegesAsText = instructorPrivilegesAsText;
         this.privileges = this.getInstructorPrivilegesFromText();
     }
     
