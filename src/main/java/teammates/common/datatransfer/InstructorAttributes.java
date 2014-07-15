@@ -149,13 +149,16 @@ public class InstructorAttributes extends EntityAttributes {
             }
         }
         
-        error= validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
+        error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
         if(!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldType.PERSON_NAME, name);
+        error = validator.getInvalidityInfo(FieldType.PERSON_NAME, name);
         if(!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldType.EMAIL, email);
+        error = validator.getInvalidityInfo(FieldType.EMAIL, email);
+        if(!error.isEmpty()) { errors.add(error); }
+        
+        error = validator.getInvalidityInfo(FieldType.PERSON_NAME, displayedName);
         if(!error.isEmpty()) { errors.add(error); }
         
         return errors;

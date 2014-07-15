@@ -205,7 +205,7 @@
                                      Display to students as:</label>
                                 <div class="col-sm-9">
                                     <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>" 
-                                    placeholder="E.g.Co-lecturer, Teaching Assistant" value="<%=instructor.displayedName%>"
+                                    placeholder="E.g.Co-lecturer, Teaching Assistant" value="<%=data.sanitizeForHtml(instructor.displayedName);%>"
                                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_AS%>"/>
                                 </div>
                             </div>
