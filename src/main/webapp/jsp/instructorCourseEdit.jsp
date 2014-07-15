@@ -415,9 +415,6 @@
                                                             <%}%>
                                                             /> Sessions: Edit/Delete Responses/Comments by Others<br><br>
                                                         </div>
-                                                        <%
-                                                        	if (!data.evalNames.isEmpty() || !data.feedbackNames.isEmpty()) {
-                                                        %>
                                                         <a href="javascript:;" 
                                                             <%if (!instructor.privileges.isSessionsInSectionSpecial(data.sectionNames.get(j))) {%> 
                                                             onclick="showTuneSessionnPermissionsDiv(<%=index%>, <%=j%>)"
@@ -463,6 +460,11 @@
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
+                                                                    <% if (data.evalNames.isEmpty() && data.feedbackNames.isEmpty()) {%>
+                                                                            <tr>
+                                                                                <td colspan="4" class="text-center text-bold">No sessions in this course for you to configure</td>
+                                                                            </tr>
+                                                                    <% } %>
                                                                     <%
                                                                     	for (String evalName : data.evalNames) {
                                                                     %>
@@ -541,9 +543,6 @@
                                                                 </tbody>
                                                             </table>
                                                         </div>
-                                                        <%
-                                                        	}
-                                                        %>
                                                     </div>
                                                 </div>
                                             </div>
@@ -755,7 +754,6 @@
                                                             <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS + 
                                                             Const.ParamsNames.INSTRUCTOR_SECTION + j%>" value="true" checked="checked"/> Sessions: Edit/Delete Responses/Comments by Others<br><br>
                                                         </div>
-                                                        <% if (!data.evalNames.isEmpty() || !data.feedbackNames.isEmpty()) { %>
                                                         <a href="javascript:;" onclick="showTuneSessionnPermissionsDiv(<%=data.instructorList.size()+1%>, <%=j%>)"
                                                             id="toggleSessionLevelInSection<%=j%>ForInstructor<%=data.instructorList.size()+1%>"
                                                             class="small col-sm-5">Give different permissions for sessions in this section</a>      
@@ -771,6 +769,11 @@
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
+                                                                    <% if (data.evalNames.isEmpty() && data.feedbackNames.isEmpty()) {%>
+                                                                            <tr>
+                                                                                <td colspan="4" class="text-center text-bold">No sessions in this course for you to configure</td>
+                                                                            </tr>
+                                                                    <% } %>
                                                                     <% for (String evalName : data.evalNames) { %>
                                                                     <tr>
                                                                         <td><%=evalName%></td>
@@ -814,7 +817,6 @@
                                                                 </tbody>
                                                             </table>
                                                         </div>
-                                                        <% } %>
                                                     </div>
                                                 </div>
                                             </div>
