@@ -34,22 +34,13 @@
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
-    
+    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <script type="text/javascript" src="/js/student.js"></script>
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
       <![endif]-->
     <jsp:include page="../enableJS.jsp"></jsp:include>
-    <script type="text/javascript">
-        $(function(){
-           //make textarea supports displaying breakline
-    	   $('div[id^="plainCommentText"]').each(function(){
-    		   var commentTextWithBreakLine = $(this).text().replace(/\n/g, '<br />');
-    		   $(this).html(commentTextWithBreakLine);
-		   });
-        });
-    </script>
     <style>
         #footerComponent{
             z-index: 999;
@@ -235,7 +226,7 @@
                                                         </span>
                                                     </div> <!-- frComment Content -->
                                                     <div
-                                                        id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>"><%=StudentCommentsPageData.sanitizeForHtml(frc.commentText.getValue())%></div>
+                                                        id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>"><%=frc.commentText.getValue()%></div>
                                                 </li>
                                                 <%
                                                     }//FeedbackResponseComments loop ends

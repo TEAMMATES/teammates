@@ -12,7 +12,7 @@
     <script src="/js/jquery-minified.js" type="text/javascript"></script>
     <script src="/js/common.js" type="text/javascript"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
-    
+    <script src="/js/additionalQuestionInfo.js" type="text/javascript"></script>
     <script src="/js/student.js" type="text/javascript"></script>
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -218,15 +218,6 @@ ul #nav {
 </noscript>
 
 
-    <script type="text/javascript">
-        $(function(){
-           //make textarea supports displaying breakline
-    	   $('div[id^="plainCommentText"]').each(function(){
-    		   var commentTextWithBreakLine = $(this).text().replace(/\n/g, '&lt;br /&gt;');
-    		   $(this).html(commentTextWithBreakLine);
-		   });
-        });
-    </script>
     <style>
         #footerComponent{
             z-index: 999;
