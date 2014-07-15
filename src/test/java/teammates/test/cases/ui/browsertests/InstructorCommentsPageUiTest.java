@@ -131,9 +131,9 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.fillTextareaToEditStudentCommentForRow(1, "");
         commentsPage.saveEditStudentCommentForRow(1);
         commentsPage.verifyStatus("Please enter a valid comment. The comment can't be empty.");
-        commentsPage.fillTextareaToEditStudentCommentForRow(1, "edited student comment");
+        commentsPage.fillTextareaToEditStudentCommentForRow(1, "edited student comment\na new line");
         commentsPage.saveEditStudentCommentForRow(1);
-        commentsPage.verifyContains("edited student comment");
+        commentsPage.verifyContains("edited student comment\n<br />a new line");
         commentsPage.verifyStatus(Const.StatusMessages.COMMENT_EDITED);
         
         ______TS("action: delete student comment");
@@ -157,7 +157,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "");
         commentsPage.saveResponseComment(1, 1, 1, 1);
         commentsPage.verifyCommentFormErrorMessage("1-1-1-1", "Comment cannot be empty");
-        commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "edited response comment");
+        commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "edited response comment\na new line");
         commentsPage.saveResponseComment(1, 1, 1, 1);
         commentsPage.reloadPage();
         

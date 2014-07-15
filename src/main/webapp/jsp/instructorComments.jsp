@@ -765,7 +765,7 @@
                                                         %>
                                                     </div> <!-- frComment Content -->
                                                     <div
-                                                        id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>"><%=InstructorCommentsPageData.sanitizeForHtml(frc.commentText.getValue())%></div>
+                                                        id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>"><%=frc.commentText.getValue()%></div>
                                                     <!-- frComment Edit Form -->
                                                     <form
                                                         style="display: none;"
