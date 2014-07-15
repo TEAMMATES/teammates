@@ -796,7 +796,7 @@ public abstract class AppPage {
             assertEquals(true, isSameStatus);
         } catch(Exception e){
             if(!expectedStatus.equals("")){
-                this.waitForElementPresence(By.id("statusMessage"), 10);
+                this.waitForElementPresence(By.id("statusMessage"), 15);
                 if(!statusMessage.isDisplayed()){
                     this.waitForElementVisible(statusMessage);
                 }

@@ -227,11 +227,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void clickAjaxPanel(int index){
         List<WebElement> ajaxPanels = browser.driver.findElements(By.cssSelector(".ajax_submit"));
         ajaxPanels.get(index).click();
+        ThreadHelper.waitFor(500);
     }
 
     public void clickCollapseSectionButton(int index){
         this.waitForElementPresence(By.id("collapse-panels-button-section-" + index), 10);
         WebElement collapseButton = browser.driver.findElement(By.id("collapse-panels-button-section-" + index));
         collapseButton.click();
+        ThreadHelper.waitFor(500);
     }
 }

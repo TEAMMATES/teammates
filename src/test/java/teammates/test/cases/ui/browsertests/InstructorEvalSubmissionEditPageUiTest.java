@@ -17,6 +17,7 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorEvalResultsPage;
 import teammates.test.pageobjects.InstructorEvalSubmissionEditPage;
 import teammates.test.pageobjects.InstructorEvalsPage;
+import teammates.test.pageobjects.InstructorFeedbacksPage;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -95,7 +96,7 @@ public class InstructorEvalSubmissionEditPageUiTest extends BaseUiTestCase{
         editPage.setValuesForSubmission(1, subs[1]);
         editPage.setValuesForSubmission(2, subs[2]);
         
-        InstructorEvalsPage resultsPage = editPage.submit();
+        InstructorFeedbacksPage resultsPage = editPage.submit();
         String expectedStatus = String.format(
                 Const.StatusMessages.INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED,
                 testData.students.get("Charlie").name,

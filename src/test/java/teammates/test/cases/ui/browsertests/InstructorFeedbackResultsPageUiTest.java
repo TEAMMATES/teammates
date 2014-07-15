@@ -356,7 +356,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "question");
         
         resultsPage.clickAjaxPanel(0);
-        ThreadHelper.waitFor(500);
        
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestion.html");
         
@@ -366,7 +365,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "giver-recipient-question");
         
         resultsPage.clickAjaxPanel(0);
-        ThreadHelper.waitFor(500);
         resultsPage.clickCollapseSectionButton(0);
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByGRQ.html");
         
@@ -375,7 +373,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "giver-question-recipient");
         
         resultsPage.clickAjaxPanel(0);
-        ThreadHelper.waitFor(500);
         resultsPage.clickCollapseSectionButton(0);
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByGQR.html");
         
@@ -384,7 +381,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "recipient-question-giver");
         
         resultsPage.clickAjaxPanel(0);
-        ThreadHelper.waitFor(500);
         resultsPage.clickCollapseSectionButton(0);
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByRQG.html");
         
@@ -393,7 +389,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "recipient-giver-question");
         
         resultsPage.clickAjaxPanel(0);
-        ThreadHelper.waitFor(500);
         resultsPage.clickCollapseSectionButton(0);
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByRGQ.html");
         
