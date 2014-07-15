@@ -73,7 +73,7 @@
                                 <div class="center-block align-center">
                                     <form id="profilePictureUploadForm" method="post"> 
                                         <input id="studentPhoto" class="inline" type="file" name="<%=Const.ParamsNames.STUDENT_PROFILE_PHOTO%>" />
-                                        <p class="help-block">Max Size: 30 MB</p>
+                                        <p class="help-block">Max Size: 5 MB</p>
                                         <button type="button" id="profileUploadPictureSubmit" class="btn btn-primary center-block" onclick="finaliseUploadPictureForm()">
                                             Upload Picture
                                         </button>
@@ -115,11 +115,11 @@
         <div id="editProfileDiv" class="well well-plain well-narrow well-sm-wide">
             <h3 id="studentName"><strong><%=data.account.name %></strong></h3><br>
             <div class="form-group row">
-                <div class="col-xs-3 cursor-pointer" 
+                <div class="col-xs-6 col-sm-5 col-md-3 cursor-pointer" 
                      title="<%=Const.Tooltips.STUDENT_PROFILE_PICTURE %>" data-toggle="tooltip" data-placement="top">
                     <img id="profilePic" src="<%=pictureUrl %>" class="profile-pic" data-toggle="modal" data-target="#studentPhotoUploader" data-edit="<%=data.editPicture %>" />
                 </div>
-                <div class="col-xs-offset-3">
+                <div class="">
                     <button id="uploadEditPhoto" class="btn btn-primary" type="button" data-toggle="modal" data-target="#studentPhotoUploader">Upload/Edit Photo</button>
                 </div>
             </div>
