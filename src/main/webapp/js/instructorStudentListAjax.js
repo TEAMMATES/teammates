@@ -146,7 +146,7 @@ function getAppendedData(data, courseIdx) {
                     if(!data.sectionPrivileges[section.name]['canviewstudentinsection']){
                         appendedHtml += 'disabled="disabled"';
                     }
-                    appendedHtml += '> View</a>';
+                    appendedHtml += '> View</a>&nbsp;';
 
                     appendedHtml += '<a class="btn btn-default btn-xs student-edit-for-test"'
                                      + 'href="' + getCourseStudentEditLink(student, data.account.googleId) + '"'
@@ -154,7 +154,7 @@ function getAppendedData(data, courseIdx) {
                     if(!data.sectionPrivileges[section.name]['canmodifystudent']){
                         appendedHtml += 'disabled="disabled"';
                     }
-                    appendedHtml += '> Edit</a>';
+                    appendedHtml += '> Edit</a>&nbsp;';
 
                     appendedHtml += '<a class="btn btn-default btn-xs student-delete-for-test"'
                                      + 'href="' + getCourseStudentDeleteLink(student, data.account.googleId) + '"'
@@ -163,11 +163,11 @@ function getAppendedData(data, courseIdx) {
                     if(!data.sectionPrivileges[section.name]['canmodifystudent']){
                         appendedHtml += 'disabled="disabled"';
                     }
-                    appendedHtml += '> Delete</a>';
+                    appendedHtml += '> Delete</a>&nbsp;';
                                     
                     appendedHtml += '<a class="btn btn-default btn-xs student-records-for-test"'
                                      + 'href="' + getStudentRecordsLink(student, data.account.googleId) + '"'
-                                     + 'title="' + COURSE_STUDENT_RECORDS + '"data-toggle="tooltip" data-placement="top"> All Records</a>';
+                                     + 'title="' + COURSE_STUDENT_RECORDS + '"data-toggle="tooltip" data-placement="top"> All Records</a>&nbsp;';
                     appendedHtml += '<div class="dropdown" style="display:inline;"><a class="btn btn-default btn-xs dropdown-toggle"' 
                                        + ' href="javascript:;" data-toggle="dropdown"';
                     if(!data.sectionPrivileges[section.name]['cangivecommentinsection']){
