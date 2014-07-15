@@ -180,15 +180,19 @@ public class InstructorAttributes extends EntityAttributes {
 
     @Override
     public void sanitizeForSaving() {
-        this.googleId = Sanitizer.sanitizeGoogleId(this.googleId);
-        this.name = Sanitizer.sanitizeName(this.name);
-        this.email = Sanitizer.sanitizeEmail(this.email);
-        this.courseId = Sanitizer.sanitizeTitle(this.courseId);
+        this.googleId = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeGoogleId(this.googleId));
+        this.name = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(this.name));
+        this.email = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeEmail(this.email));
+        this.courseId = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeTitle(this.courseId));
         if (this.role == null) {
             this.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        } else {
+            this.role = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(this.role));
         }
         if (this.displayedName == null) {
             this.displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        } else {
+            this.displayedName = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(this.displayedName));
         }
         if (this.instructorPrivilegesAsText == null) {
             this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
