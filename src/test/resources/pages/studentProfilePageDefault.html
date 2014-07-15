@@ -107,7 +107,7 @@
                                 <div class="center-block align-center">
                                     <form method="post" id="profilePictureUploadForm"> 
                                         <input type="file" name="studentprofilephoto" class="inline" id="studentPhoto" />
-                                        <p class="help-block">Max Size: 30 MB</p>
+                                        <p class="help-block">Max Size: 5 MB</p>
                                         <button onclick="finaliseUploadPictureForm()" class="btn btn-primary center-block" id="profileUploadPictureSubmit" type="button">
                                             Upload Picture
                                         </button>
@@ -133,10 +133,10 @@
         <div class="well well-plain well-narrow well-sm-wide" id="editProfileDiv">
             <h3 id="studentName"><strong>Benny Charles</strong></h3><br />
             <div class="form-group row">
-                <div data-placement="top" data-toggle="tooltip" title="" class="col-xs-3 cursor-pointer" data-original-title="Upload a profile picture">
+                <div data-placement="top" data-toggle="tooltip" title="" class="col-xs-6 col-sm-5 col-md-3 cursor-pointer" data-original-title="Upload a profile picture">
                     <img data-edit="false" data-target="#studentPhotoUploader" data-toggle="modal" class="profile-pic" src="/images/profile_picture_default.png" id="profilePic" />
                 </div>
-                <div class="col-xs-offset-3">
+                <div class="">
                     <button data-target="#studentPhotoUploader" data-toggle="modal" type="button" class="btn btn-primary" id="uploadEditPhoto">Upload/Edit Photo</button>
                 </div>
             </div>
@@ -167,7 +167,7 @@
                             <input type="radio" value="female" class="radio" name="studentgender" id="genderFemale" /> Female
                         </label>
                         <label for="genderOther" class="radio-inline">
-                            <input type="radio" checked="checked" value="other" class="radio" name="studentgender" id="genderOther" /> Undisclosed
+                            <input type="radio" checked="checked" value="other" class="radio" name="studentgender" id="genderOther" /> Not Specified
                         </label>
                     </div>
     
