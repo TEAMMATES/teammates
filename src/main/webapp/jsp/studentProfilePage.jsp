@@ -158,7 +158,7 @@
                         <label class="radio-inline" for="genderOther">
                             <input id="genderOther" name="<%=Const.ParamsNames.STUDENT_GENDER %>" class="radio" type="radio"
                             value="<%=Const.GenderTypes.OTHER %>"
-                            <%=data.account.studentProfile.gender.equals(Const.GenderTypes.OTHER) ? "checked=\"checked\"" : "" %> /> Undisclosed
+                            <%=data.account.studentProfile.gender.equals(Const.GenderTypes.OTHER) ? "checked=\"checked\"" : "" %> /> Not Specified
                         </label>
                     </div>
     
