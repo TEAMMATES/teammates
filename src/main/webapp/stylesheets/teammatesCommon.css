@@ -158,6 +158,10 @@ input.inline {
     color: blue;
 }
 
+.text-color-black {
+    color: #000;
+}
+
 .text-color-primary {
     color: #428bca;
 }
@@ -486,4 +490,5 @@ input.inline {
     position: fixed;
     text-align: center;
     width: 100%;
+    z-index: 999;
 }
