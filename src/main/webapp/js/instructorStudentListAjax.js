@@ -88,7 +88,9 @@ function getAppendedData(data, courseIdx) {
     if(data.courseSectionDetails.length > 0){
         appendedHtml += '<table class="table table-responsive table-striped table-bordered margin-0">'
         appendedHtml += '<thead class="background-color-medium-gray text-color-gray font-weight-normal">';
-        appendedHtml += '<tr><th>Photo</th>';
+        appendedHtml += '<tr id="searchNoResults-' + courseIdx + '" style="display:none;"><th class="align-center color_white bold">Cannot find students in this course</th>';
+        appendedHtml += '</tr>';
+        appendedHtml += '<tr id="resultsHeader-' + courseIdx + '"><th>Photo</th>';
         if(data.hasSection) { 
             appendedHtml += '<th id="button_sortsection-' + courseIdx + '" class="button-sort-none" onclick="toggleSort(this,' + (sortIdx++) + ')">';
             appendedHtml += 'Section <span class="icon-sort unsorted"></span></th>'
