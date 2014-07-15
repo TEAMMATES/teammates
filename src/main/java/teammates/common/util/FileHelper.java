@@ -1,5 +1,6 @@
 package teammates.common.util;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -15,7 +16,7 @@ public class FileHelper {
      * Reads a file content and return a String
      */
     public static String readFile(String filename) throws FileNotFoundException {
-        Scanner scanner = new Scanner(new FileReader(filename));
+        Scanner scanner = new Scanner(new BufferedReader(new FileReader(filename)));
         String ans = scanner.useDelimiter("\\Z").next();
         scanner.close();
         return ans;
