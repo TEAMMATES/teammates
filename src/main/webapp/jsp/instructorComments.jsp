@@ -13,25 +13,20 @@
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.CommentAttributes"%>
-<%@ page
-    import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
-<%@ page
-    import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
-<%@ page
-    import="teammates.common.datatransfer.FeedbackSessionResultsBundle"%>
-<%@ page
-    import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
-<%@ page
-    import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackSessionResultsBundle"%>
+<%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.SessionResultsBundle"%>
 <%@ page import="teammates.common.datatransfer.StudentResultBundle"%>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="teammates.common.datatransfer.SubmissionAttributes"%>
-<%@ page
-    import="teammates.ui.controller.InstructorEvalSubmissionPageData"%>
+<%@ page import="teammates.ui.controller.InstructorEvalSubmissionPageData"%>
 <%@ page import="teammates.ui.controller.InstructorCommentsPageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForJs"%>
+
 <%
     InstructorCommentsPageData data = (InstructorCommentsPageData) request.getAttribute("data");
 %>
@@ -377,8 +372,7 @@
                                             <div id="visibility-options<%=commentIdx%>" class="panel panel-default"
                                                 style="display: none;">
                                                 <div class="panel-heading">Visibility Options</div>
-                                                <table class="table text-center" style="color:#000;"
-                                                    style="background: #fff;">
+                                                <table class="table text-center text-color-black">
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>

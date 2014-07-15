@@ -83,6 +83,8 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         String displayedName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME);
         displayedName = (displayedName == null || displayedName.isEmpty()) ?
                 InstructorAttributes.DEFAULT_DISPLAY_NAME : displayedName;
+        instructorRole = Sanitizer.sanitizeName(instructorRole);
+        displayedName = Sanitizer.sanitizeName(displayedName);
         
         InstructorAttributes instructorToEdit = updateBasicInstructorAttributes(courseId, instructorId, instructorName, instructorEmail,
                 instructorRole, isDisplayedToStudents, displayedName);
