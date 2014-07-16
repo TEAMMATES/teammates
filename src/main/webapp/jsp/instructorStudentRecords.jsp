@@ -504,7 +504,7 @@
                                       <textarea class="form-control" rows="3" placeholder="Your comment about this student" name=<%=Const.ParamsNames.COMMENT_TEXT%> id="commentText"></textarea>
                                     </div>
                                     <div class="col-sm-offset-5">
-                                      <input type="submit" class="btn btn-primary" id="button_save_comment" value="Add Comment">
+                                      <input type="submit" class="btn btn-primary" id="button_save_comment" value="Save">
                                       <input type="button" class="btn btn-default" value="Cancel" onclick="hideAddCommentBox();">
                                       <input type="hidden" name=<%=Const.ParamsNames.COURSE_ID%> value="<%=data.courseId%>">
                                       <input type="hidden" name=<%=Const.ParamsNames.STUDENT_EMAIL%> value="<%=data.student.email %>">

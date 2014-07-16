@@ -38,7 +38,6 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         browser = BrowserPool.getBrowser();
     }
     
-    
     @Test
     public void testAll() throws Exception{
         
@@ -78,6 +77,11 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.checkCourse(1);
         viewPage.verifyHtmlAjax("/instructorStudentList.html");
         
+        ______TS("content: search no match");
+        
+        viewPage.setSearchKey("noMatch");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchNoMatch.html");
+
         ______TS("content: search student");
 
         viewPage.setSearchKey("ben");
@@ -96,11 +100,6 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
 
         viewPage.setLiveSearchKey("charlie");
         viewPage.verifyHtmlMainContent("/instructorStudentListPageLiveSearch.html");
-        
-        ______TS("content: search no match");
-        
-        viewPage.setSearchKey("noMatch");
-        viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchNoMatch.html");
         
         ______TS("content: 1 course with no students");
         

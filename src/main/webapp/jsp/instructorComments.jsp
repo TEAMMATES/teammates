@@ -13,25 +13,20 @@
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.CommentAttributes"%>
-<%@ page
-    import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
-<%@ page
-    import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
-<%@ page
-    import="teammates.common.datatransfer.FeedbackSessionResultsBundle"%>
-<%@ page
-    import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
-<%@ page
-    import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackSessionResultsBundle"%>
+<%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.SessionResultsBundle"%>
 <%@ page import="teammates.common.datatransfer.StudentResultBundle"%>
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="teammates.common.datatransfer.SubmissionAttributes"%>
-<%@ page
-    import="teammates.ui.controller.InstructorEvalSubmissionPageData"%>
+<%@ page import="teammates.ui.controller.InstructorEvalSubmissionPageData"%>
 <%@ page import="teammates.ui.controller.InstructorCommentsPageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForJs"%>
+
 <%
     InstructorCommentsPageData data = (InstructorCommentsPageData) request.getAttribute("data");
 %>
@@ -306,7 +301,7 @@
                                         id="form_commentedit-<%=commentIdx%>">
                                         <div id="commentBar-<%=commentIdx%>">
                                             
-                                            <span class="text-muted">To <b><%=data.getRecipientNames(comment.recipients)%></b> on
+                                            <span class="text-muted">To <%=data.getRecipientNames(comment.recipients)%> on
                                                 <%=TimeHelper.formatTime(comment.createdAt)%></span>
                                             <%
                                                if (comment.giverEmail.equals(data.instructorEmail)
@@ -343,7 +338,7 @@
                                             %>
                                             <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;"
                                                 data-placement="top"
-                                                title="This comment is public to <%=peopleCanSee%>"></span>
+                                                title="This comment is visible to <%=peopleCanSee%>"></span>
                                             <% } %>
                                             <% 
                                                if(comment.sendingState == CommentSendingState.PENDING){ 
@@ -377,8 +372,7 @@
                                             <div id="visibility-options<%=commentIdx%>" class="panel panel-default"
                                                 style="display: none;">
                                                 <div class="panel-heading">Visibility Options</div>
-                                                <table class="table text-center" style="color:#000;"
-                                                    style="background: #fff;">
+                                                <table class="table text-center text-color-black">
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
@@ -698,10 +692,11 @@
                                                         <% 
                                                         
                                                         if(isPublicResponseComment && bundle.feedbackSession.isPublished()){ 
+                                                            String whoCanSee = data.getTypeOfPeopleCanViewComment(frc, question);
                                                         %>
                                                         <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" 
                                                             data-placement="top" style="margin-left: 5px;"
-                                                            title="This response comment is public"></span>
+                                                            title="This response comment is visible to <%=whoCanSee%>"></span>
                                                         <% } %>
                                                         <% 
                                                            if(frc.sendingState == CommentSendingState.PENDING && bundle.feedbackSession.isPublished()){ 
@@ -771,7 +766,7 @@
                                                         %>
                                                     </div> <!-- frComment Content -->
                                                     <div
-                                                        id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>"><%=InstructorCommentsPageData.sanitizeForHtml(frc.commentText.getValue())%></div>
+                                                        id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>"><%=frc.commentText.getValue()%></div>
                                                     <!-- frComment Edit Form -->
                                                     <form
                                                         style="display: none;"
@@ -1164,7 +1159,7 @@
                                                             <a
                                                                 href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD%>"
                                                                 class="btn btn-primary"
-                                                                id="button_save_comment_for_add-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>">Add</a>
+                                                                id="button_save_comment_for_add-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>">Save</a>
                                                             <input
                                                                 type="button"
                                                                 class="btn btn-default"

@@ -359,9 +359,7 @@ function filterBySearchWord($key){
         $key = $('#searchbox').val();
     }
 
-    if($key == null || $key == ""){
-        return;
-    }else{
+    if($key != null && $key != ""){
     	//iterate over all tr with students
         $("tr[id^='student-c']").each(function() {
         	var doesNotHaveContent = true;
@@ -376,17 +374,20 @@ function filterBySearchWord($key){
         	
         	if(doesNotHaveContent) {
         		$(this).hide();
-        	}
-            
-        });
-        
-        //If a table only contains the header, then we can hide the course.
-        $('.table').each(function() {
-        	if ($(this).children('tbody').children(':visible').length == 0) {
-                $(this).parent().hide();
-            }
+        	} 
         });
     }
+
+    //If a table only contains the header, then we can hide the course.
+    $('.table').each(function() {
+        if ($(this).children('tbody').children(':visible').length == 0) {
+            $(this).children('thead').children('tr[id^="resultsHeader"]').hide();
+            $(this).children('thead').children('tr[id^="searchNoResults"]').show();
+        } else {
+            $(this).children('thead').children('tr[id^="resultsHeader"]').show();
+            $(this).children('thead').children('tr[id^="searchNoResults"]').hide();
+        }
+    });
 }
 
 /**

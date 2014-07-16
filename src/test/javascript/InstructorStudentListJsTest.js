@@ -203,7 +203,6 @@ test('filterName(key)', function(){
     $("#emails").show();
     filterBySearchWord("James");
     filterEmails();
-    equal($("#course-0").is(':hidden'), true, "Course with no student visible is hidden");
     
     equal($("#student-c1\\.0").is(':hidden'), true, "Benny Charles hidden");
     equal($("#student-c1\\.1").is(':hidden'), true, "Carlos Santanna hidden");
