@@ -77,6 +77,10 @@
                                 <input id="comments-for-responses-check" type="checkbox" name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_RESPONSES%>" value="true" <%=data.isSearchCommentForResponses?"checked":""%>>
                                 <label for="comments-for-responses-check">Comments for responses</label>
                             </li>
+                            <li>
+                                <input id="students-check" type="checkbox" name="<%=Const.ParamsNames.SEARCH_STUDENTS%>" value="true" <%=data.isSearchForStudents?"checked":""%>>
+                                <label for="comments-for-responses-check">Students</label>
+                            </li>
                         </ul>
                     </div>
                     </div>
@@ -127,6 +131,7 @@
                 </div>
             </div>
             <% } %>
+
             <% if(data.feedbackResponseCommentSearchResultBundle.getResultSize() != 0) { %>
             <br>
                 <div class="panel panel-primary">
@@ -235,6 +240,60 @@
                     }//FeedbackSession loop ends
                 %>
                 </div>
+                <% } %>
+
+            <% if(data.studentSearchResultBundle.getResultSize() != 0) { %>
+            <br>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <strong>Students</strong>
+                    </div>
+                    <div class="panel-body">
+
+                <%
+                    String currentCourse;
+                    for (StudentAttributes student : data.studentSearchResultBundle.studentList) {
+                        if(currentCourse != null && !currentCourse.equals(student.course)){
+                %>                  
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                <%
+                        }
+                        if(currentCourse == null || (currentCourse != null && !currentCourse.equals(student.course))){
+                            currentCourse = student.course;
+                %>
+                            <div class="panel panel-body">
+                                <div class="panel-heading">
+                                    <strong>[<%=currentCourse%>]</strong>
+                                </div>
+                                <div class="panel-body padding-0">
+                                    <table class="table table-responsive table-striped table-bordered margin-0">
+                                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                            <tr>
+                                                <th>Photo</th>
+                                                <th>Section</th>
+                                                <th>Team</th>
+                                                <th>Student Name</th>
+                                                <th>Email</th>
+                                                <th>Action(s)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                <%
+                        }
+                %>
+                                            
+                <%
+                    }
+                %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <% } %>
         </div>
     </div>

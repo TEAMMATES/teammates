@@ -1,9 +1,9 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 import teammates.common.util.Const;
 import teammates.logic.core.InstructorsLogic;
@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 
 public class StudentSearchResultBundle extends SearchResultBundle {
 
-    public Map<String, List<StudentAttributes>> studentsTable = new HashMap<String, List<StudentAttributes>>();
+    public List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
     public Cursor cursor = null;
     private int numberOfResults = 0;
     private StudentsLogic studentsLogic = StudentsLogic.inst();
@@ -43,14 +43,37 @@ public class StudentSearchResultBundle extends SearchResultBundle {
                 continue;
             }
             
-            List<StudentAttributes> studentsList = studentsTable.get(student.course);
-            if(studentsList == null){
-                studentsList = new ArrayList<StudentAttributes>();
-                studentsTable.put(student.course, studentsList);
-            }
-            studentsList.add(student);
+            studentList.add(student);
             numberOfResults++;
         }
+        
+        Collections.sort(studentList, new Comparator<StudentAttributes>(){
+            @Override
+            public int compare(StudentAttributes s1, StudentAttributes s2){
+                int compareResult = s1.course.compareTo(s2.course);
+                if(compareResult != 0){
+                    return compareResult;
+                }
+                
+                compareResult = s1.section.compareTo(s2.section);
+                if(compareResult != 0){
+                    return compareResult;
+                }
+                
+                compareResult = s1.team.compareTo(s2.team);
+                if(compareResult != 0){
+                    return compareResult;
+                }
+                
+                compareResult = s1.name.compareTo(s2.name);
+                if(compareResult != 0){
+                    return compareResult;
+                }
+                
+                return s1.email.compareTo(s2.email);
+            }
+        });
+        
         return this;
     }
 

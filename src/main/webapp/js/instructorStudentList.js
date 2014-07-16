@@ -6,16 +6,6 @@ $(document).ready(function(){
         return false;
     });
 
-    //On page load, if the searchKey param exist, applyFilters.
-    if($("#searchbox").val()){
-        applyFilters();
-    }
-    
-    //Binding for live search
-    $('input#searchbox').keyup(function(e){
-        applyFilters();
-    });
-
     var panels = $("div.panel");
     var numPanels = -1;
 
