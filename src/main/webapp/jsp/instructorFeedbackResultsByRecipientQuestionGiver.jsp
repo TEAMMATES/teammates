@@ -258,9 +258,9 @@
                                 %>
                                             <div class="panel panel-info">
                                                 <div class="panel-heading">
-                                                    <strong>Question <%=teamResponseEntries.getKey().questionNumber%>: </strong><%=data.bundle.getQuestionText(teamResponseEntries.getKey().getId())%><%
+                                                    <strong>Question <%=teamResponseEntries.getKey().questionNumber%>: </strong><span class="text-preserve-space"><%=data.bundle.getQuestionText(teamResponseEntries.getKey().getId())%><%
                                                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
-                                                    %>
+                                                    %></span>
                                                 </div>
                                                 <div class="panel-body padding-0">                
                                                     <div class="resultStatistics">
@@ -318,9 +318,9 @@
                         List<FeedbackResponseAttributes> responseEntries = responsesForRecipientForQuestion.getValue();
                 %>
                         <div class="panel panel-info">
-                            <div class="panel-heading">Question <%=question.questionNumber%>: <%
+                            <div class="panel-heading">Question <%=question.questionNumber%>: <span class="text-preserve-space"><%
                                     out.print(InstructorFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText));
-                                    out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "recipient-"+recipientIndex+"-question-"+questionIndex));%>
+                                    out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "recipient-"+recipientIndex+"-question-"+questionIndex));%></span>
                             </div>
                             <div class="panel-body padding-0">
                                 <div class="resultStatistics">
