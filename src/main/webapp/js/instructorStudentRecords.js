@@ -4,6 +4,8 @@ var DISPLAY_COMMENT_BLANK = "Please enter a valid comment. The comment can't be 
 
 $(document).ready(function(){
 	
+	$("div[id^=plainCommentText]").css("margin-left","15px");
+	
 	$('a[id^="visibility-options-trigger"]').click(function(){
     	var visibilityOptions = $(this).parent().next();
 		if(visibilityOptions.is(':visible')){
@@ -122,6 +124,7 @@ function enableComment(commentIdx){
 	$('#'+'commentBar'+commentIdx).hide();
 	$('#'+'plainCommentText'+commentIdx).hide();
 	$("div[id='commentTextEdit"+commentIdx+"']").show();
+	$("textarea[id='commentText"+commentIdx+"']").val($("#plainCommentText"+commentIdx).text());
     $("textarea[id='commentText"+commentIdx+"']").focus();
 }
 

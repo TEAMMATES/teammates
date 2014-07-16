@@ -55,12 +55,11 @@
         <h1>Add New Feedback Session</h1>
 
         <div class="well well-plain">
-            <div class="row"
-                title="Select a different type of session here."
+            <div class="row">
+                <h4 class="label-control col-md-2 text-md">Create new </h4>
+                <div class="col-md-5" title="Select a different type of session here."
                 data-toggle="tooltip" 
                 data-placement="top">
-                <h4 class="label-control col-md-2 text-md">Create new </h4>
-                <div class="col-md-5">
                     <select class="form-control"
                         name="feedbackchangetype"
                         id="feedbackchangetype">
@@ -679,14 +678,14 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="copyModalTitle">Copy Sessions</h4>
+                <h4 class="modal-title" id="copyModalTitle">Creating a new session by copying a previous session</h4>
               </div>
               <div class="modal-body">
                     <form class="form" id="copyModalForm" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_COPY%>">
                     <!-- Course -->
                     <div class="form-group">
                         <label for="modalCopiedCourseId"
-                                class="control-label">Course ID</label>
+                                class="control-label">Create in course</label>
                         <select class="form-control"
                             name="<%=Const.ParamsNames.COPIED_COURSE_ID%>"
                             id="modalCopiedCourseId">
@@ -699,18 +698,18 @@
                     <!-- Session Name -->
                     <div class="form-group">
                         <label for="modalCopiedSessionName"
-                            class="control-label">Session
-                            name</label>
+                            class="control-label">Name for new session</label>
                         <input class="form-control"
                             type="text"
                             name="<%=Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME%>"
                             id="modalCopiedSessionName"
+                            maxlength=<%=FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH%>
                             value="<%if (data.newFeedbackSession != null)
                                        out.print(InstructorFeedbacksPageData.sanitizeForHtml(data.newFeedbackSession.feedbackSessionName));%>"
                             placeholder="e.g. Feedback for Project Presentation 1">
                     </div>
                     <!-- Previous Session -->
-                    <label> Copied Session </label>
+                    <label>Copy sessions/questions from</label>
                     <table class="table-responsive table table-bordered table-hover margin-0" id="copyTableModal">
                         <thead class="fill-primary">
                             <th style="width:20px;">&nbsp;</th>

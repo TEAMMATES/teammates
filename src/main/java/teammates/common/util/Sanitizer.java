@@ -84,6 +84,10 @@ public class Sanitizer {
     public static Text sanitizeTextField(Text rawText) {
         return (rawText==null) ? null :  new Text(trimIfNotNull(rawText.getValue()));
     }
+    
+    public static String sanitizeHtmlForSaving(String html) {
+        return sanitizeForHtml(html);
+    }
 
     /**
      * Escape the string for inserting into javascript code.
@@ -108,7 +112,6 @@ public class Sanitizer {
                 .replace("\"", "&quot;")
                 .replace("/", "&#x2f;")
                 .replace("'", "&#39;")
-                .replace("\n", "<br>")
                 //To ensure when apply sanitizeForHtml for multiple times, the string's still fine
                 //Regex meaning: replace '&' with safe encoding, but not the one that is safe already
                 .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");

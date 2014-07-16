@@ -352,7 +352,7 @@
                                             </a>
                                             </div>
                                             <!-- frComment Content -->
-                                            <div id="plainCommentText-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>"><%=InstructorFeedbackResultsPageData.sanitizeForHtml(comment.commentText.getValue()) %></div>
+                                            <div id="plainCommentText-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>"><%=comment.commentText.getValue()%></div>
                                             <!-- frComment Edit Form -->
                                             <form style="display:none;" id="responseCommentEditForm-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>" class="responseCommentEditForm">
                                                 <div class="form-group">

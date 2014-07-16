@@ -28,6 +28,7 @@ public class InstructorCommentsPage extends AppPage {
     
     public void clickCommentsPageLinkInHeader(){
         browser.driver.findElement(By.xpath("//*[@id=\"contentLinks\"]/ul[1]/li[5]/a")).click();
+        waitForPageToLoad();
     }
     
     public void clickShowMoreOptions(){
