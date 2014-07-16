@@ -501,6 +501,15 @@ public class Logic {
         instructorsLogic.updateInstructorByGoogleId(googleId, instr);
     }
     
+    public void updateInstructorByEmail(String email, InstructorAttributes instr) 
+            throws InvalidParametersException, EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instr);
+        
+        instructorsLogic.updateInstructorByEmail(email, instr);
+    }
+    
     /**
      * Make the instructor join the course, i.e. associate the Google ID to the instructor.<br>
      * Create an account for the instructor if there is no account exist for him.
@@ -939,7 +948,7 @@ public class Logic {
         
         return coursesLogic.getSectionForCourse(section, courseId);
     }
-
+    
     /** 
      * Preconditions: <br>
      * * All parameters are non-null    
@@ -948,8 +957,8 @@ public class Logic {
             throws EntityDoesNotExistException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-
-        return coursesLogic.getSectionsForCourse(courseId);
+        
+        return coursesLogic.getSectionsForCourseWithoutStats(courseId);
     }
 
     /**

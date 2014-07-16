@@ -785,6 +785,7 @@ public class PageData {
         String disableDeleteSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableUnpublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disablePublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
+        String disableRemindSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         boolean shouldEnableSubmitLink = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         List<String> sectionsInCourse = new Logic().getSectionNamesForCourse(instructor.courseId);
         for (String section : sectionsInCourse) {
@@ -831,7 +832,7 @@ public class PageData {
             "href=\"" + getInstructorFeedbackSessionRemindLink(session.courseId,session.feedbackSessionName) + "\" " +
             "title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
             (hasRemind ? "onclick=\"return toggleRemindStudents('" + session.feedbackSessionName + "');\" " : "") +
-            ">Remind</a> "
+            disableRemindSessionStr + ">Remind</a> "
         );
         
         if (hasUnpublish) {
@@ -893,6 +894,51 @@ public class PageData {
                 }
                 break;
             case INSTRUCTOR:
+                peopleCanView.append("instructors, ");
+                break;
+            default:
+                break;
+            }
+        }
+        String peopleCanViewString = peopleCanView.toString();
+        return removeEndComma(peopleCanViewString);
+    }
+    
+    /**
+     * Returns the type of people that can view the response comment. 
+     */
+    public String getTypeOfPeopleCanViewComment(FeedbackResponseCommentAttributes comment,
+            FeedbackQuestionAttributes relatedQuestion){
+        StringBuilder peopleCanView = new StringBuilder();
+        List<FeedbackParticipantType> showCommentTo = new ArrayList<FeedbackParticipantType>();
+        if(comment.isVisibilityFollowingFeedbackQuestion){
+            showCommentTo = relatedQuestion.showResponsesTo;
+        } else {
+            showCommentTo = comment.showCommentTo;
+        }
+        for(int i = 0; i < showCommentTo.size(); i++){
+            FeedbackParticipantType commentViewer = showCommentTo.get(i);
+            if(i == showCommentTo.size() - 1 && showCommentTo.size() > 1){
+                peopleCanView.append("and ");
+            }
+            
+            switch(commentViewer){
+            case GIVER:
+                peopleCanView.append("response giver, ");
+                break;
+            case RECEIVER:
+                peopleCanView.append("response recipient, ");
+                break;
+            case OWN_TEAM:
+                peopleCanView.append("response giver's team, ");
+                break;
+            case RECEIVER_TEAM_MEMBERS:
+                peopleCanView.append("response recipient's team, ");
+                break;
+            case STUDENTS:
+                peopleCanView.append("other students in this course, ");
+                break;
+            case INSTRUCTORS:
                 peopleCanView.append("instructors, ");
                 break;
             default:

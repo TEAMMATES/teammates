@@ -320,6 +320,9 @@
                                 <li role="presentation"><a class="t_student_details_toteam-c<%=data.courseDetails.course.id %>.<%=idx%>" role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student)
                                     +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=team"%>">
                                     Comment on <%=sanitizeForHtml(student.team)%></a></li>
+                                <li role="presentation"><a class="t_student_details_tosection-c<%=data.courseDetails.course.id %>.<%=idx%>" role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student)
+                                    +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=section"%>">
+                                    Comment on <%=sanitizeForHtml(student.section)%></a></li>
                               </ul>
                             </div>
                         </td>

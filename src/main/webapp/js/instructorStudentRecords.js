@@ -3,11 +3,8 @@ var COMMENT_EDITTYPE = "commentedittype";
 var DISPLAY_COMMENT_BLANK = "Please enter a valid comment. The comment can't be empty.";
 
 $(document).ready(function(){
-	//make textarea supports displaying breakline
-    $('div[id^="plainCommentText"]').each(function(){
-	    var commentTextWithBreakLine = $(this).text().replace(/\n/g, '\n<br />');
-	    $(this).html(commentTextWithBreakLine);
-    });
+	
+	$("div[id^=plainCommentText]").css("margin-left","15px");
 	
 	$('a[id^="visibility-options-trigger"]').click(function(){
     	var visibilityOptions = $(this).parent().next();
@@ -127,6 +124,7 @@ function enableComment(commentIdx){
 	$('#'+'commentBar'+commentIdx).hide();
 	$('#'+'plainCommentText'+commentIdx).hide();
 	$("div[id='commentTextEdit"+commentIdx+"']").show();
+	$("textarea[id='commentText"+commentIdx+"']").val($("#plainCommentText"+commentIdx).text());
     $("textarea[id='commentText"+commentIdx+"']").focus();
 }
 

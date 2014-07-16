@@ -19,9 +19,9 @@ public class Const {
         public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
         
         /** This is the limit after which TEAMMATES will send error message */
-        public static final int MAX_PROFILE_PIC_SIZE = 30000000;
+        public static final int MAX_PROFILE_PIC_SIZE = 5000000;
         /** This is the limit given to Blobstore API, beyond which an ugly error page is shown */
-        public static final long MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI = 32000000;
+        public static final long MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI = 11000000;
         
         /** e.g. "2014-04-01 11:59 PM UTC" */
         public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
@@ -395,6 +395,7 @@ public class Const {
         public static final String FEEDBACK_RESULTS_GROUPBYSECTION = "frgroupbysection";
         public static final String FEEDBACK_RESULTS_SHOWSTATS = "frshowstats";
         public static final String FEEDBACK_RESULTS_NEED_AJAX = "frneedajax";
+        public static final String FEEDBACK_RESULTS_MAIN_INDEX ="frmainindex";
 
         public static final String PREVIEWAS = "previewas";
         
@@ -559,7 +560,8 @@ public class Const {
         public static final String INSTRUCTOR_EVAL_RESULTS_DOWNLOAD = "/page/instructorEvalResultsDownload";
         public static final String INSTRUCTOR_SEARCH_PAGE = "/page/instructorSearchPage";
         public static final String INSTRUCTOR_STUDENT_LIST_PAGE = "/page/instructorStudentListPage";
-        
+        public static final String INSTRUCTOR_STUDENT_LIST_AJAX_PAGE = "/page/instructorStudentListAjaxPage"; 
+
         public static final String INSTRUCTOR_STUDENT_RECORDS_PAGE = "/page/instructorStudentRecordsPage";
         public static final String INSTRUCTOR_STUDENT_COMMENT_ADD = "/page/instructorStudentCommentAdd";
         public static final String INSTRUCTOR_STUDENT_COMMENT_EDIT = "/page/instructorStudentCommentEdit";
@@ -581,11 +583,6 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT = "/page/instructorFeedbackPreviewAsStudent";
         public static final String INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR = "/page/instructorFeedbackPreviewAsInstructor";
         
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_QUESTIONS = "/page/instructorFeedbackResultsAjaxByQuestions";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_GQR = "/page/instructorFeedbackResultsAjaxByGQR";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_GRQ = "/page/instructorFeedbackResultsAjaxByGRQ";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_RQG = "/page/instructorFeedbackResultsAjaxByRQG";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_RGQ = "/page/instructorFeedbackResultsAjaxByRGQ";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_AJAX_RESPONSE_RATE = "/page/instructorFeedbackResultsAjaxResponseRate";
 
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_ADD = "/page/instructorFeedbackQuestionAdd";
@@ -775,7 +772,7 @@ public class Const {
         public static final String TEAM_INVALID_SECTION_EDIT = "The team \"%s\" is in multiple sections. The team ID should be unique across the entire course and a team cannot be spread across multiple sections.<br>";
         public static final String SECTION_QUOTA_EXCEED = "You are trying enroll more than 100 students in section \"%s\". To avoid performance problems, please do not enroll more than 100 students in a single section.<br>";
 
-        public static final String COURSE_INSTRUCTOR_ADDED = "The instructor %s has been added successfully."
+        public static final String COURSE_INSTRUCTOR_ADDED = "The instructor %s has been added successfully. "
                 + "An email containing how to 'join' this course will be sent to %s in a few minutes.";
         public static final String COURSE_INSTRUCTOR_EXISTS = "An instructor with the same email address already exists in the course.";
         public static final String COURSE_INSTRUCTOR_EDITED = "The changes to the instructor has been updated.";
@@ -825,6 +822,7 @@ public class Const {
         
         public static final String FEEDBACK_SESSION_ADDED = "The feedback session has been added. Click the \"Add New Question\" button below to begin adding questions for the feedback session.";
         public static final String FEEDBACK_SESSION_ADD_DB_INCONSISTENCY = "If you do not see existing feedback sessions in the list below, please refresh the page after a few moments";
+        public static final String FEEDBACK_SESSION_COPIED = "The feedback session has been copied. Please modify settings/questions as necessary.";
         public static final String FEEDBACK_SESSION_EDITED = "The feedback session has been updated.";
         public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
         public static final String FEEDBACK_SESSION_PUBLISHED = "The feedback session has been published.";
@@ -995,7 +993,7 @@ public class Const {
     
     public static final String STUDENT_COURSE_STATUS_YET_TO_JOIN = "Yet to join";
     public static final String STUDENT_COURSE_STATUS_JOINED = "Joined";
-    public static final String STUDENT_PROFILE_FIELD_NOT_FILLED = "Undisclosed";
+    public static final String STUDENT_PROFILE_FIELD_NOT_FILLED = "Not Specified";
     
     public static final String USER_NAME_FOR_SELF = "Myself";
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";

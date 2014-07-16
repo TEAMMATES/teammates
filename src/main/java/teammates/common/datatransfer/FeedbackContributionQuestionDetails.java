@@ -245,7 +245,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         Map<String, StudentResultSummary> studentResults = getStudentResults(
                 teamMembersEmail, teamResults);
         
-        String html = "";
         
         //Check visibility of recipient
         boolean hideRecipient = false;
@@ -260,7 +259,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
             }
         }
         
-        
+
+        String html = "";
         String contribFragments = "";
         
         for(Map.Entry<String, StudentResultSummary> entry : studentResults.entrySet()){
@@ -417,6 +417,24 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         csv += contribFragments + Const.EOL;
 
         return csv;
+    }
+    
+    public Map<String, StudentResultSummary> getStudentResults(FeedbackSessionResultsBundle bundle, FeedbackQuestionAttributes question){
+        List<FeedbackResponseAttributes> responses = getActualResponses(question, bundle);
+
+        List<String> teamNames = getTeamsWithAtLeastOneResponse(responses, bundle);
+        
+        Map<String, List<String>> teamMembersEmail = getTeamMembersEmail(bundle, teamNames);
+        
+        Map<String, List<FeedbackResponseAttributes>> teamResponses = getTeamResponses(
+                responses, bundle, teamNames);
+        
+        Map<String, int[][]> teamSubmissionArray = getTeamSubmissionArray(
+                teamNames, teamMembersEmail, teamResponses);
+        
+        Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray);
+        
+        return getStudentResults(teamMembersEmail, teamResults);
     }
 
     private Map<String, StudentResultSummary> getStudentResults(

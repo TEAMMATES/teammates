@@ -1,10 +1,12 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -76,15 +78,20 @@ public class InstructorFeedbacksPageAction extends Action {
         return evaluations;
     }
     
-    protected List<CourseDetailsBundle> loadCoursesList(String userId, HashMap<String, InstructorAttributes> instructors)
+    protected List<CourseAttributes> loadCoursesList(String userId, HashMap<String, InstructorAttributes> instructors)
             throws EntityDoesNotExistException {
-        HashMap<String, CourseDetailsBundle> summary = logic.getCourseSummariesForInstructor(userId);
-        List<CourseDetailsBundle> courses = new ArrayList<CourseDetailsBundle>(summary.values());
-        for (CourseDetailsBundle courseDetails : courses) {
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseDetails.course.id, account.googleId);
-            instructors.put(courseDetails.course.id, instructor);
+        
+        List<CourseAttributes> courses = logic.getCoursesForInstructor(userId); 
+        for (CourseAttributes course : courses) {
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(course.id, account.googleId);
+            instructors.put(course.id, instructor);
         }
-        CourseDetailsBundle.sortDetailedCoursesByCourseId(courses);
+        Collections.sort(courses, new Comparator<CourseAttributes>() {
+            @Override
+            public int compare(CourseAttributes c1, CourseAttributes c2){
+                return c1.id.compareTo(c2.id);
+            }
+        });
         
         return courses;
     }
