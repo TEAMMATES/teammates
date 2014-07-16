@@ -22,7 +22,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
@@ -162,7 +161,7 @@ public abstract class Action {
         AccountAttributes loggedInUser = null;
         
         if (isUnknownKey) {
-            throw new UnauthorizedAccessException("Unknown Registration Key " + StringHelper.decrypt(regkey));
+            throw new UnauthorizedAccessException("Unknown Registration Key " + regkey);
         } else if (isARegisteredUser) {
             setRedirectPage(Logic.getLoginUrl(requestUrl));
             return null;

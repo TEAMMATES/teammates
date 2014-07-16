@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -28,11 +29,13 @@ import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
+import teammates.logic.backdoor.BackDoorLogic;
 import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
+import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -60,8 +63,25 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         printTestClassHeader();
         removeTypicalDataInDatastore();
 		restoreTypicalDataInDatastore();
+		addUnregStudentToCourse1();
     }
     
+    @AfterClass
+    public static void classTearDown() throws Exception {
+        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.com");
+    }
+    
+    private static void addUnregStudentToCourse1() throws Exception{
+        StudentAttributes student = new StudentAttributes();
+        student.email = "student6InCourse1@gmail.com";
+        student.name = "unregistered student6 In Course1";
+        student.team = "Team Unregistered";
+        student.section = "Section 3";
+        student.course = "idOfTypicalCourse1";
+        student.comments = "";
+        StudentsLogic.inst().createStudentCascade(student);
+    }
+
     @Test
     public void InstructorCoursesPage() throws Exception{
         /*Explanation: We change the uri variable to specify which page we want 
@@ -996,10 +1016,10 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         };
         verifyUnaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        testGracePeriodAccessControl();
+        testGracePeriodAccessControlForInstructors();
     }
     
-    private void testGracePeriodAccessControl() throws Exception{
+    private void testGracePeriodAccessControlForInstructors() throws Exception{
         
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriodSession");
         
@@ -1156,6 +1176,10 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     @Test
     public void StudentCourseJoin() throws Exception {
         uri = Const.ActionURIs.STUDENT_COURSE_JOIN;
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.REGKEY, "sample-key"
+        };
+        
         verifyOnlyLoggedInUsersCanAccess(submissionParams);
     }
 
@@ -1167,7 +1191,6 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         };
 
         verifyOnlyLoggedInUsersCanAccess(submissionParams);
-        verifyUnaccessibleWithoutLogin(submissionParams);
     }
     
     @Test
@@ -1380,6 +1403,33 @@ public class AllActionsAccessControlTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", fr.getResponseDetails().getAnswerString()
+        };
+        
+        verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);
+        testGracePeriodAccessControlForStudents();
+    }
+    
+    private void testGracePeriodAccessControlForStudents() throws Exception{
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriodSession");
+        fs.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
+        dataBundle.feedbackSessions.put("gracePeriodSession", fs);
+        
+        BackDoorLogic backDoorLogic = new BackDoorLogic();
+        backDoorLogic.persistDataBundle(dataBundle);
+        
+        assertFalse(fs.isOpened());
+        assertTrue(fs.isInGracePeriod());
+        assertFalse(fs.isClosed());
+                
+        FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1GracePeriodFeedback");
+        
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", fr.getResponseDetails().getAnswerString() 
         };
         
         verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);

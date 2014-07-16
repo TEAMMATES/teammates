@@ -49,7 +49,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         RedirectResult redirectResult = (RedirectResult) joinAction.executeAndPostProcess();
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-                + "?error=true&user=" + instructor.googleId,
+                + "?regkey=" + invalidEncryptedKey + "&error=true",
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals("You have used an invalid join link: " + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN 
@@ -71,7 +71,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                 + "?persistencecourse=" + instructor.courseId
-                + "&error=true&user=" + instructor.googleId,
+                + "&regkey=" + StringHelper.encrypt(instructor.key) + "&error=true",
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals(instructor.googleId + " has already joined this course", redirectResult.getStatusMessage());
@@ -95,7 +95,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                 + "?persistencecourse=" + instructor2.courseId
-                + "&error=true&user=" + instructor.googleId,
+                + "&regkey=" + StringHelper.encrypt(instructor2.key) + "&error=true",
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         AssertHelper.assertContains("The join link used belongs to a different user", redirectResult.getStatusMessage());
@@ -127,7 +127,7 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                 + "?persistencecourse=idOfTypicalCourse1"
-                + "&error=false&user=ICJAAT.instr",
+                + "&regkey=" + StringHelper.encrypt(newInstructor.key) + "&error=false",
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals("", redirectResult.getStatusMessage());
@@ -161,8 +161,9 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         redirectResult = (RedirectResult) joinAction.executeAndPostProcess();
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-                + "?persistencecourse"
-                + "=idOfTypicalCourse1&error=true&user=ICJAAT.instr",
+                + "?persistencecourse=idOfTypicalCourse1"
+                + "&regkey=" + StringHelper.encrypt(newInstructor.key) 
+                + "&error=true",
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER, currentLoginId), 

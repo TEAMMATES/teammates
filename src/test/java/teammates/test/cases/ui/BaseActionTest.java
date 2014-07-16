@@ -31,7 +31,6 @@ import teammates.ui.controller.ShowPageResult;
 public class BaseActionTest extends BaseComponentTestCase {
     
     private DataBundle data = getTypicalDataBundle();
-    StudentAttributes unregStudent;
     
     /**URI that matches with the action being tested */
     protected static String uri;
@@ -68,10 +67,7 @@ public class BaseActionTest extends BaseComponentTestCase {
     }
     
     private String[] addStudentAuthenticationInfo(String[] params) {
-        if (unregStudent == null) {
-            unregStudent = data.students.get("unregStudent6InCourse1");
-            unregStudent = StudentsLogic.inst().getStudentForEmail(unregStudent.course, unregStudent.email);
-        }
+        StudentAttributes unregStudent = StudentsLogic.inst().getStudentForEmail("idOfTypicalCourse1", "student6InCourse1@gmail.com");
         List<String> list = new ArrayList<String>();
         list.add(Const.ParamsNames.REGKEY);
         list.add(StringHelper.encrypt(unregStudent.key));
@@ -317,7 +313,7 @@ public class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("non-registered users can access");
         
-        String    unregUserId = "unreg.user";
+        String unregUserId = "unreg.user";
         
         InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
@@ -421,19 +417,22 @@ public class BaseActionTest extends BaseComponentTestCase {
         StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
         
         gaeSimulation.logoutUser();
-        verifyRedirectToLogin(submissionParams);
-        verifyRedirectToLoginMasquerade(addUserIdToParams(student1InCourse1.googleId,submissionParams));
-        verifyRedirectToLoginMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
-        
+        verifyRedirectToLoginOrUnauthorisedException(submissionParams);
+        verifyUnaccessibleWithoutLoginMasquerade(addUserIdToParams(student1InCourse1.googleId,submissionParams));
+        verifyUnaccessibleWithoutLoginMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
     }
     
-    private void verifyRedirectToLoginMasquerade(String... params) {
-        verifyRedirectToLogin(params);
+    private void verifyUnaccessibleWithoutLoginMasquerade(String... params) {
+        verifyRedirectToLoginOrUnauthorisedException(params);
     }
 
-    private void verifyRedirectToLogin(String... params) {
-        Action c = gaeSimulation.getActionObject(uri, params);
-        assertFalse(c.isValidUser());
+    private void verifyRedirectToLoginOrUnauthorisedException(String... params) {
+        try {
+            Action c = gaeSimulation.getActionObject(uri, params);
+            assertFalse(c.isValidUser());
+        } catch (UnauthorizedAccessException ue) {
+            ignoreExpectedException();
+        }
     }
 
     protected void verifyUnaccessibleForUnregisteredUsers(String[] submissionParams) throws Exception {
