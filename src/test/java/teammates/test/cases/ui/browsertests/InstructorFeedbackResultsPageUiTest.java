@@ -181,12 +181,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "Danny Engrid",
                 "Emily");
 
+        /*Omitted as unable to check both forward and reverse order in one go
+         * //TODO: split up verifySortingOrder to enable this test
         verifySortingOrder(By.id("button_sortToTeam"), 
                 "Team 2{*}Team 3",
                 "Team 1{*}Team 2",
                 "Team 1{*}Team 2",
                 "Team 1{*}Team 1");
-        
+        */
         
     }
 

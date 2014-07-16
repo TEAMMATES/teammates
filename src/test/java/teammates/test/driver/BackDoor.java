@@ -697,7 +697,7 @@ public class BackDoor {
         BufferedReader rd = new BufferedReader(new InputStreamReader(
                 conn.getInputStream(), "UTF-8"));
         
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         String line;
         while ((line = rd.readLine()) != null) {
             sb.append(line);

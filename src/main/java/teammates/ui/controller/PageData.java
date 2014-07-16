@@ -618,7 +618,7 @@ public class PageData {
      * @return
      */
     public String getInstructorEvaluationActions(EvaluationAttributes eval, boolean isHome, InstructorAttributes instructor){
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         
         boolean hasView = false;
         boolean hasEdit = false;
@@ -763,7 +763,7 @@ public class PageData {
      */
     public String getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,
             boolean isHome, InstructorAttributes instructor) throws EntityDoesNotExistException{
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         
         // Allowing ALL instructors to view results regardless of publish state.
         boolean hasSubmit = session.isVisible() || session.isPrivateSession();

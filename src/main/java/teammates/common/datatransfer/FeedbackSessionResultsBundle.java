@@ -179,11 +179,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 if(studentResult != null){
                     int pc = studentResult.perceivedToInstructor;
                     String pcHtml = ((FeedbackContributionQuestionDetails) questionDetails).convertToEqualShareFormatHtml(pc);
-                    responseAnswerHtml += "&nbsp;&nbsp;["
-                            + "<abbr title=\"Percived Contribution\">PC:</abbr>"
-                            + "&nbsp;"
+                    responseAnswerHtml += "<span>&nbsp;&nbsp;["
+                            + "Perceived Contribution: "
                             + pcHtml
-                            + "]";
+                            + "]</span>";
                 }
             }
             return responseAnswerHtml;

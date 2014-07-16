@@ -59,11 +59,11 @@ public class Const {
         public static final String COURSE_ENROLL_SAMPLE_SPREADSHEET = "Download a sample team data spreadsheet";
         public static final String COURSE_DETAILS = "View, edit and send invitation emails to the students in the course";
         public static final String COURSE_EDIT = "Edit Course information and instructor list";
-        public static final String COURSE_DELETE = "Delete the course and its corresponding students and evaluations";
+        public static final String COURSE_DELETE = "Delete the course and its corresponding students and sessions";
         public static final String COURSE_ARCHIVE = "Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)";
         public static final String COURSE_ADD_EVALUATION = "Add an evaluation for the course";
-        public static final String CLAIMED = "This is student own estimation of his/her contributions to the project";
-        public static final String PERCEIVED = "This is the average of what other team members think this student contributed to the project";
+        public static final String CLAIMED = "This is the students own estimation of his/her contributions";
+        public static final String PERCEIVED = "This is the average of what other team members think this student contributed";
         public static final String PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
     
         public static final String COURSE_INSTRUCTOR_EDIT = "Edit instructor details";
@@ -140,7 +140,7 @@ public class Const {
         public static final String FEEDBACK_SESSION_COURSE = "Please select the course for which the feedback session is to be created.";
         public static final String FEEDBACK_SESSION_INPUT_NAME = "Enter the name of the feedback session e.g. Feedback Session 1.";
         public static final String FEEDBACK_SESSION_STARTDATE = "Please select the date and time for which users can start submitting responses for the feedback session.";
-        public static final String FEEDBACK_SESSION_ENDDATE = "Please select the date and time for which the feedback session will no longer accept submissions from users.";
+        public static final String FEEDBACK_SESSION_ENDDATE = "Please select the date and time after which the feedback session will no longer accept submissions from users.";
         public static final String FEEDBACK_SESSION_VISIBLEDATE = "Select this option to enter in a custom date and time for which the feedback session will become visible.<br />"
                 + "Note that you can make a session visible before it is open for submissions so that users can preview the questions.";
         public static final String FEEDBACK_SESSION_PUBLISHDATE = "Select this option to enter in a custom date and time for which</br>"
@@ -233,8 +233,8 @@ public class Const {
     
     public class FeedbackQuestionTypeNames{
         public static final String TEXT = "Essay question";
-        public static final String MCQ = "Multiple-choice (single answer)";
-        public static final String MSQ = "Multiple-choice (multiple answers)";
+        public static final String MCQ = "Multiple-choice (single answer) question";
+        public static final String MSQ = "Multiple-choice (multiple answers) question";
         public static final String NUMSCALE = "Numerical-scale question";
         public static final String CONSTSUM_OPTION = "Distribute points (among options) question";
         public static final String CONSTSUM_RECIPIENT = "Distribute points (among recipients) question";

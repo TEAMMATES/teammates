@@ -79,7 +79,7 @@ public class Emails {
 
     public static String getEmailInfo(MimeMessage message)
             throws MessagingException {
-        StringBuffer messageInfo = new StringBuffer();
+        StringBuilder messageInfo = new StringBuilder();
         messageInfo.append("[Email sent]");
         messageInfo
                 .append("to="
