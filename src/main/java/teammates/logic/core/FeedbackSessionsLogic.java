@@ -1090,6 +1090,11 @@ public class FeedbackSessionsLogic {
                 new HashMap<String, boolean[]>();
         Map<String, List<FeedbackResponseCommentAttributes>> responseComments =
                 new HashMap<String, List<FeedbackResponseCommentAttributes>>();
+        
+        //Show all questions even if no responses.
+        for (FeedbackQuestionAttributes question : allQuestions) {
+            relevantQuestions.put(question.getId(), question);
+        }
 
         FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
 
@@ -1212,7 +1217,7 @@ public class FeedbackSessionsLogic {
         List<FeedbackQuestionAttributes> allQuestions =
                 fqLogic.getFeedbackQuestionsForSession(feedbackSessionName,
                         courseId);
-
+        
         // create empty data containers to store results
         List<FeedbackResponseAttributes> responses =
                 new ArrayList<FeedbackResponseAttributes>();
@@ -1226,7 +1231,12 @@ public class FeedbackSessionsLogic {
                 new HashMap<String, boolean[]>();
         Map<String, List<FeedbackResponseCommentAttributes>> responseComments =
                 new HashMap<String, List<FeedbackResponseCommentAttributes>>();
-
+        
+        //Show all questions even if no responses.
+        for (FeedbackQuestionAttributes question : allQuestions) {
+            relevantQuestions.put(question.getId(), question);
+        }
+        
         FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
 
         boolean isPrivateSessionNotCreatedByThisUser = session

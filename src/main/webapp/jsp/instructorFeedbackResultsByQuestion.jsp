@@ -84,7 +84,16 @@
                 </div>
                 <div class="panel-collapse collapse <%= showAll && !shouldCollapsed ? "in" : "" %>">
                 <div class="panel-body padding-0" id="questionBody-<%=questionIndex%>">
-                    <% if(showAll) { %>                
+                    <%
+                        if(responseEntries.getValue().size() == 0){
+                    %>
+                        <div class="col-sm-12">
+                            <i class="text-muted">There are no responses for this question.</i>
+                        </div>
+                    <%
+                        }
+                        if(showAll && responseEntries.getValue().size() > 0) {
+                    %>                
                     <div class="resultStatistics">
                         <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries.getValue(), question, data.account, data.bundle, "question")%>
                     </div>
