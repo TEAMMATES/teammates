@@ -51,7 +51,7 @@ public class InstructorCourseEditPageData extends PageData {
     public String getJoinLink(InstructorAttributes instructor){
         
         String joinUrl = "";
-        if (instructor != null) {
+        if (instructor != null && instructor.key != null && !instructor.key.trim().isEmpty()) {
             String key;
             key = StringHelper.encrypt(instructor.key);
     
