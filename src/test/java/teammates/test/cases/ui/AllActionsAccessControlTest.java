@@ -1053,7 +1053,6 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     @Test
     public void InstructorFeedbackSubmissionEditSave() throws Exception{
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE;
-        // restoreDatastoreFromJson("/InstructorFeedbackSubmissionEditSaveActionTest.json");
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
         String[] submissionParams = new String[]{
@@ -1197,12 +1196,31 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void StudentCourseJoin() throws Exception {
-        uri = Const.ActionURIs.STUDENT_COURSE_JOIN;
+    public void StudentCourseDetailsPage() throws Exception {
+        uri = Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE;
+        String idOfCourseOfStudent = dataBundle.students
+                .get("student1InCourse1").course;
+
         String[] submissionParams = new String[] {
-                Const.ParamsNames.REGKEY, "sample-key"
+                Const.ParamsNames.COURSE_ID, idOfCourseOfStudent
         };
 
+        verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
+        verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
+        verifyUnaccessibleWithoutLogin(submissionParams);
+
+        idOfCourseOfStudent = dataBundle.students.get("student2InCourse1").course;
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, idOfCourseOfStudent
+        };
+
+        verifyUnaccessibleForStudentsOfOtherCourses(submissionParams);
+        verifyUnaccessibleForUnregisteredUsers(submissionParams);
+    }
+
+    @Test
+    public void StudentCourseJoin() throws Exception {
+        uri = Const.ActionURIs.STUDENT_COURSE_JOIN;
         verifyOnlyLoggedInUsersCanAccess(submissionParams);
     }
 
@@ -1239,7 +1257,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         verifyUnaccessibleWithoutLogin(submissionParams);
         
         ______TS("Student not part of course, redirect to home page.");
-        gaeSimulation.loginUser("unreg.user");
+        gaeSimulation.loginUser("student1InCourse2");
         verifyRedirectTo(Const.ActionURIs.STUDENT_HOME_PAGE, submissionParams);
         verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
         
@@ -1320,6 +1338,45 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
+    public void StudentFeedbackQuestionSubmissionEditPage() throws Exception {
+        uri = Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE;
+        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
+                .get("session1InCourse1");
+
+        FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
+        FeedbackQuestionAttributes feedbackQuestion = feedbackQuestionsDb
+                .getFeedbackQuestion(
+                        session1InCourse1.feedbackSessionName,
+                        session1InCourse1.courseId, 1);
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                session1InCourse1.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID,
+                feedbackQuestion.getId()
+        };
+
+        verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);
+
+        // below: trying to access questions not meant for the user
+
+        feedbackQuestion = feedbackQuestionsDb.getFeedbackQuestion(
+                session1InCourse1.feedbackSessionName,
+                session1InCourse1.courseId, 3);
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                session1InCourse1.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID,
+                feedbackQuestion.getId()
+        };
+
+        verifyCannotAccess(submissionParams);
+    }
+
+    @Test
     public void StudentFeedbackQuestionSubmissionEditSave() throws Exception {
         uri = Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE;
         FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
@@ -1339,9 +1396,41 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         };
 
         verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);
-        verifyUnaccessibleForUnregisteredUsers(submissionParams);
-        verifyUnaccessibleWithoutLogin(submissionParams);
+    }
 
+    @Test
+    public void StudentFeedbackResultsPage() throws Exception {
+        uri = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
+        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
+                .get("session1InCourse1");
+        FeedbackSessionsLogic.inst().publishFeedbackSession(
+                session1InCourse1.getSessionName(), session1InCourse1.courseId);
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                session1InCourse1.feedbackSessionName
+        };
+
+        verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);
+
+        // TODO: test no questions -> redirect after moving detection logic to
+        // proper access control level.
+    }
+
+    @Test
+    public void StudentFeedbackSubmissionEditPage() throws Exception {
+        uri = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
+        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
+                .get("session1InCourse1");
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                session1InCourse1.feedbackSessionName
+        };
+
+        verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);
     }
     
     @Test
@@ -1487,7 +1576,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         
         verifyUnaccessibleWithoutLogin(submissionParams);
         
-        gaeSimulation.loginUser("unreg.user");
+        gaeSimulation.loginUser("student1InCourse2");
         //if the user is not a student of the course, we redirect to home page.
         verifyRedirectTo(Const.ActionURIs.STUDENT_HOME_PAGE, submissionParams);
         verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));

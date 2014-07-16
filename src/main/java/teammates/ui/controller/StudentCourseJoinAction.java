@@ -44,7 +44,7 @@ public class StudentCourseJoinAction extends Action {
             log.info(logMsg);
             
             String redirectUrl = Url.addParamToUrl(
-                    Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED,
+                    Const.ActionURIs.STUDENT_HOME_PAGE,
                     Const.ParamsNames.REGKEY, key);
             
             return createRedirectResult(redirectUrl);

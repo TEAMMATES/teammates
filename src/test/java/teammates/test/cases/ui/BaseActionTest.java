@@ -1,5 +1,8 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,9 +16,12 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
+import teammates.logic.core.StudentsLogic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.Action;
+import teammates.ui.controller.ActionResult;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 
@@ -25,6 +31,7 @@ import teammates.ui.controller.ShowPageResult;
 public class BaseActionTest extends BaseComponentTestCase {
     
     private DataBundle data = getTypicalDataBundle();
+    StudentAttributes unregStudent;
     
     /**URI that matches with the action being tested */
     protected static String uri;
@@ -54,6 +61,22 @@ public class BaseActionTest extends BaseComponentTestCase {
         List<String> list = new ArrayList<String>();
         list.add(Const.ParamsNames.USER_ID);
         list.add(userId);
+        for (String s : params) {
+            list.add(s);
+        }
+        return list.toArray(new String[list.size()]);
+    }
+    
+    private String[] addStudentAuthenticationInfo(String[] params) {
+        if (unregStudent == null) {
+            unregStudent = data.students.get("unregStudent6InCourse1");
+            unregStudent = StudentsLogic.inst().getStudentForEmail(unregStudent.course, unregStudent.email);
+        }
+        List<String> list = new ArrayList<String>();
+        list.add(Const.ParamsNames.REGKEY);
+        list.add(StringHelper.encrypt(unregStudent.key));
+        list.add(Const.ParamsNames.STUDENT_EMAIL);
+        list.add(unregStudent.email);
         for (String s : params) {
             list.add(s);
         }
@@ -269,14 +292,15 @@ public class BaseActionTest extends BaseComponentTestCase {
     
     protected void verifyOnlyStudentsOfTheSameCourseCanAccess(String[] submissionParams)
             throws Exception {
-        verifyUnaccessibleWithoutLogin(submissionParams);
+        verifyAccessibleWithoutLogin(submissionParams);
         verifyUnaccessibleForUnregisteredUsers(submissionParams);
+        verifyAccessibleForUnregisteredStudents(submissionParams);
         verifyUnaccessibleForStudentsOfOtherCourses(submissionParams);
         verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
         verifyUnaccessibleForInstructors(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
     }
-    
+
     /*
      * 'mid-level' here means it tests access control of an action for 
      * one user types.
@@ -284,6 +308,11 @@ public class BaseActionTest extends BaseComponentTestCase {
     @SuppressWarnings("unused")
     private void __________mid_level_access_controll_checks(){};
     
+    private void verifyAccessibleWithoutLogin(String[] submissionParams) throws Exception {
+        gaeSimulation.logoutUser();
+        verifyCanAccess(addStudentAuthenticationInfo(submissionParams));
+    }
+
     protected void verifyAccessibleForUnregisteredUsers(String[] submissionParams) throws Exception {
         
         ______TS("non-registered users can access");
@@ -297,7 +326,6 @@ public class BaseActionTest extends BaseComponentTestCase {
         verifyCanAccess(submissionParams);
         verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId,submissionParams));
         verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
-        
     }
 
     protected void verifyAccessibleForStudentsOfTheSameCourse(String[] submissionParams) throws Exception {
@@ -326,6 +354,13 @@ public class BaseActionTest extends BaseComponentTestCase {
         verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
         verifyCannotMasquerade(addUserIdToParams(otherStudent.googleId,submissionParams));
         
+    }
+
+    private void verifyAccessibleForUnregisteredStudents(
+            String[] submissionParams) throws Exception {
+        
+        gaeSimulation.logoutUser();
+        verifyCanAccess(addStudentAuthenticationInfo(submissionParams));        
     }
 
     protected void verifyAccessibleForInstructorsOfTheSameCourse(String[] submissionParams) throws Exception {
@@ -386,12 +421,21 @@ public class BaseActionTest extends BaseComponentTestCase {
         StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
         
         gaeSimulation.logoutUser();
-        verifyCannotAccess(submissionParams);
-        verifyCannotMasquerade(addUserIdToParams(student1InCourse1.googleId,submissionParams));
-        verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
+        verifyRedirectToLogin(submissionParams);
+        verifyRedirectToLoginMasquerade(addUserIdToParams(student1InCourse1.googleId,submissionParams));
+        verifyRedirectToLoginMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
         
     }
     
+    private void verifyRedirectToLoginMasquerade(String... params) {
+        verifyRedirectToLogin(params);
+    }
+
+    private void verifyRedirectToLogin(String... params) {
+        Action c = gaeSimulation.getActionObject(uri, params);
+        assertFalse(c.isValidUser());
+    }
+
     protected void verifyUnaccessibleForUnregisteredUsers(String[] submissionParams) throws Exception {
         
         ______TS("non-registered users cannot access");
@@ -602,12 +646,18 @@ public class BaseActionTest extends BaseComponentTestCase {
     /**
      * Verifies that the {@link Action} matching the {@code params} is not
      * accessible to the logged in user. 
+     * This could be one of the following ways:
+     * -> Unauthorised Access Exception
+     * -> 
      */
     protected void verifyCannotAccess(String... params) throws Exception {
         try {
             Action c = gaeSimulation.getActionObject(uri, params);
-            c.executeAndPostProcess();
-            signalFailureToDetectException();
+            ActionResult result = c.executeAndPostProcess();
+            
+            String classNameOfResult = result.getClass().getName();
+            assertEquals(classNameOfResult, result.getClass().getName());
+            AssertHelper.assertContains("You are not registered in the course ", result.getStatusMessage()); 
         } catch (UnauthorizedAccessException e) {
             ignoreExpectedException();
         }

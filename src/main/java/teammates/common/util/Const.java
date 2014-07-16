@@ -49,11 +49,21 @@ public class Const {
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
         
-        public static final List<String> PAGES_EXCLUDED_FROM_GOOGLE_LOGIN = Arrays.asList(
-            Const.ActionURIs.AUTHENTICATE_STUDENT,
-            Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
-            Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
-            Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE
+        public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Arrays.asList(
+            ActionURIs.AUTHENTICATE_STUDENT,
+            ActionURIs.STUDENT_COURSE_JOIN,
+            ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE,
+            ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+            ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
+            ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE,
+            ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE
+        );
+        
+        public static final List<String> PAGES_ACCESSIBLE_WITHOUT_REGISTRATION = Arrays.asList(
+            ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED,
+            ActionURIs.STUDENT_HOME_PAGE,
+            ActionURIs.INSTRUCTOR_COURSE_JOIN,
+            ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
         );
     }
 
@@ -914,8 +924,8 @@ public class Const {
                 + "Please upload another picture to begin editing";
         public static final String STUDENT_NOT_JOINED_YET_FOR_RECORDS = "This student has not joined the course yet or you are not supposed to view his/her profile";
         
-        public static final String UNREGISTERED_STUDENT = "Almost all of the features of TEAMMATES have been disabled as you are "
-                + "an unregistered user. Register and Authenticate with a Google Account to utilise all the features.";
+        public static final String UNREGISTERED_STUDENT = "You may submit feedback and view results without logging in. "
+                + "To access other features you need to login using a google account (recommended).";
     }
 
     /* These indicate status of an operation, but they are not shown to the user */

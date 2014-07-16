@@ -47,7 +47,7 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
 
     @Override
     protected RedirectResult createSpecificRedirectResult() {
-        if (regkey != null) {
+        if (regkey == null) {
             return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
         } else {
             return createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);

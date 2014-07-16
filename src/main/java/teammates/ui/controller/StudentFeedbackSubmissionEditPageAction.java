@@ -111,7 +111,11 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
     
     @Override
     protected RedirectResult createSpecificRedirectResult() {
-        return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+        if (regkey == null) {
+            return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+        } else {
+            return createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);
+        }
     }
     
     protected StudentAttributes getStudent() {

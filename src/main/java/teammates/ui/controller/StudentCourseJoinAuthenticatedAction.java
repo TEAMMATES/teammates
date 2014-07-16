@@ -33,7 +33,8 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
             setStatusForException(e, Sanitizer.sanitizeForHtml(e.getMessage()));
             //logMsg = "GAE-level exception not thrown explicitly by Logic <br/>" + e.toString();
             
-            //TODO: this branch seems to be unreachable, to be removed  
+            //TODO: this branch seems to be unreachable, to be removed.
+            // NOTE: This branch is used when student account cannot be created for some reason
         } catch (JoinCourseException e) {
             // Does not sanitize for html to allow insertion of mailto link
             setStatusForException(e, e.getMessage());

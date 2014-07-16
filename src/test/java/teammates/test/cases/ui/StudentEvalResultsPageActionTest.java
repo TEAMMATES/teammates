@@ -3,16 +3,13 @@ package teammates.test.cases.ui;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
+import teammates.logic.core.EvaluationsLogic;
 import teammates.storage.api.EvaluationsDb;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentEvalResultsPageAction;

@@ -532,13 +532,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", fr.getResponseDetails().getAnswerString() 
         };
         
-        verifyUnaccessibleForUnregisteredUsers(submissionParams);
-        verifyUnaccessibleWithoutLogin(submissionParams);
-        
-        // verify student can still submit during grace period
-        StudentAttributes studentInGracePeriod = dataBundle.students.get("student1InCourse1");
-        gaeSimulation.loginAsStudent(studentInGracePeriod.googleId);
-        verifyCanAccess(submissionParams);
+        verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);
     }
     
     @Test

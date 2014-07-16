@@ -22,7 +22,9 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 
@@ -81,16 +83,28 @@ public abstract class Action {
         authenticateUser();
     }
 
+    @SuppressWarnings("unchecked")
+    protected void initialiseAttributes(HttpServletRequest req) {
+        request = req;
+        requestUrl = HttpRequestHelper.getRequestedURL(request);
+        logic = new Logic();
+        requestParameters = request.getParameterMap();
+        session = request.getSession();
+        
+        //---- set error status forwarded from the previous action
+        isError = getRequestParamAsBoolean(Const.ParamsNames.ERROR);
+    }
+
     protected void authenticateUser() {
         UserType currentUser = logic.getCurrentUser();
         loggedInUser = authenticateAndGetActualUser(currentUser);
         if (isValidUser()) {
-            account = authenticateAndGetNominalUser(request, currentUser);
+            account = authenticateAndGetNominalUser(currentUser);
         }
     }
     
     protected AccountAttributes authenticateAndGetActualUser(UserType currentUser) {
-        if (userNeedsToLogin(currentUser)) return null;
+        if (doesUserNeedToLogin(currentUser)) return null;
         
         AccountAttributes loggedInUser = null;
         
@@ -99,47 +113,74 @@ public abstract class Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         
         if (currentUser == null) {
-            if(regkey == null) throw new UnauthorizedAccessException("No regkey given");
-            
-            student = logic.getStudentForRegistrationKey(regkey);
-            boolean isUnknownKey = student == null;
-            boolean isARegisteredUser = !isUnknownKey && student.googleId != null && !student.googleId.isEmpty();
-            boolean isAuthenticationFailure = !isUnknownKey &&  !student.email.equals(email) || !student.course.equals(courseId);
-            boolean isMissingAdditionalAuthenticationInfo = email == null || courseId == null;
-            
-            if (isUnknownKey) {
-                throw new UnauthorizedAccessException("Unknown Registration Key");
-            } else if (isARegisteredUser) {
-                setRedirectPage(Logic.getLoginUrl(requestUrl));
-                return null;
-            } else if (isMissingAdditionalAuthenticationInfo) {
-                throw new UnauthorizedAccessException("Insufficient information to authenticate user");
-            } else if (isAuthenticationFailure) {
-                throw new UnauthorizedAccessException("Invalid email/course for given Registration Key");
-            } else {
-                // unregistered and not loggedin access given to page
-                loggedInUser = new AccountAttributes();
-                loggedInUser.email = student.email;
-            }
+            if(regkey == null) throw new UnauthorizedAccessException("Not loggedin and no regkey given");
+            loggedInUser = authenticateNotLoggedInUser(email, courseId);
             
         } else {
             loggedInUser = logic.getAccount(currentUser.id);
-            
-            if(regkey != null && loggedInUser != null) {
-                // TODO: cross-check if the loggedin user is the correct user
-                // if not use LogoutAction to get the user to login appropriately
-            }
-            
-            if(loggedInUser==null){ //Unregistered but loggedin user
-                loggedInUser = new AccountAttributes();
-                loggedInUser.googleId = currentUser.id;
+            if (doesRegkeyMatchLoggedInUesrGoogleId(loggedInUser)) {
+                loggedInUser = createDummyAccountIfUserIsUnregistered(currentUser, loggedInUser);
             }
         }
         return loggedInUser;
     }
 
-    private boolean userNeedsToLogin(UserType currentUser) {
-        boolean userNeedsGoogleAccountForPage = !Const.SystemParams.PAGES_EXCLUDED_FROM_GOOGLE_LOGIN.contains(request.getRequestURI());
+    protected AccountAttributes createDummyAccountIfUserIsUnregistered(UserType currentUser,
+            AccountAttributes loggedInUser) {
+        if(loggedInUser==null){ //Unregistered but loggedin user
+            loggedInUser = new AccountAttributes();
+            loggedInUser.googleId = currentUser.id;
+        }
+        return loggedInUser;
+    }
+
+    protected boolean doesRegkeyMatchLoggedInUesrGoogleId(
+            AccountAttributes loggedInUser) {
+        if(regkey != null && loggedInUser != null) {
+            student = logic.getStudentForRegistrationKey(regkey);
+            boolean isKnownKey = student != null;
+            if (isKnownKey && !loggedInUser.googleId.equals(student.googleId)) {
+                
+                setRedirectPage(Url.addParamToUrl(
+                    Const.ViewURIs.LOGOUT, 
+                    Const.ParamsNames.NEXT_URL, 
+                    Logic.getLoginUrl(requestUrl)));
+                return false;
+            }
+        }
+        return true;
+    }
+
+    protected AccountAttributes authenticateNotLoggedInUser(String email, String courseId) {
+        
+        student = logic.getStudentForRegistrationKey(regkey);
+        boolean isUnknownKey = student == null;
+        boolean isARegisteredUser = !isUnknownKey && student.googleId != null && !student.googleId.isEmpty();
+        boolean isAuthenticationFailure = !isUnknownKey &&  (!student.email.equals(email) || !student.course.equals(courseId));
+        boolean isMissingAdditionalAuthenticationInfo = email == null || courseId == null;
+        
+        AccountAttributes loggedInUser = null;
+        
+        if (isUnknownKey) {
+            throw new UnauthorizedAccessException("Unknown Registration Key " + StringHelper.decrypt(regkey));
+        } else if (isARegisteredUser) {
+            setRedirectPage(Logic.getLoginUrl(requestUrl));
+            return null;
+        } else if (isMissingAdditionalAuthenticationInfo) {
+            throw new UnauthorizedAccessException("Insufficient information to authenticate user");
+        } else if (isAuthenticationFailure) {
+            throw new UnauthorizedAccessException("Invalid email/course for given Registration Key");
+        } else {
+            // unregistered and not loggedin access given to page
+            loggedInUser = new AccountAttributes();
+            loggedInUser.email = student.email;
+        }
+        
+        return loggedInUser;
+    }
+
+    private boolean doesUserNeedToLogin(UserType currentUser) {
+        boolean userNeedsGoogleAccountForPage = !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
         boolean userIsNotLoggedIn = currentUser == null;
         
         if (userIsNotLoggedIn && userNeedsGoogleAccountForPage) {
@@ -149,26 +190,19 @@ public abstract class Action {
         return false;
     }
 
-    protected boolean isValidUser() {
-        return authenticationRedirectUrl.isEmpty();
-    }
-    
-    private void setRedirectPage(String redirectUrl) {
-        authenticationRedirectUrl = redirectUrl;
-        statusToAdmin = "Redirecting user to " + redirectUrl;
-    }
-    
-    protected String getAuthenticationRedirectUrl() {
-        return authenticationRedirectUrl;
-    }
-
-    protected AccountAttributes authenticateAndGetNominalUser(HttpServletRequest req,
-            UserType loggedInUserType) {
-        String paramRequestedUserId = req.getParameter(Const.ParamsNames.USER_ID);
+    protected AccountAttributes authenticateAndGetNominalUser(UserType loggedInUserType) {
+        String paramRequestedUserId = request.getParameter(Const.ParamsNames.USER_ID);
         
         AccountAttributes account = null;
         
         if (!isMasqueradeModeRequested(loggedInUser, paramRequestedUserId)) {
+            if (doesUserNeedRegistration(loggedInUser) && !loggedInUserType.isAdmin) {
+                if (regkey != null) {
+                    // TODO: redirect to the Course Join Confirmation page based on 
+                    //       current url link (ie check ins/stu from the url)
+                }
+                throw new UnauthorizedAccessException("Unregistered user for a page that needs one");
+            }
             account = loggedInUser;
         } else if (loggedInUserType.isAdmin) {
             //Allowing admin to masquerade as another user
@@ -182,7 +216,6 @@ public abstract class Action {
                 account = new AccountAttributes();
                 account.googleId = paramRequestedUserId;
             }
-        
         } else {
             throw new UnauthorizedAccessException("User " + loggedInUserType.id
                     + " is trying to masquerade as " + paramRequestedUserId
@@ -192,17 +225,32 @@ public abstract class Action {
         return account;
     }
 
-    @SuppressWarnings("unchecked")
-    protected void initialiseAttributes(HttpServletRequest req) {
-        request = req;
-        requestUrl = HttpRequestHelper.getRequestedURL(request);
-        logic = new Logic();
-        requestParameters = request.getParameterMap();
-        session = request.getSession();
-        
-        //---- set error status forwarded from the previous action
-        isError = getRequestParamAsBoolean(Const.ParamsNames.ERROR);
+    private boolean doesUserNeedRegistration(AccountAttributes user) {
+        boolean userNeedsRegistrationForPage = !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_REGISTRATION.contains(request.getRequestURI())
+                && !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
+        boolean userIsNotRegistered = user.createdAt == null;
+        return userNeedsRegistrationForPage && userIsNotRegistered;
     }
+    
+    /** ------------------------------------------------
+     * These methods are used for CRUD operations on
+     * urls used for redirecting users to login page
+     * @return
+     */
+    public boolean isValidUser() {
+        return authenticationRedirectUrl.isEmpty();
+    }
+    
+    private void setRedirectPage(String redirectUrl) {
+        authenticationRedirectUrl = redirectUrl;
+        statusToAdmin = "Redirecting user to " + redirectUrl;
+    }
+    
+    protected String getAuthenticationRedirectUrl() {
+        return authenticationRedirectUrl;
+    }
+    
+    /** ------------------------------------------------ */
 
     /**
      * Executes the action (as implemented by a child class). Before passing 
@@ -236,8 +284,11 @@ public abstract class Action {
             response.responseParams.put(Const.ParamsNames.ERROR, ""+response.isError);
         } else {
             response.responseParams.put(Const.ParamsNames.REGKEY, regkey);
-            response.responseParams.put(Const.ParamsNames.STUDENT_EMAIL, student.email);
-            response.responseParams.put(Const.ParamsNames.COURSE_ID, student.course);
+            
+            if (student != null) {
+                response.responseParams.put(Const.ParamsNames.STUDENT_EMAIL, student.email);
+                response.responseParams.put(Const.ParamsNames.COURSE_ID, student.course);
+            }
             
             if (getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME) != null) {
                 response.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, 
@@ -332,7 +383,11 @@ public abstract class Action {
     }
     
     protected boolean isJoinedCourse(String courseId, String googleId) {
-        return logic.getStudentForGoogleId(courseId, account.googleId) != null;
+        if (student != null) {
+            return true;
+        } else {
+            return logic.getStudentForGoogleId(courseId, account.googleId) != null;
+        }
     }
 
     /**
