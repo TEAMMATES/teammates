@@ -45,7 +45,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Instructions:</label>
                             <div class="col-sm-10">
-                                <pre><p class="form-control-static"><%=sanitizeForHtml(data.bundle.feedbackSession.instructions.getValue())%></p></pre>
+                                <p class="form-control-static text-preserve-space"><%=sanitizeForHtml(data.bundle.feedbackSession.instructions.getValue())%></p>
                             </div>
                         </div> 
                     </div> 
