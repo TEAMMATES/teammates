@@ -31,9 +31,21 @@ public abstract class SearchQuery {
     protected SearchQuery setTextFilter(String textField, String queryString){
         String sanitizedQueryString = Sanitizer.sanitizeForSearch(queryString).toLowerCase().trim();
         if(!sanitizedQueryString.isEmpty()){
-            this.textQueryStrings.add(textField + ":" + sanitizedQueryString);
+            String preparedOrQueryString = prepareOrQueryString(sanitizedQueryString);
+            this.textQueryStrings.add(textField + ":" + preparedOrQueryString);
         }
         return this;
+    }
+    
+    private String prepareOrQueryString(String queryString){
+        String[] keywords = queryString.split("\\s+");
+        if(keywords.length < 1) return "";
+        
+        StringBuilder preparedQueryString = new StringBuilder(keywords[0]);
+        for(String keyword:keywords){
+            preparedQueryString.append(OR).append(keyword);
+        }
+        return preparedQueryString.toString();
     }
     
     protected SearchQuery setDateFilter(String dateField, String startTime, String endTime){

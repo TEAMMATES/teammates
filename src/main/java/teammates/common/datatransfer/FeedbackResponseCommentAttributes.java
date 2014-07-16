@@ -161,7 +161,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.giverEmail = Sanitizer.sanitizeForHtml(giverEmail);
         this.feedbackResponseId = Sanitizer.sanitizeForHtml(feedbackResponseId);
         if(commentText != null){
-            this.commentText = new Text(Sanitizer.sanitizeForHtml(commentText.getValue()));
+            String sanitizedText = Sanitizer.sanitizeForHtml(commentText.getValue()).replace("\n", "\n<br>");
+            this.commentText = new Text(sanitizedText);
         }
     }
     

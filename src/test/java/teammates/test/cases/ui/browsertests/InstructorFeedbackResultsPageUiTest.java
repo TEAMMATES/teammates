@@ -66,6 +66,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Empty Session");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageEmpty.html");
+    
+        //TODO: test content for results page for different question types, and views.
     }
     
     public void testSortAction(){

@@ -45,7 +45,9 @@ var addCommentHandler = function(e) {
                     formObject.find("textarea").val("");
                     submitButton.text("Add");
                     removeFormErrorMessage(submitButton);
+                    addFormRow.prev().find("div[id^=plainCommentText]").css("margin-left","15px");
                     addFormRow.prev().show();
+                    addFormRow.hide();
                 } else {
                     formObject.find("textarea").prop("disabled", false);
                     setFormErrorMessage(submitButton, data.errorMessage);
@@ -60,7 +62,7 @@ var editCommentHandler = function(e) {
     var submitButton = $(this);
     var formObject = $(this).parent().parent();
     var displayedText = $(this).parent().parent().prev();
-    var commentBar = displayedText.parent().find("div");
+    var commentBar = displayedText.parent().find("div[id^=commentBar]");
     var formData = formObject.serialize();
     
     e.preventDefault();
@@ -178,6 +180,8 @@ $(document).ready(function(){
 	    });
 	    form.find("input[name='showresponsegiverto']").val(visibilityOptions.toString());
     });
+    
+    $("div[id^=plainCommentText]").css("margin-left","15px");
 });
 
 function generateNewCommentRow(data) {
