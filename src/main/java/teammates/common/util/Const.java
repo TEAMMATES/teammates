@@ -62,8 +62,8 @@ public class Const {
         public static final String COURSE_DELETE = "Delete the course and its corresponding students and evaluations";
         public static final String COURSE_ARCHIVE = "Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)";
         public static final String COURSE_ADD_EVALUATION = "Add an evaluation for the course";
-        public static final String CLAIMED = "This is student own estimation of his/her contributions to the project";
-        public static final String PERCEIVED = "This is the average of what other team members think this student contributed to the project";
+        public static final String CLAIMED = "This is the student's own estimation of his/her contributions";
+        public static final String PERCEIVED = "This is the average of what other team members think this student contributed";
         public static final String PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
     
         public static final String COURSE_INSTRUCTOR_EDIT = "Edit instructor details";
