@@ -35,6 +35,15 @@ public class StudentsDb extends EntitiesDb {
     
     private static final Logger log = Utils.getLogger();
 
+    public void deleteDocument(StudentAttributes studentToDelete){
+        if(studentToDelete.key == null){
+            StudentAttributes student = getStudentForEmail(studentToDelete.course, studentToDelete.email);
+            deleteDocument(Const.SearchIndex.COMMENT, student.key);
+        } else {
+            deleteDocument(Const.SearchIndex.COMMENT, studentToDelete.key);
+        }
+    }
+
     /**
      * Preconditions: <br>
      * * All parameters are non-null.

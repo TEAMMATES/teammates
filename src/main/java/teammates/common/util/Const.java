@@ -475,6 +475,7 @@ public class Const {
     public class SearchDocumentField {
         public static final String ATTRIBUTE = "attribute";
         public static final String COMMENT_ATTRIBUTE = "commentAttibute";
+        public static final String STUDENT_ATTRIBUTE = "studentAttribute";
         public static final String COMMENT_GIVER_NAME = "commentGiverName";
         public static final String COMMENT_GIVER_EMAIL = "commentGiverEmail";
         public static final String COMMENT_RECIPIENT_NAME = "commentRecipientName";

@@ -111,6 +111,10 @@ public class StudentsLogic {
         return studentsDb.getUnregisteredStudentsForCourse(courseId);
     }
     
+    public void deleteDocument(StudentAttributes student){
+        studentsDb.deleteDocument(student);
+    }
+    
     public StudentProfileAttributes getStudentProfile(String googleId) {
         Assumption.assertNotNull(googleId);
         
