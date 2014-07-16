@@ -58,16 +58,16 @@ public class InstructorCommentsPageData extends PageData {
             }
             StudentAttributes student = roster.getStudentForEmail(recipient);
             if(courseId.equals(recipient)){ 
-                namesStringBuilder.append("All students in this course, ");
+                namesStringBuilder.append("<b>All students in this course</b>, ");
             } else if(student != null){
                 if(recipients.size() == 1){
-                    namesStringBuilder.append(student.name 
+                    namesStringBuilder.append("<b>" + student.name + "</b>" 
                             + " (" + student.team + ", <a href=\"mailto:" + student.email + "\">" + student.email + "</a>), ");
                 } else {
-                    namesStringBuilder.append(student.name + ", ");
+                    namesStringBuilder.append("<b>" + student.name + "</b>" + ", ");
                 }
             } else {
-                namesStringBuilder.append(recipient + ", ");
+                namesStringBuilder.append("<b>" + recipient + "</b>" + ", ");
             }
             i++;
         }

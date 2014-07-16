@@ -3,27 +3,24 @@
         <h1>Add New Feedback Session</h1>
 
         <div class="well well-plain">
-            <form class="form-group" method="post" action="/page/instructorFeedbackAdd" name="form_addfeedbacksession">
-                <div data-original-title="Select a different type of session here." class="row" title="" data-toggle="tooltip" data-placement="top">
-                    <h4 class="label-control col-md-2 text-md">Create new </h4>
-                    <div class="col-md-5">
-                        <select class="form-control" name="fstype" id="fstype">
-                            <option value="STANDARD" selected="selected">
-                                Session with your own questions
-                            </option>
-                            <option value="TEAMEVALUATION">
-                                Team peer evaluation session
-                            </option>
-                        </select>
-                    </div>
-                    <h4 class="label-control col-md-1 text-md">Or: </h4>
-                    <div class="col-md-3">
-                        <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy
-                            from previous feedback sessions</a>
-                    </div>
+            <div class="row">
+                <h4 class="label-control col-md-2 text-md">Create new </h4>
+                <div data-original-title="Select a different type of session here." class="col-md-5" title="" data-toggle="tooltip" data-placement="top">
+                    <select class="form-control" name="feedbackchangetype" id="feedbackchangetype">
+                        <option value="/page/instructorFeedbacksPage" selected="selected">Feedback
+                            Session with customizable questions</option>
+                        <option value="/page/instructorEvalsPage">Standard
+                            Team Peer Evaluation with fixed questions</option>
+                    </select>
                 </div>
-                <br>
-            
+                <h4 class="label-control col-md-1 text-md">Or: </h4>
+                <div class="col-md-3">
+                    <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy
+                        from previous feedback sessions</a>
+                </div>
+            </div>
+            <br>
+            <form class="form-group" method="post" action="/page/instructorFeedbackAdd" name="form_addfeedbacksession">
                 <div class="panel panel-primary">
                     <div class="panel-body">
                         <div class="row">
@@ -473,7 +470,7 @@
                     </span>
                 </td>
                 <td class="session-response-for-test recent">0 / 2</td>
-                <td class="no-print"><a data-original-title="View the current results of the evaluation" class="btn btn-default btn-xs btn-tm-actions session-view-for-test" href="/page/instructorEvalResultsPage?courseid=CFeedbackUiT.CS1101&amp;evaluationname=First+Eval&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top">View Results</a> <a data-original-title="Edit evaluation details" class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" href="/page/instructorEvalEditPage?courseid=CFeedbackUiT.CS1101&amp;evaluationname=First+Eval&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top">Edit</a> <a data-original-title="Preview evaluation session" class="btn btn-default btn-xs btn-tm-actions session-preview-for-test" href="/page/instructorEvalPreview?courseid=CFeedbackUiT.CS1101&amp;evaluationname=First+Eval&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top" target="_blank">Preview</a> <a data-original-title="Delete the evaluation" class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" href="/page/instructorEvalDelete?courseid=CFeedbackUiT.CS1101&amp;evaluationname=First+Eval&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleDeleteEvaluationConfirmation('CFeedbackUiT.CS1101','First Eval');">Delete</a> <a data-original-title="Send e-mails to remind students who have not submitted their evaluations to do so" class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" href="/page/instructorEvalRemind?courseid=CFeedbackUiT.CS1101&amp;evaluationname=First+Eval&amp;user=CFeedbackUiT.instructor" onclick="return toggleRemindStudents('First Eval');" title="" data-toggle="tooltip" data-placement="top">Remind</a> <a data-original-title="Publish evaluation results for students to view" class="btn btn-default btn-xs btn-tm-actions session-publish-for-test disabled" onclick="return false" href="/page/instructorEvalPublish?courseid=CFeedbackUiT.CS1101&amp;evaluationname=First+Eval&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top">Publish</a> </td>
+                <td class="no-print"><a data-original-title="View the current results of the evaluation" class="btn btn-default btn-xs btn-tm-actions session-view-for-test" href="/page/instructorEvalResultsPage?courseid=CFeedbackUiT.CS1101&amp;evaluationname=First+Eval&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top">View Results</a> <a data-original-title="Edit evaluation details" class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" href="/page/instructorEvalEditPage?courseid=CFeedbackUiT.CS1101&amp;evaluationname=First+Eval&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top">Edit</a> <a data-original-title="Preview evaluation session" class="btn btn-default btn-xs btn-tm-actions session-preview-for-test" href="/page/instructorEvalPreview?courseid=CFeedbackUiT.CS1101&amp;evaluationname=First+Eval&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top" target="_blank">Preview</a> <a data-original-title="Delete the evaluation" class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" href="/page/instructorEvalDelete?courseid=CFeedbackUiT.CS1101&amp;evaluationname=First+Eval&amp;next=%2Fpage%2FinstructorEvalsPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleDeleteEvaluationConfirmation('CFeedbackUiT.CS1101','First Eval');">Delete</a> <a data-original-title="Send e-mails to remind students who have not submitted their evaluations to do so" class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" href="/page/instructorEvalRemind?courseid=CFeedbackUiT.CS1101&amp;evaluationname=First+Eval&amp;user=CFeedbackUiT.instructor" onclick="return toggleRemindStudents('First Eval');" title="" data-toggle="tooltip" data-placement="top">Remind</a> <a data-original-title="Publish evaluation results for students to view" class="btn btn-default btn-xs btn-tm-actions session-publish-for-test disabled" onclick="return false" href="/page/instructorEvalPublish?courseid=CFeedbackUiT.CS1101&amp;evaluationname=First+Eval&amp;next=%2Fpage%2FinstructorEvalsPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top">Publish</a> </td>
             </tr><tr class="sessionsRow" id="session2">
                 <td>CFeedbackUiT.CS2104</td>
                 <td>Private Session</td>
@@ -525,13 +522,13 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="copyModalTitle">Copy Sessions</h4>
+                <h4 class="modal-title" id="copyModalTitle">Creating a new session by copying a previous session</h4>
               </div>
               <div class="modal-body">
                     <form class="form" id="copyModalForm" role="form" method="post" action="/page/instructorFeedbackCopy">
                     <!-- Course -->
                     <div class="form-group">
-                        <label for="modalCopiedCourseId" class="control-label">Course ID</label>
+                        <label for="modalCopiedCourseId" class="control-label">Create in course</label>
                         <select class="form-control" name="copiedcourseid" id="modalCopiedCourseId">
                             <option value="CFeedbackUiT.CS1101">CFeedbackUiT.CS1101</option>
 <option value="CFeedbackUiT.CS2104">CFeedbackUiT.CS2104</option>
@@ -540,12 +537,11 @@
                     </div>
                     <!-- Session Name -->
                     <div class="form-group">
-                        <label for="modalCopiedSessionName" class="control-label">Session
-                            name</label>
-                        <input class="form-control" name="copiedfsname" id="modalCopiedSessionName" value="" placeholder="e.g. Feedback for Project Presentation 1" type="text">
+                        <label for="modalCopiedSessionName" class="control-label">Name for new session</label>
+                        <input class="form-control" name="copiedfsname" id="modalCopiedSessionName" maxlength="38" value="" placeholder="e.g. Feedback for Project Presentation 1" type="text">
                     </div>
                     <!-- Previous Session -->
-                    <label> Copied Session </label>
+                    <label>Copy sessions/questions from</label>
                     <table class="table-responsive table table-bordered table-hover margin-0" id="copyTableModal">
                         <thead class="fill-primary">
                             <tr><th style="width:20px;">&nbsp;</th>

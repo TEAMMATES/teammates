@@ -48,7 +48,7 @@
         <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />    
         <div id="frameBodyWrapper" class="container theme-showcase">
             <div id="topOfPage"></div>
-            <h1>Instructor Students List</h1>
+            <h1>Find Students</h1>
             <div class="well well-plain">
                 <div class="row">
                     <div class="col-md-12">
@@ -67,24 +67,24 @@
                             <div class="col-md-2 nav">
                                 <div class="form-group">
                                     <button id="button_search" class="btn btn-primary" type="submit" onclick="return applyFilters();" value="Search">
-                                        <span class="glyphicon glyphicon-search"></span> Search
+                                        <span class="glyphicon glyphicon-search"></span> Find students
                                     </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="checkbox">
-                                    <input id="displayArchivedCourses_check" type="checkbox" <%if(data.displayArchive){%>checked="checked"<%}%>>
-                                    <label for="displayArchivedCourses_check">Display Archived Courses</label>
                                 </div>
                             </div>
                         </div>
                      </div>
                  </div>
              </div>
-            <br>
+            <h1>Filter Students</h1>
             <div id="moreOptionsDiv" class="well well-plain" <% if(data.courses.size() == 0){ %> style="display:none;" <% } %>>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="checkbox">
+                            <input id="displayArchivedCourses_check" type="checkbox" <%if(data.displayArchive){%>checked="checked"<%}%>>
+                            <label for="displayArchivedCourses_check">Display Archived Courses</label>
+                        </div>
+                    </div>
+                </div>
                 <form class="form-horizontal" role="form">
                     <div class="row">
                         <div class="col-sm-3">
