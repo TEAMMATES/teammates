@@ -302,7 +302,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("MCQ: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer)");
+        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
         feedbackEditPage.clickNewQuestionButton();
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
     }
@@ -318,13 +318,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.fillQuestionBox("Test question text");
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals("Too little choices for Multiple-choice (single answer). Minimum number of options is: 2.", feedbackEditPage.getStatus());
+        assertEquals("Too little choices for Multiple-choice (single answer) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
         
     }
 
     private void testCustomizeMcqOptions() {
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer)");
+        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
         feedbackEditPage.clickNewQuestionButton();
         
         feedbackEditPage.fillMcqOption(0, "Choice 1");
@@ -444,7 +444,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("MSQ: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers)");
+        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers) question");
         feedbackEditPage.clickNewQuestionButton();
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
     }
@@ -460,13 +460,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.fillQuestionBox("Test question text");
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals("Too little choices for Multiple-choice (multiple answers). Minimum number of options is: 2.", feedbackEditPage.getStatus());
+        assertEquals("Too little choices for Multiple-choice (multiple answers) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
         
     }
 
     private void testCustomizeMsqOptions() {
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers)");
+        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers) question");
         feedbackEditPage.clickNewQuestionButton();
         
         feedbackEditPage.fillMsqOption(0, "Choice 1");
