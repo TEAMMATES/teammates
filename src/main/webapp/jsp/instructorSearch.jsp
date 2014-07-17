@@ -7,6 +7,7 @@
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.CommentAttributes"%>
+<%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
 <%@ page import="teammates.ui.controller.InstructorSearchPageData"%>
@@ -251,7 +252,7 @@
                     <div class="panel-body">
 
                 <%
-                    String currentCourse;
+                    String currentCourse = null;
                     for (StudentAttributes student : data.studentSearchResultBundle.studentList) {
                         if(currentCourse != null && !currentCourse.equals(student.course)){
                 %>                  
@@ -264,7 +265,7 @@
                         if(currentCourse == null || (currentCourse != null && !currentCourse.equals(student.course))){
                             currentCourse = student.course;
                 %>
-                            <div class="panel panel-body">
+                            <div class="panel panel-info">
                                 <div class="panel-heading">
                                     <strong>[<%=currentCourse%>]</strong>
                                 </div>
