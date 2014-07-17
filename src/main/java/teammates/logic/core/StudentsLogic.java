@@ -198,6 +198,8 @@ public class StudentsLogic {
         if(isSectionChanged(originalStudent.section, student.section)) {
             frLogic.updateFeedbackResponsesForChangingSection(student.course, finalEmail, originalStudent.section, student.section);
         }
+        
+        // TODO: check to delete comments for this section/team if the section/team is no longer existent in the course
     }
     
     public void updateStudentCascadeWithSubmissionAdjustmentScheduled(String originalEmail, 
