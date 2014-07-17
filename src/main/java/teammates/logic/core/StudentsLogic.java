@@ -18,6 +18,7 @@ import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -76,7 +77,7 @@ public class StudentsLogic {
     
     public void createStudentCascadeWithSubmissionAdjustmentScheduled(StudentAttributes studentData) 
             throws InvalidParametersException, EntityAlreadyExistsException {    
-        studentsDb.createEntity(studentData);
+        studentsDb.createStudent(studentData);
     }
 
     public StudentAttributes getStudentForEmail(String courseId, String email) {
@@ -109,6 +110,14 @@ public class StudentsLogic {
 
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
         return studentsDb.getUnregisteredStudentsForCourse(courseId);
+    }
+    
+    public void deleteDocument(StudentAttributes student){
+        studentsDb.deleteDocument(student);
+    }
+
+    public StudentSearchResultBundle searchStudents(String queryString, String googleId, String cursorString){
+        return studentsDb.search(queryString, googleId, cursorString);
     }
     
     public StudentProfileAttributes getStudentProfile(String googleId) {

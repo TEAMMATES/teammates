@@ -2,13 +2,17 @@ package teammates.storage.search;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import teammates.common.util.Sanitizer;
+import teammates.common.util.Utils;
 
 import com.google.appengine.api.search.Query;
 import com.google.appengine.api.search.QueryOptions;
 
 public abstract class SearchQuery {
+
+    protected static Logger log = Utils.getLogger();
     protected static final String AND = " AND ";
     protected static final String OR = " OR ";
     protected static final String NOT = " NOT ";
@@ -41,11 +45,12 @@ public abstract class SearchQuery {
         String[] keywords = queryString.split("\\s+");
         if(keywords.length < 1) return "";
         
-        StringBuilder preparedQueryString = new StringBuilder(keywords[0]);
-        for(String keyword:keywords){
-            preparedQueryString.append(OR).append(keyword);
+        StringBuilder preparedQueryString = new StringBuilder("("+ keywords[0]);
+        
+        for(int i = 1; i < keywords.length; i++){
+            preparedQueryString.append(OR).append(keywords[i]);
         }
-        return preparedQueryString.toString();
+        return preparedQueryString.toString() + ")";
     }
     
     protected SearchQuery setDateFilter(String dateField, String startTime, String endTime){
@@ -73,6 +78,7 @@ public abstract class SearchQuery {
         for(String dateQuery : dateQueryStrings){
             queryStringBuilder.append(AND).append(dateQuery);
         }
+        log.info("Query: " + queryStringBuilder.toString());
         return queryStringBuilder.toString();
     }
 }
