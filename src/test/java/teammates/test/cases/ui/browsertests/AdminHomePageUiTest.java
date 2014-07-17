@@ -27,11 +27,13 @@ import teammates.test.pageobjects.DevServerLoginPage;
 import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
 import teammates.test.pageobjects.LoginPage;
+import teammates.test.util.Priority;
 
 /**
  * Covers the home page for admins.
  * SUT: {@link AdminHomePage}
  */
+@Priority(-2)
 public class AdminHomePageUiTest extends BaseUiTestCase{
     private static Browser browser;
     private static AdminHomePage homePage;

@@ -244,6 +244,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void clickAjaxPanel(int index){
         List<WebElement> ajaxPanels = browser.driver.findElements(By.cssSelector(".ajax_submit"));
         ajaxPanels.get(index).click();
+        ThreadHelper.waitFor(500);
     }
 
     public void clickCollapseSectionButton(int index){
