@@ -9,7 +9,13 @@
 <%@ page import="teammates.ui.controller.PageData"%>
 <%@ page import="teammates.ui.controller.InstructorHomePageData"%>
 <%
-    InstructorHomePageData data = (InstructorHomePageData)request.getAttribute("data");
+	int countUnarchivedCourses = 0;    
+	InstructorHomePageData data = (InstructorHomePageData)request.getAttribute("data");
+	for (CourseSummaryBundle courseDetails : data.courses) {
+		if(!courseDetails.course.isArchived){
+			countUnarchivedCourses++;
+		}
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -73,12 +79,6 @@
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         
         <div class="row<%
-        		int countUnarchivedCourses = 0;
-        		for (CourseSummaryBundle courseDetails : data.courses) {
-        			if(!courseDetails.course.isArchived){
-        				countUnarchivedCourses++;
-        			}
-        		}
         		if(countUnarchivedCourses < 2){
         			out.print(" hidden");
         		} else {
