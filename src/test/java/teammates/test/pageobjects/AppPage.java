@@ -62,6 +62,7 @@ import teammates.test.driver.TestProperties;
  * https://code.google.com/p/selenium/wiki/PageObjects
  * 
  */
+@SuppressWarnings("deprecation")
 public abstract class AppPage {
     protected static Logger log = Utils.getLogger();
     /**Home page of the application, as per test.properties file*/
@@ -211,7 +212,28 @@ public abstract class AppPage {
         }
         return;
     }
-
+    
+    public void waitForElementVisible(WebElement element){
+        WebDriverWait wait = new WebDriverWait(browser.driver, 10);
+        wait.until(ExpectedConditions.visibilityOf(element));
+    }
+    
+    /**
+     * Waits for element to be invisible or not present, or timeout.
+     */
+    protected void waitForElementToDisappear(By by){
+        WebDriverWait wait = new WebDriverWait(browser.driver, 30);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+    }
+    
+    /**
+     * Waits for the element to appear in the page, up to the timeout specified.
+     */
+    public void waitForElementPresence(By element, int timeOutInSeconds){
+        WebDriverWait wait = new WebDriverWait(browser.driver, timeOutInSeconds);
+        wait.until(presenceOfElementLocated(element));
+    }
+    
     /**
      * Switches to the new browser window just opened.
      */
@@ -467,14 +489,6 @@ public abstract class AppPage {
     public void clickHiddenElementAndCancel(String elementId){
         respondToAlertWithRetryForHiddenElement(elementId, false);
         waitForPageToLoad();
-    }
-    
-    /**
-     * Waits for the element to appear in the page, up to the timeout specified.
-     */
-    public void waitForElementPresence(By element, int timeOutInSeconds){
-        WebDriverWait wait = new WebDriverWait(browser.driver, timeOutInSeconds);
-        wait.until(presenceOfElementLocated(element));
     }
     
     @SuppressWarnings("unused")
@@ -743,6 +757,9 @@ public abstract class AppPage {
         int maxRetryCount = 5;
         int waitDuration = 1000;
         
+        //Wait for loader gif loader to disappear.
+        waitForElementToDisappear(By.cssSelector("img[src='/images/ajax-loader.gif']"));
+        
         if(filePath.startsWith("/")){
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
@@ -871,11 +888,6 @@ public abstract class AppPage {
     private void ____private_utility_methods________________________________() {
     }
     
-    public void waitForElementVisible(WebElement element){
-        WebDriverWait wait = new WebDriverWait(browser.driver, 10);
-        wait.until(ExpectedConditions.visibilityOf(element));
-    }
-
     private static <T extends AppPage> T createNewPage(Browser currentBrowser,    Class<T> typeOfPage) {
         Constructor<T> constructor;
         try {

@@ -266,6 +266,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.addFeedbackResponseComment("test comment 1");
+        ThreadHelper.waitFor(2000);
         resultsPage.addFeedbackResponseComment("test comment 2");
         resultsPage.verifyCommentRowContent("-0",
                 "test comment 1", "CFResultsUiT.instr@gmail.com");
@@ -367,7 +368,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage.clickAjaxPanel(0);
         ThreadHelper.waitFor(500);
-        resultsPage.clickCollapseSectionButton(0);
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByGRQ.html");
         
         ______TS("Ajax for view by giver > question > recipient");
@@ -376,7 +376,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage.clickAjaxPanel(0);
         ThreadHelper.waitFor(500);
-        resultsPage.clickCollapseSectionButton(0);
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByGQR.html");
         
         ______TS("Ajax for view by recipient > question > giver");
@@ -385,7 +384,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage.clickAjaxPanel(0);
         ThreadHelper.waitFor(500);
-        resultsPage.clickCollapseSectionButton(0);
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByRQG.html");
         
         ______TS("Ajax for view by recipient > giver > question");
@@ -394,7 +392,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage.clickAjaxPanel(0);
         ThreadHelper.waitFor(500);
-        resultsPage.clickCollapseSectionButton(0);
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByRGQ.html");
         
     }
