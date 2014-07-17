@@ -76,7 +76,7 @@
     <div class="form-horizontal">
         <div class="panel panel-primary">
             <div class="panel-heading">Question <%=question.questionNumber%>:<br/>
-                <%=sanitizeForHtml(questionDetails.questionText)%>
+                <span class="text-preserve-space"><%=sanitizeForHtml(questionDetails.questionText)%></span>
             </div>
             <div class="panel-body">
                 <p class="text-muted">Only the following persons can see your responses: </p>

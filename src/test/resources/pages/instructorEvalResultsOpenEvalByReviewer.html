@@ -1,1659 +1,966 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head>
-   <link href="/favicon.png"  rel="shortcut icon" />
-          <meta content="width=device-width, initial-scale=1.0"  name="viewport" />
-          <meta content="text/html; charset=UTF-8"  http-equiv="Content-Type" />
-          <title>
-    TEAMMATES - Instructor
- </title>
- <link href="/bootstrap/css/bootstrap.min.css"  rel="stylesheet"  type="text/css" />
-          <link href="/bootstrap/css/bootstrap-theme.min.css"  rel="stylesheet"  type="text/css" />
-          <link href="/stylesheets/teammatesCommon.css"  rel="stylesheet"  type="text/css" />
-          <script async=""  src="https://ssl.google-analytics.com/ga.js"  type="text/javascript" >
- </script>
- <script src="/js/googleAnalytics.js"  type="text/javascript" >
- </script>
- <script src="/js/jquery-minified.js"  type="text/javascript" >
- </script>
- <script src="/bootstrap/js/bootstrap.min.js"  type="text/javascript" >
- </script>
- <script src="/js/date.js"  type="text/javascript" >
- </script>
+<div class="container" id="frameBodyWrapper">
+        <div id="topOfPage"></div>
+        <div id="headerOperation">
+            <h1>Evaluation Results</h1>
+        </div>
 
-  <script src="/js/common.js"  type="text/javascript" >
- </script>
- <script src="/js/instructor.js"  type="text/javascript" >
- </script>
- <script src="/js/instructorEvalResults.js"  type="text/javascript" >
- </script>
-
- <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-</head> 
-
-<body>
-         <div class="navbar navbar-inverse navbar-fixed-top"  role="navigation" >
-            <div class="container" >
-               <div class="navbar-header" >
-                  <button class="navbar-toggle"  data-target="#contentLinks"  data-toggle="collapse"  type="button" >
-                     <span class="sr-only" >
-                        Toggle navigation
-                     </span>
-                     <span class="icon-bar" >
-                     </span>
-                     <span class="icon-bar" >
-                     </span>
-                     <span class="icon-bar" >
-                     </span>
-                  </button>
-                  <a class="navbar-brand"  href="/index.html" >
-                     TEAMMATES
-                  </a>
-               </div>
-               <div class="collapse navbar-collapse"  id="contentLinks" >
-                  <ul class="nav navbar-nav" >
-                     <li class="" >
-                        <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user=CEvalRUiT.instr" >
-                           Home
-                        </a>
-                     </li>
-                     <li class="" >
-                        <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user=CEvalRUiT.instr" >
-                           Courses
-                        </a>
-                     </li>
-                     <li class="active" >
-                        <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorFeedbacksPage?user=CEvalRUiT.instr" >
-                           Sessions
-                        </a>
-                     </li>
-                     <li class="" >
-                        <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=CEvalRUiT.instr" >
-                           Students
-                        </a>
-                     </li>
-                     <li>
-                        <a class="nav help"  href="/instructorHelp.html"  target="_blank" >
-                           Help
-                        </a>
-                     </li>
-                  </ul>
-                  <ul class="nav navbar-nav pull-right" >
-                     <li>
-                        <a class="nav logout"  href="/logout.jsp" >
-                           Logout
-                        
-                        (
-                           <span class="text-info"  data-original-title="CEvalRUiT.instr"  data-placement="bottom"  data-toggle="tooltip"  title="" >
-                              CEvalRUiT.instr
-                           </span>
-                           )
-                        </a>
-                     </li>
-                  </ul>
-               </div>
-            </div>
-         </div>
-         <div class="container"  id="frameBodyWrapper" >
-            <div id="topOfPage" >
-            </div>
-            <div id="headerOperation" >
-               <h1>
-                  Evaluation Results
-               </h1>
-            </div>
-            <div class="well well-plain" >
-               <form action="/page/instructorEvalResultsDownload"  class="form-horizontal"  id="download_eval_report"  method="GET"  role="form" >
-                  <div class="form-group" >
-                     <label class="col-sm-3 control-label" >
-                        Course ID:
-                     </label>
-                     <div class="col-sm-9" >
-                        <p class="form-control-static" >
-                           CEvalRUiT.CS1101
+        <div class="well well-plain">
+            <form class="form-horizontal" role="form" id="download_eval_report" method="GET" action="/page/instructorEvalResultsDownload">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Course ID:</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">
+                            CEvalRUiT.CS1101
                         </p>
-                     </div>
-                  </div>
-                  <div class="form-group" >
-                     <label class="col-sm-3 control-label" >
-                        Evaluation name:
-                     </label>
-                     <div class="col-sm-9" >
-                        <p class="form-control-static" >
-                           First Eval
+                    </div>
+                </div> 
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Evaluation name:</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">
+                            First Eval
                         </p>
-                     </div>
-                  </div>
-                  <div class="form-group" >
-                     <label class="col-sm-3 control-label" >
-                        Opening time:
-                     </label>
-                     <div class="col-sm-9" >
-                        <p class="form-control-static" >
+                    </div>
+                </div>  
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Opening time:</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">
                            01 Apr 2012, 23:59
                         </p>
-                     </div>
-                  </div>
-                  <div class="form-group" >
-                     <label class="col-sm-3 control-label" >
-                        Closing time:
-                     </label>
-                     <div class="col-sm-9" >
-                        <p class="form-control-static" >
+                    </div>
+                </div>  
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Closing time:</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">
                            01 Apr 2017, 23:59
                         </p>
-                     </div>
-                  </div>
-                  <div class="form-group" >
-                     <label class="control-label col-sm-3 col-xs-3" >
-                        Report type:
-                     </label>
-                     <div class="col-sm-9 col-xs-5" >
-                        <label class="radio-inline"  style="margin-left:10px;" >
-                           <input checked="checked"  id="radio_summary"  name="radio_reporttype"  onclick="showReport(this.value)"  type="radio"  value="instructorEvaluationSummaryTable" />
-                                                      Summary
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label class="control-label col-sm-3 col-xs-3">Report type:</label>
+                    <div class="col-sm-9 col-xs-5">
+                        <label class="radio-inline" style="margin-left:10px;">
+                            <input name="radio_reporttype" id="radio_summary" value="instructorEvaluationSummaryTable" checked="checked" onclick="showReport(this.value)" type="radio">
+                            Summary
                         </label>
-                        <label class="radio-inline" >
-                           <input id="radio_reviewer"  name="radio_reporttype"  onclick="showReport(this.value)"  type="radio"  value="instructorEvaluationDetailedReviewerTable" />
-                                                      Detailed: By Reviewer
+                        <label class="radio-inline">
+                            <input name="radio_reporttype" id="radio_reviewer" value="instructorEvaluationDetailedReviewerTable" onclick="showReport(this.value)" type="radio">
+                            Detailed: By Reviewer
                         </label>
-                        <label class="radio-inline" >
-                           <input id="radio_reviewee"  name="radio_reporttype"  onclick="showReport(this.value)"  type="radio"  value="instructorEvaluationDetailedRevieweeTable" />
-                                                      Detailed: By Reviewee
+                        <label class="radio-inline">
+                            <input name="radio_reporttype" id="radio_reviewee" value="instructorEvaluationDetailedRevieweeTable" onclick="showReport(this.value)" type="radio">
+                            Detailed: By Reviewee
                         </label>
-                     </div>
-                  </div>
-                  <br/>
-                                    <div class="form-group" >
-                     <div class="col-sm-offset-4 col-sm-2 col-xs-offset-2 col-xs-3 col-md-offset-5 col-md-1" >
-                        <button class="btn btn-primary"  disabled="disabled"  id="button_publish"  onclick="if(togglePublishEvaluation('First Eval')) window.location.href='/page/instructorEvalPublish?courseid=CEvalRUiT.CS1101&evaluationname=First+Eval&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCEvalRUiT.instr&user=CEvalRUiT.instr';"  type="button"  value="Publish" >
-                           Publish
-                        </button>
-                     </div>
-                     <div class="col-sm-2 col-xs-4" >
-                        <button class="btn btn-primary"  type="submit"  value="Download Report" >
-                           Download Report
-                        </button>
-                     </div>
-                     <input name="user"  type="hidden"  value="CEvalRUiT.instr" />
-                                          <input name="courseid"  type="hidden"  value="CEvalRUiT.CS1101" />
-                                          <input name="evaluationname"  type="hidden"  value="First Eval" />
-                                       </div>
-               </form>
+                    </div>     
+                </div>
+                <br>
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-2 col-xs-offset-2 col-xs-3 col-md-offset-5 col-md-1">
+                        
+                        <button type="button" class="btn btn-primary" id="button_publish" value="Publish" onclick="if(togglePublishEvaluation('First Eval')) window.location.href='/page/instructorEvalPublish?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCEvalRUiT.instr&amp;user=CEvalRUiT.instr';" disabled="disabled">Publish</button>
+                        
+                    </div>
+
+                    <div class="col-sm-2 col-xs-4">
+                        <button type="submit" value="Download Report" class="btn btn-primary">Download Report</button>    
+                    </div>
+                    <input name="user" value="CEvalRUiT.instr" type="hidden">
+                    <input name="courseid" value="CEvalRUiT.CS1101" type="hidden">
+                    <input name="evaluationname" value="First Eval" type="hidden">
+                      
+                </div>
+            </form>
+        </div>
+
+        <br>
+        
+
+
+
+
+    <div style="display: none;" id="statusMessage" class="alert alert-warning"></div>
+    <script type="text/javascript">
+        document.getElementById( 'statusMessage' ).scrollIntoView();
+    </script>
+
+        <br>
+
+        
+
+        <div style="display: none;" id="instructorEvaluationSummaryTable" class="evaluation_result">
+            <div class="row">
+            <div class="col-sm-4">
+            <h4><span data-original-title="This is the students own estimation of his/her contributions" class="label label-info" data-toggle="tooltip" data-placement="top" data-container="body" title="">CC</span> Claimed Contribution 
+            </h4>
             </div>
-            <br/>
-                        <div class="alert alert-warning"  id="statusMessage"  style="display: none;" >
+            <div class="col-sm-5"> 
+            <h4><span data-original-title="This is the average of what other team members think this student contributed" class="label label-info" data-toggle="tooltip" data-placement="top" data-container="body" title="">PC</span> Perceived Contribution 
+            </h4>
             </div>
-            <script type="text/javascript" >
-               document.getElementById( 'statusMessage' ).scrollIntoView();
-            </script>
-            <br/>
-                        <div class="evaluation_result"  id="instructorEvaluationSummaryTable"  style="display: none;" >
-               <div class="row" >
-                  <div class="col-sm-4" >
-                     <h4>
-                        <span class="label label-info"  data-container="body"  data-original-title="This is student own estimation of his/her contributions to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
-                           CC
-                        </span>
-                        Claimed Contribution
-                     </h4>
-                  </div>
-                  <div class="col-sm-5" >
-                     <h4>
-                        <span class="label label-info"  data-container="body"  data-original-title="This is the average of what other team members think this student contributed to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
-                           PC
-                        </span>
-                        Perceived Contribution
-                     </h4>
-                  </div>
-                  <div class="col-sm-3" >
-                     <h4>
-                        <span class="label label-info" >
-                           E
-                        </span>
-                        Equal Share
-                     </h4>
-                  </div>
-               </div>
-               <div class="pull-right" >
-                  [
-                  <a href="/instructorHelp.html#faq7a"  id="interpret_help_link"  target="_blank" >
-                     How do I interpret/use these values?
-                  </a>
-                  ]
-               </div>
-               <table class="table table-bordered table-striped"  id="dataTable" >
-                  <thead class="fill-primary" >
-                     <tr>
-                        <th class="button-sort-ascending"  id="button_sortteamname"  onclick="toggleSort(this,1);" >
-                           Team
-                           <span class="icon-sort sorted-ascending" >
-                           </span>
-                        </th>
-                        <th class="button-sort-none"  id="button_sortname"  onclick="toggleSort(this,2)" >
-                           Student
-                           <span class="icon-sort unsorted" >
-                           </span>
-                        </th>
-                        <th class="button-sort-none"  id="button_sortclaimed"  onclick="toggleSort(this,3,sortByPoint)" >
-                           CC
-                           <span class="icon-sort unsorted" >
-                           </span>
-                        </th>
-                        <th class="button-sort-none"  id="button_sortperceived"  onclick="toggleSort(this,4,sortByPoint)" >
-                           PC
-                           <span class="icon-sort unsorted" >
-                           </span>
-                        </th>
-                        <th class="button-sort-none"  data-container="body"  data-original-title="Perceived Contribution - Claimed Contribution"  data-placement="top"  data-toggle="tooltip"  id="button_sortdiff"  onclick="toggleSort(this,5,sortByDiff)"  title="" >
-                           Diff
-                           <span class="icon-sort unsorted" >
-                           </span>
-                        </th>
-                        <th class="align-center"  data-container="body"  data-original-title="The list of points that this student received from others"  data-placement="top"  data-toggle="tooltip"  title="" >
-                           Ratings Received
-                        </th>
-                        <th class="align-center" >
-                           Action(s)
-                        </th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr class="student_row"  id="student0" >
-                        <td>
-                           Team 1
-                        </td>
-                        <td data-container="body"  data-original-title="This student's name is Alice Betsy"  data-placement="top"  data-toggle="tooltip"  id="studentname"  title="" >
-                           Alice Betsy
-                        </td>
-                        <td>
-                           <span class="color-negative" >
-                              E -5%
-                           </span>
-                        </td>
-                        <td>
-                           <span class="color_neutral" >
-                              E
-                           </span>
-                        </td>
-                        <td>
-                           <span class="color-positive" >
-                              +5%
-                           </span>
-                        </td>
-                        <td>
-                           <span class="color_neutral" >
-                              E
-                           </span>
-                        </td>
-                        <td class="align-center no-print" >
-                           <a class="btn btn-default btn-xs"  data-container="body"  data-original-title="View feedback from the student for his team<br />This opens in a new window"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalSubmissionPage?courseid=CEvalRUiT.CS1101&evaluationname=First+Eval&studentemail=CEvalRUiT.alice.b%40gmail.com&user=CEvalRUiT.instr"  id="viewEvaluationResults0"  name="viewEvaluationResults0"  target="_blank"  title="" >
-                              View
-                           </a>
-                           <a class="btn btn-default btn-xs"  data-container="body"  data-original-title="Edit feedback from the student for his team<br />This opens in a new window"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&evaluationname=First+Eval&studentemail=CEvalRUiT.alice.b%40gmail.com&user=CEvalRUiT.instr"  id="editEvaluationResults0"  name="editEvaluationResults0"  onclick="return openChildWindow(this.href)"  target="_blank"  title="" >
-                              Edit
-                           </a>
-                        </td>
-                     </tr>
-                     <tr class="student_row"  id="student1" >
-                        <td>
-                           Team 1
-                        </td>
-                        <td data-container="body"  data-original-title="This student's name is Benny Charles"  data-placement="top"  data-toggle="tooltip"  id="studentname"  title="" >
-                           Benny Charles
-                        </td>
-                        <td>
-                           <span class="color-positive" >
-                              E +5%
-                           </span>
-                        </td>
-                        <td>
-                           <span class="color_neutral" >
-                              E
-                           </span>
-                        </td>
-                        <td>
-                           <span class="color-negative" >
-                              -5%
-                           </span>
-                        </td>
-                        <td>
-                           <span class="color_neutral" >
-                              E
-                           </span>
-                        </td>
-                        <td class="align-center no-print" >
-                           <a class="btn btn-default btn-xs"  data-container="body"  data-original-title="View feedback from the student for his team<br />This opens in a new window"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalSubmissionPage?courseid=CEvalRUiT.CS1101&evaluationname=First+Eval&studentemail=CEvalRUiT.benny.c%40gmail.com&user=CEvalRUiT.instr"  id="viewEvaluationResults1"  name="viewEvaluationResults1"  target="_blank"  title="" >
-                              View
-                           </a>
-                           <a class="btn btn-default btn-xs"  data-container="body"  data-original-title="Edit feedback from the student for his team<br />This opens in a new window"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&evaluationname=First+Eval&studentemail=CEvalRUiT.benny.c%40gmail.com&user=CEvalRUiT.instr"  id="editEvaluationResults1"  name="editEvaluationResults1"  onclick="return openChildWindow(this.href)"  target="_blank"  title="" >
-                              Edit
-                           </a>
-                        </td>
-                     </tr>
-                     <tr class="student_row"  id="student4" >
-                        <td>
-                           Team 2
-                        </td>
-                        <td data-container="body"  data-original-title="This student's name is Emily"  data-placement="top"  data-toggle="tooltip"  id="studentname"  title="" >
-                           Emily
-                        </td>
-                        <td>
-                           <span class="color-positive" >
-                              E +10%
-                           </span>
-                        </td>
-                        <td>
-                           <span class="color-positive" >
-                              E +4%
-                           </span>
-                        </td>
-                        <td>
-                           <span class="color-negative" >
-                              -6%
-                           </span>
-                        </td>
-                        <td>
-                           <span class="color-positive" >
-                              E +4%
-                           </span>
-                           ,
-                           <span class="color-negative"  data-original-title="Not Available: There is no data for this or the data is not enough"  data-placement="top"  data-toggle="tooltip"  title="" >
-                              N/A
-                           </span>
-                        </td>
-                        <td class="align-center no-print" >
-                           <a class="btn btn-default btn-xs"  data-container="body"  data-original-title="View feedback from the student for his team<br />This opens in a new window"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalSubmissionPage?courseid=CEvalRUiT.CS1101&evaluationname=First+Eval&studentemail=CEvalRUiT.emily.f%40gmail.com&user=CEvalRUiT.instr"  id="viewEvaluationResults4"  name="viewEvaluationResults4"  target="_blank"  title="" >
-                              View
-                           </a>
-                           <a class="btn btn-default btn-xs"  data-container="body"  data-original-title="Edit feedback from the student for his team<br />This opens in a new window"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&evaluationname=First+Eval&studentemail=CEvalRUiT.emily.f%40gmail.com&user=CEvalRUiT.instr"  id="editEvaluationResults4"  name="editEvaluationResults4"  onclick="return openChildWindow(this.href)"  target="_blank"  title="" >
-                              Edit
-                           </a>
-                        </td>
-                     </tr>
-                     <tr class="student_row"  id="student2" >
-                        <td>
-                           Team 2
-                        </td>
-                        <td data-container="body"  data-original-title="This student's name is Charlie Davis"  data-placement="top"  data-toggle="tooltip"  id="studentname"  title="" >
-                           Charlie Davis
-                        </td>
-                        <td>
-                           <span class="color-positive" >
-                              E +3%
-                           </span>
-                        </td>
-                        <td>
-                           <span class="color-negative" >
-                              E -3%
-                           </span>
-                        </td>
-                        <td>
-                           <span class="color-negative" >
-                              -6%
-                           </span>
-                        </td>
-                        <td>
-                           <span class="color-negative" >
-                              E -1%
-                           </span>
-                           ,
-                           <span class="color-negative" >
-                              E -6%
-                           </span>
-                        </td>
-                        <td class="align-center no-print" >
-                           <a class="btn btn-default btn-xs"  data-container="body"  data-original-title="View feedback from the student for his team<br />This opens in a new window"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalSubmissionPage?courseid=CEvalRUiT.CS1101&evaluationname=First+Eval&studentemail=CEvalRUiT.charlie.d%40gmail.com&user=CEvalRUiT.instr"  id="viewEvaluationResults2"  name="viewEvaluationResults2"  target="_blank"  title="" >
-                              View
-                           </a>
-                           <a class="btn btn-default btn-xs"  data-container="body"  data-original-title="Edit feedback from the student for his team<br />This opens in a new window"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&evaluationname=First+Eval&studentemail=CEvalRUiT.charlie.d%40gmail.com&user=CEvalRUiT.instr"  id="editEvaluationResults2"  name="editEvaluationResults2"  onclick="return openChildWindow(this.href)"  target="_blank"  title="" >
-                              Edit
-                           </a>
-                        </td>
-                     </tr>
-                     <tr class="student_row"  id="student3" >
-                        <td>
-                           Team 2
-                        </td>
-                        <td data-container="body"  data-original-title="This student's name is Danny Engrid"  data-placement="top"  data-toggle="tooltip"  id="studentname"  title="" >
-                           Danny Engrid
-                        </td>
-                        <td>
-                           <span class="color-positive" >
-                              E +10%
-                           </span>
-                        </td>
-                        <td>
-                           <span class="color-negative" >
-                              E -1%
-                           </span>
-                        </td>
-                        <td>
-                           <span class="color-negative" >
-                              -11%
-                           </span>
-                        </td>
-                        <td>
-                           <span class="color-positive" >
-                              E +4%
-                           </span>
-                           ,
-                           <span class="color-negative" >
-                              E -6%
-                           </span>
-                        </td>
-                        <td class="align-center no-print" >
-                           <a class="btn btn-default btn-xs"  data-container="body"  data-original-title="View feedback from the student for his team<br />This opens in a new window"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalSubmissionPage?courseid=CEvalRUiT.CS1101&evaluationname=First+Eval&studentemail=CEvalRUiT.danny.e%40gmail.com&user=CEvalRUiT.instr"  id="viewEvaluationResults3"  name="viewEvaluationResults3"  target="_blank"  title="" >
-                              View
-                           </a>
-                           <a class="btn btn-default btn-xs"  data-container="body"  data-original-title="Edit feedback from the student for his team<br />This opens in a new window"  data-placement="top"  data-toggle="tooltip"  href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&evaluationname=First+Eval&studentemail=CEvalRUiT.danny.e%40gmail.com&user=CEvalRUiT.instr"  id="editEvaluationResults3"  name="editEvaluationResults3"  onclick="return openChildWindow(this.href)"  target="_blank"  title="" >
-                              Edit
-                           </a>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-               <br/>
-                              <br/>
-                              <br/>
-                           </div>
-            <div class="evaluation_result"  id="instructorEvaluationDetailedReviewerTable"  style="display: block;" >
-               <div class="well well-plain" >
-                  <span class="text-primary" >
-                     <h4>
-                        <strong>
-                           Team 1
-                        </strong>
-                     </h4>
-                  </span>
-                  <br/>
-                                    <div class="panel panel-primary" >
-                     <div class="panel-heading" >
-                        <div class="row" >
-                           <div class="col-md-3" >
-                              Reviewer:
-                              <strong>
-                                 Alice Betsy
-                              </strong>
-                           </div>
-                           <div class="col-md-4" >
-                              <div class="pull-right" >
-                                 <span data-container="body"  data-original-title="This is student own estimation of his/her contributions to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    Claimed contribution:
-                                    <span class="badge background-color-white color-negative" >
-                                       E -5%
-                                    </span>
-                                 </span>
+            <div class="col-sm-3">
+            <h4><span class="label label-info">E</span> Equal Share</h4>
+            </div>
+            </div>
+            <div class="pull-right">
+            [<a href="/instructorHelp.html#faq7a" target="_blank" id="interpret_help_link">How do I interpret/use these values?</a> ]
+        </div>
+
+            <table class="table table-bordered table-striped" id="dataTable">
+                <thead class="fill-primary">
+                <tr>
+                    <th class="button-sort-ascending" id="button_sortteamname" onclick="toggleSort(this,1);">Team 
+                        <span class="icon-sort sorted-ascending"></span></th>
+                    <th class="button-sort-none" id="button_sortname" onclick="toggleSort(this,2)">Student
+                        <span class="icon-sort unsorted"></span></th>
+                    <th class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,3,sortByPoint)"> CC
+                        <span class="icon-sort unsorted"></span></th>
+                    <th class="button-sort-none" id="button_sortperceived" onclick="toggleSort(this,4,sortByPoint)">PC
+                        <span class="icon-sort unsorted"></span></th>
+                    <th data-original-title="Perceived Contribution - Claimed Contribution" class="button-sort-none" id="button_sortdiff" onclick="toggleSort(this,5,sortByDiff)" data-toggle="tooltip" data-placement="top" data-container="body" title="">Diff
+                        <span class="icon-sort unsorted"></span></th>
+                    <th data-original-title="The list of points that this student received from others" class="align-center" data-toggle="tooltip" data-placement="top" data-container="body" title="">Ratings Received</th>
+                    <th class="align-center">Action(s)</th>
+                </tr>
+                </thead>
+                
+                <tbody>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            <tr class="student_row" id="student0">
+                    <td>Team 1</td>
+                    <td data-original-title="This student's name is Alice Betsy" id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title=""> 
+                        Alice Betsy
+                    </td>
+                    <td><span class="color-negative">E -5%</span></td>
+                    <td><span class="color_neutral">E</span></td>
+                    <td><span class="color-positive">+5%</span></td>
+                    <td><span class="color_neutral">E</span></td>
+                    <td class="align-center no-print">
+                        <a data-original-title="View feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="viewEvaluationResults0" id="viewEvaluationResults0" target="_blank" href="/page/instructorEvalSubmissionPage?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.alice.b%40gmail.com&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title=""> View</a>
+                        <a data-original-title="Edit feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="editEvaluationResults0" id="editEvaluationResults0" target="_blank" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.alice.b%40gmail.com&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title="" onclick="return openChildWindow(this.href)"> Edit</a>
+                    </td>
+                </tr><tr class="student_row" id="student1">
+                    <td>Team 1</td>
+                    <td data-original-title="This student's name is Benny Charles" id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title=""> 
+                        Benny Charles
+                    </td>
+                    <td><span class="color-positive">E +5%</span></td>
+                    <td><span class="color_neutral">E</span></td>
+                    <td><span class="color-negative">-5%</span></td>
+                    <td><span class="color_neutral">E</span></td>
+                    <td class="align-center no-print">
+                        <a data-original-title="View feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="viewEvaluationResults1" id="viewEvaluationResults1" target="_blank" href="/page/instructorEvalSubmissionPage?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.benny.c%40gmail.com&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title=""> View</a>
+                        <a data-original-title="Edit feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="editEvaluationResults1" id="editEvaluationResults1" target="_blank" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.benny.c%40gmail.com&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title="" onclick="return openChildWindow(this.href)"> Edit</a>
+                    </td>
+                </tr><tr class="student_row" id="student4">
+                    <td>Team 2</td>
+                    <td data-original-title="This student's name is Emily" id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title=""> 
+                        Emily
+                    </td>
+                    <td><span class="color-positive">E +10%</span></td>
+                    <td><span class="color-positive">E +4%</span></td>
+                    <td><span class="color-negative">-6%</span></td>
+                    <td><span class="color-positive">E +4%</span>, <span data-original-title="Not Available: There is no data for this or the data is not enough" class="color-negative" data-toggle="tooltip" data-placement="top" title="">N/A</span></td>
+                    <td class="align-center no-print">
+                        <a data-original-title="View feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="viewEvaluationResults4" id="viewEvaluationResults4" target="_blank" href="/page/instructorEvalSubmissionPage?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.emily.f%40gmail.com&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title=""> View</a>
+                        <a data-original-title="Edit feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="editEvaluationResults4" id="editEvaluationResults4" target="_blank" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.emily.f%40gmail.com&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title="" onclick="return openChildWindow(this.href)"> Edit</a>
+                    </td>
+                </tr><tr class="student_row" id="student2">
+                    <td>Team 2</td>
+                    <td data-original-title="This student's name is Charlie Davis" id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title=""> 
+                        Charlie Davis
+                    </td>
+                    <td><span class="color-positive">E +3%</span></td>
+                    <td><span class="color-negative">E -3%</span></td>
+                    <td><span class="color-negative">-6%</span></td>
+                    <td><span class="color-negative">E -1%</span>, <span class="color-negative">E -6%</span></td>
+                    <td class="align-center no-print">
+                        <a data-original-title="View feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="viewEvaluationResults2" id="viewEvaluationResults2" target="_blank" href="/page/instructorEvalSubmissionPage?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.charlie.d%40gmail.com&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title=""> View</a>
+                        <a data-original-title="Edit feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="editEvaluationResults2" id="editEvaluationResults2" target="_blank" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.charlie.d%40gmail.com&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title="" onclick="return openChildWindow(this.href)"> Edit</a>
+                    </td>
+                </tr><tr class="student_row" id="student3">
+                    <td>Team 2</td>
+                    <td data-original-title="This student's name is Danny Engrid" id="studentname" data-toggle="tooltip" data-placement="top" data-container="body" title=""> 
+                        Danny Engrid
+                    </td>
+                    <td><span class="color-positive">E +10%</span></td>
+                    <td><span class="color-negative">E -1%</span></td>
+                    <td><span class="color-negative">-11%</span></td>
+                    <td><span class="color-positive">E +4%</span>, <span class="color-negative">E -6%</span></td>
+                    <td class="align-center no-print">
+                        <a data-original-title="View feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="viewEvaluationResults3" id="viewEvaluationResults3" target="_blank" href="/page/instructorEvalSubmissionPage?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.danny.e%40gmail.com&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title=""> View</a>
+                        <a data-original-title="Edit feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="editEvaluationResults3" id="editEvaluationResults3" target="_blank" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.danny.e%40gmail.com&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title="" onclick="return openChildWindow(this.href)"> Edit</a>
+                    </td>
+                </tr></tbody></table>
+            <br> <br> <br>
+        </div>
+
+        
+
+        
+        <div id="instructorEvaluationDetailedReviewerTable" class="evaluation_result" style="display: block;">
+        
+            
+            
+            <div class="well well-plain">
+                <span class="text-primary"><h4>
+                    <strong>Team 1</strong>
+                </h4></span>
+                <br>
+                
+                      <div class="panel panel-primary">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <div class="col-md-3">Reviewer:
+                            <strong>Alice Betsy</strong>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="pull-right">
+                                <span data-original-title="This is the students own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                Claimed contribution: <span class="badge background-color-white color-negative"> E -5%</span>
+                                </span>
                               </div>
-                           </div>
-                           <div class="col-md-4" >
-                              <div class="pull-right" >
-                                 <span data-container="body"  data-original-title="This is the average of what other team members think this student contributed to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    Perceived contribution:
-                                    <span class="badge background-color-white color-positive" >
-                                       E
-                                    </span>
-                                 </span>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="pull-right">
+                                <span data-original-title="This is the average of what other team members think this student contributed" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                Perceived contribution: <span class="badge background-color-white color-positive"> E </span>
+                                </span>
                               </div>
-                           </div>
-                           <div class="col-md-1" >
-                              <div class="pull-right" >
-                                 <a class="button btn-primary btn-xs"  href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&evaluationname=First+Eval&studentemail=CEvalRUiT.alice.b%40gmail.com&user=CEvalRUiT.instr"  onclick="return openChildWindow(this.href)"  target="_blank" >
-                                    <span class="glyphicon glyphicon-pencil" >
-                                    </span>
-                                    Edit
-                                 </a>
-                              </div>
-                           </div>
+                            </div>
+                           
+                                  
+                                <div class="col-md-1">
+                                    <div class="pull-right">
+                                    
+                                           <a target="_blank" class="button btn-primary btn-xs" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.alice.b%40gmail.com&amp;user=CEvalRUiT.instr" onclick="return openChildWindow(this.href)"><span class="glyphicon glyphicon-pencil"></span> Edit</a> 
+                                    
+                                    </div>
+                                </div>
+                                
+                          </div>
                         </div>
-                     </div>
-                     <table class="table table-bordered" >
-                        <tbody>
-                           <tr>
-                              <td>
-                                 <strong>
-                                    Self evaluation:
-                                 </strong>
-                                 <br/>
-                                                                  This is a justification from CEvalRUiT.alice.b@gmail.com to CEvalRUiT.alice.b@gmail.com
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <strong>
-                                    Comments about the team:
-                                 </strong>
-                                 <br/>
-                                                                  This is a public comment from CEvalRUiT.alice.b@gmail.com to CEvalRUiT.alice.b@gmail.com
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                     <table class="table table-bordered table-striped" >
-                        <thead>
-                           <tr class="border-top-gray fill-info" >
-                              <th class="col-sm-1" >
-                                 To
-                              </th>
-                              <th class="col-sm-1" >
-                                 Contribution
-                              </th>
-                              <th class="col-sm-5" >
-                                 Confidential comments
-                              </th>
-                              <th class="col-sm-5" >
-                                 Feedback to peer
-                              </th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td>
-                                 Benny Charles
-                              </td>
-                              <td>
-                                 <span class="color-positive" >
-                                    E +5%
-                                 </span>
-                              </td>
-                              <td>
-                                 This is a justification from CEvalRUiT.alice.b@gmail.com to CEvalRUiT.benny.c@gmail.com
-                              </td>
-                              <td>
-                                 <strong>
-                                    What I appreciate about you as a team member:
-                                 </strong>
-                                 Good Job!
-                                 <strong class="bold" >
-                                    Areas you can improve further:
-                                 </strong>
-                                 Everything.
-                                 <strong>
-                                    Other comments:
-                                 </strong>
-                                 Nothing
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                  </div>
-                  <br/>
-                                    <div class="panel panel-primary" >
-                     <div class="panel-heading" >
-                        <div class="row" >
-                           <div class="col-md-3" >
-                              Reviewer:
-                              <strong>
-                                 Benny Charles
-                              </strong>
-                           </div>
-                           <div class="col-md-4" >
-                              <div class="pull-right" >
-                                 <span data-container="body"  data-original-title="This is student own estimation of his/her contributions to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    Claimed contribution:
-                                    <span class="badge background-color-white color-positive" >
-                                       E +5%
-                                    </span>
-                                 </span>
+
+                        <table class="table table-bordered">
+                          <tbody>
+                            <tr>
+                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.alice.b@gmail.com to CEvalRUiT.alice.b@gmail.com</td>
+                            </tr>
+                            <tr>
+                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.alice.b@gmail.com to CEvalRUiT.alice.b@gmail.com</td>
+                            </tr>
+
+                          </tbody>
+                        </table>
+
+                        <table class="table table-bordered table-striped">
+                          <thead>
+                            <tr class="border-top-gray fill-info">
+                              <th class="col-sm-1">To</th>
+                              <th class="col-sm-1">Contribution</th>
+                              <th class="col-sm-5">Confidential comments</th>
+                              <th class="col-sm-5">Feedback to peer</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                             
+                            <tr>
+                              <td>Benny Charles</td>
+                              <td><span class="color-positive">E +5%</span></td>
+                              <td>This is a justification from CEvalRUiT.alice.b@gmail.com to CEvalRUiT.benny.c@gmail.com</td>
+                              <td><strong>What I appreciate about you as a team member:</strong>
+Good Job!
+<strong class="bold">Areas you can improve further:</strong>
+Everything.
+<strong>Other comments:</strong>
+Nothing</td>
+                            </tr>
+                            
+                          </tbody>
+                        </table>
+                    </div>
+                <br>
+                      <div class="panel panel-primary">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <div class="col-md-3">Reviewer:
+                            <strong>Benny Charles</strong>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="pull-right">
+                                <span data-original-title="This is the students own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                Claimed contribution: <span class="badge background-color-white color-positive"> E +5%</span>
+                                </span>
                               </div>
-                           </div>
-                           <div class="col-md-4" >
-                              <div class="pull-right" >
-                                 <span data-container="body"  data-original-title="This is the average of what other team members think this student contributed to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    Perceived contribution:
-                                    <span class="badge background-color-white color-positive" >
-                                       E
-                                    </span>
-                                 </span>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="pull-right">
+                                <span data-original-title="This is the average of what other team members think this student contributed" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                Perceived contribution: <span class="badge background-color-white color-positive"> E </span>
+                                </span>
                               </div>
-                           </div>
-                           <div class="col-md-1" >
-                              <div class="pull-right" >
-                                 <a class="button btn-primary btn-xs"  href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&evaluationname=First+Eval&studentemail=CEvalRUiT.benny.c%40gmail.com&user=CEvalRUiT.instr"  onclick="return openChildWindow(this.href)"  target="_blank" >
-                                    <span class="glyphicon glyphicon-pencil" >
-                                    </span>
-                                    Edit
-                                 </a>
-                              </div>
-                           </div>
+                            </div>
+                           
+                                  
+                                <div class="col-md-1">
+                                    <div class="pull-right">
+                                    
+                                           <a target="_blank" class="button btn-primary btn-xs" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.benny.c%40gmail.com&amp;user=CEvalRUiT.instr" onclick="return openChildWindow(this.href)"><span class="glyphicon glyphicon-pencil"></span> Edit</a> 
+                                    
+                                    </div>
+                                </div>
+                                
+                          </div>
                         </div>
-                     </div>
-                     <table class="table table-bordered" >
-                        <tbody>
-                           <tr>
-                              <td>
-                                 <strong>
-                                    Self evaluation:
-                                 </strong>
-                                 <br/>
-                                                                  This is a justification from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.benny.c@gmail.com
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <strong>
-                                    Comments about the team:
-                                 </strong>
-                                 <br/>
-                                                                  This is a public comment from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.benny.c@gmail.com
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                     <table class="table table-bordered table-striped" >
-                        <thead>
-                           <tr class="border-top-gray fill-info" >
-                              <th class="col-sm-1" >
-                                 To
-                              </th>
-                              <th class="col-sm-1" >
-                                 Contribution
-                              </th>
-                              <th class="col-sm-5" >
-                                 Confidential comments
-                              </th>
-                              <th class="col-sm-5" >
-                                 Feedback to peer
-                              </th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 <span class="color-negative" >
-                                    E -5%
-                                 </span>
-                              </td>
-                              <td>
-                                 This is a justification from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.alice.b@gmail.com
-                              </td>
-                              <td>
-                                 This is a public comment from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.alice.b@gmail.com
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                  </div>
-               </div>
-               <br/>
-                              <div class="align-center" >
-                  <button class="btn btn-info btn-circle"  onclick="scrollToTop()"  value="To Top" >
-                     <span class="glyphicon glyphicon-arrow-up" >
-                     </span>
-                  </button>
-                  <a href="#"  onclick="scrollToTop()" >
-                     To Top
-                  </a>
-               </div>
-               <br/>
-                              <br/>
-                              <div class="well well-plain" >
-                  <span class="text-primary" >
-                     <h4>
-                        <strong>
-                           Team 2
-                        </strong>
-                     </h4>
-                  </span>
-                  <br/>
-                                    <div class="panel panel-primary" >
-                     <div class="panel-heading" >
-                        <div class="row" >
-                           <div class="col-md-3" >
-                              Reviewer:
-                              <strong>
-                                 Charlie Davis
-                              </strong>
-                           </div>
-                           <div class="col-md-4" >
-                              <div class="pull-right" >
-                                 <span data-container="body"  data-original-title="This is student own estimation of his/her contributions to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    Claimed contribution:
-                                    <span class="badge background-color-white color-positive" >
-                                       E +3%
-                                    </span>
-                                 </span>
+
+                        <table class="table table-bordered">
+                          <tbody>
+                            <tr>
+                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.benny.c@gmail.com</td>
+                            </tr>
+                            <tr>
+                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.benny.c@gmail.com</td>
+                            </tr>
+
+                          </tbody>
+                        </table>
+
+                        <table class="table table-bordered table-striped">
+                          <thead>
+                            <tr class="border-top-gray fill-info">
+                              <th class="col-sm-1">To</th>
+                              <th class="col-sm-1">Contribution</th>
+                              <th class="col-sm-5">Confidential comments</th>
+                              <th class="col-sm-5">Feedback to peer</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                             
+                            <tr>
+                              <td>Alice Betsy</td>
+                              <td><span class="color-negative">E -5%</span></td>
+                              <td>This is a justification from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.alice.b@gmail.com</td>
+                              <td>This is a public comment from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.alice.b@gmail.com</td>
+                            </tr>
+                            
+                          </tbody>
+                        </table>
+                    </div>
+                
+            </div>
+                <br>
+                <div class="align-center">
+                    <button class="btn btn-info btn-circle" value="To Top" onclick="scrollToTop()">
+                        <span class="glyphicon glyphicon-arrow-up"></span></button>
+                       <a onclick="scrollToTop()" href="#"> To Top </a>
+                </div>
+                <br>
+                <br>
+            
+            <div class="well well-plain">
+                <span class="text-primary"><h4>
+                    <strong>Team 2</strong>
+                </h4></span>
+                <br>
+                
+                      <div class="panel panel-primary">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <div class="col-md-3">Reviewer:
+                            <strong>Charlie Davis</strong>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="pull-right">
+                                <span data-original-title="This is the students own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                Claimed contribution: <span class="badge background-color-white color-positive"> E +3%</span>
+                                </span>
                               </div>
-                           </div>
-                           <div class="col-md-4" >
-                              <div class="pull-right" >
-                                 <span data-container="body"  data-original-title="This is the average of what other team members think this student contributed to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    Perceived contribution:
-                                    <span class="badge background-color-white color-negative" >
-                                       E -3%
-                                    </span>
-                                 </span>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="pull-right">
+                                <span data-original-title="This is the average of what other team members think this student contributed" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                Perceived contribution: <span class="badge background-color-white color-negative"> E -3%</span>
+                                </span>
                               </div>
-                           </div>
-                           <div class="col-md-1" >
-                              <div class="pull-right" >
-                                 <a class="button btn-primary btn-xs"  href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&evaluationname=First+Eval&studentemail=CEvalRUiT.charlie.d%40gmail.com&user=CEvalRUiT.instr"  onclick="return openChildWindow(this.href)"  target="_blank" >
-                                    <span class="glyphicon glyphicon-pencil" >
-                                    </span>
-                                    Edit
-                                 </a>
-                              </div>
-                           </div>
+                            </div>
+                           
+                                  
+                                <div class="col-md-1">
+                                    <div class="pull-right">
+                                    
+                                           <a target="_blank" class="button btn-primary btn-xs" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.charlie.d%40gmail.com&amp;user=CEvalRUiT.instr" onclick="return openChildWindow(this.href)"><span class="glyphicon glyphicon-pencil"></span> Edit</a> 
+                                    
+                                    </div>
+                                </div>
+                                
+                          </div>
                         </div>
-                     </div>
-                     <table class="table table-bordered" >
-                        <tbody>
-                           <tr>
-                              <td>
-                                 <strong>
-                                    Self evaluation:
-                                 </strong>
-                                 <br/>
-                                                                  This is a justification from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.charlie.d@gmail.com
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <strong>
-                                    Comments about the team:
-                                 </strong>
-                                 <br/>
-                                                                  This is a public comment from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.charlie.d@gmail.com
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                     <table class="table table-bordered table-striped" >
-                        <thead>
-                           <tr class="border-top-gray fill-info" >
-                              <th class="col-sm-1" >
-                                 To
-                              </th>
-                              <th class="col-sm-1" >
-                                 Contribution
-                              </th>
-                              <th class="col-sm-5" >
-                                 Confidential comments
-                              </th>
-                              <th class="col-sm-5" >
-                                 Feedback to peer
-                              </th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td>
-                                 Danny Engrid
-                              </td>
-                              <td>
-                                 <span class="color-negative" >
-                                    E -6%
-                                 </span>
-                              </td>
-                              <td>
-                                 This is a justification from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.danny.e@gmail.com
-                              </td>
-                              <td>
-                                 This is a public comment from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.danny.e@gmail.com
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Emily
-                              </td>
-                              <td>
-                                 <span class="color-positive" >
-                                    E +3%
-                                 </span>
-                              </td>
-                              <td>
-                                 This is a justification from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.emily.f@gmail.com
-                              </td>
-                              <td>
-                                 This is a public comment from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.emily.f@gmail.com
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                  </div>
-                  <br/>
-                                    <div class="panel panel-primary" >
-                     <div class="panel-heading" >
-                        <div class="row" >
-                           <div class="col-md-3" >
-                              Reviewer:
-                              <strong>
-                                 Danny Engrid
-                              </strong>
-                           </div>
-                           <div class="col-md-4" >
-                              <div class="pull-right" >
-                                 <span data-container="body"  data-original-title="This is student own estimation of his/her contributions to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    Claimed contribution:
-                                    <span class="badge background-color-white color-positive" >
-                                       E +10%
-                                    </span>
-                                 </span>
+
+                        <table class="table table-bordered">
+                          <tbody>
+                            <tr>
+                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
+                            </tr>
+                            <tr>
+                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
+                            </tr>
+
+                          </tbody>
+                        </table>
+
+                        <table class="table table-bordered table-striped">
+                          <thead>
+                            <tr class="border-top-gray fill-info">
+                              <th class="col-sm-1">To</th>
+                              <th class="col-sm-1">Contribution</th>
+                              <th class="col-sm-5">Confidential comments</th>
+                              <th class="col-sm-5">Feedback to peer</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                             
+                            <tr>
+                              <td>Danny Engrid</td>
+                              <td><span class="color-negative">E -6%</span></td>
+                              <td>This is a justification from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
+                              <td>This is a public comment from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
+                            </tr>
+                            
+                            <tr>
+                              <td>Emily</td>
+                              <td><span class="color-positive">E +3%</span></td>
+                              <td>This is a justification from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
+                              <td>This is a public comment from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
+                            </tr>
+                            
+                          </tbody>
+                        </table>
+                    </div>
+                <br>
+                      <div class="panel panel-primary">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <div class="col-md-3">Reviewer:
+                            <strong>Danny Engrid</strong>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="pull-right">
+                                <span data-original-title="This is the students own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                Claimed contribution: <span class="badge background-color-white color-positive"> E +10%</span>
+                                </span>
                               </div>
-                           </div>
-                           <div class="col-md-4" >
-                              <div class="pull-right" >
-                                 <span data-container="body"  data-original-title="This is the average of what other team members think this student contributed to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    Perceived contribution:
-                                    <span class="badge background-color-white color-negative" >
-                                       E -1%
-                                    </span>
-                                 </span>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="pull-right">
+                                <span data-original-title="This is the average of what other team members think this student contributed" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                Perceived contribution: <span class="badge background-color-white color-negative"> E -1%</span>
+                                </span>
                               </div>
-                           </div>
-                           <div class="col-md-1" >
-                              <div class="pull-right" >
-                                 <a class="button btn-primary btn-xs"  href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&evaluationname=First+Eval&studentemail=CEvalRUiT.danny.e%40gmail.com&user=CEvalRUiT.instr"  onclick="return openChildWindow(this.href)"  target="_blank" >
-                                    <span class="glyphicon glyphicon-pencil" >
-                                    </span>
-                                    Edit
-                                 </a>
-                              </div>
-                           </div>
+                            </div>
+                           
+                                  
+                                <div class="col-md-1">
+                                    <div class="pull-right">
+                                    
+                                           <a target="_blank" class="button btn-primary btn-xs" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.danny.e%40gmail.com&amp;user=CEvalRUiT.instr" onclick="return openChildWindow(this.href)"><span class="glyphicon glyphicon-pencil"></span> Edit</a> 
+                                    
+                                    </div>
+                                </div>
+                                
+                          </div>
                         </div>
-                     </div>
-                     <table class="table table-bordered" >
-                        <tbody>
-                           <tr>
-                              <td>
-                                 <strong>
-                                    Self evaluation:
-                                 </strong>
-                                 <br/>
-                                                                  This is a justification from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.danny.e@gmail.com
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <strong>
-                                    Comments about the team:
-                                 </strong>
-                                 <br/>
-                                                                  This is a public comment from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.danny.e@gmail.com
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                     <table class="table table-bordered table-striped" >
-                        <thead>
-                           <tr class="border-top-gray fill-info" >
-                              <th class="col-sm-1" >
-                                 To
-                              </th>
-                              <th class="col-sm-1" >
-                                 Contribution
-                              </th>
-                              <th class="col-sm-5" >
-                                 Confidential comments
-                              </th>
-                              <th class="col-sm-5" >
-                                 Feedback to peer
-                              </th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td>
-                                 Charlie Davis
-                              </td>
-                              <td>
-                                 <span class="color-negative" >
-                                    E -10%
-                                 </span>
-                              </td>
-                              <td>
-                                 This is a justification from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.charlie.d@gmail.com
-                              </td>
-                              <td>
-                                 This is a public comment from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.charlie.d@gmail.com
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Emily
-                              </td>
-                              <td>
-                                 <span class="color-negative"  data-original-title="Not sure about the contribution"  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    N/S
-                                 </span>
-                              </td>
-                              <td>
-                                 This is a justification from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.emily.f@gmail.com
-                              </td>
-                              <td>
-                                 This is a public comment from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.emily.f@gmail.com
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                  </div>
-                  <br/>
-                                    <div class="panel panel-primary" >
-                     <div class="panel-heading" >
-                        <div class="row" >
-                           <div class="col-md-3" >
-                              Reviewer:
-                              <strong>
-                                 Emily
-                              </strong>
-                           </div>
-                           <div class="col-md-4" >
-                              <div class="pull-right" >
-                                 <span data-container="body"  data-original-title="This is student own estimation of his/her contributions to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    Claimed contribution:
-                                    <span class="badge background-color-white color-positive" >
-                                       E +10%
-                                    </span>
-                                 </span>
+
+                        <table class="table table-bordered">
+                          <tbody>
+                            <tr>
+                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
+                            </tr>
+                            <tr>
+                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
+                            </tr>
+
+                          </tbody>
+                        </table>
+
+                        <table class="table table-bordered table-striped">
+                          <thead>
+                            <tr class="border-top-gray fill-info">
+                              <th class="col-sm-1">To</th>
+                              <th class="col-sm-1">Contribution</th>
+                              <th class="col-sm-5">Confidential comments</th>
+                              <th class="col-sm-5">Feedback to peer</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                             
+                            <tr>
+                              <td>Charlie Davis</td>
+                              <td><span class="color-negative">E -10%</span></td>
+                              <td>This is a justification from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
+                              <td>This is a public comment from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
+                            </tr>
+                            
+                            <tr>
+                              <td>Emily</td>
+                              <td><span data-original-title="Not sure about the contribution" class="color-negative" data-toggle="tooltip" data-placement="top" title="">N/S</span></td>
+                              <td>This is a justification from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
+                              <td>This is a public comment from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
+                            </tr>
+                            
+                          </tbody>
+                        </table>
+                    </div>
+                <br>
+                      <div class="panel panel-primary">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <div class="col-md-3">Reviewer:
+                            <strong>Emily</strong>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="pull-right">
+                                <span data-original-title="This is the students own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                Claimed contribution: <span class="badge background-color-white color-positive"> E +10%</span>
+                                </span>
                               </div>
-                           </div>
-                           <div class="col-md-4" >
-                              <div class="pull-right" >
-                                 <span data-container="body"  data-original-title="This is the average of what other team members think this student contributed to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    Perceived contribution:
-                                    <span class="badge background-color-white color-positive" >
-                                       E +4%
-                                    </span>
-                                 </span>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="pull-right">
+                                <span data-original-title="This is the average of what other team members think this student contributed" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                Perceived contribution: <span class="badge background-color-white color-positive"> E +4%</span>
+                                </span>
                               </div>
-                           </div>
-                           <div class="col-md-1" >
-                              <div class="pull-right" >
-                                 <a class="button btn-primary btn-xs"  href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&evaluationname=First+Eval&studentemail=CEvalRUiT.emily.f%40gmail.com&user=CEvalRUiT.instr"  onclick="return openChildWindow(this.href)"  target="_blank" >
-                                    <span class="glyphicon glyphicon-pencil" >
-                                    </span>
-                                    Edit
-                                 </a>
-                              </div>
-                           </div>
+                            </div>
+                           
+                                  
+                                <div class="col-md-1">
+                                    <div class="pull-right">
+                                    
+                                           <a target="_blank" class="button btn-primary btn-xs" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.emily.f%40gmail.com&amp;user=CEvalRUiT.instr" onclick="return openChildWindow(this.href)"><span class="glyphicon glyphicon-pencil"></span> Edit</a> 
+                                    
+                                    </div>
+                                </div>
+                                
+                          </div>
                         </div>
-                     </div>
-                     <table class="table table-bordered" >
-                        <tbody>
-                           <tr>
-                              <td>
-                                 <strong>
-                                    Self evaluation:
-                                 </strong>
-                                 <br/>
-                                                                  This is a justification from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.emily.f@gmail.com
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <strong>
-                                    Comments about the team:
-                                 </strong>
-                                 <br/>
-                                                                  This is a public comment from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.emily.f@gmail.com
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                     <table class="table table-bordered table-striped" >
-                        <thead>
-                           <tr class="border-top-gray fill-info" >
-                              <th class="col-sm-1" >
-                                 To
-                              </th>
-                              <th class="col-sm-1" >
-                                 Contribution
-                              </th>
-                              <th class="col-sm-5" >
-                                 Confidential comments
-                              </th>
-                              <th class="col-sm-5" >
-                                 Feedback to peer
-                              </th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td>
-                                 Charlie Davis
-                              </td>
-                              <td>
-                                 <span class="color-negative" >
-                                    E -10%
-                                 </span>
-                              </td>
-                              <td>
-                                 This is a justification from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.charlie.d@gmail.com
-                              </td>
-                              <td>
-                                 This is a public comment from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.charlie.d@gmail.com
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Danny Engrid
-                              </td>
-                              <td>
-                                 <span class="color_neutral" >
-                                    E
-                                 </span>
-                              </td>
-                              <td>
-                                 This is a justification from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.danny.e@gmail.com
-                              </td>
-                              <td>
-                                 This is a public comment from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.danny.e@gmail.com
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                  </div>
-               </div>
-               <br/>
-                              <div class="align-center" >
-                  <button class="btn btn-info btn-circle"  onclick="scrollToTop()"  value="To Top" >
-                     <span class="glyphicon glyphicon-arrow-up" >
-                     </span>
-                  </button>
-                  <a href="#"  onclick="scrollToTop()" >
-                     To Top
-                  </a>
-               </div>
-               <br/>
-                           </div>
-            <div class="evaluation_result"  id="instructorEvaluationDetailedRevieweeTable"  style="display: none;" >
-               <div class="well well-plain" >
-                  <span class="text-primary" >
-                     <h4>
-                        <strong>
-                           Team 1
-                        </strong>
-                     </h4>
-                  </span>
-                  <br/>
-                                    <div class="panel panel-primary" >
-                     <div class="panel-heading" >
-                        <div class="row" >
-                           <div class="col-md-3" >
-                              Reviewee:
-                              <strong>
-                                 Alice Betsy
-                              </strong>
-                           </div>
-                           <div class="col-md-4" >
-                              <div class="pull-right" >
-                                 <span data-container="body"  data-original-title="This is student own estimation of his/her contributions to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    Claimed contribution:
-                                    <span class="badge background-color-white color-negative" >
-                                       E -5%
-                                    </span>
-                                 </span>
-                              </div>
-                           </div>
-                           <div class="col-md-4" >
-                              <div class="pull-right" >
-                                 <span data-container="body"  data-original-title="This is the average of what other team members think this student contributed to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    Perceived contribution:
-                                    <span class="badge background-color-white color-positive" >
-                                       E
-                                    </span>
-                                 </span>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <table class="table table-bordered" >
-                        <tbody>
-                           <tr>
-                              <td>
-                                 <strong>
-                                    Self evaluation:
-                                 </strong>
-                                 <br/>
-                                                                  This is a justification from CEvalRUiT.alice.b@gmail.com to CEvalRUiT.alice.b@gmail.com
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <strong>
-                                    Comments about the team:
-                                 </strong>
-                                 <br/>
-                                                                  This is a public comment from CEvalRUiT.alice.b@gmail.com to CEvalRUiT.alice.b@gmail.com
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                     <table class="table table-bordered table-striped" >
-                        <thead>
-                           <tr class="border-top-gray fill-info" >
-                              <th class="col-sm-1" >
-                                 From
-                              </th>
-                              <th class="col-sm-1" >
-                                 Contribution
-                              </th>
-                              <th class="col-sm-5" >
-                                 Confidential comments
-                              </th>
-                              <th class="col-sm-5" >
-                                 Feedback to peer
-                              </th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td>
-                                 Benny Charles
-                              </td>
-                              <td>
-                                 <span class="color_neutral" >
-                                    E
-                                 </span>
-                              </td>
-                              <td>
-                                 This is a justification from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.alice.b@gmail.com
-                              </td>
-                              <td>
-                                 This is a public comment from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.alice.b@gmail.com
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                  </div>
-                  <br/>
-                                    <div class="panel panel-primary" >
-                     <div class="panel-heading" >
-                        <div class="row" >
-                           <div class="col-md-3" >
-                              Reviewee:
-                              <strong>
-                                 Benny Charles
-                              </strong>
-                           </div>
-                           <div class="col-md-4" >
-                              <div class="pull-right" >
-                                 <span data-container="body"  data-original-title="This is student own estimation of his/her contributions to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    Claimed contribution:
-                                    <span class="badge background-color-white color-positive" >
-                                       E +5%
-                                    </span>
-                                 </span>
-                              </div>
-                           </div>
-                           <div class="col-md-4" >
-                              <div class="pull-right" >
-                                 <span data-container="body"  data-original-title="This is the average of what other team members think this student contributed to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    Perceived contribution:
-                                    <span class="badge background-color-white color-positive" >
-                                       E
-                                    </span>
-                                 </span>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <table class="table table-bordered" >
-                        <tbody>
-                           <tr>
-                              <td>
-                                 <strong>
-                                    Self evaluation:
-                                 </strong>
-                                 <br/>
-                                                                  This is a justification from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.benny.c@gmail.com
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <strong>
-                                    Comments about the team:
-                                 </strong>
-                                 <br/>
-                                                                  This is a public comment from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.benny.c@gmail.com
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                     <table class="table table-bordered table-striped" >
-                        <thead>
-                           <tr class="border-top-gray fill-info" >
-                              <th class="col-sm-1" >
-                                 From
-                              </th>
-                              <th class="col-sm-1" >
-                                 Contribution
-                              </th>
-                              <th class="col-sm-5" >
-                                 Confidential comments
-                              </th>
-                              <th class="col-sm-5" >
-                                 Feedback to peer
-                              </th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 <span class="color_neutral" >
-                                    E
-                                 </span>
-                              </td>
-                              <td>
-                                 This is a justification from CEvalRUiT.alice.b@gmail.com to CEvalRUiT.benny.c@gmail.com
-                              </td>
-                              <td>
-                                 <strong>
-                                    What I appreciate about you as a team member:
-                                 </strong>
-                                 Good Job!
-                                 <strong class="bold" >
-                                    Areas you can improve further:
-                                 </strong>
-                                 Everything.
-                                 <strong>
-                                    Other comments:
-                                 </strong>
-                                 Nothing
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                  </div>
-               </div>
-               <br/>
-                              <div class="align-center" >
-                  <button class="btn btn-info btn-circle"  onclick="scrollToTop()"  value="To Top" >
-                     <span class="glyphicon glyphicon-arrow-up" >
-                     </span>
-                  </button>
-                  <a href="#"  onclick="scrollToTop()" >
-                     To Top
-                  </a>
-               </div>
-               <br/>
-                              <br/>
-                              <div class="well well-plain" >
-                  <span class="text-primary" >
-                     <h4>
-                        <strong>
-                           Team 2
-                        </strong>
-                     </h4>
-                  </span>
-                  <br/>
-                                    <div class="panel panel-primary" >
-                     <div class="panel-heading" >
-                        <div class="row" >
-                           <div class="col-md-3" >
-                              Reviewee:
-                              <strong>
-                                 Charlie Davis
-                              </strong>
-                           </div>
-                           <div class="col-md-4" >
-                              <div class="pull-right" >
-                                 <span data-container="body"  data-original-title="This is student own estimation of his/her contributions to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    Claimed contribution:
-                                    <span class="badge background-color-white color-positive" >
-                                       E +3%
-                                    </span>
-                                 </span>
-                              </div>
-                           </div>
-                           <div class="col-md-4" >
-                              <div class="pull-right" >
-                                 <span data-container="body"  data-original-title="This is the average of what other team members think this student contributed to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    Perceived contribution:
-                                    <span class="badge background-color-white color-negative" >
-                                       E -3%
-                                    </span>
-                                 </span>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <table class="table table-bordered" >
-                        <tbody>
-                           <tr>
-                              <td>
-                                 <strong>
-                                    Self evaluation:
-                                 </strong>
-                                 <br/>
-                                                                  This is a justification from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.charlie.d@gmail.com
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <strong>
-                                    Comments about the team:
-                                 </strong>
-                                 <br/>
-                                                                  This is a public comment from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.charlie.d@gmail.com
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                     <table class="table table-bordered table-striped" >
-                        <thead>
-                           <tr class="border-top-gray fill-info" >
-                              <th class="col-sm-1" >
-                                 From
-                              </th>
-                              <th class="col-sm-1" >
-                                 Contribution
-                              </th>
-                              <th class="col-sm-5" >
-                                 Confidential comments
-                              </th>
-                              <th class="col-sm-5" >
-                                 Feedback to peer
-                              </th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td>
-                                 Danny Engrid
-                              </td>
-                              <td>
-                                 <span class="color-negative" >
-                                    E -1%
-                                 </span>
-                              </td>
-                              <td>
-                                 This is a justification from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.charlie.d@gmail.com
-                              </td>
-                              <td>
-                                 This is a public comment from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.charlie.d@gmail.com
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Emily
-                              </td>
-                              <td>
-                                 <span class="color-negative" >
-                                    E -6%
-                                 </span>
-                              </td>
-                              <td>
-                                 This is a justification from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.charlie.d@gmail.com
-                              </td>
-                              <td>
-                                 This is a public comment from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.charlie.d@gmail.com
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                  </div>
-                  <br/>
-                                    <div class="panel panel-primary" >
-                     <div class="panel-heading" >
-                        <div class="row" >
-                           <div class="col-md-3" >
-                              Reviewee:
-                              <strong>
-                                 Danny Engrid
-                              </strong>
-                           </div>
-                           <div class="col-md-4" >
-                              <div class="pull-right" >
-                                 <span data-container="body"  data-original-title="This is student own estimation of his/her contributions to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    Claimed contribution:
-                                    <span class="badge background-color-white color-positive" >
-                                       E +10%
-                                    </span>
-                                 </span>
-                              </div>
-                           </div>
-                           <div class="col-md-4" >
-                              <div class="pull-right" >
-                                 <span data-container="body"  data-original-title="This is the average of what other team members think this student contributed to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    Perceived contribution:
-                                    <span class="badge background-color-white color-negative" >
-                                       E -1%
-                                    </span>
-                                 </span>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <table class="table table-bordered" >
-                        <tbody>
-                           <tr>
-                              <td>
-                                 <strong>
-                                    Self evaluation:
-                                 </strong>
-                                 <br/>
-                                                                  This is a justification from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.danny.e@gmail.com
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <strong>
-                                    Comments about the team:
-                                 </strong>
-                                 <br/>
-                                                                  This is a public comment from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.danny.e@gmail.com
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                     <table class="table table-bordered table-striped" >
-                        <thead>
-                           <tr class="border-top-gray fill-info" >
-                              <th class="col-sm-1" >
-                                 From
-                              </th>
-                              <th class="col-sm-1" >
-                                 Contribution
-                              </th>
-                              <th class="col-sm-5" >
-                                 Confidential comments
-                              </th>
-                              <th class="col-sm-5" >
-                                 Feedback to peer
-                              </th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td>
-                                 Emily
-                              </td>
-                              <td>
-                                 <span class="color-positive" >
-                                    E +4%
-                                 </span>
-                              </td>
-                              <td>
-                                 This is a justification from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.danny.e@gmail.com
-                              </td>
-                              <td>
-                                 This is a public comment from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.danny.e@gmail.com
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Charlie Davis
-                              </td>
-                              <td>
-                                 <span class="color-negative" >
-                                    E -6%
-                                 </span>
-                              </td>
-                              <td>
-                                 This is a justification from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.danny.e@gmail.com
-                              </td>
-                              <td>
-                                 This is a public comment from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.danny.e@gmail.com
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                  </div>
-                  <br/>
-                                    <div class="panel panel-primary" >
-                     <div class="panel-heading" >
-                        <div class="row" >
-                           <div class="col-md-3" >
-                              Reviewee:
-                              <strong>
-                                 Emily
-                              </strong>
-                           </div>
-                           <div class="col-md-4" >
-                              <div class="pull-right" >
-                                 <span data-container="body"  data-original-title="This is student own estimation of his/her contributions to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    Claimed contribution:
-                                    <span class="badge background-color-white color-positive" >
-                                       E +10%
-                                    </span>
-                                 </span>
-                              </div>
-                           </div>
-                           <div class="col-md-4" >
-                              <div class="pull-right" >
-                                 <span data-container="body"  data-original-title="This is the average of what other team members think this student contributed to the project"  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    Perceived contribution:
-                                    <span class="badge background-color-white color-positive" >
-                                       E +4%
-                                    </span>
-                                 </span>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <table class="table table-bordered" >
-                        <tbody>
-                           <tr>
-                              <td>
-                                 <strong>
-                                    Self evaluation:
-                                 </strong>
-                                 <br/>
-                                                                  This is a justification from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.emily.f@gmail.com
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <strong>
-                                    Comments about the team:
-                                 </strong>
-                                 <br/>
-                                                                  This is a public comment from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.emily.f@gmail.com
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                     <table class="table table-bordered table-striped" >
-                        <thead>
-                           <tr class="border-top-gray fill-info" >
-                              <th class="col-sm-1" >
-                                 From
-                              </th>
-                              <th class="col-sm-1" >
-                                 Contribution
-                              </th>
-                              <th class="col-sm-5" >
-                                 Confidential comments
-                              </th>
-                              <th class="col-sm-5" >
-                                 Feedback to peer
-                              </th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <tr>
-                              <td>
-                                 Charlie Davis
-                              </td>
-                              <td>
-                                 <span class="color-positive" >
-                                    E +4%
-                                 </span>
-                              </td>
-                              <td>
-                                 This is a justification from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.emily.f@gmail.com
-                              </td>
-                              <td>
-                                 This is a public comment from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.emily.f@gmail.com
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Danny Engrid
-                              </td>
-                              <td>
-                                 <span class="color-negative"  data-original-title="Not Available: There is no data for this or the data is not enough"  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    N/A
-                                 </span>
-                              </td>
-                              <td>
-                                 This is a justification from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.emily.f@gmail.com
-                              </td>
-                              <td>
-                                 This is a public comment from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.emily.f@gmail.com
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                  </div>
-               </div>
-               <br/>
-                              <div class="align-center" >
-                  <button class="btn btn-info btn-circle"  onclick="scrollToTop()"  value="To Top" >
-                     <span class="glyphicon glyphicon-arrow-up" >
-                     </span>
-                  </button>
-                  <a href="#"  onclick="scrollToTop()" >
-                     To Top
-                  </a>
-               </div>
-               <br/>
-                           </div>
+
+                        <table class="table table-bordered">
+                          <tbody>
+                            <tr>
+                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
+                            </tr>
+                            <tr>
+                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
+                            </tr>
+
+                          </tbody>
+                        </table>
+
+                        <table class="table table-bordered table-striped">
+                          <thead>
+                            <tr class="border-top-gray fill-info">
+                              <th class="col-sm-1">To</th>
+                              <th class="col-sm-1">Contribution</th>
+                              <th class="col-sm-5">Confidential comments</th>
+                              <th class="col-sm-5">Feedback to peer</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                             
+                            <tr>
+                              <td>Charlie Davis</td>
+                              <td><span class="color-negative">E -10%</span></td>
+                              <td>This is a justification from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
+                              <td>This is a public comment from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
+                            </tr>
+                            
+                            <tr>
+                              <td>Danny Engrid</td>
+                              <td><span class="color_neutral">E</span></td>
+                              <td>This is a justification from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
+                              <td>This is a public comment from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
+                            </tr>
+                            
+                          </tbody>
+                        </table>
+                    </div>
+                
+            </div>
+                <br>
+                <div class="align-center">
+                    <button class="btn btn-info btn-circle" value="To Top" onclick="scrollToTop()">
+                        <span class="glyphicon glyphicon-arrow-up"></span></button>
+                       <a onclick="scrollToTop()" href="#"> To Top </a>
+                </div>
+                <br>
+                
          </div>
-         <div class="container-fluid"  id="footerComponent" >
-            <div class="container" >
-               <div class="row" >
-                  <div class="col-md-4" >
-                     <span>
-                        [
-                        <a href="/index.html" >
-                           TEAMMATES
-                        </a>
-                        V{$version}]
-                     </span>
-                  </div>
-                  <div class="col-md-4" >
-                     [for
-                     <span class="highlight-white" >
-                        <span class="color_white" >
-                           National University of Singapore
-                        </span>
-                     </span>
-                     ]
-                  </div>
-                  <div class="col-md-4" >
-                     <span>
-                        [Send
-                        <a class="link"  href="../contact.html"  target="_blank" >
-                           Feedback
-                        </a>
-                        ]
-                     </span>
-                  </div>
-               </div>
+                
+        <div id="instructorEvaluationDetailedRevieweeTable" class="evaluation_result" style="display: none;">
+        
+            
+            
+            <div class="well well-plain">
+                <span class="text-primary"><h4>
+                    <strong>Team 1</strong>
+                </h4></span>
+                <br>
+                
+                      <div class="panel panel-primary">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <div class="col-md-3">Reviewee:
+                            <strong>Alice Betsy</strong>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="pull-right">
+                                <span data-original-title="This is the students own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                Claimed contribution: <span class="badge background-color-white color-negative"> E -5%</span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="pull-right">
+                                <span data-original-title="This is the average of what other team members think this student contributed" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                Perceived contribution: <span class="badge background-color-white color-positive"> E </span>
+                                </span>
+                              </div>
+                            </div>
+                           
+                                 
+                          </div>
+                        </div>
+
+                        <table class="table table-bordered">
+                          <tbody>
+                            <tr>
+                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.alice.b@gmail.com to CEvalRUiT.alice.b@gmail.com</td>
+                            </tr>
+                            <tr>
+                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.alice.b@gmail.com to CEvalRUiT.alice.b@gmail.com</td>
+                            </tr>
+
+                          </tbody>
+                        </table>
+
+                        <table class="table table-bordered table-striped">
+                          <thead>
+                            <tr class="border-top-gray fill-info">
+                              <th class="col-sm-1">From</th>
+                              <th class="col-sm-1">Contribution</th>
+                              <th class="col-sm-5">Confidential comments</th>
+                              <th class="col-sm-5">Feedback to peer</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                             
+                            <tr>
+                              <td>Benny Charles</td>
+                              <td><span class="color_neutral">E</span></td>
+                              <td>This is a justification from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.alice.b@gmail.com</td>
+                              <td>This is a public comment from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.alice.b@gmail.com</td>
+                            </tr>
+                            
+                          </tbody>
+                        </table>
+                    </div>
+                <br>
+                      <div class="panel panel-primary">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <div class="col-md-3">Reviewee:
+                            <strong>Benny Charles</strong>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="pull-right">
+                                <span data-original-title="This is the students own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                Claimed contribution: <span class="badge background-color-white color-positive"> E +5%</span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="pull-right">
+                                <span data-original-title="This is the average of what other team members think this student contributed" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                Perceived contribution: <span class="badge background-color-white color-positive"> E </span>
+                                </span>
+                              </div>
+                            </div>
+                           
+                                 
+                          </div>
+                        </div>
+
+                        <table class="table table-bordered">
+                          <tbody>
+                            <tr>
+                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.benny.c@gmail.com</td>
+                            </tr>
+                            <tr>
+                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.benny.c@gmail.com</td>
+                            </tr>
+
+                          </tbody>
+                        </table>
+
+                        <table class="table table-bordered table-striped">
+                          <thead>
+                            <tr class="border-top-gray fill-info">
+                              <th class="col-sm-1">From</th>
+                              <th class="col-sm-1">Contribution</th>
+                              <th class="col-sm-5">Confidential comments</th>
+                              <th class="col-sm-5">Feedback to peer</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                             
+                            <tr>
+                              <td>Alice Betsy</td>
+                              <td><span class="color_neutral">E</span></td>
+                              <td>This is a justification from CEvalRUiT.alice.b@gmail.com to CEvalRUiT.benny.c@gmail.com</td>
+                              <td><strong>What I appreciate about you as a team member:</strong>
+Good Job!
+<strong class="bold">Areas you can improve further:</strong>
+Everything.
+<strong>Other comments:</strong>
+Nothing</td>
+                            </tr>
+                            
+                          </tbody>
+                        </table>
+                    </div>
+                
             </div>
+                <br>
+                <div class="align-center">
+                    <button class="btn btn-info btn-circle" value="To Top" onclick="scrollToTop()">
+                        <span class="glyphicon glyphicon-arrow-up"></span></button>
+                       <a onclick="scrollToTop()" href="#"> To Top </a>
+                </div>
+                <br>
+                <br>
+            
+            <div class="well well-plain">
+                <span class="text-primary"><h4>
+                    <strong>Team 2</strong>
+                </h4></span>
+                <br>
+                
+                      <div class="panel panel-primary">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <div class="col-md-3">Reviewee:
+                            <strong>Charlie Davis</strong>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="pull-right">
+                                <span data-original-title="This is the students own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                Claimed contribution: <span class="badge background-color-white color-positive"> E +3%</span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="pull-right">
+                                <span data-original-title="This is the average of what other team members think this student contributed" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                Perceived contribution: <span class="badge background-color-white color-negative"> E -3%</span>
+                                </span>
+                              </div>
+                            </div>
+                           
+                                 
+                          </div>
+                        </div>
+
+                        <table class="table table-bordered">
+                          <tbody>
+                            <tr>
+                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
+                            </tr>
+                            <tr>
+                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
+                            </tr>
+
+                          </tbody>
+                        </table>
+
+                        <table class="table table-bordered table-striped">
+                          <thead>
+                            <tr class="border-top-gray fill-info">
+                              <th class="col-sm-1">From</th>
+                              <th class="col-sm-1">Contribution</th>
+                              <th class="col-sm-5">Confidential comments</th>
+                              <th class="col-sm-5">Feedback to peer</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                             
+                            <tr>
+                              <td>Danny Engrid</td>
+                              <td><span class="color-negative">E -1%</span></td>
+                              <td>This is a justification from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
+                              <td>This is a public comment from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
+                            </tr>
+                            
+                            <tr>
+                              <td>Emily</td>
+                              <td><span class="color-negative">E -6%</span></td>
+                              <td>This is a justification from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
+                              <td>This is a public comment from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
+                            </tr>
+                            
+                          </tbody>
+                        </table>
+                    </div>
+                <br>
+                      <div class="panel panel-primary">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <div class="col-md-3">Reviewee:
+                            <strong>Danny Engrid</strong>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="pull-right">
+                                <span data-original-title="This is the students own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                Claimed contribution: <span class="badge background-color-white color-positive"> E +10%</span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="pull-right">
+                                <span data-original-title="This is the average of what other team members think this student contributed" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                Perceived contribution: <span class="badge background-color-white color-negative"> E -1%</span>
+                                </span>
+                              </div>
+                            </div>
+                           
+                                 
+                          </div>
+                        </div>
+
+                        <table class="table table-bordered">
+                          <tbody>
+                            <tr>
+                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
+                            </tr>
+                            <tr>
+                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
+                            </tr>
+
+                          </tbody>
+                        </table>
+
+                        <table class="table table-bordered table-striped">
+                          <thead>
+                            <tr class="border-top-gray fill-info">
+                              <th class="col-sm-1">From</th>
+                              <th class="col-sm-1">Contribution</th>
+                              <th class="col-sm-5">Confidential comments</th>
+                              <th class="col-sm-5">Feedback to peer</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                             
+                            <tr>
+                              <td>Emily</td>
+                              <td><span class="color-positive">E +4%</span></td>
+                              <td>This is a justification from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
+                              <td>This is a public comment from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
+                            </tr>
+                            
+                            <tr>
+                              <td>Charlie Davis</td>
+                              <td><span class="color-negative">E -6%</span></td>
+                              <td>This is a justification from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
+                              <td>This is a public comment from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
+                            </tr>
+                            
+                          </tbody>
+                        </table>
+                    </div>
+                <br>
+                      <div class="panel panel-primary">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <div class="col-md-3">Reviewee:
+                            <strong>Emily</strong>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="pull-right">
+                                <span data-original-title="This is the students own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                Claimed contribution: <span class="badge background-color-white color-positive"> E +10%</span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="pull-right">
+                                <span data-original-title="This is the average of what other team members think this student contributed" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                Perceived contribution: <span class="badge background-color-white color-positive"> E +4%</span>
+                                </span>
+                              </div>
+                            </div>
+                           
+                                 
+                          </div>
+                        </div>
+
+                        <table class="table table-bordered">
+                          <tbody>
+                            <tr>
+                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
+                            </tr>
+                            <tr>
+                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
+                            </tr>
+
+                          </tbody>
+                        </table>
+
+                        <table class="table table-bordered table-striped">
+                          <thead>
+                            <tr class="border-top-gray fill-info">
+                              <th class="col-sm-1">From</th>
+                              <th class="col-sm-1">Contribution</th>
+                              <th class="col-sm-5">Confidential comments</th>
+                              <th class="col-sm-5">Feedback to peer</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                             
+                            <tr>
+                              <td>Charlie Davis</td>
+                              <td><span class="color-positive">E +4%</span></td>
+                              <td>This is a justification from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
+                              <td>This is a public comment from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
+                            </tr>
+                            
+                            <tr>
+                              <td>Danny Engrid</td>
+                              <td><span data-original-title="Not Available: There is no data for this or the data is not enough" class="color-negative" data-toggle="tooltip" data-placement="top" title="">N/A</span></td>
+                              <td>This is a justification from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
+                              <td>This is a public comment from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
+                            </tr>
+                            
+                          </tbody>
+                        </table>
+                    </div>
+                
+            </div>
+                <br>
+                <div class="align-center">
+                    <button class="btn btn-info btn-circle" value="To Top" onclick="scrollToTop()">
+                        <span class="glyphicon glyphicon-arrow-up"></span></button>
+                       <a onclick="scrollToTop()" href="#"> To Top </a>
+                </div>
+                <br>
+                
          </div>
-         <script>
-            setStatusMessage("");
-         </script>
-</body></html>
+                
+    </div>

@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import teammates.common.exception.TeammatesException;
 
 public class ThreadHelper {
-    public static final int WAIT_DURATION = 200;
+    public static final int WAIT_DURATION = 20;
     private static Logger log = Utils.getLogger();
 
     public static void waitBriefly() {

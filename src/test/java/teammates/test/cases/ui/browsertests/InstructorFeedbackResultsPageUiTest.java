@@ -183,12 +183,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "Danny Engrid",
                 "Emily");
 
+        /*Omitted as unable to check both forward and reverse order in one go
+         * //TODO: split up verifySortingOrder to enable this test
         verifySortingOrder(By.id("button_sortToTeam"), 
                 "Team 2{*}Team 3",
                 "Team 1{*}Team 2",
                 "Team 1{*}Team 2",
                 "Team 1{*}Team 1");
-        
+        */
         
     }
 
@@ -365,7 +367,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "giver-recipient-question");
         
         resultsPage.clickAjaxPanel(0);
-        resultsPage.clickCollapseSectionButton(0);
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByGRQ.html");
         
         ______TS("Ajax for view by giver > question > recipient");
@@ -373,7 +374,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "giver-question-recipient");
         
         resultsPage.clickAjaxPanel(0);
-        resultsPage.clickCollapseSectionButton(0);
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByGQR.html");
         
         ______TS("Ajax for view by recipient > question > giver");
@@ -381,7 +381,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "recipient-question-giver");
         
         resultsPage.clickAjaxPanel(0);
-        resultsPage.clickCollapseSectionButton(0);
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByRQG.html");
         
         ______TS("Ajax for view by recipient > giver > question");
@@ -389,7 +388,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "recipient-giver-question");
         
         resultsPage.clickAjaxPanel(0);
-        resultsPage.clickCollapseSectionButton(0);
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByRGQ.html");
         
     }

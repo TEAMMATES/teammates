@@ -33,7 +33,7 @@ import teammates.test.util.Priority;
  * Covers the home page for admins.
  * SUT: {@link AdminHomePage}
  */
-@Priority(2)
+@Priority(-2)
 public class AdminHomePageUiTest extends BaseUiTestCase{
     private static Browser browser;
     private static AdminHomePage homePage;
