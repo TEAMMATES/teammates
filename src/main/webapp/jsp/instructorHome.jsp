@@ -78,13 +78,7 @@
         <br>
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         
-        <div class="row<%
-        		if(countUnarchivedCourses < 2){
-        			out.print(" hidden");
-        		} else {
-        			out.print("");
-        		}
-        %>">
+        <div class="row<%=countUnarchivedCourses < 2 ? " hidden" : "" %>">
             <div class="col-md-5 pull-right">
                 <div class="row">
                     <div class="col-md-3 btn-group">
