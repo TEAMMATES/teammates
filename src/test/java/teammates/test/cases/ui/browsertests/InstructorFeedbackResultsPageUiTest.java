@@ -17,11 +17,13 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
+import teammates.test.util.Priority;
 
 /**
  * Tests 'Feedback Results' view of instructors.
  * SUT: {@link InstructorFeedbackResultsPage}.
  */
+@Priority(1)
 public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     private static DataBundle testData;

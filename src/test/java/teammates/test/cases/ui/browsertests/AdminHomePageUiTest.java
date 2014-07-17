@@ -17,7 +17,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
-import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminHomePage;
@@ -62,6 +61,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         //Full page content check is omitted because this is an internal page. 
     }
 
+    @SuppressWarnings("deprecation")
     private void testCreateInstructorAction() throws InvalidParametersException, EntityDoesNotExistException {
         
         InstructorAttributes instructor = new InstructorAttributes();
