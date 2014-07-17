@@ -731,6 +731,8 @@
                                     value="" id="modalSessionName">
                             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>"
                                     value="" id="modalCourseId">
+                            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>"
+                                    value="<%=data.account.googleId%>">
                     </form>
               </div>
               <div class="modal-footer margin-0">
