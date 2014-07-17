@@ -26,12 +26,14 @@ public class StudentSearchQuery extends SearchQuery {
     
     private void prepareVisibilityQueryString(String googleId){
         List<InstructorAttributes> instructorRoles = InstructorsLogic.inst().getInstructorsForGoogleId(googleId);
-        StringBuilder courseIdLimit = new StringBuilder("");
+        StringBuilder courseIdLimit = new StringBuilder("(");
         String delim = "";
         for(InstructorAttributes ins:instructorRoles){
             courseIdLimit.append(delim).append(ins.courseId);
             delim = OR;
         }
-        visibilityQueryString = Const.SearchDocumentField.COURSE_ID + ":" + courseIdLimit.toString();
+        courseIdLimit.append(")");
+
+        visibilityQueryString = Const.SearchDocumentField.COURSE_ID + ":"+ courseIdLimit.toString();
     }
 }

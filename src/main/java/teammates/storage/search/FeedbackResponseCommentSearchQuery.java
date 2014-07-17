@@ -26,14 +26,17 @@ public class FeedbackResponseCommentSearchQuery extends SearchQuery {
 
     private void prepareVisibilityQueryString(String googleId) {
         List<InstructorAttributes> instructorRoles = InstructorsLogic.inst().getInstructorsForGoogleId(googleId);
-        StringBuilder courseIdLimit = new StringBuilder("");
-        StringBuilder emailLimit = new StringBuilder("");
+        StringBuilder courseIdLimit = new StringBuilder("(");
+        StringBuilder emailLimit = new StringBuilder("(");
         String delim = "";
         for(InstructorAttributes ins:instructorRoles){
             courseIdLimit.append(delim).append(ins.courseId);
             emailLimit.append(delim).append(ins.email);
             delim = OR;
         }
+        courseIdLimit.append(")");
+        emailLimit.append(")");
+        
         //TODO: verify section
         visibilityQueryString = Const.SearchDocumentField.COURSE_ID + ":" + courseIdLimit.toString()
                 + AND + "(" + Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_EMAIL + ":" + emailLimit.toString()

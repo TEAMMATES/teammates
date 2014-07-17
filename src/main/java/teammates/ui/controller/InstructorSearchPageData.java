@@ -3,7 +3,11 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
+import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
+import teammates.common.util.Url;
 
 public class InstructorSearchPageData extends PageData {
 
@@ -24,8 +28,8 @@ public class InstructorSearchPageData extends PageData {
         super(account);
     }
 
-    public getStudentPhotoUrl(StudentAttributes student) {
-        
+    public String getStudentPhotoUrl(StudentAttributes student) {
+        return String.format(photoUrl, StringHelper.encrypt(student.email),  StringHelper.encrypt(student.course));
     }
 
     public String getCourseStudentDetailsLink(String courseId, StudentAttributes student){

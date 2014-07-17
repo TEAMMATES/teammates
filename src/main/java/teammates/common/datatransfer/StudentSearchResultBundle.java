@@ -3,7 +3,9 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.util.Const;
 import teammates.logic.core.InstructorsLogic;
@@ -17,6 +19,7 @@ import com.google.gson.Gson;
 public class StudentSearchResultBundle extends SearchResultBundle {
 
     public List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
+    public Map<String, InstructorAttributes> instructors = new HashMap<String, InstructorAttributes>();
     public Cursor cursor = null;
     private int numberOfResults = 0;
     private StudentsLogic studentsLogic = StudentsLogic.inst();
@@ -32,6 +35,7 @@ public class StudentSearchResultBundle extends SearchResultBundle {
         List<String> giverEmailList = new ArrayList<String>();
         for(InstructorAttributes ins:instructorRoles){
             giverEmailList.add(ins.email);
+            instructors.put(ins.courseId, ins);
         }
         
         for(ScoredDocument doc:results){
