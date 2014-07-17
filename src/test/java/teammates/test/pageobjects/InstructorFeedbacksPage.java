@@ -206,7 +206,15 @@ public class InstructorFeedbacksPage extends AppPage {
         
         fillTextBox(fsNameTextBox, feedbackSessionName);
         
-        selectDropdownByVisibleValue(timezoneDropdown, StringHelper.toUtcFormat(timeZone));
+        String timeZoneString = "" + timeZone;      
+
+        double fractionalPart = timeZone % 1;
+        
+        if(fractionalPart == 0.0){
+            timeZoneString = "" + (int)timeZone;
+        }
+        
+        selectDropdownByActualValue(timezoneDropdown, timeZoneString);
         
         selectDropdownByVisibleValue(courseIdDropdown, courseId);
         

@@ -387,6 +387,23 @@ public abstract class AppPage {
         assertEquals(value, selectedVisibleValue);
         element.sendKeys(Keys.RETURN);
     }
+    
+    /** 
+     * Selection is based on the actual value. 
+     * Since selecting an option by clicking on the option doesn't work sometimes
+     * in Firefox, we simulate a user typing the value to select the option
+     * instead (i.e., we use the {@code sendKeys()} method). <br>
+     * <br>
+     * The method will fail with an AssertionError if the selected value is
+     * not the one we wanted to select.
+     */
+    public void selectDropdownByActualValue(WebElement element, String value) {
+        Select select = new Select(element);
+        select.selectByValue(value);
+        String selectedVisibleValue = select.getFirstSelectedOption().getAttribute("value");
+        assertEquals(value, selectedVisibleValue);
+        element.sendKeys(Keys.RETURN);
+    }
 
     /**
      * @return the status message in the page. Returns "" if there is no 
