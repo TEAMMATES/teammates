@@ -115,16 +115,15 @@
                             <% } %>
                             >
                             <span class="glyphicon glyphicon-envelope"></span> Resend Invite</a>
-                    <% } else { %>
-                        <a href="javascript:;" id="instrEditLink<%=index%>" class="btn btn-primary btn-xs"
-                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_INSTRUCTOR_EDIT%>"
-                            onclick="enableEditInstructor(<%=index%>, <%=data.instructorList.size()%>)"
-                            <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {%>
-                            disabled="disabled"
-                            <% } %>
-                            >
-                            <span class="glyphicon glyphicon-pencil"></span> Edit</a>
                     <% } %>
+                    <a href="javascript:;" id="instrEditLink<%=index%>" class="btn btn-primary btn-xs"
+                        data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_INSTRUCTOR_EDIT%>"
+                        onclick="enableEditInstructor(<%=index%>, <%=data.instructorList.size()%>)"
+                        <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {%>
+                        disabled="disabled"
+                        <% } %>
+                        >
+                        <span class="glyphicon glyphicon-pencil"></span> Edit</a>
                     <a href="<%=data.getInstructorCourseInstructorDeleteLink(instructor.courseId, instructor.email)%>" id="instrDeleteLink<%=index%>"
                         class="btn btn-primary btn-xs"
                         data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_INSTRUCTOR_DELETE%>"
@@ -136,33 +135,44 @@
                         <span class="glyphicon glyphicon-trash"></span> Delete</a>
                 </div>
             </div>
-                 
+
+            <%
+            	if(!data.getJoinLink(instructor).isEmpty()) {
+            %>
+
             <!-- Attention: 
             This join link is printed as a hidden html element and is only used for testing purpose. 
             This should not be shown to the user. Please go to element inspector to get this link.        
-            -->       
+            -->
             <div id="joinLink" class="form-group" hidden="hidden">
                 <%=data.getJoinLink(instructor)%>
             </div>
+
+
+            <%
+            	}
+            %>
 
             <div class="panel-body">
                 <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE%>"
                     id="formEditInstructor<%=index%>>" name="formEditInstructors" class="form form-horizontal" >
                     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=instructor.courseId%>">
+                    <% if (instructor.googleId != null) { %>
                     <input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="<%=instructor.googleId%>">
+                    <% } %>
                     <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
                     
                     <div id="instructorTable<%=index%>">
                         <% if (instructor.googleId != null) { %>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Google ID:</label>
-                                <div class="col-sm-9"><input class="form-control immutable" type="text" id="<%=Const.ParamsNames.INSTRUCTOR_ID+index%>"
-                                    value="<%=instructor.googleId%>"
-                                    data-toggle="tooltip" data-placement="top" title="Enter the google id of the instructor."
-                                    maxlength=<%=FieldValidator.GOOGLE_ID_MAX_LENGTH%> tabindex=3
-                                    disabled="disabled">
-                                </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Google ID:</label>
+                            <div class="col-sm-9"><input class="form-control immutable" type="text" id="<%=Const.ParamsNames.INSTRUCTOR_ID+index%>"
+                                value="<%=instructor.googleId%>"
+                                data-toggle="tooltip" data-placement="top" title="Enter the google id of the instructor."
+                                maxlength=<%=FieldValidator.GOOGLE_ID_MAX_LENGTH%> tabindex=3
+                                disabled="disabled">
                             </div>
+                        </div>
                         <% } %>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Name:</label>
@@ -414,9 +424,6 @@
                                                             <%}%>
                                                             /> Sessions: Edit/Delete Responses/Comments by Others<br><br>
                                                         </div>
-                                                        <%
-                                                        	if (!data.evalNames.isEmpty() || !data.feedbackNames.isEmpty()) {
-                                                        %>
                                                         <a href="javascript:;" 
                                                             <%if (!instructor.privileges.isSessionsInSectionSpecial(data.sectionNames.get(j))) {%> 
                                                             onclick="showTuneSessionnPermissionsDiv(<%=index%>, <%=j%>)"
@@ -462,6 +469,11 @@
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
+                                                                    <% if (data.evalNames.isEmpty() && data.feedbackNames.isEmpty()) {%>
+                                                                            <tr>
+                                                                                <td colspan="4" class="text-center text-bold">No sessions in this course for you to configure</td>
+                                                                            </tr>
+                                                                    <% } %>
                                                                     <%
                                                                     	for (String evalName : data.evalNames) {
                                                                     %>
@@ -540,9 +552,6 @@
                                                                 </tbody>
                                                             </table>
                                                         </div>
-                                                        <%
-                                                        	}
-                                                        %>
                                                     </div>
                                                 </div>
                                             </div>
@@ -754,7 +763,6 @@
                                                             <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS + 
                                                             Const.ParamsNames.INSTRUCTOR_SECTION + j%>" value="true" checked="checked"/> Sessions: Edit/Delete Responses/Comments by Others<br><br>
                                                         </div>
-                                                        <% if (!data.evalNames.isEmpty() || !data.feedbackNames.isEmpty()) { %>
                                                         <a href="javascript:;" onclick="showTuneSessionnPermissionsDiv(<%=data.instructorList.size()+1%>, <%=j%>)"
                                                             id="toggleSessionLevelInSection<%=j%>ForInstructor<%=data.instructorList.size()+1%>"
                                                             class="small col-sm-5">Give different permissions for sessions in this section</a>      
@@ -770,6 +778,11 @@
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
+                                                                    <% if (data.evalNames.isEmpty() && data.feedbackNames.isEmpty()) {%>
+                                                                            <tr>
+                                                                                <td colspan="4" class="text-center text-bold">No sessions in this course for you to configure</td>
+                                                                            </tr>
+                                                                    <% } %>
                                                                     <% for (String evalName : data.evalNames) { %>
                                                                     <tr>
                                                                         <td><%=evalName%></td>
@@ -813,7 +826,6 @@
                                                                 </tbody>
                                                             </table>
                                                         </div>
-                                                        <% } %>
                                                     </div>
                                                 </div>
                                             </div>

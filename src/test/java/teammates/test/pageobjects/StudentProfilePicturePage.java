@@ -5,6 +5,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import org.openqa.selenium.By;
 
 import teammates.common.util.Sanitizer;
+import teammates.test.driver.TestProperties;
 
 public class StudentProfilePicturePage extends AppPage {
 
@@ -23,15 +24,20 @@ public class StudentProfilePicturePage extends AppPage {
     }
     
     public void verifyIsErrorPage(String expectedFilename) {
-        try {
+        if(TestProperties.inst().isDevServer()) {
             verifyHtmlPart(By.id("frameBodyWrapper"), expectedFilename);
-        } catch (AssertionError ae) {
-            if (! browser.driver.getCurrentUrl().contains("localhost")) {
-                assertEquals("", browser.driver.findElement(By.tagName("body")).getText());
-            } else {
-                throw ae;
-            }
+        } else {
+            assertEquals("", browser.driver.findElement(By.tagName("body")).getText());
         }
+    }
+
+    public void verifyIsUnauthorisedErrorPage(String expectedFilename) {
+        verifyHtmlPart(By.id("frameBodyWrapper"), expectedFilename);
+    }
+
+    public void verifyIsEntityNotFoundErrorPage(String expectedFilename) {
+        verifyHtmlPart(By.id("frameBodyWrapper"), expectedFilename);
+        
     }
 
 }

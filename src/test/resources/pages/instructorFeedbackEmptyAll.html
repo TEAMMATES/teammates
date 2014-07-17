@@ -728,25 +728,24 @@ ul #nav {
             <div class="modal-content">
               <div class="modal-header">
                 <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                <h4 id="copyModalTitle" class="modal-title">Copy Sessions</h4>
+                <h4 id="copyModalTitle" class="modal-title">Creating a new session by copying a previous session</h4>
               </div>
               <div class="modal-body">
                     <form action="/page/instructorFeedbackCopy" method="post" role="form" id="copyModalForm" class="form">
                     <!-- Course -->
                     <div class="form-group">
-                        <label class="control-label" for="modalCopiedCourseId">Course ID</label>
+                        <label class="control-label" for="modalCopiedCourseId">Create in course</label>
                         <select id="modalCopiedCourseId" name="copiedcourseid" class="form-control">
                             
                         </select>
                     </div>
                     <!-- Session Name -->
                     <div class="form-group">
-                        <label class="control-label" for="modalCopiedSessionName">Session
-                            name</label>
-                        <input type="text" placeholder="e.g. Feedback for Project Presentation 1" value="" id="modalCopiedSessionName" name="copiedfsname" class="form-control" />
+                        <label class="control-label" for="modalCopiedSessionName">Name for new session</label>
+                        <input type="text" placeholder="e.g. Feedback for Project Presentation 1" value="" maxlength="38" id="modalCopiedSessionName" name="copiedfsname" class="form-control" />
                     </div>
                     <!-- Previous Session -->
-                    <label> Copied Session </label>
+                    <label>Copy sessions/questions from</label>
                     <table id="copyTableModal" class="table-responsive table table-bordered table-hover margin-0">
                         <thead class="fill-primary">
                             <tr><th style="width:20px;"> </th>
@@ -758,6 +757,7 @@ ul #nav {
                     </table>
                             <input type="hidden" id="modalSessionName" value="" name="fsname" />
                             <input type="hidden" id="modalCourseId" value="" name="courseid" />
+                            <input type="hidden" value="CFeedbackUiT.nocourses" name="user" />
                     </form>
               </div>
               <div class="modal-footer margin-0">

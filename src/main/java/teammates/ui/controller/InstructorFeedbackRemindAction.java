@@ -15,7 +15,7 @@ public class InstructorFeedbackRemindAction extends InstructorFeedbacksPageActio
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getFeedbackSession(feedbackSessionName, courseId),
-                false);
+                false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         logic.sendReminderForFeedbackSession(courseId,feedbackSessionName);
         
