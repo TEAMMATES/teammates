@@ -55,13 +55,11 @@
         <h1>Add New Feedback Session</h1>
 
         <div class="well well-plain">
-            <div class="row"
-                title="Select a different type of session here."
+            <div class="row">
+                <h4 class="label-control col-md-2 text-md">Create new </h4>
+                <div class="col-md-5" title="Select a different type of session here."
                 data-toggle="tooltip" 
                 data-placement="top">
-                <h4 class="label-control col-md-2 text-md">Session
-                    Type</h4>
-                <div class="col-md-10">
                     <select class="form-control"
                         name="feedbackchangetype"
                         id="feedbackchangetype">
@@ -73,6 +71,11 @@
                             value="<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>">Standard
                             Team Peer Evaluation with fixed questions</option>
                     </select>
+                </div>
+                <h4 class="label-control col-md-1 text-md">Or: </h4>
+                <div class="col-md-3">
+                    <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy
+                        from previous feedback sessions</a>
                 </div>
             </div>
             <br>
@@ -569,13 +572,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-md-offset-3 col-md-3">
+                    <div class="col-md-offset-5 col-md-3">
                         <button id="button_submit" type="submit" class="btn btn-primary">Create
                             Feedback Session</button>
-                    </div>
-                    <div class="col-md-3">
-                        <a id="button_copy" class="btn btn-primary">Copy
-                            Feedback Session</a>
                     </div>
                 </div>
                 <input type="hidden"
@@ -679,14 +678,14 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="copyModalTitle">Copy Sessions</h4>
+                <h4 class="modal-title" id="copyModalTitle">Creating a new session by copying a previous session</h4>
               </div>
               <div class="modal-body">
                     <form class="form" id="copyModalForm" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_COPY%>">
                     <!-- Course -->
                     <div class="form-group">
                         <label for="modalCopiedCourseId"
-                                class="control-label">Course ID</label>
+                                class="control-label">Create in course</label>
                         <select class="form-control"
                             name="<%=Const.ParamsNames.COPIED_COURSE_ID%>"
                             id="modalCopiedCourseId">
@@ -699,31 +698,32 @@
                     <!-- Session Name -->
                     <div class="form-group">
                         <label for="modalCopiedSessionName"
-                            class="control-label">Session
-                            name</label>
+                            class="control-label">Name for new session</label>
                         <input class="form-control"
                             type="text"
                             name="<%=Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME%>"
                             id="modalCopiedSessionName"
+                            maxlength=<%=FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH%>
                             value="<%if (data.newFeedbackSession != null)
                                        out.print(InstructorFeedbacksPageData.sanitizeForHtml(data.newFeedbackSession.feedbackSessionName));%>"
                             placeholder="e.g. Feedback for Project Presentation 1">
                     </div>
                     <!-- Previous Session -->
-                    <label> Copied Session </label>
+                    <label>Copy sessions/questions from</label>
                     <table class="table-responsive table table-bordered table-hover margin-0" id="copyTableModal">
                         <thead class="fill-primary">
+                            <th style="width:20px;">&nbsp;</th>
                             <th> Course ID </th>
                             <th> Feedback Session Name </th>
                         </thead>
 
                         <% for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {%>
                             <tr style="cursor:pointer;">
+                                <td><input type="radio"></td>
                                 <td><%=fdb.courseId%></td>
                                 <td>
                                     <%=InstructorFeedbacksPageData.sanitizeForHtml(fdb.feedbackSessionName)%>
                                 </td>
-
                             </tr>
                         <% } %>
                     </table>
@@ -731,10 +731,12 @@
                                     value="" id="modalSessionName">
                             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>"
                                     value="" id="modalCourseId">
+                            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>"
+                                    value="<%=data.account.googleId%>">
                     </form>
               </div>
               <div class="modal-footer margin-0">
-                <button type="button" class="btn btn-primary" id="button_copy_submit">Copy</button>
+                <button type="button" class="btn btn-primary" id="button_copy_submit" disabled="disabled">Copy</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
               </div>
             </div>

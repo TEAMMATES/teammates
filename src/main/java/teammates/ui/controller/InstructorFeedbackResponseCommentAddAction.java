@@ -1,10 +1,10 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -12,9 +12,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
 import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.datastore.Text;
@@ -60,15 +58,31 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
             feedbackSessionName, feedbackQuestionId, instructor.email, feedbackResponseId, new Date(),
             new Text(commentText), response.giverSection, response.recipientSection);
         
-        FeedbackQuestionAttributes question = logic.getFeedbackQuestion(feedbackQuestionId);
-        if(isResponseCommentPublicToRecipient(question)){
+        String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
+        String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO);
+        feedbackResponseComment.showCommentTo = new ArrayList<FeedbackParticipantType>();
+        if(showCommentTo != null && !showCommentTo.isEmpty()){
+            String[] showCommentToArray = showCommentTo.split(",");
+            for(String viewer:showCommentToArray){
+                feedbackResponseComment.showCommentTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
+            }
+        }
+        feedbackResponseComment.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        if(showGiverNameTo != null && !showGiverNameTo.isEmpty()){
+            String[] showGiverNameToArray = showGiverNameTo.split(",");
+            for(String viewer:showGiverNameToArray){
+                feedbackResponseComment.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
+            }
+        }
+        
+        if(isResponseCommentPublicToRecipient(feedbackResponseComment)){
             feedbackResponseComment.sendingState = CommentSendingState.PENDING;
         }
         
+        FeedbackResponseCommentAttributes createdComment = new FeedbackResponseCommentAttributes();
         try {
-            FeedbackResponseCommentAttributes updatedComment = logic.createFeedbackResponseComment(feedbackResponseComment);
-            //TODO: move putDocument to taskQueue
-            logic.putDocument(updatedComment);
+            createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
+            logic.putDocument(createdComment);
         } catch (InvalidParametersException e) {
             setStatusForException(e);
             data.errorMessage = e.getMessage();
@@ -83,41 +97,17 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
                     + "by: " + feedbackResponseComment.giverEmail + " at " + feedbackResponseComment.createdAt + "<br>"
                     + "comment text: " + feedbackResponseComment.commentText.getValue();
         }
-
-        // Wait for the operation to persist
-        int elapsedTime = 0;
-        data.comment = logic.getFeedbackResponseComment(
-                feedbackResponseComment.feedbackResponseId, 
-                feedbackResponseComment.giverEmail, 
-                feedbackResponseComment.createdAt);
-        while ((data.comment == null) &&
-                (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
-            ThreadHelper.waitBriefly();
-            data.comment = logic.getFeedbackResponseComment(
-                    feedbackResponseComment.feedbackResponseId, 
-                    feedbackResponseComment.giverEmail, 
-                    feedbackResponseComment.createdAt);
-            //check before incrementing to avoid boundary case problem
-            if (data.comment == null) {
-                elapsedTime += ThreadHelper.WAIT_DURATION;
-            }
-        }
-        if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
-            log.severe("Operation did not persist in time: getFeedbackResponseComment "
-                    + feedbackResponseComment.feedbackResponseId + ", "
-                    + feedbackResponseComment.giverEmail + ", "
-                    + feedbackResponseComment.createdAt);
-        }
+        
+        data.comment = createdComment;
         
         return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
     }
 
-    private boolean isResponseCommentPublicToRecipient(FeedbackQuestionAttributes question) {
-        return (question.giverType == FeedbackParticipantType.STUDENTS
-                || question.giverType == FeedbackParticipantType.TEAMS) 
-                    || (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                            || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                            || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                            || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS));
+    private boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
+        return (comment.isVisibleTo(FeedbackParticipantType.GIVER)
+                    || comment.isVisibleTo(FeedbackParticipantType.RECEIVER)
+                    || comment.isVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                    || comment.isVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                    || comment.isVisibleTo(FeedbackParticipantType.STUDENTS));
     }
 }

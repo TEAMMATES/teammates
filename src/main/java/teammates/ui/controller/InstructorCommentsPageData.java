@@ -9,12 +9,10 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.api.Logic;
 
 public class InstructorCommentsPageData extends PageData {
@@ -39,10 +37,6 @@ public class InstructorCommentsPageData extends PageData {
         super(account);
     }
     
-    public String removeBracketsForArrayString(String arrayString){
-        return arrayString.substring(1, arrayString.length() - 1).trim();
-    }
-    
     public String getGiverName(String giverEmail){
         InstructorAttributes instructor = roster.getInstructorForEmail(giverEmail);
         String giverDisplay = giverEmail;
@@ -64,16 +58,16 @@ public class InstructorCommentsPageData extends PageData {
             }
             StudentAttributes student = roster.getStudentForEmail(recipient);
             if(courseId.equals(recipient)){ 
-                namesStringBuilder.append("All students in this course, ");
+                namesStringBuilder.append("<b>All students in this course</b>, ");
             } else if(student != null){
                 if(recipients.size() == 1){
-                    namesStringBuilder.append(student.name 
+                    namesStringBuilder.append("<b>" + student.name + "</b>" 
                             + " (" + student.team + ", <a href=\"mailto:" + student.email + "\">" + student.email + "</a>), ");
                 } else {
-                    namesStringBuilder.append(student.name + ", ");
+                    namesStringBuilder.append("<b>" + student.name + "</b>" + ", ");
                 }
             } else {
-                namesStringBuilder.append(recipient + ", ");
+                namesStringBuilder.append("<b>" + recipient + "</b>" + ", ");
             }
             i++;
         }
@@ -81,13 +75,8 @@ public class InstructorCommentsPageData extends PageData {
         return removeEndComma(namesString);
     }
     
-    public boolean isResponseCommentPublicToRecipient(FeedbackQuestionAttributes question) {
-        return (question.giverType == FeedbackParticipantType.STUDENTS
-                || question.giverType == FeedbackParticipantType.TEAMS) 
-                    || (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                            || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                            || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                            || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS));
+    public boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
+        return comment.showCommentTo.size() > 0;
     }
         
     public boolean isInstructorAllowedForPrivilegeOnComment(CommentAttributes comment, String privilegeName) {

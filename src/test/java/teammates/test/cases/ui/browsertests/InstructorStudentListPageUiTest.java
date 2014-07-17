@@ -10,6 +10,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
@@ -28,7 +29,6 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorStudentListPage viewPage;
     private static DataBundle testData;
-    
 
     @BeforeClass
     public static void classSetup() throws Exception {
@@ -37,7 +37,6 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         restoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
     }
-    
     
     @Test
     public void testAll() throws Exception{
@@ -62,7 +61,9 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
             .withUserId(instructorId);
         
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
-        viewPage.verifyHtml("/instructorStudentListWithHelperView.html");
+        viewPage.checkCourse(0);
+        viewPage.checkCourse(1);
+        viewPage.verifyHtmlAjax("/instructorStudentListWithHelperView.html");
         
         // update current instructor privileges
         BackDoor.deleteInstructor(instructorWith2Courses.courseId, instructorWith2Courses.email);
@@ -72,8 +73,15 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         BackDoor.createInstructor(instructorWith2Courses);
         
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
-        viewPage.verifyHtmlMainContent("/instructorStudentList.html");
+        viewPage.checkCourse(0);
+        viewPage.checkCourse(1);
+        viewPage.verifyHtmlAjax("/instructorStudentList.html");
         
+        ______TS("content: search no match");
+        
+        viewPage.setSearchKey("noMatch");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchNoMatch.html");
+
         ______TS("content: search student");
 
         viewPage.setSearchKey("ben");
@@ -84,22 +92,14 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         //TODO: these tests can directly check whether the div is visible and
         //      whether the table pattern is as expected rather than a html check
         
-        viewPage.clickShowMoreOptions();
         viewPage.clickShowEmail();
         viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchShowEmail.html");
         viewPage.clickShowEmail();
-        viewPage.clickShowMoreOptions();
-        viewPage.verifyIsHidden("moreOptionsDiv");
         
         ______TS("content: live search");
 
         viewPage.setLiveSearchKey("charlie");
         viewPage.verifyHtmlMainContent("/instructorStudentListPageLiveSearch.html");
-        
-        ______TS("content: search no match");
-        
-        viewPage.setSearchKey("noMatch");
-        viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchNoMatch.html");
         
         ______TS("content: 1 course with no students");
         
@@ -109,7 +109,8 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
             .withUserId(instructorId);
         
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
-        viewPage.verifyHtmlMainContent("/instructorStudentListPageNoStudent.html");
+        viewPage.checkCourse(0);
+        viewPage.verifyHtmlAjax("/instructorStudentListPageNoStudent.html");
 
         
         ______TS("content: no course");
@@ -133,6 +134,10 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         ______TS("default image");
         
         StudentAttributes student = testData.students.get("Student1Course2");
+        viewPage.checkCourse(0);
+        viewPage.checkCourse(1);
+        ThreadHelper.waitFor(500);
+        
         viewPage.clickShowPhoto(student.course, student.name);
         viewPage.verifyProfilePhotoIsDefault(student.course, student.name);
         
@@ -154,6 +159,9 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         ______TS("link: view");
         
         StudentAttributes student1 = testData.students.get("Student2Course2");
+        viewPage.checkCourse(0);
+        viewPage.checkCourse(1);
+        ThreadHelper.waitFor(500);
         InstructorCourseStudentDetailsViewPage studentDetailsPage = viewPage.clickViewStudent(student1.course, student1.name);
         studentDetailsPage.verifyIsCorrectPage(student1.email);
         viewPage = studentDetailsPage.goToPreviousPage(InstructorStudentListPage.class);
@@ -161,12 +169,18 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         ______TS("link: edit");
         
         StudentAttributes student2 = testData.students.get("Student3Course3");
+        viewPage.checkCourse(0);
+        viewPage.checkCourse(1);
+        ThreadHelper.waitFor(500);
         InstructorCourseStudentDetailsEditPage studentEditPage = viewPage.clickEditStudent(student2.course, student2.name);
         studentEditPage.verifyIsCorrectPage(student2.email);
         viewPage = studentEditPage.goToPreviousPage(InstructorStudentListPage.class);
         
         ______TS("link: view records");
         
+        viewPage.checkCourse(0);
+        viewPage.checkCourse(1);
+        ThreadHelper.waitFor(500);
         InstructorStudentRecordsPage studentRecordsPage = viewPage.clickViewRecordsStudent(student2.course, student2.name);
         studentRecordsPage.verifyIsCorrectPage(student2.name);
         viewPage = studentRecordsPage.goToPreviousPage(InstructorStudentListPage.class);
@@ -176,6 +190,9 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         
         ______TS("action: delete");
         
+        viewPage.checkCourse(0);
+        viewPage.checkCourse(1);
+        ThreadHelper.waitFor(500);
         String studentName = testData.students.get("Student2Course2").name;
         String studentEmail = testData.students.get("Student2Course2").email;
         String courseId = testData.courses.get("course2").id;
@@ -202,31 +219,24 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         ______TS("action: display archive");
         
         viewPage.clickDisplayArchiveOptions();
-        viewPage.verifyHtmlMainContent("/instructorStudentListPageDisplayArchivedCourses.html");
-        
-        ______TS("action: test 'Show More Options' when archived courses are displayed");
-        viewPage.clickShowMoreOptions();
-        viewPage.clickShowEmail();
-        viewPage.clickSelectAll();
-        viewPage.clickCheckBoxOne();
-        viewPage.verifyHtmlMainContent("/instructorStudentListPageDisplayArchivedCoursesWithMoreOptions.html");
+        viewPage.checkCourse(0);
+        viewPage.checkCourse(1);
+        viewPage.checkCourse(2);
+        viewPage.verifyHtmlAjax("/instructorStudentListPageDisplayArchivedCourses.html");
         
         ______TS("action: hide archive");
         
         viewPage.clickDisplayArchiveOptions();
-        viewPage.verifyHtmlMainContent("/instructorStudentListPageHideArchivedCourses.html");
-        
-        ______TS("action: test 'Show More Options' when archived courses are hidden");
-        viewPage.clickShowMoreOptions();
-        viewPage.clickShowEmail();
-        viewPage.clickSelectAll();
-        viewPage.clickCheckBoxOne();
-        viewPage.verifyHtmlMainContent("/instructorStudentListPageHideArchivedCoursesWithMoreOptions.html");
+        viewPage.checkCourse(0);
+        viewPage.checkCourse(1);
+        viewPage.verifyHtmlAjax("/instructorStudentListPageHideArchivedCourses.html");
         
         ______TS("action: re-display archive");
         
-        viewPage.clickDisplayArchiveOptions();
-        viewPage.verifyHtmlMainContent("/instructorStudentListPageDisplayArchivedCourses.html");
+        viewPage.clickDisplayArchiveOptions();viewPage.checkCourse(0);
+        viewPage.checkCourse(1);
+        viewPage.checkCourse(2);
+        viewPage.verifyHtmlAjax("/instructorStudentListPageDisplayArchivedCourses.html");
     }
     
     @AfterClass

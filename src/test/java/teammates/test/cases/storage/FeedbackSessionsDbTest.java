@@ -12,6 +12,7 @@ import static teammates.common.util.FieldValidator.TIME_FRAME_ERROR_MESSAGE;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -37,18 +38,31 @@ import com.google.appengine.api.datastore.Text;
 public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     
     private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
+    private static DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         turnLoggingUp(FeedbackSessionsDb.class);
+        addSessionsToDb();
     }
     
-    
+    private static void addSessionsToDb() throws Exception {
+        Set<String> keys = dataBundle.feedbackSessions.keySet();
+        for (String i : keys) {
+            try {
+                fsDb.createEntity(dataBundle.feedbackSessions.get(i));
+            } catch (EntityAlreadyExistsException e) {
+                fsDb.updateFeedbackSession(dataBundle.feedbackSessions.get(i));
+            }
+        }
+    }
+
+
     @Test
     public void testCreateDeleteFeedbackSession() 
-            throws InvalidParametersException, EntityAlreadyExistsException {    
-                
+            throws Exception {    
+        
         ______TS("standard success case");
         
         FeedbackSessionAttributes fsa = getNewFeedbackSession();
@@ -93,8 +107,6 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     @Test
     public void testAllGetFeedbackSessions() throws Exception{
 
-        restoreTypicalDataInDatastore(); 
-        
         testGetFeedbackSessions();
         testGetFeedbackSessionsForCourse();
         testGetNonPrivateFeedbackSessions();
@@ -103,10 +115,8 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     }
     
     private void testGetFeedbackSessions() throws Exception {
-               
-        DataBundle dataBundle = getTypicalDataBundle();
         
-        ______TS("standard success case");    
+        ______TS("standard success case");
         
         FeedbackSessionAttributes expected =
                 dataBundle.feedbackSessions.get("session1InCourse2");
@@ -140,8 +150,6 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     }
     
     private void testGetFeedbackSessionsForCourse() throws Exception {
-        
-        DataBundle dataBundle = getTypicalDataBundle();
         
         ______TS("standard success case");    
         
@@ -291,7 +299,15 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     
     @AfterClass
     public static void classTearDown() throws Exception {
+        deleteSessionsFromDb();
         printTestClassFooter();
+    }
+    
+    private static void deleteSessionsFromDb() throws Exception {
+        Set<String> keys = dataBundle.feedbackSessions.keySet();
+        for (String i : keys) {
+            fsDb.deleteEntity(dataBundle.feedbackSessions.get(i));
+        }
     }
     
 }

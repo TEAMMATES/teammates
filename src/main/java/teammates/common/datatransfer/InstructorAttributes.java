@@ -34,6 +34,15 @@ public class InstructorAttributes extends EntityAttributes {
     
     public static final String DEFAULT_DISPLAY_NAME = "Instructor";
     
+    /**
+     * Creates a new instructor with default access controls
+     * Deprecated as it is only to be used for testing
+     * 
+     * @param googleId
+     * @param courseId
+     * @param name
+     * @param email
+     */
     @Deprecated
     public InstructorAttributes(String googleId, String courseId, String name, String email) {
         this(googleId, courseId, name, email,
@@ -51,7 +60,7 @@ public class InstructorAttributes extends EntityAttributes {
         this.role = Sanitizer.sanitizeName(role);
         this.isDisplayedToStudents = true;
         this.displayedName = Sanitizer.sanitizeName(displayedName);
-        this.instructorPrivilegesAsText = Sanitizer.sanitizeTextField(instructorPrivilegesAsText);
+        this.instructorPrivilegesAsText = instructorPrivilegesAsText;
         this.privileges = this.getInstructorPrivilegesFromText();
     }
     
@@ -140,13 +149,16 @@ public class InstructorAttributes extends EntityAttributes {
             }
         }
         
-        error= validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
+        error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
         if(!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldType.PERSON_NAME, name);
+        error = validator.getInvalidityInfo(FieldType.PERSON_NAME, name);
         if(!error.isEmpty()) { errors.add(error); }
         
-        error= validator.getInvalidityInfo(FieldType.EMAIL, email);
+        error = validator.getInvalidityInfo(FieldType.EMAIL, email);
+        if(!error.isEmpty()) { errors.add(error); }
+        
+        error = validator.getInvalidityInfo(FieldType.PERSON_NAME, displayedName);
         if(!error.isEmpty()) { errors.add(error); }
         
         return errors;
@@ -169,14 +181,18 @@ public class InstructorAttributes extends EntityAttributes {
     @Override
     public void sanitizeForSaving() {
         this.googleId = Sanitizer.sanitizeGoogleId(this.googleId);
-        this.name = Sanitizer.sanitizeName(this.name);
+        this.name = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(this.name));
         this.email = Sanitizer.sanitizeEmail(this.email);
         this.courseId = Sanitizer.sanitizeTitle(this.courseId);
         if (this.role == null) {
             this.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        } else {
+            this.role = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(this.role));
         }
         if (this.displayedName == null) {
             this.displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        } else {
+            this.displayedName = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(this.displayedName));
         }
         if (this.instructorPrivilegesAsText == null) {
             this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);

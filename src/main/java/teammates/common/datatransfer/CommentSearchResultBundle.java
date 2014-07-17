@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.util.Const;
+import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.InstructorsLogic;
 
 import com.google.appengine.api.search.Cursor;
@@ -20,6 +21,7 @@ public class CommentSearchResultBundle extends SearchResultBundle {
     public Map<String, String> recipientTable = new HashMap<String, String>();
     public Cursor cursor = null;
     private int numberOfResults = 0;
+    private CommentsLogic commentsLogic = CommentsLogic.inst();
     
     public CommentSearchResultBundle(){}
     
@@ -34,11 +36,13 @@ public class CommentSearchResultBundle extends SearchResultBundle {
         }
         
         for(ScoredDocument doc:results){
-            numberOfResults++;
-            
             CommentAttributes comment = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.COMMENT_ATTRIBUTE).getText(), 
                     CommentAttributes.class);
+            if(commentsLogic.getComment(comment.getCommentId()) == null){
+                commentsLogic.deleteDocument(comment);
+                continue;
+            }
             comment.sendingState = CommentSendingState.SENT;
             String giverName = doc.getOnlyField(Const.SearchDocumentField.COMMENT_GIVER_NAME).getText();
             String recipientName = doc.getOnlyField(Const.SearchDocumentField.COMMENT_RECIPIENT_NAME).getText();
@@ -67,6 +71,7 @@ public class CommentSearchResultBundle extends SearchResultBundle {
             commentList.add(comment);
             giverTable.put(giverAsKey, giverName);
             recipientTable.put(comment.getCommentId().toString(), recipientName);
+            numberOfResults++;
         }
         return this;
     }

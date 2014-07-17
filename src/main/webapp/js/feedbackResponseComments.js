@@ -1,5 +1,9 @@
 var addCount = 0;
 
+function isInCommentsPage(){
+	return $(location).attr('href').indexOf('instructorCommentsPage') != -1;
+}
+
 var addCommentHandler = function(e) {
     var submitButton = $(this);
     var formObject = $(this).parent().parent();
@@ -23,7 +27,7 @@ var addCommentHandler = function(e) {
         success : function(data) {
             setTimeout(function(){
                 if (!data.isError) {
-                    if($(location).attr('href').indexOf('instructorCommentsPage') != -1){
+                    if(isInCommentsPage()){
                         location.reload();
                     }
                     
@@ -41,7 +45,9 @@ var addCommentHandler = function(e) {
                     formObject.find("textarea").val("");
                     submitButton.text("Add");
                     removeFormErrorMessage(submitButton);
+                    addFormRow.prev().find("div[id^=plainCommentText]").css("margin-left","15px");
                     addFormRow.prev().show();
+                    addFormRow.hide();
                 } else {
                     formObject.find("textarea").prop("disabled", false);
                     setFormErrorMessage(submitButton, data.errorMessage);
@@ -56,7 +62,7 @@ var editCommentHandler = function(e) {
     var submitButton = $(this);
     var formObject = $(this).parent().parent();
     var displayedText = $(this).parent().parent().prev();
-    var commentBar = displayedText.parent().find("div");
+    var commentBar = displayedText.parent().find("div[id^=commentBar]");
     var formData = formObject.serialize();
     
     e.preventDefault();
@@ -76,7 +82,7 @@ var editCommentHandler = function(e) {
         success : function(data) {
             setTimeout(function(){
                 if (!data.isError) {
-                    if($(location).attr('href').indexOf('instructorCommentsPage') != -1){
+                    if(isInCommentsPage()){
                         location.reload();
                     }
                     
@@ -128,7 +134,7 @@ var deleteCommentHandler = function(e) {
         success : function(data) {
             setTimeout(function(){
                 if (!data.isError) {
-                    if($(location).attr('href').indexOf('instructorCommentsPage') != -1){
+                    if(isInCommentsPage()){
                         location.reload();
                     }
                     
@@ -155,10 +161,27 @@ var deleteCommentHandler = function(e) {
 };
 
 $(document).ready(function(){
-    
     $("form[class*='responseCommentAddForm'] > div > a").click(addCommentHandler);
     $("form[class*='responseCommentEditForm'] > div > a").click(editCommentHandler);
     $("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
+    
+    $("input[type=checkbox]").click(function(){
+    	var table = $(this).parent().parent().parent().parent();
+    	var form = table.parent().parent().parent();
+    	var visibilityOptions = [];
+    	table.find('.answerCheckbox:checked').each(function () {
+			visibilityOptions.push($(this).val());
+	    });
+    	form.find("input[name='showresponsecommentsto']").val(visibilityOptions.toString());
+	    
+	    visibilityOptions = [];
+	    table.find('.giverCheckbox:checked').each(function () {
+			visibilityOptions.push($(this).val());
+	    });
+	    form.find("input[name='showresponsegiverto']").val(visibilityOptions.toString());
+    });
+    
+    $("div[id^=plainCommentText]").css("margin-left","15px");
 });
 
 function generateNewCommentRow(data) {
@@ -170,7 +193,7 @@ function generateNewCommentRow(data) {
 	var formattedTime = commentDateStr.substring(indexOfYear + 5, indexOfYear + 14);
 	var commentTime = formattedDate + " " + formattedTime + " UTC " + thisYear;
 	
-	var classNameForRow = $(location).attr('href').indexOf('instructorCommentsPage') != -1? "list-group-item list-group-item-warning giver_display-by-you":
+	var classNameForRow = isInCommentsPage()? "list-group-item list-group-item-warning giver_display-by-you":
 			"list-group-item list-group-item-warning";
 	
     var newRow =
@@ -200,6 +223,11 @@ function generateNewCommentRow(data) {
     + "<div id=\"plainCommentText-" + addCount + "\">" + data.comment.commentText.value + "</div>"
     // Edit form
     + "<form style=\"display:none;\" id=\"responseCommentEditForm-" + addCount + "\" class=\"responseCommentEditForm\">"
+	+    "<div class=\"form-group form-inline\">"
+	+	    "<div class=\"form-group text-muted\">"
+	+	        "To change this comment's visibility, kindly reload the current webpage."
+	+	    "</div>"
+	+	"</div>"
     + 	"<div class=\"form-group\">"
     + 		"<textarea class=\"form-control\" rows=\"3\" placeholder=\"Your comment about this response\""
     + 			" name=\"" + FEEDBACK_RESPONSE_COMMENT_TEXT + "\""
@@ -238,6 +266,9 @@ function setFormErrorMessage(submitButton, msg){
 function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
     var id = "-"+recipientIndex+"-"+giverIndex+"-"+qnIndx;
     $("#responseCommentTable"+id).show();
+    if($("#responseCommentTable"+ id + " > li").length <= 1){
+    	$("#responseCommentTable"+id).css('margin-top', '15px');
+    }
     $("#showResponseCommentAddForm"+id).show();
     $("#responseCommentAddForm"+id).focus();
 }
@@ -245,6 +276,7 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
 function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
     var id = "-"+recipientIndex+"-"+giverIndex+"-"+qnIndx;
     if($("#responseCommentTable"+ id + " > li").length <= 1){
+    	$("#responseCommentTable"+id).css('margin-top', '0');
     	$("#responseCommentTable"+id).hide();
     }
     $("#showResponseCommentAddForm"+id).hide();
@@ -264,6 +296,28 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     $("#responseCommentEditForm"+id+" > div > textarea").val($("#plainCommentText"+id).text());
     $("#responseCommentEditForm"+id).show();
     $("#responseCommentEditForm"+id+" > div > textarea").focus();
+}
+
+function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentIndex) {
+	var id;
+	if(questionIdx || responseIdx || commentIndex){
+		if(commentIndex){
+			id = "-"+sessionIdx+"-"+questionIdx+"-"+responseIdx+"-"+commentIndex;
+		} else {
+			id = "-"+sessionIdx+"-"+questionIdx+"-"+responseIdx;
+		}
+	} else {
+		id = "-"+sessionIdx;
+	}
+	var visibilityEditForm = $("#visibility-options"+id);
+	if(visibilityEditForm.is(':visible')){
+		visibilityEditForm.hide();
+		$("#frComment-visibility-options-trigger"+id).html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
+		
+	} else {
+		visibilityEditForm.show();
+		$("#frComment-visibility-options-trigger"+id).html('<span class="glyphicon glyphicon-eye-close"></span> Hide Visibility Options');
+	}
 }
 
 function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex) {

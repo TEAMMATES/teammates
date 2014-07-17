@@ -16,6 +16,7 @@ import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.HttpRequestHelper;
@@ -35,6 +36,7 @@ public class EvaluationClosingReminderTest extends BaseComponentUsingTaskQueueTe
     private static final EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
     private static final StudentsLogic studentsLogic = new StudentsLogic();
     private static final InstructorsLogic instructorsLogic = new InstructorsLogic();
+    private static final DataBundle dataBundle = getTypicalDataBundle();
     
     /*
      * Implemented as recommended in App Engine docs :
@@ -77,21 +79,14 @@ public class EvaluationClosingReminderTest extends BaseComponentUsingTaskQueueTe
         gaeSimulation.resetDatastore();
     }
     
-    @Test
-    public void testAll() throws Exception {
-        testAdditionOfTaskToTaskQueue();
-        testEvaluationClosingMailAction();
-    }
-    
     @AfterClass
     public static void classTearDown() throws Exception {
         printTestClassFooter();
     }
     
+    @Test
     @SuppressWarnings("deprecation")
-    private void testAdditionOfTaskToTaskQueue() throws Exception {
-        DataBundle dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
+    public void testAdditionOfTaskToTaskQueue() throws Exception {
         EvaluationClosingCallback.resetTaskCount();
         
         ______TS("typical case, 0 evaluations closing soon");
@@ -158,18 +153,16 @@ public class EvaluationClosingReminderTest extends BaseComponentUsingTaskQueueTe
             }
             counter++;
         }
-        if(counter == 10){
-            assertEquals(EvaluationClosingCallback.taskCount, 2);
-        }
         
+        assertEquals(EvaluationClosingCallback.taskCount, 2);
+        
+        evaluationsLogic.deleteEvaluationCascade(evaluation1.courseId, evaluation1.name);
+        evaluationsLogic.deleteEvaluationCascade(evaluation2.courseId, evaluation2.name);   
     }
 
+    @Test
     @SuppressWarnings("deprecation")
-    private void testEvaluationClosingMailAction() throws Exception{
-        
-        DataBundle dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-        
+    private void testEvaluationClosingMailAction() throws Exception{        
         // Reuse an existing evaluation to create a new one that is
         // closing in 24 hours.
         ______TS("MimeMessage test : testing for number and content of emails generated");
@@ -184,6 +177,7 @@ public class EvaluationClosingReminderTest extends BaseComponentUsingTaskQueueTe
         evaluation1.timeZone = timeZone;
         evaluation1.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
         evaluation1.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
+
         evaluationsLogic.createEvaluationCascadeWithoutSubmissionQueue(evaluation1);
         
         //Prepare parameter map to be used with EvaluationClosingMailAction
@@ -209,5 +203,7 @@ public class EvaluationClosingReminderTest extends BaseComponentUsingTaskQueueTe
             assertTrue(subject.contains(evaluation1.name));
             assertTrue(subject.contains(Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_CLOSING));
         }
+        
+        evaluationsLogic.deleteEvaluationCascade(evaluation1.courseId, evaluation1.name);
     }
 }

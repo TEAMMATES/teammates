@@ -86,7 +86,7 @@ public class CommentAttributes extends EntityAttributes
             errors.add(error);
         }
 
-        if (recipientType != null) {
+        if (recipients != null && recipientType != null) {
             switch (recipientType) {
             case PERSON:
                 for (String recipientId : recipients) {
@@ -173,17 +173,22 @@ public class CommentAttributes extends EntityAttributes
         this.courseId = Sanitizer.sanitizeForHtml(courseId);
         this.giverEmail = Sanitizer.sanitizeForHtml(giverEmail);
 
-        HashSet<String> sanitizedRecipients = new HashSet<String>();
-        for (String recipientId : recipients) {
-            sanitizedRecipients.add(Sanitizer.sanitizeForHtml(recipientId));
-        }
-        recipients = sanitizedRecipients;
-
-        if (commentText != null) {
-            this.commentText = new Text(Sanitizer.sanitizeForHtml(commentText.getValue()));
+        if(recipients != null){
+            HashSet<String> sanitizedRecipients = new HashSet<String>();
+            for (String recipientId : recipients) {
+                sanitizedRecipients.add(Sanitizer.sanitizeForHtml(recipientId));
+            }
+            recipients = sanitizedRecipients;
         }
         
-        sanitizeForVisibilityOptions();
+        if (commentText != null) {
+            String sanitizedText = Sanitizer.sanitizeForHtml(commentText.getValue()).replace("\n", "\n<br>");
+            this.commentText = new Text(sanitizedText);
+        }
+        
+        if(recipientType != null){
+            sanitizeForVisibilityOptions();
+        }
     }
 
     private void sanitizeForVisibilityOptions() {

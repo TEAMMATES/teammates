@@ -37,11 +37,17 @@ public class SubmissionTaskQueueLogicTest extends
             
             assertTrue(paramMap.containsKey(ParamsNames.SUBMISSION_EVAL));
             String evaluation = (String) paramMap.get(ParamsNames.SUBMISSION_EVAL);
-            assertTrue(evaluation.equals("Basic Computing Evaluation1"));
 
             assertTrue(paramMap.containsKey(ParamsNames.SUBMISSION_COURSE));
             String courseId = (String) paramMap.get(ParamsNames.SUBMISSION_COURSE);
-            assertTrue(courseId.equals("idOfTypicalCourse1"));
+            
+            if (courseId.equals("idOfTypicalCourse1")) {
+                assertTrue(evaluation.equals("Basic Computing Evaluation1"));
+                assertTrue(courseId.equals("idOfTypicalCourse1"));
+            } else {
+                assertTrue(evaluation.equals("Basic Computing Evaluation2"));
+                assertTrue(courseId.equals("idOfTypicalCourse2"));
+            }
             
             SubmissionTaskQueueCallback.taskCount++;
             return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;
@@ -54,13 +60,8 @@ public class SubmissionTaskQueueLogicTest extends
         gaeSimulation.tearDown();
         gaeSimulation.setupWithTaskQueueCallbackClass(SubmissionTaskQueueCallback.class);
         gaeSimulation.resetDatastore();
+        restoreTypicalDataInDatastore();
         turnLoggingUp(EvaluationsLogic.class);
-    }
-    
-    @Test
-    public void testAll() throws Exception {
-        testSchedulingOfCreationOfSubmissions();
-        testCreationOfSubmissions();
     }
     
     @AfterClass
@@ -69,13 +70,13 @@ public class SubmissionTaskQueueLogicTest extends
         turnLoggingDown(EvaluationsLogic.class);
     }
     
-    private void testSchedulingOfCreationOfSubmissions() throws Exception{
-        restoreTypicalDataInDatastore();
+    @Test
+    public void testSchedulingOfCreationOfSubmissions() throws Exception{
         
         ______TS("scheduling test case : create a valid evaluation");
         EvaluationAttributes createdEval = new EvaluationAttributes();
-        createdEval.courseId = "idOfTypicalCourse1";
-        createdEval.name = "Basic Computing Evaluation1";
+        createdEval.courseId = "idOfTypicalCourse2";
+        createdEval.name = "Basic Computing Evaluation2";
         createdEval.instructions = new Text("Instructions to student.");
         createdEval.startTime = new Date();
         createdEval.endTime = new Date();
@@ -89,9 +90,7 @@ public class SubmissionTaskQueueLogicTest extends
             }
             counter++;
         }
-        if(counter == 10){
-            assertEquals(SubmissionTaskQueueCallback.taskCount, 1);
-        }
+        assertEquals(SubmissionTaskQueueCallback.taskCount, 1);
         
         ______TS("scheduling test case : try to create an invalid evaluation");
         evaluationsLogic
@@ -111,8 +110,8 @@ public class SubmissionTaskQueueLogicTest extends
         }
     }
     
+    @Test
     private void testCreationOfSubmissions() throws Exception {
-        restoreTypicalDataInDatastore();
         
         ______TS("creation test case : verify submissions of a valid evaluation");
         EvaluationAttributes createdEval = new EvaluationAttributes();
