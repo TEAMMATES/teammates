@@ -1030,7 +1030,7 @@ public class Logic {
      * @param key the encrypted registration key
      */
     public void joinCourseForStudent(String key, String googleId)
-            throws JoinCourseException, InvalidParametersException, EntityAlreadyExistsException {
+            throws JoinCourseException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);

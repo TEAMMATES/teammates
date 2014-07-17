@@ -19,7 +19,6 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
@@ -126,7 +125,7 @@ public abstract class Action {
 
     protected AccountAttributes createDummyAccountIfUserIsUnregistered(UserType currentUser,
             AccountAttributes loggedInUser) {
-        if(loggedInUser==null){ //Unregistered but loggedin user
+        if(loggedInUser==null) { //Unregistered but loggedin user
             loggedInUser = new AccountAttributes();
             loggedInUser.googleId = currentUser.id;
         }
@@ -262,22 +261,24 @@ public abstract class Action {
      *    {@code isError} flag in the {@link ActionResult} object.
      */
     public ActionResult executeAndPostProcess() throws EntityDoesNotExistException {
-        
+        if (!isValidUser()) {
+            return createRedirectResult(getAuthenticationRedirectUrl());
+        }
         //get the result from the child class.
         ActionResult response = execute();
         
         //set error flag of the result
         response.isError = isError;
         
-        //Override the result if a redirect was requested by the action requester
+        /* Override the result if a redirect was requested by the action requester
         String redirectUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
         if(redirectUrl != null && new FieldValidator().isLegitimateRedirectUrl(redirectUrl)) {
             RedirectResult rr = new RedirectResult(redirectUrl, response.account, requestParameters, response.statusToUser);
             rr.isError = response.isError;
             response = rr;
-        }
+        }*/
         
-        //Set the common parameters for the response
+        // Set the common parameters for the response
         if (regkey == null) {
             response.responseParams.put(Const.ParamsNames.USER_ID, account.googleId);
             response.responseParams.put(Const.ParamsNames.ERROR, ""+response.isError);

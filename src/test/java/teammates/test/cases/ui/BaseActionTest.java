@@ -13,6 +13,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -232,7 +233,7 @@ public class BaseActionTest extends BaseComponentTestCase {
             Action c = gaeSimulation.getActionObject(uri, parameters);
             c.executeAndPostProcess();
             signalFailureToDetectException();
-        } catch (AssertionError e) {
+        } catch (AssertionError | NullPostParameterException e) {
             ignoreExpectedException();
         }
     }

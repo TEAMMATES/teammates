@@ -53,7 +53,8 @@
                     <br>
                 </p>
                 <div class="align-center">
-                    <a href="<%=Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED + "?regkey=" + data.regkey%>" 
+                    <a href="<%=Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED 
+                    	    + "?regkey=" + data.regkey + "&next=" + data.nextUrl%>" 
                         class="btn btn-success"
                         id="button_confirm">Yes, this is my account</a>
                     <a href="/logout.jsp" 

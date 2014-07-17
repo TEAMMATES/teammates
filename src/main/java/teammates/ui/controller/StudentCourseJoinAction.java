@@ -2,10 +2,10 @@ package teammates.ui.controller;
 
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
-import teammates.logic.api.GateKeeper;
 
 /**
  * This action handles students that attempts to join a course.
@@ -22,41 +22,64 @@ public class StudentCourseJoinAction extends Action {
     
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
-        //TODO Remove excessive logging from this method
-        String key = getRequestParamValue(Const.ParamsNames.REGKEY);
-        Assumption.assertNotNull(key);
-
-        new GateKeeper().verifyLoggedInUserPrivileges();
+        Assumption.assertPostParamNotNull(Const.ParamsNames.REGKEY, regkey);
+        String nextUrl = getNextUrl();
         
         statusToAdmin = "Action Student Clicked Join Link"
-                + "<br/>Google ID: " + account.googleId
-                + "<br/>Key: " + key;
+                + account.googleId == null ? "<br/>Email: " + account.email   
+                        : "<br/>Google ID: " + account.googleId
+                + "<br/>Key: " + regkey;
         
-        // Bypass confirmation if student is already registered
-        StudentAttributes student = logic.getStudentForRegistrationKey(key);
-        if (student != null && student.isRegistered()) {
-            String logMsg = "Student already registered with the following information:" 
-                    + "<br/>Course: " + student.course
-                    + "<br/>Name: " + student.name 
-                    + "<br/>Email: " + student.email
-                    + "<br/>Id: " + student.googleId
-                    + "<br/>Bypassing confirmation page.";            
-            log.info(logMsg);
-            
-            String redirectUrl = Url.addParamToUrl(
-                    Const.ActionURIs.STUDENT_HOME_PAGE,
-                    Const.ParamsNames.REGKEY, key);
-            
-            return createRedirectResult(redirectUrl);
-        } 
+        student = student == null ? logic.getStudentForRegistrationKey(regkey) : student;
         
-        data = new StudentCourseJoinConfirmationPageData(account);
-        data.regkey = key;
+        if (student == null) {
+            throw new UnauthorizedAccessException("No student with given registration key:" + regkey);
+        } else if (student.isRegistered()) {
+            // this branch only means that the user is already registered as the other cases:
+            // mismatch of regkey / regkey used by another user are handled by authentication
+            // in Action.java during initialisation
+            statusToUser.add("You are already a student of Course: " + student.course);
+            return createRedirectToNextUrl(student, nextUrl);
+        }
         
-        String logMsg = "Showing join confirmation page.";
-        log.info(logMsg);
+        if (logic.getCurrentUser() == null) {
+            return createRedirectToAuthenticatedJoinPage(nextUrl);
+        }
+        
+        data = new StudentCourseJoinConfirmationPageData(account, regkey, nextUrl);
         
         return createShowPageResult(
                 Const.ViewURIs.STUDENT_COURSE_JOIN_CONFIRMATION, data);
+    }
+
+    protected String getNextUrl() {
+        String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
+        if (nextUrl == null) {
+            nextUrl = Const.ActionURIs.STUDENT_HOME_PAGE;
+        }
+        
+        return nextUrl;
+    }
+
+    protected ActionResult createRedirectToAuthenticatedJoinPage(String nextUrl) {
+        // send straight to next page as the user can choose to login as he wishes
+        String redirectUrl = Url.addParamToUrl(
+                Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED,
+                Const.ParamsNames.REGKEY, regkey);
+        
+        redirectUrl = Url.addParamToUrl(redirectUrl, Const.ParamsNames.NEXT_URL, nextUrl);
+        
+        return createRedirectResult(redirectUrl);
+    }
+
+    protected ActionResult createRedirectToNextUrl(StudentAttributes student, String nextUrl) {
+
+        // Redirect to given url if user is already registered
+        log.info("User already registered as student in course: " + student.course);
+        
+        String redirectUrl = Url.addParamToUrl(
+                nextUrl, Const.ParamsNames.REGKEY, regkey);
+        
+        return createRedirectResult(redirectUrl);
     }
 }
