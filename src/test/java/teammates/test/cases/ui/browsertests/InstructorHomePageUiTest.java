@@ -29,7 +29,6 @@ import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorEvalEditPage;
 import teammates.test.pageobjects.InstructorEvalPreview;
 import teammates.test.pageobjects.InstructorEvalResultsPage;
-import teammates.test.pageobjects.InstructorEvalsPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
 import teammates.test.pageobjects.InstructorHelpPage;
 import teammates.test.pageobjects.InstructorHomePage;
@@ -388,11 +387,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
     
     public void testSearchAction() throws Exception{
-        ______TS("search student");
-        homePage.searchForStudent("Alice").verifySearchKey("Alice");
-        
-        //go back to previous page because 'search' redirects to the 'StudentList' page.
-        homePage.goToPreviousPage(InstructorHomePage.class);
+        // Tested in student list page
     }
     
     public void testSortAction() throws Exception{
