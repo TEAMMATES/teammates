@@ -72,6 +72,61 @@
             "name":"Typical Course 1 with 2 Evals",
             "isArchived":false
         },
+        "typicalCourse2":{
+            "id":"comments.idOfTypicalCourse2",
+            "name":"Typical Course 2 with 2 Evals",
+            "isArchived":false
+        },
+        "typicalCourse3":{
+            "id":"comments.idOfTypicalCourse3",
+            "name":"Typical Course 3 with 2 Evals",
+            "isArchived":false
+        },
+        "typicalCourse4":{
+            "id":"comments.idOfTypicalCourse4",
+            "name":"Typical Course 4 with 2 Evals",
+            "isArchived":false
+        },
+        "typicalCourse5":{
+            "id":"comments.idOfTypicalCourse5",
+            "name":"Typical Course 5 with 2 Evals",
+            "isArchived":false
+        },
+        "typicalCourse6":{
+            "id":"comments.idOfTypicalCourse6",
+            "name":"Typical Course 6 with 2 Evals",
+            "isArchived":false
+        },
+        "typicalCourse7":{
+            "id":"comments.idOfTypicalCourse7",
+            "name":"Typical Course 7 with 2 Evals",
+            "isArchived":false
+        },
+        "typicalCourse8":{
+            "id":"comments.idOfTypicalCourse8",
+            "name":"Typical Course 8 with 2 Evals",
+            "isArchived":false
+        },
+        "typicalCourse9":{
+            "id":"comments.idOfTypicalCourse9",
+            "name":"Typical Course 9 with 2 Evals",
+            "isArchived":false
+        },
+        "typicalCourse10":{
+            "id":"comments.idOfTypicalCourse10",
+            "name":"Typical Course 10 with 2 Evals",
+            "isArchived":false
+        },
+        "typicalCourse11":{
+            "id":"comments.idOfTypicalCourse11",
+            "name":"Typical Course 11 with 2 Evals",
+            "isArchived":false
+        },
+        "typicalCourse12":{
+            "id":"comments.idOfTypicalCourse12",
+            "name":"Typical Course 12 with 2 Evals",
+            "isArchived":false
+        },
         "sampleCourse":{
             "id":"comments.idOfSampleCourse-demo",
             "name":"Sample Course",
@@ -89,6 +144,116 @@
             "courseId":"comments.idOfTypicalCourse1",
             "name":"Instructor1 Course1",
             "email":"comments.instructor1@course1.com",
+            "role":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        },
+        "instructor1OfCourse2":{
+            "googleId":"comments.idOfInstructor1OfCourse1",
+            "courseId":"comments.idOfTypicalCourse2",
+            "name":"Instructor1 Course2",
+            "email":"comments.instructor1@course2.com",
+            "role":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        },
+        "instructor1OfCourse3":{
+            "googleId":"comments.idOfInstructor1OfCourse1",
+            "courseId":"comments.idOfTypicalCourse3",
+            "name":"Instructor1 Course3",
+            "email":"comments.instructor1@course3.com",
+            "role":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        },
+        "instructor1OfCourse4":{
+            "googleId":"comments.idOfInstructor1OfCourse1",
+            "courseId":"comments.idOfTypicalCourse4",
+            "name":"Instructor1 Course1",
+            "email":"comments.instructor1@course4.com",
+            "role":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        },
+        "instructor1OfCourse5":{
+            "googleId":"comments.idOfInstructor1OfCourse1",
+            "courseId":"comments.idOfTypicalCourse5",
+            "name":"Instructor1 Course1",
+            "email":"comments.instructor1@course5.com",
+            "role":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        },
+        "instructor1OfCourse6":{
+            "googleId":"comments.idOfInstructor1OfCourse1",
+            "courseId":"comments.idOfTypicalCourse6",
+            "name":"Instructor1 Course1",
+            "email":"comments.instructor1@course6.com",
+            "role":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        },
+        "instructor1OfCourse7":{
+            "googleId":"comments.idOfInstructor1OfCourse1",
+            "courseId":"comments.idOfTypicalCourse7",
+            "name":"Instructor1 Course1",
+            "email":"comments.instructor1@course7.com",
+            "role":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        },
+        "instructor1OfCourse8":{
+            "googleId":"comments.idOfInstructor1OfCourse1",
+            "courseId":"comments.idOfTypicalCourse8",
+            "name":"Instructor1 Course1",
+            "email":"comments.instructor1@course8.com",
+            "role":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        },
+        "instructor1OfCourse9":{
+            "googleId":"comments.idOfInstructor1OfCourse1",
+            "courseId":"comments.idOfTypicalCourse9",
+            "name":"Instructor1 Course1",
+            "email":"comments.instructor1@course9.com",
+            "role":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        },
+        "instructor1OfCourse10":{
+            "googleId":"comments.idOfInstructor1OfCourse1",
+            "courseId":"comments.idOfTypicalCourse10",
+            "name":"Instructor1 Course1",
+            "email":"comments.instructor1@course10.com",
+            "role":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        },
+        "instructor1OfCourse11":{
+            "googleId":"comments.idOfInstructor1OfCourse1",
+            "courseId":"comments.idOfTypicalCourse11",
+            "name":"Instructor1 Course1",
+            "email":"comments.instructor1@course11.com",
+            "role":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        },
+        "instructor1OfCourse12":{
+            "googleId":"comments.idOfInstructor1OfCourse1",
+            "courseId":"comments.idOfTypicalCourse12",
+            "name":"Instructor1 Course1",
+            "email":"comments.instructor1@course12.com",
             "role":"Co-owner",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
