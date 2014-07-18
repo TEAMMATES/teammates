@@ -387,9 +387,9 @@ public class ActivityLogEntry {
         
         
         String result = "";
-        result += "<tr> <td style=\"vertical-align: middle;\"> <strong>"+ getDateInfo() + "</strong>"
+        result += "<tr> <td style=\"vertical-align: middle;\">"+ getDateInfo()
                + "<br> <p class=\"" + getColorCode(getTimeTaken()) + "\">"
-               + TimeHelper.ConvertToStandardDuration(getTimeTaken())
+               + "<strong>" + TimeHelper.ConvertToStandardDuration(getTimeTaken()) + "</strong>"
                + "</p> </td> <td> "
                + "<form method=\"post\" action=\"" + Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE + "\"> "
                + "<h4 class=\"list-group-item-heading\">" 
