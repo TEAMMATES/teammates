@@ -79,12 +79,21 @@
             <listener class-name="teammates.test.util.PriorityInterceptor" />
         </listeners>
         <classes>
-            <class name="teammates.test.cases.testdriver.BackDoorTest" />
             <class name="teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest" />
             <class name="teammates.test.cases.ui.browsertests.TableSortTest" />
-            <class name="teammates.test.cases.ui.browsertests.GodModeTest" />
             <class name="teammates.test.cases.ui.browsertests.AllJsTests" />
             <class name="teammates.test.cases.ui.browsertests.MashupPageUiTest" />
+        </classes>
+    </test>
+    
+    <test name="rare-tests" parallel="classes">
+     <!-- These need not be run during staging. -->
+        <listeners>
+            <listener class-name="teammates.test.util.PriorityInterceptor" />
+        </listeners>
+        <classes>
+            <class name="teammates.test.cases.ui.browsertests.GodModeTest" />
+            <class name="teammates.test.cases.testdriver.BackDoorTest" />
         </classes>
     </test>
 
