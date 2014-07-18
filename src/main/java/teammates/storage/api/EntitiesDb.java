@@ -71,19 +71,21 @@ public abstract class EntitiesDb {
         // Wait for the operation to persist
         int elapsedTime = 0;
         Object createdEntity = getEntity(entityToAdd);
-        while ((createdEntity == null)
-                && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
-            ThreadHelper.waitBriefly();
-            createdEntity = getEntity(entityToAdd);
-            //check before incrementing to avoid boundary case problem
-            if (createdEntity == null) {
-                elapsedTime += ThreadHelper.WAIT_DURATION;
+        if(Config.PERSISTENCE_CHECK_DURATION > 0){
+            while ((createdEntity == null)
+                    && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+                ThreadHelper.waitBriefly();
+                createdEntity = getEntity(entityToAdd);
+                //check before incrementing to avoid boundary case problem
+                if (createdEntity == null) {
+                    elapsedTime += ThreadHelper.WAIT_DURATION;
+                }
             }
-        }
-        if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
-            log.severe("Operation did not persist in time: create"
-                    + entityToAdd.getEntityTypeAsString() + "->"
-                    + entityToAdd.getIdentificationString());
+            if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
+                log.severe("Operation did not persist in time: create"
+                        + entityToAdd.getEntityTypeAsString() + "->"
+                        + entityToAdd.getIdentificationString());
+            }
         }
         return createdEntity;
     }
@@ -111,21 +113,23 @@ public abstract class EntitiesDb {
         getPM().flush();
 
         // Wait for the operation to persist
-        int elapsedTime = 0;
-        Object entityCheck = getEntity(entityToAdd);
-        while ((entityCheck == null)
-                && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
-            ThreadHelper.waitBriefly();
-            entityCheck = getEntity(entityToAdd);
-            //check before incrementing to avoid boundary case problem
-            if (entityCheck == null) {
-                elapsedTime += ThreadHelper.WAIT_DURATION;
+        if(Config.PERSISTENCE_CHECK_DURATION > 0){
+            int elapsedTime = 0;
+            Object entityCheck = getEntity(entityToAdd);
+            while ((entityCheck == null)
+                    && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+                ThreadHelper.waitBriefly();
+                entityCheck = getEntity(entityToAdd);
+                //check before incrementing to avoid boundary case problem
+                if (entityCheck == null) {
+                    elapsedTime += ThreadHelper.WAIT_DURATION;
+                }
             }
-        }
-        if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
-            log.severe("Operation did not persist in time: create"
-                    + entityToAdd.getEntityTypeAsString() + "->"
-                    + entityToAdd.getIdentificationString());
+            if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
+                log.severe("Operation did not persist in time: create"
+                        + entityToAdd.getEntityTypeAsString() + "->"
+                        + entityToAdd.getIdentificationString());
+            }
         }
     }
     
@@ -149,21 +153,23 @@ public abstract class EntitiesDb {
         getPM().flush();
         
         // wait for the operation to persist
-        int elapsedTime = 0;
-        Object entityCheck = getEntity(entityToDelete);
-        while ((entityCheck != null)
-                && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
-            ThreadHelper.waitBriefly();
-            entityCheck = getEntity(entityToDelete);
-            //check before incrementing to avoid boundary case problem
-            if (entityCheck == null) {
-                elapsedTime += ThreadHelper.WAIT_DURATION;
+        if(Config.PERSISTENCE_CHECK_DURATION > 0){
+            int elapsedTime = 0;
+            Object entityCheck = getEntity(entityToDelete);
+            while ((entityCheck != null)
+                    && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+                ThreadHelper.waitBriefly();
+                entityCheck = getEntity(entityToDelete);
+                //check before incrementing to avoid boundary case problem
+                if (entityCheck == null) {
+                    elapsedTime += ThreadHelper.WAIT_DURATION;
+                }
             }
-        }
-        if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
-            log.severe("Operation did not persist in time: delete"
-                    + entityToDelete.getEntityTypeAsString() + "->"
-                    + entityToDelete.getIdentificationString());
+            if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
+                log.severe("Operation did not persist in time: delete"
+                        + entityToDelete.getEntityTypeAsString() + "->"
+                        + entityToDelete.getIdentificationString());
+            }
         }
     }
     

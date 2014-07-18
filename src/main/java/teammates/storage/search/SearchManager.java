@@ -42,7 +42,7 @@ public class SearchManager {
                 elapsedTime += ThreadHelper.WAIT_DURATION;
             }
         }
-        if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
+        if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
             log.severe(String.format(ERROR_EXCEED_DURATION, document, indexName));
         }
     }
