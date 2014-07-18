@@ -43,16 +43,10 @@ public class InstructorsLogic {
         return instance;
     }
     
-    @Deprecated
-    public void createInstructor(String googleId, String courseId, String name, String email) 
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        InstructorAttributes instructorToAdd = new InstructorAttributes(googleId, courseId, name, email);
-        
-        createInstructor(instructorToAdd);
-    }
-    
     public void createInstructor(InstructorAttributes instructorToAdd) 
             throws InvalidParametersException, EntityAlreadyExistsException {
+        
+        Assumption.assertNotNull("Supplied parameter was null", instructorToAdd);
         
         log.info("going to create instructor :\n"+instructorToAdd.toString());
         

@@ -958,7 +958,6 @@ function bindCopyButton() {
             setStatusMessage('No questions are selected to be copied', true);
             $('#copyModal').modal('hide');
         } else {
-            console.log('test');
             $('#copyModalForm').submit();
         }
 
@@ -967,23 +966,27 @@ function bindCopyButton() {
     });
 }
 
+var numRowsSelected = 0;
+
 function bindCopyEvents() {
 
-    var firstRow = $('#copyTableModal >tbody>tr:first');
-    if(typeof firstRow != 'undefined'){
-        $(firstRow).addClass('row-selected');
-        $(firstRow).children('td:first').html('<span class="glyphicon glyphicon-ok"></span>');
-    }
-    
     $('#copyTableModal >tbody>tr').on('click', function(e){
         e.preventDefault();
         
         if($(this).hasClass('row-selected')){
             $(this).removeClass('row-selected');
-            $(this).children('td:first').html('');
+            $(this).children('td:first').html('<input type="checkbox">');
+            numRowsSelected--;
         } else {
             $(this).addClass('row-selected');
-            $(this).children('td:first').html('<span class="glyphicon glyphicon-ok"></span>');
+            $(this).children('td:first').html('<input type="checkbox" checked="checked">');
+            numRowsSelected++;
+        }
+
+        if(numRowsSelected <= 0){
+            $('#button_copy_submit').prop('disabled', true);
+        } else {
+            $('#button_copy_submit').prop('disabled', false);
         }
 
         return false;

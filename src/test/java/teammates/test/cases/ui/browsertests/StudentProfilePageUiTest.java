@@ -32,7 +32,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         printTestClassHeader();
         testData = loadDataBundle("/StudentProfilePageUiTest.json");
         restoreTestDataOnServer(testData);
-        browser = BrowserPool.getBrowser();
+        browser = BrowserPool.getBrowser(true);
     }
     
     @Test
@@ -60,7 +60,6 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         
         ______TS("typical success case");
         profilePage.verifyHtml("/studentProfilePageDefault.html");
-        AppPage.logout(browser);
         
         ______TS("existing profile values");
         // this test uses actual user accounts
@@ -122,6 +121,14 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
         verifyPictureIsPresent(prevPictureKey);
         
+        ______TS("picture too large");
+        
+        profilePage.fillProfilePic("src/test/resources/images/profile_pic_too_large.jpg");
+        profilePage.uploadPicture();
+        
+        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
+        verifyPictureIsPresent(prevPictureKey);
+        
         ______TS("success case, update picture");
         
         profilePage.fillProfilePic("src/test/resources/images/profile_pic_updated.png");
@@ -131,8 +138,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         String currentPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
         verifyPictureIsDeleted(prevPictureKey);
         verifyPictureIsPresent(currentPictureKey);        
-        
-        AppPage.logout(browser);
+
     }
     
     private void testAjaxPictureUrl() throws Exception {
@@ -171,14 +177,14 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         
         expectedFilename = "/studentProfilePictureUnauthorized.html";
         getProfilePicturePage(instructorId, email, invalidCourse)
-            .verifyIsErrorPage(expectedFilename);
+            .verifyIsUnauthorisedErrorPage(expectedFilename);
         
         ______TS("failure case: non-existent student");
         
         expectedFilename = "/studentProfilePictureStudentDoesNotExist.html";
         
         getProfilePicturePage(instructorId, invalidEmail, courseId)
-            .verifyIsErrorPage(expectedFilename);
+            .verifyIsEntityNotFoundErrorPage(expectedFilename);
         
     }
 
@@ -217,7 +223,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     
     @AfterClass
     public void testAfter() {
-        BackDoor.removeDataBundleFromDb(testData);
+        //BackDoor.removeDataBundleFromDb(testData);
         BrowserPool.release(browser);
     }
 }

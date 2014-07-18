@@ -57,7 +57,7 @@
                  
                  <div class="form-group">
                      <div class="align-center">
-                         <input data-original-title="Send invitation emails to all students yet to join the course" class="btn btn-primary" id="button_remind" data-toggle="tooltip" data-placement="top" title="" onclick="if(toggleSendRegistrationKeysConfirmation('CCDetailsUiT.CS2103')) window.location.href='/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2103&amp;user=CCDetailsUiT.instr2Helper';" value="Remind Students to Join" tabindex="1" type="button">
+                         <input data-original-title="Send invitation emails to all students yet to join the course" class="btn btn-primary" id="button_remind" data-toggle="tooltip" data-placement="top" title="" onclick="if(toggleSendRegistrationKeysConfirmation('CCDetailsUiT.CS2103')) window.location.href='/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2103&amp;user=CCDetailsUiT.instr2Helper';" value="Remind Students to Join" tabindex="1" disabled="disabled" type="button">
                          <form method="post" action="/page/instructorCourseStudentListDownload" style="display:inline;">
                             <input id="button_download" class="btn btn-primary" name="fruploaddownloadbtn" value=" Download Student List " type="submit">
                             <input name="user" value="CCDetailsUiT.instr2Helper" type="hidden">
@@ -198,6 +198,8 @@
                                     Comment on Alice Betsy</a></li>
                                 <li role="presentation"><a class="t_student_details_toteam-cCCDetailsUiT.CS2103.0" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2103&amp;studentemail={$test.student1}%40gmail.com&amp;user=CCDetailsUiT.instr2Helper&amp;addComment=team">
                                     Comment on Team 1</a></li>
+                                <li role="presentation"><a class="t_student_details_tosection-cCCDetailsUiT.CS2103.0" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2103&amp;studentemail={$test.student1}%40gmail.com&amp;user=CCDetailsUiT.instr2Helper&amp;addComment=section">
+                                    Comment on Tut Group 1</a></li>
                               </ul>
                             </div>
                         </td>
@@ -212,7 +214,7 @@
                             <a data-original-title="View the details of the student" class="btn btn-default btn-xs t_student_details2" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2103&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr2Helper" data-toggle="tooltip" data-placement="top" title="" disabled="disabled"> View</a>
                             <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" class="btn btn-default btn-xs t_student_edit2" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2103&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr2Helper" data-toggle="tooltip" data-placement="top" title="" disabled="disabled"> Edit</a>
                             
-                                <a data-original-title="Send invitation email to the student" class="btn btn-default btn-xs t_student_resend2" href="/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2103&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr2Helper" onclick="return toggleSendRegistrationKey()" data-toggle="tooltip" data-placement="top" title="">
+                                <a data-original-title="Send invitation email to the student" class="btn btn-default btn-xs t_student_resend2" href="/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2103&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr2Helper" onclick="return toggleSendRegistrationKey()" data-toggle="tooltip" data-placement="top" title="" disabled="disabled">
                                         Send Invite</a>
                             
                             <a data-original-title="Delete the student and the corresponding evaluations from the course" class="btn btn-default btn-xs t_student_delete2" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2103&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr2Helper" onclick="return toggleDeleteStudentConfirmation('Charlie Davis')" data-toggle="tooltip" data-placement="top" title="" disabled="disabled"> Delete</a>
@@ -223,6 +225,8 @@
                                     Comment on Charlie Davis</a></li>
                                 <li role="presentation"><a class="t_student_details_toteam-cCCDetailsUiT.CS2103.2" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2103&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr2Helper&amp;addComment=team">
                                     Comment on Team 1</a></li>
+                                <li role="presentation"><a class="t_student_details_tosection-cCCDetailsUiT.CS2103.2" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2103&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr2Helper&amp;addComment=section">
+                                    Comment on Tut Group 1</a></li>
                               </ul>
                             </div>
                         </td>
@@ -237,7 +241,7 @@
                             <a data-original-title="View the details of the student" class="btn btn-default btn-xs t_student_details1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2103&amp;studentemail=benny.tmms%40gmail.com&amp;user=CCDetailsUiT.instr2Helper" data-toggle="tooltip" data-placement="top" title="" disabled="disabled"> View</a>
                             <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" class="btn btn-default btn-xs t_student_edit1" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2103&amp;studentemail=benny.tmms%40gmail.com&amp;user=CCDetailsUiT.instr2Helper" data-toggle="tooltip" data-placement="top" title="" disabled="disabled"> Edit</a>
                             
-                                <a data-original-title="Send invitation email to the student" class="btn btn-default btn-xs t_student_resend1" href="/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2103&amp;studentemail=benny.tmms%40gmail.com&amp;user=CCDetailsUiT.instr2Helper" onclick="return toggleSendRegistrationKey()" data-toggle="tooltip" data-placement="top" title="">
+                                <a data-original-title="Send invitation email to the student" class="btn btn-default btn-xs t_student_resend1" href="/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2103&amp;studentemail=benny.tmms%40gmail.com&amp;user=CCDetailsUiT.instr2Helper" onclick="return toggleSendRegistrationKey()" data-toggle="tooltip" data-placement="top" title="" disabled="disabled">
                                         Send Invite</a>
                             
                             <a data-original-title="Delete the student and the corresponding evaluations from the course" class="btn btn-default btn-xs t_student_delete1" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2103&amp;studentemail=benny.tmms%40gmail.com&amp;user=CCDetailsUiT.instr2Helper" onclick="return toggleDeleteStudentConfirmation('Benny Charles')" data-toggle="tooltip" data-placement="top" title="" disabled="disabled"> Delete</a>
@@ -248,6 +252,8 @@
                                     Comment on Benny Charles</a></li>
                                 <li role="presentation"><a class="t_student_details_toteam-cCCDetailsUiT.CS2103.1" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2103&amp;studentemail=benny.tmms%40gmail.com&amp;user=CCDetailsUiT.instr2Helper&amp;addComment=team">
                                     Comment on Team 2</a></li>
+                                <li role="presentation"><a class="t_student_details_tosection-cCCDetailsUiT.CS2103.1" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2103&amp;studentemail=benny.tmms%40gmail.com&amp;user=CCDetailsUiT.instr2Helper&amp;addComment=section">
+                                    Comment on Tut Group 2</a></li>
                               </ul>
                             </div>
                         </td>

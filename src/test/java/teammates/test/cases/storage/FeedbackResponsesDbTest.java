@@ -5,7 +5,9 @@ import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -14,6 +16,7 @@ import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -34,18 +37,26 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-    private static List<FeedbackResponseAttributes> fras;
+    private static DataBundle dataBundle = getTypicalDataBundle();
+    private static HashMap<String, FeedbackResponseAttributes> fras;
     private static String questionIdWithoutResponses;
     
     @BeforeClass
     public void classSetUp() throws Exception {
         printTestClassHeader();
         turnLoggingUp(FeedbackResponsesDb.class); 
-        fras =  createResponses(2, 2);
-        questionIdWithoutResponses = createFeedbackQuestionWithoutResponses();
+        addResponsesToDb();
+        fras = dataBundle.feedbackResponses;
     }
     
-    
+    private static void addResponsesToDb() throws Exception {
+        Set<String> keys = dataBundle.feedbackResponses.keySet();
+        for (String i : keys) {
+            frDb.createEntity(dataBundle.feedbackResponses.get(i));
+        }
+    }
+
+
     @Test
     public void testCreateDeleteFeedbackResponse() 
             throws InvalidParametersException, EntityAlreadyExistsException {    
@@ -100,10 +111,10 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("standard success case");    
         
-        FeedbackResponseAttributes expected = fras.get(0);
+        FeedbackResponseAttributes expected = getResponseAttributes("response1ForQ1S1C1");
         
         FeedbackResponseAttributes actual =
-                frDb.getFeedbackResponse(expected.feedbackQuestionId, "student1InCourse1@gmail.com","student1InCourse1@gmail.com");
+                frDb.getFeedbackResponse(expected.feedbackQuestionId, expected.giverEmail, expected.recipientEmail);
         
         assertEquals(expected.toString(), actual.toString());
         
@@ -157,8 +168,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("standard success case");
         
-        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestion(fras.get(0).feedbackQuestionId);
-        assertEquals(responses.size(), 2);
+        List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestion(fras.get("response1ForQ1S1C1").feedbackQuestionId);
+        assertEquals(6, responses.size());
         
         ______TS("null params");
         
@@ -171,26 +182,19 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("non-existent feedback question");
         
-        assertTrue(frDb.getFeedbackResponsesForQuestion("non-existent fq id").isEmpty());
-            
-        ______TS("no responses for question");
-        
-        assertTrue(frDb.getFeedbackResponsesForQuestion(questionIdWithoutResponses).isEmpty());    
-        
+        assertTrue(frDb.getFeedbackResponsesForQuestion("non-existent fq id").isEmpty());        
     }
 
     @Test
     public void testGetFeedbackResponsesForQuestionInSection() throws Exception {
         
-        
-        
         ______TS("standard success case");  
         
-        String questionId = fras.get(0).feedbackQuestionId;
+        String questionId = fras.get("response1ForQ1S1C1").feedbackQuestionId;
         
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1");
         
-        assertEquals(1, responses.size());
+        assertEquals(2, responses.size());
 
         ______TS("No responses as they are filtered out");
 
@@ -216,12 +220,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("non-existent feedback question");
         
-        assertTrue(frDb.getFeedbackResponsesForQuestionInSection("non-existent fq id", "Section 1").isEmpty());
-            
-        ______TS("no responses for question");
-                
-        assertTrue(frDb.getFeedbackResponsesForQuestionInSection(questionIdWithoutResponses, "Section 1").isEmpty());    
-        
+        assertTrue(frDb.getFeedbackResponsesForQuestionInSection("non-existent fq id", "Section 1").isEmpty());        
     }
     
     @Test
@@ -229,12 +228,12 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("standard success case");  
         
-        String feedbackSessionName = fras.get(0).feedbackSessionName;
-        String courseId = fras.get(0).courseId;
+        String feedbackSessionName = fras.get("response1ForQ1S1C1").feedbackSessionName;
+        String courseId = fras.get("response1ForQ1S1C1").courseId;
         
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSession(feedbackSessionName, courseId);
         
-        assertEquals(responses.size(), 4);
+        assertEquals(6, responses.size());
         
         ______TS("null params");
         
@@ -267,13 +266,13 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("standard success case");  
         
-        String questionId = fras.get(0).feedbackQuestionId;
+        String questionId = fras.get("response1ForQ1S1C1").feedbackQuestionId;
         
         List<FeedbackResponseAttributes> responses = 
                 frDb.getFeedbackResponsesForReceiverForQuestion(questionId,
                         "student1InCourse1@gmail.com");
         
-        assertEquals(2, responses.size());
+        assertEquals(1, responses.size());
         
         ______TS("null params");
         
@@ -305,13 +304,13 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("standard success case");  
         
-        String questionId = fras.get(0).feedbackQuestionId;
+        String questionId = fras.get("response1ForQ1S1C1").feedbackQuestionId;
         
         List<FeedbackResponseAttributes> responses = 
                 frDb.getFeedbackResponsesForReceiverForQuestionInSection(questionId,
                         "student1InCourse1@gmail.com", "Section 1");
         
-        assertEquals(2, responses.size());
+        assertEquals(1, responses.size());
 
         ______TS("No responses as they are filtered out");  
         
@@ -362,13 +361,13 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("standard success case");  
         
-        String courseId = fras.get(0).courseId;
+        String courseId = fras.get("response1ForQ1S1C1").courseId;
         
         List<FeedbackResponseAttributes> responses = 
                 frDb.getFeedbackResponsesForReceiverForCourse(courseId,
                         "student1InCourse1@gmail.com");
         
-        assertEquals(4, responses.size());
+        assertEquals(2, responses.size());
         
         ______TS("null params");
         
@@ -400,7 +399,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
                 
         ______TS("standard success case");  
         
-        String questionId = fras.get(0).feedbackQuestionId;
+        String questionId = fras.get("response1ForQ1S1C1").feedbackQuestionId;
         
         List<FeedbackResponseAttributes> responses = 
                 frDb.getFeedbackResponsesFromGiverForQuestion(questionId,
@@ -438,7 +437,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("standard success case");  
         
-        String questionId = fras.get(0).feedbackQuestionId;
+        String questionId = fras.get("response1ForQ1S1C1").feedbackQuestionId;
         
         List<FeedbackResponseAttributes> responses = 
                 frDb.getFeedbackResponsesFromGiverForQuestionInSection(questionId,
@@ -495,13 +494,13 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("standard success case");  
         
-        String courseId = fras.get(0).courseId;
+        String courseId = fras.get("response1ForQ1S1C1").courseId;
         
         List<FeedbackResponseAttributes> responses = 
                 frDb.getFeedbackResponsesFromGiverForCourse(courseId,
                         "student1InCourse1@gmail.com");
         
-        assertEquals(responses.size(), 2);
+        assertEquals(3, responses.size());
         
         ______TS("null params");
         
@@ -533,8 +532,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         ______TS("standard success case");  
         
-        String courseId = fras.get(0).courseId;
-        String feedbackSessionName = fras.get(0).feedbackSessionName;
+        String courseId = fras.get("response1ForQ1S1C1").courseId;
+        String feedbackSessionName = fras.get("response1ForQ1S1C1").feedbackSessionName;
         
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionWithinRange(feedbackSessionName, courseId, 1);
         
@@ -572,12 +571,12 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("standard success case");  
         
-        String courseId = fras.get(0).courseId;
-        String feedbackSessionName = fras.get(0).feedbackSessionName;
+        String courseId = fras.get("response1ForQ1S1C1").courseId;
+        String feedbackSessionName = fras.get("response1ForQ1S1C1").feedbackSessionName;
         
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, "Section 1");
         
-        assertEquals(4, responses.size());
+        assertEquals(5, responses.size());
         
         ______TS("null params");
         
@@ -609,8 +608,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("standard success case");  
         
-        String courseId = fras.get(0).courseId;
-        String feedbackSessionName = fras.get(0).feedbackSessionName;
+        String courseId = fras.get("response1ForQ1S1C1").courseId;
+        String feedbackSessionName = fras.get("response1ForQ1S1C1").feedbackSessionName;
         
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionFromSection(feedbackSessionName, courseId, "Section 2");
         
@@ -650,12 +649,12 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("standard success case");  
         
-        String courseId = fras.get(0).courseId;
-        String feedbackSessionName = fras.get(0).feedbackSessionName;
+        String courseId = fras.get("response1ForQ1S1C1").courseId;
+        String feedbackSessionName = fras.get("response1ForQ1S1C1").feedbackSessionName;
         
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForSessionToSection(feedbackSessionName, courseId, "Section 1");
         
-        assertEquals(4, responses.size());
+        assertEquals(5, responses.size());
         
         ______TS("null params");
         
@@ -685,8 +684,6 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         assertTrue(frDb.getFeedbackResponsesForSessionToSection("Empty feedback session", "idOfTypicalCourse1", "Section 1").isEmpty()); 
     }
-
-
     
     @SuppressWarnings("static-access")
     @Test
@@ -703,10 +700,9 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("invalid feedback response attributes");
         
-        FeedbackResponseAttributes invalidFra = getNewFeedbackResponseAttributes();
-        frDb.deleteEntity(invalidFra);
-        frDb.createEntity(invalidFra);
-        invalidFra.setId(frDb.getFeedbackResponse("testFeedbackQuestionId", invalidFra.giverEmail, invalidFra.recipientEmail).getId());
+        FeedbackResponseAttributes invalidFra = getResponseAttributes("response3ForQ2S1C1");
+        invalidFra.setId(frDb.getFeedbackResponse(invalidFra.feedbackQuestionId, 
+                invalidFra.giverEmail, invalidFra.recipientEmail).getId());
         invalidFra.giverEmail = "haha";
         try {
             frDb.updateFeedbackResponse(invalidFra);
@@ -717,7 +713,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("feedback response does not exist");
         
-        FeedbackResponseAttributes nonexistantFr = getNewFeedbackResponseAttributes();
+        FeedbackResponseAttributes nonexistantFr = getResponseAttributes("response3ForQ2S1C1");
         nonexistantFr.setId("non-existent fr id");
         try {
             frDb.updateFeedbackResponse(nonexistantFr);
@@ -728,12 +724,10 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("standard success case");
         
-        FeedbackResponseAttributes modifiedResponse = getNewFeedbackResponseAttributes();
-        frDb.deleteEntity(modifiedResponse);
-        frDb.createEntity(modifiedResponse);
-        TestHelper.verifyPresentInDatastore(modifiedResponse, true);
+        FeedbackResponseAttributes modifiedResponse = getResponseAttributes("response3ForQ2S1C1");
         
-        modifiedResponse = frDb.getFeedbackResponse(modifiedResponse.feedbackQuestionId, modifiedResponse.giverEmail, modifiedResponse.recipientEmail);
+        modifiedResponse = frDb.getFeedbackResponse(modifiedResponse.feedbackQuestionId, 
+                modifiedResponse.giverEmail, modifiedResponse.recipientEmail);
         FeedbackAbstractResponseDetails frd = modifiedResponse.getResponseDetails();
         String answer[] = {"New answer text!"};
         frd = frd.createResponseDetails(
@@ -766,76 +760,12 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         return fra;
     }
     
-    private static List<FeedbackResponseAttributes> createResponses(int numQuestions, int numResponses) throws Exception {
-        FeedbackResponseAttributes fra;
-        FeedbackQuestionAttributes fqa;
-        List<FeedbackResponseAttributes> result = new ArrayList<FeedbackResponseAttributes>();
-        
-        for(int j = 1; j <= numQuestions; j++) {
-            fqa = createFeedbackQuestion();
-            fqa.questionNumber = j;
-            fqDb.deleteEntity(fqa);
-            fqDb.createEntity(fqa);
-            String questionId = fqDb.getFeedbackQuestion(fqa.feedbackSessionName, fqa.courseId, fqa.questionNumber).getId();
-            
-            for(int i = 0; i < numResponses ; i ++) {
-                fra = createFeedbackResponseCascade(questionId, i);
-                frDb.createEntity(fra);
-                result.add(fra);
-            }
-        }
-        
-        return result;
-    }
-    
-    private static FeedbackResponseAttributes createFeedbackResponseCascade(String questionId, int order) throws Exception {
-        
-        FeedbackResponseAttributes fra = new FeedbackResponseAttributes();
-        fra.feedbackQuestionId = questionId;
-        fra.courseId = "idOfTypicalCourse1";
-        fra.feedbackSessionName = "First feedback session";
-        fra.feedbackQuestionType = FeedbackQuestionType.TEXT;
-        if (order == 1) {
-            fra.giverEmail = "student2InCourse1@gmail.com";
-            fra.giverSection = "Section ";
-        } else {
-            fra.giverEmail = "student1InCourse1@gmail.com";
-            fra.giverSection = "Section 1";
-        }
-        fra.recipientSection = "Section 1";
-        fra.recipientEmail = "student1InCourse1@gmail.com";
-        fra.responseMetaData = new Text("Student 1 self feedback.");
-        
-        
-        return fra;
-    }
-    
-    private static FeedbackQuestionAttributes createFeedbackQuestion() throws Exception {
-        FeedbackQuestionAttributes fqa = new FeedbackQuestionAttributes();
-        fqa.feedbackSessionName = "First feedback session";
-        fqa.questionNumber = 1;
-        fqa.questionMetaData = new Text("What is the best selling point of your product?");
-        fqa.courseId = "idOfTypicalCourse1";
-        fqa.creatorEmail = "anyEmail@e.com";
-        fqa.recipientType = FeedbackParticipantType.SELF;
-        fqa.giverType = FeedbackParticipantType.STUDENTS;
-        fqa.numberOfEntitiesToGiveFeedbackTo = 1;
-        fqa.questionType = FeedbackQuestionType.TEXT;
-        List<FeedbackParticipantType> list = new ArrayList<FeedbackParticipantType>();
-        list.add(FeedbackParticipantType.INSTRUCTORS);
-        fqa.showGiverNameTo = list;
-        fqa.showRecipientNameTo = list;
-        fqa.showResponsesTo = list;
-        
-        return fqa;
-    }
-    
-    private static String createFeedbackQuestionWithoutResponses() throws Exception {
-        FeedbackQuestionAttributes fqa = createFeedbackQuestion();
-        fqa.questionNumber = 3;
-        fqDb.deleteEntity(fqa);
-        fqDb.createEntity(fqa);
-        return fqDb.getFeedbackQuestion(fqa.feedbackSessionName, fqa.courseId, fqa.questionNumber).getId();
+    private FeedbackResponseAttributes getResponseAttributes(String id) {
+        FeedbackResponseAttributes result = fras.get("response3ForQ2S1C1");
+        return new FeedbackResponseAttributes(result.feedbackSessionName,
+                result.courseId, result.feedbackQuestionId,
+                result.feedbackQuestionType, result.giverEmail, result.giverSection,
+                result.recipientEmail, result.recipientSection, result.responseMetaData);
     }
     
     @AfterMethod
@@ -846,7 +776,14 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     @AfterClass
     public static void classTearDown() throws Exception {
         printTestClassFooter();
-        // DELETE ALL THE THINGS CREATED!!
+        deleteResponsesFromDb();
+    }
+    
+    private static void deleteResponsesFromDb() throws Exception {
+        Set<String> keys = dataBundle.feedbackResponses.keySet();
+        for (String i : keys) {
+            frDb.deleteEntity(dataBundle.feedbackResponses.get(i));
+        }
     }
     
 }

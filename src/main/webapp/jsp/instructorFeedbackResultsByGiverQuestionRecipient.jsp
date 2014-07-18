@@ -14,6 +14,7 @@
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData) request.getAttribute("data");
     boolean showAll = data.bundle.isComplete;
     boolean shouldCollapsed = data.bundle.responses.size() > 500;
+    boolean groupByTeamEnabled = (data.groupByTeam == null || !data.groupByTeam.equals("on")) ? false : true;
 %>
 <!DOCTYPE html>
 <html>
@@ -64,17 +65,34 @@
             %>
                         <div class="panel panel-success">
                                 <div class="panel-heading ajax_submit">
-                                    <strong><%=section%></strong>
-                                    <form style="display:none;" id="seeMore-<%=sectionIndex%>" class="seeMoreForm-<%=sectionIndex%>" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_GQR%>">
-                                        <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="<%=section%>">
+                                    <div class="row">
+                                        <div class="col-sm-9">
+                                            <strong><%=section%></strong>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="pull-right">
+                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%= groupByTeamEnabled == true ? "team" : "student" %> panels. You can also click on the panel heading to toggle each one individually.'>
+                                                    Expand
+                                                    <%= groupByTeamEnabled == true ? " Teams" : " Students" %>
+                                                </a>
+                                                &nbsp;
+                                                <div class="display-icon" style="display:inline;">
+                                                    <span class="glyphicon glyphicon-chevron-down"></span>
+                                                </div>
+                                            </div>
+                                         </div>
+                                    </div>
+
+                                    <form style="display:none;" id="seeMore-<%=sectionIndex%>" class="seeMoreForm-<%=sectionIndex%>" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
                                         <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=data.bundle.feedbackSession.courseId %>">
                                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=data.bundle.feedbackSession.feedbackSessionName %>">
+                                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION %>" value="<%=section%>">
                                         <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
                                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" value="<%=data.groupByTeam%>">
+                                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="<%=data.sortType%>">
+                                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>" value="on" id="showStats-<%=sectionIndex%>">
+                                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_MAIN_INDEX%>" value="on" id="mainIndex-<%=sectionIndex%>">
                                     </form>
-                                    <div class='display-icon pull-right'>
-                                        <span class="glyphicon glyphicon-chevron-down pull-right"></span>
-                                    </div>
                                 </div>
                                 <div class="panel-collapse collapse">
                                 <div class="panel-body">
@@ -87,17 +105,33 @@
             %>
                     <div class="panel panel-success">
                             <div class="panel-heading ajax_submit">
-                                <strong>None</strong>
-                                <form style="display:none;" id="seeMore-<%=sectionIndex%>" class="seeMoreForm-<%=sectionIndex%>" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_AJAX_BY_GQR%>">
-                                    <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="None">
+                                <div class="row">
+                                        <div class="col-sm-9">
+                                            <strong>Not in a section</strong>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="pull-right">
+                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%= groupByTeamEnabled == true ? "team" : "student" %> panels. You can also click on the panel heading to toggle each one individually.'>
+                                                    Expand
+                                                    <%= groupByTeamEnabled == true ? " Teams" : " Students" %>
+                                                </a>
+                                                &nbsp;
+                                                <div class="display-icon" style="display:inline;">
+                                                    <span class="glyphicon glyphicon-chevron-down"></span>
+                                                </div>
+                                            </div>
+                                         </div>
+                                    </div>
+                                <form style="display:none;" id="seeMore-<%=sectionIndex%>" class="seeMoreForm-<%=sectionIndex%>" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
                                     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=data.bundle.feedbackSession.courseId %>">
                                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=data.bundle.feedbackSession.feedbackSessionName %>">
+                                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION %>" value="None">
                                     <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
                                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" value="<%=data.groupByTeam%>">
+                                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="<%=data.sortType%>">
+                                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>" value="on">
+                                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_MAIN_INDEX%>" value="on" id="mainIndex-<%=sectionIndex%>">
                                 </form>
-                                <div class='display-icon pull-right'>
-                                    <span class="glyphicon glyphicon-chevron-down pull-right"></span>
-                                </div>
                             </div>
                             <div class="panel-collapse collapse">
                             <div class="panel-body">
@@ -109,19 +143,18 @@
             %>
 
         <%
-            boolean groupByTeamEnabled = data.groupByTeam==null ? false : true;
             String currentTeam = null;
             boolean newTeam = false;
             String currentSection = null;
             boolean newSection = false;
-            int sectionIndex = 0;
+            int sectionIndex = -1;
             int teamIndex = 0;
         %>
         <%
             Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByGiverQuestionRecipient(groupByTeamEnabled);
             Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> teamResponses = data.bundle.getQuestionResponseMapByGiverTeam();
             Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
-            int giverIndex = 0;
+            int giverIndex = data.startIndex;
             for (Map.Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesFromGiver : allResponses.entrySet()) {
                 giverIndex++;
                 
@@ -170,17 +203,24 @@
         %>
                 <div class="panel panel-success">
                     <div class="panel-heading">
-                        <strong><%=currentSection%></strong>
-                        <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <strong><%=currentSection.equals("None")? "Not in a section" : currentSection%></strong>                        
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="pull-right">
+                                    <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%= groupByTeamEnabled == true ? "team" : "student" %> panels. You can also click on the panel heading to toggle each one individually.'>
+                                        <%= shouldCollapsed ? "Expand " : "Collapse " %>
+                                        <%= groupByTeamEnabled == true ? "Teams" : "Students" %>
+                                    </a>
+                                    &nbsp;
+                                    <span class="glyphicon glyphicon-chevron-up"></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="panel-collapse collapse in">
-                    <div class="panel-body">
-                    <a class="btn btn-success btn-xs pull-right" id="collapse-panels-button-section-<%=sectionIndex%>" style="display:block;" data-toggle="tooltip" title='Collapse or expand all <%= groupByTeamEnabled == true ? "team" : "student" %> panels. You can also click on the panel heading to toggle each one individually.'>
-                        <%= shouldCollapsed ? "Expand " : "Collapse " %>
-                        <%= groupByTeamEnabled == true ? "Teams" : "Students" %>
-                    </a>
-                    <br>
-                    <br>
+                    <div class="panel-body" id="sectionBody-<%=sectionIndex%>">
         <%
             }
         %>
@@ -202,11 +242,6 @@
                     </div>
                     <div class='panel-collapse collapse <%= shouldCollapsed ? "" : "in" %>'>
                     <div class="panel-body background-color-warning">
-                        <a class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-<%=teamIndex%>" data-toggle="tooltip" title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">
-                            <%= shouldCollapsed ? "Expand " : "Collapse " %> Students
-                        </a>
-                        <br>
-                        <br>
                         <div class="resultStatistics">
                             <%
                                 if(currentTeamResponses.size() > 0){
@@ -247,7 +282,16 @@
                             <%
                                 if(currentTeamResponses.size() > 0){
                             %>
-                                <h3><%=currentTeam%> Detailed Responses </h3>
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        <h3><%=currentTeam%> Detailed Responses </h3>
+                                    </div>
+                                    <div class="col-sm-3 h3">
+                                        <a class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-<%=teamIndex%>" data-toggle="tooltip" title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">
+                                            <%= shouldCollapsed ? "Expand " : "Collapse " %> Students
+                                        </a>
+                                    </div>
+                                </div>
                                 <hr class="margin-top-0">
                             <%
                                 }
@@ -287,12 +331,15 @@
                                         <tr>
                                             <th id="button_sortTo" onclick="toggleSort(this,1)" style="width: 15%;">
                                                 Recipient
+                                                <span class="icon-sort unsorted"></span>
                                             </th>
                                             <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
                                                 Team
+                                                <span class="icon-sort unsorted"></span>
                                             </th>
                                             <th id="button_sortFeedback" onclick="toggleSort(this,3)">
                                                 Feedback
+                                                <span class="icon-sort unsorted"></span>
                                             </th>
                                         </tr>
                                     <thead>
@@ -307,7 +354,7 @@
                                         %>
                                             <td class="middlealign"><%=recipientName%></td>
                                             <td class="middlealign"><%=recipientTeamName%></td>
-                                            <td class="multiline"><%=responseEntry.getResponseDetails().getAnswerHtml(questionDetails)%></td>
+                                            <td class="multiline"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
                                         </tr>        
                                         <%
                                             }

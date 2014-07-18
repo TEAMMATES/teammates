@@ -15,7 +15,7 @@ public class CommentSearchQuery extends SearchQuery {
                 ? Cursor.newBuilder().build()
                 : Cursor.newBuilder().build(cursorString);
         QueryOptions options = QueryOptions.newBuilder()
-                //.setLimit(10) TODO: impl pagination
+                .setLimit(20)
                 .setCursor(cursor)
                 .build();
         setOptions(options);

@@ -152,17 +152,30 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         searchableTextBuilder.append(relatedPeopleBuilder.toString()).append(delim);
         searchableTextBuilder.append(comment.commentText.getValue());
         
+        //for data-migration use
+        boolean isVisibilityFollowingFeedbackQuestion = comment.isVisibilityFollowingFeedbackQuestion;
+        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion? true: comment.isVisibleTo(FeedbackParticipantType.GIVER);
+        boolean isVisibleToReceiver = isVisibilityFollowingFeedbackQuestion? 
+                    relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER): 
+                        comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
+        boolean isVisibleToInstructor = isVisibilityFollowingFeedbackQuestion? 
+                    relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS): 
+                        comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+        
         Document doc = Document.newBuilder()
             //these are used to filter documents visible to certain instructor
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.COURSE_ID).setText(comment.courseId))
+            .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_EMAIL).setText(comment.giverEmail))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_EMAIL).setText(relatedResponse.giverEmail))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_SECTION).setText(relatedResponse.giverSection))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.RECIPIENT_EMAIL).setText(relatedResponse.recipientEmail))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.RECIPIENT_SECTION).setText(relatedResponse.recipientSection))
+            .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_GIVER).setText(
+                    Boolean.valueOf(isVisibleToGiver).toString()))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_RECEIVER).setText(
-                    Boolean.valueOf(relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)).toString()))
+                    Boolean.valueOf(isVisibleToReceiver).toString()))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_INSTRUCTOR).setText(
-                    Boolean.valueOf(relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)).toString()))
+                    Boolean.valueOf(isVisibleToInstructor).toString()))
             //searchableText and createdDate are used to match the query string
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT).setText(searchableTextBuilder.toString()))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.CREATED_DATE).setDate(comment.createdAt))
