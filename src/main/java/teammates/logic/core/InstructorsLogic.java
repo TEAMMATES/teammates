@@ -291,20 +291,18 @@ public class InstructorsLogic {
         return errors;
     }
     
-    public void deleteInstructorAndCascade(String courseId, String email) {
+    public void deleteInstructorCascade(String courseId, String email) {
         commentsLogic.deleteCommentsForInstructor(courseId, email);
         instructorsDb.deleteInstructor(courseId, email);
     }
 
-    // this method is currently being used in accounts logic, deleting comments will be done here
     public void deleteInstructorsForGoogleIdAndCascade(String googleId) {
         List<InstructorAttributes> instructors = instructorsDb.getInstructorsForGoogleId(googleId);
         
+        //Cascade delete instructors
         for (InstructorAttributes instructor : instructors) {
-            commentsLogic.deleteCommentsForInstructor(instructor.courseId, instructor.email);
+            deleteInstructorCascade(instructor.courseId,instructor.email);
         }
-        
-        instructorsDb.deleteInstructorsForGoogleId(googleId);
     }
 
     // this method is only being used in course logic. cascade to comments is therefore not necessary
