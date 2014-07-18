@@ -35,10 +35,10 @@ import teammates.test.util.TestHelper;
 
 public class CommentsDbTest extends BaseComponentTestCase {
     
-    private final String VALID_COURSE_ID = "valid-course-id";
-    private final String VALID_GIVER_EMAIL = "giver@mail.com";
-    private final String VALID_RECEIVER_EMAIL = "receiver@mail.com";
-    private final String VALID_COMMENT_TEXT = "comment text";
+    private String courseId = "CDT.courseId";
+    private String giverEmail = "CDT.giver@mail.com";
+    private String recipientEmail = "CDT.receiver@mail.com";
+    private String commentText = "comment text";
     
     private CommentsDb commentsDb = new CommentsDb();
     
@@ -93,7 +93,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         CommentAttributes retrievedComment = commentsDb.getCommentsForGiver(c.courseId, c.giverEmail).get(0);
         assertNotNull(retrievedComment);
         assertNotNull(commentsDb.getCommentsForReceiver(
-                c.courseId, c.recipientType, VALID_RECEIVER_EMAIL));
+                c.courseId, c.recipientType, recipientEmail));
         
         CommentAttributes anotherRetrievedComment = commentsDb.getComment(retrievedComment.getCommentId());
         compareComments(retrievedComment, anotherRetrievedComment);
@@ -193,7 +193,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         ______TS("comment not exist");
         c.recipients = new HashSet<String>();
         c.recipients.add("receiver@mail.com");
-        c.setCommentId((long)-1); //non-existant comment
+        c.setCommentId((long)-1); //non-existent comment
         try{
             commentsDb.updateComment(c);
         } catch(EntityDoesNotExistException e) {
@@ -207,6 +207,70 @@ public class CommentsDbTest extends BaseComponentTestCase {
         c.commentText = new Text("new comment");
         commentsDb.updateComment(c);
         TestHelper.verifyPresentInDatastore(c);
+    }
+    
+    @Test
+    public void testUpdateInstructorEmailAndStudentEmail() 
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        
+        String courseId1 = "CDT.courseId1";
+        String courseId2 = "CDT.courseId2";
+        String giverEmail1 = "CDT.giverInstr1@mail.com";
+        String giverEmail2 = "CDT.giverInstr2@mail.com";
+        String giverEmailNew = "CDT.giverInstrNew@mail.com";
+        String recipientEmail1 = "CDT.receiverStudent1@mail.com";
+        String recipientEmail2 = "CDT.receiverStudent2@mail.com";
+        String recipientEmailNew = "CDT.receiverStudentNew@mail.com";
+        
+        courseId = courseId1;
+        giverEmail = giverEmail1;
+        CommentAttributes c = createNewComment();
+        commentsDb.createEntity(c);
+        recipientEmail = recipientEmailNew;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        courseId = courseId2;
+        giverEmail = giverEmail1;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        
+        giverEmail = "CDT.giver@mail.com";
+        courseId = courseId1;
+        recipientEmail = recipientEmail1;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        giverEmail = giverEmailNew;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        courseId = courseId2;
+        recipientEmail = recipientEmail1;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        
+        ______TS("success: update instructor email");
+        
+        // before update: 2 comments for this giver email
+        assertEquals(2, commentsDb.getCommentsForGiver(courseId1, giverEmail1).size());
+        commentsDb.updateInstructorEmail(courseId1, giverEmail1, giverEmail2);
+        // after update: 2 comments for new giver email and others are not affected
+        assertEquals(0, commentsDb.getCommentsForGiver(courseId1, giverEmail1).size());
+        assertEquals(2, commentsDb.getCommentsForGiver(courseId1, giverEmail2).size());
+        assertEquals(1, commentsDb.getCommentsForGiver(courseId2, giverEmail1).size());
+        
+        ______TS("success: update student email");
+        
+        // before update: 2 comments for this recipient email
+        assertEquals(2, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.PERSON, recipientEmail1).size());
+        commentsDb.updateStudentEmail(courseId1, recipientEmail1, recipientEmail2);
+        // after update: 2 comments for new giver email and others are not affected
+        assertEquals(0, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.PERSON, recipientEmail1).size());
+        assertEquals(2, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.PERSON, recipientEmail2).size());
+        assertEquals(1, commentsDb.getCommentsForReceiver(courseId2, CommentRecipientType.PERSON, recipientEmail1).size());
+        
+        // restore variable
+        courseId = "CDT.courseId";
+        giverEmail = "CDT.giver@mail.com";
+        recipientEmail = "CDT.receiver@mail.com";
     }
     
     @Test
@@ -243,13 +307,13 @@ public class CommentsDbTest extends BaseComponentTestCase {
     
     private CommentAttributes createNewComment() {
         CommentAttributes c = new CommentAttributes();
-        c.courseId = VALID_COURSE_ID;
-        c.giverEmail = VALID_GIVER_EMAIL;
+        c.courseId = courseId;
+        c.giverEmail = giverEmail;
         c.recipientType = CommentRecipientType.PERSON;
         c.recipients = new HashSet<String>();
-        c.recipients.add(VALID_RECEIVER_EMAIL);
+        c.recipients.add(recipientEmail);
         c.createdAt = new Date();
-        c.commentText = new Text(VALID_COMMENT_TEXT);
+        c.commentText = new Text(commentText);
         c.status = CommentStatus.FINAL;
         return c;
     }

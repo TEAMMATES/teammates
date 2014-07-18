@@ -225,22 +225,32 @@ public class CommentsDb extends EntitiesDb{
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, oldInstrEmail);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updatedInstrEmail);
         
+        updateInstructorEmailAsGiver(courseId, oldInstrEmail, updatedInstrEmail);
+        // for now, instructors can only be giver
+        // updateInstructorEmailAsRecipient(courseId, oldInstrEmail, updatedInstrEmail);
+    }
+    
+    private void updateInstructorEmailAsGiver(String courseId, String oldInstrEmail, String updatedInstrEmail) {
         List<Comment> giverComments = this.getCommentEntitiesForGiver(courseId, oldInstrEmail);
-        // for now, this list is likely to be empty
-        List<Comment> recipientComments = this.getCommentEntitiesForRecipients(courseId, 
-                CommentRecipientType.INSTRUCTOR, oldInstrEmail);
         
         for (Comment giverComment : giverComments) {
             giverComment.setGiverEmail(updatedInstrEmail);
         }
-        for (Comment recipientComment: recipientComments) {
-            recipientComment.getRecipients().remove(oldInstrEmail);
-            recipientComment.getRecipients().add(updatedInstrEmail);
-        }
-        giverComments.addAll(recipientComments);
         
         getPM().close();
+    }
+    
+    // for now, this method is not being used as instructor cannot be recipients
+    @SuppressWarnings("unused")
+    private void updateInstructorEmailAsRecipient(String courseId, String oldInstrEmail, String updatedInstrEmail) {
+        List<Comment> recipientComments = this.getCommentEntitiesForRecipients(courseId, 
+                CommentRecipientType.INSTRUCTOR, oldInstrEmail);
         
+        for (Comment recipientComment : recipientComments) {
+            recipientComment.setGiverEmail(updatedInstrEmail);
+        }
+        
+        getPM().close();
     }
     
     public void updateStudentEmail(String courseId, String oldStudentEmail, String updatedStudentEmail) {
@@ -249,6 +259,10 @@ public class CommentsDb extends EntitiesDb{
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, oldStudentEmail);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updatedStudentEmail);
         
+        updateStudentEmailAsRecipient(courseId, oldStudentEmail, updatedStudentEmail);
+    }
+
+    private void updateStudentEmailAsRecipient(String courseId, String oldStudentEmail, String updatedStudentEmail) {
         List<Comment> recipientComments = this.getCommentEntitiesForRecipients(courseId, 
                 CommentRecipientType.PERSON, oldStudentEmail);
         
