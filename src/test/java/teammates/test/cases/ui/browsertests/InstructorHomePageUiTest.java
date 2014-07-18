@@ -30,6 +30,7 @@ import teammates.test.pageobjects.InstructorEvalEditPage;
 import teammates.test.pageobjects.InstructorEvalPreview;
 import teammates.test.pageobjects.InstructorEvalResultsPage;
 import teammates.test.pageobjects.InstructorEvalsPage;
+import teammates.test.pageobjects.InstructorFeedbacksPage;
 import teammates.test.pageobjects.InstructorHelpPage;
 import teammates.test.pageobjects.InstructorHomePage;
 
@@ -209,11 +210,11 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         assertEquals(expectedEditLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
         
-        ______TS("link: course add evaluation");
-        InstructorEvalsPage evalsPage =  homePage.clickCourseAddEvaluationLink(courseId);
-        evalsPage.verifyContains("Add New Evaluation Session");
+        ______TS("link: course add session");
+        InstructorFeedbacksPage feedbacksPage =  homePage.clickCourseAddEvaluationLink(courseId);
+        feedbacksPage.verifyContains("Add New Feedback Session");
         String expectedAddSessionLinkText = TestProperties.inst().TEAMMATES_URL + 
-                Const.ActionURIs.INSTRUCTOR_EVALS_PAGE + 
+                Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + 
                 "?" + Const.ParamsNames.USER_ID + "=" + instructorId +
                 "&" + Const.ParamsNames.COURSE_ID + "=" + courseId;
         assertEquals(expectedAddSessionLinkText, browser.driver.getCurrentUrl());

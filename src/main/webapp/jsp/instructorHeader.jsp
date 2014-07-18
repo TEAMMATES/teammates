@@ -29,7 +29,7 @@
                     <a class='nav courses' data-link="instructorCourse" href="<%=data.getInstructorCourseLink()%>">Courses</a>
                 </li>
                 <li class="<%=(data.getClass().toString().contains("Eval") || data.getClass().toString().contains("Feedback"))?"active":""%>">
-                    <a class='nav evaluations' data-link="instructorEval" href="<%=data.getInstructorEvaluationLink()%>">Sessions</a>
+                    <a class='nav evaluations' data-link="instructorEval" href="<%=data.getInstructorFeedbackSessionLink()%>">Sessions</a>
                 </li>
                 <li class="<%=data.getClass().toString().contains("Student")?"active":""%>">
                     <a class='nav students' data-link="instructorStudent" href="<%=data.getInstructorStudentListLink()%>">Students</a>
