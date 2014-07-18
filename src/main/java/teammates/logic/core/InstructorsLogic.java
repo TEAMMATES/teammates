@@ -43,16 +43,10 @@ public class InstructorsLogic {
         return instance;
     }
     
-    @Deprecated
-    public void createInstructor(String googleId, String courseId, String name, String email) 
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        InstructorAttributes instructorToAdd = new InstructorAttributes(googleId, courseId, name, email);
-        
-        createInstructor(instructorToAdd);
-    }
-    
     public void createInstructor(InstructorAttributes instructorToAdd) 
             throws InvalidParametersException, EntityAlreadyExistsException {
+        
+        Assumption.assertNotNull("Supplied parameter was null", instructorToAdd);
         
         log.info("going to create instructor :\n"+instructorToAdd.toString());
         
@@ -248,13 +242,8 @@ public class InstructorsLogic {
         Emails emailMgr = new Emails();
 
         try {
-            List<MimeMessage> emails = emailMgr.generateNewInstructorAccountJoinEmail(instructorData,
-                                                                                      shortName,
-                                                                                      institute);
-            emailMgr.sendEmail(emails.get(0));
-            emailMgr.sendEmail(emails.get(1));
-            
-            //this method is deprecated because it should only be used in adminHomePage for easy manual testing purpose
+            MimeMessage email = emailMgr.generateNewInstructorAccountJoinEmail(instructorData, shortName, institute);
+            emailMgr.sendEmail(email);
             joinLink = emailMgr.generateNewInstructorAccountJoinLink(instructorData, institute);
 
         } catch (Exception e) {

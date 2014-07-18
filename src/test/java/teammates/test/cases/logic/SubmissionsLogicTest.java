@@ -32,17 +32,18 @@ public class SubmissionsLogicTest extends BaseComponentTestCase{
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         turnLoggingUp(SubmissionsLogic.class);
+        removeTypicalDataInDatastore();
+        restoreTypicalDataInDatastore();
     }
     
-
-    
     @Test
-    public void testGetSubmissionsForEvaluation() throws Exception {
+    public void testAll() throws Exception{
+        testUpdateSubmission();
+        testGetSubmissionsForEvaluation();
+    }
 
-        DataBundle dataBundle = getTypicalDataBundle();
+    public void testGetSubmissionsForEvaluation() throws Exception {
         Logic logic = new Logic();
-        
-        restoreTypicalDataInDatastore();
 
         ______TS("typical case");
 
@@ -94,6 +95,9 @@ public class SubmissionsLogicTest extends BaseComponentTestCase{
         submissions = invokeGetSubmissionsForEvaluation(evaluation.courseId,
                 evaluation.name);
         assertEquals(0, submissions.keySet().size());
+        
+        logic.deleteInstructor(idOfEmptyCourse, "instructor@email.com");
+        logic.deleteAccount("instructor 1");
 
         ______TS("non-existent course/evaluation");
 
@@ -103,21 +107,15 @@ public class SubmissionsLogicTest extends BaseComponentTestCase{
         // no need to check for invalid parameters as it is a private method
     }
     
-    @Test
     public void testUpdateSubmission() throws Exception {
-
-        restoreTypicalDataInDatastore();
 
         SubmissionAttributes s = new SubmissionAttributes();
         s.course = "idOfTypicalCourse1";
         s.evaluation = "evaluation1 In Course1";
         s.reviewee = "student1InCourse1@gmail.com";
         s.reviewer = "student1InCourse1@gmail.com";
-
         
         ______TS("typical case");
-
-        restoreTypicalDataInDatastore();
 
         SubmissionAttributes sub1 = dataBundle.submissions
                 .get("submissionFromS1C1ToS2C1");

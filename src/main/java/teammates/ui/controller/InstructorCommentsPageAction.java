@@ -20,8 +20,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
-import teammates.storage.api.InstructorsDb;
-import teammates.storage.api.StudentsDb;
 
 public class InstructorCommentsPageAction extends Action {
 
@@ -71,9 +69,7 @@ public class InstructorCommentsPageAction extends Action {
         if(coursePaginationList.size() > 0){
         //Load details of students and instructors once and pass it to callee methods
         //  (rather than loading them many times).
-            // TODO: DO NOT USE DB HERE!!!
             roster = new CourseRoster(
-                    //TODO: use logic instead
                     logic.getStudentsForCourse(courseId),
                     logic.getInstructorsForCourse(courseId));
 

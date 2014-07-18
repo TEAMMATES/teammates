@@ -11,6 +11,9 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -770,6 +773,7 @@ public class PageData {
         String disableDeleteSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableUnpublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disablePublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
+        String disableRemindSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         boolean shouldEnableSubmitLink = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         List<String> sectionsInCourse = new Logic().getSectionNamesForCourse(instructor.courseId);
         for (String section : sectionsInCourse) {
@@ -816,7 +820,7 @@ public class PageData {
             "href=\"" + getInstructorFeedbackSessionRemindLink(session.courseId,session.feedbackSessionName) + "\" " +
             "title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
             (hasRemind ? "onclick=\"return toggleRemindStudents('" + session.feedbackSessionName + "');\" " : "") +
-            ">Remind</a> "
+            disableRemindSessionStr + ">Remind</a> "
         );
         
         if (hasUnpublish) {
@@ -888,6 +892,51 @@ public class PageData {
         return removeEndComma(peopleCanViewString);
     }
     
+    /**
+     * Returns the type of people that can view the response comment. 
+     */
+    public String getTypeOfPeopleCanViewComment(FeedbackResponseCommentAttributes comment,
+            FeedbackQuestionAttributes relatedQuestion){
+        StringBuilder peopleCanView = new StringBuilder();
+        List<FeedbackParticipantType> showCommentTo = new ArrayList<FeedbackParticipantType>();
+        if(comment.isVisibilityFollowingFeedbackQuestion){
+            showCommentTo = relatedQuestion.showResponsesTo;
+        } else {
+            showCommentTo = comment.showCommentTo;
+        }
+        for(int i = 0; i < showCommentTo.size(); i++){
+            FeedbackParticipantType commentViewer = showCommentTo.get(i);
+            if(i == showCommentTo.size() - 1 && showCommentTo.size() > 1){
+                peopleCanView.append("and ");
+            }
+            
+            switch(commentViewer){
+            case GIVER:
+                peopleCanView.append("response giver, ");
+                break;
+            case RECEIVER:
+                peopleCanView.append("response recipient, ");
+                break;
+            case OWN_TEAM:
+                peopleCanView.append("response giver's team, ");
+                break;
+            case RECEIVER_TEAM_MEMBERS:
+                peopleCanView.append("response recipient's team, ");
+                break;
+            case STUDENTS:
+                peopleCanView.append("other students in this course, ");
+                break;
+            case INSTRUCTORS:
+                peopleCanView.append("instructors, ");
+                break;
+            default:
+                break;
+            }
+        }
+        String peopleCanViewString = peopleCanView.toString();
+        return removeEndComma(peopleCanViewString);
+    }
+    
     protected String removeEndComma(String str){
         return str.substring(0, str.length() - 2);
     }
@@ -942,5 +991,73 @@ public class PageData {
         } else {
             return ""+num;
         }
+    }
+    
+    @SuppressWarnings("unused")
+    private void ___________methods_to_generate_feedback_response_comments(){
+    //========================================================================    
+    }
+    
+    public boolean isResponseCommentVisibleTo(FeedbackQuestionAttributes qn,
+            FeedbackParticipantType viewerType){
+        if(viewerType == FeedbackParticipantType.GIVER) {
+            return true;
+        } else {
+            return qn.isResponseVisibleTo(viewerType);
+        }
+    }
+    
+    public boolean isResponseCommentGiverNameVisibleTo(FeedbackQuestionAttributes qn,
+            FeedbackParticipantType viewerType){
+        return true;
+    }
+    
+    public boolean isResponseCommentVisibleTo(FeedbackResponseCommentAttributes frComment, FeedbackQuestionAttributes qn,
+            FeedbackParticipantType viewerType){
+        if(frComment.isVisibilityFollowingFeedbackQuestion
+                && viewerType == FeedbackParticipantType.GIVER) {
+            return true;
+        } else if(frComment.isVisibilityFollowingFeedbackQuestion){
+            return qn.isResponseVisibleTo(viewerType);
+        } else {
+            return frComment.isVisibleTo(viewerType);
+        }
+    }
+    
+    public boolean isResponseCommentGiverNameVisibleTo(FeedbackResponseCommentAttributes frComment, FeedbackQuestionAttributes qn,
+            FeedbackParticipantType viewerType){
+        if(frComment.isVisibilityFollowingFeedbackQuestion){
+            return true;
+        } else {
+            return frComment.showGiverNameTo.contains(viewerType);
+        }
+    }
+    
+    public String getResponseCommentVisibilityString(FeedbackQuestionAttributes qn){
+        return "GIVER," + removeBracketsForArrayString(qn.showResponsesTo.toString());
+    }
+    
+    public String getResponseCommentVisibilityString(FeedbackResponseCommentAttributes frComment, FeedbackQuestionAttributes qn){
+        if(frComment.isVisibilityFollowingFeedbackQuestion){
+            return getResponseCommentVisibilityString(qn);
+        } else {
+            return removeBracketsForArrayString(frComment.showCommentTo.toString());
+        }
+    }
+    
+    public String getResponseCommentGiverNameVisibilityString(FeedbackQuestionAttributes qn){
+        return getResponseCommentVisibilityString(qn);
+    }
+    
+    public String getResponseCommentGiverNameVisibilityString(FeedbackResponseCommentAttributes frComment, FeedbackQuestionAttributes qn){
+        if(frComment.isVisibilityFollowingFeedbackQuestion){
+            return getResponseCommentGiverNameVisibilityString(qn);
+        } else {
+            return removeBracketsForArrayString(frComment.showGiverNameTo.toString());
+        }
+    }
+    
+    public String removeBracketsForArrayString(String arrayString){
+        return arrayString.substring(1, arrayString.length() - 1).trim();
     }
 }

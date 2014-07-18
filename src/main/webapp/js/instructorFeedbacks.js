@@ -268,27 +268,34 @@ function bindCopyButton() {
     });
 }
 
+var numRowsSelected = 0;
+
 function bindCopyEvents() {
 
-    modalSelectedRow = $('#copyTableModal >tbody>tr:first');
-    if(typeof modalSelectedRow != 'undefined'){
-        $(modalSelectedRow).addClass('row-selected');
-    }
-    
     $('#copyTableModal >tbody>tr').on('click', function(e){
         e.preventDefault();
         var cells = $(this).find("td");
-        var courseId = $(cells[0]).text();
-        var feedbackSessionName = $(cells[1]).text();
+        var courseId = $(cells[1]).text();
+        var feedbackSessionName = $(cells[2]).text();
         $('#modalSessionName').val(feedbackSessionName.trim());
         $('#modalCourseId').val(courseId.trim());
 
         if(typeof modalSelectedRow != 'undefined'){
             $(modalSelectedRow).removeClass('row-selected');
+            $($(modalSelectedRow).find("td")[0]).html('<input type="radio">');
+            numRowsSelected--;
         }
 
         modalSelectedRow = this;
         $(modalSelectedRow).addClass('row-selected');
+        $($(modalSelectedRow).find("td")[0]).html('<input type="radio" checked="checked">');
+        numRowsSelected++;
+
+        if(numRowsSelected > 0){
+            $('#button_copy_submit').prop('disabled', false);
+        } else {
+            $('#button_copy_submit').prop('disabled', true);
+        }
 
         return false;
     });

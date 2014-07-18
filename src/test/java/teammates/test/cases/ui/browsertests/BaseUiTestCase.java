@@ -3,7 +3,6 @@ package teammates.test.cases.ui.browsertests;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.BackDoor;
@@ -78,16 +77,16 @@ public class BaseUiTestCase extends BaseTestCase {
     protected static void restoreTestDataOnServer(DataBundle testData) {
 
         int counter = 0;
-        while(counter != 20){
-            String backDoorOperationStatus = BackDoor.restoreDataBundle(testData);
+        String backDoorOperationStatus = "";
+        while(counter != 5){
+            backDoorOperationStatus = BackDoor.restoreDataBundle(testData);
             if(backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
                 break;
             }
-            ThreadHelper.waitFor((int)( Math.random() * 2000));
             counter++;
         }
-        if(counter == 20){
-            Assumption.fail("Fail to restore data");
+        if(counter == 5){
+            Assumption.assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
         }
     }
 

@@ -1,9 +1,9 @@
 package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,8 +16,6 @@ import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -35,11 +33,15 @@ import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
+import teammates.test.util.Priority;
+
+import com.google.appengine.api.datastore.Text;
 
 /**
  * Covers the 'Feedback Session' page for instructors. 
  * SUT is {@link InstructorFeedbacksPage}.
  */
+@Priority(-1)
 public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorFeedbacksPage feedbackPage;
@@ -392,7 +394,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
         feedbackPage.copyFeedbackSession("Copied Session", newSession.courseId);
-        feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
+        feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
         // Check that we are redirected to the edit page.
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackCopySuccess.html");
         
@@ -606,7 +608,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("test response rate link clickable");
         
         feedbackPage.clickViewResponseLink("CFeedbackUiT.CS2104", "Private Session");
-        assertEquals("0 / 0", feedbackPage.getResponseValue("CFeedbackUiT.CS2104","Private Session"));
+        feedbackPage.verifyResponseValue("0 / 0", "CFeedbackUiT.CS2104","Private Session");
         
         ______TS("test response rate");
         //Already displayed

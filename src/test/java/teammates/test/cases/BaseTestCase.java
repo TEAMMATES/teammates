@@ -121,16 +121,22 @@ public class BaseTestCase {
     /**
      * Creates in the datastore a fresh copy of data in typicalDataBundle.json
      */
-    protected void restoreTypicalDataInDatastore() throws Exception {
+    protected static void restoreTypicalDataInDatastore() throws Exception {
         BackDoorLogic backDoorLogic = new BackDoorLogic();
         DataBundle dataBundle = getTypicalDataBundle();
         backDoorLogic.persistDataBundle(dataBundle);
     }
     
+    protected static void removeTypicalDataInDatastore() throws Exception {
+        BackDoorLogic backDoorLogic = new BackDoorLogic();
+        DataBundle dataBundle = getTypicalDataBundle();
+        backDoorLogic.deleteExistingData(dataBundle);
+    }
+    
     /**
      * Creates in the datastore a fresh copy of data in the given json file
      */
-    protected void restoreDatastoreFromJson(String pathToJsonFile) throws Exception {
+    protected static  void restoreDatastoreFromJson(String pathToJsonFile) throws Exception {
         BackDoorLogic backDoorLogic = new BackDoorLogic();
         DataBundle dataBundle = loadDataBundle(pathToJsonFile);
         backDoorLogic.persistDataBundle(dataBundle);

@@ -56,7 +56,6 @@ public class Emails {
     public static final String SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN = "TEAMMATES: Invitation to join course as an instructor";
     public static final String SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR = "TEAMMATES (%s): New System Exception: %s";
     public static final String SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT = "TEAMMATES: Welcome to TEAMMATES!";
-    public static final String SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT_COPY = "Copy of Confirmation Email For"; 
             
     public static enum EmailType {
         EVAL_CLOSING,
@@ -778,37 +777,21 @@ public class Emails {
         return message;
     }
     
-    public List<MimeMessage> generateNewInstructorAccountJoinEmail(InstructorAttributes instructor,String shortName, String institute) 
+    public MimeMessage generateNewInstructorAccountJoinEmail(InstructorAttributes instructor,String shortName, String institute) 
                              throws AddressException,MessagingException,UnsupportedEncodingException {
 
         MimeMessage messageToUser = getEmptyEmailAddressedToEmail(instructor.email);
-        MimeMessage messageToAdmin = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
-        MimeMessage messageWithJoinLinkOnly = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
+        messageToUser = addBccRecipientToEmail(messageToUser, Config.SUPPORT_EMAIL);
         
-        List<MimeMessage> messages = new ArrayList<MimeMessage>();
-        messages.add(messageToUser);
-        messages.add(messageToAdmin);
-        
-        
-        messageToUser.setSubject(String.format(SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT + " " + shortName));
-        messageToAdmin.setSubject(String.format(SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT_COPY +
-                                                " " + shortName+" "+ "[" + instructor.email + "]"));
-        
+        messageToUser.setSubject(String.format(SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT + " " + shortName));      
         String joinUrl = generateNewInstructorAccountJoinLink(instructor, institute);
         
-        for(MimeMessage message : messages){
-         
-            String emailBody = EmailTemplates.NEW_INSTRCUTOR_ACCOUNT_WELCOME;
-            emailBody = emailBody.replace("${userName}", shortName);
-            emailBody = emailBody.replace("${joinUrl}",joinUrl);
-            message.setContent(emailBody, "text/html");
-            
-        }
-        
-        messageWithJoinLinkOnly.setContent(joinUrl, "text/html");
-        messages.add(messageWithJoinLinkOnly);
-        
-        return messages;
+        String emailBody = EmailTemplates.NEW_INSTRCUTOR_ACCOUNT_WELCOME;
+        emailBody = emailBody.replace("${userName}", shortName);
+        emailBody = emailBody.replace("${joinUrl}",joinUrl);
+        messageToUser.setContent(emailBody, "text/html");
+
+        return messageToUser;
 
     }
     
@@ -1021,6 +1004,13 @@ public class Emails {
         message.setFrom(new InternetAddress(senderEmail, senderName));
         message.setReplyTo(new Address[] { new InternetAddress(replyTo) });
         return message;
+    }
+    
+    
+    private MimeMessage addBccRecipientToEmail(MimeMessage mail, String newAddress) throws AddressException, MessagingException{
+        
+        mail.addRecipient(Message.RecipientType.BCC, new InternetAddress(newAddress));     
+        return mail;
     }
     
     private boolean isYetToJoinCourse(StudentAttributes s) {

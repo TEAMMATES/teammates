@@ -1,5 +1,8 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.fail;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -11,16 +14,18 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
+
+import com.google.appengine.api.datastore.Text;
 
 public class InstructorFeedbacksPage extends AppPage {
     
@@ -173,6 +178,7 @@ public class InstructorFeedbacksPage extends AppPage {
     
     public void clickCopySubmitButton(){
         copySubmitButton.click();
+        browser.selenium.waitForPageToLoad("15000");
     }
     
     
@@ -241,13 +247,20 @@ public class InstructorFeedbacksPage extends AppPage {
         
         clickCopyButton();
         
-        ThreadHelper.waitFor(1000);
+        this.waitForElementVisible(copiedFsNameTextBox);
         
         fillTextBox(copiedFsNameTextBox, feedbackSessionName);
         
         selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
         
+        clickCopyTableAtRow(0);
+        
         clickCopySubmitButton();
+    }
+    
+    public void clickCopyTableAtRow(int rowIndex) {
+        WebElement row = browser.driver.findElement(By.id("copyTableModal")).findElements(By.tagName("tr")).get(rowIndex + 1);
+        row.click();
     }
     
     public void fillStartTime (Date startTime) {
@@ -372,6 +385,16 @@ public class InstructorFeedbacksPage extends AppPage {
     public String getResponseValue(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         return browser.driver.findElement(By.xpath("//tbody/tr["+(int)(sessionRowId+1)+"]/td[contains(@class,'session-response-for-test')]")).getText();
+    }
+    
+    public void verifyResponseValue(String responseRate, String courseId, String sessionName){
+        int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
+        WebDriverWait wait = new WebDriverWait(browser.driver, 3000);
+        try {
+            wait.until(ExpectedConditions.textToBePresentInElement(browser.driver.findElement(By.xpath("//tbody/tr["+(int)(sessionRowId+1)+"]/td[contains(@class,'session-response-for-test')]")), responseRate));
+        } catch (TimeoutException e){
+            fail("Not expected message");
+        }
     }
     
     public WebElement getViewResultsLink(String courseId, String sessionName) {

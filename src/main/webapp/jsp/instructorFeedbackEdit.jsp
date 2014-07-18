@@ -1086,7 +1086,7 @@
                                     FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                             %>
                                 <tr style="cursor:pointer;">
-                                    <td></td>
+                                    <td><input type="checkbox"></td>
                                     <td><%=question.courseId%></td>
                                     <td><%=InstructorFeedbacksPageData.sanitizeForHtml(question.feedbackSessionName)%></td>
                                     <td><%= questionDetails.getQuestionTypeDisplayName() %></td>
@@ -1096,11 +1096,12 @@
                             <% } %>
                         </table>
                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
                         <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
                     </form>
                 </div>
                 <div class="modal-footer margin-0">
-                    <button type="button" class="btn btn-primary" id="button_copy_submit">Copy</button>
+                    <button type="button" class="btn btn-primary" id="button_copy_submit" disabled="disabled">Copy</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div>

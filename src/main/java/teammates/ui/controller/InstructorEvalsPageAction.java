@@ -1,11 +1,13 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -76,21 +78,25 @@ public class InstructorEvalsPageAction extends Action {
         return evaluations;
     }
     
-    protected List<CourseDetailsBundle> loadCoursesListAndInstructors(String userId,
+    protected List<CourseAttributes> loadCoursesListAndInstructors(String userId,
             HashMap<String, InstructorAttributes> instructors)
             throws EntityDoesNotExistException {
-        HashMap<String, CourseDetailsBundle> summary = 
-                logic.getCourseSummariesForInstructor(userId);
-        List<CourseDetailsBundle> allCourses = new ArrayList<CourseDetailsBundle>(summary.values());
-        List<CourseDetailsBundle> allowedCourses = new ArrayList<CourseDetailsBundle>();
-        for (CourseDetailsBundle courseDetails : allCourses) {
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseDetails.course.id, account.googleId);
-            instructors.put(courseDetails.course.id, instructor);
+       
+        List<CourseAttributes> allCourses = logic.getCoursesForInstructor(userId);
+        List<CourseAttributes> allowedCourses = new ArrayList<CourseAttributes>();
+        for (CourseAttributes course : allCourses) {
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(course.id, account.googleId);
+            instructors.put(course.id, instructor);
             if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
-                allowedCourses.add(courseDetails);
+                allowedCourses.add(course);
             }
         }
-        CourseDetailsBundle.sortDetailedCoursesByCourseId(allowedCourses);       
+        Collections.sort(allowedCourses, new Comparator<CourseAttributes>() {
+            @Override
+            public int compare(CourseAttributes c1, CourseAttributes c2){
+                return c1.id.compareTo(c2.id);
+            }
+        });      
         return allowedCourses;
     }
 
