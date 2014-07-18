@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.util.Const;
 
 public class AjaxResult extends ActionResult {
 
@@ -33,12 +34,21 @@ public class AjaxResult extends ActionResult {
     public void send(HttpServletRequest req, HttpServletResponse resp)
             throws IOException, ServletException {
         
+        req.setAttribute(Const.ParamsNames.ERROR, ""+isError);        
+        clearStatusMessageForRequest(req);
+        
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         String jsonData = (new Gson()).toJson(data);
         
-        resp.getWriter().write(jsonData);        
-
+        resp.getWriter().write(jsonData);    
+    } 
+    
+    private void clearStatusMessageForRequest(HttpServletRequest req) {
+        String statusMessageInSession = (String) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGE); 
+        if(statusMessageInSession != null){
+            //Remove status message in session, thus it becomes an one-time message
+            req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE);
+        }
     }
-
 }
