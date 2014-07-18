@@ -280,13 +280,13 @@ public class CommentsDb extends EntitiesDb{
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
         
         List<Comment> giverComments = this.getCommentEntitiesForGiver(courseId, email);
-        // for now, this list is likely to be empty
-        List<Comment> recipientComments = this.getCommentEntitiesForRecipients(courseId, 
-                CommentRecipientType.INSTRUCTOR, email);
-        
-        giverComments.addAll(recipientComments);
+        // for now, this list is empty
+//        List<Comment> recipientComments = this.getCommentEntitiesForRecipients(courseId, 
+//                CommentRecipientType.INSTRUCTOR, email);
+//        getPM().deletePersistentAll(recipientComments);
         
         getPM().deletePersistentAll(giverComments);
+        
         getPM().flush();
     }
     
@@ -300,6 +300,7 @@ public class CommentsDb extends EntitiesDb{
                 CommentRecipientType.PERSON, email);
         
         getPM().deletePersistentAll(recipientComments);
+        
         getPM().flush();
     }
     

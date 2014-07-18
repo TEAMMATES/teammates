@@ -37,8 +37,9 @@ public class CommentsDbTest extends BaseComponentTestCase {
     
     private String courseId = "CDT.courseId";
     private String giverEmail = "CDT.giver@mail.com";
-    private String recipientEmail = "CDT.receiver@mail.com";
+    private String recipient = "CDT.receiver@mail.com";
     private String commentText = "comment text";
+    private CommentRecipientType recipientType = CommentRecipientType.PERSON;
     
     private CommentsDb commentsDb = new CommentsDb();
     
@@ -93,7 +94,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         CommentAttributes retrievedComment = commentsDb.getCommentsForGiver(c.courseId, c.giverEmail).get(0);
         assertNotNull(retrievedComment);
         assertNotNull(commentsDb.getCommentsForReceiver(
-                c.courseId, c.recipientType, recipientEmail));
+                c.courseId, c.recipientType, recipient));
         
         CommentAttributes anotherRetrievedComment = commentsDb.getComment(retrievedComment.getCommentId());
         compareComments(retrievedComment, anotherRetrievedComment);
@@ -226,7 +227,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         giverEmail = giverEmail1;
         CommentAttributes c = createNewComment();
         commentsDb.createEntity(c);
-        recipientEmail = recipientEmailNew;
+        recipient = recipientEmailNew;
         c = createNewComment();
         commentsDb.createEntity(c);
         courseId = courseId2;
@@ -236,14 +237,14 @@ public class CommentsDbTest extends BaseComponentTestCase {
         
         giverEmail = "CDT.giver@mail.com";
         courseId = courseId1;
-        recipientEmail = recipientEmail1;
+        recipient = recipientEmail1;
         c = createNewComment();
         commentsDb.createEntity(c);
         giverEmail = giverEmailNew;
         c = createNewComment();
         commentsDb.createEntity(c);
         courseId = courseId2;
-        recipientEmail = recipientEmail1;
+        recipient = recipientEmail1;
         c = createNewComment();
         commentsDb.createEntity(c);
         
@@ -294,25 +295,25 @@ public class CommentsDbTest extends BaseComponentTestCase {
             commentsDb.updateStudentEmail(courseId1, null, giverEmail2);
             this.signalFailureToDetectException("Assertion error not detected properly");
         } catch (AssertionError e){
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
         try {
             commentsDb.updateStudentEmail(null, giverEmail1, giverEmail2);
             this.signalFailureToDetectException("Assertion error not detected properly");
         } catch (AssertionError e){
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
         try {
             commentsDb.updateStudentEmail(courseId1, giverEmail1, null);
             this.signalFailureToDetectException("Assertion error not detected properly");
         } catch (AssertionError e){
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
         }
         
         // restore variable
         courseId = "CDT.courseId";
         giverEmail = "CDT.giver@mail.com";
-        recipientEmail = "CDT.receiver@mail.com";
+        recipient = "CDT.receiver@mail.com";
     }
     
     @Test
@@ -329,6 +330,167 @@ public class CommentsDbTest extends BaseComponentTestCase {
         
         ______TS("invalid delete non-existing comment fails silently");
         commentsDb.deleteEntity(currentComment); //currentComment doesn't exist anymore
+    }
+    
+    @Test
+    public void testDeleteComments() throws InvalidParametersException, EntityAlreadyExistsException {
+        
+        String instr1 = "CDT.del.instr1@mail.com";
+        String instr2 = "CDT.del.instr2@mail.com";
+        String courseId1 = "CDT.del.courseId1";
+        String student1 = "CDT.del.student1@mail.com";
+        String student2 = "CDT.del.student2@mail.com";
+        String courseId2 = "CDT.del.courseId2";
+        String instr3 = "CDT.del.instr3@mail.com";
+        String student3 = "CDT.del.student3@mail.com";
+        String team1 = "CDT.del.team1";
+        String team2 = "CDT.del.team2";
+        String section1 = "CDT.del.section1";
+        String section2 = "CDT.del.section2";
+        
+        // create two comments for instructor1 and 1 for instructor2 in course1
+        // also student1 2 3 will have 1 comment
+        courseId = courseId1;
+        giverEmail = instr1;
+        recipient = student1;
+        CommentAttributes c = createNewComment();
+        commentsDb.createEntity(c);
+        recipient = student2;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        giverEmail = instr2;
+        recipient = student3;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        
+        // course 1 team 1 and team2, instructor 3
+        recipientType = CommentRecipientType.TEAM;
+        recipient = team1;
+        giverEmail = instr3;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        recipient = team2;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        
+        // course 1 section 1 and section 2, instructor 3
+        recipientType = CommentRecipientType.SECTION;
+        recipient = section1;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        recipient = section2;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        
+        // course2 instr3 and student3
+        courseId = courseId2;
+        recipientType = CommentRecipientType.PERSON;
+        recipient = student3;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        
+        ______TS("success: delete instructor comments");
+        
+        commentsDb.deleteCommentsByInstructorEmail(courseId1, instr2);
+        assertEquals(2, commentsDb.getCommentsForGiver(courseId1, instr1).size());
+        assertEquals(0, commentsDb.getCommentsForGiver(courseId1, instr2).size());
+        
+        ______TS("success: delete student comments");
+        
+        commentsDb.deleteCommentsByStudentEmail(courseId1, student2);
+        List<CommentAttributes> comments = commentsDb.getCommentsForGiver(courseId1, instr1);
+        assertEquals(1, comments.size());
+        assertEquals(true, comments.get(0).recipients.contains(student1));
+        
+        ______TS("success: delete team comments");
+        
+        commentsDb.deleteCommentsForTeam(courseId1, team2);
+        assertEquals(0, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.TEAM, team2).size());
+        assertEquals(1, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.TEAM, team1).size());
+        
+        ______TS("success: delete section comments");
+        
+        commentsDb.deleteCommentsForSection(courseId1, section2);
+        assertEquals(0, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.SECTION, section2).size());
+        assertEquals(1, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.SECTION, section1).size());
+        
+        ______TS("success: delete course comments");
+        
+        assertEquals(1, commentsDb.getCommentsForGiver(courseId1, instr1).size());
+        assertEquals(0, commentsDb.getCommentsForGiver(courseId1, instr2).size());
+        assertEquals(2, commentsDb.getCommentsForGiver(courseId1, instr3).size());
+        commentsDb.deleteCommentsForCourse(courseId1);
+        assertEquals(0, commentsDb.getCommentsForGiver(courseId1, instr1).size());
+        assertEquals(0, commentsDb.getCommentsForGiver(courseId1, instr2).size());
+        assertEquals(0, commentsDb.getCommentsForGiver(courseId1, instr2).size());
+        assertEquals(1, commentsDb.getCommentsForGiver(courseId2, instr3).size());
+        
+        ______TS("failure: null input");
+        
+        try {
+            commentsDb.deleteCommentsByInstructorEmail(courseId1, null);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        try {
+            commentsDb.deleteCommentsByInstructorEmail(null, instr1);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        
+        try {
+            commentsDb.deleteCommentsByStudentEmail(courseId1, null);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        try {
+            commentsDb.deleteCommentsByStudentEmail(null, student1);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        
+        try {
+            commentsDb.deleteCommentsForTeam(courseId1, null);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        try {
+            commentsDb.deleteCommentsForTeam(null, team1);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        
+        try {
+            commentsDb.deleteCommentsForSection(courseId1, null);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        try {
+            commentsDb.deleteCommentsForSection(null, section1);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        
+        try {
+            commentsDb.deleteCommentsForCourse(null);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        
+        // restore variable
+        courseId = "CDT.courseId";
+        giverEmail = "CDT.giver@mail.com";
+        recipient = "CDT.receiver@mail.com";
+        recipientType = CommentRecipientType.PERSON;
     }
     
     private void verifyExceptionThrownFromCreateEntity(CommentAttributes comment, String expectedMessage)
@@ -351,9 +513,9 @@ public class CommentsDbTest extends BaseComponentTestCase {
         CommentAttributes c = new CommentAttributes();
         c.courseId = courseId;
         c.giverEmail = giverEmail;
-        c.recipientType = CommentRecipientType.PERSON;
+        c.recipientType = recipientType;
         c.recipients = new HashSet<String>();
-        c.recipients.add(recipientEmail);
+        c.recipients.add(recipient);
         c.createdAt = new Date();
         c.commentText = new Text(commentText);
         c.status = CommentStatus.FINAL;
