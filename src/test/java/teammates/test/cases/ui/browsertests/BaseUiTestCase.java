@@ -78,14 +78,20 @@ public class BaseUiTestCase extends BaseTestCase {
 
         int counter = 0;
         String backDoorOperationStatus = "";
-        while(counter != 5){
+        int retryLimit;
+        if(TestProperties.inst().isDevServer()){
+            retryLimit = 5;
+        } else {
+            retryLimit = 1;
+        }
+        while(counter != retryLimit){
             backDoorOperationStatus = BackDoor.restoreDataBundle(testData);
             if(backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
                 break;
             }
             counter++;
         }
-        if(counter == 5){
+        if(counter == retryLimit){
             Assumption.assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
         }
     }
