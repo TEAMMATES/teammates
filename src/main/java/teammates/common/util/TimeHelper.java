@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.TimeZone;
 
 import teammates.common.util.Const.SystemParams;
@@ -14,6 +15,61 @@ import teammates.common.util.Const.SystemParams;
  * Time zone is assumed as UTC unless specifically mentioned.
  */
 public class TimeHelper {
+    
+    private static HashMap<String, String> timeZoneCitysMap = new HashMap<String, String>();
+    
+    /*
+     *This time zone - city map was created by selecting major cities from each time zone.
+     *reference: http://en.wikipedia.org/wiki/List_of_UTC_time_offsets 
+     *The map was verified by comparing with world clock from http://www.timeanddate.com/worldclock/
+     *Note: No DST is handled here.
+     */
+    
+    static{
+        map("-12.0", "Baker Island, Howland Island222");
+        map("-11.0", "American Samoa, Niue");
+        map("-10.0", "Hawaii, Cook Islands, Marquesas Islands");
+        map("-9.0", "Gambier Islands, Alaska");
+        map("-8.0", "Los Angeles, Vancouver, Tijuana");
+        map("-7.0", "Phoenix, Calgary, Ciudad Juárez");
+        map("-6.0", "Chicago, Guatemala City, Mexico City, San José, San Salvador, Tegucigalpa, Winnipeg");
+        map("-5.0", "New York, Lima, Toronto, Bogotá, Havana, Kingston");
+        map("-4.5", "Caracas");
+        map("-4.0", "Santiago, La Paz, San Juan de Puerto Rico, Manaus, Halifax");
+        map("-3.5", "St. John's");
+        map("-3.0", "Buenos Aires, Montevideo, São Paulo");
+        map("-2.0", "Fernando de Noronha, South Georgia and the South Sandwich Islands");
+        map("-1.0", "Cape Verde, Greenland, Azores islands");
+        map("0.0", "Accra, Abidjan, Casablanca, Dakar, Dublin, Lisbon, London");
+        map("1.0", "Belgrade, Berlin, Brussels, Lagos, Madrid, Paris, Rome, Tunis, Vienna, Warsaw");
+        map("2.0", "Athens, Sofia, Cairo, Kiev, Istanbul, Beirut, Helsinki, Jerusalem, Johannesburg, Bucharest");
+        map("3.0", "Nairobi, Baghdad, Doha, Khartoum, Minsk, Riyadh");
+        map("3.5", "Tehran");
+        map("4.0", "Baku, Dubai, Moscow");
+        map("4.5", "Kabul");
+        map("5.0", "Karachi, Tashkent");
+        map("5.5", "Colombo, Delhi");
+        map("5.75", "Kathmandu");
+        map("6.0", "Almaty, Dhaka, Yekaterinburg");
+        map("7.0", "Jakarta, Bangkok, Novosibirsk, Hanoi");
+        map("8.0", "Perth, Beijing, Manila, Singapore, Kuala Lumpur, Denpasar, Krasnoyarsk");
+        map("9.0", "Seoul, Tokyo, Pyongyang, Ambon, Irkutsk");
+        map("10.0", "Canberra, Yakutsk, Port Moresby");
+        map("11.0", "Vladivostok, Noumea");
+        map("12.0", "Auckland, Suva");
+        map("13.0", "Phoenix Islands, Tokelau, Tonga");
+        
+    }
+        
+    private static void map(String timeZone, String cities) {
+        timeZoneCitysMap.put(timeZone, cities);
+    }
+    
+    public static String getCitiesForTimeZone(String zone){
+        return timeZoneCitysMap.get(zone);        
+    }
+
+    
     
     /**
      * Returns the current date and time as a {@code Calendar} object for the given timezone.

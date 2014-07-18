@@ -212,12 +212,10 @@ public class PageData {
                                         7,8,9,10,11,12,13};
         ArrayList<String> result = new ArrayList<String>();
         for (int i = 0; i < options.length; i++) {
-            String utcFormatOption = StringHelper.toUtcFormat(options[i]);
+            String utcFormatOption = StringHelper.toUtcFormat(options[i]);      
             result.add("<option value=\"" + formatAsString(options[i]) + "\"" +
-                    (existingTimeZone == options[i]
-                            ? "selected=\"selected\""
-                            : "") +
-                    ">" + utcFormatOption + "</option>");
+                       (existingTimeZone == options[i] ? "selected=\"selected\"" : "") + 
+                       ">" + "(" + utcFormatOption + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(options[i])) + "</option>");
         }
         return result;
     }

@@ -3,16 +3,11 @@ package teammates.logic.core;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreFailureException;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
-import teammates.common.exception.EnrollException;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.JoinCourseException;
@@ -22,6 +17,9 @@ import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.ProfilesDb;
+
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
 
 
 /**
@@ -195,6 +193,13 @@ public class AccountsLogic {
         instructor.googleId = googleId;
         InstructorsLogic.inst().updateInstructorByEmail(instructor.email, instructor);
         
+        //Update the goolgeId of the student entity for the instructor which was created from sampleData.
+        StudentAttributes student = StudentsLogic.inst().getStudentForEmail(instructor.courseId, instructor.email);
+        if(student != null){
+            student.googleId = googleId;
+            StudentsLogic.inst().updateStudentCascade(instructor.email, student);
+        }
+        
     }
     
     /**
@@ -322,7 +327,7 @@ public class AccountsLogic {
     }
 
     public void downgradeInstructorToStudentCascade(String googleId) {
-        InstructorsLogic.inst().deleteInstructorsForGoogleId(googleId);
+        InstructorsLogic.inst().deleteInstructorsForGoogleIdAndCascade(googleId);
         makeAccountNonInstructor(googleId);
     }
 
@@ -359,8 +364,8 @@ public class AccountsLogic {
     }
 
     public void deleteAccountCascade(String googleId) {
-        InstructorsLogic.inst().deleteInstructorsForGoogleId(googleId);
-        StudentsLogic.inst().deleteStudentsForGoogleId(googleId);
+        InstructorsLogic.inst().deleteInstructorsForGoogleIdAndCascade(googleId);
+        StudentsLogic.inst().deleteStudentsForGoogleIdAndCascade(googleId);
         accountsDb.deleteAccount(googleId);
         //TODO: deal with orphan courses, submissions etc.
     }
