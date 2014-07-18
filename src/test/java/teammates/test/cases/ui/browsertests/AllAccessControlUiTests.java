@@ -75,12 +75,11 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         
         currentPage = HomePage.getNewInstance(browser);
         
+        restoreSpecialTestData();
     }
     
     @Test
     public void testUserNotLoggedIn() throws Exception {
-        
-        restoreTypicalTestData();
         
         currentPage.logout().verifyHtml("/login.html");
 
@@ -104,8 +103,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     @Test
     public void testUserNotRegistered() throws Exception {
         
-        restoreTypicalTestData();
-
         ______TS("student pages");
 
         loginStudent(unregUsername, unregPassword);
@@ -137,15 +134,12 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
     @Test
     public void testStudentAccessToAdminPages() throws Exception {
-        restoreTypicalTestData();
         loginStudent(studentUsername, studentPassword);
         verifyCannotAccessAdminPages();
     }
 
     @Test
     public void testStudentHome() {
-        
-        restoreTypicalTestData();
         loginStudent(studentUsername, studentPassword);
         
         ______TS("cannot view other homepage");
@@ -270,15 +264,12 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
         verifyPageContains(link, studentUsername + "{*}Evaluation Results{*}" + ownCourse.id + "{*}" + ownEvaluation.name);
-        
-        deleteSpecialTestData();
+
     }
 
     @Test
     public void testInstructorHome() {
     
-        restoreSpecialTestData();
-        
         loginInstructor(instructorUsername, instructorPassword);
     
         ______TS("cannot view other homepage");
@@ -348,17 +339,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         currentPage.logout();
         LoginPage loginPage = HomePage.getNewInstance(browser).clickInstructorLogin();
         currentPage = loginPage.loginAsInstructor(userName, password);
-    }
-
-    private static void restoreTypicalTestData() {
-        
-        testData = getTypicalDataBundle();
-        
-        // This test suite requires some real accounts; Here, we inject them to the test data.
-        testData.students.get("student1InCourse1").googleId = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
-        testData.instructors.get("instructor1OfCourse1").googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
-        
-        restoreTestDataOnServer(testData);
     }
     
     private static void restoreSpecialTestData() {

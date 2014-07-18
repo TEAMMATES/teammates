@@ -70,11 +70,11 @@
             <%
                 } else if (data.isPreview || !data.isSessionOpenForSubmission) {
             %>
-                    <input disabled="disabled" type="submit" class="btn btn-primary" id="response_submit_button" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>" value="Save Feedback" style="background: #66727A;"/>
+                    <input disabled="disabled" type="submit" class="btn btn-primary" id="response_submit_button" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>" value="Submit Feedback" style="background: #66727A;"/>
             <%
                 } else {
             %>
-                    <input type="submit" class="btn btn-primary" id="response_submit_button" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>" value="Save Feedback"/>
+                    <input type="submit" class="btn btn-primary" id="response_submit_button" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>" value="Submit Feedback"/>
             <%
                 } 
             %>

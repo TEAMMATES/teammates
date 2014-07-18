@@ -50,7 +50,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Instructions:</label>
                             <div class="col-sm-10">
-                                <pre><p class="form-control-static"><%=sanitizeForHtml(data.bundle.feedbackSession.instructions.getValue())%></p></pre>
+                                <p class="form-control-static text-preserve-space"><%=sanitizeForHtml(data.bundle.feedbackSession.instructions.getValue())%></p>
                             </div>
                         </div> 
                     </div> 
@@ -82,7 +82,7 @@
         <div class="form-horizontal">
             <div class="panel panel-primary">
                 <div class="panel-heading">Question <%=qnIndx%>:<br/>
-                    <%=sanitizeForHtml(questionDetails.questionText)%></div>
+                    <span class="text-preserve-space"><%=sanitizeForHtml(questionDetails.questionText)%></div></span>
                 <div class="panel-body">
                     <p class="text-muted">Only the following persons can see your responses: </p>
                     <ul class="text-muted">

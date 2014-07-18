@@ -41,7 +41,7 @@ import com.google.appengine.api.datastore.Text;
  * Covers the 'Feedback Session' page for instructors. 
  * SUT is {@link InstructorFeedbacksPage}.
  */
-@Priority(-1)
+@Priority(1)
 public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorFeedbacksPage feedbackPage;
@@ -71,7 +71,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         newSession.instructions = new Text("Please fill in the new feedback session.");
         newSession.sentOpenEmail = false;
         newSession.sentPublishedEmail = false;
-        newSession.timeZone = 8;
+        newSession.timeZone = 8.0;
         newSession.feedbackSessionType = FeedbackSessionType.STANDARD;
         newSession.isOpeningEmailEnabled = true;
         newSession.isClosingEmailEnabled = true;
@@ -608,7 +608,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("test response rate link clickable");
         
         feedbackPage.clickViewResponseLink("CFeedbackUiT.CS2104", "Private Session");
-        assertEquals("0 / 0", feedbackPage.getResponseValue("CFeedbackUiT.CS2104","Private Session"));
+        feedbackPage.verifyResponseValue("0 / 0", "CFeedbackUiT.CS2104","Private Session");
         
         ______TS("test response rate");
         //Already displayed

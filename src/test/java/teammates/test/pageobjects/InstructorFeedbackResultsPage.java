@@ -8,9 +8,12 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
@@ -159,7 +162,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     public void addFeedbackResponseComment(String commentText) {
+        WebDriverWait wait = new WebDriverWait(browser.driver, 3000);
         showResponseCommentAddFormButton.click();
+        wait.until(ExpectedConditions.elementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea"))));
         fillTextBox(addResponseCommentForm.findElement(By.tagName("textarea")), commentText);
         addResponseCommentForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
         ThreadHelper.waitFor(1000);
@@ -173,6 +178,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         fillTextBox(commentEditForm.findElement(By.name("responsecommenttext")), newCommentText);
         commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
         ThreadHelper.waitFor(1000);
+   
     }
     
     public boolean verifyAllResultsPanelBodyVisibility(boolean visible){
@@ -197,12 +203,23 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentIdSuffix));
         commentRow.findElement(By.tagName("form"))
             .findElement(By.tagName("a")).click();
-        ThreadHelper.waitFor(1000);
+        ThreadHelper.waitFor(1500);
     }
     
     public void verifyCommentRowContent(String commentRowIdSuffix, String commentText, String giverName) {
-        WebElement commentRow = browser.driver.findElement(By.id("responseCommentRow" + commentRowIdSuffix));
-        assertEquals(commentText, commentRow.findElement(By.id("plainCommentText" + commentRowIdSuffix)).getText());
+        WebDriverWait wait = new WebDriverWait(browser.driver, 3000);
+        WebElement commentRow;
+        try{
+            commentRow = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("responseCommentRow" + commentRowIdSuffix)));
+        } catch (TimeoutException e){
+            return;
+        }
+        try {
+            wait.until(ExpectedConditions.textToBePresentInElement(commentRow.findElement(By.id("plainCommentText" + commentRowIdSuffix)), commentText));
+        } catch (TimeoutException e){
+            fail("Not expected message");
+        }
+        
         try{
             assertTrue(commentRow.findElement(By.className("text-muted")).getText().contains(giverName));
         } catch (AssertionError e){
@@ -217,7 +234,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     
     public void verifyRowMissing(String rowIdSuffix) {
         try {
-            verifyCommentRowContent(rowIdSuffix, "", "");
+            browser.driver.findElement(By.id("responseCommentRow" + rowIdSuffix));
             fail("Row expected to be missing found.");
         } catch (NoSuchElementException e) {
             // row expected to be missing
@@ -227,6 +244,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void clickAjaxPanel(int index){
         List<WebElement> ajaxPanels = browser.driver.findElements(By.cssSelector(".ajax_submit"));
         ajaxPanels.get(index).click();
+        ThreadHelper.waitFor(500);
     }
 
     public void clickCollapseSectionButton(int index){

@@ -3,6 +3,7 @@ package teammates.test.pageobjects;
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 import static org.testng.AssertJUnit.assertEquals;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,9 +19,9 @@ import java.util.logging.Logger;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.params.ClientPNames;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpParams;
 import org.cyberneko.html.parsers.DOMParser;
@@ -62,6 +63,7 @@ import teammates.test.driver.TestProperties;
  * https://code.google.com/p/selenium/wiki/PageObjects
  * 
  */
+@SuppressWarnings("deprecation")
 public abstract class AppPage {
     protected static Logger log = Utils.getLogger();
     /**Home page of the application, as per test.properties file*/
@@ -211,7 +213,28 @@ public abstract class AppPage {
         }
         return;
     }
-
+    
+    public void waitForElementVisible(WebElement element){
+        WebDriverWait wait = new WebDriverWait(browser.driver, 10);
+        wait.until(ExpectedConditions.visibilityOf(element));
+    }
+    
+    /**
+     * Waits for element to be invisible or not present, or timeout.
+     */
+    protected void waitForElementToDisappear(By by){
+        WebDriverWait wait = new WebDriverWait(browser.driver, 30);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+    }
+    
+    /**
+     * Waits for the element to appear in the page, up to the timeout specified.
+     */
+    public void waitForElementPresence(By element, int timeOutInSeconds){
+        WebDriverWait wait = new WebDriverWait(browser.driver, timeOutInSeconds);
+        wait.until(presenceOfElementLocated(element));
+    }
+    
     /**
      * Switches to the new browser window just opened.
      */
@@ -390,6 +413,23 @@ public abstract class AppPage {
         assertEquals(value, selectedVisibleValue);
         element.sendKeys(Keys.RETURN);
     }
+    
+    /** 
+     * Selection is based on the actual value. 
+     * Since selecting an option by clicking on the option doesn't work sometimes
+     * in Firefox, we simulate a user typing the value to select the option
+     * instead (i.e., we use the {@code sendKeys()} method). <br>
+     * <br>
+     * The method will fail with an AssertionError if the selected value is
+     * not the one we wanted to select.
+     */
+    public void selectDropdownByActualValue(WebElement element, String value) {
+        Select select = new Select(element);
+        select.selectByValue(value);
+        String selectedVisibleValue = select.getFirstSelectedOption().getAttribute("value");
+        assertEquals(value, selectedVisibleValue);
+        element.sendKeys(Keys.RETURN);
+    }
 
     /**
      * @return the status message in the page. Returns "" if there is no 
@@ -467,14 +507,6 @@ public abstract class AppPage {
     public void clickHiddenElementAndCancel(String elementId){
         respondToAlertWithRetryForHiddenElement(elementId, false);
         waitForPageToLoad();
-    }
-    
-    /**
-     * Waits for the element to appear in the page, up to the timeout specified.
-     */
-    public void waitForElementPresence(By element, int timeOutInSeconds){
-        WebDriverWait wait = new WebDriverWait(browser.driver, timeOutInSeconds);
-        wait.until(presenceOfElementLocated(element));
     }
     
     @SuppressWarnings("unused")
@@ -702,7 +734,7 @@ public abstract class AppPage {
         String byId = by.toString().split(":")[1].trim();
         
         DOMParser parser = new DOMParser();
-        parser.parse(new InputSource(new FileReader(filePath)));
+        parser.parse(new InputSource(new BufferedReader(new FileReader(filePath))));
         org.w3c.dom.Document htmlDoc = parser.getDocument();
         org.w3c.dom.Element expectedElement = htmlDoc.getElementById(byId);
         StringBuilder expectedHtml = new StringBuilder();
@@ -742,6 +774,9 @@ public abstract class AppPage {
     public AppPage verifyHtmlAjax(String filePath) {
         int maxRetryCount = 5;
         int waitDuration = 1000;
+        
+        //Wait for loader gif loader to disappear.
+        waitForElementToDisappear(By.cssSelector("img[src='/images/ajax-loader.gif']"));
         
         if(filePath.startsWith("/")){
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
@@ -792,11 +827,10 @@ public abstract class AppPage {
     public AppPage verifyStatus(String expectedStatus){
         
         try{
-            boolean isSameStatus = expectedStatus.equals(this.getStatus());
-            assertEquals(true, isSameStatus);
+            assertEquals(expectedStatus, this.getStatus());
         } catch(Exception e){
             if(!expectedStatus.equals("")){
-                this.waitForElementPresence(By.id("statusMessage"), 10);
+                this.waitForElementPresence(By.id("statusMessage"), 15);
                 if(!statusMessage.isDisplayed()){
                     this.waitForElementVisible(statusMessage);
                 }
@@ -844,7 +878,7 @@ public abstract class AppPage {
             downloadedFile.setWritable(true);
         }
         
-        HttpClient client = new DefaultHttpClient();
+        CloseableHttpClient client = new DefaultHttpClient();
         
         HttpGet httpget = new HttpGet(fileToDownload.toURI());
         HttpParams httpRequestParameters = httpget.getParams();
@@ -860,6 +894,8 @@ public abstract class AppPage {
         
         String actualHash = DigestUtils.shaHex(new FileInputStream(downloadedFile));
         assertEquals(expectedHash.toLowerCase(), actualHash);
+        
+        client.close();
     }
     
     public void verifyFieldValue (String fieldId, String expectedValue) {
@@ -871,11 +907,6 @@ public abstract class AppPage {
     private void ____private_utility_methods________________________________() {
     }
     
-    public void waitForElementVisible(WebElement element){
-        WebDriverWait wait = new WebDriverWait(browser.driver, 10);
-        wait.until(ExpectedConditions.visibilityOf(element));
-    }
-
     private static <T extends AppPage> T createNewPage(Browser currentBrowser,    Class<T> typeOfPage) {
         Constructor<T> constructor;
         try {

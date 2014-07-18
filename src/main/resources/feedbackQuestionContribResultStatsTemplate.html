@@ -14,19 +14,18 @@
             <table class="table table-bordered table-responsive margin-0">
                 <thead>
                 <tr>
-                    <td class="button-sort-none" id="button_sortteamname" onclick="toggleSort(this,1);">Team 
+                    <td class="button-sort-ascending" id="button_sortteamname" onclick="toggleSort(this,1);">Team 
                         <span class="icon-sort unsorted"></span></td>
                     <td class="button-sort-none" id="button_sortname" onclick="toggleSort(this,2)">Student
                         <span class="icon-sort unsorted"></span></td>
-                    <td class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,3,sortByPoint)">
+                    <td class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,3,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title='${Const.Tooltips.CLAIMED}'>
                         <abbr title="Claimed Contribution">CC</abbr>
                         <span class="icon-sort unsorted"></span></td>
-                    <td class="button-sort-none" id="button_sortperceived" onclick="toggleSort(this,4,sortByPoint)">
+                    <td class="button-sort-none" id="button_sortperceived" onclick="toggleSort(this,4,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title='${Const.Tooltips.PERCEIVED}'>
                         <abbr title="Percived Contribution">PC</abbr>
                         <span class="icon-sort unsorted"></span></td>
                     <td class="button-sort-none" id="button_sortdiff" onclick="toggleSort(this,5,sortByDiff)"
-                        data-toggle="tooltip" data-placement="top" data-container="body"  
-                        title='${Const.Tooltips.EVALUATION_DIFF}'>Diff
+                        data-toggle="tooltip" data-placement="top" data-container="body" title='${Const.Tooltips.EVALUATION_DIFF}'>Diff
                         <span class="icon-sort unsorted"></span></td>
                     <td class="align-center" data-toggle="tooltip" data-placement="top" data-container="body"
                         title='${Const.Tooltips.EVALUATION_POINTS_RECEIVED}'>Ratings Received</td>

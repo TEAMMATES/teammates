@@ -1,8 +1,8 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterClass;
@@ -29,9 +29,10 @@ import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorEvalEditPage;
 import teammates.test.pageobjects.InstructorEvalPreview;
 import teammates.test.pageobjects.InstructorEvalResultsPage;
-import teammates.test.pageobjects.InstructorEvalsPage;
+import teammates.test.pageobjects.InstructorFeedbacksPage;
 import teammates.test.pageobjects.InstructorHelpPage;
 import teammates.test.pageobjects.InstructorHomePage;
+import teammates.test.util.Priority;
 
 /**
  * Tests Home page and login page for instructors. 
@@ -39,6 +40,7 @@ import teammates.test.pageobjects.InstructorHomePage;
  * Uses a real account.
  * 
  */
+@Priority(4)
 public class InstructorHomePageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;
@@ -209,11 +211,11 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         assertEquals(expectedEditLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
         
-        ______TS("link: course add evaluation");
-        InstructorEvalsPage evalsPage =  homePage.clickCourseAddEvaluationLink(courseId);
-        evalsPage.verifyContains("Add New Evaluation Session");
+        ______TS("link: course add session");
+        InstructorFeedbacksPage feedbacksPage =  homePage.clickCourseAddEvaluationLink(courseId);
+        feedbacksPage.verifyContains("Add New Feedback Session");
         String expectedAddSessionLinkText = TestProperties.inst().TEAMMATES_URL + 
-                Const.ActionURIs.INSTRUCTOR_EVALS_PAGE + 
+                Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + 
                 "?" + Const.ParamsNames.USER_ID + "=" + instructorId +
                 "&" + Const.ParamsNames.COURSE_ID + "=" + courseId;
         assertEquals(expectedAddSessionLinkText, browser.driver.getCurrentUrl());

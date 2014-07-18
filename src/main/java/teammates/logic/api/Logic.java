@@ -598,7 +598,7 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
 
-        instructorsLogic.deleteInstructor(courseId, email);
+        instructorsLogic.deleteInstructorCascade(courseId, email);
     }
 
     @SuppressWarnings("unused")

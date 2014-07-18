@@ -5,7 +5,6 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -28,6 +27,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+        removeTypicalDataInDatastore();
 		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD;
     }

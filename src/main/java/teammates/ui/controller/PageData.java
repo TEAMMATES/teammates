@@ -222,12 +222,10 @@ public class PageData {
                                         7,8,9,10,11,12,13};
         ArrayList<String> result = new ArrayList<String>();
         for (int i = 0; i < options.length; i++) {
-            String utcFormatOption = StringHelper.toUtcFormat(options[i]);
+            String utcFormatOption = StringHelper.toUtcFormat(options[i]);      
             result.add("<option value=\"" + formatAsString(options[i]) + "\"" +
-                    (existingTimeZone == options[i]
-                            ? "selected=\"selected\""
-                            : "") +
-                    ">" + utcFormatOption + "</option>");
+                       (existingTimeZone == options[i] ? "selected=\"selected\"" : "") + 
+                       ">" + "(" + utcFormatOption + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(options[i])) + "</option>");
         }
         return result;
     }
@@ -412,7 +410,8 @@ public class PageData {
     }
     
     public String getInstructorEvaluationLink(){
-        String link = Const.ActionURIs.INSTRUCTOR_EVALS_PAGE;
+        //String link = Const.ActionURIs.INSTRUCTOR_EVALS_PAGE;
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
         link = addUserIdToUrl(link);
         return link;
     }
@@ -474,7 +473,7 @@ public class PageData {
         String link = Const.ActionURIs.INSTRUCTOR_EVAL_PUBLISH;
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
-        link = Url.addParamToUrl(link,Const.ParamsNames.NEXT_URL,(isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE): addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_EVALS_PAGE)));
+        link = Url.addParamToUrl(link,Const.ParamsNames.NEXT_URL,(isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE): addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
         link = addUserIdToUrl(link);
         return link;
     }
@@ -484,7 +483,7 @@ public class PageData {
         String link = Const.ActionURIs.INSTRUCTOR_EVAL_UNPUBLISH;
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
-        link = Url.addParamToUrl(link,Const.ParamsNames.NEXT_URL,(isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE): addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_EVALS_PAGE)));
+        link = Url.addParamToUrl(link,Const.ParamsNames.NEXT_URL,(isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE): addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
         link = addUserIdToUrl(link);
         return link;
     }
@@ -509,6 +508,11 @@ public class PageData {
         return link;
     }
     
+    public String getInstructorFeedbackSessionLink(){
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+        link = addUserIdToUrl(link);
+        return link;
+    }
     
     public String getInstructorFeedbackSessionDeleteLink(String courseId, String feedbackSessionName, String nextURL){
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_DELETE;
@@ -628,7 +632,7 @@ public class PageData {
      * @return
      */
     public String getInstructorEvaluationActions(EvaluationAttributes eval, boolean isHome, InstructorAttributes instructor){
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         
         boolean hasView = false;
         boolean hasEdit = false;
@@ -685,7 +689,7 @@ public class PageData {
         );
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions session-delete-for-test\"" + 
-            "href=\"" + getInstructorEvaluationDeleteLink(eval.courseId,eval.name,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_EVALS_PAGE)) + "\" " +
+            "href=\"" + getInstructorEvaluationDeleteLink(eval.courseId,eval.name,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)) + "\" " +
             "title=\"" + Const.Tooltips.EVALUATION_DELETE + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
             "onclick=\"return toggleDeleteEvaluationConfirmation('" + eval.courseId + "','" + eval.name + "');\" " +
             disableDeleteSessionStr + ">Delete</a> "
@@ -773,7 +777,7 @@ public class PageData {
      */
     public String getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,
             boolean isHome, InstructorAttributes instructor) throws EntityDoesNotExistException{
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         
         // Allowing ALL instructors to view results regardless of publish state.
         boolean hasSubmit = session.isVisible() || session.isPrivateSession();
