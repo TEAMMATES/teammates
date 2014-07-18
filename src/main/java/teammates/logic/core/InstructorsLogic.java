@@ -31,6 +31,7 @@ public class InstructorsLogic {
     private static final InstructorsDb instructorsDb = new InstructorsDb();
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
     
     private static Logger log = Utils.getLogger();
     
@@ -172,12 +173,26 @@ public class InstructorsLogic {
     public void updateInstructorByGoogleId(String googleId, InstructorAttributes instructor) 
             throws InvalidParametersException, EntityDoesNotExistException {
 
+        // TODO: either refactor this to constant or just remove it. check not null should be in db
         Assumption.assertNotNull("Supplied parameter was null", instructor);
 
-        coursesLogic.verifyCourseIsPresent(instructor.courseId);        
-        verifyIsGoogleIdOfInstructorOfCourse(googleId, instructor.courseId);
+        coursesLogic.verifyCourseIsPresent(instructor.courseId);
+        verifyInstructorInDbAndCascade(googleId, instructor);
         
         instructorsDb.updateInstructorByGoogleId(instructor);
+    }
+
+    private void verifyInstructorInDbAndCascade(String googleId,
+            InstructorAttributes instructor) throws EntityDoesNotExistException {
+        InstructorAttributes instructorInDb = instructorsDb.getInstructorForGoogleId(instructor.courseId, googleId);
+        if (instructorInDb == null) {
+            throw new EntityDoesNotExistException("Instructor " + googleId
+                    + " does not belong to course " + instructor.courseId);
+        }
+        // cascade comments
+        if (!instructorInDb.email.equals(instructor.email)) {
+            commentsLogic.updateInstructorEmail(instructor.courseId, instructorInDb.email, instructor.email);
+        }
     }
     
     /**
@@ -281,18 +296,24 @@ public class InstructorsLogic {
         return errors;
     }
     
-    
-    
-    public void deleteInstructor(String courseId, String email) {
-        
+    public void deleteInstructorAndCascade(String courseId, String email) {
+        commentsLogic.deleteCommentsForInstructor(courseId, email);
         instructorsDb.deleteInstructor(courseId, email);
     }
 
-    public void deleteInstructorsForGoogleId(String googleId) {
+    // this method is currently being used in accounts logic, deleting comments will be done here
+    public void deleteInstructorsForGoogleIdAndCascade(String googleId) {
+        List<InstructorAttributes> instructors = instructorsDb.getInstructorsForGoogleId(googleId);
+        
+        for (InstructorAttributes instructor : instructors) {
+            commentsLogic.deleteCommentsForInstructor(instructor.courseId, instructor.email);
+        }
         
         instructorsDb.deleteInstructorsForGoogleId(googleId);
     }
 
+    // this method is only being used in course logic. cascade to comments is therefore not necessary
+    // as it it taken care of when deleting course
     public void deleteInstructorsForCourse(String courseId) {
         
         instructorsDb.deleteInstructorsForCourse(courseId);

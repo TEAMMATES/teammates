@@ -51,6 +51,7 @@ public class StudentsLogic {
     private EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
     private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private AccountsLogic accLogic = AccountsLogic.inst();
+    private CommentsLogic commentsLogic = CommentsLogic.inst();
     
     private static Logger log = Utils.getLogger();
     
@@ -188,6 +189,11 @@ public class StudentsLogic {
         String finalEmail = (student.email == null || !validator
                 .getInvalidityInfo(FieldType.EMAIL, student.email).isEmpty()) ?
                 originalEmail : student.email;
+        
+        // cascade email changes to comments
+        if (!originalStudent.email.equals(finalEmail)) {
+            commentsLogic.updateStudentEmail(student.course, originalStudent.email, finalEmail);
+        }
         
         // adjust submissions if moving to a different team
         if (isTeamChanged(originalStudent.team, student.team)) {
@@ -489,13 +495,21 @@ public class StudentsLogic {
     }
 
     public void deleteStudentCascade(String courseId, String studentEmail) {
-        // delete responses first as we need to know the student's team.
+        // delete responses before deleting the student as we need to know the student's team.
         frLogic.deleteFeedbackResponsesForStudent(courseId, studentEmail);
-        studentsDb.deleteStudent(courseId, studentEmail);
         SubmissionsLogic.inst().deleteAllSubmissionsForStudent(courseId, studentEmail);
+        commentsLogic.deleteCommentsForStudent(courseId, studentEmail);
+        studentsDb.deleteStudent(courseId, studentEmail);
     }
 
-    public void deleteStudentsForGoogleId(String googleId) {
+    public void deleteStudentsForGoogleIdAndCascade(String googleId) {
+        List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
+        
+        // cascade to students
+        for (StudentAttributes student : students) {
+            commentsLogic.deleteCommentsForStudent(student.course, student.email);
+        }
+        
         studentsDb.deleteStudentsForGoogleId(googleId);
     }
 

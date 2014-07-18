@@ -322,7 +322,7 @@ public class AccountsLogic {
     }
 
     public void downgradeInstructorToStudentCascade(String googleId) {
-        InstructorsLogic.inst().deleteInstructorsForGoogleId(googleId);
+        InstructorsLogic.inst().deleteInstructorsForGoogleIdAndCascade(googleId);
         makeAccountNonInstructor(googleId);
     }
 
@@ -359,8 +359,8 @@ public class AccountsLogic {
     }
 
     public void deleteAccountCascade(String googleId) {
-        InstructorsLogic.inst().deleteInstructorsForGoogleId(googleId);
-        StudentsLogic.inst().deleteStudentsForGoogleId(googleId);
+        InstructorsLogic.inst().deleteInstructorsForGoogleIdAndCascade(googleId);
+        StudentsLogic.inst().deleteStudentsForGoogleIdAndCascade(googleId);
         accountsDb.deleteAccount(googleId);
         //TODO: deal with orphan courses, submissions etc.
     }

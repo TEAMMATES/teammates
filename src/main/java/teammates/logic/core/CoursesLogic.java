@@ -64,6 +64,7 @@ public class CoursesLogic {
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
     private static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
+    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
 
     
     public static CoursesLogic inst() {
@@ -640,6 +641,7 @@ public class CoursesLogic {
         evaluationsLogic.deleteEvaluationsForCourse(courseId);
         studentsLogic.deleteStudentsForCourse(courseId);
         instructorsLogic.deleteInstructorsForCourse(courseId);
+        commentsLogic.deleteCommentsForCourse(courseId);
         feedbackSessionsLogic.deleteFeedbackSessionsForCourse(courseId);
         coursesDb.deleteCourse(courseId);
     }
