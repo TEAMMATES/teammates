@@ -114,19 +114,79 @@
                                             </select>
                                         </div>
                                     </div>
-<<<<<<< HEAD
-                                 </div>
-                              </div>
-                              <div class="row" >
-                                 <div class="form-group"  data-original-title="You should not need to change this as your timezone is auto-detected. <br /><br />However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is daylight saving, you should choose UTC -7:00 and its corresponding timings."  data-placement="top"  data-toggle="tooltip"  title="" >
-                                    <h5 class="col-md-4" >
-                                       <label class="control-label"  for="graceperiod" >
-                                          Timezone
-                                       </label>
-                                    </h5>
-                                    <div class="col-md-5" >
-                                       <select class="form-control"  id="timezone"  name="timezone" >
-                                          <option value="-12">
+                                </div>
+                                <div class="row">
+                                    <div data-original-title="Please enter deadline for the evaluation." class="form-group" title="" data-toggle="tooltip" data-placement="top">
+                                        <h5 class="col-md-4">
+                                            <label for="deadline" class="control-label">
+                                                Closing time
+                                            </label>
+                                        </h5>
+                                        <div class="col-md-5">
+                                            <input class="form-control hasDatepicker" name="deadline" id="deadline" value="" type="text">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select class="form-control" name="deadlinetime" id="deadlinetime">
+                                                        <option value="1">0100H</option>
+<option value="2">0200H</option>
+<option value="3">0300H</option>
+<option value="4">0400H</option>
+<option value="5">0500H</option>
+<option value="6">0600H</option>
+<option value="7">0700H</option>
+<option value="8">0800H</option>
+<option value="9">0900H</option>
+<option value="10">1000H</option>
+<option value="11">1100H</option>
+<option value="12">1200H</option>
+<option value="13">1300H</option>
+<option value="14">1400H</option>
+<option value="15">1500H</option>
+<option value="16">1600H</option>
+<option value="17">1700H</option>
+<option value="18">1800H</option>
+<option value="19">1900H</option>
+<option value="20">2000H</option>
+<option value="21">2100H</option>
+<option value="22">2200H</option>
+<option value="23">2300H</option>
+<option value="24" selected="selected">2359H</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div data-original-title="Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline." class="form-group" title="" data-toggle="tooltip" data-placement="top">
+                                        <h5 class="col-md-4">
+                                            <label for="graceperiod" class="control-label">
+                                                Grace Period
+                                            </label>
+                                        </h5>
+                                        <div class="col-md-5">
+                                            <select class="form-control" name="graceperiod" id="graceperiod">
+                                                    <option value="0">0 mins</option>
+<option value="5">5 mins</option>
+<option value="10">10 mins</option>
+<option value="15" selected="selected">15 mins</option>
+<option value="20">20 mins</option>
+<option value="25">25 mins</option>
+<option value="30">30 mins</option>
+
+                                        </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div data-original-title="You should not need to change this as your timezone is auto-detected. <br /><br />However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is daylight saving, you should choose UTC -7:00 and its corresponding timings." class="form-group" title="" data-toggle="tooltip" data-placement="top">
+                                        <h5 class="col-md-4">
+                                            <label for="graceperiod" class="control-label">
+                                                Timezone
+                                            </label>
+                                        </h5>
+                                        <div class="col-md-5">
+                                            <select class="form-control" name="timezone" id="timezone">
+                                                   <option value="-12">
                                                  (UTC -12:00) {*}
                                               </option>
                                               <option value="-11">
@@ -222,113 +282,6 @@
                                               <option value="13">
                                                  (UTC +13:00) {*}
                                               </option>
-                                       </select>
-=======
-                                </div>
-                                <div class="row">
-                                    <div data-original-title="Please enter deadline for the evaluation." class="form-group" title="" data-toggle="tooltip" data-placement="top">
-                                        <h5 class="col-md-4">
-                                            <label for="deadline" class="control-label">
-                                                Closing time
-                                            </label>
-                                        </h5>
-                                        <div class="col-md-5">
-                                            <input class="form-control hasDatepicker" name="deadline" id="deadline" value="" type="text">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <select class="form-control" name="deadlinetime" id="deadlinetime">
-                                                        <option value="1">0100H</option>
-<option value="2">0200H</option>
-<option value="3">0300H</option>
-<option value="4">0400H</option>
-<option value="5">0500H</option>
-<option value="6">0600H</option>
-<option value="7">0700H</option>
-<option value="8">0800H</option>
-<option value="9">0900H</option>
-<option value="10">1000H</option>
-<option value="11">1100H</option>
-<option value="12">1200H</option>
-<option value="13">1300H</option>
-<option value="14">1400H</option>
-<option value="15">1500H</option>
-<option value="16">1600H</option>
-<option value="17">1700H</option>
-<option value="18">1800H</option>
-<option value="19">1900H</option>
-<option value="20">2000H</option>
-<option value="21">2100H</option>
-<option value="22">2200H</option>
-<option value="23">2300H</option>
-<option value="24" selected="selected">2359H</option>
-
-                                            </select>
-                                        </div>
->>>>>>> origin/master
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div data-original-title="Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline." class="form-group" title="" data-toggle="tooltip" data-placement="top">
-                                        <h5 class="col-md-4">
-                                            <label for="graceperiod" class="control-label">
-                                                Grace Period
-                                            </label>
-                                        </h5>
-                                        <div class="col-md-5">
-                                            <select class="form-control" name="graceperiod" id="graceperiod">
-                                                    <option value="0">0 mins</option>
-<option value="5">5 mins</option>
-<option value="10">10 mins</option>
-<option value="15" selected="selected">15 mins</option>
-<option value="20">20 mins</option>
-<option value="25">25 mins</option>
-<option value="30">30 mins</option>
-
-                                        </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div data-original-title="You should not need to change this as your timezone is auto-detected. <br /><br />However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is daylight saving, you should choose UTC -7:00 and its corresponding timings." class="form-group" title="" data-toggle="tooltip" data-placement="top">
-                                        <h5 class="col-md-4">
-                                            <label for="graceperiod" class="control-label">
-                                                Timezone
-                                            </label>
-                                        </h5>
-                                        <div class="col-md-5">
-                                            <select class="form-control" name="timezone" id="timezone">
-                                                    <option value="-12">UTC -12:00</option>
-<option value="-11">UTC -11:00</option>
-<option value="-10">UTC -10:00</option>
-<option value="-9">UTC -09:00</option>
-<option value="-8">UTC -08:00</option>
-<option value="-7">UTC -07:00</option>
-<option value="-6">UTC -06:00</option>
-<option value="-5">UTC -05:00</option>
-<option value="-4.5">UTC -04:30</option>
-<option value="-4">UTC -04:00</option>
-<option value="-3.5">UTC -03:30</option>
-<option value="-3">UTC -03:00</option>
-<option value="-2">UTC -02:00</option>
-<option value="-1">UTC -01:00</option>
-<option value="0">UTC</option>
-<option value="1">UTC +01:00</option>
-<option value="2">UTC +02:00</option>
-<option value="3">UTC +03:00</option>
-<option value="3.5">UTC +03:30</option>
-<option value="4">UTC +04:00</option>
-<option value="4.5">UTC +04:30</option>
-<option value="5">UTC +05:00</option>
-<option value="5.5">UTC +05:30</option>
-<option value="5.75">UTC +05:45</option>
-<option value="6">UTC +06:00</option>
-<option value="7">UTC +07:00</option>
-<option value="8">UTC +08:00</option>
-<option value="9">UTC +09:00</option>
-<option value="10">UTC +10:00</option>
-<option value="11">UTC +11:00</option>
-<option value="12">UTC +12:00</option>
-<option value="13">UTC +13:00</option>
 
                                             </select>
                                         </div>

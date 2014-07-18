@@ -1020,10 +1020,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
                                  + "\"Section 1\",\"Team 1.1\",\"student3 In\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.com\"" + Const.EOL
                                  + "\"Section 1\",\"Team 1.1\",\"student4 In\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.com\"" + Const.EOL
                                  + "\"Section 2\",\"Team 1.2\",\"student5 In\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.com\"" + Const.EOL;
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/master
         assertEquals(expectedCsvString, csvString);
 
         ______TS("Typical case: course without sections");
@@ -1055,10 +1052,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
                                  + "Section,Team,First Name,Last Name,Status,Email" + Const.EOL
                                  + "\"Section 1\",\"Team 1\",\"student1 In\",\"unregisteredCourse\",\"Yet to join\",\"student1InUnregisteredCourse@gmail.com\"" + Const.EOL
                                  + "\"Section 2\",\"Team 2\",\"student2 In\",\"unregisteredCourse\",\"Yet to join\",\"student2InUnregisteredCourse@gmail.com\"" + Const.EOL;
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/master
         assertEquals(expectedCsvString, csvString);
 
         ______TS("Failure case: non existent instructor");
