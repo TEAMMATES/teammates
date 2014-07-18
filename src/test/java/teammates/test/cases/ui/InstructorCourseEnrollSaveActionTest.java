@@ -5,7 +5,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;

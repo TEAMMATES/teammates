@@ -804,6 +804,31 @@ public class Logic {
     private void ____STUDENT_level_methods__________________________________() {
     }
 
+    public void updateStudentWithoutDocument(String originalEmail, StudentAttributes student)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, originalEmail);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
+
+        studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, student);
+    }
+
+    public void createStudentWithoutDocument(StudentAttributes student)
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
+
+        studentsLogic.createStudentCascadeWithoutDocument(student);
+    }
+
+    public void deleteStudentWithoutDocument(String courseId, String studentEmail) {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
+
+        studentsLogic.deleteStudentCascadeWithoutDocument(courseId, studentEmail);
+    }
+
     /**
      * Creates a student and adjust existing evaluations to accommodate the new student. <br> 
      * Preconditions: <br>

@@ -186,7 +186,7 @@ public class SubmissionsAdjustmentTest extends
         updatedAttributes.email = "newEmail@g";
         updatedAttributes.course = course1.id;
 
-        studentsLogic.updateStudentCascade(oldEmail, updatedAttributes);
+        studentsLogic.updateStudentCascadeWithoutDocument(oldEmail, updatedAttributes);
 
         TestHelper.verifyPresentInDatastore(updatedAttributes);
 
@@ -279,7 +279,7 @@ public class SubmissionsAdjustmentTest extends
                 .getSubmissionsForEvaluation(newStudent.course, evaluationName).size();
         assertEquals(17, oldNumberOfSubmissionsForEvaluation);
         
-        studentsLogic.createStudentCascadeWithSubmissionAdjustmentScheduled(newStudent);
+        studentsLogic.createStudentCascadeWithSubmissionAdjustmentScheduledWithoutDocument(newStudent);
         
         StudentEnrollDetails enrollDetails = new StudentEnrollDetails
                 (UpdateStatus.NEW, newStudent.course, newStudent.email, "", newStudent.team, "", newStudent.section);
@@ -336,7 +336,7 @@ public class SubmissionsAdjustmentTest extends
         paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName);
         paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollString);
         
-        studentsLogic.updateStudentCascadeWithSubmissionAdjustmentScheduled(student.email, student);
+        studentsLogic.updateStudentCascadeWithSubmissionAdjustmentScheduledWithoutDocument(student.email, student);
         FeedbackSubmissionAdjustmentAction responseAdjustmentAction = new FeedbackSubmissionAdjustmentAction(paramMap);
         assertTrue(responseAdjustmentAction.execute());
         

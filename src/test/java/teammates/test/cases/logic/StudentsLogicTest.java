@@ -165,7 +165,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("modify info of existing student");
         //add some more details to the student
         student1.googleId = "googleId";
-        studentsLogic.updateStudentCascade(student1.email, student1);
+        studentsLogic.updateStudentCascadeWithoutDocument(student1.email, student1);
         
         ______TS("add evaluation and modify team of existing student" +
                 "(to check the cascade logic of the SUT)");
@@ -307,7 +307,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         List<SubmissionAttributes> submissionsBeforeEdit = submissionsLogic.getSubmissionsForCourse(student4InCourse1.course);
 
         // verify student details changed correctly
-        studentsLogic.updateStudentCascade(originalEmail, student4InCourse1);
+        studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, student4InCourse1);
         TestHelper.verifyPresentInDatastore(student4InCourse1);
 
         // take a snapshot of submissions after the edit
@@ -335,20 +335,20 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         student4InCourse1.email = newEmail;
         copyOfStudent1.email = newEmail;
 
-        studentsLogic.updateStudentCascade(originalEmail, copyOfStudent1);
+        studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, copyOfStudent1);
         TestHelper.verifyPresentInDatastore(student4InCourse1);
 
         ______TS("check for KeepExistingPolicy : change nothing");    
         
         originalEmail = student4InCourse1.email;
         copyOfStudent1.email = null;
-        studentsLogic.updateStudentCascade(originalEmail, copyOfStudent1);
+        studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, copyOfStudent1);
         TestHelper.verifyPresentInDatastore(copyOfStudent1);
         
         ______TS("non-existent student");
         
         try {
-            studentsLogic.updateStudentCascade("non-existent@email", student4InCourse1);
+            studentsLogic.updateStudentCascadeWithoutDocument("non-existent@email", student4InCourse1);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             assertEquals(StudentsDb.ERROR_UPDATE_NON_EXISTENT_STUDENT
@@ -360,7 +360,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("check for InvalidParameters");
         copyOfStudent1.email = "invalid email";
         try {
-            studentsLogic.updateStudentCascade(originalEmail, copyOfStudent1);
+            studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, copyOfStudent1);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(FieldValidator.REASON_INCORRECT_FORMAT,
@@ -828,7 +828,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         List<SubmissionAttributes> submissionsBeforeAdding = submissionsLogic.getSubmissionsForCourse(newStudent.course);
         
-        studentsLogic.createStudentCascade(newStudent);
+        studentsLogic.createStudentCascadeWithoutDocument(newStudent);
         TestHelper.verifyPresentInDatastore(newStudent);
         
         List<SubmissionAttributes> submissionsAfterAdding = submissionsLogic.getSubmissionsForCourse(newStudent.course);
@@ -847,13 +847,13 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
         // try to create the same student
         try {
-            studentsLogic.createStudentCascade(newStudent);
+            studentsLogic.createStudentCascadeWithoutDocument(newStudent);
             signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {
             ignoreExpectedException();
         }
         
-        studentsLogic.deleteStudentCascade(newStudent.course, newStudent.email);
+        studentsLogic.deleteStudentCascadeWithoutDocument(newStudent.course, newStudent.email);
         
         ______TS("invalid parameter");
 
@@ -861,7 +861,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         newStudent.email = "invalid email";
         
         try {
-            studentsLogic.createStudentCascade(newStudent);
+            studentsLogic.createStudentCascadeWithoutDocument(newStudent);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             assertEquals(
@@ -872,7 +872,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("null parameters");
         
         try {
-            studentsLogic.createStudentCascade(null);
+            studentsLogic.createStudentCascadeWithoutDocument(null);
             signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
@@ -1263,19 +1263,19 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         // modify two students to make them 'unregistered' and send again
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         student1InCourse1.googleId = "";
-        studentsLogic.updateStudentCascade(student1InCourse1.email, student1InCourse1);
+        studentsLogic.updateStudentCascadeWithoutDocument(student1InCourse1.email, student1InCourse1);
         StudentAttributes student2InCourse1 = dataBundle.students
                 .get("student2InCourse1");
         student2InCourse1.googleId = "";
-        studentsLogic.updateStudentCascade(student2InCourse1.email, student2InCourse1);
+        studentsLogic.updateStudentCascadeWithoutDocument(student2InCourse1.email, student2InCourse1);
         emailsSent = studentsLogic.sendRegistrationInviteForCourse(course1.id);
         assertEquals(5, emailsSent.size());
         TestHelper.verifyJoinInviteToStudent(student2InCourse1, emailsSent.get(0));
         TestHelper.verifyJoinInviteToStudent(student1InCourse1, emailsSent.get(1));
         
-        studentsLogic.deleteStudentCascade(newsStudent0Info.course, newsStudent0Info.email);
-        studentsLogic.deleteStudentCascade(newsStudent1Info.course, newsStudent1Info.email);
-        studentsLogic.deleteStudentCascade(newsStudent2Info.course, newsStudent2Info.email);
+        studentsLogic.deleteStudentCascadeWithoutDocument(newsStudent0Info.course, newsStudent0Info.email);
+        studentsLogic.deleteStudentCascadeWithoutDocument(newsStudent1Info.course, newsStudent1Info.email);
+        studentsLogic.deleteStudentCascadeWithoutDocument(newsStudent2Info.course, newsStudent2Info.email);
     
         ______TS("null parameters");
     
@@ -1303,7 +1303,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         SubmissionAttributes submissionFromS1C1ToS1C1 = dataBundle.submissions.get("submissionFromS1C1ToS1C1");
         TestHelper.verifyPresentInDatastore(submissionFromS1C1ToS1C1);
 
-        studentsLogic.deleteStudentCascade(student2InCourse1.course, student2InCourse1.email);
+        studentsLogic.deleteStudentCascadeWithoutDocument(student2InCourse1.course, student2InCourse1.email);
         TestHelper.verifyAbsentInDatastore(student2InCourse1);
 
         // verify that other students in the course are intact
@@ -1321,12 +1321,12 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("delete non-existent student");
 
         // should fail silently.
-        studentsLogic.deleteStudentCascade(student2InCourse1.course, student2InCourse1.email);
+        studentsLogic.deleteStudentCascadeWithoutDocument(student2InCourse1.course, student2InCourse1.email);
 
         ______TS("null parameters");
 
         try {
-            studentsLogic.deleteStudentCascade(null, "valid@email.com");
+            studentsLogic.deleteStudentCascadeWithoutDocument(null, "valid@email.com");
             signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
