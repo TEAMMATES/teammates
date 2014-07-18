@@ -1091,13 +1091,6 @@ public class FeedbackSessionsLogic {
         Map<String, List<FeedbackResponseCommentAttributes>> responseComments =
                 new HashMap<String, List<FeedbackResponseCommentAttributes>>();
         
-        //Show all questions even if no responses.
-        if(role == UserType.Role.INSTRUCTOR){
-            for (FeedbackQuestionAttributes question : allQuestions) {
-                relevantQuestions.put(question.getId(), question);
-            }
-        }
-        
         FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
 
         boolean isPrivateSessionNotCreatedByThisUser = session
@@ -1234,8 +1227,8 @@ public class FeedbackSessionsLogic {
         Map<String, List<FeedbackResponseCommentAttributes>> responseComments =
                 new HashMap<String, List<FeedbackResponseCommentAttributes>>();
         
-        //Show all questions even if no responses.
-        if(role == UserType.Role.INSTRUCTOR){
+        //Show all questions even if no responses, unless is an ajax request for a specific question.
+        if(role == UserType.Role.INSTRUCTOR && !params.containsKey("questionNum")){
             for (FeedbackQuestionAttributes question : allQuestions) {
                 relevantQuestions.put(question.getId(), question);
             }
