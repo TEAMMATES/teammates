@@ -77,14 +77,23 @@
                     <div class='display-icon pull-right'>
                     <span class="glyphicon <%= showAll && !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
                     </div>
-                    <strong>Question <%=question.questionNumber%>: </strong><%=data.bundle.getQuestionText(question.getId())%><%
+                    <strong>Question <%=question.questionNumber%>: </strong><span class="text-preserve-space"><%=data.bundle.getQuestionText(question.getId())%><%
                         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
-                    %>
+                    %></span>
                 </div>
                 <div class="panel-collapse collapse <%= showAll && !shouldCollapsed ? "in" : "" %>">
                 <div class="panel-body padding-0" id="questionBody-<%=questionIndex%>">
-                    <% if(showAll) { %>                
+                    <%
+                        if(responseEntries.getValue().size() == 0){
+                    %>
+                        <div class="col-sm-12">
+                            <i class="text-muted">There are no responses for this question.</i>
+                        </div>
+                    <%
+                        }
+                        if(showAll && responseEntries.getValue().size() > 0) {
+                    %>                
                     <div class="resultStatistics">
                         <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries.getValue(), question, data.account, data.bundle, "question")%>
                     </div>
@@ -92,15 +101,15 @@
                         <table class="table table-striped table-bordered dataTable margin-0">
                             <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                 <tr>
-                                    <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                    <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
                                         Giver
                                         <span class="icon-sort unsorted"></span>
                                     </th>
-                                    <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                    <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                         Team
                                         <span class="icon-sort unsorted"></span>
                                     </th>
-                                    <th id="button_sortToName" onclick="toggleSort(this,3)" style="width: 15%;">
+                                    <th id="button_sortToName" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 15%;">
                                         Recipient
                                         <span class="icon-sort unsorted"></span>
                                     </th>
@@ -108,7 +117,7 @@
                                         Team
                                         <span class="icon-sort unsorted"></span>
                                     </th>
-                                    <th id="button_sortFeedback" onclick="toggleSort(this,5)">
+                                    <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,5)">
                                         Feedback
                                         <span class="icon-sort unsorted"></span>
                                     </th>

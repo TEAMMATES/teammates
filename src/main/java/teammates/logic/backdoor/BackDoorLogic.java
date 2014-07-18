@@ -39,7 +39,7 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 public class BackDoorLogic extends Logic {
     private static Logger log = Utils.getLogger();
     
-    private static final int WAIT_DURATION_FOR_DELETE_CHECKING = 500;
+    private static final int WAIT_DURATION_FOR_DELETE_CHECKING = 5;
     private static final int MAX_RETRY_COUNT_FOR_DELETE_CHECKING = 20;
     
     

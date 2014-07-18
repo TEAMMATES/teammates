@@ -524,7 +524,7 @@
           "courseId": "demo.course",
           "creatorEmail": "teammates.demo.instructor@demo.course",
           "questionMetaData":{
-                "value":"{\"questionText\":\"Please rate the estimated contribution of the following recipients.\",
+                "value":"{\"questionText\":\"Please rate the estimated contribution of your team members and yourself.\",
                           \"questionType\":\"CONTRIB\"}"
           },
           "questionNumber": 1,
@@ -551,7 +551,7 @@
           "courseId": "demo.course",
           "creatorEmail": "teammates.demo.instructor@demo.course",
           "questionMetaData":{
-              "value":"Comments about my contribution(shown to other teammates)"
+              "value":"Comments about my contribution (shown to other teammates)"
           },
           "questionNumber": 2,
           "questionType": "TEXT",
@@ -652,7 +652,7 @@
           "courseId": "demo.course",
           "creatorEmail": "teammates.demo.instructor@demo.course",
           "questionMetaData":{
-                "value":"{\"questionText\":\"Please rate the estimated contribution of the following recipients.\",
+                "value":"{\"questionText\":\"Please rate the estimated contribution of your team members and yourself.\",
                           \"questionType\":\"CONTRIB\"}"
           },
           "questionNumber": 1,
@@ -679,7 +679,7 @@
           "courseId": "demo.course",
           "creatorEmail": "teammates.demo.instructor@demo.course",
           "questionMetaData":{
-              "value":"Comments about my contribution(shown to other teammates)"
+              "value":"Comments about my contribution (shown to other teammates)"
           },
           "questionNumber": 2,
           "questionType": "TEXT",
