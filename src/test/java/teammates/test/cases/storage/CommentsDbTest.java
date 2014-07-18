@@ -213,14 +213,14 @@ public class CommentsDbTest extends BaseComponentTestCase {
     public void testUpdateInstructorEmailAndStudentEmail() 
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         
-        String courseId1 = "CDT.courseId1";
-        String courseId2 = "CDT.courseId2";
-        String giverEmail1 = "CDT.giverInstr1@mail.com";
-        String giverEmail2 = "CDT.giverInstr2@mail.com";
-        String giverEmailNew = "CDT.giverInstrNew@mail.com";
-        String recipientEmail1 = "CDT.receiverStudent1@mail.com";
-        String recipientEmail2 = "CDT.receiverStudent2@mail.com";
-        String recipientEmailNew = "CDT.receiverStudentNew@mail.com";
+        String courseId1 = "CDT.upd.courseId1";
+        String courseId2 = "CDT.upd.courseId2";
+        String giverEmail1 = "CDT.upd.giverInstr1@mail.com";
+        String giverEmail2 = "CDT.upd.giverInstr2@mail.com";
+        String giverEmailNew = "CDT.upd.giverInstrNew@mail.com";
+        String recipientEmail1 = "CDT.upd.receiverStudent1@mail.com";
+        String recipientEmail2 = "CDT.upd.receiverStudent2@mail.com";
+        String recipientEmailNew = "CDT.upd.receiverStudentNew@mail.com";
         
         courseId = courseId1;
         giverEmail = giverEmail1;
@@ -266,6 +266,48 @@ public class CommentsDbTest extends BaseComponentTestCase {
         assertEquals(0, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.PERSON, recipientEmail1).size());
         assertEquals(2, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.PERSON, recipientEmail2).size());
         assertEquals(1, commentsDb.getCommentsForReceiver(courseId2, CommentRecipientType.PERSON, recipientEmail1).size());
+        
+        ______TS("failure: null input when updating instr email");
+        
+        try {
+            commentsDb.updateInstructorEmail(courseId1, null, giverEmail2);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        try {
+            commentsDb.updateInstructorEmail(null, giverEmail1, giverEmail2);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        try {
+            commentsDb.updateInstructorEmail(courseId1, giverEmail1, null);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        ______TS("failure: null input when updating student email");
+        
+        try {
+            commentsDb.updateStudentEmail(courseId1, null, giverEmail2);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        try {
+            commentsDb.updateStudentEmail(null, giverEmail1, giverEmail2);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        try {
+            commentsDb.updateStudentEmail(courseId1, giverEmail1, null);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
         
         // restore variable
         courseId = "CDT.courseId";
