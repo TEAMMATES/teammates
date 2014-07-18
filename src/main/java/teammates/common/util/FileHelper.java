@@ -35,7 +35,7 @@ public class FileHelper {
      * Reads the contents of an {@link InputStream} as a String.
      */
     public static String readStream(InputStream stream) {
-        Scanner scanner = new Scanner(stream);
+        Scanner scanner = new Scanner(stream, "UTF-8");
         String content = scanner.useDelimiter("\\Z").next();
         scanner.close();
         return content;
