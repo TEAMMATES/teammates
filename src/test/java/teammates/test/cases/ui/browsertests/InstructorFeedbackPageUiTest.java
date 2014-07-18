@@ -71,7 +71,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         newSession.instructions = new Text("Please fill in the new feedback session.");
         newSession.sentOpenEmail = false;
         newSession.sentPublishedEmail = false;
-        newSession.timeZone = 8;
+        newSession.timeZone = 8.0;
         newSession.feedbackSessionType = FeedbackSessionType.STANDARD;
         newSession.isOpeningEmailEnabled = true;
         newSession.isClosingEmailEnabled = true;
