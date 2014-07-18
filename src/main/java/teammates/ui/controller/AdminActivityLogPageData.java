@@ -19,6 +19,8 @@ public class AdminActivityLogPageData extends PageData {
     public String queryMessage;
     public List<ActivityLogEntry> logs;
     public List<String> versions;
+    
+    public String statusForAjax;
     private QueryParameters q;
     
 
@@ -249,7 +251,7 @@ public class AdminActivityLogPageData extends PageData {
         
         return actionString;
     }
-    
+       
     /**
      * QueryParameters inner class. Used only within this servlet, to hold the query data once it is parsed
      * The boolean variables determine if the specific label was within the query
