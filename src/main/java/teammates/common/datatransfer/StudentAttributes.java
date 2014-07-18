@@ -8,11 +8,13 @@ import java.util.Comparator;
 import java.util.List;
 
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.FieldValidator.FieldType;
+import teammates.common.util.Url;
 import teammates.storage.entity.Student;
 
 public class StudentAttributes extends EntityAttributes {
@@ -124,6 +126,14 @@ public class StudentAttributes extends EntityAttributes {
 
     public boolean isRegistered() {
         return googleId != null && !googleId.equals("");
+    }
+    
+    public String getRegistrationUrl() {
+        return new Url(Config.APP_URL + Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+                    .withRegistrationKey(StringHelper.encrypt(key))
+                    .withStudentEmail(email)
+                    .withCourseId(course)
+                    .toString();
     }
 
     public boolean isEnrollInfoSameAs(StudentAttributes otherStudent) {

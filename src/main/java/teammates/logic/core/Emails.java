@@ -991,12 +991,8 @@ public class Emails {
                 EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN);
 
         String joinUrl;
-        if (s != null) {
-            String key;
-            key = StringHelper.encrypt(s.key);
-    
-            joinUrl = Config.APP_URL + Const.ActionURIs.STUDENT_COURSE_JOIN;
-            joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, key);
+        if (s != null) {    
+            joinUrl = s.getRegistrationUrl();
         } else {
             joinUrl = "{The join link unique for each student appears here}";
         }

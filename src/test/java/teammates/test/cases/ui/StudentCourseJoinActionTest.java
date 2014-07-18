@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
@@ -29,6 +28,11 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
+        
+        StudentCourseJoinAction joinAction;
+        RedirectResult redirectResult;
+        String[] submissionParams;
+        
         StudentAttributes student1InCourse1 = dataBundle.students
                 .get("student1InCourse1");
         StudentsDb studentsDb = new StudentsDb();
@@ -41,40 +45,9 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
 
         verifyAssumptionFailure();
 
-        ______TS("invalid key");
-        String invalidKey = "invalid key";
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.REGKEY, invalidKey
-        };
-        try {
-            StudentCourseJoinAction joinAction = getAction(submissionParams);
-            joinAction.executeAndPostProcess();
-            signalFailureToDetectException(" - Unauthorised Exception");
-        } catch (UnauthorizedAccessException uae) {
-            assertEquals("No student with given registration key:" + invalidKey, uae.getMessage());
-        }
-
-        ______TS("already registered student");
-
-        submissionParams = new String[] {
-                Const.ParamsNames.REGKEY,
-                StringHelper.encrypt(student1InCourse1.key)
-        };
-
-        StudentCourseJoinAction joinAction = getAction(submissionParams);
-        RedirectResult redirectResult = getRedirectResult(joinAction);
-
-        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE
-                + "?" + Const.ParamsNames.REGKEY + "=" + StringHelper.encrypt(student1InCourse1.key)
-                + "&" + Const.ParamsNames.STUDENT_EMAIL + "=" + student1InCourse1.email.replace("@", "%40")
-                + "&" + Const.ParamsNames.ERROR + "=false"
-                + "&" + Const.ParamsNames.COURSE_ID + "=" + student1InCourse1.course,
-                redirectResult.getDestinationWithParams());
-        assertFalse(redirectResult.isError);
-        assertEquals("You are already a student of Course: " + student1InCourse1.course, redirectResult.getStatusMessage());
-
         ______TS("typical case");
         
+        String idOfNewStudent = "idOfNewStudent";
         StudentAttributes newStudentData = new StudentAttributes(
                 student1InCourse1.section,
                 student1InCourse1.team,
@@ -82,7 +55,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
                 "This is a new student", student1InCourse1.course);
         studentsDb.createEntity(newStudentData);
 
-        gaeSimulation.loginUser("idOfNewStudent");
+        gaeSimulation.loginUser(idOfNewStudent);
 
         String newStudentKey = StringHelper.encrypt(studentsDb.getStudentForEmail(
                 newStudentData.course, newStudentData.email).key);
@@ -101,14 +74,15 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         ShowPageResult pageResult = getShowPageResult(joinAction);
 
         assertEquals(Const.ViewURIs.STUDENT_COURSE_JOIN_CONFIRMATION
-                + "?" + Const.ParamsNames.STUDENT_EMAIL + "=" + newStudentData.email.replace("@", "%40")
                 + "&" + Const.ParamsNames.REGKEY + "=" + newStudentKey
                 + "&" + Const.ParamsNames.ERROR + "=false"
-                + "&" + Const.ParamsNames.COURSE_ID + "=" + newStudentData.course,
+                + "&" + Const.ParamsNames.USER_ID + "=" + idOfNewStudent,
                 pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
-        assertEquals(Const.ActionURIs.STUDENT_PROFILE_PAGE, 
-                ((StudentCourseJoinConfirmationPageData) pageResult.data).nextUrl);
+        assertEquals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED 
+                + "?" + Const.ParamsNames.NEXT_URL + "=" + Const.ActionURIs.STUDENT_PROFILE_PAGE
+                + "&" + Const.ParamsNames.REGKEY + "=" + newStudentKey, 
+                ((StudentCourseJoinConfirmationPageData) pageResult.data).confirmUrl);
         assertEquals("", pageResult.getStatusMessage());
         
         ______TS("skip confirmation");

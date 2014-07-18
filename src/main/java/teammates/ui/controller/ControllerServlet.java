@@ -1,7 +1,6 @@
 package teammates.ui.controller;
 
 import java.io.IOException;
-import java.sql.Time;
 import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;

@@ -21,6 +21,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
@@ -116,7 +117,7 @@ public abstract class Action {
             
         } else {
             loggedInUser = logic.getAccount(currentUser.id);
-            if (doesRegkeyMatchLoggedInUesrGoogleId(loggedInUser)) {
+            if (doesRegkeyMatchLoggedInUserGoogleId(currentUser.id)) {
                 loggedInUser = createDummyAccountIfUserIsUnregistered(currentUser, loggedInUser);
             }
         }
@@ -132,17 +133,20 @@ public abstract class Action {
         return loggedInUser;
     }
 
-    protected boolean doesRegkeyMatchLoggedInUesrGoogleId(
-            AccountAttributes loggedInUser) {
-        if(regkey != null && loggedInUser != null) {
+    protected boolean doesRegkeyMatchLoggedInUserGoogleId(
+            String loggedInUserId) {
+        if(regkey != null && loggedInUserId != null) {
             student = logic.getStudentForRegistrationKey(regkey);
             boolean isKnownKey = student != null;
-            if (isKnownKey && !loggedInUser.googleId.equals(student.googleId)) {
+            if (isKnownKey && student.isRegistered() && !loggedInUserId.equals(student.googleId)) {
+                String expectedId = StringHelper.obscure(student.googleId);
+                expectedId = StringHelper.encrypt(expectedId);
+                Url redirectUrl = new Url(Const.ViewURIs.LOGOUT)
+                                    .withParam(Const.ParamsNames.NEXT_URL, Logic.getLoginUrl(requestUrl))
+                                    .withParam(Const.ParamsNames.HINT, expectedId)
+                                    .withUserId(StringHelper.encrypt(loggedInUserId)); 
                 
-                setRedirectPage(Url.addParamToUrl(
-                    Const.ViewURIs.LOGOUT, 
-                    Const.ParamsNames.NEXT_URL, 
-                    Logic.getLoginUrl(requestUrl)));
+                setRedirectPage(redirectUrl.toString());
                 return false;
             }
         }
@@ -154,8 +158,8 @@ public abstract class Action {
         student = logic.getStudentForRegistrationKey(regkey);
         boolean isUnknownKey = student == null;
         boolean isARegisteredUser = !isUnknownKey && student.googleId != null && !student.googleId.isEmpty();
-        boolean isAuthenticationFailure = !isUnknownKey &&  (!student.email.equals(email) || !student.course.equals(courseId));
         boolean isMissingAdditionalAuthenticationInfo = email == null || courseId == null;
+        boolean isAuthenticationFailure = !isUnknownKey &&  (!student.email.equals(email) || !student.course.equals(courseId));
         
         AccountAttributes loggedInUser = null;
         
@@ -164,17 +168,21 @@ public abstract class Action {
         } else if (isARegisteredUser) {
             setRedirectPage(Logic.getLoginUrl(requestUrl));
             return null;
-        } else if (isMissingAdditionalAuthenticationInfo) {
+        } else if (isNotLegacyLink() && isMissingAdditionalAuthenticationInfo) {
             throw new UnauthorizedAccessException("Insufficient information to authenticate user");
-        } else if (isAuthenticationFailure) {
+        } else if (isNotLegacyLink() && isAuthenticationFailure) {
             throw new UnauthorizedAccessException("Invalid email/course for given Registration Key");
         } else {
-            // unregistered and not loggedin access given to page
+            // unregistered and not logged in access given to page
             loggedInUser = new AccountAttributes();
             loggedInUser.email = student.email;
         }
         
         return loggedInUser;
+    }
+
+    private boolean isNotLegacyLink() {
+        return !Const.SystemParams.LEGACY_PAGES_WITH_REDUCED_SECURITY.contains(request.getRequestURI());
     }
 
     private boolean doesUserNeedToLogin(UserType currentUser) {
@@ -194,14 +202,14 @@ public abstract class Action {
         AccountAttributes account = null;
         
         if (!isMasqueradeModeRequested(loggedInUser, paramRequestedUserId)) {
-            if (doesUserNeedRegistration(loggedInUser) && !loggedInUserType.isAdmin) {
+            account = loggedInUser;
+            if (doesUserNeedRegistration(account) && !loggedInUserType.isAdmin) {
                 if (regkey != null) {
                     // TODO: redirect to the Course Join Confirmation page based on 
                     //       current url link (ie check ins/stu from the url)
                 }
                 throw new UnauthorizedAccessException("Unregistered user for a page that needs one");
             }
-            account = loggedInUser;
         } else if (loggedInUserType.isAdmin) {
             //Allowing admin to masquerade as another user
             account = logic.getAccount(paramRequestedUserId);
@@ -279,10 +287,10 @@ public abstract class Action {
         }*/
         
         // Set the common parameters for the response
-        if (regkey == null) {
+        if (logic.getCurrentUser() != null) {
             response.responseParams.put(Const.ParamsNames.USER_ID, account.googleId);
-            response.responseParams.put(Const.ParamsNames.ERROR, ""+response.isError);
-        } else {
+        } 
+        if (regkey != null) {
             response.responseParams.put(Const.ParamsNames.REGKEY, regkey);
             
             if (student != null) {
@@ -294,8 +302,8 @@ public abstract class Action {
                 response.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, 
                         getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME));
             }
-            response.responseParams.put(Const.ParamsNames.ERROR, "" + response.isError);
         }
+        response.responseParams.put(Const.ParamsNames.ERROR, "" + response.isError);
         
         //Pass status message using session to prevent XSS attack
         if(!response.getStatusMessage().isEmpty()){
@@ -455,7 +463,7 @@ public abstract class Action {
     }
 
     protected boolean isInMasqueradeMode() {
-        return loggedInUser != null && !loggedInUser.googleId.equals(account.googleId);
+        return loggedInUser != null && account != null && !loggedInUser.googleId.equals(account.googleId);
     }
 
     private boolean isMasqueradeModeRequested(AccountAttributes loggedInUser, String requestedUserId) {
@@ -502,5 +510,9 @@ public abstract class Action {
         Assumption.assertNotNull("instructions is null when extracting evaluation data", newEval.instructions);
                 
         return newEval;
+    }
+    
+    protected void excludeStudentDetailsFromResponseParams() {
+        regkey = null;
     }
 }

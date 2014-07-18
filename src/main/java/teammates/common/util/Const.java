@@ -50,8 +50,8 @@ public class Const {
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
         
         public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Arrays.asList(
-            ActionURIs.AUTHENTICATE_STUDENT,
             ActionURIs.STUDENT_COURSE_JOIN,
+            ActionURIs.STUDENT_COURSE_JOIN_NEW,
             ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE,
             ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
             ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
@@ -64,6 +64,10 @@ public class Const {
             ActionURIs.STUDENT_HOME_PAGE,
             ActionURIs.INSTRUCTOR_COURSE_JOIN,
             ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
+        );
+        
+        public static final List<String> LEGACY_PAGES_WITH_REDUCED_SECURITY = Arrays.asList(
+                ActionURIs.STUDENT_COURSE_JOIN
         );
     }
 
@@ -438,6 +442,7 @@ public class Const {
         public static final String ERROR = "error";
         public static final String NEXT_URL = "next";
         public static final String USER_ID = "user";
+        public static final String HINT = "hint";
     
         public static final String LOGIN_ADMIN = "admin";
         public static final String LOGIN_INSTRUCTOR = "instructor";
@@ -520,7 +525,6 @@ public class Const {
         /* _PAGE/Page in the Action URI name means 'show page' */
     
         public static final String LOGIN = "/login";
-        public static final String AUTHENTICATE_STUDENT = "/studentAccess";
     
         public static final String INSTRUCTOR_HOME_PAGE = "/page/instructorHomePage";
         public static final String INSTRUCTOR_COURSES_PAGE = "/page/instructorCoursesPage";
@@ -602,6 +606,7 @@ public class Const {
         
         public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
         public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
+        public static final String STUDENT_COURSE_JOIN_NEW = "/page/studentCourseJoinAuthentication";
         public static final String STUDENT_COURSE_JOIN_AUTHENTICATED = "/page/studentCourseJoinAuthenticated";
         public static final String STUDENT_COMMENTS_PAGE = "/page/studentCommentsPage";
         public static final String STUDENT_COURSE_DETAILS_PAGE = "/page/studentCourseDetailsPage";

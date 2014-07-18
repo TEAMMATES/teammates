@@ -72,6 +72,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     private static void addUnregStudentToCourse1() throws Exception{
+        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.com");
         StudentAttributes student = new StudentAttributes();
         student.email = "student6InCourse1@gmail.com";
         student.name = "unregistered student6 In Course1";
@@ -1174,23 +1175,72 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
 
     @Test
-    public void StudentCourseJoin() throws Exception {
+    public void StudentCourseJoinLegacyLink() throws Exception {
         uri = Const.ActionURIs.STUDENT_COURSE_JOIN;
+        StudentAttributes unregStudent1 = dataBundle.students.get("student1InUnregisteredCourse");
+        String key = StudentsLogic.inst().getStudentForEmail(unregStudent1.course, unregStudent1.email).key;
         String[] submissionParams = new String[] {
-                Const.ParamsNames.REGKEY, "sample-key"
+                Const.ParamsNames.REGKEY, StringHelper.encrypt(key)
         };
         
-        verifyOnlyLoggedInUsersCanAccess(submissionParams);
+        verifyUnaccessibleWithoutLogin(submissionParams);
+        
+        unregStudent1.googleId = "";
+        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
+        verifyAccessibleForUnregisteredUsers(submissionParams);
+        
+        unregStudent1.googleId = "";
+        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
+        verifyAccessibleForStudents(submissionParams);
+        
+        unregStudent1.googleId = "";
+        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
+        verifyAccessibleForInstructorsOfOtherCourses(submissionParams);
+        
+        unregStudent1.googleId = "";
+        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
+    }
+
+    @Test
+    public void StudentCourseJoin() throws Exception {
+        uri = Const.ActionURIs.STUDENT_COURSE_JOIN_NEW;
+        StudentAttributes unregStudent1 = dataBundle.students.get("student1InUnregisteredCourse");
+        String key = StudentsLogic.inst().getStudentForEmail(unregStudent1.course, unregStudent1.email).key;
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.REGKEY, StringHelper.encrypt(key)
+        };
+        
+        verifyUnaccessibleWithoutLogin(submissionParams);
     }
 
     @Test
     public void StudentCourseJoinAuthenticated() throws Exception {
         uri = Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED;
+        StudentAttributes unregStudent1 = dataBundle.students.get("student1InUnregisteredCourse");
+        String key = StudentsLogic.inst().getStudentForEmail(unregStudent1.course, unregStudent1.email).key;
         String[] submissionParams = new String[] {
-                Const.ParamsNames.REGKEY, "sample-key"
+                Const.ParamsNames.REGKEY, StringHelper.encrypt(key),
+                Const.ParamsNames.NEXT_URL, "randomUrl"
         };
 
-        verifyOnlyLoggedInUsersCanAccess(submissionParams);
+        verifyUnaccessibleWithoutLogin(submissionParams);
+        
+        unregStudent1.googleId = "";
+        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
+        verifyAccessibleForUnregisteredUsers(submissionParams);
+        
+        unregStudent1.googleId = "";
+        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
+        verifyAccessibleForStudents(submissionParams);
+        
+        unregStudent1.googleId = "";
+        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
+        verifyAccessibleForInstructorsOfOtherCourses(submissionParams);
+        
+        unregStudent1.googleId = "";
+        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
     
     @Test

@@ -42,24 +42,14 @@
                             <a id="studentHelpLink" class='nav' href="/studentHelp.html" target="_blank">Help</a>
                         </li>
                     </ul>
-                    <% if (data.regkey == null) { %>
+                    <% if (data.account != null && data.account.googleId != null) { %>
                     <ul class="nav navbar-nav pull-right">
-                        <li><a class='nav logout' href="<%=Const.ViewURIs.LOGOUT%>">Logout
-                                <%
-                                    if(data.account.googleId.length() > Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH){
-                                %>
-                                (<span class="text-info" data-toggle="tooltip" data-placement="bottom" 
-                                        title="<%=data.account.googleId%>">
-                                        <%=PageData.truncate(data.account.googleId,Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH)%>
-                                </span>)
-                                <%
-                                    } else {
-                                %>
+                        <li>
+                            <a class='nav logout' href="<%=Const.ViewURIs.LOGOUT%>">Logout
                                 (<span class="text-info" data-toggle="tooltip" data-placement="bottom" 
                                         title="<%=data.account.googleId%>">
                                         <%=PageData.truncate(data.account.googleId,Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH)%>
                                  </span>)
-                                <%} %>
                             </a>
                         </li>
                     </ul>

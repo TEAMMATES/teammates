@@ -26,20 +26,29 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
             logic.joinCourseForStudent(regkey, account.googleId);
         } catch (JoinCourseException e) {
             // Does not sanitize for html to allow insertion of mailto link
-            setStatusForException(e, e.getMessage());
+            if (e.errorCode == Const.StatusCodes.INVALID_KEY) {
+                setStatusForException(e, String.format(e.getMessage(), requestUrl));
+            } else {
+                setStatusForException(e, e.getMessage());
+            }
+            nextUrl = Const.ActionURIs.STUDENT_HOME_PAGE;
+            excludeStudentDetailsFromResponseParams();
+            
+            return createRedirectResult(nextUrl);
         }
         
         final String studentInfo = "Action Student Joins Course"
                 + "<br/>Google ID: " + account.googleId
                 + "<br/>Key : " + regkey; 
+        RedirectResult response = createRedirectResult(nextUrl);
+        response.addResponseParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, getStudent().course);
+        excludeStudentDetailsFromResponseParams();
+        
         if(statusToAdmin != null && !statusToAdmin.trim().isEmpty()) {
             statusToAdmin += "<br/><br/>" + studentInfo;
         } else {
             statusToAdmin = studentInfo;
         }
-        
-        RedirectResult response = createRedirectResult(nextUrl);
-        response.addResponseParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, getStudent().course);    
         
         return response;
     }
@@ -48,7 +57,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         StudentAttributes student = getStudent();
         if (student == null) {
             log.info("Student object not found for regkey: " + regkey);
-            throw new UnauthorizedAccessException("Invalid regkey given: " + regkey);
+            throw new UnauthorizedAccessException("No student with given registration key:" + regkey);
         }
     }
 

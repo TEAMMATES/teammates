@@ -2,6 +2,7 @@ package teammates.test.cases.ui;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -290,7 +291,6 @@ public class BaseActionTest extends BaseComponentTestCase {
     protected void verifyOnlyStudentsOfTheSameCourseCanAccess(String[] submissionParams)
             throws Exception {
         verifyAccessibleWithoutLogin(submissionParams);
-        verifyUnaccessibleForUnregisteredUsers(submissionParams);
         verifyAccessibleForUnregisteredStudents(submissionParams);
         verifyUnaccessibleForStudentsOfOtherCourses(submissionParams);
         verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
@@ -314,7 +314,7 @@ public class BaseActionTest extends BaseComponentTestCase {
         
         ______TS("non-registered users can access");
         
-        String unregUserId = "unreg.user";
+        String unregUserId = "unreg1.user";
         
         InstructorAttributes instructor1OfCourse1 = data.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = data.students.get("student1InCourse1");
@@ -347,9 +347,9 @@ public class BaseActionTest extends BaseComponentTestCase {
         StudentAttributes otherStudent = data.students.get("student1InCourse2");
         
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
-        verifyCanAccess(submissionParams);
         verifyCannotMasquerade(addUserIdToParams(instructor1OfCourse1.googleId,submissionParams));
         verifyCannotMasquerade(addUserIdToParams(otherStudent.googleId,submissionParams));
+        verifyCanAccess(submissionParams);
         
     }
 
@@ -631,6 +631,7 @@ public class BaseActionTest extends BaseComponentTestCase {
      */
     protected void verifyCanAccess(String... params) throws Exception {
         Action c = gaeSimulation.getActionObject(uri, params);
+        assertTrue(c.isValidUser());
         c.executeAndPostProcess();
     }
 
@@ -640,6 +641,7 @@ public class BaseActionTest extends BaseComponentTestCase {
      */
     protected void verifyCanMasquerade(String... params) throws Exception {
         Action c = gaeSimulation.getActionObject(uri, params);
+        assertTrue(c.isValidUser());
         c.executeAndPostProcess();
     }
 
