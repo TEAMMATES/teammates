@@ -21,7 +21,10 @@ public class AdminActivityLogPageAction extends Action {
     private boolean includeAppLogs = true;
     private static final int LOGS_PER_PAGE = 50;
     private static final int MAX_LOGSEARCH_LIMIT = 15000;
-
+    
+    
+    
+    
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException{
         
@@ -32,6 +35,16 @@ public class AdminActivityLogPageAction extends Action {
         data.offset = getRequestParamValue("offset");
         data.pageChange = getRequestParamValue("pageChange");
         data.filterQuery = getRequestParamValue("filterQuery");
+        
+        
+        String ifShowAllAsString = getRequestParamValue("all");
+        if(ifShowAllAsString == null){
+            data.ifShowAll = false;
+        }else{           
+            data.ifShowAll = Boolean.parseBoolean(ifShowAllAsString);
+        }
+        
+        
         
         if(data.pageChange != null && !data.pageChange.equals("true")){
             //Reset the offset because we are performing a new search, so we start from the beginning of the logs
@@ -173,12 +186,14 @@ public class AdminActivityLogPageAction extends Action {
         //link for Next button, will fetch older logs
         if (totalLogsSearched >= MAX_LOGSEARCH_LIMIT){
             status += "<br><span class=\"red\">&nbsp;&nbsp;Maximum amount of logs per requst have been searched.</span><br>";
-            status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "');\">Search More</button>";
+            status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "','" + data.ifShowAll + "');\">Search More</button>";           
         }
         
         if (currentLogsInPage >= LOGS_PER_PAGE) {   
-            status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "');\">Older Logs </button>";
+            status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "','" + data.ifShowAll + "');\">Older Logs </button>";              
         }
+        
+        status += "<input id=\"ifShowAll\" type=\"hidden\" value=\""+ data.ifShowAll +"\"/>";
         
         data.statusForAjax = status;
         statusToUser.add(status);

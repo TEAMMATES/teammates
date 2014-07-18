@@ -398,6 +398,7 @@ public class ActivityLogEntry {
                + "<button type=\"submit\" class=\"btn " + getLogEntryActionsButtonClass() +  " btn-xs\">"
                + "<span class=\"glyphicon glyphicon-zoom-in\"></span>"
                + "</button> <input type=\"hidden\" name=\"filterQuery\" value=\"person:" + getId() + "\">"
+               + "<input class=\"ifShowAll_button_for_person\" type=\"hidden\" name=\"all\" value=\"false\">"
                + "</small> </h4> <div>" + getMessageInfo()
                + "</div> </form> </td> </tr>";      
         return result;

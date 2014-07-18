@@ -19,10 +19,15 @@ public class AdminActivityLogPageData extends PageData {
     public String queryMessage;
     public List<ActivityLogEntry> logs;
     public List<String> versions;
+    public Boolean ifShowAll;
     
     public String statusForAjax;
     private QueryParameters q;
     
+    /**
+     * this array stores the requests to be excluded from being shown in admin activity logs page
+     */
+    private static String[] excludedLogRequestURIs = {Const.ActionURIs.INSTRUCTOR_EVAL_STATS_PAGE};
 
     public AdminActivityLogPageData(AccountAttributes account) {
         super(account);
@@ -54,6 +59,29 @@ public class AdminActivityLogPageData extends PageData {
             this.queryMessage = "Error with the query: " + e.getMessage();
         }
     }
+    
+    
+    
+    /**
+     * check current log entry should be excluded as rubbish logs 
+     * returns false if the logEntry is regarded as rubbish
+     */   
+    private boolean shouldExcludeLogEntry(ActivityLogEntry logEntry){
+        
+        if(ifShowAll != null && ifShowAll == true){        
+            return false;
+        }
+        
+        for (String uri: excludedLogRequestURIs){
+            
+            if(uri.contains(logEntry.getServletName())){
+                return true;
+            }
+        }
+        
+        return false;        
+    }
+    
     
     
     /**
@@ -104,6 +132,10 @@ public class AdminActivityLogPageData extends PageData {
             if(!arrayContains(q.roleValues, logEntry.getRole())){
                 return false;
             }
+        }
+        
+        if(shouldExcludeLogEntry(logEntry)){
+            return false;
         }
         
         return true;

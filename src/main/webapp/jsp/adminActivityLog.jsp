@@ -157,7 +157,8 @@
                                                 <strong>
                                                     Possible Labels:</strong>&nbsp;from,
                                                 to, person, role,
-                                                request, response, version<br>
+                                                request, response,
+                                                version<br>
                                                 <ul>
 
                                                     <li>E.g. from:
@@ -185,15 +186,14 @@
                                                         Delete Course</li>
 
                                                     <li>E.g.
-                                                        version:
-                                                        4.15, 4.16</li>
+                                                        version: 4.15,
+                                                        4.16</li>
 
                                                     <li>E.g.
                                                         version: 4-15,
-                                                        4.16 (both "." 
-                                                        and "-"
-                                                        are acceptable)
-                                                    </li>
+                                                        4.16 (both "."
+                                                        and "-" are
+                                                        acceptable)</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -238,7 +238,8 @@
                                                 class="form-control-static">
                                                 <strong>
                                                     Possible Responses:
-                                                </strong> <br> <br> <div
+                                                </strong> <br> <br>
+                                            <div
                                                 class="table-responsive">
 
 
@@ -367,7 +368,6 @@
 
                                                             </ul>
                                                         </td>
-                                                
                                                 </table>
                                             </div>
 
@@ -381,18 +381,17 @@
 
                         </div>
 
-                        <input type="hidden" name="offset"
-                            value="<%=data.offset%>"> <input
-                                                    type="hidden"
-                                                    name="pageChange"
-                                                    value="false"></form>
+                        <input type="hidden" name="offset" value="<%=data.offset%>">
+                        <input type="hidden" name="pageChange"  value="false">
+                        <input type="hidden" name="all" value="<%=data.ifShowAll%>">
+                    </form>
 
 
-            
-                                                </div>
+
+                </div>
 
                 <%
-                    if (data.queryMessage != null) {
+                	if (data.queryMessage != null) {
                 %>
                 <div class="alert alert-danger" id="queryMessage">
                     <span class="glyphicon glyphicon-warning-sign"></span>
