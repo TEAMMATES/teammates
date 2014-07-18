@@ -1,13 +1,13 @@
   {
     "accounts":{
         "alice.b.tmms":{
-        "googleId": "alice.b.tmms",
+        "googleId": "alice.b.tmms.sampleData",
         "name": "Alice Betsy",
         "isInstructor":false,
         "email":"alice.b.tmms@gmail.com",
         "institute":"Cambridge University",      
         "studentProfile":{
-            "googleId": "alice.b.tmms",
+            "googleId": "alice.b.tmms.sampleData",
             "shortName": "Alice",
             "email":"alice@b.com",
             "institute":"NUS",
@@ -17,20 +17,20 @@
         }
         },
         "benny.c.tmms":{
-            "googleId": "benny.c.tmms",
+            "googleId": "benny.c.tmms.sampleData",
             "name": "Benny Charles",
             "isInstructor":false,
             "email":"benny.c.tmms@gmail.com",
             "institute":"Georgia Tech"
         },
         "danny.e.tmms": {
-            "googleId": "danny.e.tmms",
+            "googleId": "danny.e.tmms.sampleData",
             "name": "Danny Engrid",
             "isInstructor":false,
             "email":"danny.e.tmms@gmail.com",
             "institute":"SIM",      
             "studentProfile":{
-                "googleId": "danny.e.tmms",
+                "googleId": "danny.e.tmms.sampleData",
                 "shortName": "Danny",
                 "email": "danny@e.com",
                 "institute":"NTU",
@@ -40,13 +40,13 @@
             }
         },
         "emma.f.tmms": {
-            "googleId": "emma.f.tmms",
+            "googleId": "emma.f.tmms.sampleData",
             "name": "Emma Farrell",
             "isInstructor":false,
             "email":"emma.f.tmms@gmail.com",
             "institute":"NUS",      
             "studentProfile":{
-                "googleId": "emma.f.tmms",
+                "googleId": "emma.f.tmms.sampleData",
                 "shortName": "Emm",
                 "email": "emma@f.com",
                 "institute":"IIT",
@@ -65,20 +65,20 @@
           "section": "Tutorial Group 2"
         },
         "francis.g.tmms@demo.course": {
-          "googleId": "francis.g.tmms",
+          "googleId": "francis.g.tmms.sampleData",
           "name": "Francis Gabriel",
           "isInstructor":false,
           "email": "francis.g.tmms@gmail.com",
           "institute": "National University of Singapore"
         },
         "gene.h.tmms@demo.course": {
-          "googleId": "gene.h.tmms",
+          "googleId": "gene.h.tmms.sampleData",
           "name": "Gene Hudson",
           "isInstructor":false,
           "email": "gene.h.tmms@gmail.com",
           "institute":"University of Nigeria",
           "studentProfile":{
-                "googleId": "gene.h.tmms",
+                "googleId": "gene.h.tmms.sampleData",
                 "shortName": "Gene",
                 "email": "gene@h.com",
                 "institute":"NUS",
@@ -110,7 +110,7 @@
   
   "students": {
     "alice.b.tmms@demo.course": {
-      "googleId": "alice.b.tmms",
+      "googleId": "alice.b.tmms.sampleData",
       "email": "alice.b.tmms@gmail.com",
       "course": "demo.course",
       "name": "Alice Betsy",
@@ -119,7 +119,7 @@
       "section": "Tutorial Group 1"
     },
     "benny.c.tmms@demo.course": {
-      "googleId": "benny.c.tmms",
+      "googleId": "benny.c.tmms.sampleData",
       "email": "benny.c.tmms@gmail.com",
       "course": "demo.course",
       "name": "Benny Charles",
@@ -128,7 +128,7 @@
       "section": "Tutorial Group 1"
     },
      "danny.e.tmms@demo.course": {
-      "googleId": "danny.e.tmms",
+      "googleId": "danny.e.tmms.sampleData",
       "email": "danny.e.tmms@gmail.com",
       "course": "demo.course",
       "name": "Danny Engrid",
@@ -137,7 +137,7 @@
       "section": "Tutorial Group 1"
     },
     "emma.f.tmms@demo.course": {
-      "googleId": "emma.f.tmms",
+      "googleId": "emma.f.tmms.sampleData",
       "email": "emma.f.tmms@gmail.com",
       "course": "demo.course",
       "name": "Emma Farrell",
@@ -164,7 +164,7 @@
       "section": "Tutorial Group 2"
     },
     "francis.g.tmms@demo.course": {
-      "googleId": "francis.g.tmms",
+      "googleId": "francis.g.tmms.sampleData",
       "email": "francis.g.tmms@gmail.com",
       "course": "demo.course",
       "name": "Francis Gabriel",
@@ -173,7 +173,7 @@
       "section": "Tutorial Group 2"
     },
     "gene.h.tmms@demo.course": {
-      "googleId": "gene.h.tmms",
+      "googleId": "gene.h.tmms.sampleData",
       "email": "gene.h.tmms@gmail.com",
       "course": "demo.course",
       "name": "Gene Hudson",
