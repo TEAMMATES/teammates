@@ -47,8 +47,11 @@ public class AdminActivityLogPageAction extends Action {
         LogQuery query = buildQuery(data.offset, includeAppLogs, data.versions);
         data.logs = getAppLogs(query, data);
         
-        return createShowPageResult(Const.ViewURIs.ADMIN_ACTIVITY_LOG, data);
+        if(data.offset == null){
+            return createShowPageResult(Const.ViewURIs.ADMIN_ACTIVITY_LOG, data);
+        }
         
+        return createAjaxResult(Const.ViewURIs.ADMIN_ACTIVITY_LOG, data);
     }
     
     private LogQuery buildQuery(String offset, boolean includeAppLogs, List<String> versions) {
@@ -166,14 +169,19 @@ public class AdminActivityLogPageAction extends Action {
             }    
         }
         
-        statusToUser.add("Total logs searched: " + totalLogsSearched + "<br>");
+        String status="&nbsp;&nbsp;Total Logs gone through in last search: " + totalLogsSearched + "<br>";
         //link for Next button, will fetch older logs
         if (totalLogsSearched >= MAX_LOGSEARCH_LIMIT){
-            statusToUser.add("<br><span class=\"red\">Maximum amount of logs searched.</span><br>");
+            status += "<br><span class=\"red\">&nbsp;&nbsp;Maximum amount of logs per requst have been searched.</span><br>";
+            status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "');\">Search More</button>";
         }
-        if (currentLogsInPage >= LOGS_PER_PAGE) {            
-            statusToUser.add("<a href=\"#\" onclick=\"submitForm('" + lastOffset + "');\">Older</a>");
+        
+        if (currentLogsInPage >= LOGS_PER_PAGE) {   
+            status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "');\">Older Logs </button>";
         }
+        
+        data.statusForAjax = status;
+        statusToUser.add(status);
         
         return appLogs;
     }

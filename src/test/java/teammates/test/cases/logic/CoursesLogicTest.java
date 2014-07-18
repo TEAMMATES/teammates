@@ -1034,9 +1034,9 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         expectedCsvString = "Course ID,\"idOfTypicalCourse1\"" + Const.EOL  
                                  + "Course Name,\"Typical Course 1 with 2 Evals\"" + Const.EOL  
                                  + Const.EOL + Const.EOL 
-                                 + "Team,Student Name,Status,Email" + Const.EOL
-                                 + "\"Team 2.1\",\"student1 In Course2\",\"Joined\",\"student1InCourse2@gmail.com\"" + Const.EOL
-                                 + "\"Team 2.1\",\"student2 In Course2\",\"Joined\",\"student2InCourse2@gmail.com\"" + Const.EOL;
+                                 + "Team,First Name,Last Name,Status,Email" + Const.EOL
+                                 + "\"Team 2.1\",\"student1 In\",\"Course2\",\"Joined\",\"student1InCourse2@gmail.com\"" + Const.EOL
+                                 + "\"Team 2.1\",\"student2 In\",\"Course2\",\"Joined\",\"student2InCourse2@gmail.com\"" + Const.EOL;
 
         ______TS("Typical case: course with unregistered student");
 

@@ -164,7 +164,7 @@ public class StudentHomePageData extends PageData {
                             eval.name) + "\" "
                     + "data-toggle=\"tooltip\" data-placement=\"top\""
                     + "title=\"" + Const.Tooltips.EVALUATION_SUBMIT + "\">"
-                    + "Submit</a>";
+                    + "Start Submission</a>";
         }
         
         
@@ -237,7 +237,7 @@ public class StudentHomePageData extends PageData {
                     + "data-toggle=\"tooltip\" data-placement=\"top\""
                     + "title=\"" + (fs.isWaitingToOpen() ? Const.Tooltips.FEEDBACK_SESSION_AWAITING :
                         Const.Tooltips.FEEDBACK_SESSION_SUBMIT) + "\""
-                    + "role=\"button\">Submit</a>";    
+                    + "role=\"button\">Start Submission</a>";    
         }
         // @formatter:off
         
