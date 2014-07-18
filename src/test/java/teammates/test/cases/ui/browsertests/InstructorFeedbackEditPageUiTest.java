@@ -26,7 +26,6 @@ import teammates.test.pageobjects.FeedbackQuestionSubmitPage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
-import teammates.test.util.Priority;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -34,7 +33,6 @@ import com.google.appengine.api.datastore.Text;
  * Covers the 'Edit Feedback Session' page for instructors.
  * SUT is {@link InstructorFeedbackEditPage}.
  */
-@Priority(-1)
 public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorFeedbackEditPage feedbackEditPage;
@@ -62,7 +60,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         courseId = testData.courses.get("course").id;
         feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
 
-        browser = BrowserPool.getBrowser(true);
+        browser = BrowserPool.getBrowser();
     }
 
     @Test
@@ -302,7 +300,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("MCQ: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer)");
+        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
         feedbackEditPage.clickNewQuestionButton();
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
     }
@@ -318,13 +316,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.fillQuestionBox("Test question text");
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals("Too little choices for Multiple-choice (single answer). Minimum number of options is: 2.", feedbackEditPage.getStatus());
+        assertEquals("Too little choices for Multiple-choice (single answer) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
         
     }
 
     private void testCustomizeMcqOptions() {
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer)");
+        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
         feedbackEditPage.clickNewQuestionButton();
         
         feedbackEditPage.fillMcqOption(0, "Choice 1");
@@ -444,7 +442,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("MSQ: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers)");
+        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers) question");
         feedbackEditPage.clickNewQuestionButton();
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
     }
@@ -460,13 +458,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.fillQuestionBox("Test question text");
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals("Too little choices for Multiple-choice (multiple answers). Minimum number of options is: 2.", feedbackEditPage.getStatus());
+        assertEquals("Too little choices for Multiple-choice (multiple answers) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
         
     }
 
     private void testCustomizeMsqOptions() {
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers)");
+        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers) question");
         feedbackEditPage.clickNewQuestionButton();
         
         feedbackEditPage.fillMsqOption(0, "Choice 1");

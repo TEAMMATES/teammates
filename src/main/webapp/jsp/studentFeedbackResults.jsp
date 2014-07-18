@@ -106,8 +106,8 @@
             %>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h4>Question <%=qnIndx%>: <%=StudentFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText)%>
-                        <%=questionDetails.getQuestionAdditionalInfoHtml(qnIndx, "")%></h4>
+                        <h4>Question <%=qnIndx%>: <span class="text-preserve-space"><%=StudentFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText)%>
+                        <%=questionDetails.getQuestionAdditionalInfoHtml(qnIndx, "")%></span></h4>
                         <%=
                             questionDetails.getQuestionResultStatisticsHtml(questionWithResponses
                                     .getValue(), question, data.account, data.bundle, "student")

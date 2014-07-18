@@ -303,6 +303,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         html += FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS,
                 "${contribFragments}", contribFragments,
+                "${Const.Tooltips.CLAIMED}", Const.Tooltips.CLAIMED,
+                "${Const.Tooltips.PERCEIVED}", Const.Tooltips.PERCEIVED,
                 "${Const.Tooltips.EVALUATION_POINTS_RECEIVED}", Const.Tooltips.EVALUATION_POINTS_RECEIVED,
                 "${Const.Tooltips.EVALUATION_DIFF}", Const.Tooltips.EVALUATION_DIFF);
 

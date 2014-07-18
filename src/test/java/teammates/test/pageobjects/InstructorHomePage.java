@@ -79,10 +79,11 @@ public class InstructorHomePage extends AppPage {
         return changePageType(InstructorCourseEditPage.class);
     }
     
-    public InstructorEvalsPage clickCourseAddEvaluationLink(String courseId) {
+    //TODO: rename course-add-eval-for-test
+    public InstructorFeedbacksPage clickCourseAddEvaluationLink(String courseId) {
         getCourseLinkInRow("course-add-eval-for-test", getCourseRowId(courseId)).click();
         waitForPageToLoad();
-        return changePageType(InstructorEvalsPage.class);
+        return changePageType(InstructorFeedbacksPage.class);
     }
     
     public InstructorEvalResultsPage clickSessionViewResultsLink(String courseId, String evalName) {
