@@ -4,6 +4,8 @@
 
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
+<%@ page import="java.util.Set" %>
+<%@ page import="teammates.common.datatransfer.FeedbackParticipantType" %>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.Sanitizer"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
@@ -145,6 +147,54 @@
                     </div>
                 <%
                     int fsIndx = 0;
+                    Set<String> emailList = data.feedbackResponseCommentSearchResultBundle.instructorEmails;
+                  
+                    for (String fsName : data.feedbackResponseCommentSearchResultBundle.questions.keySet()) {
+                        List<FeedbackQuestionAttributes> questionList = data.feedbackResponseCommentSearchResultBundle.questions.get(fsName);
+                        for(int i = questionList.size() - 1; i >= 0; i--) {
+                                FeedbackQuestionAttributes question = questionList.get(i);
+                                List<FeedbackResponseAttributes> responseList = data.feedbackResponseCommentSearchResultBundle.responses.get(question.getId());
+                                for(int j = responseList.size() - 1; j >= 0; j--){
+                                    FeedbackResponseAttributes feedbackResponse = responseList.get(j);
+                                    List<FeedbackResponseCommentAttributes> commentList = data.feedbackResponseCommentSearchResultBundle.comments.get(feedbackResponse.getId());
+                                    for(int k = commentList.size() - 1;  k >= 0; k--){
+                                        FeedbackResponseCommentAttributes comment = commentList.get(k);
+                                        if(emailList.contains(comment.giverEmail)){
+                                            continue;
+                                        }
+                                        boolean isVisibilityFollowingFeedbackQuestion = comment.isVisibilityFollowingFeedbackQuestion;
+                                        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion? true: comment.isVisibleTo(FeedbackParticipantType.GIVER);
+                                        if(isVisibleToGiver && emailList.contains(feedbackResponse.giverEmail)){
+                                            continue;
+                                        }
+                                        boolean isVisibleToReceiver = isVisibilityFollowingFeedbackQuestion? 
+                                                    question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER): 
+                                                        comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
+                                        if(isVisibleToReceiver && emailList.contains(feedbackResponse.recipientEmail)){
+                                            continue;
+                                        }
+                                        boolean isVisibleToInstructor = isVisibilityFollowingFeedbackQuestion? 
+                                                    question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS): 
+                                                        comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+                                        if(isVisibleToInstructor){
+                                            continue;
+                                        }
+
+                                        commentList.remove(k);
+                                    }
+                                    if(commentList.size() == 0){
+                                        responseList.remove(j);
+                                    }
+                                }
+                                if(responseList.size() == 0){
+                                    questionList.remove(i);
+                                }
+                            }
+                        if(questionList.size() == 0){
+                            data.feedbackResponseCommentSearchResultBundle.questions.remove(fsName);
+                        }
+                    }
+
                     for (String fsName : data.feedbackResponseCommentSearchResultBundle.questions.keySet()) {//FeedbackSession loop starts
                         List<FeedbackQuestionAttributes> questionList = data.feedbackResponseCommentSearchResultBundle.questions.get(fsName);
                         fsIndx++;
