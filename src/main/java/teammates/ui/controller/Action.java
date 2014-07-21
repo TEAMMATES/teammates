@@ -112,9 +112,8 @@ public abstract class Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         
         if (currentUser == null) {
-            if(regkey == null) throw new UnauthorizedAccessException("Not loggedin and no regkey given");
+            Assumption.assertNotNull(regkey);
             loggedInUser = authenticateNotLoggedInUser(email, courseId);
-            
         } else {
             loggedInUser = logic.getAccount(currentUser.id);
             if (doesRegkeyMatchLoggedInUserGoogleId(currentUser.id)) {
@@ -188,8 +187,9 @@ public abstract class Action {
     private boolean doesUserNeedToLogin(UserType currentUser) {
         boolean userNeedsGoogleAccountForPage = !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
         boolean userIsNotLoggedIn = currentUser == null;
+        boolean noRegkeyGiven = getRequestParamValue(Const.ParamsNames.REGKEY) == null;
         
-        if (userIsNotLoggedIn && userNeedsGoogleAccountForPage) {
+        if (userIsNotLoggedIn && (userNeedsGoogleAccountForPage || noRegkeyGiven)) {
             setRedirectPage(Logic.getLoginUrl(requestUrl));
             return true;
         }
@@ -463,7 +463,11 @@ public abstract class Action {
     }
 
     protected boolean isInMasqueradeMode() {
-        return loggedInUser != null && account != null && !loggedInUser.googleId.equals(account.googleId);
+        try { 
+            return !loggedInUser.googleId.equals(account.googleId);
+        } catch (NullPointerException e) {
+            return false;
+        }
     }
 
     private boolean isMasqueradeModeRequested(AccountAttributes loggedInUser, String requestedUserId) {

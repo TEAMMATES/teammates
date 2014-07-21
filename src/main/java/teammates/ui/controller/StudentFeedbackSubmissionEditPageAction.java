@@ -19,7 +19,7 @@ import teammates.logic.api.GateKeeper;
 public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionEditPageAction {
     @Override
     protected boolean isSpecificUserJoinedCourse() {
-        if (regkey != null) {
+        if (student != null) {
             return student.course.equals(courseId);
         } else {
             return isJoinedCourse(courseId, account.googleId);
@@ -36,7 +36,7 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
 
     @Override
     protected String getUserEmailForCourse() {
-        if (regkey != null) {
+        if (student != null) {
             return student.email;
         } else {
             return getStudent().email;

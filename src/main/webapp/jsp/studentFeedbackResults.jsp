@@ -5,6 +5,7 @@
 <%@ page import="java.util.ListIterator"%>
 <%@ page import="teammates.common.util.Assumption"%>
 <%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.util.Url"%>
 <%@ page import="teammates.common.datatransfer.AccountAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
@@ -58,9 +59,15 @@
             <div id="topOfPage"></div>
             <h1>Feedback Results - Student</h1>
             <br />
-            <% if (data.regkey != null) { %>
+            <% if (data.regkey != null) { 
+                    String joinUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+                                .withRegistrationKey(request.getParameter(Const.ParamsNames.REGKEY))
+                                .withStudentEmail(request.getParameter(Const.ParamsNames.STUDENT_EMAIL))
+                                .withCourseId(request.getParameter(Const.ParamsNames.COURSE_ID))
+                                .toString();
+            %>
                 <div id="registerMessage" class="alert alert-danger">
-                    <%=Const.StatusMessages.UNREGISTERED_STUDENT%>
+                    <%=String.format(Const.StatusMessages.UNREGISTERED_STUDENT, joinUrl)%>
                 </div>
             <% } %>
             <div class="well well-plain">

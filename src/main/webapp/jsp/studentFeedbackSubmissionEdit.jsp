@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.util.Url"%>
 <%@ page import="teammates.ui.controller.FeedbackSubmissionEditPageData"%>
 <%
     FeedbackSubmissionEditPageData data = (FeedbackSubmissionEditPageData)request.getAttribute("data");
@@ -52,14 +53,19 @@
         <div id="topOfPage"></div>
         <h1>Submit Feedback</h1>
         <br />
-        <% if (data.account == null) { %>
-            <div id="registerMessage" class="alert alert-danger">
-                <%=Const.StatusMessages.UNREGISTERED_STUDENT%>
+        <% if (data.account.googleId == null) { 
+                String joinUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+                                .withRegistrationKey(request.getParameter(Const.ParamsNames.REGKEY))
+                                .withStudentEmail(request.getParameter(Const.ParamsNames.STUDENT_EMAIL))
+                                .withCourseId(request.getParameter(Const.ParamsNames.COURSE_ID))
+                                .toString();
+        %>
+            <div id="registerMessage" class="alert alert-info">
+                <%=String.format(Const.StatusMessages.UNREGISTERED_STUDENT, joinUrl)%>
             </div>
         <% } %>
         <form method="post" name="form_student_submit_response"
               action="<%=Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE %>" >
-            
             <jsp:include page="<%=Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT%>" />
             
             <div class="bold align-center">
@@ -79,7 +85,7 @@
                 } 
             %>
             </div>
-            <br><br>    
+            <br><br>
         </form>
     </div></div>
 

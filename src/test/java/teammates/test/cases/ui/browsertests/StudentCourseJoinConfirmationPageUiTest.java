@@ -3,7 +3,6 @@ package teammates.test.cases.ui.browsertests;
 import java.lang.reflect.Constructor;
 
 import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
 
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterClass;
@@ -45,10 +44,78 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     public void testAll() throws Exception {
         
         testContent();
-        testJoinConfirmation();     
+        testJoinNewConfirmation();
+        // TODO: remove this test by 21/09/2014
+        testJoinConfirmation();
     }
     
     
+    private void testJoinNewConfirmation() {
+        String expectedMsg;
+        String joinActionUrl = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.STUDENT_COURSE_JOIN_NEW;
+        String homePageActionUrl = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.STUDENT_HOME_PAGE;
+        String joinLink;
+        StudentHomePage studentHomePage;
+        
+        ______TS("click join link, skips confirmation and asks for login");
+
+        String courseId = testData.courses.get("SCJConfirmationUiT.CS2104").id;
+        String studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2104").email;
+        joinLink = new Url(joinActionUrl)
+                        .withRegistrationKey(BackDoor.getKeyForStudent(courseId, studentEmail))
+                        .withCourseId(courseId)
+                        .withStudentEmail(studentEmail)
+                        .toString();
+        
+        browser.driver.get(joinLink);
+        studentHomePage = createCorrectLoginPageType(browser.driver.getPageSource())
+                           .loginAsStudent(TestProperties.inst().TEST_STUDENT1_ACCOUNT,
+                                                  TestProperties.inst().TEST_STUDENT1_PASSWORD);
+        studentHomePage.verifyStatus(
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, courseId));
+        
+        ______TS("test student confirmation page content");
+        
+        courseId = testData.courses.get("SCJConfirmationUiT.CS2103").id;
+        studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2103").email;
+        joinLink = Url.addParamToUrl(joinActionUrl,Const.ParamsNames.REGKEY,
+                BackDoor.getKeyForStudent(courseId, studentEmail));
+        
+        browser.driver.get(joinLink);
+        confirmationPage = createNewPage(browser, StudentCourseJoinConfirmationPage.class);
+        // this test uses accounts from test.properties
+        confirmationPage.verifyHtml("/studentCourseJoinConfirmationHTML.html");
+        
+        ______TS("Cancelling goes to login page");
+        createCorrectLoginPageType(confirmationPage.clickCancelButtonAndGetSourceOfDestination());
+        
+        ______TS("Confirming goes to home page");
+        browser.driver.get(homePageActionUrl);
+        studentHomePage = createCorrectLoginPageType(browser.driver.getPageSource())
+                            .loginAsStudent(TestProperties.inst().TEST_STUDENT1_ACCOUNT,
+                                       TestProperties.inst().TEST_STUDENT1_PASSWORD);
+        browser.driver.get(joinLink);
+        confirmationPage = createNewPage(browser, StudentCourseJoinConfirmationPage.class);
+        confirmationPage.clickConfirmButton();
+        studentHomePage = createNewPage(browser, StudentHomePage.class);
+        studentHomePage.verifyStatus(
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, courseId));
+
+        ______TS("already joined, no confirmation page");
+
+        browser.driver.get(joinLink);
+        confirmationPage = createNewPage(browser, StudentCourseJoinConfirmationPage.class);
+        confirmationPage.clickConfirmButton();
+        
+        studentHomePage = createNewPage(browser, StudentHomePage.class);
+        expectedMsg = "You (" + TestProperties.inst().TEST_STUDENT1_ACCOUNT + ") have already joined this course";
+        studentHomePage.verifyStatus(expectedMsg);
+
+        assertTrue(browser.driver.getCurrentUrl().contains(Const.ParamsNames.ERROR + "=true"));
+        studentHomePage.logout();
+    }
+
+
     private void testContent(){
         
         /*covered in testJoinConfirmation() 
@@ -58,33 +125,14 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
      
     
     private void testJoinConfirmation() throws Exception {
-
-        ______TS("click join link then cancel");
-
+        restoreTestDataOnServer(testData);
+        String expectedMsg;
         String joinActionUrl = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.STUDENT_COURSE_JOIN;
-
-        String joinLink = Url.addParamToUrl(joinActionUrl, Const.ParamsNames.REGKEY, "ThisIsAnInvalidKey");
-
-        browser.driver.get(joinLink);
-        confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
-                           .loginAsJoiningStudent(TestProperties.inst().TEST_STUDENT1_ACCOUNT,
-                                                  TestProperties.inst().TEST_STUDENT1_PASSWORD);
-        confirmationPage.clickCancelButton();
-        assertEquals(TestProperties.inst().TEAMMATES_URL + "/index.html", browser.driver.getCurrentUrl());
-
-        ______TS("click join link then confirm: fail: invalid key");
-
-        browser.driver.get(joinLink);
-        confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
-                           .loginAsJoiningStudent(TestProperties.inst().TEST_STUDENT1_ACCOUNT,
-                                                   TestProperties.inst().TEST_STUDENT1_PASSWORD);
-        StudentHomePage studentHome = confirmationPage.clickConfirmButton();
-        String expectedMsg = "You have used an invalid join link: /page/studentCourseJoin?regkey=ThisIsAnInvalidKey";     
-        studentHome.verifyStatus(expectedMsg);
-        assertTrue(browser.driver.getCurrentUrl().contains(TestProperties.inst().TEST_STUDENT1_ACCOUNT));
-        studentHome.logout();
-
-        ______TS("click join link then confirm: success: valid key");
+        String homePageActionUrl = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.STUDENT_HOME_PAGE;
+        String joinLink;
+        StudentHomePage studentHomePage;
+        
+        ______TS("click join link, skips confirmation and asks for login");
 
         String courseId = testData.courses.get("SCJConfirmationUiT.CS2104").id;
         String studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2104").email;
@@ -92,28 +140,53 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
                                      BackDoor.getKeyForStudent(courseId, studentEmail));
         
         browser.driver.get(joinLink);
-        confirmationPage = createCorrectLoginPageType(browser.driver.getPageSource())
-                           .loginAsJoiningStudent(TestProperties.inst().TEST_STUDENT1_ACCOUNT,
+        studentHomePage = createCorrectLoginPageType(browser.driver.getPageSource())
+                           .loginAsStudent(TestProperties.inst().TEST_STUDENT1_ACCOUNT,
                                                   TestProperties.inst().TEST_STUDENT1_PASSWORD);
-        //test content here to make test finish faster
-        ______TS("test student confirmation page content");
-        // this test uses accounts from test.properties
-        confirmationPage.verifyHtmlMainContent("/studentCourseJoinConfirmationHTML.html");
+        studentHomePage.verifyStatus(
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, courseId));
         
-        studentHome = confirmationPage.clickConfirmButton();
-        expectedMsg = "";
-        studentHome.verifyStatus(expectedMsg);
+        
+        ______TS("test student confirmation page content");
+        
+        courseId = testData.courses.get("SCJConfirmationUiT.CS2103").id;
+        studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2103").email;
+        joinLink = Url.addParamToUrl(joinActionUrl,Const.ParamsNames.REGKEY,
+                BackDoor.getKeyForStudent(courseId, studentEmail));
+        
+        browser.driver.get(joinLink);
+        confirmationPage = createNewPage(browser, StudentCourseJoinConfirmationPage.class);
+        // this test uses accounts from test.properties
+        System.setProperty("godmode", "true");
+        confirmationPage.verifyHtml("/studentCourseJoinConfirmationHTML.html");
+        System.clearProperty("godmode");
+        
+        ______TS("Cancelling goes to login page");
+        createCorrectLoginPageType(confirmationPage.clickCancelButtonAndGetSourceOfDestination());
+        
+        ______TS("Confirming goes to home page");
+        browser.driver.get(homePageActionUrl);
+        studentHomePage = createCorrectLoginPageType(browser.driver.getPageSource())
+                            .loginAsStudent(TestProperties.inst().TEST_STUDENT1_ACCOUNT,
+                                       TestProperties.inst().TEST_STUDENT1_PASSWORD);
+        browser.driver.get(joinLink);
+        confirmationPage = createNewPage(browser, StudentCourseJoinConfirmationPage.class);
+        confirmationPage.clickConfirmButton();
+        studentHomePage = createNewPage(browser, StudentHomePage.class);
+        studentHomePage.verifyStatus(
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, courseId));
 
         ______TS("already joined, no confirmation page");
 
         browser.driver.get(joinLink);
-
-        studentHome = createNewPage(browser, StudentHomePage.class);
-        expectedMsg = TestProperties.inst().TEST_STUDENT1_ACCOUNT + " has already joined this course";
-        studentHome.verifyStatus(expectedMsg);
+        confirmationPage = createNewPage(browser, StudentCourseJoinConfirmationPage.class);
+        confirmationPage.clickConfirmButton();
+        
+        studentHomePage = createNewPage(browser, StudentHomePage.class);
+        expectedMsg = "You (" + TestProperties.inst().TEST_STUDENT1_ACCOUNT + ") have already joined this course";
+        studentHomePage.verifyStatus(expectedMsg);
 
         assertTrue(browser.driver.getCurrentUrl().contains(Const.ParamsNames.ERROR + "=true"));
-        
     }
 
     @AfterClass

@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+import teammates.common.exception.PageNotFoundException;
 import teammates.common.util.Utils;
 
 /**
@@ -131,6 +132,9 @@ public class ActionFactory {
         log.info("URL received :" + url);
         
         String uri = req.getRequestURI();
+        if (uri.contains(";")) {
+            uri = uri.split(";")[0];
+        }
         Action c = getAction(uri);
         c.init(req);
         return c;
@@ -141,7 +145,7 @@ public class ActionFactory {
         Class<? extends Action> controllerClass = actionMappings.get(uri);
         
         if(controllerClass == null){
-            return new NonExistentAction();
+            throw new PageNotFoundException(uri);
         }
         
         try {
@@ -151,8 +155,6 @@ public class ActionFactory {
         }
         
     }
-
-
 
     private static void map(String actionUri, Class<? extends Action> actionClass) {
         actionMappings.put(actionUri, actionClass);

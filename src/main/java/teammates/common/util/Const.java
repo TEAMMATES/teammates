@@ -914,6 +914,7 @@ public class Const {
         
         // Messages that are templates only
         /** Template String. Parameters: Student's name, Evaluation name, Course ID */
+        public static final String STUDENT_COURSE_JOIN_SUCCESSFUL = "You have been successfully added to the course (%s).";
         public static final String INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED = "You have edited %s's submission for evaluation %s in course %s successfully.<br />"
                 + "The change will not be reflected here until you <span class='color_red bold'>REFRESH</span> the page.";
         /** Template String. Parameters: Evaluation name, Course ID */
@@ -928,7 +929,8 @@ public class Const {
         public static final String STUDENT_NOT_JOINED_YET_FOR_RECORDS = "This student has not joined the course yet or you are not supposed to view his/her profile";
         
         public static final String UNREGISTERED_STUDENT = "You may submit feedback and view results without logging in. "
-                + "To access other features you need to login using a google account (recommended).";
+                + "To access other features you need <a href='%s' class='link'>to login using a google account</a> "
+                + "(recommended).";
     }
 
     /* These indicate status of an operation, but they are not shown to the user */

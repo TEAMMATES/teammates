@@ -50,6 +50,9 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
             statusToAdmin = studentInfo;
         }
         
+        statusToUser.add(String.format(
+                Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, getStudent().course));
+        
         return response;
     }
 
