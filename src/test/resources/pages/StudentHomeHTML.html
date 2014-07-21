@@ -1,223 +1,88 @@
-<html>
-  <head>
-     <link href="/favicon.png"  rel="shortcut icon" />
-              <meta content="text/html; charset=UTF-8"  http-equiv="Content-Type" />
-              <meta content="width=device-width, initial-scale=1.0"  name="viewport" />
-              <title>
-        TEAMMATES - Student
-     </title>
-     <link href="/bootstrap/css/bootstrap.min.css"  rel="stylesheet"  type="text/css" />
-              <link href="/bootstrap/css/bootstrap-theme.min.css"  rel="stylesheet"  type="text/css" />
-              <link href="/stylesheets/teammatesCommon.css"  rel="stylesheet"  type="text/css" />
-              <script async=""  src="https://ssl.google-analytics.com/ga.js"  type="text/javascript" >
-     </script>
-     <script src="/js/googleAnalytics.js"  type="text/javascript" >
-     </script>
-     <script src="/js/jquery-minified.js"  type="text/javascript" >
-     </script>
-     <script src="/js/common.js"  type="text/javascript" >
-     </script>
-     <script src="/bootstrap/js/bootstrap.min.js" >
-     </script>
-     <script src="/js/student.js"  type="text/javascript" >
-     </script>
-     <script src="/js/studentHome.js"  type="text/javascript" >
-     </script>
-     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-      <![endif]-->
-  </head>
-  <body>
-     <div class="navbar navbar-inverse navbar-fixed-top"  role="navigation" >
-        <div class="container" >
-           <div class="navbar-header" >
-              <button class="navbar-toggle"  data-target="#contentLinks"  data-toggle="collapse"  type="button" >
-                 <span class="sr-only" >
-                    Toggle navigation
-                 </span>
-                 <span class="icon-bar" >
-                 </span>
-                 <span class="icon-bar" >
-                 </span>
-                 <span class="icon-bar" >
-                 </span>
-              </button>
-              <a class="navbar-brand"  href="/index.html" >
-                 TEAMMATES
-              </a>
-           </div>
-           <div class="collapse navbar-collapse"  id="contentLinks" >
-              <ul class="nav navbar-nav" >
-                 <li class="active">
-                        <a data-link="studentHome" href="/page/studentHomePage?user={$test.student1}" id="studentHomeLink">
-                           Home
-                        </a>
-                     </li>
-                     <li class="">
-                        <a data-link="studentProfilePage" href="/page/studentProfilePage?user={$test.student1}" id="studentProfileLink">
-                           Profile
-                        </a>
-                     </li>
-                     <li class="">
-                        <a class="nav" href="/studentHelp.html" id="studentHelpLink" target="_blank">
-                           Help
-                        </a>
-                     </li>
-              </ul>
-              <ul class="nav navbar-nav pull-right" >
-                 <li>
-                    <a class="nav logout"  href="/logout.jsp" >
-                           Logout
-                                
-                                (
-                       <span class="text-info"  data-original-title="{$test.student1}"  data-placement="bottom"  data-toggle="tooltip"  title="" >
-                          {$test.student1}
-                       </span>
-                       )
-                    </a>
-                 </li>
-              </ul>
-           </div>
-        </div>
-     </div>
-     <div id="frameBodyWrapper" class="container theme-showcase" >
-        <div id="topOfPage" >
-        </div>
-       <h2>
-          Student Home
-       </h2>
-       <div id="statusMessage"  style="display: none;" >
-       </div>
-       <br/>
-                      <div class="panel panel-primary" >
-          <div class="panel-heading" >
-             <strong>
+<div id="frameBodyWrapper" class="container theme-showcase">
+        <div id="topOfPage"></div>
+        <h2>Student Home</h2>
+
+        
+
+
+
+
+    <div id="statusMessage" style="display: none;"></div>
+
+        <br>
+
+        
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <strong>
                 [SHomeUiT.CS1101] : Programming Methodology
-             </strong>
-             <span class="pull-right" >
-                <a class="btn btn-primary btn-xs"  data-original-title="View and edit information regarding your team"  data-placement="top"  data-toggle="tooltip"  href="/page/studentCourseDetailsPage?user={$test.student1}&courseid=SHomeUiT.CS1101"  title="" >
-                   View Team
-                </a>
-             </span>
-          </div>
-          <table class="table-responsive table table-striped" >
-             <thead>
-                <tr>
-                   <th>
-                      Session Name
-                   </th>
-                   <th>
-                      Deadline
-                   </th>
-                   <th>
-                      Status
-                   </th>
-                   <th class="studentHomeActions" >
-                      Action(s)
-                   </th>
-                </tr>
-             </thead>
-             <tbody>
-                <tr id="evaluation0" >
-                   <td>
-                      Third Eval
-                   </td>
-                   <td>
-                      02 Apr 2012, 23:59
-                   </td>
-                   <td>
-                      <span data-original-title="The evaluation has finished but the instructor has not published the results yet"  data-placement="top"  data-toggle="tooltip"  title="" >
-                         Closed
-                      </span>
-                   </td>
-                   <td class="studentHomeActions" >
-                      <a class="btn btn-default btn-xs btn-tm-actions disabled"  data-original-title="View the current results of the evaluation"  data-placement="top"  data-toggle="tooltip"  href="/page/studentEvalResultsPage?user={$test.student1}&courseid=SHomeUiT.CS1101&evaluationname=Third+Eval"  id="viewEvaluationResults0"  name="viewEvaluationResults0"  onclick="return false"  role="button"  title="" >
-                         View Results
-                      </a>
-                      <a class="btn btn-default btn-xs btn-tm-actions"  data-original-title="Edit submitted evaluation"  data-placement="top"  data-toggle="tooltip"  href="/page/studentEvalSubmissionEditPage?user={$test.student1}&courseid=SHomeUiT.CS1101&evaluationname=Third+Eval"  id="editEvaluationSubmission0"  name="editEvaluationSubmission0"  role="button"  title="" >
-                         Edit/View Submission
-                      </a>
-                   </td>
-                </tr>
-                <tr id="evaluation1" >
-                   <td>
-                      Fifth Eval
-                   </td>
-                   <td>
-                      01 Apr 2017, 23:59
-                   </td>
-                   <td>
-                      <span data-original-title="The evaluation is yet to be completed by you"  data-placement="top"  data-toggle="tooltip"  title="" >
-                         Pending
-                      </span>
-                   </td>
-                   <td class="studentHomeActions" >
-                      <a class="btn btn-default btn-xs btn-tm-actions"  data-original-title="Start evaluation"  data-placement="top"  data-toggle="tooltip"  href="/page/studentEvalSubmissionEditPage?user={$test.student1}&courseid=SHomeUiT.CS1101&evaluationname=Fifth+Eval"  id="submitEvaluation1"  title="" >
-                         Submit
-                      </a>
-                   </td>
-                </tr>
-             </tbody>
-          </table>
-       </div>
-       <br/>
-                      <br/>
-                      <div class="panel panel-primary" >
-          <div class="panel-heading" >
-             <strong>
-                [SHomeUiT.CS4215] : Programming Language Implementation
-             </strong>
-             <span class="pull-right" >
-                <a class="btn btn-primary btn-xs"  data-original-title="View and edit information regarding your team"  data-placement="top"  data-toggle="tooltip"  href="/page/studentCourseDetailsPage?user={$test.student1}&courseid=SHomeUiT.CS4215"  title="" >
-                   View Team
-                </a>
-             </span>
-          </div>
-          <table class="table-responsive table table-striped" >
-             <tbody>
-                <tr>
-                   <th class="align-center bold color_white" >
-                      Currently, there are no open evaluation/feedback sessions in this course. When a session is open for submission you will be notified.
-                   </th>
-                </tr>
-             </tbody>
-          </table>
-       </div>
-       <br/><br/>
-     </div>
-     <div class="container-fluid"  id="footerComponent" >
-        <div class="container" >
-           <div class="row" >
-              <div class="col-md-4" >
-                 <span>
-                    [
-                    <a href="/index.html" >
-                       TEAMMATES
-                    </a>
-                    V{$version}]
-                 </span>
-              </div>
-              <div class="col-md-4" >
-                 [for
-                 <span class="highlight-white" >
-                    <span class="color_white" >
-                       National University of Singapore
-                    </span>
-                 </span>
-                 ]
-              </div>
-              <div class="col-md-4" >
-                 <span>
-                    [Send
-                    <a class="link"  href="../contact.html"  target="_blank" >
-                       Feedback
-                    </a>
-                    ]
-                 </span>
-              </div>
-           </div>
+                </strong>
+                <span class="pull-right">
+                    <a data-original-title="View and edit information regarding your team" class="btn btn-primary btn-xs" href="/page/studentCourseDetailsPage?user={$test.student1}&amp;courseid=SHomeUiT.CS1101" data-toggle="tooltip" data-placement="top" title="">View Team</a>
+                </span>
+            </div>
+            
+            <table class="table-responsive table table-striped">
+            
+                        <thead>
+                            <tr>
+                                <th>Session Name</th>
+                                <th>Deadline</th>
+                                <th>Status</th>
+                                <th class="studentHomeActions">Action(s)</th>
+                            </tr>
+                        </thead>
+                    
+                            <tbody>
+                    
+                            
+                    
+            <tr id="evaluation0">
+                                <td>Third Eval</td>
+                                <td>02 Apr 2012, 23:59</td>
+                                <td><span data-original-title="The evaluation has finished but the instructor has not published the results yet" data-toggle="tooltip" data-placement="top" title="">
+                                    Closed
+                                    </span>
+                                </td>
+                                <td class="studentHomeActions">
+                                    <a data-original-title="View the current results of the evaluation" class="btn btn-default btn-xs btn-tm-actions disabled" onclick="return false" href="/page/studentEvalResultsPage?user={$test.student1}&amp;courseid=SHomeUiT.CS1101&amp;evaluationname=Third+Eval" name="viewEvaluationResults0" id="viewEvaluationResults0" data-toggle="tooltip" data-placement="top" title="" role="button">View Results</a><a data-original-title="Edit submitted evaluation" class="btn btn-default btn-xs btn-tm-actions" href="/page/studentEvalSubmissionEditPage?user={$test.student1}&amp;courseid=SHomeUiT.CS1101&amp;evaluationname=Third+Eval" name="editEvaluationSubmission0" id="editEvaluationSubmission0" data-toggle="tooltip" data-placement="top" title="" role="button">Edit/View Submission</a>
+                                </td>
+                            </tr><tr id="evaluation1">
+                                <td>Fifth Eval</td>
+                                <td>01 Apr 2017, 23:59</td>
+                                <td><span data-original-title="The evaluation is yet to be completed by you" data-toggle="tooltip" data-placement="top" title="">
+                                    Pending
+                                    </span>
+                                </td>
+                                <td class="studentHomeActions">
+                                    <a data-original-title="Start evaluation" class="btn btn-default btn-xs btn-tm-actions" id="submitEvaluation1" href="/page/studentEvalSubmissionEditPage?user={$test.student1}&amp;courseid=SHomeUiT.CS1101&amp;evaluationname=Fifth+Eval" data-toggle="tooltip" data-placement="top" title="">Start Submission</a>
+                                </td>
+                            </tr></tbody></table>
         </div>
-     </div>
-  </body>
-</html>
+        <br>
+        <br>
+        
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <strong>
+                [SHomeUiT.CS4215] : Programming Language Implementation
+                </strong>
+                <span class="pull-right">
+                    <a data-original-title="View and edit information regarding your team" class="btn btn-primary btn-xs" href="/page/studentCourseDetailsPage?user={$test.student1}&amp;courseid=SHomeUiT.CS4215" data-toggle="tooltip" data-placement="top" title="">View Team</a>
+                </span>
+            </div>
+            
+            <table class="table-responsive table table-striped">
+            
+                            <tbody><tr>
+                                <th class="align-center bold color_white">
+                                    Currently, there are no open evaluation/feedback sessions in this course. When a session is open for submission you will be notified.
+                                </th>
+                            </tr>
+                    
+            </tbody></table>
+        </div>
+        <br>
+        <br>
+        
+    </div>

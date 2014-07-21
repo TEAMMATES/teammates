@@ -564,8 +564,7 @@ public class FeedbackResponsesLogic {
         }
     }
 
-    public void deleteFeedbackResponsesForStudent(String courseId,
-            String studentEmail) {
+    public void deleteFeedbackResponsesForStudent(String courseId, String studentEmail) {
 
         String studentTeam = "";
         StudentAttributes student = studentsLogic.getStudentForEmail(courseId,

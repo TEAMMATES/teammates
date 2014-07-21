@@ -364,17 +364,19 @@ public class StudentsDb extends EntitiesDb {
         getPM().flush();
     
         // Check delete operation persisted
-        int elapsedTime = 0;
-        Student studentCheck = getStudentEntityForEmail(courseId, email);
-        while ((studentCheck != null)
-                && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
-            ThreadHelper.waitBriefly();
-            studentCheck = getStudentEntityForEmail(courseId, email);
-            elapsedTime += ThreadHelper.WAIT_DURATION;
-        }
-        if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
-            log.severe("Operation did not persist in time: deleteStudent->"
-                    + courseId + "/" + email);
+        if(Config.PERSISTENCE_CHECK_DURATION > 0){
+            int elapsedTime = 0;
+            Student studentCheck = getStudentEntityForEmail(courseId, email);
+            while ((studentCheck != null)
+                    && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+                ThreadHelper.waitBriefly();
+                studentCheck = getStudentEntityForEmail(courseId, email);
+                elapsedTime += ThreadHelper.WAIT_DURATION;
+            }
+            if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
+                log.severe("Operation did not persist in time: deleteStudent->"
+                        + courseId + "/" + email);
+            }
         }
         //TODO: use the method in the parent class instead.
     }

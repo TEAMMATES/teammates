@@ -271,7 +271,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         verifyUnaccessibleWithoutModifyInstructorPrivilege(submissionParams);
         
         // remove the newly added instructor
-        InstructorsLogic.inst().deleteInstructor("idOfTypicalCourse1", "instructor@email.com");
+        InstructorsLogic.inst().deleteInstructorCascade("idOfTypicalCourse1", "instructor@email.com");
     }
     
     @Test

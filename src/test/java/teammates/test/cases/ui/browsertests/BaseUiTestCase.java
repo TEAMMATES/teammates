@@ -84,14 +84,16 @@ public class BaseUiTestCase extends BaseTestCase {
         } else {
             retryLimit = 1;
         }
-        while(counter != retryLimit){
+
+        while(counter < retryLimit){
+            counter++;
             backDoorOperationStatus = BackDoor.restoreDataBundle(testData);
             if(backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
                 break;
             }
-            counter++;
+            System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
         }
-        if(counter == retryLimit){
+        if(counter >= retryLimit){
             Assumption.assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
         }
     }

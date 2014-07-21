@@ -1,8 +1,8 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterClass;
@@ -32,6 +32,7 @@ import teammates.test.pageobjects.InstructorEvalResultsPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
 import teammates.test.pageobjects.InstructorHelpPage;
 import teammates.test.pageobjects.InstructorHomePage;
+import teammates.test.util.Priority;
 
 /**
  * Tests Home page and login page for instructors. 
@@ -39,6 +40,7 @@ import teammates.test.pageobjects.InstructorHomePage;
  * Uses a real account.
  * 
  */
+@Priority(4)
 public class InstructorHomePageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;

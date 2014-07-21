@@ -43,7 +43,7 @@ public class SearchManager {
             }
             log.info("TEST");
         }
-        if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
+        if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
             log.severe(String.format(ERROR_EXCEED_DURATION, document, indexName));
         }
     }
