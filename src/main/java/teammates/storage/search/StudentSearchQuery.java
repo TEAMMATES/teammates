@@ -9,12 +9,12 @@ import teammates.logic.core.InstructorsLogic;
 import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.search.QueryOptions;
 
-public class FeedbackResponseCommentSearchQuery extends SearchQuery {
-    public FeedbackResponseCommentSearchQuery(String googleId, String queryString, String cursorString){
+public class StudentSearchQuery extends SearchQuery {
+    
+    public StudentSearchQuery(String googleId, String queryString, String cursorString) {
         Cursor cursor = cursorString.isEmpty()
                 ? Cursor.newBuilder().build()
                 : Cursor.newBuilder().build(cursorString);
-        
         QueryOptions options = QueryOptions.newBuilder()
                 .setLimit(20)
                 .setCursor(cursor)
@@ -23,8 +23,8 @@ public class FeedbackResponseCommentSearchQuery extends SearchQuery {
         prepareVisibilityQueryString(googleId);
         setTextFilter(Const.SearchDocumentField.SEARCHABLE_TEXT, queryString);
     }
-
-    private void prepareVisibilityQueryString(String googleId) {
+    
+    private void prepareVisibilityQueryString(String googleId){
         List<InstructorAttributes> instructorRoles = InstructorsLogic.inst().getInstructorsForGoogleId(googleId);
         StringBuilder courseIdLimit = new StringBuilder("(");
         String delim = "";
@@ -33,8 +33,7 @@ public class FeedbackResponseCommentSearchQuery extends SearchQuery {
             delim = OR;
         }
         courseIdLimit.append(")");
-        
-        //TODO: verify section
-        visibilityQueryString = Const.SearchDocumentField.COURSE_ID + ":" + courseIdLimit.toString();
+
+        visibilityQueryString = Const.SearchDocumentField.COURSE_ID + ":"+ courseIdLimit.toString();
     }
 }

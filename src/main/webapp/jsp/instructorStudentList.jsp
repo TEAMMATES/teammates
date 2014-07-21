@@ -52,26 +52,33 @@
             <div class="well well-plain">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-10">
-                                <div class="form-group">
-                                    <input type="text" id="searchbox"
-                                        title="<%=Const.Tooltips.SEARCH_STUDENT%>"
-                                        class="form-control"
-                                        data-toggle="tooltip"
-                                        data-placement="top"
-                                        placeholder="e.g. Charles Shultz"
-                                        value="<%=data.searchKey == null ? "" : PageData.sanitizeForHtml(data.searchKey) %>">
+                        <form method="get" action="<%=data.getInstructorSearchLink()%>" name="search_form">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <input type="text" id="searchbox"
+                                            title="<%=Const.Tooltips.SEARCH_STUDENT%>"
+                                            name="<%=Const.ParamsNames.SEARCH_KEY%>"
+                                            class="form-control"
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            placeholder="e.g. Charles Shultz"
+                                            value="<%=data.searchKey == null ? "" : PageData.sanitizeForHtml(data.searchKey) %>">
+                                    </div>
+                                </div>
+                                <div class="col-md-2 nav">
+                                    <div class="form-group">
+                                        <button id="buttonSearch" class="btn btn-primary" type="submit" value="Search">
+                                            <span class="glyphicon glyphicon-search"></span> Find students
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-2 nav">
-                                <div class="form-group">
-                                    <button id="button_search" class="btn btn-primary" type="submit" onclick="return applyFilters();" value="Search">
-                                        <span class="glyphicon glyphicon-search"></span> Find students
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                            <input type="hidden" name="<%=Const.ParamsNames.SEARCH_STUDENTS%>" value="true">
+                            <input type="hidden" name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_STUDENTS%>" value="false">
+                            <input type="hidden" name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_RESPONSES%>" value="false">
+                            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                        </form>
                      </div>
                  </div>
              </div>

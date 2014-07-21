@@ -18,6 +18,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.api.Logic;
+import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorStudentRecordsPageAction;
 import teammates.ui.controller.InstructorStudentRecordsPageData;
@@ -143,7 +144,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         ______TS("Typical case: student has profile but no records");
         
         testStudent.googleId = "valid.no.sessions";
-        logic.updateStudent(testStudent.email, testStudent);
+        StudentsLogic.inst().updateStudentCascade(testStudent.email, testStudent);
         logic.createAccount(testStudent.googleId, testStudent.name, 
                 false, testStudent.email, "valid institute");
         

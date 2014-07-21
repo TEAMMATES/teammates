@@ -120,13 +120,13 @@ public class BackDoorLogic extends Logic {
                     + " to course " + student.course);
             student.section = (student.section == null) ? "None" : student.section;
             try {
-                super.updateStudent(student.email, student);
+                updateStudent(student.email, student);
             } catch (EntityDoesNotExistException e) {
                 if (student.googleId != null && !student.googleId.isEmpty() 
                         && super.getAccount(student.googleId) == null) {
                     super.createAccount(student.googleId, student.name, false, student.email, "NUS");
                 }
-                super.createStudent(student);
+                createStudent(student);
             }
         }
 
