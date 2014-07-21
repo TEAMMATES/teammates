@@ -98,6 +98,10 @@ public class FeedbackResponseCommentsLogic {
         }
     }
     
+    public void updateFeedbackResponseCommentsGiverEmail(String courseId, String oldEmail, String updatedEmail) {
+        frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, oldEmail, updatedEmail);
+    }
+    
     // right now this method is only updating sections
     public void updateFeedbackResponseCommentsForResponse(String feedbackResponseId) throws InvalidParametersException, EntityDoesNotExistException{
         List<FeedbackResponseCommentAttributes> comments = getFeedbackResponseCommentForResponse(feedbackResponseId);
