@@ -142,7 +142,9 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 + "&error=false&user=idOfNewStudent",
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
-        assertEquals("", redirectResult.getStatusMessage());
+        assertEquals(
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, newStudentAttributes.course), 
+                redirectResult.getStatusMessage());
 
     }
 

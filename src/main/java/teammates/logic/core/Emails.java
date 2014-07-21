@@ -395,7 +395,7 @@ public class Emails {
         List<MimeMessage> emails = null;
         if (session.isOpeningEmailEnabled) {
             emails = generateFeedbackSessionEmailBases(course,
-                    session, students, instructors, template, false);
+                    session, students, instructors, template);
             
             for (MimeMessage email : emails) {
                 email.setSubject(email.getSubject().replace("${subjectPrefix}",
@@ -406,7 +406,7 @@ public class Emails {
             }
         } else {
             emails = generateFeedbackSessionEmailBases(course,
-                    session, students, instructors, template, true);
+                    session, students, instructors, template);
             
             for (MimeMessage email : emails) {
                 email.setSubject(email.getSubject().replace("${subjectPrefix}",
@@ -434,7 +434,7 @@ public class Emails {
         List<MimeMessage> emails = generateFeedbackSessionEmailBasesForInstructorReminders(
                 course, session, instructorsToRemind, template);
         emails.addAll(generateFeedbackSessionEmailBases(course,
-                session, students, instructorsToNotify, template, false));
+                session, students, instructorsToNotify, template));
         
         for (MimeMessage email : emails) {
             email.setSubject(email.getSubject().replace("${subjectPrefix}",
@@ -479,7 +479,7 @@ public class Emails {
             }
         }
         emails = generateFeedbackSessionEmailBases(
-                course, session, students, instructors, template, false);
+                course, session, students, instructors, template);
         for (MimeMessage email : emails) {
             email.setSubject(email.getSubject().replace("${subjectPrefix}",
                     SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
@@ -570,7 +570,7 @@ public class Emails {
             students = new ArrayList<StudentAttributes>();
         }
         emails = generateFeedbackSessionEmailBases(course,
-                session, students, instructors, template, false);
+                session, students, instructors, template);
         
         for (MimeMessage email : emails) {
             email.setSubject(email.getSubject().replace("${subjectPrefix}",
@@ -584,8 +584,7 @@ public class Emails {
             FeedbackSessionAttributes session, 
             List<StudentAttributes> students,
             List<InstructorAttributes> instructors,
-            String template,
-            boolean insertInstructorPlaceholderJoinLink) 
+            String template) 
                     throws MessagingException, UnsupportedEncodingException {
         
         ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
@@ -595,7 +594,7 @@ public class Emails {
         }
         for (InstructorAttributes i : instructors) {
             emails.add(generateFeedbackSessionEmailBaseForInstructors(course,
-                    session, i, template, insertInstructorPlaceholderJoinLink));
+                    session, i, template));
         }
         return emails;
     }
@@ -630,41 +629,29 @@ public class Emails {
 
         String emailBody = template;
 
-        if (isYetToJoinCourse(s)) {
-            emailBody = fillUpStudentJoinFragment(s, emailBody);
-            if (emailBody.contains("${unregisteredStudentSubmissionFragment}")) {
-                emailBody = fillUpUnregisteredStudentSubmissionFragment(s, fs, emailBody);
-            } else {
-                emailBody = fillUpUnregisteredStudentViewResponsesFragment(s, fs, emailBody);
-            }
-        } else {
-            emailBody = emailBody.replace("${joinFragment}", "");
-            emailBody = emailBody.replace("${unregisteredStudentSubmissionFragment}", "");
-            emailBody = emailBody.replace("${unregisteredStudentViewResponsesFragment}", "");
-        }
-        
         emailBody = emailBody.replace("${userName}", s.name);
         emailBody = emailBody.replace("${courseName}", c.name);
         emailBody = emailBody.replace("${courseId}", c.id);
         emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
+        emailBody = emailBody.replace("${joinFragment}", "");
         emailBody = emailBody.replace("${deadline}",
                 TimeHelper.formatTime(fs.endTime));
         emailBody = emailBody.replace("${instructorFragment}", "");
         
-        String submitUrl = Config.APP_URL
-                + Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
-        submitUrl = Url.addParamToUrl(submitUrl, Const.ParamsNames.COURSE_ID,
-                c.id);
-        submitUrl = Url.addParamToUrl(submitUrl,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
+        String submitUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                            .withCourseId(c.id)
+                            .withSessionName(fs.feedbackSessionName)
+                            .withRegistrationKey(StringHelper.encrypt(s.key))
+                            .withStudentEmail(s.email)
+                            .toString();
         emailBody = emailBody.replace("${submitUrl}", submitUrl);
 
-        String reportUrl = Config.APP_URL
-                + Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
-        reportUrl = Url.addParamToUrl(reportUrl, Const.ParamsNames.COURSE_ID,
-                c.id);
-        reportUrl = Url.addParamToUrl(reportUrl,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
+        String reportUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+                            .withCourseId(c.id)
+                            .withSessionName(fs.feedbackSessionName)
+                            .withRegistrationKey(StringHelper.encrypt(s.key))
+                            .withStudentEmail(s.email)
+                            .toString();
         emailBody = emailBody.replace("${reportUrl}", reportUrl);
 
         message.setContent(emailBody, "text/html");
@@ -676,8 +663,7 @@ public class Emails {
             CourseAttributes c,
             FeedbackSessionAttributes fs, 
             InstructorAttributes i,
-            String template,
-            boolean insertPlaceholderJoinFragment)
+            String template)
                     throws MessagingException, UnsupportedEncodingException {
 
         MimeMessage message = getEmptyEmailAddressedToEmail(i.email);
@@ -688,14 +674,7 @@ public class Emails {
 
         String emailBody = template;
 
-        if (insertPlaceholderJoinFragment) {
-            emailBody = fillUpStudentJoinFragment(null, emailBody);
-            emailBody = fillUpUnregisteredStudentSubmissionFragment(null, fs, emailBody);
-        } else {
-            emailBody = emailBody.replace("${joinFragment}", "");
-            emailBody = emailBody.replace("${unregisteredStudentSubmissionFragment}", "");
-            emailBody = emailBody.replace("${unregisteredStudentViewResponsesFragment}", "");
-        }
+        emailBody = emailBody.replace("${joinFragment}", "");
         emailBody = emailBody.replace("${userName}", i.name);
         emailBody = emailBody.replace("${courseName}", c.name);
         emailBody = emailBody.replace("${courseId}", c.id);
@@ -704,20 +683,10 @@ public class Emails {
                 TimeHelper.formatTime(fs.endTime));
         emailBody = emailBody.replace("${instructorFragment}", "The email below has been sent to students of course: "+c.id+".<p/><br/>");
         
-        String submitUrl = Config.APP_URL
-                + Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
-        submitUrl = Url.addParamToUrl(submitUrl, Const.ParamsNames.COURSE_ID,
-                c.id);
-        submitUrl = Url.addParamToUrl(submitUrl,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
+        String submitUrl = "{The student's unique submission url appears here}";
         emailBody = emailBody.replace("${submitUrl}", submitUrl);
 
-        String reportUrl = Config.APP_URL
-                + Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
-        reportUrl = Url.addParamToUrl(reportUrl, Const.ParamsNames.COURSE_ID,
-                c.id);
-        reportUrl = Url.addParamToUrl(reportUrl,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
+        String reportUrl = "{The student's unique results url appears here}";
         emailBody = emailBody.replace("${reportUrl}", reportUrl);
 
         message.setContent(emailBody, "text/html");
@@ -741,8 +710,6 @@ public class Emails {
         String emailBody = template;
 
         emailBody = emailBody.replace("${joinFragment}", "");
-        emailBody = emailBody.replace("${unregisteredStudentSubmissionFragment}", "");
-        emailBody = emailBody.replace("${unregisteredStudentViewResponsesFragment}", "");
         emailBody = emailBody.replace("${userName}", i.name);
         emailBody = emailBody.replace("${courseName}", c.name);
         emailBody = emailBody.replace("${courseId}", c.id);
@@ -981,51 +948,6 @@ public class Emails {
         }
 
         emailBody = emailBody.replace("${joinUrl}", joinUrl);
-        return emailBody;
-    }
-    
-    private String fillUpUnregisteredStudentSubmissionFragment(
-            StudentAttributes s, FeedbackSessionAttributes fs, String emailBody) {
-        
-        emailBody = emailBody.replace("${unregisteredStudentSubmissionFragment}", EmailTemplates.FRAGMENT_UNREG_STUDENT_FEEDBACK_SESSION);
-        emailBody.replace("${unregAction}", "submit responses");
-        
-        String unregSubmissionUrl = null;
-        
-        if (s != null) {
-            String key = StringHelper.encrypt(s.key);
-            unregSubmissionUrl = Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
-            unregSubmissionUrl = Url.addParamToUrl(unregSubmissionUrl, Const.ParamsNames.REGKEY, key);
-            unregSubmissionUrl = Url.addParamToUrl(unregSubmissionUrl, Const.ParamsNames.STUDENT_EMAIL, s.email);
-            unregSubmissionUrl = Url.addParamToUrl(unregSubmissionUrl, Const.ParamsNames.COURSE_ID, fs.courseId);
-            unregSubmissionUrl = Url.addParamToUrl(unregSubmissionUrl, Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
-        } else {
-            unregSubmissionUrl = "{The unique submission link for an unregistered student appears here}";
-        }
-        
-        
-        emailBody = emailBody.replace("${unregisteredStudentSubmissionFragment}", unregSubmissionUrl);
-        return emailBody;
-    }
-    
-    private String fillUpUnregisteredStudentViewResponsesFragment(
-            StudentAttributes s, FeedbackSessionAttributes fs, String emailBody) {
-        
-        emailBody = emailBody.replace("${unregisteredStudentViewResponsesFragment}", EmailTemplates.FRAGMENT_UNREG_STUDENT_FEEDBACK_SESSION);
-        emailBody.replace("${unregAction}", "view results");
-        String unregViewResponsesUrl;
-        
-        if (s != null) {
-            String key = StringHelper.encrypt(s.key);
-            unregViewResponsesUrl = Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
-            unregViewResponsesUrl = Url.addParamToUrl(unregViewResponsesUrl, Const.ParamsNames.REGKEY, key);
-            unregViewResponsesUrl = Url.addParamToUrl(unregViewResponsesUrl, Const.ParamsNames.STUDENT_EMAIL, s.email);
-            unregViewResponsesUrl = Url.addParamToUrl(unregViewResponsesUrl, Const.ParamsNames.COURSE_ID, fs.courseId);
-            unregViewResponsesUrl = Url.addParamToUrl(unregViewResponsesUrl, Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
-        } else {
-            unregViewResponsesUrl = "{The unique view responses link for an unregistered student appears here}";
-        }
-        
         return emailBody;
     }
     
