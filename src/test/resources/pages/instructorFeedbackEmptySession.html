@@ -3,25 +3,33 @@
         <h1>Add New Feedback Session</h1>
 
         <div class="well well-plain">
-            <div class="row">
-                <h4 class="label-control col-md-2 text-md">Create new </h4>
-                <div data-original-title="Select a different type of session here." class="col-md-5" title="" data-toggle="tooltip" data-placement="top">
-                    <select class="form-control" name="feedbackchangetype" id="feedbackchangetype">
-                        <option value="/page/instructorFeedbacksPage" selected="selected">Feedback
-                            Session with customizable questions</option>
-                        <option value="/page/instructorEvalsPage">Standard
-                            Team Peer Evaluation with fixed questions</option>
-                    </select>
-                </div>
-                <h4 class="label-control col-md-1 text-md">Or: </h4>
-                <div class="col-md-3">
-                    <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy
-                        from previous feedback sessions</a>
-                </div>
+          <form action="/page/instructorFeedbackAdd" class="form-group" method="post" name="form_addfeedbacksession">
+            <div class="row" data-original-title="Select a different type of session here." data-placement="top" data-toggle="tooltip" title="">
+               <h4 class="label-control col-md-2 text-md">
+                  Create new
+               </h4>
+               <div class="col-md-5">
+                  <select class="form-control" id="fstype" name="fstype">
+                     <option selected="selected" value="STANDARD">
+                        Session with your own questions
+                     </option>
+                     <option value="TEAMEVALUATION">
+                        Team peer evaluation session
+                     </option>
+                  </select>
+               </div>
+               <h4 class="label-control col-md-1 text-md">
+                  Or:
+               </h4>
+               <div class="col-md-3">
+                  <a class="btn btn-info" id="button_copy" style="vertical-align:middle;">
+                     Copy
+                            from previous feedback sessions
+                  </a>
+               </div>
             </div>
-            <br>
-            <form class="form-group" method="post" action="/page/instructorFeedbackAdd" name="form_addfeedbacksession">
-                <div class="panel panel-primary">
+            <br/>
+                        <div class="panel panel-primary">
                     <div class="panel-body">
                         <div class="row">
                             <div data-original-title="Please select the course for which the feedback session is to be created." class="col-md-6" title="" data-toggle="tooltip" data-placement="top">

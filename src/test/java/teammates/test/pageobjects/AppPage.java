@@ -222,7 +222,7 @@ public abstract class AppPage {
     /**
      * Waits for element to be invisible or not present, or timeout.
      */
-    protected void waitForElementToDisappear(By by){
+    public void waitForElementToDisappear(By by){
         WebDriverWait wait = new WebDriverWait(browser.driver, 30);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
     }
@@ -777,6 +777,7 @@ public abstract class AppPage {
         
         //Wait for loader gif loader to disappear.
         waitForElementToDisappear(By.cssSelector("img[src='/images/ajax-loader.gif']"));
+        waitForElementToDisappear(By.cssSelector("img[src='/images/ajax-preload.gif']"));
         
         if(filePath.startsWith("/")){
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
