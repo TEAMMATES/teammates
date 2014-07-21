@@ -14,7 +14,6 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 import teammates.logic.backdoor.BackDoorServlet;
 import teammates.test.driver.BackDoor;
-import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.StudentHomePage;
@@ -31,8 +30,8 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/StudentProfilePageUiTest.json");
-        restoreTestDataOnServer(testData);
-        browser = BrowserPool.getBrowser(true);
+        removeAndRestoreTestDataOnServer(testData);
+        browser = BrowserPool.getBrowser();
     }
     
     @Test
@@ -60,7 +59,6 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         
         ______TS("typical success case");
         profilePage.verifyHtml("/studentProfilePageDefault.html");
-        AppPage.logout(browser);
         
         ______TS("existing profile values");
         // this test uses actual user accounts
@@ -139,8 +137,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         String currentPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
         verifyPictureIsDeleted(prevPictureKey);
         verifyPictureIsPresent(currentPictureKey);        
-        
-        AppPage.logout(browser);
+
     }
     
     private void testAjaxPictureUrl() throws Exception {
@@ -179,14 +176,14 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         
         expectedFilename = "/studentProfilePictureUnauthorized.html";
         getProfilePicturePage(instructorId, email, invalidCourse)
-            .verifyIsErrorPage(expectedFilename);
+            .verifyIsUnauthorisedErrorPage(expectedFilename);
         
         ______TS("failure case: non-existent student");
         
         expectedFilename = "/studentProfilePictureStudentDoesNotExist.html";
         
         getProfilePicturePage(instructorId, invalidEmail, courseId)
-            .verifyIsErrorPage(expectedFilename);
+            .verifyIsEntityNotFoundErrorPage(expectedFilename);
         
     }
 

@@ -14,7 +14,7 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorEvalResultsPage;
 import teammates.test.pageobjects.InstructorEvalSubmissionViewPage;
-import teammates.test.pageobjects.InstructorEvalsPage;
+import teammates.test.pageobjects.InstructorFeedbacksPage;
 import teammates.test.pageobjects.InstructorHelpPage;
 
 /**
@@ -31,7 +31,8 @@ public class InstructorEvalResultsPageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorEvalResultsPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        
+        removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
     }
     
@@ -152,8 +153,8 @@ public class InstructorEvalResultsPageUiTest extends BaseUiTestCase {
             .verifyHtmlMainContent("/instructorEvalResultsPublishedEval.html");
         assertEquals(true, BackDoor.getEvaluation(courseId, evalName).published);
         
-        InstructorEvalsPage evalsPage = resultsPage.unpublishAndConfirm();
-        evalsPage.verifyStatus(Const.StatusMessages.EVALUATION_UNPUBLISHED);
+        InstructorFeedbacksPage feedbacksPage = resultsPage.unpublishAndConfirm();
+        feedbacksPage.verifyStatus(Const.StatusMessages.EVALUATION_UNPUBLISHED);
         assertEquals(false, BackDoor.getEvaluation(courseId, evalName).published);
         
         //Other content checking, link checking and action checking were 
@@ -179,8 +180,8 @@ public class InstructorEvalResultsPageUiTest extends BaseUiTestCase {
             .verifyHtmlMainContent("/instructorEvalResultsClosedEval.html");
         assertEquals(false, BackDoor.getEvaluation(courseId, evalName).published);
         
-        InstructorEvalsPage evalsPage = resultsPage.publishAndConfirm();
-        evalsPage.verifyStatus(Const.StatusMessages.EVALUATION_PUBLISHED);
+        InstructorFeedbacksPage feedbacksPage = resultsPage.publishAndConfirm();
+        feedbacksPage.verifyStatus(Const.StatusMessages.EVALUATION_PUBLISHED);
         assertEquals(true, BackDoor.getEvaluation(courseId, evalName).published);
         
         //other content checking, link checking and action checking were 

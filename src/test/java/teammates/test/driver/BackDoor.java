@@ -74,10 +74,22 @@ public class BackDoor {
      * @param dataBundleJson
      * @return
      */
-    private static void removeOldDataBundle(String dataBundleJson) {
+    private static String removeDataBundle(String dataBundleJson) {
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_REMOVE_DATABUNDLE);
         params.put(BackDoorServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
-        makePOSTRequest(params);
+        return makePOSTRequest(params);
+    }
+    
+    /**
+     * Removes and restores given data.
+     * 
+     * @param dataBundleJson
+     * @return
+     */
+    private static String removeAndRestoreDataBundle(String dataBundleJson) {
+        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_REMOVE_AND_RESTORE_DATABUNDLE);
+        params.put(BackDoorServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
+        return makePOSTRequest(params);
     }
 
     /**
@@ -99,10 +111,14 @@ public class BackDoor {
      * @param dataBundleJson
      * @return
      */
-    public static void removeDataBundleFromDb(DataBundle dataBundle) {
+    public static String removeDataBundleFromDb(DataBundle dataBundle) {
         String json = Utils.getTeammatesGson().toJson(dataBundle);
-        removeOldDataBundle(json);
-        
+        return removeDataBundle(json);
+    }
+    
+    public static String removeAndRestoreDataBundleFromDb(DataBundle dataBundle) {
+        String json = Utils.getTeammatesGson().toJson(dataBundle);
+        return removeAndRestoreDataBundle(json);
     }
 
     /**
@@ -697,7 +713,7 @@ public class BackDoor {
         BufferedReader rd = new BufferedReader(new InputStreamReader(
                 conn.getInputStream(), "UTF-8"));
         
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         String line;
         while ((line = rd.readLine()) != null) {
             sb.append(line);

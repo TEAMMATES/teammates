@@ -271,7 +271,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         verifyUnaccessibleWithoutModifyInstructorPrivilege(submissionParams);
         
         // remove the newly added instructor
-        InstructorsLogic.inst().deleteInstructor("idOfTypicalCourse1", "instructor@email.com");
+        InstructorsLogic.inst().deleteInstructorCascade("idOfTypicalCourse1", "instructor@email.com");
     }
     
     @Test
@@ -559,7 +559,9 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     public void InstructorEvaluationPage() throws Exception {
         uri = Const.ActionURIs.INSTRUCTOR_EVALS_PAGE;
         verifyOnlyInstructorsCanAccess(submissionParams);
-
+        gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse2").googleId);
+        verifyRedirectTo(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE, submissionParams);
+        gaeSimulation.logoutUser();
     }
     
     @Test

@@ -396,6 +396,8 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         TestHelper.verifyAbsentInDatastore(c);
     }
     
+    // TODO: add tests for those one level down api call if test coverage is considered
+    
     private void verifyCommentsGiverNameVisible(List<CommentAttributes> comments){
         for(CommentAttributes c: comments){
             assertTrue(!c.giverEmail.equals("Anonymous"));

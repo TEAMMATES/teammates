@@ -39,7 +39,7 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 public class BackDoorLogic extends Logic {
     private static Logger log = Utils.getLogger();
     
-    private static final int WAIT_DURATION_FOR_DELETE_CHECKING = 500;
+    private static final int WAIT_DURATION_FOR_DELETE_CHECKING = 5;
     private static final int MAX_RETRY_COUNT_FOR_DELETE_CHECKING = 20;
     
     
@@ -96,7 +96,7 @@ public class BackDoorLogic extends Logic {
                 } catch (EntityDoesNotExistException e) {
                     if (e.getMessage().equals("Instructor " + instructor.googleId + 
                             " does not belong to course " + instructor.courseId)) {
-                        instructorsLogic.deleteInstructor(instructor.courseId, instructor.email);
+                        instructorsLogic.deleteInstructorCascade(instructor.courseId, instructor.email);
                     }
                     super.createInstructorAccount(
                             instructor.googleId, instructor.courseId, instructor.name,
@@ -496,9 +496,11 @@ public class BackDoorLogic extends Logic {
             deleteComment(c);
         }
         
-        waitUntilDeletePersists(dataBundle);
+        //waitUntilDeletePersists(dataBundle);
     }
 
+    //TODO: remove this when we confirm it is not needed
+    @SuppressWarnings("unused")
     private void waitUntilDeletePersists(DataBundle dataBundle) {
         
         //TODO: this method has too much duplication. 

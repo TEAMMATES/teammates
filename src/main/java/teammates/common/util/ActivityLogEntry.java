@@ -26,6 +26,12 @@ public class ActivityLogEntry {
     private String url;
     private Long timeTaken;
     
+    private String logInfoAsHtml;
+    
+    private static final int TIME_TAKEN_WARNING_LOWER_RANGE = 10000;
+    private static final int TIME_TAKEN_WARNING_UPPER_RANGE = 20000;
+    private static final int TIME_TAKEN_DANGER_UPPER_RANGE = 60000;
+    
     /**
      * Constructor that creates a empty ActivityLog
      */
@@ -78,6 +84,8 @@ public class ActivityLogEntry {
             url = "Unknown";
             timeTaken = null;
         }
+        
+        logInfoAsHtml = getLogInfoForTableRowAsHtml();
     }
     
     
@@ -246,15 +254,30 @@ public class ActivityLogEntry {
         }
         
         String colorCode = "";
-        if (timeTaken >= 10000 && timeTaken <= 20000){
+        if (timeTaken >= TIME_TAKEN_WARNING_LOWER_RANGE && timeTaken <= TIME_TAKEN_WARNING_UPPER_RANGE){
             colorCode = "text-warning";
-        }else if(timeTaken > 20000 && timeTaken <=60000){
+        }else if(timeTaken > TIME_TAKEN_WARNING_UPPER_RANGE && timeTaken <= TIME_TAKEN_DANGER_UPPER_RANGE){
             colorCode = "text-danger";
         }
         
         return colorCode;            
     }
     
+    
+    public String getTableCellColorCode(Long timeTaken){
+        
+        if(timeTaken == null){
+            return "";
+        }
+        
+        String colorCode = "";
+        if (timeTaken >= TIME_TAKEN_WARNING_LOWER_RANGE && timeTaken <= TIME_TAKEN_WARNING_UPPER_RANGE){
+            colorCode = "warning";
+        }else if(timeTaken > TIME_TAKEN_WARNING_UPPER_RANGE && timeTaken <= TIME_TAKEN_DANGER_UPPER_RANGE){
+            colorCode = "danger";
+        }    
+        return colorCode;            
+    }
     
     public String getLogEntryActionsButtonClass(){
         
@@ -377,5 +400,27 @@ public class ActivityLogEntry {
         link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
         return link;
     }
-
+    
+    
+    public String getLogInfoForTableRowAsHtml(){
+        
+        
+        String result = "";
+        result += "<tr> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"+ getDateInfo()
+               + "<br> <p class=\"" + getColorCode(getTimeTaken()) + "\">"
+               + "<strong>" + TimeHelper.ConvertToStandardDuration(getTimeTaken()) + "</strong>"
+               + "</p> </td> <td class=\"" + getTableCellColorCode(timeTaken) + "\">"
+               + "<form method=\"post\" action=\"" + Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE + "\"> "
+               + "<h4 class=\"list-group-item-heading\">" 
+               + getIconRoleForShow() + "&nbsp;" + getActionInfo() + "&nbsp;"
+               + "<small>" + getPersonInfo() + "</span>" + "&nbsp;"
+               + "<button type=\"submit\" class=\"btn " + getLogEntryActionsButtonClass() +  " btn-xs\">"
+               + "<span class=\"glyphicon glyphicon-zoom-in\"></span>"
+               + "</button> <input type=\"hidden\" name=\"filterQuery\" value=\"person:" + getId() + "\">"
+               + "</small> </h4> <div>" + getMessageInfo()
+               + "</div> </form> </td> </tr>";      
+        return result;
+        
+    }
+    
 }

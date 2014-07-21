@@ -125,7 +125,7 @@ public class InstructorEvalsPage extends AppPage {
         selectDropdownByVisibleValue(gracePeriodDropdown, Integer.toString(gracePeriod)+ " mins");
     
         // Select time zone
-        selectDropdownByVisibleValue(timeZoneDropdown, StringHelper.toUtcFormat(timeZone));
+        selectDropdownByActualValue(timeZoneDropdown, "" + timeZone);
 
         clickSubmitButton();
     }

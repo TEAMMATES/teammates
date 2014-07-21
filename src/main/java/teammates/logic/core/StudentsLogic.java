@@ -51,6 +51,7 @@ public class StudentsLogic {
     private EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
     private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private AccountsLogic accLogic = AccountsLogic.inst();
+    private CommentsLogic commentsLogic = CommentsLogic.inst();
     
     private static Logger log = Utils.getLogger();
     
@@ -189,6 +190,11 @@ public class StudentsLogic {
                 .getInvalidityInfo(FieldType.EMAIL, student.email).isEmpty()) ?
                 originalEmail : student.email;
         
+        // cascade email changes to comments
+        if (!originalStudent.email.equals(finalEmail)) {
+            commentsLogic.updateStudentEmail(student.course, originalStudent.email, finalEmail);
+        }
+        
         // adjust submissions if moving to a different team
         if (isTeamChanged(originalStudent.team, student.team)) {
             evaluationsLogic.adjustSubmissionsForChangingTeam(student.course, finalEmail, student.team);
@@ -198,6 +204,8 @@ public class StudentsLogic {
         if(isSectionChanged(originalStudent.section, student.section)) {
             frLogic.updateFeedbackResponsesForChangingSection(student.course, finalEmail, originalStudent.section, student.section);
         }
+        
+        // TODO: check to delete comments for this section/team if the section/team is no longer existent in the course
     }
     
     public void updateStudentCascadeWithSubmissionAdjustmentScheduled(String originalEmail, 
@@ -487,14 +495,20 @@ public class StudentsLogic {
     }
 
     public void deleteStudentCascade(String courseId, String studentEmail) {
-        // delete responses first as we need to know the student's team.
-        frLogic.deleteFeedbackResponsesForStudent(courseId, studentEmail);
-        studentsDb.deleteStudent(courseId, studentEmail);
+        // delete responses before deleting the student as we need to know the student's team.
+        frLogic.deleteFeedbackResponsesForStudentAndCascade(courseId, studentEmail);
         SubmissionsLogic.inst().deleteAllSubmissionsForStudent(courseId, studentEmail);
+        commentsLogic.deleteCommentsForStudent(courseId, studentEmail);
+        studentsDb.deleteStudent(courseId, studentEmail);
     }
 
-    public void deleteStudentsForGoogleId(String googleId) {
-        studentsDb.deleteStudentsForGoogleId(googleId);
+    public void deleteStudentsForGoogleIdAndCascade(String googleId) {
+        List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
+        
+        // Cascade delete students
+        for (StudentAttributes student : students) {
+            deleteStudentCascade(student.course, student.email);
+        }
     }
 
     public void deleteStudentsForCourse(String courseId) {

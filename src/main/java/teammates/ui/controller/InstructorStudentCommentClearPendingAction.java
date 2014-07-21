@@ -25,23 +25,25 @@ public class InstructorStudentCommentClearPendingAction extends Action {
         logic.updateFeedbackResponseCommentsSendingState(courseId, CommentSendingState.PENDING, CommentSendingState.SENDING);
         
         // Wait for the operation to persist
-        int elapsedTime = 0;
-        int pendingCommentsSize = getPendingCommentsSize(courseId);
-        while ((pendingCommentsSize != 0)
-                && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
-            ThreadHelper.waitBriefly();
-            pendingCommentsSize = getPendingCommentsSize(courseId);
-            //check before incrementing to avoid boundary case problem
-            if (pendingCommentsSize != 0) {
-                elapsedTime += ThreadHelper.WAIT_DURATION;
+        if(Config.PERSISTENCE_CHECK_DURATION > 0){
+            int elapsedTime = 0;
+            int pendingCommentsSize = getPendingCommentsSize(courseId);
+            while ((pendingCommentsSize != 0)
+                    && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+                ThreadHelper.waitBriefly();
+                pendingCommentsSize = getPendingCommentsSize(courseId);
+                //check before incrementing to avoid boundary case problem
+                if (pendingCommentsSize != 0) {
+                    elapsedTime += ThreadHelper.WAIT_DURATION;
+                }
             }
-        }
-        if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
-            isError = true;
-            log.severe("Operation did not persist in time: update comments from state PENDING to SENDING");
-        } else {
-            Emails emails = new Emails();
-            emails.addCommentReminderToEmailsQueue(courseId, EmailType.PENDING_COMMENT_CLEARED);
+            if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
+                isError = true;
+                log.severe("Operation did not persist in time: update comments from state PENDING to SENDING");
+            } else {
+                Emails emails = new Emails();
+                emails.addCommentReminderToEmailsQueue(courseId, EmailType.PENDING_COMMENT_CLEARED);
+            }
         }
         
         if(!isError){
