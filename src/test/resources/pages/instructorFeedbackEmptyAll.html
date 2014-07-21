@@ -283,24 +283,32 @@ ul #nav {
         <h1>Add New Feedback Session</h1>
 
         <div class="well well-plain">
-            <div class="row">
-                <h4 class="label-control col-md-2 text-md">Create new </h4>
-                <div data-placement="top" data-toggle="tooltip" title="" class="col-md-5" data-original-title="Select a different type of session here.">
-                    <select id="feedbackchangetype" name="feedbackchangetype" class="form-control">
-                        <option selected="selected" value="/page/instructorFeedbacksPage">Feedback
-                            Session with customizable questions</option>
-                        <option value="/page/instructorEvalsPage">Standard
-                            Team Peer Evaluation with fixed questions</option>
+            <form action="/page/instructorFeedbackAdd" class="form-group" method="post" name="form_addfeedbacksession">
+              <div class="row" data-original-title="Select a different type of session here." data-placement="top" data-toggle="tooltip" title="">
+                 <h4 class="label-control col-md-2 text-md">
+                    Create new
+                 </h4>
+                 <div class="col-md-5">
+                    <select class="form-control" id="fstype" name="fstype">
+                       <option selected="selected" value="STANDARD">
+                          Session with your own questions
+                       </option>
+                       <option value="TEAMEVALUATION">
+                          Team peer evaluation session
+                       </option>
                     </select>
-                </div>
-                <h4 class="label-control col-md-1 text-md">Or: </h4>
-                <div class="col-md-3">
-                    <a style="vertical-align:middle;" class="btn btn-info" id="button_copy">Copy
-                        from previous feedback sessions</a>
-                </div>
-            </div>
-            <br />
-            <form name="form_addfeedbacksession" action="/page/instructorFeedbackAdd" method="post" class="form-group">
+                 </div>
+                 <h4 class="label-control col-md-1 text-md">
+                    Or:
+                 </h4>
+                 <div class="col-md-3">
+                        <a class="btn btn-info" id="button_copy" style="vertical-align:middle;">
+                           Copy
+                            from previous feedback sessions
+                        </a>
+                     </div>
+              </div>
+              <br/>
                 <div class="panel panel-primary">
                     <div class="panel-body">
                         <div class="row">
