@@ -50,17 +50,22 @@
                     <h1>Instructor Home</h1>
                 </div>
                 <div class="col-md-5 instructor-header-bar">
-                    <form method="post" action="<%=data.getInstructorStudentListLink()%>" name="search_form">
+                    <form method="get" action="<%=data.getInstructorSearchLink()%>" name="search_form">
                         <div class="input-group">
-                            <input type="text" 
-                                name=<%=Const.ParamsNames.SEARCH_KEY %>
-                                title="<%=Const.Tooltips.SEARCH_STUDENT%>"
-                                class="form-control" placeholder="Student Name"
-                                id="searchBox">
+                            <input type="text" id="searchbox"
+                                        title="<%=Const.Tooltips.SEARCH_STUDENT%>"
+                                        name="<%=Const.ParamsNames.SEARCH_KEY%>"
+                                        class="form-control"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        placeholder="Student Name">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit" value="Search" id="buttonSearch">Search</button>
-                            </span>
+                            </span> 
                         </div>
+                        <input type="hidden" name="<%=Const.ParamsNames.SEARCH_STUDENTS%>" value="true">
+                        <input type="hidden" name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_STUDENTS%>" value="false">
+                        <input type="hidden" name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_RESPONSES%>" value="false">
                         <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
                     </form>
                 </div>

@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
+import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -17,6 +18,12 @@ public class InstructorSearchPageAction extends Action {
         }
         
         int numberOfSearchOptions = 0;
+
+        boolean isSearchForStudents = getRequestParamAsBoolean(Const.ParamsNames.SEARCH_STUDENTS);
+        if(isSearchForStudents){
+            numberOfSearchOptions++;
+        }
+
         boolean isSearchCommentForStudents = getRequestParamAsBoolean(Const.ParamsNames.SEARCH_COMMENTS_FOR_STUDENTS);
         if(isSearchCommentForStudents){
             numberOfSearchOptions++;
@@ -29,6 +36,7 @@ public class InstructorSearchPageAction extends Action {
         
         CommentSearchResultBundle commentSearchResults = new CommentSearchResultBundle();
         FeedbackResponseCommentSearchResultBundle frCommentSearchResults = new FeedbackResponseCommentSearchResultBundle();
+        StudentSearchResultBundle studentSearchResults = new StudentSearchResultBundle();
         int totalResultsSize = 0;
         
         if(!searchKey.isEmpty() && numberOfSearchOptions != 0){
@@ -38,8 +46,11 @@ public class InstructorSearchPageAction extends Action {
             if(isSearchCommentForResponses){
                 frCommentSearchResults = logic.searchFeedbackResponseComments(searchKey, account.googleId, "");
             }
+            if(isSearchForStudents){
+                studentSearchResults = logic.searchStudents(searchKey, account.googleId, "");
+            }
             
-            totalResultsSize = commentSearchResults.getResultSize() + frCommentSearchResults.getResultSize();
+            totalResultsSize = commentSearchResults.getResultSize() + frCommentSearchResults.getResultSize() + studentSearchResults.getResultSize();
             if(totalResultsSize == 0){
                 //TODO: put this status msg into Const
                 statusToUser.add("No results found.");
@@ -57,10 +68,13 @@ public class InstructorSearchPageAction extends Action {
         data.searchKey = searchKey;
         data.commentSearchResultBundle = commentSearchResults;
         data.feedbackResponseCommentSearchResultBundle = frCommentSearchResults;
+        data.studentSearchResultBundle = studentSearchResults;
         data.totalResultsSize = totalResultsSize;
         //TODO: put the followings into a map
         data.isSearchCommentForStudents = isSearchCommentForStudents;
         data.isSearchCommentForResponses = isSearchCommentForResponses;
+        data.isSearchForStudents = isSearchForStudents;
+
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_SEARCH, data);
     }
 }

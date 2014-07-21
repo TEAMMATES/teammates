@@ -37,6 +37,7 @@ import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
+import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.UserType;
@@ -815,6 +816,20 @@ public class Logic {
 
         studentsLogic.createStudentCascade(student);
 
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * 
+     * @return Null if no match found.
+     */
+    public StudentSearchResultBundle searchStudents(String queryString, String googleId, String cursorString){
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, cursorString);
+        
+        return studentsLogic.searchStudents(queryString, googleId, cursorString);
     }
 
     /**

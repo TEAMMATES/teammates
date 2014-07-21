@@ -11,6 +11,8 @@ import javax.jdo.Query;
 
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentSearchResultBundle;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -21,8 +23,12 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.storage.entity.Student;
+import teammates.storage.search.StudentSearchDocument;
+import teammates.storage.search.StudentSearchQuery;
 
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
 
 /**
  * Handles CRUD Operations for student entities.
@@ -34,6 +40,35 @@ public class StudentsDb extends EntitiesDb {
     public static final String ERROR_UPDATE_EMAIL_ALREADY_USED = "Trying to update to an email that is already used by: ";
     
     private static final Logger log = Utils.getLogger();
+
+    public void putDocument(StudentAttributes student){
+        putDocument(Const.SearchIndex.STUDENT, new StudentSearchDocument(student));
+    }
+    
+    public StudentSearchResultBundle search(String queryString, String googleId, String cursorString){
+        if(queryString.trim().isEmpty())
+            return new StudentSearchResultBundle();
+        
+        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT, 
+                new StudentSearchQuery(googleId, queryString, cursorString));
+        
+        return new StudentSearchResultBundle().fromResults(results, googleId);
+    }
+
+    public void deleteDocument(StudentAttributes studentToDelete){
+        if(studentToDelete.key == null){
+            StudentAttributes student = getStudentForEmail(studentToDelete.course, studentToDelete.email);
+            deleteDocument(Const.SearchIndex.STUDENT, student.key);
+        } else {
+            deleteDocument(Const.SearchIndex.STUDENT, studentToDelete.key);
+        }
+    }
+    
+    public void createStudent(StudentAttributes student)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        StudentAttributes createdStudent = (StudentAttributes) createEntity(student);
+        putDocument(createdStudent);
+    }
 
     /**
      * Preconditions: <br>
@@ -267,7 +302,9 @@ public class StudentsDb extends EntitiesDb {
         student.setGoogleId(Sanitizer.sanitizeForHtml(newGoogleID));
         student.setTeamName(Sanitizer.sanitizeForHtml(newTeamName));
         student.setSectionName(Sanitizer.sanitizeForHtml(newSectionName));
-
+        
+        putDocument(new StudentAttributes(student));
+        
         getPM().close();
     }
 
@@ -289,6 +326,7 @@ public class StudentsDb extends EntitiesDb {
             return;
         }
     
+        deleteDocument(new StudentAttributes(studentToDelete));
         getPM().deletePersistent(studentToDelete);
         getPM().flush();
     
@@ -307,7 +345,6 @@ public class StudentsDb extends EntitiesDb {
                         + courseId + "/" + email);
             }
         }
-        
         //TODO: use the method in the parent class instead.
     }
 
@@ -321,7 +358,9 @@ public class StudentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 
         List<Student> studentList = getStudentEntitiesForGoogleId(googleId);
-
+        for(Student student : studentList){
+            deleteDocument(new StudentAttributes(student));
+        }
         getPM().deletePersistentAll(studentList);
         getPM().flush();
     }
@@ -336,7 +375,9 @@ public class StudentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
     
         List<Student> studentList = getStudentEntitiesForCourse(courseId);
-    
+        for(Student student : studentList){
+            deleteDocument(new StudentAttributes(student));
+        }
         getPM().deletePersistentAll(studentList);
         getPM().flush();
     }

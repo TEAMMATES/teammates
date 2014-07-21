@@ -476,7 +476,7 @@ public class TestHelper extends BaseComponentTestCase{
             student.course = courseId;
             student.comments = "";
             student.googleId="";
-            logic.createStudent(student);
+            studentsDb.createStudent(student);
         }
         // create evaluation
         EvaluationAttributes e = new EvaluationAttributes();
