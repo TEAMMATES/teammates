@@ -1,7 +1,7 @@
 package teammates.test.cases.storage;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,23 +10,19 @@ import java.util.List;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.EntitiesDb;
-import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
-import teammates.storage.api.FeedbackResponsesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.util.TestHelper;
 
@@ -50,6 +46,21 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
     }
 
     @Test
+    public void testAll() throws Exception {
+        
+        testEntityCreationAndDeletion();
+        
+        testGetFeedbackResponseCommentFromId();
+        
+        testGetFeedbackResponseCommentFromCommentDetails();
+        
+        testUpdateFeedbackResponseComment();
+        
+        testGetFeedbackResponseCommentsForSession();
+        
+        testDeleteFeedbackResponseCommentsForResponse();
+    }
+    
     public void testEntityCreationAndDeletion() throws Exception {
         FeedbackResponseCommentAttributes frcaTemp = dataBundle.feedbackResponseComments
                 .get("comment1FromT1C1ToR1Q2S1C1");
@@ -61,8 +72,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         frcDb.deleteEntity(frcaTemp);
         TestHelper.verifyAbsentInDatastore(frcaTemp);
     }
-
-    @Test
+    
     public void testGetFeedbackResponseCommentFromId() throws Exception {
         
         ______TS("null parameter");
@@ -90,9 +100,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         assertNull(frcDb.getFeedbackResponseComment(-1L));
     }
 
-    @Test
-    public void testGetFeedbackResponseCommentFromCommentDetails()
-            throws Exception {
+    public void testGetFeedbackResponseCommentFromCommentDetails() throws Exception {
 
         ______TS("null parameter");
 
@@ -137,7 +145,6 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
                 frca.createdAt));
     }
 
-    @Test
     public void testUpdateFeedbackResponseComment () throws Exception {
         
         ______TS("null parameter");
@@ -196,7 +203,6 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         }
     }
 
-    @Test
     public void testGetFeedbackResponseCommentsForSession() throws Exception {
         
         ______TS("null parameter");
@@ -224,6 +230,35 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         verifyListsContainSameResponseCommentAttributes(
                 new ArrayList<FeedbackResponseCommentAttributes>(dataBundle.feedbackResponseComments.values()), 
                 actualFrcas);
+    }
+
+    public void testDeleteFeedbackResponseCommentsForResponse() throws InvalidParametersException, EntityAlreadyExistsException {
+        
+        ______TS("typical success case");
+        
+        // get another frc from data bundle and use it to create another feedback response
+        FeedbackResponseCommentAttributes anotherFrcaData = dataBundle.feedbackResponseComments
+                .get("comment1FromT1C1ToR1Q2S1C1");
+        anotherFrcaData.createdAt = new Date();
+        anotherFrcaData.commentText = new Text("another comment for this response");
+        // for some reason, the id is 0 instead of null. so we explicitly set it to be null
+        anotherFrcaData.setId(null);
+        // set this comment to have the same responseId as frcaData
+        String responseId = "1%student1InCourse1@gmail.com%student1InCourse1@gmail.com";
+        anotherFrcaData.feedbackResponseId = responseId;
+        frcDb.createEntity(anotherFrcaData);
+        
+        frcDb.deleteFeedbackResponseCommentsForResponse(responseId);
+        assertEquals(frcDb.getFeedbackResponseCommentsForResponse(responseId).size(), 0);
+        
+        ______TS("null parameter");
+
+        try {
+            frcDb.deleteFeedbackResponseCommentsForResponse(null);
+            signalFailureToDetectException();
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        }
     }
 
     private void verifyListsContainSameResponseCommentAttributes(

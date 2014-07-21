@@ -2196,7 +2196,7 @@ public class Logic {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponse);
 
-        feedbackResponsesLogic.deleteFeedbackResponse(feedbackResponse);
+        feedbackResponsesLogic.deleteFeedbackResponseAndCascade(feedbackResponse);
     }
     
     @SuppressWarnings("unused")

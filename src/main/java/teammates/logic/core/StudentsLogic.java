@@ -505,7 +505,7 @@ public class StudentsLogic {
 
     public void deleteStudentCascade(String courseId, String studentEmail) {
         // delete responses before deleting the student as we need to know the student's team.
-        frLogic.deleteFeedbackResponsesForStudent(courseId, studentEmail);
+        frLogic.deleteFeedbackResponsesForStudentAndCascade(courseId, studentEmail);
         SubmissionsLogic.inst().deleteAllSubmissionsForStudent(courseId, studentEmail);
         commentsLogic.deleteCommentsForStudent(courseId, studentEmail);
         studentsDb.deleteStudent(courseId, studentEmail);
