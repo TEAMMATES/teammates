@@ -247,6 +247,10 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, oldEmail);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updatedEmail);
         
+        if (oldEmail.equals(updatedEmail)) {
+            return ;
+        }
+        
         List<FeedbackResponseComment> responseComments = 
                 this.getFeedbackResponseCommentEntitiesForGiverInCourse(courseId, oldEmail);
         
