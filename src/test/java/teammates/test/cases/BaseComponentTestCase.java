@@ -12,12 +12,6 @@ import teammates.test.driver.GaeSimulation;
 public class BaseComponentTestCase extends BaseTestCase {
 
     protected static GaeSimulation gaeSimulation = GaeSimulation.inst();
-
-    @BeforeSuite
-    public void suiteSetUp() throws Exception {
-        gaeSimulation.tearDown();
-        gaeSimulation.setup();
-    } 
     
     @BeforeTest
     public void testSetUp() throws Exception {
@@ -25,7 +19,6 @@ public class BaseComponentTestCase extends BaseTestCase {
         gaeSimulation.setup();
         
     }
-
     
     @AfterTest
     public void testTearDown() throws Exception {

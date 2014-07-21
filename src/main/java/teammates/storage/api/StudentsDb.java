@@ -42,9 +42,7 @@ public class StudentsDb extends EntitiesDb {
     private static final Logger log = Utils.getLogger();
 
     public void putDocument(StudentAttributes student){
-        if(System.getProperty("testing") == null || !System.getProperty("testing").equals("true")){
-            putDocument(Const.SearchIndex.STUDENT, new StudentSearchDocument(student));
-        }
+        putDocument(Const.SearchIndex.STUDENT, new StudentSearchDocument(student));
     }
     
     public StudentSearchResultBundle search(String queryString, String googleId, String cursorString){
@@ -58,10 +56,6 @@ public class StudentsDb extends EntitiesDb {
     }
 
     public void deleteDocument(StudentAttributes studentToDelete){
-        if(System.getProperty("testing") != null && System.getProperty("testing").equals("true")){
-            return;
-        }
-
         if(studentToDelete.key == null){
             StudentAttributes student = getStudentForEmail(studentToDelete.course, studentToDelete.email);
             deleteDocument(Const.SearchIndex.STUDENT, student.key);

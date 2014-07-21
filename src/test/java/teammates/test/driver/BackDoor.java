@@ -61,7 +61,6 @@ public class BackDoor {
      * @return
      */
     public static String persistNewDataBundle(String dataBundleJson) {
-        System.setProperty("testing", "true");
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_PERSIST_DATABUNDLE);
         params.put(BackDoorServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
         String status = makePOSTRequest(params);
@@ -76,7 +75,6 @@ public class BackDoor {
      * @return
      */
     private static String removeDataBundle(String dataBundleJson) {
-        System.setProperty("testing", "true");
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_REMOVE_DATABUNDLE);
         params.put(BackDoorServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
         return makePOSTRequest(params);
@@ -89,7 +87,6 @@ public class BackDoor {
      * @return
      */
     private static String removeAndRestoreDataBundle(String dataBundleJson) {
-        System.setProperty("testing", "true");
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_REMOVE_AND_RESTORE_DATABUNDLE);
         params.put(BackDoorServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
         return makePOSTRequest(params);
