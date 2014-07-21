@@ -507,10 +507,8 @@ public class StudentsLogic {
         
         // cascade to students comments
         for (StudentAttributes student : students) {
-            commentsLogic.deleteCommentsForStudent(student.course, student.email);
+            deleteStudentCascade(student.course, student.email);
         }
-        
-        studentsDb.deleteStudentsForGoogleId(googleId);
     }
 
     public void deleteStudentsForCourse(String courseId) {

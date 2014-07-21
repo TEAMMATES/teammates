@@ -115,7 +115,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         
         ______TS("Masquerade mode: add an instructor");
         
-        instructorsLogic.deleteInstructorAndCascade(courseId, newInstructorEmail);
+        instructorsLogic.deleteInstructorCascade(courseId, newInstructorEmail);
 
         gaeSimulation.loginAsAdmin(adminUserId);
         submissionParams = new String[]{

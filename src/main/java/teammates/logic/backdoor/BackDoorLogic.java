@@ -96,7 +96,7 @@ public class BackDoorLogic extends Logic {
                 } catch (EntityDoesNotExistException e) {
                     if (e.getMessage().equals("Instructor " + instructor.googleId + 
                             " does not belong to course " + instructor.courseId)) {
-                        instructorsLogic.deleteInstructorAndCascade(instructor.courseId, instructor.email);
+                        instructorsLogic.deleteInstructorCascade(instructor.courseId, instructor.email);
                     }
                     super.createInstructorAccount(
                             instructor.googleId, instructor.courseId, instructor.name,
