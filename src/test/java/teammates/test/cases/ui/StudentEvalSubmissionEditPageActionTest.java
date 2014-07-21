@@ -7,9 +7,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.util.Const;
-import teammates.logic.core.EvaluationsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.EvaluationsDb;
 import teammates.ui.controller.RedirectResult;
@@ -35,7 +33,7 @@ public class StudentEvalSubmissionEditPageActionTest extends BaseActionTest {
         String[] submissionParams = new String[]{};
         
         // delete student entity to fabricate an "eventual consistency" problem
-        StudentsLogic.inst().deleteStudentsForGoogleId(recentlyJoinedUserId);
+        StudentsLogic.inst().deleteStudentsForGoogleIdAndCascade(recentlyJoinedUserId);
         
         ______TS("Student just join course but affected by eventual consistency");
         submissionParams = new String[]{

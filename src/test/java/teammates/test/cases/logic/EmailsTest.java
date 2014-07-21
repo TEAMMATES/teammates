@@ -131,9 +131,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
         // check email body
         String encryptedKey = StringHelper.encrypt(s.key);
-        String joinUrl = Config.APP_URL
-                + Const.ActionURIs.STUDENT_COURSE_JOIN;
-        joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, encryptedKey);
+        String joinUrl = s.getRegistrationUrl();
 
         String submitUrl = Config.APP_URL
                 + Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_PAGE;
@@ -285,9 +283,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
         // check email body
         String encryptedKey = StringHelper.encrypt(s.key);
-        String joinUrl = Config.APP_URL
-                + Const.ActionURIs.STUDENT_COURSE_JOIN;
-        joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, encryptedKey);
+        String joinUrl = s.getRegistrationUrl();
 
         String submitUrl = Config.APP_URL
                 + Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
@@ -429,12 +425,7 @@ public class EmailsTest extends BaseComponentTestCase {
                 email.getSubject());
 
         // check email body
-        String joinUrl = Config.APP_URL
-                + Const.ActionURIs.STUDENT_COURSE_JOIN;
-        String encryptedKey = StringHelper.encrypt(s.key);
-        joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, encryptedKey);
-
-
+        String joinUrl = s.getRegistrationUrl();
         String emailBody = email.getContent().toString();
 
         AssertHelper.assertContainsRegex("Hello " + s.name + "{*}course <i>" + c.name

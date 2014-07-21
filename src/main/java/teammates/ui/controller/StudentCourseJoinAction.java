@@ -39,6 +39,7 @@ public class StudentCourseJoinAction extends Action {
         data = new StudentCourseJoinConfirmationPageData(account, regkey);
         data.confirmUrl = confirmUrl;
         data.logoutUrl = Logic.getLogoutUrl(confirmUrl);
+        excludeStudentDetailsFromResponseParams();
         
         return createShowPageResult(
                 Const.ViewURIs.STUDENT_COURSE_JOIN_CONFIRMATION, data);
