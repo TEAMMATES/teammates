@@ -1317,6 +1317,9 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
         // verify other student's submissions are intact
         TestHelper.verifyPresentInDatastore(submissionFromS1C1ToS1C1);
+        
+        // verify comments made to this student are gone
+        TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
 
         ______TS("delete non-existent student");
 
