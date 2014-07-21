@@ -73,7 +73,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 + "?error=true&user=" + student1InCourse1.googleId,
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
-        assertEquals("student1InCourse1 has already joined this course", 
+        assertEquals("You (student1InCourse1) have already joined this course", 
                 redirectResult.getStatusMessage());
 
         /*______TS("student object belongs to another account");

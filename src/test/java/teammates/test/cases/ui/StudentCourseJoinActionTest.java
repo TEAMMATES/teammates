@@ -74,14 +74,13 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         ShowPageResult pageResult = getShowPageResult(joinAction);
 
         assertEquals(Const.ViewURIs.STUDENT_COURSE_JOIN_CONFIRMATION
-                + "&" + Const.ParamsNames.REGKEY + "=" + newStudentKey
-                + "&" + Const.ParamsNames.ERROR + "=false"
+                + "?" + Const.ParamsNames.ERROR + "=false"
                 + "&" + Const.ParamsNames.USER_ID + "=" + idOfNewStudent,
                 pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED 
-                + "?" + Const.ParamsNames.NEXT_URL + "=" + Const.ActionURIs.STUDENT_PROFILE_PAGE
-                + "&" + Const.ParamsNames.REGKEY + "=" + newStudentKey, 
+                + "?" + Const.ParamsNames.REGKEY + "=" + newStudentKey
+                + "&" + Const.ParamsNames.NEXT_URL + "=" + Const.ActionURIs.STUDENT_PROFILE_PAGE, 
                 ((StudentCourseJoinConfirmationPageData) pageResult.data).confirmUrl);
         assertEquals("", pageResult.getStatusMessage());
         
@@ -102,9 +101,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         assertEquals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED
                 + "?" + Const.ParamsNames.REGKEY + "=" + newStudentKey
                 + "&" + Const.ParamsNames.NEXT_URL + "=" + Const.ActionURIs.STUDENT_PROFILE_PAGE.replace("/", "%2F")
-                + "&" + Const.ParamsNames.STUDENT_EMAIL + "=" + newStudentData.email.replace("@", "%40")
-                + "&" + Const.ParamsNames.ERROR + "=false"
-                + "&" + Const.ParamsNames.COURSE_ID + "=" + newStudentData.course,
+                + "&" + Const.ParamsNames.ERROR + "=false",
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         
