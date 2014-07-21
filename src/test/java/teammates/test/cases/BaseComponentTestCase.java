@@ -17,13 +17,13 @@ public class BaseComponentTestCase extends BaseTestCase {
     public void suiteSetUp() throws Exception {
         gaeSimulation.tearDown();
         gaeSimulation.setup();
-        System.setProperty("testing", "true");
     } 
     
     @BeforeTest
     public void testSetUp() throws Exception {
         gaeSimulation = GaeSimulation.inst();
         gaeSimulation.setup();
+        
     }
 
     
