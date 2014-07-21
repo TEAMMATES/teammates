@@ -3,11 +3,15 @@ package teammates.common.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import teammates.common.util.Const.SystemParams;
 
@@ -305,11 +309,118 @@ public class TimeHelper {
      * Example: 1200 milliseconds ---> 0:1:200
      */
     
-    public static String ConvertToStandardDuration(Long timeInMilliseconds){
+    public static String convertToStandardDuration(Long timeInMilliseconds){
      
         return timeInMilliseconds !=null? String.format("%d:%d:%d",
                                                          timeInMilliseconds / 60000,
                                                          timeInMilliseconds / 1000,
                                                          timeInMilliseconds % 1000) : "";
+    }
+    
+    
+    
+    /**
+     * This converts a time string in admin log filter to corresponding long value as String
+     * accepted format: 
+     * All 3 fields given:  0 m : 12 s : 12 ms  (OR)  0 : 12 : 12  (OR)  0m 12s 12ms   
+     * Only 2 fields given: 10 s : 12 ms (OR) 10s : 12 (OR) 10 : 12 
+     * Only 1 field given: 1 min (OR) 60s (OR) 60000ms  
+     * @return
+     */
+    public static String convertTimeStringToLongString(String time){
+              
+        
+        time = time.replace("," , ":")
+                   .replace("-" , ":")
+                   .replace("/" , ":")
+                   .replace("\\" , ":");
+        
+        String[] splitTimeString = time.split(":");
+        
+        if(splitTimeString.length > 3){           
+           return null;
+        }
+        
+       
+        
+        if(splitTimeString.length == 3){
+            time = time.replaceFirst(":", "min")
+                       .replaceFirst(":", "second");
+            
+            time += " milli";
+            
+        } else if(splitTimeString.length == 2){
+            time = time.replaceFirst(":", "second");
+            time += " milli";
+            
+        } else {
+            time = time + " milli";
+        }
+        
+        String timeAsLongString = extractTimeFromSpecialString(time);
+        
+        if(timeAsLongString != null){
+            return timeAsLongString;
+        } else {
+            return null;
+        }
+
+    }
+    
+    
+    private static String extractTimeFromSpecialString(String str) {                
+        
+        
+        Long timeAsLong = null;
+        
+        str = str.toLowerCase()
+                 .replace("minute","m")
+                 .replace("minutes","m")
+                 .replace("mins","m") 
+                 .replace("min", "m")
+                 .replace("mins", "m")
+                 .replace("second", "s")
+                 .replace("seconds", "s")
+                 .replace("sec", "s")
+                 .replace("millisecond", "l")
+                 .replace("milliseconds", "l")
+                 .replace("milli", "l")
+                 .replace("millis", "l")
+                 .replace("ms" , "l");
+        
+        if(str.contains("m") || str.contains("s") || str.contains("l")){           
+            Pattern min = Pattern.compile("(\\d+)\\s*m");
+            Pattern second = Pattern.compile("(\\d+)\\s*s");
+            Pattern milli = Pattern.compile("(\\d+)\\s*l");
+            
+            long minAsLong;
+            long secondAsLong;
+            long milliAsLong;
+            
+            Matcher m = min.matcher(str);
+            if(m.find()){
+                minAsLong = Long.parseLong(m.group().replace("m", "").trim());
+            } else {
+                minAsLong = 0;
+            }
+            
+            m = second.matcher(str);
+            if(m.find()){
+                secondAsLong = Long.parseLong(m.group().replace("s", "").trim());
+            } else {
+                secondAsLong = 0;
+            }
+            
+            m = milli.matcher(str);
+            if(m.find()){
+                milliAsLong = Long.parseLong(m.group().replace("l", "").trim());
+            } else {
+                milliAsLong = 0;
+            }
+            timeAsLong = minAsLong * 60000 + secondAsLong * 1000 + milliAsLong;
+        }
+              
+        return timeAsLong == null? null : ""+ timeAsLong;
+       
     }
 }

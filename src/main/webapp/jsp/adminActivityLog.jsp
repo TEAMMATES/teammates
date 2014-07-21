@@ -177,7 +177,7 @@
                                                     Possible Labels:</strong>&nbsp;from,
                                                 to, person, role,
                                                 request, response,
-                                                version<br>
+                                                version,time<br>
                                                 <ul>
 
                                                     <li>E.g. from:
@@ -213,6 +213,17 @@
                                                         4.16 (both "."
                                                         and "-" are
                                                         acceptable)</li>
+                                                     
+                                                     <li>E.g. time: 1000 (equals 1000 ms) </li>
+                                                     <li>E.g. time: 10s </li>
+                                                     <li>E.g. time: 10s 12ms </li>
+                                                     <li>E.g. time: 12 ms </li>
+                                                     <li>E.g. time: 1 min 1s 1ms (equals 1m 1s 1ms) </li>
+                                                     <li>E.g. time: 1s:1ms </li>
+                                                     <li>E.g. time: 1 min </li>
+                                                     <li>E.g. time: 0:10:100 (equals 10s 100ms) </li>
+                                                     <li>E.g. time: 10:100 (equals 10s 100ms) </li>
+                                                     
                                                 </ul>
                                             </div>
                                         </div>
