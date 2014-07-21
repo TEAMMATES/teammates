@@ -28,6 +28,10 @@ public class ActivityLogEntry {
     
     private String logInfoAsHtml;
     
+    private static final int TIME_TAKEN_WARNING_LOWER_RANGE = 10000;
+    private static final int TIME_TAKEN_WARNING_UPPER_RANGE = 20000;
+    private static final int TIME_TAKEN_DANGER_UPPER_RANGE = 60000;
+    
     /**
      * Constructor that creates a empty ActivityLog
      */
@@ -250,15 +254,30 @@ public class ActivityLogEntry {
         }
         
         String colorCode = "";
-        if (timeTaken >= 10000 && timeTaken <= 20000){
+        if (timeTaken >= TIME_TAKEN_WARNING_LOWER_RANGE && timeTaken <= TIME_TAKEN_WARNING_UPPER_RANGE){
             colorCode = "text-warning";
-        }else if(timeTaken > 20000 && timeTaken <=60000){
+        }else if(timeTaken > TIME_TAKEN_WARNING_UPPER_RANGE && timeTaken <= TIME_TAKEN_DANGER_UPPER_RANGE){
             colorCode = "text-danger";
         }
         
         return colorCode;            
     }
     
+    
+    public String getTableCellColorCode(Long timeTaken){
+        
+        if(timeTaken == null){
+            return "";
+        }
+        
+        String colorCode = "";
+        if (timeTaken >= TIME_TAKEN_WARNING_LOWER_RANGE && timeTaken <= TIME_TAKEN_WARNING_UPPER_RANGE){
+            colorCode = "warning";
+        }else if(timeTaken > TIME_TAKEN_WARNING_UPPER_RANGE && timeTaken <= TIME_TAKEN_DANGER_UPPER_RANGE){
+            colorCode = "danger";
+        }    
+        return colorCode;            
+    }
     
     public String getLogEntryActionsButtonClass(){
         
@@ -387,10 +406,10 @@ public class ActivityLogEntry {
         
         
         String result = "";
-        result += "<tr> <td style=\"vertical-align: middle;\"> <strong>"+ getDateInfo() + "</strong>"
+        result += "<tr> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"+ getDateInfo()
                + "<br> <p class=\"" + getColorCode(getTimeTaken()) + "\">"
-               + TimeHelper.ConvertToStandardDuration(getTimeTaken())
-               + "</p> </td> <td> "
+               + "<strong>" + TimeHelper.ConvertToStandardDuration(getTimeTaken()) + "</strong>"
+               + "</p> </td> <td class=\"" + getTableCellColorCode(timeTaken) + "\">"
                + "<form method=\"post\" action=\"" + Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE + "\"> "
                + "<h4 class=\"list-group-item-heading\">" 
                + getIconRoleForShow() + "&nbsp;" + getActionInfo() + "&nbsp;"

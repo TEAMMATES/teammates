@@ -26,7 +26,7 @@ public class TimeHelper {
      */
     
     static{
-        map("-12.0", "Baker Island, Howland Island222");
+        map("-12.0", "Baker Island, Howland Island");
         map("-11.0", "American Samoa, Niue");
         map("-10.0", "Hawaii, Cook Islands, Marquesas Islands");
         map("-9.0", "Gambier Islands, Alaska");

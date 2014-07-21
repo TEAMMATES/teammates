@@ -518,7 +518,7 @@ public class StudentsLogic {
     public void deleteStudentsForGoogleIdAndCascade(String googleId) {
         List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
         
-        //Cascade delete students
+        // Cascade delete students
         for (StudentAttributes student : students) {
             deleteStudentCascade(student.course, student.email);
         }

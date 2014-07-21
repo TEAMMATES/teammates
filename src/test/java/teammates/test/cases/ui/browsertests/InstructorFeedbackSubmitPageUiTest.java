@@ -39,7 +39,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorFeedbackSubmitPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
 
         browser = BrowserPool.getBrowser();        
     }

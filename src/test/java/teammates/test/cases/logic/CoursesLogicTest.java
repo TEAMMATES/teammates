@@ -1288,6 +1288,9 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         TestHelper.verifyAbsentInDatastore(dataBundle.students.get("student5InCourse1"));
         TestHelper.verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
         TestHelper.verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
+        TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI1C1toS1C1"));
+        TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment2FromI1C1toS1C1"));
+        TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
 
         ArrayList<SubmissionAttributes> submissionsOfCourse = new ArrayList<SubmissionAttributes>(dataBundle.submissions.values());
         for (SubmissionAttributes s : submissionsOfCourse) {

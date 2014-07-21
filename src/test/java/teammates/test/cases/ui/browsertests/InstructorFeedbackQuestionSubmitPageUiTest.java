@@ -27,7 +27,7 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorFeedbackQuestionSubmitPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
 
         browser = BrowserPool.getBrowser();        
     }

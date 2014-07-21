@@ -496,9 +496,11 @@ public class BackDoorLogic extends Logic {
             deleteComment(c);
         }
         
-        waitUntilDeletePersists(dataBundle);
+        //waitUntilDeletePersists(dataBundle);
     }
 
+    //TODO: remove this when we confirm it is not needed
+    @SuppressWarnings("unused")
     private void waitUntilDeletePersists(DataBundle dataBundle) {
         
         //TODO: this method has too much duplication. 

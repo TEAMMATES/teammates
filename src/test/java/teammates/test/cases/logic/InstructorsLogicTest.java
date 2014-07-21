@@ -685,6 +685,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         instructorsLogic.deleteInstructorCascade(courseId, email);
         
         TestHelper.verifyAbsentInDatastore(instructorDeleted);
+        TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
 
         ______TS("typical case: delete a non-existent instructor");
 
@@ -705,21 +706,26 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
-
+        
+        // restore deleted instructor
+        instructorsLogic.createInstructor(instructorDeleted);
     }
 
     public void testDeleteInstructorsForGoogleId() throws Exception {
         
         ______TS("typical case: delete all instructors for a given googleId");
         
-        String googleId = "idOfInstructor3";
+        String googleId = "idOfInstructor1";
+        
+        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForGoogleId(googleId);
         
         instructorsLogic.deleteInstructorsForGoogleIdAndCascade(googleId);
         
-        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);
+        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);      
+        assertEquals(instructorList.isEmpty(), true);
+        TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI1C1toS1C1"));
+        TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment2FromI1C1toS1C1"));
         
-        assertEquals(true, instructorList.isEmpty());
-
         ______TS("typical case: delete an non-existent googleId");
 
         instructorsLogic.deleteInstructorsForGoogleIdAndCascade("non-existent");
@@ -731,6 +737,11 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+        
+        // restore deleted instructors
+        for (InstructorAttributes instructor : instructors) {
+            instructorsLogic.createInstructor(instructor);
         }
     }
 
