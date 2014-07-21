@@ -1,6 +1,5 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.fail;
 
 import java.text.ParseException;
@@ -22,12 +21,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
 import com.google.appengine.api.datastore.Text;
 
 public class InstructorFeedbacksPage extends AppPage {
+    
+
+    @FindBy(id = "fstype")
+    private WebElement fsType;
     
     @FindBy(id = "courseid")
     private WebElement courseIdDropdown;
@@ -115,6 +117,10 @@ public class InstructorFeedbacksPage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("<h1>Add New Feedback Session</h1>");
+    }
+    
+    public void selectSessionType(String visibleText){
+        selectDropdownByVisibleValue(fsType, visibleText);
     }
     
     public AppPage sortByDeadline() {
