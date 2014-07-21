@@ -136,7 +136,6 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         StudentAttributes student = testData.students.get("Student1Course2");
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
-        ThreadHelper.waitFor(500);
         
         viewPage.clickShowPhoto(student.course, student.name);
         viewPage.verifyProfilePhotoIsDefault(student.course, student.name);
