@@ -42,7 +42,9 @@ public class StudentsDb extends EntitiesDb {
     private static final Logger log = Utils.getLogger();
 
     public void putDocument(StudentAttributes student){
-        putDocument(Const.SearchIndex.STUDENT, new StudentSearchDocument(student));
+        if(System.getProperty("testing") == null || !System.getProperty("testing").equals("true")){
+            putDocument(Const.SearchIndex.STUDENT, new StudentSearchDocument(student));
+        }
     }
     
     public StudentSearchResultBundle search(String queryString, String googleId, String cursorString){
@@ -56,11 +58,15 @@ public class StudentsDb extends EntitiesDb {
     }
 
     public void deleteDocument(StudentAttributes studentToDelete){
+        if(System.getProperty("testing") != null && System.getProperty("testing").equals("true")){
+            return;
+        }
+
         if(studentToDelete.key == null){
             StudentAttributes student = getStudentForEmail(studentToDelete.course, studentToDelete.email);
-            deleteDocument(Const.SearchIndex.COMMENT, student.key);
+            deleteDocument(Const.SearchIndex.STUDENT, student.key);
         } else {
-            deleteDocument(Const.SearchIndex.COMMENT, studentToDelete.key);
+            deleteDocument(Const.SearchIndex.STUDENT, studentToDelete.key);
         }
     }
     
@@ -68,11 +74,6 @@ public class StudentsDb extends EntitiesDb {
             throws InvalidParametersException, EntityAlreadyExistsException {
         StudentAttributes createdStudent = (StudentAttributes) createEntity(student);
         putDocument(createdStudent);
-    }
-
-    public void createStudentWithoutDocument(StudentAttributes student)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        StudentAttributes createdStudent = (StudentAttributes) createEntity(student);
     }
 
     /**
@@ -313,34 +314,6 @@ public class StudentsDb extends EntitiesDb {
         getPM().close();
     }
 
-    public void updateStudentWithoutDocument(String courseId, String email, String newName,
-            String newTeamName, String newSectionName, String newEmail, String newGoogleID,
-            String newComments)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
-        
-        verifyStudentExists(courseId, email);
-        
-        Student student = getStudentEntityForEmail(courseId, email);
-        Student studentWithNewEmail = getStudentEntityForEmail(courseId, newEmail);
-        
-        if (studentWithNewEmail != null && !studentWithNewEmail.equals(student)) {
-            String error = ERROR_UPDATE_EMAIL_ALREADY_USED
-                    + studentWithNewEmail.getName() + "/" + studentWithNewEmail.getEmail();
-            throw new InvalidParametersException(error);
-        }
-
-        student.setEmail(Sanitizer.sanitizeForHtml(newEmail));
-        student.setName(Sanitizer.sanitizeForHtml(newName));
-        student.setComments(Sanitizer.sanitizeForHtml(newComments));
-        student.setGoogleId(Sanitizer.sanitizeForHtml(newGoogleID));
-        student.setTeamName(Sanitizer.sanitizeForHtml(newTeamName));
-        student.setSectionName(Sanitizer.sanitizeForHtml(newSectionName));
-        
-        getPM().close();
-    }
-
     //TODO: add an updateStudent(StudentAttributes) version and make the above private
     
     /**
@@ -381,35 +354,6 @@ public class StudentsDb extends EntitiesDb {
         //TODO: use the method in the parent class instead.
     }
 
-    public void deleteStudentWithoutDocument(String courseId, String email) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
-    
-        Student studentToDelete = getStudentEntityForEmail(courseId, email);
-    
-        if (studentToDelete == null) {
-            return;
-        }
-        
-        getPM().deletePersistent(studentToDelete);
-        getPM().flush();
-    
-        // Check delete operation persisted
-        int elapsedTime = 0;
-        Student studentCheck = getStudentEntityForEmail(courseId, email);
-        while ((studentCheck != null)
-                && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
-            ThreadHelper.waitBriefly();
-            studentCheck = getStudentEntityForEmail(courseId, email);
-            elapsedTime += ThreadHelper.WAIT_DURATION;
-        }
-        if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
-            log.severe("Operation did not persist in time: deleteStudent->"
-                    + courseId + "/" + email);
-        }
-        //TODO: use the method in the parent class instead.
-    }
-
     /**
      * Fails silently if no such student. <br>
      * Preconditions: <br>
@@ -427,14 +371,6 @@ public class StudentsDb extends EntitiesDb {
         getPM().flush();
     }
 
-     public void deleteStudentsForGoogleIdWithoutDocument(String googleId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
-
-        List<Student> studentList = getStudentEntitiesForGoogleId(googleId);
-        getPM().deletePersistentAll(studentList);
-        getPM().flush();
-    }
-
     /**
      * Fails silently if no such student or no such course. <br>
      * Preconditions: <br>
@@ -448,14 +384,6 @@ public class StudentsDb extends EntitiesDb {
         for(Student student : studentList){
             deleteDocument(new StudentAttributes(student));
         }
-        getPM().deletePersistentAll(studentList);
-        getPM().flush();
-    }
-
-    public void deleteStudentsForCourseWithoutDocument(String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-    
-        List<Student> studentList = getStudentEntitiesForCourse(courseId);
         getPM().deletePersistentAll(studentList);
         getPM().flush();
     }

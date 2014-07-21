@@ -46,6 +46,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         turnLoggingUp(AccountsLogic.class);
         removeTypicalDataInDatastore();
         restoreTypicalDataInDatastore();
+        
     }
 
     @SuppressWarnings("deprecation")
@@ -227,7 +228,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         // Create correct student with original@email.com
         StudentAttributes studentData = new StudentAttributes(null,
                 originalEmail, "name", "", courseId, "teamName", "sectionName");
-        studentsLogic.createStudentCascadeWithoutDocument(studentData);
+        studentsLogic.createStudentCascade(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
                 originalEmail);
         
@@ -260,7 +261,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         String existingId = "AccLogicT.existing.studentId";
         StudentAttributes existingStudent = new StudentAttributes(existingId,
                 "differentEmail@email.com", "name", "", courseId, "teamName", "sectionName");
-        studentsLogic.createStudentCascadeWithoutDocument(existingStudent);
+        studentsLogic.createStudentCascade(existingStudent);
         
         try {
             accountsLogic.joinCourseForStudent(studentData.key, existingId);
@@ -321,7 +322,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         originalEmail = "email2@gmail.com";
         studentData = new StudentAttributes(null, originalEmail, "name", "",
                 courseId, "teamName", "sectionName");
-        studentsLogic.createStudentCascadeWithoutDocument(studentData);
+        studentsLogic.createStudentCascade(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
                 originalEmail);
 
@@ -346,7 +347,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
         // make the student 'unregistered' again
         studentData.googleId = "";
-        studentsLogic.updateStudentCascadeWithoutDocument(studentData.email, studentData);
+        studentsLogic.updateStudentCascade(studentData.email, studentData);
         assertEquals("",
                 logic.getStudentForEmail(studentData.course, studentData.email).googleId);
 
@@ -515,7 +516,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         // Make instructor account id a student too.
         StudentAttributes student = new StudentAttributes(instructor.googleId,
                 "email@com", instructor.name, "", instructor.courseId, "team", "section");
-        studentsLogic.createStudentCascadeWithoutDocument(student);
+        studentsLogic.createStudentCascade(student);
         TestHelper.verifyPresentInDatastore(account);
         TestHelper.verifyPresentInDatastore(instructor);
         TestHelper.verifyPresentInDatastore(student);

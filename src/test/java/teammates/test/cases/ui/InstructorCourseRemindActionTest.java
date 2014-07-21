@@ -87,8 +87,8 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                                                                            "unregistered1@email.com", "", courseId);
         StudentAttributes unregisteredStudent2 = new StudentAttributes("Section 1", "Team Unregistered", "Unregistered student 2",
                                                                            "unregistered2@email.com", "", courseId);
-        StudentsLogic.inst().createStudentCascadeWithoutDocument(unregisteredStudent1);
-        StudentsLogic.inst().createStudentCascadeWithoutDocument(unregisteredStudent2);
+        StudentsLogic.inst().createStudentCascade(unregisteredStudent1);
+        StudentsLogic.inst().createStudentCascade(unregisteredStudent2);
         
         /* Reassign the attributes to retrieve their keys */
         unregisteredStudent1 = StudentsLogic.inst().getStudentForEmail(courseId, unregisteredStudent1.email);
@@ -114,8 +114,8 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 + StringHelper.encrypt(unregisteredStudent2.key) + "<br/>";
         AssertHelper.assertContains(expectedLogSegment, remindAction.getLogMessage());
         
-        StudentsLogic.inst().deleteStudentCascadeWithoutDocument(courseId, unregisteredStudent1.email);
-        StudentsLogic.inst().deleteStudentCascadeWithoutDocument(courseId, unregisteredStudent2.email);
+        StudentsLogic.inst().deleteStudentCascade(courseId, unregisteredStudent1.email);
+        StudentsLogic.inst().deleteStudentCascade(courseId, unregisteredStudent2.email);
 
         ______TS("Failure case: Invalid email parameter");
 

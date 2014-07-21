@@ -75,29 +75,10 @@ public class StudentsLogic {
         evaluationsLogic.adjustSubmissionsForNewStudent(
                 studentData.course, studentData.email, studentData.team);
     }
-
-    public void createStudentCascadeWithoutDocument(StudentAttributes studentData) 
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        
-        createStudentCascadeWithSubmissionAdjustmentScheduledWithoutDocument(studentData);
-        
-        if (!coursesLogic.isCoursePresent(studentData.course)) {
-            throw new EntityDoesNotExistException(
-                    "Course does not exist [" + studentData.course + "]");
-        }
-        
-        evaluationsLogic.adjustSubmissionsForNewStudent(
-                studentData.course, studentData.email, studentData.team);
-    }
     
     public void createStudentCascadeWithSubmissionAdjustmentScheduled(StudentAttributes studentData) 
             throws InvalidParametersException, EntityAlreadyExistsException {    
         studentsDb.createStudent(studentData);
-    }
-
-    public void createStudentCascadeWithSubmissionAdjustmentScheduledWithoutDocument(StudentAttributes studentData) 
-            throws InvalidParametersException, EntityAlreadyExistsException {    
-        studentsDb.createStudentWithoutDocument(studentData);
     }
 
     public StudentAttributes getStudentForEmail(String courseId, String email) {
@@ -235,36 +216,6 @@ public class StudentsLogic {
         
         // TODO: check to delete comments for this section/team if the section/team is no longer existent in the course
     }
-
-    public void updateStudentCascadeWithoutDocument(String originalEmail, StudentAttributes student)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
-        updateStudentCascadeWithSubmissionAdjustmentScheduledWithoutDocument(originalEmail, student);
-
-        /* finalEmail is the string to be used to represent a student's email.
-         * This is because:
-         *  - originalEmail cannot be used when student's email is being updated with a new valid email
-         *  - student.email cannot be used always because it is null when non-email attributes
-         *    of a student are being updated or when the new email to be updated is invalid
-         */
-        FieldValidator validator = new FieldValidator();
-        //Untested case: The deletion is not persisted immediately (i.e. persistence delay) 
-        //       Reason: Difficult to reproduce a persistence delay during testing
-        String finalEmail = (student.email == null || !validator
-                .getInvalidityInfo(FieldType.EMAIL, student.email).isEmpty()) ?
-                originalEmail : student.email;
-        
-        // adjust submissions if moving to a different team
-        if (isTeamChanged(originalStudent.team, student.team)) {
-            evaluationsLogic.adjustSubmissionsForChangingTeam(student.course, finalEmail, student.team);
-            frLogic.updateFeedbackResponsesForChangingTeam(student.course, finalEmail, originalStudent.team, student.team);
-        }
-
-        if(isSectionChanged(originalStudent.section, student.section)) {
-            frLogic.updateFeedbackResponsesForChangingSection(student.course, finalEmail, originalStudent.section, student.section);
-        }
-    }
     
     public void updateStudentCascadeWithSubmissionAdjustmentScheduled(String originalEmail, 
             StudentAttributes student) 
@@ -295,35 +246,6 @@ public class StudentsLogic {
         }
     }
 
-    public void updateStudentCascadeWithSubmissionAdjustmentScheduledWithoutDocument(String originalEmail, 
-            StudentAttributes student) 
-            throws EntityDoesNotExistException, InvalidParametersException {
-        // Edit student uses KeepOriginal policy, where unchanged fields are set
-        // as null. Hence, we can't do isValid() for student here.
-        // After updateWithReferenceToExistingStudentRecord method called,
-        // the student should be valid
-    
-        // here is like a db access that can be avoided if we really want to optimize the code
-        studentsDb.verifyStudentExists(student.course, originalEmail);
-        
-        StudentAttributes originalStudent = getStudentForEmail(student.course, originalEmail);
-        
-        // prepare new student
-        student.updateWithExistingRecord(originalStudent);
-        
-        if(!student.isValid()) {
-            throw new InvalidParametersException(student.getInvalidityInfo());
-        }
-        
-        studentsDb.updateStudentWithoutDocument(student.course, originalEmail, student.name, student.team, student.section, student.email, student.googleId, student.comments);    
-        
-        // cascade email change, if any
-        if (!originalEmail.equals(student.email)) {
-            evaluationsLogic.updateStudentEmailForSubmissionsInCourse(student.course, originalEmail, student.email);
-            frLogic.updateFeedbackResponsesForChangingEmail(student.course, originalEmail, student.email);
-        }
-    }
-    
     public List<StudentAttributes> enrollStudents(String enrollLines,
             String courseId)
             throws EntityDoesNotExistException, EnrollException, InvalidParametersException {
@@ -587,13 +509,6 @@ public class StudentsLogic {
         SubmissionsLogic.inst().deleteAllSubmissionsForStudent(courseId, studentEmail);
         commentsLogic.deleteCommentsForStudent(courseId, studentEmail);
         studentsDb.deleteStudent(courseId, studentEmail);
-    }
-
-    public void deleteStudentCascadeWithoutDocument(String courseId, String studentEmail) {
-        // delete responses first as we need to know the student's team.
-        frLogic.deleteFeedbackResponsesForStudent(courseId, studentEmail);
-        studentsDb.deleteStudentWithoutDocument(courseId, studentEmail);
-        SubmissionsLogic.inst().deleteAllSubmissionsForStudent(courseId, studentEmail);
     }
 
     public void deleteStudentsForGoogleId(String googleId) {

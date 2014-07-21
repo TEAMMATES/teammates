@@ -158,7 +158,7 @@ public class BackDoorServlet extends HttpServlet {
         } else if (action.equals(OPERATION_DELETE_STUDENT)) {
             String courseId = req.getParameter(PARAMETER_COURSE_ID);
             String email = req.getParameter(PARAMETER_STUDENT_EMAIL);
-            backDoorLogic.deleteStudentWithoutDocument(courseId, email);
+            backDoorLogic.deleteStudent(courseId, email);
         } else if (action.equals(OPERATION_GET_ACCOUNT_AS_JSON)) {
             String googleId = req.getParameter(PARAMETER_GOOGLE_ID);
             return backDoorLogic.getAccountAsJson(googleId);

@@ -108,7 +108,7 @@ public class LogicTest extends BaseComponentTestCase {
         StudentAttributes instructorAsStudent = new StudentAttributes(
                 "Section 1", "Team 1", "Instructor As Student", "instructorasstudent@yahoo.com", "", course.id);
         instructorAsStudent.googleId = instructor.googleId;
-        logic.createStudentWithoutDocument(instructorAsStudent);
+        logic.createStudent(instructorAsStudent);
 
         UserType user = logic.getCurrentUser();
         assertEquals(instructor.googleId, user.id);
@@ -174,7 +174,7 @@ public class LogicTest extends BaseComponentTestCase {
     
         //Move student to a new team
         student.team = "Team 1.3";
-        logic.updateStudentWithoutDocument(student.email, student);
+        logic.updateStudent(student.email, student);
         
         submissions = logic.getSubmissionsForEvaluationFromStudent(
                 evaluation.courseId, evaluation.name, student.email);
@@ -184,9 +184,9 @@ public class LogicTest extends BaseComponentTestCase {
                 
         // Move the student out and move in again
         student.team = "Team 1.4";
-        logic.updateStudentWithoutDocument(student.email, student);
+        logic.updateStudent(student.email, student);
         student.team = "Team 1.3";
-        logic.updateStudentWithoutDocument(student.email, student);
+        logic.updateStudent(student.email, student);
         submissions = logic.getSubmissionsForEvaluationFromStudent(evaluation.courseId,
                 evaluation.name, student.email);
         assertEquals(1, submissions.size());
