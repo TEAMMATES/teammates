@@ -250,6 +250,15 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         
         frcDb.deleteFeedbackResponseCommentsForResponse(responseId);
         assertEquals(frcDb.getFeedbackResponseCommentsForResponse(responseId).size(), 0);
+        
+        ______TS("null parameter");
+
+        try {
+            frcDb.deleteFeedbackResponseCommentsForResponse(null);
+            signalFailureToDetectException();
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        }
     }
 
     private void verifyListsContainSameResponseCommentAttributes(
