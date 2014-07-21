@@ -54,7 +54,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorFeedbackPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         idOfInstructorWithSessions = testData.accounts.get("instructorWithSessions").googleId;
         
         newSession = new FeedbackSessionAttributes();
