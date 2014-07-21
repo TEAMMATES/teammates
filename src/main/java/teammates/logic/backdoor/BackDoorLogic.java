@@ -120,13 +120,13 @@ public class BackDoorLogic extends Logic {
                     + " to course " + student.course);
             student.section = (student.section == null) ? "None" : student.section;
             try {
-                updateStudent(student.email, student);
+                updateStudentWithoutDocument(student.email, student);
             } catch (EntityDoesNotExistException e) {
                 if (student.googleId != null && !student.googleId.isEmpty() 
                         && super.getAccount(student.googleId) == null) {
                     super.createAccount(student.googleId, student.name, false, student.email, "NUS");
                 }
-                createStudent(student);
+                createStudentWithoutDocument(student);
             }
         }
 
@@ -338,7 +338,7 @@ public class BackDoorLogic extends Logic {
         StudentAttributes student = Utils.getTeammatesGson().fromJson(newValues,
                 StudentAttributes.class);
         student.section = (student.section == null) ? "None" : student.section;
-        updateStudent(originalEmail, student);
+        updateStudentWithoutDocument(originalEmail, student);
     }
 
     public void editEvaluationAsJson(String evaluationJson)
@@ -462,7 +462,7 @@ public class BackDoorLogic extends Logic {
         //  will be deleted automatically when we delete evaluations.
         
         for (StudentAttributes s : dataBundle.students.values()) {
-            deleteStudent(s.course, s.email);
+            deleteStudentWithoutDocument(s.course, s.email);
         }
         
         for (InstructorAttributes i : dataBundle.instructors.values()) {

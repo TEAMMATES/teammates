@@ -186,7 +186,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         AssertHelper.assertContains(Const.StatusMessages.ENROLL_LINE_EMPTY, enrollAction.getLogMessage());
             
         CoursesLogic.inst().deleteCourseCascade("new-course");
-        StudentsLogic.inst().deleteStudentsForCourse(instructor1OfCourse1.courseId);
+        StudentsLogic.inst().deleteStudentsForCourseWithoutDocument(instructor1OfCourse1.courseId);
     }
     
     /**
