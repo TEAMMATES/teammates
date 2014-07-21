@@ -155,6 +155,17 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         return resultList; 
     }
     
+    public void deleteFeedbackResponseCommentsForResponse(String responseId) {
+        
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, responseId);
+        
+        List<FeedbackResponseComment> frcList = 
+                getFeedbackResponseCommentEntitiesForResponse(responseId);
+        
+        getPM().deletePersistentAll(frcList);
+        getPM().flush();
+    }
+    
     
     /**
      * Preconditions: <br>

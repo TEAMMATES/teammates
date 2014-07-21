@@ -98,6 +98,7 @@ public class FeedbackResponseCommentsLogic {
         }
     }
 
+    // TODO: complete this update method--update other attributes too
     public void updateFeedbackResponseCommentForResponse(String feedbackResponseId) throws InvalidParametersException, EntityDoesNotExistException{
         List<FeedbackResponseCommentAttributes> comments = getFeedbackResponseCommentForResponse(feedbackResponseId);
         FeedbackResponseAttributes response = frLogic.getFeedbackResponse(feedbackResponseId);
@@ -150,6 +151,10 @@ public class FeedbackResponseCommentsLogic {
     public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(
             String queryString, String googleId, String cursorString) {
         return frcDb.search(queryString, googleId, cursorString);
+    }
+    
+    public void deleteFeedbackResponseCommentsForResponse(String responseId) {
+        frcDb.deleteFeedbackResponseCommentsForResponse(responseId);
     }
     
     public void deleteFeedbackResponseComment(

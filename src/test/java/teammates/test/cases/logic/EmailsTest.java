@@ -61,9 +61,9 @@ public class EmailsTest extends BaseComponentTestCase {
     @BeforeMethod
     public void caseSetUp() throws ServletException, IOException {
         
-        InternetAddress internetAddress = new InternetAddress("noreply@"
+        InternetAddress internetAddress = new InternetAddress("Admin@"
                 + Config.inst().getAppId() + ".appspotmail.com",
-                "TEAMMATES Admin (noreply)");
+                "TEAMMATES Admin");
         from = internetAddress.toString();
         replyTo = "teammates@comp.nus.edu.sg";
     }

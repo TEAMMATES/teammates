@@ -71,8 +71,8 @@ public class Emails {
     private String replyTo;
 
     public Emails() {
-        senderEmail = "noreply@" + Config.inst().getAppId() + ".appspotmail.com";
-        senderName = "TEAMMATES Admin (noreply)";
+        senderEmail = "Admin@" + Config.inst().getAppId() + ".appspotmail.com";
+        senderName = "TEAMMATES Admin";
         replyTo = "teammates@comp.nus.edu.sg";
     }
 

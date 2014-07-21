@@ -68,7 +68,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     private static void loadFinalHomePageTestData() throws Exception {
         
         testData = loadDataBundle("/InstructorHomePageUiTest3.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         
         firstEval_OPEN = testData.evaluations.get("First Eval");
         secondEval_PUBLISHED = testData.evaluations.get("Second Eval");
@@ -139,7 +139,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("content: new instructor, with status message HINT_FOR_NEW_INSTRUCTOR");
         
         //already logged in
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         homePage.clickHomeTab();
         homePage.verifyHtmlMainContent("/InstructorHomeNewInstructorWithoutSampleCourse.html");
         
@@ -361,7 +361,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         //restore
         testData = loadDataBundle("/InstructorHomePageUiTest3.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         loginAsCommonInstructor();
         homePage.clickArchiveCourseLink(courseIdForCS1101);
         homePage.clickHomeTab();

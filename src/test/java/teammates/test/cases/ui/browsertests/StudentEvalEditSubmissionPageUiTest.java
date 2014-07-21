@@ -39,7 +39,7 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
         printTestClassHeader();
         testData = loadDataBundle("/StudentEvalEditSubmissionPageUiTest.json");
         testDataExtra = loadDataBundle("/StudentEvalEditSubmissionPageUiTestExtra.json");
-        restoreTestDataOnServer(testData);     
+        removeAndRestoreTestDataOnServer(testData);     
         browser = BrowserPool.getBrowser();    
     }
 
