@@ -6,16 +6,6 @@ $(document).ready(function(){
         return false;
     });
 
-    //On page load, if the searchKey param exist, applyFilters.
-    if($("#searchbox").val()){
-        applyFilters();
-    }
-    
-    //Binding for live search
-    $('input#searchbox').keyup(function(e){
-        applyFilters();
-    });
-
     var panels = $("div.panel");
     var numPanels = -1;
 
@@ -310,7 +300,6 @@ function applyFilters(){
     $("tr[id^='student-c']").show();
     filterSection();
     filterTeam();
-    filterBySearchWord();
     filterEmails();
 }
 
@@ -341,51 +330,6 @@ function filterTeam(){
             $("#studentteam-c" + $courseIdx + "\\." + $sectionIdx + "\\." + $teamIdx).parent().show();
         } else{
             $("#studentteam-c" + $courseIdx + "\\." + $sectionIdx + "\\." + $teamIdx).parent().hide();
-        }
-    });
-}
-
-
-/**
- * Search function that hide unrelated items.
- * Currently features to:
- * - 1 student name/email/team
- * - case insensitive
- * - subString matching
- */
-function filterBySearchWord($key){
-    
-    if($key == undefined){
-        $key = $('#searchbox').val();
-    }
-
-    if($key != null && $key != ""){
-    	//iterate over all tr with students
-        $("tr[id^='student-c']").each(function() {
-        	var doesNotHaveContent = true;
-        	//iterate over each td in the tr
-        	// NOTE: containsIN is a custom defined function
-        	$(this).children("td").each(function() {
-        		if($(this).is(':containsIN("'+$key+'"):not(.no-print)')){
-                    doesNotHaveContent = false;
-                    return false;
-                }
-        	});
-        	
-        	if(doesNotHaveContent) {
-        		$(this).hide();
-        	} 
-        });
-    }
-
-    //If a table only contains the header, then we can hide the course.
-    $('.table').each(function() {
-        if ($(this).children('tbody').children(':visible').length == 0) {
-            $(this).children('thead').children('tr[id^="resultsHeader"]').hide();
-            $(this).children('thead').children('tr[id^="searchNoResults"]').show();
-        } else {
-            $(this).children('thead').children('tr[id^="resultsHeader"]').show();
-            $(this).children('thead').children('tr[id^="searchNoResults"]').hide();
         }
     });
 }

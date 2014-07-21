@@ -106,7 +106,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         assertFalse(redirectResult.isError);
         
         // delete the new student
-        studentsDb.deleteStudent(newStudentData.course, newStudentData.email);
+        studentsDb.deleteStudentWithoutDocument(newStudentData.course, newStudentData.email);
 
     }
 

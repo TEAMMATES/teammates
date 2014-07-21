@@ -485,6 +485,7 @@ public class Const {
         public static final String PROFILE_PICTURE_HEIGHT = "pictureheight";
         public static final String PROFILE_PICTURE_WIDTH = "picturewidth";
         
+        public static final String SEARCH_STUDENTS = "searchstudents";
         public static final String SEARCH_COMMENTS_FOR_STUDENTS = "searchcommentforstudents";
         public static final String SEARCH_COMMENTS_FOR_RESPONSES = "searchcommentforresponses";
     }
@@ -492,11 +493,13 @@ public class Const {
     public class SearchIndex {
         public static final String COMMENT = "comment";
         public static final String FEEDBACK_RESPONSE_COMMENT = "feedbackresponsecomment";
+        public static final String STUDENT = "student";
     }
     
     public class SearchDocumentField {
         public static final String ATTRIBUTE = "attribute";
         public static final String COMMENT_ATTRIBUTE = "commentAttibute";
+        public static final String STUDENT_ATTRIBUTE = "studentAttribute";
         public static final String COMMENT_GIVER_NAME = "commentGiverName";
         public static final String COMMENT_GIVER_EMAIL = "commentGiverEmail";
         public static final String COMMENT_RECIPIENT_NAME = "commentRecipientName";
