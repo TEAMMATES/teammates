@@ -28,6 +28,10 @@ public class ActivityLogEntry {
     
     private String logInfoAsHtml;
     
+    private static final int TIME_TAKEN_WARNING_LOWER_RANGE = 10000;
+    private static final int TIME_TAKEN_WARNING_UPPER_RANGE = 20000;
+    private static final int TIME_TAKEN_DANGER_UPPER_RANGE = 60000;
+    
     /**
      * Constructor that creates a empty ActivityLog
      */
@@ -250,9 +254,9 @@ public class ActivityLogEntry {
         }
         
         String colorCode = "";
-        if (timeTaken >= 10000 && timeTaken <= 20000){
+        if (timeTaken >= TIME_TAKEN_WARNING_LOWER_RANGE && timeTaken <= TIME_TAKEN_WARNING_UPPER_RANGE){
             colorCode = "text-warning";
-        }else if(timeTaken > 20000 && timeTaken <=60000){
+        }else if(timeTaken > TIME_TAKEN_WARNING_UPPER_RANGE && timeTaken <= TIME_TAKEN_DANGER_UPPER_RANGE){
             colorCode = "text-danger";
         }
         
@@ -267,9 +271,9 @@ public class ActivityLogEntry {
         }
         
         String colorCode = "";
-        if (timeTaken >= 10000 && timeTaken <= 20000){
+        if (timeTaken >= TIME_TAKEN_WARNING_LOWER_RANGE && timeTaken <= TIME_TAKEN_WARNING_UPPER_RANGE){
             colorCode = "warning";
-        }else if(timeTaken > 20000 && timeTaken <=60000){
+        }else if(timeTaken > TIME_TAKEN_WARNING_UPPER_RANGE && timeTaken <= TIME_TAKEN_DANGER_UPPER_RANGE){
             colorCode = "danger";
         }    
         return colorCode;            
