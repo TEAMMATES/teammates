@@ -395,7 +395,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         StudentAttributes studentToDelete = typicalBundle.students.get("student1InCourse1");;
         
-        frLogic.deleteFeedbackResponsesForStudent(studentToDelete.course, studentToDelete.email);
+        frLogic.deleteFeedbackResponsesForStudentAndCascade(studentToDelete.course, studentToDelete.email);
         
         List<FeedbackResponseAttributes> remainingResponses = new ArrayList<FeedbackResponseAttributes>();                
         remainingResponses.addAll(frDb.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
@@ -412,7 +412,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         studentToDelete.team = "Team 1.3";
         StudentsLogic.inst().updateStudentCascade(studentToDelete.email, studentToDelete);
 
-        frLogic.deleteFeedbackResponsesForStudent(studentToDelete.course, studentToDelete.email);
+        frLogic.deleteFeedbackResponsesForStudentAndCascade(studentToDelete.course, studentToDelete.email);
         
         remainingResponses.addAll(frDb.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
         remainingResponses.addAll(frDb.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));        
@@ -425,7 +425,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                 
         studentToDelete = typicalBundle.students.get("student5InCourse1");
         
-        frLogic.deleteFeedbackResponsesForStudent(studentToDelete.course, studentToDelete.email);
+        frLogic.deleteFeedbackResponsesForStudentAndCascade(studentToDelete.course, studentToDelete.email);
         remainingResponses.addAll(frDb.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
         remainingResponses.addAll(frDb.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));
         
