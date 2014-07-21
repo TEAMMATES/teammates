@@ -107,7 +107,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
         assertEquals("", pageResult.getStatusMessage());
         
         // delete the new student
-        studentsDb.deleteStudent(newStudentData.course, newStudentData.email);
+        studentsDb.deleteStudentWithoutDocument(newStudentData.course, newStudentData.email);
 
     }
 

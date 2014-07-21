@@ -228,7 +228,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         // Create correct student with original@email.com
         StudentAttributes studentData = new StudentAttributes(null,
                 originalEmail, "name", "", courseId, "teamName", "sectionName");
-        studentsLogic.createStudentCascade(studentData);
+        studentsLogic.createStudentCascadeWithoutDocument(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
                 originalEmail);
         
@@ -261,7 +261,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         String existingId = "AccLogicT.existing.studentId";
         StudentAttributes existingStudent = new StudentAttributes(existingId,
                 "differentEmail@email.com", "name", "", courseId, "teamName", "sectionName");
-        studentsLogic.createStudentCascade(existingStudent);
+        studentsLogic.createStudentCascadeWithoutDocument(existingStudent);
         
         try {
             accountsLogic.joinCourseForStudent(studentData.key, existingId);
@@ -322,7 +322,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         originalEmail = "email2@gmail.com";
         studentData = new StudentAttributes(null, originalEmail, "name", "",
                 courseId, "teamName", "sectionName");
-        studentsLogic.createStudentCascade(studentData);
+        studentsLogic.createStudentCascadeWithoutDocument(studentData);
         studentData = StudentsLogic.inst().getStudentForEmail(courseId,
                 originalEmail);
 
@@ -347,7 +347,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
 
         // make the student 'unregistered' again
         studentData.googleId = "";
-        studentsLogic.updateStudentCascade(studentData.email, studentData);
+        studentsLogic.updateStudentCascadeWithoutDocument(studentData.email, studentData);
         assertEquals("",
                 logic.getStudentForEmail(studentData.course, studentData.email).googleId);
 
@@ -516,7 +516,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         // Make instructor account id a student too.
         StudentAttributes student = new StudentAttributes(instructor.googleId,
                 "email@com", instructor.name, "", instructor.courseId, "team", "section");
-        studentsLogic.createStudentCascade(student);
+        studentsLogic.createStudentCascadeWithoutDocument(student);
         TestHelper.verifyPresentInDatastore(account);
         TestHelper.verifyPresentInDatastore(instructor);
         TestHelper.verifyPresentInDatastore(student);
