@@ -42,13 +42,42 @@ public abstract class SearchQuery {
     }
     
     private String prepareOrQueryString(String queryString){
-        String[] keywords = queryString.split("\\s+");
-        if(keywords.length < 1) return "";
+        queryString = queryString.replaceAll("\"", " \" ");
+        String[] splitStrings = queryString.trim().split("\\s+");
+
+        List<String> keywords = new ArrayList<String>();
+        String key = "";
+        boolean isStartQuote = false;
+        for(int i = 0; i < splitStrings.length; i++){
+            if(!splitStrings[i].equals("\"")){
+                if(isStartQuote){
+                    key += " " + splitStrings[i];
+                } else {
+                    keywords.add(splitStrings[i]);
+                }
+            } else {
+                if(isStartQuote){
+                    isStartQuote = false;
+                    if(!key.trim().equals("")){
+                        keywords.add(key.trim());
+                    }
+                    key = "";
+                } else {
+                    isStartQuote = true;
+                }
+            }
+        }
         
-        StringBuilder preparedQueryString = new StringBuilder("("+ keywords[0]);
+        if(isStartQuote && !key.trim().equals("")){
+            keywords.add(key.trim());
+        }
+
+        if(keywords.size() < 1) return "";
         
-        for(int i = 1; i < keywords.length; i++){
-            preparedQueryString.append(OR).append(keywords[i]);
+        StringBuilder preparedQueryString = new StringBuilder("("+ keywords.get(0));
+        
+        for(int i = 1; i < keywords.size(); i++){
+            preparedQueryString.append(OR).append(keywords.get(i));
         }
         return preparedQueryString.toString() + ")";
     }
