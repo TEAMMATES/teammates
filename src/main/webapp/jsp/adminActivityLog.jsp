@@ -91,6 +91,24 @@
                                 <div class="form-group">
 
                                     <div class="col-md-12">
+                                        <h4 class="text-center">
+                                            <span
+                                                class="label label-primary">Append
+                                                "?all=true" to URL to show all
+                                                logs, omit to exclude following requests.
+                                                
+                                            </span> </h4>                                          
+                                            <div class="text-center">                                          
+                                            <ul class="list-group">
+                                                <li class="list-group-item">
+                                                    instructorEvalStatsPage
+                                                </li>
+                                            </ul>
+                                            </div>
+                                        
+                                        
+                                        
+                                        
                                         <div class="alert alert-success">
                                             <p class="text-center">
                                                 <span
@@ -103,6 +121,7 @@
                                                     value2, value3....]</strong><br>
                                             </p>
                                         </div>
+
 
                                         <p class="text-center">
                                             <span
@@ -383,6 +402,11 @@
 
                         <input type="hidden" name="offset" value="<%=data.offset%>">
                         <input type="hidden" name="pageChange"  value="false">
+                        
+                        <!-- This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" 
+                        in AdminActivityLogPageData should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
+                        logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
+                        or simply reloaded with this parameter omitted. -->
                         <input type="hidden" name="all" value="<%=data.ifShowAll%>">
                     </form>
 
@@ -391,7 +415,7 @@
                 </div>
 
                 <%
-                	if (data.queryMessage != null) {
+                    if (data.queryMessage != null) {
                 %>
                 <div class="alert alert-danger" id="queryMessage">
                     <span class="glyphicon glyphicon-warning-sign"></span>
@@ -412,12 +436,13 @@
 
 
             <br> <br>
-
-
+           
             <%
                 List<ActivityLogEntry> appLogs = data.logs;
                 if (appLogs != null) {
             %>
+            
+                 
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <strong>Activity Log <span>

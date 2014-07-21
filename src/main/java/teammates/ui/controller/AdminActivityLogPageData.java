@@ -19,7 +19,14 @@ public class AdminActivityLogPageData extends PageData {
     public String queryMessage;
     public List<ActivityLogEntry> logs;
     public List<String> versions;
-    public Boolean ifShowAll;
+    
+    /**
+     * This determines whether the logs with requests contained in "excludedLogRequestURIs" below 
+     * should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
+     * logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
+     * or simply reloaded with this parameter omitted.
+     */
+    public boolean ifShowAll;
     
     public String statusForAjax;
     private QueryParameters q;
@@ -68,7 +75,7 @@ public class AdminActivityLogPageData extends PageData {
      */   
     private boolean shouldExcludeLogEntry(ActivityLogEntry logEntry){
         
-        if(ifShowAll != null && ifShowAll == true){        
+        if(ifShowAll == true){        
             return false;
         }
         
