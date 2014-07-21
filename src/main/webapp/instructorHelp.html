@@ -833,7 +833,7 @@
                             <div id="createSessionHtmlCustomizable">
 
                                 <div class="well well-plain">
-                                            <form class="form-group" method="post" action="/page/instructorFeedbackAdd" name="form_addfeedbacksession">
+                                            <form class="form-group" name="form_addfeedbacksession">
                                                 <div class="row" title="" data-toggle="tooltip" data-placement="top" data-original-title="Select a different type of session here.">
                                                     <h4 class="label-control col-md-2 text-md">Create new </h4>
                                                     <div class="col-md-5">
@@ -1224,11 +1224,9 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-md-offset-5 col-md-3">
-                                                        <button id="button_submit" type="submit" class="btn btn-primary">Create
-                                                            Feedback Session</button>
+                                                        <button onclick="return false" class="btn btn-primary">Create Feedback Session</button>
                                                     </div>
                                                 </div>
-                                                <input type="hidden" name="user" value="lwl1991">
                                             </form>
                                             <br> <br>
                                         </div>
@@ -2309,7 +2307,7 @@
                                                     View:
                                                 </label>
                                                 <div class="col-sm-10">
-                                                    <select id="viewSelect" class="form-control" name="frsorttype" onchange="this.form.submit()">
+                                                    <select id="viewSelect" class="form-control" name="frsorttype">
                                                         <option value="question" selected="selected">
                                                             Group by - Question
                                                         </option>
@@ -2366,7 +2364,7 @@
                                                     Section:
                                                 </label>
                                                 <div class="col-sm-10">
-                                                    <select id="sectionSelect" class="form-control" name="frgroupbysection" onchange="this.form.submit()">
+                                                    <select id="sectionSelect" class="form-control" name="frgroupbysection">
                                                         <option value="All" selected="selected">
                                                             All
                                                         </option>
