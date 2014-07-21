@@ -1,6 +1,7 @@
-function submitForm(offset) {
+function submitForm(offset, ifShowAll) {
 	$('input[name=offset]').val(offset);
 	$('input[name=pageChange]').val("true");
+	$('input[name=all]').val(ifShowAll);
 	$("#activityLogFilter").submit();
 }
 
@@ -66,3 +67,11 @@ function submitFormAjax(offset) {
 function setFormErrorMessage(button, msg){
 	button.after("&nbsp;&nbsp;&nbsp;"+ msg);
 }
+
+$(document).ready(function(){
+	
+	var isShowAll = $("#ifShowAll").val();	
+	$(".ifShowAll_button_for_person").val(isShowAll);
+	
+	
+});
