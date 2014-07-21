@@ -305,6 +305,9 @@
                                     disabled="disabled"
                                     <% } %>
                                     > Delete</a>
+                            <a class="btn btn-default btn-xs t_student_all_records<%=idx%>" href="<%=data.getStudentRecordsLink(student)%>"
+                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_RECORDS%>"
+                                    > All Records</a>
                             <div class="dropdown" style="display:inline;">
                               <a class="btn btn-default btn-xs t_student_records-c<%=data.courseDetails.course.id %>.<%=idx%> dropdown-toggle" 
                                 href="javascript:;"

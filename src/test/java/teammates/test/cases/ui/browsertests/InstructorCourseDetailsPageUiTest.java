@@ -23,6 +23,7 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
+import teammates.test.pageobjects.InstructorStudentRecordsPage;
 
 /**
  * Tests 'Course Details' view for Instructors.
@@ -63,7 +64,6 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         instructorId = testData.instructors.get("CCDetailsUiT.instrForEmptyCourse").googleId;
         courseId = testData.courses.get("CCDetailsUiT.CourseWithoutStudents").id;
         detailsPage = getCourseDetailsPage();
-
         detailsPage.verifyHtml("/InstructorCourseDetailsEmptyCourse.html");
 
         ______TS("content: multiple students with sections");
@@ -125,6 +125,12 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         InstructorCourseStudentDetailsEditPage studentEditPage = detailsPage.clickEditStudent(charlie.name);
         studentEditPage.verifyIsCorrectPage(charlie.email);
         detailsPage = studentEditPage.goToPreviousPage(InstructorCourseDetailsPage.class);
+        
+        ______TS("link: all records");
+        
+        InstructorStudentRecordsPage studentAllRecordsPage = detailsPage.clickAllRecordsLink(charlie.name);
+        studentAllRecordsPage.verifyIsCorrectPage(charlie.email);
+        detailsPage = studentAllRecordsPage.goToPreviousPage(InstructorCourseDetailsPage.class);
         
         ______TS("link: add comment");
         
