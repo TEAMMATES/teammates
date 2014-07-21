@@ -52,6 +52,8 @@
             <listener class-name="teammates.test.util.PriorityInterceptor" />
         </listeners>
         <classes>
+            <class name="teammates.test.cases.ui.browsertests.AdminHomePageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.AllAccessControlUiTests" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCommentsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseJoinConfirmationPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseEnrollPageUiTest" />
@@ -61,14 +63,9 @@
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseEditPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseDetailsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorEvalsPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentCommentsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentCourseJoinConfirmationPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.AdminHomePageUiTest" />            
             <class name="teammates.test.cases.ui.browsertests.StudentHomePageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.StudentProfilePageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.AllAccessControlUiTests" />
         </classes>
     </test>
 
@@ -79,12 +76,21 @@
             <listener class-name="teammates.test.util.PriorityInterceptor" />
         </listeners>
         <classes>
-            <class name="teammates.test.cases.testdriver.BackDoorTest" />
             <class name="teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest" />
             <class name="teammates.test.cases.ui.browsertests.TableSortTest" />
-            <class name="teammates.test.cases.ui.browsertests.GodModeTest" />
             <class name="teammates.test.cases.ui.browsertests.AllJsTests" />
             <class name="teammates.test.cases.ui.browsertests.MashupPageUiTest" />
+        </classes>
+    </test>
+    
+    <test name="rare-tests" parallel="classes">
+     <!-- These need not be run during staging. -->
+        <listeners>
+            <listener class-name="teammates.test.util.PriorityInterceptor" />
+        </listeners>
+        <classes>
+            <class name="teammates.test.cases.ui.browsertests.GodModeTest" />
+            <class name="teammates.test.cases.testdriver.BackDoorTest" />
         </classes>
     </test>
 
@@ -94,11 +100,14 @@
             <listener class-name="teammates.test.util.PriorityInterceptor" />
         </listeners>
         <classes>
+            <class name="teammates.test.cases.ui.browsertests.AdminAccountManagementPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.AdminAccountDetailsPageUiTest" />            
             <class name="teammates.test.cases.ui.browsertests.AutomatedSessionRemindersTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorEvalSubmissionViewPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorEvalSubmissionEditPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorEvalEditPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorEvalResultsPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackResultsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackSubmitPageUiTest" /> 
@@ -106,14 +115,14 @@
             <class name="teammates.test.cases.ui.browsertests.InstructorStudentListPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorStudentRecordsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorSubmissionAdjustmentUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.AdminAccountManagementPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.AdminAccountDetailsPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentCourseDetailsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentEvalEditSubmissionPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentEvalResultsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentFeedbackSubmitPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentFeedbackQuestionSubmitPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentFeedbackResultsPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.StudentProfilePageUiTest" />
         </classes>
     </test>
 

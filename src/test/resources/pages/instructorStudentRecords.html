@@ -255,7 +255,7 @@ ul #nav {
                     <a href="/page/instructorCoursesPage?user=ISR.teammates.test" data-link="instructorCourse" class="nav courses">Courses</a>
                 </li>
                 <li class="">
-                    <a href="/page/instructorEvalsPage?user=ISR.teammates.test" data-link="instructorEval" class="nav evaluations">Sessions</a>
+                    <a href="/page/instructorFeedbacksPage?user=ISR.teammates.test" data-link="instructorEval" class="nav evaluations">Sessions</a>
                 </li>
                 <li class="active">
                     <a href="/page/instructorStudentListPage?user=ISR.teammates.test" data-link="instructorStudent" class="nav students">Students</a>
@@ -302,7 +302,7 @@ ul #nav {
                             </div>
                             <div class="modal-body">
                                 <br />
-                                <pre class="pre-plain height-fixed-md">This is a lot of info!</pre>
+                                <p class="text-preserve-space height-fixed-md">This is a lot of info!</p>
                             </div>
                             <div class="modal-footer">
                                 <button data-dismiss="modal" class="btn btn-primary" type="button">Close</button>
@@ -336,7 +336,7 @@ ul #nav {
                                             </tr>
                                             <tr>
                                                 <td class="text-bold">Email</td>
-                                                <td><i class="text-muted">Undisclosed</i></td>
+                                                <td><i class="text-muted">Not Specified</i></td>
                                             </tr>
                                             <tr>
                                                 <td class="text-bold">Institution</td>
@@ -356,7 +356,7 @@ ul #nav {
                                     <div class="panel-body">
                                     <span class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer" data-target="#studentProfileMoreInfo" data-toggle="modal"></span>
                                         <h5>More Info </h5>                                    
-                                        <pre class="pre-plain height-fixed-md">This is a lot of info!</pre>
+                                        <p class="text-preserve-space height-fixed-md">This is a lot of info!</p>
                                     </div>
                                 </div>
                             </div>
@@ -388,7 +388,7 @@ ul #nav {
                                     </a>
                                     
                                 </div>
-                                <div id="plainCommentText0">Comment 2 from ISR.CS2104 teammates.test Instructor to Benny</div>
+                                <div id="plainCommentText0" style="margin-left: 15px;">Comment 2 from ISR.CS2104 teammates.test Instructor to Benny</div>
                                 <div style="display:none;" id="commentTextEdit0">
                                     <div class="form-group form-inline">
                                         <div class="form-group text-muted">
@@ -496,7 +496,7 @@ ul #nav {
                                     </a>
                                     
                                 </div>
-                                <div id="plainCommentText1">Comment 1 from ISR.CS2104 teammates.test Instructor to Benny</div>
+                                <div id="plainCommentText1" style="margin-left: 15px;">Comment 1 from ISR.CS2104 teammates.test Instructor to Benny</div>
                                 <div style="display:none;" id="commentTextEdit1">
                                     <div class="form-group form-inline">
                                         <div class="form-group text-muted">
@@ -670,7 +670,7 @@ ul #nav {
                                       <textarea id="commentText" name="commenttext" placeholder="Your comment about this student" rows="3" class="form-control"></textarea>
                                     </div>
                                     <div class="col-sm-offset-5">
-                                      <input type="submit" value="Add Comment" id="button_save_comment" class="btn btn-primary" />
+                                      <input type="submit" value="Save" id="button_save_comment" class="btn btn-primary" />
                                       <input type="button" onclick="hideAddCommentBox();" value="Cancel" class="btn btn-default" />
                                       <input type="hidden" value="ISR.CS2104" name="courseid" />
                                       <input type="hidden" value="benny.c.tmms@gmail.com" name="studentemail" />
@@ -785,12 +785,12 @@ ul #nav {
                                             <td class="col-sm-4">Reviewee: <strong>Benny Charlés</strong>
                                             </td>
                                             <td class="col-sm-4">
-                                                <div class="pull-right"><span title="" data-placement="top" data-toggle="tooltip" data-original-title="This is student own estimation of his/her contributions to the project">Claimed Contribution: </span>
+                                                <div class="pull-right"><span title="" data-placement="top" data-toggle="tooltip" data-original-title="This is the students own estimation of his/her contributions">Claimed Contribution: </span>
                                                     <span class="badge background-color-white color-negative">N/A</span>
                                                 </div>
                                             </td>
                                             <td class="col-sm-4">
-                                                <div class="pull-right"><span title="" data-placement="top" data-toggle="tooltip" data-original-title="This is the average of what other team members think this student contributed to the project">Perceived Contribution: </span>
+                                                <div class="pull-right"><span title="" data-placement="top" data-toggle="tooltip" data-original-title="This is the average of what other team members think this student contributed">Perceived Contribution: </span>
                                                     <span class="badge background-color-white color-positive"> E +5%</span>
                                                 </div>
                                             </td>
@@ -854,12 +854,12 @@ ul #nav {
                                             <td class="col-sm-4">Reviewer: <strong>Benny Charlés</strong>
                                             </td>
                                             <td class="col-sm-4">
-                                                <div class="pull-right"><span title="" data-placement="top" data-toggle="tooltip" data-original-title="This is student own estimation of his/her contributions to the project">Claimed Contribution: </span>
+                                                <div class="pull-right"><span title="" data-placement="top" data-toggle="tooltip" data-original-title="This is the students own estimation of his/her contributions">Claimed Contribution: </span>
                                                     <span class="badge background-color-white color-negative">N/A</span>
                                                 </div>
                                             </td>
                                             <td class="col-sm-4">
-                                                <div class="pull-right"><span title="" data-placement="top" data-toggle="tooltip" data-original-title="This is the average of what other team members think this student contributed to the project">Perceived Contribution: </span>
+                                                <div class="pull-right"><span title="" data-placement="top" data-toggle="tooltip" data-original-title="This is the average of what other team members think this student contributed">Perceived Contribution: </span>
                                                     <span class="badge background-color-white color-positive"> E +5%</span>
                                                 </div>
                                             </td>
@@ -972,12 +972,12 @@ ul #nav {
                                             <td class="col-sm-4">Reviewee: <strong>Benny Charlés</strong>
                                             </td>
                                             <td class="col-sm-4">
-                                                <div class="pull-right"><span title="" data-placement="top" data-toggle="tooltip" data-original-title="This is student own estimation of his/her contributions to the project">Claimed Contribution: </span>
+                                                <div class="pull-right"><span title="" data-placement="top" data-toggle="tooltip" data-original-title="This is the students own estimation of his/her contributions">Claimed Contribution: </span>
                                                     <span class="badge background-color-white color-negative">N/A</span>
                                                 </div>
                                             </td>
                                             <td class="col-sm-4">
-                                                <div class="pull-right"><span title="" data-placement="top" data-toggle="tooltip" data-original-title="This is the average of what other team members think this student contributed to the project">Perceived Contribution: </span>
+                                                <div class="pull-right"><span title="" data-placement="top" data-toggle="tooltip" data-original-title="This is the average of what other team members think this student contributed">Perceived Contribution: </span>
                                                     <span class="badge background-color-white color-negative">N/A</span>
                                                 </div>
                                             </td>
@@ -1041,12 +1041,12 @@ ul #nav {
                                             <td class="col-sm-4">Reviewer: <strong>Benny Charlés</strong>
                                             </td>
                                             <td class="col-sm-4">
-                                                <div class="pull-right"><span title="" data-placement="top" data-toggle="tooltip" data-original-title="This is student own estimation of his/her contributions to the project">Claimed Contribution: </span>
+                                                <div class="pull-right"><span title="" data-placement="top" data-toggle="tooltip" data-original-title="This is the students own estimation of his/her contributions">Claimed Contribution: </span>
                                                     <span class="badge background-color-white color-negative">N/A</span>
                                                 </div>
                                             </td>
                                             <td class="col-sm-4">
-                                                <div class="pull-right"><span title="" data-placement="top" data-toggle="tooltip" data-original-title="This is the average of what other team members think this student contributed to the project">Perceived Contribution: </span>
+                                                <div class="pull-right"><span title="" data-placement="top" data-toggle="tooltip" data-original-title="This is the average of what other team members think this student contributed">Perceived Contribution: </span>
                                                     <span class="badge background-color-white color-negative">N/A</span>
                                                 </div>
                                             </td>

@@ -90,6 +90,13 @@ public class InstructorCourseDetailsPage extends AppPage {
         return changePageType(InstructorCourseStudentDetailsEditPage.class);
     }
     
+    public InstructorStudentRecordsPage clickAllRecordsLink(String studentName) {
+        int rowId = getStudentRowId(studentName);
+        getAllRecordsLink(rowId).click();
+        waitForPageToLoad();
+        return changePageType(InstructorStudentRecordsPage.class);
+    }
+    
     public InstructorCourseDetailsPage clickRemindStudentAndCancel(String studentName) {
         int rowId = getStudentRowId(studentName);
         clickAndCancel(getRemindLink(rowId));
@@ -126,16 +133,16 @@ public class InstructorCourseDetailsPage extends AppPage {
         return browser.driver.findElement(By.className("t_student_edit" + rowId));
     }
     
+    private WebElement getAllRecordsLink(int rowId) {
+        return browser.driver.findElement(By.className("t_student_all_records" + rowId));
+    }
+    
     private WebElement getAddCommentLink(int rowId, CourseAttributes courseId) {
         return browser.driver.findElement(By.className("t_student_records-c" + courseId.id + "." + rowId));
     }
     
     private WebElement getAddCommentToStudentLink(int rowId, CourseAttributes courseId) {
         return browser.driver.findElement(By.className("t_student_details_tostudent-c" + courseId.id + "." + rowId));
-    }
-    
-    private WebElement getAddCommentToTeamLink(int rowId, CourseAttributes courseId) {
-        return browser.driver.findElement(By.className("t_student_details_toteam-c" + courseId.id + "." + rowId));
     }
     
     private WebElement getDeleteLink(int rowId) {

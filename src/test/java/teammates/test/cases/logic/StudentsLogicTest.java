@@ -383,7 +383,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         @SuppressWarnings("static-access")
         String emailInfo = emailMgr.getEmailInfo(msgToStudent);
         String expectedEmailInfo = "[Email sent]to=student1InCourse1@gmail.com|from=" + 
-                "\"TEAMMATES Admin (noreply)\" <noreply@null.appspotmail.com>|subject=TEAMMATES:" + 
+                "TEAMMATES Admin <Admin@null.appspotmail.com>|subject=TEAMMATES:" + 
                 " Invitation to join course [Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
         assertEquals(expectedEmailInfo, emailInfo);
         
@@ -1241,20 +1241,20 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         Emails emailMgr = new Emails();
         @SuppressWarnings("static-access")
         String emailInfo0 = emailMgr.getEmailInfo(msgsForCourse.get(0));
-        String expectedEmailInfoForEmail0 = "[Email sent]to=e0@google.com|from=\"TEAMMATES Admin (noreply)\" " + 
-                "<noreply@null.appspotmail.com>|subject=TEAMMATES: Invitation to join course " + 
+        String expectedEmailInfoForEmail0 = "[Email sent]to=e0@google.com|from=TEAMMATES Admin " + 
+                "<Admin@null.appspotmail.com>|subject=TEAMMATES: Invitation to join course " + 
                 "[Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
         assertEquals(expectedEmailInfoForEmail0, emailInfo0);
         @SuppressWarnings("static-access")
         String emailInfo1 = emailMgr.getEmailInfo(msgsForCourse.get(1));
-        String expectedEmailInfoForEmail1 = "[Email sent]to=e1@google.com|from=\"TEAMMATES Admin (noreply)\" " + 
-                "<noreply@null.appspotmail.com>|subject=TEAMMATES: Invitation to join course " + 
+        String expectedEmailInfoForEmail1 = "[Email sent]to=e1@google.com|from=TEAMMATES Admin " + 
+                "<Admin@null.appspotmail.com>|subject=TEAMMATES: Invitation to join course " + 
                 "[Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
         assertEquals(expectedEmailInfoForEmail1, emailInfo1);
         @SuppressWarnings("static-access")
         String emailInfo2 = emailMgr.getEmailInfo(msgsForCourse.get(2));
         String expectedEmailInfoForEmail2 = "[Email sent]to=e2@google.com|from=" + 
-                "\"TEAMMATES Admin (noreply)\" <noreply@null.appspotmail.com>|subject=TEAMMATES:" + 
+                "TEAMMATES Admin <Admin@null.appspotmail.com>|subject=TEAMMATES:" + 
                 " Invitation to join course [Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
         assertEquals(expectedEmailInfoForEmail2, emailInfo2);
     
@@ -1317,6 +1317,9 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
         // verify other student's submissions are intact
         TestHelper.verifyPresentInDatastore(submissionFromS1C1ToS1C1);
+        
+        // verify comments made to this student are gone
+        TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
 
         ______TS("delete non-existent student");
 

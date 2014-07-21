@@ -37,22 +37,22 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("no responses");
         
-        resultsPage = loginToStudentFeedbackSubmitPage("Alice", "Empty Session");
+        resultsPage = loginToStudentFeedbackResultsPage("Alice", "Empty Session");
         resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageEmpty.html");
             
         ______TS("standard session results");
         
-        resultsPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        resultsPage = loginToStudentFeedbackResultsPage("Alice", "Open Session");
         resultsPage.verifyHtml("/studentFeedbackResultsPageOpen.html");
         
         ______TS("team-to-team session results");
         
-        resultsPage = loginToStudentFeedbackSubmitPage("Benny", "Open Session");
+        resultsPage = loginToStudentFeedbackResultsPage("Benny", "Open Session");
         resultsPage.verifyHtml("/studentFeedbackResultsPageTeamToTeam.html");
         
         ______TS("MCQ session results");
         
-        resultsPage = loginToStudentFeedbackSubmitPage("Alice", "MCQ Session");
+        resultsPage = loginToStudentFeedbackResultsPage("Alice", "MCQ Session");
         resultsPage.verifyHtml("/studentFeedbackResultsPageMCQ.html");
         
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(4,""));
@@ -69,7 +69,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("MSQ session results");
         
-        resultsPage = loginToStudentFeedbackSubmitPage("Alice", "MSQ Session");
+        resultsPage = loginToStudentFeedbackResultsPage("Alice", "MSQ Session");
         resultsPage.verifyHtml("/studentFeedbackResultsPageMSQ.html");
         
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(4,""));
@@ -86,18 +86,18 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("NUMSCALE session results");
         
-        resultsPage = loginToStudentFeedbackSubmitPage("Alice", "NUMSCALE Session");
+        resultsPage = loginToStudentFeedbackResultsPage("Alice", "NUMSCALE Session");
         resultsPage.verifyHtml("/studentFeedbackResultsPageNUMSCALE.html");
         
         ______TS("CONSTSUM session results");
         
-        resultsPage = loginToStudentFeedbackSubmitPage("Alice", "CONSTSUM Session");
+        resultsPage = loginToStudentFeedbackResultsPage("Alice", "CONSTSUM Session");
         resultsPage.verifyHtml("/studentFeedbackResultsPageCONSTSUM.html");
         
 
         ______TS("CONTRIB session results");
         
-        resultsPage = loginToStudentFeedbackSubmitPage("Alice", "CONTRIB Session");
+        resultsPage = loginToStudentFeedbackResultsPage("Alice", "CONTRIB Session");
         resultsPage.verifyHtml("/studentFeedbackResultsPageCONTRIB.html");
 
     }
@@ -107,7 +107,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         BrowserPool.release(browser);
     }
     
-    private StudentFeedbackResultsPage loginToStudentFeedbackSubmitPage(
+    private StudentFeedbackResultsPage loginToStudentFeedbackResultsPage(
             String studentName, String fsName) {
         Url editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                 .withUserId(testData.students.get(studentName).googleId)

@@ -305,6 +305,9 @@
                                     disabled="disabled"
                                     <% } %>
                                     > Delete</a>
+                            <a class="btn btn-default btn-xs t_student_all_records<%=idx%>" href="<%=data.getStudentRecordsLink(student)%>"
+                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_RECORDS%>"
+                                    > All Records</a>
                             <div class="dropdown" style="display:inline;">
                               <a class="btn btn-default btn-xs t_student_records-c<%=data.courseDetails.course.id %>.<%=idx%> dropdown-toggle" 
                                 href="javascript:;"
@@ -320,6 +323,9 @@
                                 <li role="presentation"><a class="t_student_details_toteam-c<%=data.courseDetails.course.id %>.<%=idx%>" role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student)
                                     +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=team"%>">
                                     Comment on <%=sanitizeForHtml(student.team)%></a></li>
+                                <li role="presentation"><a class="t_student_details_tosection-c<%=data.courseDetails.course.id %>.<%=idx%>" role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student)
+                                    +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=section"%>">
+                                    Comment on <%=sanitizeForHtml(student.section)%></a></li>
                               </ul>
                             </div>
                         </td>

@@ -3,25 +3,33 @@
         <h1>Add New Feedback Session</h1>
 
         <div class="well well-plain">
-            <div data-original-title="Select a different type of session here." class="row" title="" data-toggle="tooltip" data-placement="top">
-                <h4 class="label-control col-md-2 text-md">Create new </h4>
-                <div class="col-md-5">
-                    <select class="form-control" name="feedbackchangetype" id="feedbackchangetype">
-                        <option value="/page/instructorFeedbacksPage" selected="selected">Feedback
-                            Session with customizable questions</option>
-                        <option value="/page/instructorEvalsPage">Standard
-                            Team Peer Evaluation with fixed questions</option>
-                    </select>
-                </div>
-                <h4 class="label-control col-md-1 text-md">Or: </h4>
-                <div class="col-md-3">
-                    <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy
-                        from previous feedback sessions</a>
-                </div>
+          <form action="/page/instructorFeedbackAdd" class="form-group" method="post" name="form_addfeedbacksession">
+            <div class="row" data-original-title="Select a different type of session here." data-placement="top" data-toggle="tooltip" title="">
+               <h4 class="label-control col-md-2 text-md">
+                  Create new
+               </h4>
+               <div class="col-md-5">
+                  <select class="form-control" id="fstype" name="fstype">
+                     <option selected="selected" value="STANDARD">
+                        Session with your own questions
+                     </option>
+                     <option value="TEAMEVALUATION">
+                        Team peer evaluation session
+                     </option>
+                  </select>
+               </div>
+               <h4 class="label-control col-md-1 text-md">
+                  Or:
+               </h4>
+               <div class="col-md-3">
+                  <a class="btn btn-info" id="button_copy" style="vertical-align:middle;">
+                     Copy
+                            from previous feedback sessions
+                  </a>
+               </div>
             </div>
-            <br>
-            <form class="form-group" method="post" action="/page/instructorFeedbackAdd" name="form_addfeedbacksession">
-                <div class="panel panel-primary">
+            <br/>
+                        <div class="panel panel-primary">
                     <div class="panel-body">
                         <div class="row">
                             <div data-original-title="Please select the course for which the feedback session is to be created." class="col-md-6" title="" data-toggle="tooltip" data-placement="top">
@@ -45,38 +53,102 @@
                                     </h5>
                                     <div class="col-sm-8">
                                         <select class="form-control" name="timezone" id="timezone">
-                                            <option value="-12">UTC -12:00</option>
-<option value="-11">UTC -11:00</option>
-<option value="-10">UTC -10:00</option>
-<option value="-9">UTC -09:00</option>
-<option value="-8">UTC -08:00</option>
-<option value="-7">UTC -07:00</option>
-<option value="-6">UTC -06:00</option>
-<option value="-5">UTC -05:00</option>
-<option value="-4.5">UTC -04:30</option>
-<option value="-4">UTC -04:00</option>
-<option value="-3.5">UTC -03:30</option>
-<option value="-3">UTC -03:00</option>
-<option value="-2">UTC -02:00</option>
-<option value="-1">UTC -01:00</option>
-<option value="0">UTC</option>
-<option value="1">UTC +01:00</option>
-<option value="2">UTC +02:00</option>
-<option value="3">UTC +03:00</option>
-<option value="3.5">UTC +03:30</option>
-<option value="4">UTC +04:00</option>
-<option value="4.5">UTC +04:30</option>
-<option value="5">UTC +05:00</option>
-<option value="5.5">UTC +05:30</option>
-<option value="5.75">UTC +05:45</option>
-<option value="6">UTC +06:00</option>
-<option value="7">UTC +07:00</option>
-<option value="8">UTC +08:00</option>
-<option value="9">UTC +09:00</option>
-<option value="10">UTC +10:00</option>
-<option value="11">UTC +11:00</option>
-<option value="12">UTC +12:00</option>
-<option value="13">UTC +13:00</option>
+                                           <option value="-12">
+                                                 (UTC -12:00) {*}
+                                              </option>
+                                              <option value="-11">
+                                                 (UTC -11:00) {*}
+                                              </option>
+                                              <option value="-10">
+                                                 (UTC -10:00) {*}
+                                              </option>
+                                              <option value="-9">
+                                                 (UTC -09:00) {*}
+                                              </option>
+                                              <option value="-8">
+                                                 (UTC -08:00) {*}
+                                              </option>
+                                              <option value="-7">
+                                                 (UTC -07:00) {*}
+                                              </option>
+                                              <option value="-6">
+                                                 (UTC -06:00) {*}
+                                              </option>
+                                              <option value="-5">
+                                                 (UTC -05:00) {*}
+                                              </option>
+                                              <option value="-4.5">
+                                                 (UTC -04:30) {*}
+                                              </option>
+                                              <option value="-4">
+                                                 (UTC -04:00) {*}
+                                              </option>
+                                              <option value="-3.5">
+                                                 (UTC -03:30) {*}
+                                              </option>
+                                              <option value="-3">
+                                                 (UTC -03:00) {*}
+                                              </option>
+                                              <option value="-2">
+                                                 (UTC -02:00) {*}
+                                              </option>
+                                              <option value="-1">
+                                                 (UTC -01:00) {*}
+                                              </option>
+                                              <option value="0">
+                                                 (UTC) {*}
+                                              </option>
+                                              <option value="1">
+                                                 (UTC +01:00) {*}
+                                              </option>
+                                              <option value="2">
+                                                 (UTC +02:00) {*}
+                                              </option>
+                                              <option value="3">
+                                                 (UTC +03:00) {*}
+                                              </option>
+                                              <option value="3.5">
+                                                 (UTC +03:30) {*}
+                                              </option>
+                                              <option value="4">
+                                                 (UTC +04:00) {*}
+                                              </option>
+                                              <option value="4.5">
+                                                 (UTC +04:30) {*}
+                                              </option>
+                                              <option value="5">
+                                                 (UTC +05:00) {*}
+                                              </option>
+                                              <option value="5.5">
+                                                 (UTC +05:30) {*}
+                                              </option>
+                                              <option value="5.75">
+                                                 (UTC +05:45) {*}
+                                              </option>
+                                              <option value="6">
+                                                 (UTC +06:00) {*}
+                                              </option>
+                                              <option value="7">
+                                                 (UTC +07:00) {*}
+                                              </option>
+                                              <option value="8">
+                                                 (UTC +08:00) {*}
+                                              </option>
+                                              <option value="9">
+                                                 (UTC +09:00) {*}
+                                              </option>
+                                              <option value="10">
+                                                 (UTC +10:00) {*}
+                                              </option>
+                                              <option value="11">
+                                                 (UTC +11:00) {*}
+                                              </option>
+                                              <option value="12">
+                                                 (UTC +12:00) {*}
+                                              </option>
+                                              <option value="13">
+                                                 (UTC +13:00) {*}
+                                              </option>
 
                                         </select>
                                     </div>
@@ -157,7 +229,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div data-original-title="Please select the date and time for which the feedback session will no longer accept submissions from users." class="col-md-5 border-left-gray" title="" data-toggle="tooltip" data-placement="top">
+                            <div data-original-title="Please select the date and time after which the feedback session will no longer accept submissions from users." class="col-md-5 border-left-gray" title="" data-toggle="tooltip" data-placement="top">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="enddate" class="label-control">Submission
@@ -449,13 +521,13 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="copyModalTitle">Copy Sessions</h4>
+                <h4 class="modal-title" id="copyModalTitle">Creating a new session by copying a previous session</h4>
               </div>
               <div class="modal-body">
                     <form class="form" id="copyModalForm" role="form" method="post" action="/page/instructorFeedbackCopy">
                     <!-- Course -->
                     <div class="form-group">
-                        <label for="modalCopiedCourseId" class="control-label">Course ID</label>
+                        <label for="modalCopiedCourseId" class="control-label">Create in course</label>
                         <select class="form-control" name="copiedcourseid" id="modalCopiedCourseId">
                             <option value="CFeedbackUiT.coursewithoutsessions">CFeedbackUiT.coursewithoutsessions</option>
 
@@ -463,12 +535,11 @@
                     </div>
                     <!-- Session Name -->
                     <div class="form-group">
-                        <label for="modalCopiedSessionName" class="control-label">Session
-                            name</label>
-                        <input class="form-control" name="copiedfsname" id="modalCopiedSessionName" value="" placeholder="e.g. Feedback for Project Presentation 1" type="text">
+                        <label for="modalCopiedSessionName" class="control-label">Name for new session</label>
+                        <input class="form-control" name="copiedfsname" id="modalCopiedSessionName" maxlength="38" value="" placeholder="e.g. Feedback for Project Presentation 1" type="text">
                     </div>
                     <!-- Previous Session -->
-                    <label> Copied Session </label>
+                    <label>Copy sessions/questions from</label>
                     <table class="table-responsive table table-bordered table-hover margin-0" id="copyTableModal">
                         <thead class="fill-primary">
                             <tr><th style="width:20px;">&nbsp;</th>
@@ -480,6 +551,7 @@
                     </table>
                             <input name="fsname" value="" id="modalSessionName" type="hidden">
                             <input name="courseid" value="" id="modalCourseId" type="hidden">
+                            <input name="user" value="CFeedbackUiT.nosessions" type="hidden">
                     </form>
               </div>
               <div class="modal-footer margin-0">

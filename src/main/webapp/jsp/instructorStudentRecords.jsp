@@ -74,8 +74,8 @@
                             </div>
                             <div class="modal-body">
                                 <br>
-                                <pre class="pre-plain height-fixed-md"><%=data.studentProfile.moreInfo.isEmpty() ? 
-                                                    "<i class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.moreInfo%></pre>
+                                <p class="text-preserve-space height-fixed-md"><%=data.studentProfile.moreInfo.isEmpty() ? 
+                                                    "<i class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.moreInfo%></p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -141,8 +141,8 @@
                                     <span data-toggle="modal" data-target="#studentProfileMoreInfo" 
                                           class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
                                         <h5>More Info </h5>                                    
-                                        <pre class="pre-plain height-fixed-md"><%=data.studentProfile.moreInfo.isEmpty() ? 
-                                                "<i class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.moreInfo%></pre>
+                                        <p class="text-preserve-space height-fixed-md"><%=data.studentProfile.moreInfo.isEmpty() ? 
+                                                "<i class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.moreInfo%></p>
                                     </div>
                                 </div>
                             </div>
@@ -504,7 +504,7 @@
                                       <textarea class="form-control" rows="3" placeholder="Your comment about this student" name=<%=Const.ParamsNames.COMMENT_TEXT%> id="commentText"></textarea>
                                     </div>
                                     <div class="col-sm-offset-5">
-                                      <input type="submit" class="btn btn-primary" id="button_save_comment" value="Add Comment">
+                                      <input type="submit" class="btn btn-primary" id="button_save_comment" value="Save">
                                       <input type="button" class="btn btn-default" value="Cancel" onclick="hideAddCommentBox();">
                                       <input type="hidden" name=<%=Const.ParamsNames.COURSE_ID%> value="<%=data.courseId%>">
                                       <input type="hidden" name=<%=Const.ParamsNames.STUDENT_EMAIL%> value="<%=data.student.email %>">

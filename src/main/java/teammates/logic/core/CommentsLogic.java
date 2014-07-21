@@ -110,6 +110,40 @@ public class CommentsLogic {
         return commentsDb.updateComment(comment);
     }
     
+    public void updateInstructorEmail(String courseId, String oldInstrEmail, String updatedInstrEmail) {
+        commentsDb.updateInstructorEmail(courseId, oldInstrEmail, updatedInstrEmail);
+    }
+    
+    public void updateStudentEmail(String courseId, String oldStudentEmail, String updatedStudentEmail) {
+        commentsDb.updateStudentEmail(courseId, oldStudentEmail, updatedStudentEmail);
+    }
+    
+    public void deleteCommentsForInstructor(String courseId, String email) {
+        commentsDb.deleteCommentsByInstructorEmail(courseId, email);
+    }
+    
+    public void deleteCommentsForStudent(String courseId, String studentEmail) {
+        commentsDb.deleteCommentsByStudentEmail(courseId, studentEmail);
+    }
+    
+    public void deleteCommentsForTeam(String courseId, String teamName) {
+        commentsDb.deleteCommentsForTeam(courseId, teamName);
+    }
+    
+    public void deleteCommentsForSection(String courseId, String sectionName) {
+        commentsDb.deleteCommentsForSection(courseId, sectionName);
+    }
+    
+    public void deleteCommentsForCourse(String courseId) {
+        commentsDb.deleteCommentsForCourse(courseId);
+    }
+    
+    public void deleteCommentAndDocument(CommentAttributes comment) {
+        this.deleteComment(comment);
+        this.deleteDocument(comment);
+    }
+    
+    // this is useful for testing. also when search, if the comment is already deleted, document will be deleted--lazy evaluation
     public void deleteComment(CommentAttributes comment){
         commentsDb.deleteEntity(comment);
     }

@@ -33,7 +33,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseStudentDetailsEditPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser(true);
     }
     

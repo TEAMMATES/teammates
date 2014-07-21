@@ -88,7 +88,9 @@ function getAppendedData(data, courseIdx) {
     if(data.courseSectionDetails.length > 0){
         appendedHtml += '<table class="table table-responsive table-striped table-bordered margin-0">'
         appendedHtml += '<thead class="background-color-medium-gray text-color-gray font-weight-normal">';
-        appendedHtml += '<tr><th>Photo</th>';
+        appendedHtml += '<tr id="searchNoResults-' + courseIdx + '" style="display:none;"><th class="align-center color_white bold">Cannot find students in this course</th>';
+        appendedHtml += '</tr>';
+        appendedHtml += '<tr id="resultsHeader-' + courseIdx + '"><th>Photo</th>';
         if(data.hasSection) { 
             appendedHtml += '<th id="button_sortsection-' + courseIdx + '" class="button-sort-none" onclick="toggleSort(this,' + (sortIdx++) + ')">';
             appendedHtml += 'Section <span class="icon-sort unsorted"></span></th>'
@@ -146,7 +148,7 @@ function getAppendedData(data, courseIdx) {
                     if(!data.sectionPrivileges[section.name]['canviewstudentinsection']){
                         appendedHtml += 'disabled="disabled"';
                     }
-                    appendedHtml += '> View</a>';
+                    appendedHtml += '> View</a>&nbsp;';
 
                     appendedHtml += '<a class="btn btn-default btn-xs student-edit-for-test"'
                                      + 'href="' + getCourseStudentEditLink(student, data.account.googleId) + '"'
@@ -154,7 +156,7 @@ function getAppendedData(data, courseIdx) {
                     if(!data.sectionPrivileges[section.name]['canmodifystudent']){
                         appendedHtml += 'disabled="disabled"';
                     }
-                    appendedHtml += '> Edit</a>';
+                    appendedHtml += '> Edit</a>&nbsp;';
 
                     appendedHtml += '<a class="btn btn-default btn-xs student-delete-for-test"'
                                      + 'href="' + getCourseStudentDeleteLink(student, data.account.googleId) + '"'
@@ -163,11 +165,11 @@ function getAppendedData(data, courseIdx) {
                     if(!data.sectionPrivileges[section.name]['canmodifystudent']){
                         appendedHtml += 'disabled="disabled"';
                     }
-                    appendedHtml += '> Delete</a>';
+                    appendedHtml += '> Delete</a>&nbsp;';
                                     
                     appendedHtml += '<a class="btn btn-default btn-xs student-records-for-test"'
                                      + 'href="' + getStudentRecordsLink(student, data.account.googleId) + '"'
-                                     + 'title="' + COURSE_STUDENT_RECORDS + '"data-toggle="tooltip" data-placement="top"> All Records</a>';
+                                     + 'title="' + COURSE_STUDENT_RECORDS + '"data-toggle="tooltip" data-placement="top"> All Records</a>&nbsp;';
                     appendedHtml += '<div class="dropdown" style="display:inline;"><a class="btn btn-default btn-xs dropdown-toggle"' 
                                        + ' href="javascript:;" data-toggle="dropdown"';
                     if(!data.sectionPrivileges[section.name]['cangivecommentinsection']){

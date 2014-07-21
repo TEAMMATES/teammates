@@ -258,9 +258,9 @@
                                 %>
                                             <div class="panel panel-info">
                                                 <div class="panel-heading">
-                                                    <strong>Question <%=teamResponseEntries.getKey().questionNumber%>: </strong><%=data.bundle.getQuestionText(teamResponseEntries.getKey().getId())%><%
+                                                    <strong>Question <%=teamResponseEntries.getKey().questionNumber%>: </strong><span class="text-preserve-space"><%=data.bundle.getQuestionText(teamResponseEntries.getKey().getId())%><%
                                                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
-                                                    %>
+                                                    %></span>
                                                 </div>
                                                 <div class="panel-body padding-0">                
                                                     <div class="resultStatistics">
@@ -318,9 +318,9 @@
                         List<FeedbackResponseAttributes> responseEntries = responsesForRecipientForQuestion.getValue();
                 %>
                         <div class="panel panel-info">
-                            <div class="panel-heading">Question <%=question.questionNumber%>: <%
+                            <div class="panel-heading">Question <%=question.questionNumber%>: <span class="text-preserve-space"><%
                                     out.print(InstructorFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText));
-                                    out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "recipient-"+recipientIndex+"-question-"+questionIndex));%>
+                                    out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "recipient-"+recipientIndex+"-question-"+questionIndex));%></span>
                             </div>
                             <div class="panel-body padding-0">
                                 <div class="resultStatistics">
@@ -329,15 +329,15 @@
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
-                                            <th id="button_sortFromName" onclick="toggleSort(this,1)" style="width: 15%;">
+                                            <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
                                                 Giver
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFromTeam" onclick="toggleSort(this,2)" style="width: 15%;">
+                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,2)" style="width: 15%;">
                                                 Team
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFeedback" onclick="toggleSort(this,3)">
+                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,3)">
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>

@@ -287,10 +287,10 @@
                                     FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                             %>
                                     <div class="panel panel-info">
-                                        <div class="panel-heading">Question <%=question.questionNumber%>: <%
+                                        <div class="panel-heading">Question <%=question.questionNumber%>: <span class="text-preserve-space"><%
                                                 out.print(InstructorFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText));
                                                 out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "giver-"+giverIndex+"-recipient-"+recipientIndex));
-                                        %></div>
+                                        %></span></div>
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left"><%=data.bundle.getResponseAnswerHtml(singleResponse, question)%></div>
@@ -353,7 +353,7 @@
                                             </a>
                                             </div>
                                             <!-- frComment Content -->
-                                            <div id="plainCommentText-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>"><%=InstructorFeedbackResultsPageData.sanitizeForHtml(comment.commentText.getValue()) %></div>
+                                            <div id="plainCommentText-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>"><%=comment.commentText.getValue() %></div>
                                             <!-- frComment Edit Form -->
                                             <form style="display:none;" id="responseCommentEditForm-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>" class="responseCommentEditForm">
                                                 <div class="form-group">

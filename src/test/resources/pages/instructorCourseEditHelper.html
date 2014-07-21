@@ -248,7 +248,7 @@ ul #nav {
                     <a href="/page/instructorCoursesPage?user=InsCrsEdit.Helper" data-link="instructorCourse" class="nav courses">Courses</a>
                 </li>
                 <li class="">
-                    <a href="/page/instructorEvalsPage?user=InsCrsEdit.Helper" data-link="instructorEval" class="nav evaluations">Sessions</a>
+                    <a href="/page/instructorFeedbacksPage?user=InsCrsEdit.Helper" data-link="instructorEval" class="nav evaluations">Sessions</a>
                 </li>
                 <li class="">
                     <a href="/page/instructorStudentListPage?user=InsCrsEdit.Helper" data-link="instructorStudent" class="nav students">Students</a>
@@ -283,7 +283,7 @@ ul #nav {
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <strong>Course:</strong>
-                <a disabled="disabled" onclick="return toggleDeleteCourseConfirmation('InsCrsEdit.CS2104');" title="" data-placement="top" data-toggle="tooltip" id="courseDeleteLink" class="btn btn-primary btn-xs pull-right" href="/page/instructorCourseDelete?courseid=InsCrsEdit.CS2104&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=InsCrsEdit.Helper" data-original-title="Delete the course and its corresponding students and evaluations">
+                <a disabled="disabled" onclick="return toggleDeleteCourseConfirmation('InsCrsEdit.CS2104');" title="" data-placement="top" data-toggle="tooltip" id="courseDeleteLink" class="btn btn-primary btn-xs pull-right" href="/page/instructorCourseDelete?courseid=InsCrsEdit.CS2104&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user=InsCrsEdit.Helper" data-original-title="Delete the course and its corresponding students and sessions">
                     <span class="glyphicon glyphicon-trash"></span>
                     Delete</a>
             </div>
@@ -328,9 +328,8 @@ ul #nav {
                 <strong>Instructor 1:</strong>
                 <div class="pull-right">
                     
-                        <a disabled="disabled" onclick="enableEditInstructor(1, 4)" title="" data-placement="top" data-toggle="tooltip" class="btn btn-primary btn-xs" id="instrEditLink1" href="javascript:;" data-original-title="Edit instructor details">
-                            <span class="glyphicon glyphicon-pencil"></span> Edit</a>
-                    
+                    <a disabled="disabled" onclick="enableEditInstructor(1, 4)" title="" data-placement="top" data-toggle="tooltip" class="btn btn-primary btn-xs" id="instrEditLink1" href="javascript:;" data-original-title="Edit instructor details">
+                        <span class="glyphicon glyphicon-pencil"></span> Edit</a>
                     <a disabled="disabled" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.Helper@gmail.com', true);" title="" data-placement="top" data-toggle="tooltip" class="btn btn-primary btn-xs" id="instrDeleteLink1" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&amp;instructoremail=InsCrsEdit.Helper%40gmail.com&amp;user=InsCrsEdit.Helper" data-original-title="Delete the instructor from the course">
                         <span class="glyphicon glyphicon-trash"></span> Delete</a>
                 </div>
@@ -347,16 +346,18 @@ ul #nav {
             <div class="panel-body">
                 <form class="form form-horizontal" name="formEditInstructors" id="formEditInstructor1&gt;" action="/page/instructorCourseInstructorEditSave" method="post">
                     <input type="hidden" value="InsCrsEdit.CS2104" name="courseid" />
+                    
                     <input type="hidden" value="InsCrsEdit.Helper" name="instructorid" />
+                    
                     <input type="hidden" value="InsCrsEdit.Helper" name="user" />
                     
                     <div id="instructorTable1">
                         
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Google ID:</label>
-                                <div class="col-sm-9"><input type="text" disabled="disabled" tabindex="3" maxlength="45" title="" data-placement="top" data-toggle="tooltip" value="InsCrsEdit.Helper" id="instructorid1" class="form-control immutable" data-original-title="Enter the google id of the instructor." />
-                                </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Google ID:</label>
+                            <div class="col-sm-9"><input type="text" disabled="disabled" tabindex="3" maxlength="45" title="" data-placement="top" data-toggle="tooltip" value="InsCrsEdit.Helper" id="instructorid1" class="form-control immutable" data-original-title="Enter the google id of the instructor." />
                             </div>
+                        </div>
                         
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Name:</label>
@@ -481,7 +482,34 @@ ul #nav {
                                                             <input type="checkbox" value="true" name="canviewsessioninsectionsection0" /> Sessions: View Responses and Comments<br />
                                                             <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsection0" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
-                                                        
+                                                        <a class="small col-sm-5" id="toggleSessionLevelInSection0ForInstructor1" onclick="showTuneSessionnPermissionsDiv(1, 0)" href="javascript:;">
+                                                             
+                                                            Give different permissions for sessions in this section
+                                                            </a>      
+                                                        <div style="display: none;" id="tuneSessionPermissionsDiv0ForInstructor1">
+                                                             
+                                                            <input type="hidden" value="false" name="issection0sessionsset" />
+                                                            
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td>SessionName</td>
+                                                                        <td>Submit Responses and Add Comments</td>
+                                                                        <td>View Responses and Comments</td>
+                                                                        <td>Edit/Delete Responses/Comments by Others</td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    
+                                                                            <tr>
+                                                                                <td class="text-center text-bold" colspan="4">No sessions in this course for you to configure</td>
+                                                                            </tr>
+                                                                    
+                                                                    
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -519,7 +547,34 @@ ul #nav {
                                                             <input type="checkbox" value="true" name="canviewsessioninsectionsection1" /> Sessions: View Responses and Comments<br />
                                                             <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsection1" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
-                                                        
+                                                        <a class="small col-sm-5" id="toggleSessionLevelInSection1ForInstructor1" onclick="showTuneSessionnPermissionsDiv(1, 1)" href="javascript:;">
+                                                             
+                                                            Give different permissions for sessions in this section
+                                                            </a>      
+                                                        <div style="display: none;" id="tuneSessionPermissionsDiv1ForInstructor1">
+                                                             
+                                                            <input type="hidden" value="false" name="issection1sessionsset" />
+                                                            
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td>SessionName</td>
+                                                                        <td>Submit Responses and Add Comments</td>
+                                                                        <td>View Responses and Comments</td>
+                                                                        <td>Edit/Delete Responses/Comments by Others</td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    
+                                                                            <tr>
+                                                                                <td class="text-center text-bold" colspan="4">No sessions in this course for you to configure</td>
+                                                                            </tr>
+                                                                    
+                                                                    
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -557,7 +612,34 @@ ul #nav {
                                                             <input type="checkbox" value="true" name="canviewsessioninsectionsection2" /> Sessions: View Responses and Comments<br />
                                                             <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsection2" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
-                                                        
+                                                        <a class="small col-sm-5" id="toggleSessionLevelInSection2ForInstructor1" onclick="showTuneSessionnPermissionsDiv(1, 2)" href="javascript:;">
+                                                             
+                                                            Give different permissions for sessions in this section
+                                                            </a>      
+                                                        <div style="display: none;" id="tuneSessionPermissionsDiv2ForInstructor1">
+                                                             
+                                                            <input type="hidden" value="false" name="issection2sessionsset" />
+                                                            
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td>SessionName</td>
+                                                                        <td>Submit Responses and Add Comments</td>
+                                                                        <td>View Responses and Comments</td>
+                                                                        <td>Edit/Delete Responses/Comments by Others</td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    
+                                                                            <tr>
+                                                                                <td class="text-center text-bold" colspan="4">No sessions in this course for you to configure</td>
+                                                                            </tr>
+                                                                    
+                                                                    
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -586,9 +668,8 @@ ul #nav {
                 <strong>Instructor 2:</strong>
                 <div class="pull-right">
                     
-                        <a disabled="disabled" onclick="enableEditInstructor(2, 4)" title="" data-placement="top" data-toggle="tooltip" class="btn btn-primary btn-xs" id="instrEditLink2" href="javascript:;" data-original-title="Edit instructor details">
-                            <span class="glyphicon glyphicon-pencil"></span> Edit</a>
-                    
+                    <a disabled="disabled" onclick="enableEditInstructor(2, 4)" title="" data-placement="top" data-toggle="tooltip" class="btn btn-primary btn-xs" id="instrEditLink2" href="javascript:;" data-original-title="Edit instructor details">
+                        <span class="glyphicon glyphicon-pencil"></span> Edit</a>
                     <a disabled="disabled" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.coord@gmail.com', false);" title="" data-placement="top" data-toggle="tooltip" class="btn btn-primary btn-xs" id="instrDeleteLink2" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&amp;instructoremail=InsCrsEdit.coord%40gmail.com&amp;user=InsCrsEdit.Helper" data-original-title="Delete the instructor from the course">
                         <span class="glyphicon glyphicon-trash"></span> Delete</a>
                 </div>
@@ -605,16 +686,18 @@ ul #nav {
             <div class="panel-body">
                 <form class="form form-horizontal" name="formEditInstructors" id="formEditInstructor2&gt;" action="/page/instructorCourseInstructorEditSave" method="post">
                     <input type="hidden" value="InsCrsEdit.CS2104" name="courseid" />
+                    
                     <input type="hidden" value="InsCrsEdit.coord" name="instructorid" />
+                    
                     <input type="hidden" value="InsCrsEdit.Helper" name="user" />
                     
                     <div id="instructorTable2">
                         
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Google ID:</label>
-                                <div class="col-sm-9"><input type="text" disabled="disabled" tabindex="3" maxlength="45" title="" data-placement="top" data-toggle="tooltip" value="InsCrsEdit.coord" id="instructorid2" class="form-control immutable" data-original-title="Enter the google id of the instructor." />
-                                </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Google ID:</label>
+                            <div class="col-sm-9"><input type="text" disabled="disabled" tabindex="3" maxlength="45" title="" data-placement="top" data-toggle="tooltip" value="InsCrsEdit.coord" id="instructorid2" class="form-control immutable" data-original-title="Enter the google id of the instructor." />
                             </div>
+                        </div>
                         
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Name:</label>
@@ -739,7 +822,34 @@ ul #nav {
                                                             <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsection0" /> Sessions: View Responses and Comments<br />
                                                             <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection0" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
-                                                        
+                                                        <a class="small col-sm-5" id="toggleSessionLevelInSection0ForInstructor2" onclick="showTuneSessionnPermissionsDiv(2, 0)" href="javascript:;">
+                                                             
+                                                            Give different permissions for sessions in this section
+                                                            </a>      
+                                                        <div style="display: none;" id="tuneSessionPermissionsDiv0ForInstructor2">
+                                                             
+                                                            <input type="hidden" value="false" name="issection0sessionsset" />
+                                                            
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td>SessionName</td>
+                                                                        <td>Submit Responses and Add Comments</td>
+                                                                        <td>View Responses and Comments</td>
+                                                                        <td>Edit/Delete Responses/Comments by Others</td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    
+                                                                            <tr>
+                                                                                <td class="text-center text-bold" colspan="4">No sessions in this course for you to configure</td>
+                                                                            </tr>
+                                                                    
+                                                                    
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -777,7 +887,34 @@ ul #nav {
                                                             <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsection1" /> Sessions: View Responses and Comments<br />
                                                             <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection1" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
-                                                        
+                                                        <a class="small col-sm-5" id="toggleSessionLevelInSection1ForInstructor2" onclick="showTuneSessionnPermissionsDiv(2, 1)" href="javascript:;">
+                                                             
+                                                            Give different permissions for sessions in this section
+                                                            </a>      
+                                                        <div style="display: none;" id="tuneSessionPermissionsDiv1ForInstructor2">
+                                                             
+                                                            <input type="hidden" value="false" name="issection1sessionsset" />
+                                                            
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td>SessionName</td>
+                                                                        <td>Submit Responses and Add Comments</td>
+                                                                        <td>View Responses and Comments</td>
+                                                                        <td>Edit/Delete Responses/Comments by Others</td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    
+                                                                            <tr>
+                                                                                <td class="text-center text-bold" colspan="4">No sessions in this course for you to configure</td>
+                                                                            </tr>
+                                                                    
+                                                                    
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -815,7 +952,34 @@ ul #nav {
                                                             <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsection2" /> Sessions: View Responses and Comments<br />
                                                             <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection2" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
-                                                        
+                                                        <a class="small col-sm-5" id="toggleSessionLevelInSection2ForInstructor2" onclick="showTuneSessionnPermissionsDiv(2, 2)" href="javascript:;">
+                                                             
+                                                            Give different permissions for sessions in this section
+                                                            </a>      
+                                                        <div style="display: none;" id="tuneSessionPermissionsDiv2ForInstructor2">
+                                                             
+                                                            <input type="hidden" value="false" name="issection2sessionsset" />
+                                                            
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td>SessionName</td>
+                                                                        <td>Submit Responses and Add Comments</td>
+                                                                        <td>View Responses and Comments</td>
+                                                                        <td>Edit/Delete Responses/Comments by Others</td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    
+                                                                            <tr>
+                                                                                <td class="text-center text-bold" colspan="4">No sessions in this course for you to configure</td>
+                                                                            </tr>
+                                                                    
+                                                                    
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -847,6 +1011,8 @@ ul #nav {
                         <a disabled="disabled" onclick="return toggleSendRegistrationKey('InsCrsEdit.CS2104','InsCrsEdit.newInstr@gmail.com);" title="" data-placement="top" data-toggle="tooltip" class="btn btn-primary btn-xs" id="instrRemindLink3" href="/page/instructorCourseRemind?courseid=InsCrsEdit.CS2104&amp;instructoremail=InsCrsEdit.newInstr%40gmail.com&amp;user=InsCrsEdit.Helper" data-original-title="Send invitation email to the instructor">
                             <span class="glyphicon glyphicon-envelope"></span> Resend Invite</a>
                     
+                    <a disabled="disabled" onclick="enableEditInstructor(3, 4)" title="" data-placement="top" data-toggle="tooltip" class="btn btn-primary btn-xs" id="instrEditLink3" href="javascript:;" data-original-title="Edit instructor details">
+                        <span class="glyphicon glyphicon-pencil"></span> Edit</a>
                     <a disabled="disabled" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.newInstr@gmail.com', false);" title="" data-placement="top" data-toggle="tooltip" class="btn btn-primary btn-xs" id="instrDeleteLink3" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&amp;instructoremail=InsCrsEdit.newInstr%40gmail.com&amp;user=InsCrsEdit.Helper" data-original-title="Delete the instructor from the course">
                         <span class="glyphicon glyphicon-trash"></span> Delete</a>
                 </div>
@@ -863,7 +1029,7 @@ ul #nav {
             <div class="panel-body">
                 <form class="form form-horizontal" name="formEditInstructors" id="formEditInstructor3&gt;" action="/page/instructorCourseInstructorEditSave" method="post">
                     <input type="hidden" value="InsCrsEdit.CS2104" name="courseid" />
-                    <input type="hidden" value="null" name="instructorid" />
+                    
                     <input type="hidden" value="InsCrsEdit.Helper" name="user" />
                     
                     <div id="instructorTable3">
@@ -991,7 +1157,34 @@ ul #nav {
                                                             <input type="checkbox" value="true" name="canviewsessioninsectionsection0" /> Sessions: View Responses and Comments<br />
                                                             <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsection0" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
-                                                        
+                                                        <a class="small col-sm-5" id="toggleSessionLevelInSection0ForInstructor3" onclick="showTuneSessionnPermissionsDiv(3, 0)" href="javascript:;">
+                                                             
+                                                            Give different permissions for sessions in this section
+                                                            </a>      
+                                                        <div style="display: none;" id="tuneSessionPermissionsDiv0ForInstructor3">
+                                                             
+                                                            <input type="hidden" value="false" name="issection0sessionsset" />
+                                                            
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td>SessionName</td>
+                                                                        <td>Submit Responses and Add Comments</td>
+                                                                        <td>View Responses and Comments</td>
+                                                                        <td>Edit/Delete Responses/Comments by Others</td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    
+                                                                            <tr>
+                                                                                <td class="text-center text-bold" colspan="4">No sessions in this course for you to configure</td>
+                                                                            </tr>
+                                                                    
+                                                                    
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1029,7 +1222,34 @@ ul #nav {
                                                             <input type="checkbox" value="true" name="canviewsessioninsectionsection1" /> Sessions: View Responses and Comments<br />
                                                             <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsection1" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
-                                                        
+                                                        <a class="small col-sm-5" id="toggleSessionLevelInSection1ForInstructor3" onclick="showTuneSessionnPermissionsDiv(3, 1)" href="javascript:;">
+                                                             
+                                                            Give different permissions for sessions in this section
+                                                            </a>      
+                                                        <div style="display: none;" id="tuneSessionPermissionsDiv1ForInstructor3">
+                                                             
+                                                            <input type="hidden" value="false" name="issection1sessionsset" />
+                                                            
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td>SessionName</td>
+                                                                        <td>Submit Responses and Add Comments</td>
+                                                                        <td>View Responses and Comments</td>
+                                                                        <td>Edit/Delete Responses/Comments by Others</td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    
+                                                                            <tr>
+                                                                                <td class="text-center text-bold" colspan="4">No sessions in this course for you to configure</td>
+                                                                            </tr>
+                                                                    
+                                                                    
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1067,7 +1287,34 @@ ul #nav {
                                                             <input type="checkbox" value="true" name="canviewsessioninsectionsection2" /> Sessions: View Responses and Comments<br />
                                                             <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsection2" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
-                                                        
+                                                        <a class="small col-sm-5" id="toggleSessionLevelInSection2ForInstructor3" onclick="showTuneSessionnPermissionsDiv(3, 2)" href="javascript:;">
+                                                             
+                                                            Give different permissions for sessions in this section
+                                                            </a>      
+                                                        <div style="display: none;" id="tuneSessionPermissionsDiv2ForInstructor3">
+                                                             
+                                                            <input type="hidden" value="false" name="issection2sessionsset" />
+                                                            
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td>SessionName</td>
+                                                                        <td>Submit Responses and Add Comments</td>
+                                                                        <td>View Responses and Comments</td>
+                                                                        <td>Edit/Delete Responses/Comments by Others</td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    
+                                                                            <tr>
+                                                                                <td class="text-center text-bold" colspan="4">No sessions in this course for you to configure</td>
+                                                                            </tr>
+                                                                    
+                                                                    
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1096,9 +1343,8 @@ ul #nav {
                 <strong>Instructor 4:</strong>
                 <div class="pull-right">
                     
-                        <a disabled="disabled" onclick="enableEditInstructor(4, 4)" title="" data-placement="top" data-toggle="tooltip" class="btn btn-primary btn-xs" id="instrEditLink4" href="javascript:;" data-original-title="Edit instructor details">
-                            <span class="glyphicon glyphicon-pencil"></span> Edit</a>
-                    
+                    <a disabled="disabled" onclick="enableEditInstructor(4, 4)" title="" data-placement="top" data-toggle="tooltip" class="btn btn-primary btn-xs" id="instrEditLink4" href="javascript:;" data-original-title="Edit instructor details">
+                        <span class="glyphicon glyphicon-pencil"></span> Edit</a>
                     <a disabled="disabled" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','InsCrsEdit.test@gmail.com', false);" title="" data-placement="top" data-toggle="tooltip" class="btn btn-primary btn-xs" id="instrDeleteLink4" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&amp;instructoremail=InsCrsEdit.test%40gmail.com&amp;user=InsCrsEdit.Helper" data-original-title="Delete the instructor from the course">
                         <span class="glyphicon glyphicon-trash"></span> Delete</a>
                 </div>
@@ -1115,16 +1361,18 @@ ul #nav {
             <div class="panel-body">
                 <form class="form form-horizontal" name="formEditInstructors" id="formEditInstructor4&gt;" action="/page/instructorCourseInstructorEditSave" method="post">
                     <input type="hidden" value="InsCrsEdit.CS2104" name="courseid" />
+                    
                     <input type="hidden" value="InsCrsEdit.test" name="instructorid" />
+                    
                     <input type="hidden" value="InsCrsEdit.Helper" name="user" />
                     
                     <div id="instructorTable4">
                         
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Google ID:</label>
-                                <div class="col-sm-9"><input type="text" disabled="disabled" tabindex="3" maxlength="45" title="" data-placement="top" data-toggle="tooltip" value="InsCrsEdit.test" id="instructorid4" class="form-control immutable" data-original-title="Enter the google id of the instructor." />
-                                </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Google ID:</label>
+                            <div class="col-sm-9"><input type="text" disabled="disabled" tabindex="3" maxlength="45" title="" data-placement="top" data-toggle="tooltip" value="InsCrsEdit.test" id="instructorid4" class="form-control immutable" data-original-title="Enter the google id of the instructor." />
                             </div>
+                        </div>
                         
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Name:</label>
@@ -1249,7 +1497,34 @@ ul #nav {
                                                             <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsection0" /> Sessions: View Responses and Comments<br />
                                                             <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection0" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
-                                                        
+                                                        <a class="small col-sm-5" id="toggleSessionLevelInSection0ForInstructor4" onclick="showTuneSessionnPermissionsDiv(4, 0)" href="javascript:;">
+                                                             
+                                                            Give different permissions for sessions in this section
+                                                            </a>      
+                                                        <div style="display: none;" id="tuneSessionPermissionsDiv0ForInstructor4">
+                                                             
+                                                            <input type="hidden" value="false" name="issection0sessionsset" />
+                                                            
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td>SessionName</td>
+                                                                        <td>Submit Responses and Add Comments</td>
+                                                                        <td>View Responses and Comments</td>
+                                                                        <td>Edit/Delete Responses/Comments by Others</td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    
+                                                                            <tr>
+                                                                                <td class="text-center text-bold" colspan="4">No sessions in this course for you to configure</td>
+                                                                            </tr>
+                                                                    
+                                                                    
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1287,7 +1562,34 @@ ul #nav {
                                                             <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsection1" /> Sessions: View Responses and Comments<br />
                                                             <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection1" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
-                                                        
+                                                        <a class="small col-sm-5" id="toggleSessionLevelInSection1ForInstructor4" onclick="showTuneSessionnPermissionsDiv(4, 1)" href="javascript:;">
+                                                             
+                                                            Give different permissions for sessions in this section
+                                                            </a>      
+                                                        <div style="display: none;" id="tuneSessionPermissionsDiv1ForInstructor4">
+                                                             
+                                                            <input type="hidden" value="false" name="issection1sessionsset" />
+                                                            
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td>SessionName</td>
+                                                                        <td>Submit Responses and Add Comments</td>
+                                                                        <td>View Responses and Comments</td>
+                                                                        <td>Edit/Delete Responses/Comments by Others</td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    
+                                                                            <tr>
+                                                                                <td class="text-center text-bold" colspan="4">No sessions in this course for you to configure</td>
+                                                                            </tr>
+                                                                    
+                                                                    
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1325,7 +1627,34 @@ ul #nav {
                                                             <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsection2" /> Sessions: View Responses and Comments<br />
                                                             <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection2" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
-                                                        
+                                                        <a class="small col-sm-5" id="toggleSessionLevelInSection2ForInstructor4" onclick="showTuneSessionnPermissionsDiv(4, 2)" href="javascript:;">
+                                                             
+                                                            Give different permissions for sessions in this section
+                                                            </a>      
+                                                        <div style="display: none;" id="tuneSessionPermissionsDiv2ForInstructor4">
+                                                             
+                                                            <input type="hidden" value="false" name="issection2sessionsset" />
+                                                            
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td>SessionName</td>
+                                                                        <td>Submit Responses and Add Comments</td>
+                                                                        <td>View Responses and Comments</td>
+                                                                        <td>Edit/Delete Responses/Comments by Others</td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    
+                                                                            <tr>
+                                                                                <td class="text-center text-bold" colspan="4">No sessions in this course for you to configure</td>
+                                                                            </tr>
+                                                                    
+                                                                    
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1472,7 +1801,29 @@ ul #nav {
                                                             <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsection0" /> Sessions: View Responses and Comments<br />
                                                             <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection0" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
-                                                        
+                                                        <a class="small col-sm-5" id="toggleSessionLevelInSection0ForInstructor5" onclick="showTuneSessionnPermissionsDiv(5, 0)" href="javascript:;">Give different permissions for sessions in this section</a>      
+                                                        <div style="display: none;" id="tuneSessionPermissionsDiv0ForInstructor5">
+                                                            <input type="hidden" value="false" name="issection0sessionsset" />
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td>SessionName</td>
+                                                                        <td>Submit Responses and Add Comments</td>
+                                                                        <td>View Responses and Comments</td>
+                                                                        <td>Edit/Delete Responses/Comments by Others</td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    
+                                                                            <tr>
+                                                                                <td class="text-center text-bold" colspan="4">No sessions in this course for you to configure</td>
+                                                                            </tr>
+                                                                    
+                                                                    
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1508,7 +1859,29 @@ ul #nav {
                                                             <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsection1" /> Sessions: View Responses and Comments<br />
                                                             <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection1" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
-                                                        
+                                                        <a class="small col-sm-5" id="toggleSessionLevelInSection1ForInstructor5" onclick="showTuneSessionnPermissionsDiv(5, 1)" href="javascript:;">Give different permissions for sessions in this section</a>      
+                                                        <div style="display: none;" id="tuneSessionPermissionsDiv1ForInstructor5">
+                                                            <input type="hidden" value="false" name="issection1sessionsset" />
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td>SessionName</td>
+                                                                        <td>Submit Responses and Add Comments</td>
+                                                                        <td>View Responses and Comments</td>
+                                                                        <td>Edit/Delete Responses/Comments by Others</td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    
+                                                                            <tr>
+                                                                                <td class="text-center text-bold" colspan="4">No sessions in this course for you to configure</td>
+                                                                            </tr>
+                                                                    
+                                                                    
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1544,7 +1917,29 @@ ul #nav {
                                                             <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsection2" /> Sessions: View Responses and Comments<br />
                                                             <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection2" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
-                                                        
+                                                        <a class="small col-sm-5" id="toggleSessionLevelInSection2ForInstructor5" onclick="showTuneSessionnPermissionsDiv(5, 2)" href="javascript:;">Give different permissions for sessions in this section</a>      
+                                                        <div style="display: none;" id="tuneSessionPermissionsDiv2ForInstructor5">
+                                                            <input type="hidden" value="false" name="issection2sessionsset" />
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td>SessionName</td>
+                                                                        <td>Submit Responses and Add Comments</td>
+                                                                        <td>View Responses and Comments</td>
+                                                                        <td>Edit/Delete Responses/Comments by Others</td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    
+                                                                            <tr>
+                                                                                <td class="text-center text-bold" colspan="4">No sessions in this course for you to configure</td>
+                                                                            </tr>
+                                                                    
+                                                                    
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

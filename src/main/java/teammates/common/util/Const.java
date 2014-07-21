@@ -19,9 +19,9 @@ public class Const {
         public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
         
         /** This is the limit after which TEAMMATES will send error message */
-        public static final int MAX_PROFILE_PIC_SIZE = 30000000;
+        public static final int MAX_PROFILE_PIC_SIZE = 5000000;
         /** This is the limit given to Blobstore API, beyond which an ugly error page is shown */
-        public static final long MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI = 32000000;
+        public static final long MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI = 11000000;
         
         /** e.g. "2014-04-01 11:59 PM UTC" */
         public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
@@ -59,11 +59,11 @@ public class Const {
         public static final String COURSE_ENROLL_SAMPLE_SPREADSHEET = "Download a sample team data spreadsheet";
         public static final String COURSE_DETAILS = "View, edit and send invitation emails to the students in the course";
         public static final String COURSE_EDIT = "Edit Course information and instructor list";
-        public static final String COURSE_DELETE = "Delete the course and its corresponding students and evaluations";
+        public static final String COURSE_DELETE = "Delete the course and its corresponding students and sessions";
         public static final String COURSE_ARCHIVE = "Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)";
-        public static final String COURSE_ADD_EVALUATION = "Add an evaluation for the course";
-        public static final String CLAIMED = "This is student own estimation of his/her contributions to the project";
-        public static final String PERCEIVED = "This is the average of what other team members think this student contributed to the project";
+        public static final String COURSE_ADD_EVALUATION = "Add a feedback session for the course";
+        public static final String CLAIMED = "This is the students own estimation of his/her contributions";
+        public static final String PERCEIVED = "This is the average of what other team members think this student contributed";
         public static final String PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
     
         public static final String COURSE_INSTRUCTOR_EDIT = "Edit instructor details";
@@ -140,7 +140,7 @@ public class Const {
         public static final String FEEDBACK_SESSION_COURSE = "Please select the course for which the feedback session is to be created.";
         public static final String FEEDBACK_SESSION_INPUT_NAME = "Enter the name of the feedback session e.g. Feedback Session 1.";
         public static final String FEEDBACK_SESSION_STARTDATE = "Please select the date and time for which users can start submitting responses for the feedback session.";
-        public static final String FEEDBACK_SESSION_ENDDATE = "Please select the date and time for which the feedback session will no longer accept submissions from users.";
+        public static final String FEEDBACK_SESSION_ENDDATE = "Please select the date and time after which the feedback session will no longer accept submissions from users.";
         public static final String FEEDBACK_SESSION_VISIBLEDATE = "Select this option to enter in a custom date and time for which the feedback session will become visible.<br />"
                 + "Note that you can make a session visible before it is open for submissions so that users can preview the questions.";
         public static final String FEEDBACK_SESSION_PUBLISHDATE = "Select this option to enter in a custom date and time for which</br>"
@@ -233,8 +233,8 @@ public class Const {
     
     public class FeedbackQuestionTypeNames{
         public static final String TEXT = "Essay question";
-        public static final String MCQ = "Multiple-choice (single answer)";
-        public static final String MSQ = "Multiple-choice (multiple answers)";
+        public static final String MCQ = "Multiple-choice (single answer) question";
+        public static final String MSQ = "Multiple-choice (multiple answers) question";
         public static final String NUMSCALE = "Numerical-scale question";
         public static final String CONSTSUM_OPTION = "Distribute points (among options) question";
         public static final String CONSTSUM_RECIPIENT = "Distribute points (among recipients) question";
@@ -754,7 +754,7 @@ public class Const {
         public static final String TEAM_INVALID_SECTION_EDIT = "The team \"%s\" is in multiple sections. The team ID should be unique across the entire course and a team cannot be spread across multiple sections.<br>";
         public static final String SECTION_QUOTA_EXCEED = "You are trying enroll more than 100 students in section \"%s\". To avoid performance problems, please do not enroll more than 100 students in a single section.<br>";
 
-        public static final String COURSE_INSTRUCTOR_ADDED = "The instructor %s has been added successfully."
+        public static final String COURSE_INSTRUCTOR_ADDED = "The instructor %s has been added successfully. "
                 + "An email containing how to 'join' this course will be sent to %s in a few minutes.";
         public static final String COURSE_INSTRUCTOR_EXISTS = "An instructor with the same email address already exists in the course.";
         public static final String COURSE_INSTRUCTOR_EDITED = "The changes to the instructor has been updated.";
@@ -804,7 +804,7 @@ public class Const {
         
         public static final String FEEDBACK_SESSION_ADDED = "The feedback session has been added. Click the \"Add New Question\" button below to begin adding questions for the feedback session.";
         public static final String FEEDBACK_SESSION_ADD_DB_INCONSISTENCY = "If you do not see existing feedback sessions in the list below, please refresh the page after a few moments";
-        public static final String FEEDBACK_SESSION_COPIED = "The feedback session has been copied. Please configure the session if needed.";
+        public static final String FEEDBACK_SESSION_COPIED = "The feedback session has been copied. Please modify settings/questions as necessary.";
         public static final String FEEDBACK_SESSION_EDITED = "The feedback session has been updated.";
         public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
         public static final String FEEDBACK_SESSION_PUBLISHED = "The feedback session has been published.";
@@ -972,7 +972,7 @@ public class Const {
     
     public static final String STUDENT_COURSE_STATUS_YET_TO_JOIN = "Yet to join";
     public static final String STUDENT_COURSE_STATUS_JOINED = "Joined";
-    public static final String STUDENT_PROFILE_FIELD_NOT_FILLED = "Undisclosed";
+    public static final String STUDENT_PROFILE_FIELD_NOT_FILLED = "Not Specified";
     
     public static final String USER_NAME_FOR_SELF = "Myself";
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";

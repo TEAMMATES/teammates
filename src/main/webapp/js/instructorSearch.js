@@ -5,4 +5,6 @@ $(function() {
 	}, function(){
 		$("a[type='button']", this).hide();
 	});
+	
+	$("div[id^=plainCommentText]").css("margin-left","15px");
 });

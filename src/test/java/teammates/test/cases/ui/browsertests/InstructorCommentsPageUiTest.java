@@ -4,6 +4,7 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -17,6 +18,12 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorCommentsPage commentsPage;
     private static DataBundle testData;
+    
+    @BeforeTest
+    public static void testSetup() {
+        //Set priority of the sequential ui tests thread to max priority.
+        Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+    }
     
     @BeforeClass
     public static void classSetup() throws Exception {
@@ -131,9 +138,9 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.fillTextareaToEditStudentCommentForRow(1, "");
         commentsPage.saveEditStudentCommentForRow(1);
         commentsPage.verifyStatus("Please enter a valid comment. The comment can't be empty.");
-        commentsPage.fillTextareaToEditStudentCommentForRow(1, "edited student comment");
+        commentsPage.fillTextareaToEditStudentCommentForRow(1, "edited student comment\na new line");
         commentsPage.saveEditStudentCommentForRow(1);
-        commentsPage.verifyContains("edited student comment");
+        commentsPage.verifyContains("edited student comment\n<br />a new line");
         commentsPage.verifyStatus(Const.StatusMessages.COMMENT_EDITED);
         
         ______TS("action: delete student comment");
@@ -157,9 +164,8 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "");
         commentsPage.saveResponseComment(1, 1, 1, 1);
         commentsPage.verifyCommentFormErrorMessage("1-1-1-1", "Comment cannot be empty");
-        commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "edited response comment");
+        commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "edited response comment\na new line");
         commentsPage.saveResponseComment(1, 1, 1, 1);
-        commentsPage.reloadPage();
         
         ______TS("action: delete feedback response comment");
         commentsPage.clickResponseCommentDelete(1, 1, 1, 1);

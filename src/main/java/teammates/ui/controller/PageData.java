@@ -212,12 +212,10 @@ public class PageData {
                                         7,8,9,10,11,12,13};
         ArrayList<String> result = new ArrayList<String>();
         for (int i = 0; i < options.length; i++) {
-            String utcFormatOption = StringHelper.toUtcFormat(options[i]);
+            String utcFormatOption = StringHelper.toUtcFormat(options[i]);      
             result.add("<option value=\"" + formatAsString(options[i]) + "\"" +
-                    (existingTimeZone == options[i]
-                            ? "selected=\"selected\""
-                            : "") +
-                    ">" + utcFormatOption + "</option>");
+                       (existingTimeZone == options[i] ? "selected=\"selected\"" : "") + 
+                       ">" + "(" + utcFormatOption + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(options[i])) + "</option>");
         }
         return result;
     }
@@ -402,7 +400,8 @@ public class PageData {
     }
     
     public String getInstructorEvaluationLink(){
-        String link = Const.ActionURIs.INSTRUCTOR_EVALS_PAGE;
+        //String link = Const.ActionURIs.INSTRUCTOR_EVALS_PAGE;
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
         link = addUserIdToUrl(link);
         return link;
     }
@@ -464,7 +463,7 @@ public class PageData {
         String link = Const.ActionURIs.INSTRUCTOR_EVAL_PUBLISH;
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
-        link = Url.addParamToUrl(link,Const.ParamsNames.NEXT_URL,(isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE): addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_EVALS_PAGE)));
+        link = Url.addParamToUrl(link,Const.ParamsNames.NEXT_URL,(isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE): addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
         link = addUserIdToUrl(link);
         return link;
     }
@@ -474,7 +473,7 @@ public class PageData {
         String link = Const.ActionURIs.INSTRUCTOR_EVAL_UNPUBLISH;
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
-        link = Url.addParamToUrl(link,Const.ParamsNames.NEXT_URL,(isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE): addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_EVALS_PAGE)));
+        link = Url.addParamToUrl(link,Const.ParamsNames.NEXT_URL,(isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE): addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
         link = addUserIdToUrl(link);
         return link;
     }
@@ -499,6 +498,11 @@ public class PageData {
         return link;
     }
     
+    public String getInstructorFeedbackSessionLink(){
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+        link = addUserIdToUrl(link);
+        return link;
+    }
     
     public String getInstructorFeedbackSessionDeleteLink(String courseId, String feedbackSessionName, String nextURL){
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_DELETE;
@@ -618,7 +622,7 @@ public class PageData {
      * @return
      */
     public String getInstructorEvaluationActions(EvaluationAttributes eval, boolean isHome, InstructorAttributes instructor){
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         
         boolean hasView = false;
         boolean hasEdit = false;
@@ -675,7 +679,7 @@ public class PageData {
         );
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions session-delete-for-test\"" + 
-            "href=\"" + getInstructorEvaluationDeleteLink(eval.courseId,eval.name,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_EVALS_PAGE)) + "\" " +
+            "href=\"" + getInstructorEvaluationDeleteLink(eval.courseId,eval.name,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)) + "\" " +
             "title=\"" + Const.Tooltips.EVALUATION_DELETE + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
             "onclick=\"return toggleDeleteEvaluationConfirmation('" + eval.courseId + "','" + eval.name + "');\" " +
             disableDeleteSessionStr + ">Delete</a> "
@@ -763,7 +767,7 @@ public class PageData {
      */
     public String getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,
             boolean isHome, InstructorAttributes instructor) throws EntityDoesNotExistException{
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         
         // Allowing ALL instructors to view results regardless of publish state.
         boolean hasSubmit = session.isVisible() || session.isPrivateSession();
@@ -775,6 +779,7 @@ public class PageData {
         String disableDeleteSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableUnpublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disablePublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
+        String disableRemindSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         boolean shouldEnableSubmitLink = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         List<String> sectionsInCourse = new Logic().getSectionNamesForCourse(instructor.courseId);
         for (String section : sectionsInCourse) {
@@ -821,7 +826,7 @@ public class PageData {
             "href=\"" + getInstructorFeedbackSessionRemindLink(session.courseId,session.feedbackSessionName) + "\" " +
             "title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
             (hasRemind ? "onclick=\"return toggleRemindStudents('" + session.feedbackSessionName + "');\" " : "") +
-            ">Remind</a> "
+            disableRemindSessionStr + ">Remind</a> "
         );
         
         if (hasUnpublish) {
@@ -883,6 +888,51 @@ public class PageData {
                 }
                 break;
             case INSTRUCTOR:
+                peopleCanView.append("instructors, ");
+                break;
+            default:
+                break;
+            }
+        }
+        String peopleCanViewString = peopleCanView.toString();
+        return removeEndComma(peopleCanViewString);
+    }
+    
+    /**
+     * Returns the type of people that can view the response comment. 
+     */
+    public String getTypeOfPeopleCanViewComment(FeedbackResponseCommentAttributes comment,
+            FeedbackQuestionAttributes relatedQuestion){
+        StringBuilder peopleCanView = new StringBuilder();
+        List<FeedbackParticipantType> showCommentTo = new ArrayList<FeedbackParticipantType>();
+        if(comment.isVisibilityFollowingFeedbackQuestion){
+            showCommentTo = relatedQuestion.showResponsesTo;
+        } else {
+            showCommentTo = comment.showCommentTo;
+        }
+        for(int i = 0; i < showCommentTo.size(); i++){
+            FeedbackParticipantType commentViewer = showCommentTo.get(i);
+            if(i == showCommentTo.size() - 1 && showCommentTo.size() > 1){
+                peopleCanView.append("and ");
+            }
+            
+            switch(commentViewer){
+            case GIVER:
+                peopleCanView.append("response giver, ");
+                break;
+            case RECEIVER:
+                peopleCanView.append("response recipient, ");
+                break;
+            case OWN_TEAM:
+                peopleCanView.append("response giver's team, ");
+                break;
+            case RECEIVER_TEAM_MEMBERS:
+                peopleCanView.append("response recipient's team, ");
+                break;
+            case STUDENTS:
+                peopleCanView.append("other students in this course, ");
+                break;
+            case INSTRUCTORS:
                 peopleCanView.append("instructors, ");
                 break;
             default:

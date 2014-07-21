@@ -19,15 +19,16 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.test.cases.BaseComponentTestCase;
@@ -39,7 +40,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+    private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
     private DataBundle typicalBundle = getTypicalDataBundle();
     
     @BeforeClass
@@ -394,16 +395,25 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         ______TS("standard delete");
         
         StudentAttributes studentToDelete = typicalBundle.students.get("student1InCourse1");;
-        
-        frLogic.deleteFeedbackResponsesForStudent(studentToDelete.course, studentToDelete.email);
+        List<FeedbackResponseAttributes> responsesForStudent1 =
+                frLogic.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email);
+        responsesForStudent1
+                .addAll(
+                        frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));
+        frLogic.deleteFeedbackResponsesForStudentAndCascade(studentToDelete.course, studentToDelete.email);
         
         List<FeedbackResponseAttributes> remainingResponses = new ArrayList<FeedbackResponseAttributes>();                
-        remainingResponses.addAll(frDb.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
-        remainingResponses.addAll(frDb.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));        
-        assertEquals(remainingResponses.size(), 0);        
+        remainingResponses.addAll(frLogic.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
+        remainingResponses.addAll(frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));        
+        assertEquals(remainingResponses.size(), 0);
+        
+        List<FeedbackResponseCommentAttributes> remainingComments = new ArrayList<FeedbackResponseCommentAttributes>();
+        for (FeedbackResponseAttributes response : responsesForStudent1) {
+            remainingComments.addAll(frcLogic.getFeedbackResponseCommentForResponse(response.getId()));
+        }
+        assertEquals(remainingComments.size(), 0);
         
         ______TS("shift team then delete");
-        
         
         remainingResponses.clear();
         
@@ -412,25 +422,24 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         studentToDelete.team = "Team 1.3";
         StudentsLogic.inst().updateStudentCascade(studentToDelete.email, studentToDelete);
 
-        frLogic.deleteFeedbackResponsesForStudent(studentToDelete.course, studentToDelete.email);
+        frLogic.deleteFeedbackResponsesForStudentAndCascade(studentToDelete.course, studentToDelete.email);
         
-        remainingResponses.addAll(frDb.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
-        remainingResponses.addAll(frDb.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));        
+        remainingResponses.addAll(frLogic.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
+        remainingResponses.addAll(frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));        
         assertEquals(remainingResponses.size(), 0);                
         
         ______TS("delete last person in team");
 
-        
         remainingResponses.clear();
                 
         studentToDelete = typicalBundle.students.get("student5InCourse1");
         
-        frLogic.deleteFeedbackResponsesForStudent(studentToDelete.course, studentToDelete.email);
-        remainingResponses.addAll(frDb.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
-        remainingResponses.addAll(frDb.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));
+        frLogic.deleteFeedbackResponsesForStudentAndCascade(studentToDelete.course, studentToDelete.email);
+        remainingResponses.addAll(frLogic.getFeedbackResponsesFromGiverForCourse(studentToDelete.course, studentToDelete.email));
+        remainingResponses.addAll(frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, studentToDelete.email));
         
         // check that team responses are gone too. already checked giver as it is stored by giver email not team id.
-        remainingResponses.addAll(frDb.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, "Team 1.2"));
+        remainingResponses.addAll(frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, "Team 1.2"));
 
         assertEquals(remainingResponses.size(),0);    
     }
