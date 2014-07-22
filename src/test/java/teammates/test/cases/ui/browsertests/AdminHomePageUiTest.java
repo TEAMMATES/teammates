@@ -167,6 +167,26 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         coursesPage.logout();
         
+        
+        ______TS("action failure : invalid parameter");
+        
+        Url homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
+        homePage = loginAdminToPage(browser, homeUrl, AdminHomePage.class);
+        
+        instructor.email = "AHPUiT.email.com";        
+        homePage.createInstructor(shortName,instructor,institute).verifyStatus(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email, FieldValidator.REASON_INCORRECT_FORMAT));
+      
+        
+        ______TS("action success: course is accessible for newly joined instructor as student");
+        //in staging server, the student account uses the hardcoded email above, so this can only be test on dev server
+        if(!TestProperties.inst().TEAMMATES_URL.contains("local")){
+            
+            BackDoor.deleteCourse(demoCourseId);
+            BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+            BackDoor.deleteInstructor(demoCourseId, instructor.email);
+            return;
+        }
+        
         //verify sample course is accessible for newly joined instructor as an student
         
         StudentHomePage studentHomePage = HomePage.getNewInstance(browser).clickStudentLogin()
@@ -206,17 +226,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
         
-        confirmationPage.logout();
-        
-        ______TS("action failure : invalid parameter");
-        
-        Url homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
-        homePage = loginAdminToPage(browser, homeUrl, AdminHomePage.class);
-        
-        instructor.email = "AHPUiT.email.com";        
-        homePage.createInstructor(shortName,instructor,institute).verifyStatus(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email, FieldValidator.REASON_INCORRECT_FORMAT));
-      
-        
+   
     }
 
     @AfterClass
