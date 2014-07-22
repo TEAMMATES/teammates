@@ -21,7 +21,9 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public String feedbackSessionName;
     public String feedbackQuestionId;
     public String giverEmail;
+    /* Response giver section */
     public String giverSection;
+    /* Response receiver section */
     public String receiverSection;
     public String feedbackResponseId;
     public CommentSendingState sendingState = CommentSendingState.SENT;

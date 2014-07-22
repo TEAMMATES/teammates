@@ -78,7 +78,14 @@ public class BaseUiTestCase extends BaseTestCase {
 
         int counter = 0;
         String backDoorOperationStatus = "";
-        while(counter < 5){
+        int retryLimit;
+        if(TestProperties.inst().isDevServer()){
+            retryLimit = 5;
+        } else {
+            retryLimit = 1;
+        }
+
+        while(counter < retryLimit){
             counter++;
             backDoorOperationStatus = BackDoor.restoreDataBundle(testData);
             if(backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
@@ -86,7 +93,7 @@ public class BaseUiTestCase extends BaseTestCase {
             }
             System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
         }
-        if(counter >= 5){
+        if(counter >= retryLimit){
             Assumption.assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
         }
     }
@@ -97,7 +104,14 @@ public class BaseUiTestCase extends BaseTestCase {
     protected static void removeAndRestoreTestDataOnServer(DataBundle testData) {
         int counter = 0;
         String backDoorOperationStatus = "";
-        while(counter < 5){
+        int retryLimit;
+        if(TestProperties.inst().isDevServer()){
+            retryLimit = 5;
+        } else {
+            retryLimit = 1;
+        }
+
+        while(counter < retryLimit){
             counter++;
             backDoorOperationStatus = BackDoor.removeAndRestoreDataBundleFromDb(testData);
             if(backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
@@ -105,7 +119,7 @@ public class BaseUiTestCase extends BaseTestCase {
             }
             System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
         }
-        if(counter >= 5){
+        if(counter >= retryLimit){
             Assumption.assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
         }
     }

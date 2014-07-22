@@ -82,4 +82,8 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         assertEquals(email, studentEmailTextboxOriginal.getAttribute("value"));
     }
 
+    public InstructorCourseDetailsPage submitButtonClicked(){
+        submitButton.click();
+        return changePageType(InstructorCourseDetailsPage.class);
+    }
 }

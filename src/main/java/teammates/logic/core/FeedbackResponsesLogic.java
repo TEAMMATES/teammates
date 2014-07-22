@@ -452,7 +452,7 @@ public class FeedbackResponsesLogic {
         for (FeedbackResponseAttributes response : responsesFromUser) {
             response.giverSection = newSection;
             frDb.updateFeedbackResponse(response);
-            frcLogic.updateFeedbackResponseCommentForResponse(response.getId());
+            frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
         }
 
         List<FeedbackResponseAttributes> responsesToUser =
@@ -461,7 +461,7 @@ public class FeedbackResponsesLogic {
         for (FeedbackResponseAttributes response : responsesToUser) {
             response.recipientSection = newSection;
             frDb.updateFeedbackResponse(response);
-            frcLogic.updateFeedbackResponseCommentForResponse(response.getId());
+            frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
         }
 
     }
@@ -511,13 +511,14 @@ public class FeedbackResponsesLogic {
         
         if(isGiverSameForResponseAndEnrollment || isReceiverSameForResponseAndEnrollment){
             frDb.updateFeedbackResponse(response);
-            frcLogic.updateFeedbackResponseCommentForResponse(response.getId());
+            frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
         }
     }
 
     /**
      * Updates responses for a student when his email changes.
      */
+    // TODO: cascade the update to response comments
     public void updateFeedbackResponsesForChangingEmail(
             String courseId, String oldEmail, String newEmail)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -551,20 +552,20 @@ public class FeedbackResponsesLogic {
         }
     }
 
-    public void deleteFeedbackResponse(
-            FeedbackResponseAttributes responseToDelete) {
+    public void deleteFeedbackResponseAndCascade(FeedbackResponseAttributes responseToDelete) {
+        frcLogic.deleteFeedbackResponseCommentsForResponse(responseToDelete.getId());
         frDb.deleteEntity(responseToDelete);
     }
 
-    public void deleteFeedbackResponsesForQuestion(String feedbackQuestionId) {
+    public void deleteFeedbackResponsesForQuestionAndCascade(String feedbackQuestionId) {
         List<FeedbackResponseAttributes> responsesForQuestion =
                 getFeedbackResponsesForQuestion(feedbackQuestionId);
         for (FeedbackResponseAttributes response : responsesForQuestion) {
-            frDb.deleteEntity(response);
+            this.deleteFeedbackResponseAndCascade(response);
         }
     }
 
-    public void deleteFeedbackResponsesForStudent(String courseId, String studentEmail) {
+    public void deleteFeedbackResponsesForStudentAndCascade(String courseId, String studentEmail) {
 
         String studentTeam = "";
         StudentAttributes student = studentsLogic.getStudentForEmail(courseId,
@@ -581,12 +582,11 @@ public class FeedbackResponsesLogic {
                 getFeedbackResponsesForReceiverForCourse(courseId, studentEmail));
         // Delete responses to team as well if student is last person in team.
         if (studentsLogic.getStudentsForTeam(studentTeam, courseId).size() <= 1) {
-            responses.addAll(getFeedbackResponsesForReceiverForCourse(courseId,
-                    studentTeam));
+            responses.addAll(getFeedbackResponsesForReceiverForCourse(courseId, studentTeam));
         }
 
         for (FeedbackResponseAttributes response : responses) {
-            frDb.deleteEntity(response);
+            this.deleteFeedbackResponseAndCascade(response);
         }
     }
 
