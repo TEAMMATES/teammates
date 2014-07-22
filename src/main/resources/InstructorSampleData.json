@@ -179,12 +179,12 @@
       "team": "Team 2",
       "section": "Tutorial Group 2"
     },
-    "teammates.unregistered@demo.course": {
+    "teammates.new@demo.course": {
       "googleId": "",
-      "email": "teammates.unregistered@demo.course",
+      "email": "teammates.new@gmail.com",
       "course": "demo.course",
-      "name": "Demo_Unregistered",
-      "comments": "This student's name is Demo_Unregistered",
+      "name": "Demo_New",
+      "comments": "This student's name is Demo_New",
       "team": "Team 3",
       "section": "Tutorial Group 2"
     },
