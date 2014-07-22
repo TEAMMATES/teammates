@@ -2359,7 +2359,7 @@
                                                 </label>
                                                 <div class="col-sm-10">
                                                     <div class="input-group">
-                                                        <input type="text" id="results-search-box" class="form-control" placeholder="Type question info to filter results" onchange="updateResultsFilter()">
+                                                        <input type="text" id="results-search-box" class="form-control" placeholder="Type question info to filter results">
                                                         <a class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
                                                     </div>
                                                 </div>
@@ -2404,7 +2404,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-7 pull-right" style="padding-top:8px;">
-                                            <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" data-toggle="tooltip" title="" data-original-title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually.">
+                                            <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" data-toggle="tooltip" title="" data-original-title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually.">
                                                 Collapse Questions
                                             </a>
                                         </div>
@@ -2943,6 +2943,2028 @@
                                 Team contribution question
                             </li>
                         </ul>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a name="fbEssay">
+                                    <h4>Essay Question</h4>
+                                </a>
+                                Essay questions are open ended questions that allow students to give text feedback for a question.<br>
+                                This is the simplest and most common question type.<br>
+                                To setup this question, simply provide the question text, feedback path(giver/recipient) and visibility options.<br>
+                                <div class="bs-example">
+                                    <form class="form-horizontal form_question" role="form" id="form_editquestion-1" name="form_editquestions">
+                                        <div class="panel panel-primary questionTable" id="questionTable1">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <span>
+                                                        <strong>Question</strong>
+                                                        <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-1" disabled="">
+                                                            <option value="1">1</option>
+                                                        </select>
+                                                        &nbsp;
+                                                        Essay question
+                                                    </span>
+                                                    <span class="pull-right">
+                                                        <a class="btn btn-primary btn-xs" id="questiongetlink-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time.">Get Link</a>
+                                                        <a class="btn btn-primary btn-xs" id="questionedittext-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this question">Edit</a>
+                                                        <a class="btn btn-primary btn-xs" style="display:none" id="questionsavechangestext-1">Save Changes</a>
+                                                        <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this question">Delete</a>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div>
+                                                <textarea rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-1" data-toggle="tooltip" data-placement="top" title="" tabindex="9" disabled="disabled" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">What general mistakes did the students in the class make?</textarea>
+                                            </div>
+                                            
+                                            <br>
+                                            <div>
+                                                <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who will give feedback">  
+                                                    <label class="col-sm-4 control-label">
+                                                        Feedback Giver:
+                                                    </label>
+                                                    <div class="col-sm-8">
+                                                        <select class="form-control participantSelect" name="givertype" id="givertype-1" disabled="disabled">
+                                                            <option value="SELF">Me (Session creator)</option>
+                                                            <option value="STUDENTS">Students in this course</option>
+                                                            <option value="INSTRUCTORS" selected="selected">Instructors in this course</option>
+                                                            <option value="TEAMS">Teams in this course</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who the feedback is about">
+                                                    <label class="col-sm-4 control-label">
+                                                        Feedback Recipient:
+                                                    </label>
+                                                    <div class="col-sm-8">
+                                                        <select class="form-control participantSelect" name="recipienttype" id="recipienttype-1" disabled="disabled" >
+                                                            <option value="SELF">Giver (Self feedback)</option>
+                            <option value="STUDENTS">Other students in the course</option>
+                            <option value="INSTRUCTORS">Instructors in the course</option>
+                            <option value="TEAMS">Other teams in the course</option>
+                            <option value="OWN_TEAM">Giver's team</option>
+                            <option value="OWN_TEAM_MEMBERS">Giver's team members</option>
+                            <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">Giver's team members and Giver</option>
+                            <option value="NONE" selected="selected">Nobody specific (For general class feedback)</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <br>
+                                                <div class="col-sm-6">
+                                                    <a class="visibilityOptionsLabel btn btn-xs  btn-info">
+                                                        <span class="glyphicon glyphicon-eye-open">
+                                                        </span> Show Visibility Options
+                                                    </a>
+                                                </div>
+                                                <div class="col-sm-6 numberOfEntitiesElements1" style="display: none;">
+                                                    <label id="numofrecipients_text-1" class="control-label col-sm-4 small">
+                                                        The maximum number of <span id="numofrecipients_text_inner-1"></span> each respondant should give feedback to:
+                                                    </label>
+                                                    <div class="col-sm-8 form-control-static">
+                                                        <div class="col-sm-6">
+                                                            <input class="nonDestructive" type="radio" name="numofrecipientstype" value="custom" disabled="disabled">
+                                                                <input class="nonDestructive numberOfEntitiesBox" type="number" name="numofrecipients" id="numofrecipients-1" min="1" max="250" value="1" disabled="disabled">
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input class="nonDestructive" type="radio" name="numofrecipientstype" checked="checked" value="max" disabled="disabled">
+                                                            <span class="">Unlimited</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="visibilityOptions" style="display: none;">
+                                                <br>
+                                                <table class="dataTable participantTable table table-striped text-center">
+                                                    <tbody><tr>
+                                                        <th class="text-center">User/Group</th>
+                                                        <th class="text-center">Can see answer</th>
+                                                        <th class="text-center">Can see giver's name</th>
+                                                        <th class="text-center">Can see recipient's name</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-left">
+                                                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what feedback recipient(s) can view">
+                                                                Recipient(s)
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <input class="visibilityCheckbox answerCheckbox1 centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER" disabled="disabled">
+                                                        </td>
+                                                        <td>
+                                                            <input class="visibilityCheckbox giverCheckbox1" type="checkbox" value="RECEIVER" disabled="disabled">     
+                                                        </td>
+                                                        <td>
+                                                            <input class="visibilityCheckbox recipientCheckbox1" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER" disabled="disabled">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-left">
+                                                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of feedback giver can view">
+                                                                Giver's Team Members
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <input class="visibilityCheckbox answerCheckbox1" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="disabled">
+                                                        </td>
+                                                        <td>
+                                                            <input class="visibilityCheckbox giverCheckbox1" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="disabled">
+                                                        </td>
+                                                        <td>
+                                                            <input class="visibilityCheckbox recipientCheckbox1" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="disabled">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-left">
+                                                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of feedback recipients can view">
+                                                                Recipient's Team Members
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <input class="visibilityCheckbox answerCheckbox1" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="disabled">
+                                                        </td>
+                                                        <td>
+                                                            <input class="visibilityCheckbox giverCheckbox1" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="disabled">
+                                                        </td>
+                                                        <td>
+                                                            <input class="visibilityCheckbox recipientCheckbox1" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="disabled">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-left">
+                                                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students can view">
+                                                                Other students
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <input class="visibilityCheckbox answerCheckbox1" type="checkbox" value="STUDENTS" disabled="disabled" checked="checked">
+                                                        </td>
+                                                        <td>
+                                                            <input class="visibilityCheckbox giverCheckbox1" type="checkbox" value="STUDENTS" disabled="disabled" checked="checked">
+                                                        </td>
+                                                        <td>
+                                                            <input class="visibilityCheckbox recipientCheckbox1" type="checkbox" value="STUDENTS" disabled="disabled" checked="checked">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-left">
+                                                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
+                                                                Instructors
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <input class="visibilityCheckbox answerCheckbox1" type="checkbox" value="INSTRUCTORS" disabled="disabled" checked="checked">
+                                                        </td>
+                                                        <td>
+                                                            <input class="visibilityCheckbox giverCheckbox1" type="checkbox" value="INSTRUCTORS" disabled="disabled" checked="checked">
+                                                        </td>
+                                                        <td>
+                                                            <input class="visibilityCheckbox recipientCheckbox1" type="checkbox" value="INSTRUCTORS" disabled="disabled" checked="checked">
+                                                        </td>
+                                                    </tr>
+                                                </tbody></table>
+                                            </div>
+                                            <div>
+                                                <span class="pull-right">
+                                                    <input id="button_question_submit-1" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display:none">
+                                                </span>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a name="fbMcq">
+                                    <h4>Multiple-choice (single answer) question</h4>
+                                </a>
+                                Multiple-choice (single answer) questions allows you to specify several options, and lets students select one of them as the answer.<br>
+                                Other than specifying several options by yourself, TEAMMATES also supports <b>generating options</b> based on the list of students, teams and instructors in the course.<br>
+
+                                Example with specified options:
+                                <div class="bs-example">
+                                    <form class="form-horizontal form_question" role="form"id="form_editquestion-7" name="form_editquestions">
+                                                <div class="panel panel-primary questionTable" id="questionTable7">
+                                                <div class="panel-heading">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <span>
+                                                                <strong>Question</strong>
+                                                                <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-7">
+                                                                <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+
+                                                                </select>
+                                                                &nbsp;
+                                                                Multiple-choice (single answer) question
+                                                            </span>
+                                                            <span class="pull-right">
+                                                                <a class="btn btn-primary btn-xs" id="questiongetlink-7" data-toggle="tooltip" data-placement="top" title="" data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time.">Get Link</a>
+                                                                <a class="btn btn-primary btn-xs" id="questionedittext-7" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this question" style="display: none;">Edit</a>
+                                                                <a class="btn btn-primary btn-xs" style="" id="questionsavechangestext-7">Save Changes</a>
+                                                                <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this question">Delete</a>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div>
+                                                        <textarea rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-7" data-toggle="tooltip" data-placement="top" title="" tabindex="9" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Give feedback indicating which group they are in.</textarea>
+                                                    </div>
+                                                    <div class="row">
+                                        <br>
+                                        <div class="col-sm-6">
+                                            <div id="mcqChoiceTable-7">
+                                                <div id="mcqOptionRow-0-7">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="radio" class="disabled_radio" disabled="disabled">
+                                            </span>
+                                            <input class="form-control" type="text" name="mcqOption-0" id="mcqOption-0-7" value="Group 1">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default removeOptionLink" type="button" id="mcqRemoveOptionLink" style="" tabindex="-1">
+                                                    <span class="glyphicon glyphicon-remove">
+                                                    </span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div id="mcqOptionRow-1-7">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="radio" class="disabled_radio" disabled="disabled">
+                                            </span>
+                                            <input class="form-control" type="text" name="mcqOption-1" id="mcqOption-1-7" value="Group 2">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default removeOptionLink" type="button" id="mcqRemoveOptionLink"  style="" tabindex="-1">
+                                                    <span class="glyphicon glyphicon-remove">
+                                                    </span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                                
+                                                <div id="mcqAddOptionRow-7">
+                                                    <div colspan="2">
+                                                        <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink" style="">
+                                                            <span class="glyphicon glyphicon-plus">
+                                                            </span> add more options
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="control-label col-sm-8"><input type="checkbox" id="generateOptionsCheckbox-7" >Or, generate options from the list of all </label>
+                                            <div class="col-sm-4">
+                                                <select class="form-control" id="mcqGenerateForSelect-7" disabled="">
+                                                    <option value="STUDENTS">students</option>
+                                                    <option value="TEAMS">teams</option>
+                                                    <option value="INSTRUCTORS">instructors</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    </div>
+                                                    <br>
+                                                    <div>
+                                                        <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who will give feedback">  
+                                                            <label class="col-sm-4 control-label">
+                                                                Feedback Giver:
+                                                            </label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control participantSelect" name="givertype" id="givertype-7">
+                                                                    <option value="SELF">Me (Session creator)</option>
+                                    <option value="STUDENTS">Students in this course</option>
+                                    <option value="INSTRUCTORS" selected="selected">Instructors in this course</option>
+                                    <option value="TEAMS">Teams in this course</option>
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who the feedback is about">
+                                                            <label class="col-sm-4 control-label">
+                                                                Feedback Recipient:
+                                                            </label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control participantSelect" name="recipienttype" id="recipienttype-7">
+                                                                    <option value="SELF">Giver (Self feedback)</option>
+                                    <option value="STUDENTS" selected="selected">Other students in the course</option>
+                                    <option value="INSTRUCTORS">Instructors in the course</option>
+                                    <option value="TEAMS">Other teams in the course</option>
+                                    <option value="OWN_TEAM">Giver's team</option>
+                                    <option value="OWN_TEAM_MEMBERS">Giver's team members</option>
+                                    <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">Giver's team members and Giver</option>
+                                    <option value="NONE">Nobody specific (For general class feedback)</option>
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <br>
+                                                        <div class="col-sm-6">
+                                                            <a class="visibilityOptionsLabel btn btn-xs  btn-info">
+                                                                <span class="glyphicon glyphicon-eye-open">
+                                                                </span> Show Visibility Options
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-sm-6 numberOfEntitiesElements7">
+                                                            <label id="numofrecipients_text-7" class="control-label col-sm-4 small">
+                                                                The maximum number of <span id="numofrecipients_text_inner-7">students</span> each respondant should give feedback to:
+                                                            </label>
+                                                            <div class="col-sm-8 form-control-static">
+                                                                <div class="col-sm-6">
+                                                                    <input class="nonDestructive" type="radio" name="numofrecipientstype" value="custom">
+                                                                        <input class="nonDestructive numberOfEntitiesBox" type="number" name="numofrecipients" id="numofrecipients-7" min="1" max="250" value="1">
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <input class="nonDestructive" type="radio" name="numofrecipientstype" checked="checked" value="max">
+                                                                    <span class="">Unlimited</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="visibilityOptions" style="display: none;">
+                                                        <br>
+                                                        <table class="dataTable participantTable table table-striped text-center">
+                                                            <tbody><tr>
+                                                                <th class="text-center">User/Group</th>
+                                                                <th class="text-center">Can see answer</th>
+                                                                <th class="text-center">Can see giver's name</th>
+                                                                <th class="text-center">Can see recipient's name</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-left">
+                                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what feedback recipient(s) can view">
+                                                                        Recipient(s)
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox answerCheckbox7 centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER" checked="checked">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox giverCheckbox7" type="checkbox" value="RECEIVER" checked="checked">     
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox recipientCheckbox7" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER" disabled="disabled" checked="checked">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-left">
+                                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of feedback giver can view">
+                                                                        Giver's Team Members
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox answerCheckbox7" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox giverCheckbox7" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox recipientCheckbox7" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-left">
+                                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of feedback recipients can view">
+                                                                        Recipient's Team Members
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox answerCheckbox7" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox giverCheckbox7" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox recipientCheckbox7" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-left">
+                                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students can view">
+                                                                        Other students
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox answerCheckbox7" type="checkbox" value="STUDENTS">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox giverCheckbox7" type="checkbox" value="STUDENTS">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox recipientCheckbox7" type="checkbox" value="STUDENTS">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-left">
+                                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
+                                                                        Instructors
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox answerCheckbox7" type="checkbox" value="INSTRUCTORS" checked="checked">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox giverCheckbox7" type="checkbox" value="INSTRUCTORS" checked="checked">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox recipientCheckbox7" type="checkbox" value="INSTRUCTORS" checked="checked">
+                                                                </td>
+                                                            </tr>
+                                                        </tbody></table>
+                                                    </div>
+                                                    <div>
+                                                        <span class="pull-right">
+                                                            <input id="button_question_submit-7" class="btn btn-primary" value="Save Changes" tabindex="0" style="">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                Example with generated options:
+                                <div class="bs-example">
+                                    <form class="form-horizontal form_question" role="form" id="form_editquestion-4" name="form_editquestions" onsubmit="tallyCheckboxes(4)" editstatus="hasResponses">
+                                                <div class="panel panel-primary questionTable" id="questionTable4">
+                                                <div class="panel-heading">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <span>
+                                                                <strong>Question</strong>
+                                                                <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-4">
+                                                                <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+
+                                                                </select>
+                                                                &nbsp;
+                                                                Multiple-choice (single answer) question
+                                                            </span>
+                                                            <span class="pull-right">
+                                                                <a class="btn btn-primary btn-xs" id="questiongetlink-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time.">Get Link</a>
+                                                                <a class="btn btn-primary btn-xs" id="questionedittext-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this question" style="display: none;">Edit</a>
+                                                                <a class="btn btn-primary btn-xs" style="display: inline-block;" id="questionsavechangestext-4">Save Changes</a>
+                                                                <a class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this question">Delete</a>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div>
+                                                        <textarea rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-4" data-toggle="tooltip" data-placement="top" title="" tabindex="9" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Which team do you think has the best feature?</textarea><div class="tooltip fade top" style="top: 2057px; left: 575px; display: block;"><div class="tooltip-arrow"></div><div class="tooltip-inner">Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?</div></div>
+                                                    </div>
+                                                    <div class="row">
+                                        <br>
+                                        <div class="col-sm-6">
+                                            <div id="mcqChoiceTable-4" style="display: none;">
+                                                            
+                                                <div id="mcqAddOptionRow-4">
+                                                    <div colspan="2">
+                                                        <a class="btn btn-primary btn-xs addOptionLink" id="mcqAddOptionLink" style="display: inline-block;">
+                                                            <span class="glyphicon glyphicon-plus">
+                                                            </span> add more options
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="control-label col-sm-8"><input type="checkbox" id="generateOptionsCheckbox-4" checked="checked" >Or, generate options from the list of all </label>
+                                            <div class="col-sm-4">
+                                                <select class="form-control" id="mcqGenerateForSelect-4" >
+                                                    <option value="STUDENTS">students</option>
+                                                    <option selected="selected" value="TEAMS">teams</option>
+                                                    <option value="INSTRUCTORS">instructors</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    </div>
+                                                    <br>
+                                                    <div>
+                                                        <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who will give feedback">  
+                                                            <label class="col-sm-4 control-label">
+                                                                Feedback Giver:
+                                                            </label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control participantSelect" name="givertype" id="givertype-4">
+                                                                    <option value="SELF">Me (Session creator)</option>
+                                    <option value="STUDENTS" selected="selected">Students in this course</option>
+                                    <option value="INSTRUCTORS">Instructors in this course</option>
+                                    <option value="TEAMS">Teams in this course</option>
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who the feedback is about">
+                                                            <label class="col-sm-4 control-label">
+                                                                Feedback Recipient:
+                                                            </label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control participantSelect" name="recipienttype" id="recipienttype-4" >
+                                                                    <option value="SELF">Giver (Self feedback)</option>
+                                    <option value="STUDENTS">Other students in the course</option>
+                                    <option value="INSTRUCTORS">Instructors in the course</option>
+                                    <option value="TEAMS">Other teams in the course</option>
+                                    <option value="OWN_TEAM">Giver's team</option>
+                                    <option value="OWN_TEAM_MEMBERS">Giver's team members</option>
+                                    <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">Giver's team members and Giver</option>
+                                    <option value="NONE" selected="selected">Nobody specific (For general class feedback)</option>
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <br>
+                                                        <div class="col-sm-6">
+                                                            <a class="visibilityOptionsLabel btn btn-xs  btn-info" >
+                                                                <span class="glyphicon glyphicon-eye-open">
+                                                                </span> Show Visibility Options
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-sm-6 numberOfEntitiesElements4" style="display: none;">
+                                                            <label id="numofrecipients_text-4" class="control-label col-sm-4 small">
+                                                                The maximum number of <span id="numofrecipients_text_inner-4"></span> each respondant should give feedback to:
+                                                            </label>
+                                                            <div class="col-sm-8 form-control-static">
+                                                                <div class="col-sm-6">
+                                                                    <input class="nonDestructive" type="radio" name="numofrecipientstype" value="custom">
+                                                                        <input class="nonDestructive numberOfEntitiesBox" type="number" name="numofrecipients" id="numofrecipients-4" min="1" max="250" value="1">
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <input class="nonDestructive" type="radio" name="numofrecipientstype" checked="checked" value="max">
+                                                                    <span class="">Unlimited</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="visibilityOptions" style="display: none;">
+                                                        <br>
+                                                        <table class="dataTable participantTable table table-striped text-center">
+                                                            <tbody><tr>
+                                                                <th class="text-center">User/Group</th>
+                                                                <th class="text-center">Can see answer</th>
+                                                                <th class="text-center">Can see giver's name</th>
+                                                                <th class="text-center">Can see recipient's name</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-left">
+                                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what feedback recipient(s) can view">
+                                                                        Recipient(s)
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox answerCheckbox4 centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox giverCheckbox4" type="checkbox" value="RECEIVER">     
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox recipientCheckbox4" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER" disabled="disabled">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-left">
+                                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of feedback giver can view">
+                                                                        Giver's Team Members
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox answerCheckbox4" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox giverCheckbox4" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox recipientCheckbox4" type="checkbox" value="OWN_TEAM_MEMBERS">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-left">
+                                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of feedback recipients can view">
+                                                                        Recipient's Team Members
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox answerCheckbox4" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox giverCheckbox4" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox recipientCheckbox4" type="checkbox" value="RECEIVER_TEAM_MEMBERS">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-left">
+                                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students can view">
+                                                                        Other students
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox answerCheckbox4" type="checkbox" value="STUDENTS">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox giverCheckbox4" type="checkbox" value="STUDENTS">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox recipientCheckbox4" type="checkbox" value="STUDENTS">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-left">
+                                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
+                                                                        Instructors
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox answerCheckbox4" type="checkbox" value="INSTRUCTORS" checked="checked">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox giverCheckbox4" type="checkbox" value="INSTRUCTORS" checked="checked">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox recipientCheckbox4" type="checkbox" value="INSTRUCTORS" checked="checked">
+                                                                </td>
+                                                            </tr>
+                                                        </tbody></table>
+                                                    </div>
+                                                    <div>
+                                                        <span class="pull-right">
+                                                            <input id="button_question_submit-4" class="btn btn-primary" value="Save Changes" tabindex="0" style="display: inline-block;">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                Multiple-choice (single answer) questions also provide some statistics for the results collected, which includes the response count for each option, and the percentage for which each option was chosen.
+                                An example for the above question: 
+                                <div class="bs-example">
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading" data-target="#panelBodyCollapse-4" style="cursor: pointer;">
+                                            <form style="display:none;" id="seeMore-4" class="seeMoreForm-4">
+                                            </form>
+                                            <div class="display-icon pull-right">
+                                            <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                                            </div>
+                                            <strong>Question 4: </strong><span class="text-preserve-space">Which team do you think has the best feature?&nbsp;<span style=" white-space: normal;">
+                            <a href="javascript:;" id="questionAdditionalInfoButton-4-" class="color_gray" onclick="toggleAdditionalQuestionInfo('4-')" data-more="[more]" data-less="[less]">[more]</a>
+                            <br>
+                            <span id="questionAdditionalInfo-4-" style="display:none;">Multiple-choice (single answer) question options:
+                        <br>The options for this question is automatically generated from the list of all teams in this course.</span>
+                        </span></span>
+                                        </div>
+                                        <div class="panel-collapse collapse in" id="panelBodyCollapse-4">
+                                        <div class="panel-body padding-0" id="questionBody-3">
+                                                            
+                                            <div class="resultStatistics">
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="col-sm-4 text-color-gray">
+                                                            <strong>
+                                                                Response Summary
+                                                            </strong>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <table class="table margin-0">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td>
+                                                                            Choice
+                                                                        </td>
+                                                                        <td>
+                                                                            Response Count
+                                                                        </td>
+                                                                        <td>
+                                                                            Percentage
+                                                                        </td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>
+                                                                            Team 1
+                                                                        </td>
+                                                                        <td>
+                                                                            1
+                                                                        </td>
+                                                                        <td>
+                                                                            50%
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            Team 2
+                                                                        </td>
+                                                                        <td>
+                                                                            1
+                                                                        </td>
+                                                                        <td>
+                                                                            50%
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-bordered dataTable margin-0">
+                                                    <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                                        <tr>
+                                                            <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                                                Giver
+                                                                <span class="icon-sort unsorted"></span>
+                                                            </th>
+                                                            <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
+                                                                Team
+                                                                <span class="icon-sort unsorted"></span>
+                                                            </th>
+                                                            <th id="button_sortToName" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 15%;">
+                                                                Recipient
+                                                                <span class="icon-sort unsorted"></span>
+                                                            </th>
+                                                            <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                                                Team
+                                                                <span class="icon-sort unsorted"></span>
+                                                            </th>
+                                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,5)">
+                                                                Feedback
+                                                                <span class="icon-sort unsorted"></span>
+                                                            </th>
+                                                        </tr>
+                                                    </thead><thead>
+                                                    </thead><tbody>
+                                                        
+                                                        <tr>
+                                                        
+                                                            <td class="middlealign">Alice Betsy</td>
+                                                            <td class="middlealign">Team 1</td>
+                                                            <td class="middlealign">-</td>
+                                                            <td class="middlealign">-</td>
+                                                            <td class="multiline">Team 1</td>
+                                                        </tr>        
+                                                        
+                                                        <tr>
+                                                        
+                                                            <td class="middlealign">Charlie Davis</td>
+                                                            <td class="middlealign">Team 2</td>
+                                                            <td class="middlealign">-</td>
+                                                            <td class="middlealign">-</td>
+                                                            <td class="multiline">Team 2</td>
+                                                        </tr>        
+                                                        
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a name="fbMsq">
+                                    <h4>Multiple-choice (multiple answers) question</h4>
+                                </a>
+                                Multiple-choice (multiple answers) question are similar to the single answer version, except that students are able to select multiple options as their response.<br><br>
+                                The setup and result statistics is similar to the single answer version. See <a href="#fbMcq">above</a> for details.
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a name="fbNumscale">
+                                    <h4>Numerical scale question</h4>
+                                </a>
+                                Numerical scale questions are questions that allow numerical responses from students.<br>
+                                To set up the question, provide the question text as well as the minimum, maximum values the student can input, as well as the increment, or precision of the number that is required.<br>
+                                If this sounds confusing, you can fiddle with the numbers and see what the acceptable responses are.<br>
+
+                                <div class="bs-example">
+                                    <form class="form-horizontal form_question" role="form" id="form_editquestion-3" name="form_editquestions" onsubmit="tallyCheckboxes(3)" editstatus="hasResponses">
+                                                <div class="panel panel-primary questionTable" id="questionTable3">
+                                                <div class="panel-heading">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <span>
+                                                                <strong>Question</strong>
+                                                                <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-3" disabled="">
+                                                                <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+
+                                                                </select>
+                                                                &nbsp;
+                                                                Numerical-scale question
+                                                            </span>
+                                                            <span class="pull-right">
+                                                                <a class="btn btn-primary btn-xs" id="questiongetlink-3" data-toggle="tooltip" data-placement="top" title="" onclick="getQuestionLink(3)" data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time.">Get Link</a>
+                                                                <a class="btn btn-primary btn-xs" id="questionedittext-3" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(3,11)" data-original-title="Edit this question">Edit</a>
+                                                                <a class="btn btn-primary btn-xs" style="display:none" id="questionsavechangestext-3">Save Changes</a>
+                                                                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(3)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this question">Delete</a>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div>
+                                                        <textarea rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-3" data-toggle="tooltip" data-placement="top" title="" tabindex="9" disabled="disabled" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">Rate the latest assignment's difficulty. (1 = Very Easy, 5 = Very Hard).</textarea>
+                                                    </div>
+                                                    <div>
+                                        <br>
+                                        <div>
+                                            <div>
+                                                <div class="row">
+                                                    <div class="col-sm-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Minimum acceptable response value">Minimum value:
+                                                        <input disabled="disabled" type="number" class="minScaleBox" id="minScaleBox-3" name="numscalemin" value="1" onchange="updateNumScalePossibleValues(3)">
+                                                    </div>
+                                                    <div class="col-sm-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Value to be increased/decreased each step">Increment:    
+                                                        <input disabled="disabled" type="number" class="stepBox" id="stepBox-3" name="numscalestep" value="1" min="0.001" step="0.001" onchange="updateNumScalePossibleValues(3)">
+                                                    </div>
+                                                    <div class="col-sm-4" data-toggle="tooltip" data-placement="top" title="" data-original-title="Maximum acceptable response value">Maximum value:
+                                                        <input disabled="disabled" type="number" class="maxScaleBox" id="maxScaleBox-3" name="numscalemax" value="5" onchange="updateNumScalePossibleValues(3)">
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <span id="numScalePossibleValues-3">[Based on the above settings, acceptable responses are: 1, 2, 3, 4, 5]</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                    <br>
+                                                    <div>
+                                                        <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who will give feedback">  
+                                                            <label class="col-sm-4 control-label">
+                                                                Feedback Giver:
+                                                            </label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control participantSelect" name="givertype" id="givertype-3" disabled="disabled" >
+                                                                    <option value="SELF">Me (Session creator)</option>
+                                    <option value="STUDENTS" selected="selected">Students in this course</option>
+                                    <option value="INSTRUCTORS">Instructors in this course</option>
+                                    <option value="TEAMS">Teams in this course</option>
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who the feedback is about">
+                                                            <label class="col-sm-4 control-label">
+                                                                Feedback Recipient:
+                                                            </label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control participantSelect" name="recipienttype" id="recipienttype-3" disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
+                                                                    <option value="SELF">Giver (Self feedback)</option>
+                                    <option value="STUDENTS">Other students in the course</option>
+                                    <option value="INSTRUCTORS" selected="selected">Instructors in the course</option>
+                                    <option value="TEAMS">Other teams in the course</option>
+                                    <option value="OWN_TEAM">Giver's team</option>
+                                    <option value="OWN_TEAM_MEMBERS">Giver's team members</option>
+                                    <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">Giver's team members and Giver</option>
+                                    <option value="NONE">Nobody specific (For general class feedback)</option>
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <br>
+                                                        <div class="col-sm-6">
+                                                            <a class="visibilityOptionsLabel btn btn-xs  btn-info" onclick="toggleVisibilityOptions(this)">
+                                                                <span class="glyphicon glyphicon-eye-open">
+                                                                </span> Show Visibility Options
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-sm-6 numberOfEntitiesElements3" style="display: none;">
+                                                            <label id="numofrecipients_text-3" class="control-label col-sm-4 small">
+                                                                The maximum number of <span id="numofrecipients_text_inner-3"></span> each respondant should give feedback to:
+                                                            </label>
+                                                            <div class="col-sm-8 form-control-static">
+                                                                <div class="col-sm-6">
+                                                                    <input class="nonDestructive" type="radio" name="numofrecipientstype" checked="checked" value="custom" disabled="disabled">
+                                                                        <input class="nonDestructive numberOfEntitiesBox" type="number" name="numofrecipients" id="numofrecipients-3" min="1" max="250" value="1" disabled="disabled">
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <input class="nonDestructive" type="radio" name="numofrecipientstype" value="max" disabled="disabled">
+                                                                    <span class="">Unlimited</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="visibilityOptions" style="display: none;">
+                                                        <br>
+                                                        <table class="dataTable participantTable table table-striped text-center">
+                                                            <tbody><tr>
+                                                                <th class="text-center">User/Group</th>
+                                                                <th class="text-center">Can see answer</th>
+                                                                <th class="text-center">Can see giver's name</th>
+                                                                <th class="text-center">Can see recipient's name</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-left">
+                                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what feedback recipient(s) can view">
+                                                                        Recipient(s)
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox answerCheckbox3 centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER" disabled="disabled" checked="checked">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox giverCheckbox3" type="checkbox" value="RECEIVER" disabled="disabled" checked="checked">     
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox recipientCheckbox3" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER" disabled="disabled" checked="checked">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-left">
+                                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of feedback giver can view">
+                                                                        Giver's Team Members
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox answerCheckbox3" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="disabled">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox giverCheckbox3" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="disabled">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox recipientCheckbox3" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="disabled">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-left">
+                                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of feedback recipients can view">
+                                                                        Recipient's Team Members
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox answerCheckbox3" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="disabled">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox giverCheckbox3" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="disabled">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox recipientCheckbox3" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="disabled">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-left">
+                                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students can view">
+                                                                        Other students
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox answerCheckbox3" type="checkbox" value="STUDENTS" disabled="disabled">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox giverCheckbox3" type="checkbox" value="STUDENTS" disabled="disabled">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox recipientCheckbox3" type="checkbox" value="STUDENTS" disabled="disabled">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-left">
+                                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
+                                                                        Instructors
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox answerCheckbox3" type="checkbox" value="INSTRUCTORS" disabled="disabled" checked="checked">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox giverCheckbox3" type="checkbox" value="INSTRUCTORS" disabled="disabled" checked="checked">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox recipientCheckbox3" type="checkbox" value="INSTRUCTORS" disabled="disabled" checked="checked">
+                                                                </td>
+                                                            </tr>
+                                                        </tbody></table>
+                                                    </div>
+                                                    <div>
+                                                        <span class="pull-right">
+                                                            <input id="button_question_submit-3" class="btn btn-primary" value="Save Changes" tabindex="0" style="display:none">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                                </form>
+                                </div>
+
+                                Statistics for numerical scale questions are also provided, including the average, minimum and maximum of the responses given.<br>
+
+                                <div class="bs-example">
+                                    <div class="panel panel-info">
+                                                    <div class="panel-heading" data-target="#panelBodyCollapse-3" style="cursor: pointer;">
+                                                        <form style="display:none;" id="seeMore-3" class="seeMoreForm-3">
+                                                        </form>
+                                                        <div class="display-icon pull-right">
+                                                        <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                                                        </div>
+                                                        <strong>Question 3: </strong><span class="text-preserve-space">Rate the latest assignment's difficulty. (1 = Very Easy, 5 = Very Hard).&nbsp;<span style=" white-space: normal;">
+                                        <a href="javascript:;" id="questionAdditionalInfoButton-3-" class="color_gray" onclick="toggleAdditionalQuestionInfo('3-')" data-more="[more]" data-less="[less]">[more]</a>
+                                        <br>
+                                        <span id="questionAdditionalInfo-3-" style="display:none;">Numerical-scale question:<br>Minimum value: 1. Increment: 1.0. Maximum value: 5.</span>
+                                    </span></span>
+                                                    </div>
+                                                    <div class="panel-collapse collapse in" id="panelBodyCollapse-3">
+                                                    <div class="panel-body padding-0" id="questionBody-2">
+                                                                        
+                                                        <div class="resultStatistics">
+                                                            <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-4 text-color-gray">
+                                                <strong>
+                                                    Response Summary
+                                                </strong>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <form class="form-horizontal col-sm-12" role="form">
+                                                <div class="form-group margin-0">
+                                                    <label class="col-sm-2 control-label font-weight-normal">Average:</label>
+                                                    <div class="col-sm-3">
+                                                        <p class="form-control-static">4.5</p>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group margin-0">
+                                                    <label class="col-sm-2 control-label font-weight-normal">Minimum:</label>
+                                                    <div class="col-sm-3">
+                                                        <p class="form-control-static">4</p>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group margin-0">
+                                                    <label class="col-sm-2 control-label font-weight-normal">Maximum:</label>
+                                                    <div class="col-sm-3">
+                                                        <p class="form-control-static">5</p>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                                        </div>
+                                                        <div class="table-responsive">
+                                                            <table class="table table-striped table-bordered dataTable margin-0">
+                                                                <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                                                    <tr>
+                                                                        <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                                                            Giver
+                                                                            <span class="icon-sort unsorted"></span>
+                                                                        </th>
+                                                                        <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
+                                                                            Team
+                                                                            <span class="icon-sort unsorted"></span>
+                                                                        </th>
+                                                                        <th id="button_sortToName" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 15%;">
+                                                                            Recipient
+                                                                            <span class="icon-sort unsorted"></span>
+                                                                        </th>
+                                                                        <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                                                            Team
+                                                                            <span class="icon-sort unsorted"></span>
+                                                                        </th>
+                                                                        <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,5)">
+                                                                            Feedback
+                                                                            <span class="icon-sort unsorted"></span>
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead><thead>
+                                                                </thead><tbody>
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Alice Betsy</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="middlealign">Instructor A</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="multiline">4</td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Charlie Davis</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="middlealign">Instructor A</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="multiline">5</td>
+                                                                    </tr>        
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a name="fbConstSumOptions">
+                                    <h4>Distribute points (among options) question</h4>
+                                </a>
+                                Distribute points (among options) question allows you to specify some options, and allow the student to split some points among these options.<br>
+                                To setup the question, specify the options as well as the number of points to split among the options.<br>
+                                You can also specify <b>Points to distribute per option</b>, which multiplies the points specified by the number of options.<br>
+                                For example, if there are 5 options and <b>Points to distribute per option</b> is set to 100, students will have to split 500 points in total to the 5 options.
+
+                                <div class="bs-example">
+                                    <form class="form-horizontal form_question" role="form" id="form_editquestion-9" name="form_editquestions" editstatus="hasResponses">
+                                                <div class="panel panel-primary questionTable" id="questionTable9">
+                                                <div class="panel-heading">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <span>
+                                                                <strong>Question</strong>
+                                                                <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-9" disabled="">
+                                                                <option value="1">1</option>
+                                                                </select>
+                                                                &nbsp;
+                                                                Distribute points (among options) question
+                                                            </span>
+                                                            <span class="pull-right">
+                                                                <a class="btn btn-primary btn-xs" id="questiongetlink-9" data-toggle="tooltip" data-placement="top" title="" onclick="getQuestionLink(9)" data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time.">Get Link</a>
+                                                                <a class="btn btn-primary btn-xs" id="questionedittext-9" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(9,11)" data-original-title="Edit this question">Edit</a>
+                                                                <a class="btn btn-primary btn-xs" style="display:none" id="questionsavechangestext-9">Save Changes</a>
+                                                                <a class="btn btn-primary btn-xs" onclick="deleteQuestion(9)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this question">Delete</a>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div>
+                                                        <textarea rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-9" data-toggle="tooltip" data-placement="top" title="" tabindex="9" disabled="disabled" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">How important are the following factors to you? Give points accordingly.</textarea>
+                                                    </div>
+                                                    <div class="row">
+                                        <br>
+                                        <div class="col-sm-6" id="constSumOptionTable-9">
+                                            <div id="constSumOptionRow-0-9">
+                                        <div class="input-group col-sm-12">
+                                            <input class="form-control" type="text" disabled="disabled" name="constSumOption-0" id="constSumOption-0-9" value="Grades">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default removeOptionLink" type="button" id="constSumRemoveOptionLink" onclick="removeConstSumOption(0,9)" style="display:none" tabindex="-1">
+                                                    <span class="glyphicon glyphicon-remove">
+                                                    </span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div id="constSumOptionRow-1-9">
+                                        <div class="input-group col-sm-12">
+                                            <input class="form-control" type="text" disabled="disabled" name="constSumOption-1" id="constSumOption-1-9" value="Fun">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default removeOptionLink" type="button" id="constSumRemoveOptionLink" onclick="removeConstSumOption(1,9)" style="display:none" tabindex="-1">
+                                                    <span class="glyphicon glyphicon-remove">
+                                                    </span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                                
+                                            <div id="constSumAddOptionRow-9">
+                                                <div colspan="2">
+                                                    <a class="btn btn-primary btn-xs addOptionLink" id="constSumAddOptionLink" onclick="addConstSumOption(9)" style="display:none">
+                                                        <span class="glyphicon glyphicon-plus">
+                                                        </span> add more options
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-inline col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <label class="control-label width-100-pc">
+                                                            <b>Points to distribute </b>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <select class="col-sm-5 width-100-pc select form-control" disabled="disabled" id="constSumPointsPerOptionSelect-9" name="constSumPointsPerOption">
+                                                            <option value="false">in total:</option>
+                                                            <option value="true" id="constSumOption_Option-9">per option:</option>
+                                                            <option value="true" id="constSumOption_Recipient-9">per recipient:</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <input type="number" disabled="disabled" class="form-control width-100-pc pointsBox" name="constSumPoints" id="constSumPoints-9" value="100" min="1" step="1" onchange="updateConstSumPointsValue(9)">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    </div>
+                                                    <br>
+                                                    <div>
+                                                        <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who will give feedback">  
+                                                            <label class="col-sm-4 control-label">
+                                                                Feedback Giver:
+                                                            </label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control participantSelect" name="givertype" id="givertype-9" disabled="disabled" onchange="feedbackGiverUpdateVisibilityOptions(this)">
+                                                                    <option value="SELF">Me (Session creator)</option>
+                                    <option value="STUDENTS" selected="selected">Students in this course</option>
+                                    <option value="INSTRUCTORS">Instructors in this course</option>
+                                    <option value="TEAMS">Teams in this course</option>
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="" data-original-title="Who the feedback is about">
+                                                            <label class="col-sm-4 control-label">
+                                                                Feedback Recipient:
+                                                            </label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control participantSelect" name="recipienttype" id="recipienttype-9" disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
+                                                                    <option value="SELF" selected="selected">Giver (Self feedback)</option>
+                                    <option value="STUDENTS">Other students in the course</option>
+                                    <option value="INSTRUCTORS">Instructors in the course</option>
+                                    <option value="TEAMS">Other teams in the course</option>
+                                    <option value="OWN_TEAM">Giver's team</option>
+                                    <option value="OWN_TEAM_MEMBERS">Giver's team members</option>
+                                    <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">Giver's team members and Giver</option>
+                                    <option value="NONE">Nobody specific (For general class feedback)</option>
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <br>
+                                                        <div class="col-sm-6">
+                                                            <a class="visibilityOptionsLabel btn btn-xs  btn-info" onclick="toggleVisibilityOptions(this)">
+                                                                <span class="glyphicon glyphicon-eye-open">
+                                                                </span> Show Visibility Options
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-sm-6 numberOfEntitiesElements9" style="display: none;">
+                                                            <label id="numofrecipients_text-9" class="control-label col-sm-4 small">
+                                                                The maximum number of <span id="numofrecipients_text_inner-9"></span> each respondant should give feedback to:
+                                                            </label>
+                                                            <div class="col-sm-8 form-control-static">
+                                                                <div class="col-sm-6">
+                                                                    <input class="nonDestructive" type="radio" name="numofrecipientstype" checked="checked" value="custom" disabled="disabled">
+                                                                        <input class="nonDestructive numberOfEntitiesBox" type="number" name="numofrecipients" id="numofrecipients-9" min="1" max="250" value="1" disabled="disabled">
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <input class="nonDestructive" type="radio" name="numofrecipientstype" value="max" disabled="disabled">
+                                                                    <span class="">Unlimited</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="visibilityOptions" style="display: none;">
+                                                        <br>
+                                                        <table class="dataTable participantTable table table-striped text-center">
+                                                            <tbody><tr>
+                                                                <th class="text-center">User/Group</th>
+                                                                <th class="text-center">Can see answer</th>
+                                                                <th class="text-center">Can see giver's name</th>
+                                                                <th class="text-center">Can see recipient's name</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-left">
+                                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what feedback recipient(s) can view">
+                                                                        Recipient(s)
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox answerCheckbox9 centered" name="receiverLeaderCheckbox" type="checkbox" value="RECEIVER" disabled="disabled" checked="checked">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox giverCheckbox9" type="checkbox" value="RECEIVER" disabled="disabled" checked="checked">     
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox recipientCheckbox9" name="receiverFollowerCheckbox" type="checkbox" value="RECEIVER" disabled="disabled" checked="checked">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-left">
+                                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of feedback giver can view">
+                                                                        Giver's Team Members
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox answerCheckbox9" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="disabled">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox giverCheckbox9" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="disabled">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox recipientCheckbox9" type="checkbox" value="OWN_TEAM_MEMBERS" disabled="disabled">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-left">
+                                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of feedback recipients can view">
+                                                                        Recipient's Team Members
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox answerCheckbox9" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="disabled">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox giverCheckbox9" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="disabled">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox recipientCheckbox9" type="checkbox" value="RECEIVER_TEAM_MEMBERS" disabled="disabled">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-left">
+                                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students can view">
+                                                                        Other students
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox answerCheckbox9" type="checkbox" value="STUDENTS" disabled="disabled">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox giverCheckbox9" type="checkbox" value="STUDENTS" disabled="disabled">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox recipientCheckbox9" type="checkbox" value="STUDENTS" disabled="disabled">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-left">
+                                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
+                                                                        Instructors
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox answerCheckbox9" type="checkbox" value="INSTRUCTORS" disabled="disabled" checked="checked">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox giverCheckbox9" type="checkbox" value="INSTRUCTORS" disabled="disabled" checked="checked">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="visibilityCheckbox recipientCheckbox9" type="checkbox" value="INSTRUCTORS" disabled="disabled" checked="checked">
+                                                                </td>
+                                                            </tr>
+                                                        </tbody></table>
+                                                    </div>
+                                                    <div>
+                                                        <span class="pull-right">
+                                                            <input id="button_question_submit-9" type="submit" class="btn btn-primary" value="Save Changes" tabindex="0" style="display:none">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                                </form>
+                                </div>
+
+                                Statistics on the average points for each option are provided.
+                                <div class="bs-example">
+                                    <div class="panel panel-info">
+                                                    <div class="panel-heading" data-target="#panelBodyCollapse-9" style="cursor: pointer;">
+                                                        <div class="display-icon pull-right">
+                                                        <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                                                        </div>
+                                                        <strong>Question 9: </strong><span class="text-preserve-space">How important are the following factors to you? Give points accordingly.&nbsp;<span style=" white-space: normal;">
+                                        <a href="javascript:;" id="questionAdditionalInfoButton-9-" class="color_gray" onclick="toggleAdditionalQuestionInfo('9-')" data-more="[more]" data-less="[less]">[more]</a>
+                                        <br>
+                                        <span id="questionAdditionalInfo-9-" style="display:none;">Distribute points (among options) question options:
+                                    <ul style="list-style-type: disc;margin-left: 20px;"><li>Grades</li><li>Fun</li></ul>Total points: 100</span>
+                                    </span></span>
+                                                    </div>
+                                                    <div class="panel-collapse collapse in" id="panelBodyCollapse-9">
+                                                    <div class="panel-body padding-0" id="questionBody-8">
+                                                                        
+                                                        <div class="resultStatistics">
+                                                            <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-4 text-color-gray">
+                                                <strong>
+                                                    Response Summary
+                                                </strong>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <table class="table margin-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <td>
+                                                                Option
+                                                            </td>
+                                                            <td>
+                                                                Average Points
+                                                            </td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                        <td>
+                                            Grades
+                                        </td>
+                                        <td>
+                                            32
+                                        </td>
+                                    </tr><tr>
+                                        <td>
+                                            Fun
+                                        </td>
+                                        <td>
+                                            67
+                                        </td>
+                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                        </div>
+                                                        <div class="table-responsive">
+                                                            <table class="table table-striped table-bordered dataTable margin-0">
+                                                                <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                                                    <tr>
+                                                                        <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                                                            Giver
+                                                                            <span class="icon-sort unsorted"></span>
+                                                                        </th>
+                                                                        <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
+                                                                            Team
+                                                                            <span class="icon-sort unsorted"></span>
+                                                                        </th>
+                                                                        <th id="button_sortToName" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 15%;">
+                                                                            Recipient
+                                                                            <span class="icon-sort unsorted"></span>
+                                                                        </th>
+                                                                        <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                                                            Team
+                                                                            <span class="icon-sort unsorted"></span>
+                                                                        </th>
+                                                                        <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,5)">
+                                                                            Feedback
+                                                                            <span class="icon-sort unsorted"></span>
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead><thead>
+                                                                </thead><tbody>
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Alice Betsy</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="middlealign">Alice Betsy</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="multiline"><ul><li>Grades: 20</li><li>Fun: 80</li></ul></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Charlie Davis</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="middlealign">Charlie Davis</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="multiline"><ul><li>Grades: 45</li><li>Fun: 55</li></ul></td>
+                                                                    </tr>        
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a name="fbConstSumRecipients">
+                                    <h4>Distribute points (among recipients) question</h4>
+                                </a>
+                                Distribute points (among recipients) question is similar to Distribute points (among recipients) question that students split points among the recipients of the question.<br>
+                                For example, if the question recipient is set to the giver's team members, and points to distribute in total is 100, students are required to split the 100 points among his team members.
+                                <br><br>
+                                Other details are similar to the Distribute points (among recipients) question. See <a href="#fbConstSumOptions">here</a> for details.<br>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a name="fbContib">
+                                    <h4>Team contribution question</h4>
+                                </a>
+                                Team contribution questions are a specialized question type designed for team contribution evaluations.<br>
+                                They allow estimation of percived contribution of a student and prevents a student from inflating his own score. To see more details about the calculation of results and other common questions, see the FAQ <a href="#Top">here</a>.<br><br>
+
+                                <span class="alert alert-success">
+                                    An alternative to this specialized calculation scheme is to use the Distribute Points (among recipients) question, which provides a simple average calculation scheme.
+                                </span>
+                                <br>
+                                <br>
+                                To setup the question, simply give some question text. The giver and recipient is fixed for this special question type.<br>
+                                <br>
+                                The results and statistics are presented as follows. See <a href="#faq7a">here</a> on how to use these results.<br>
+                                <div class="bs-example">
+                                    <div class="panel panel-info">
+                                                    <div class="panel-heading" data-target="#panelBodyCollapse-1" style="cursor: pointer;">
+                                                        <div class="display-icon pull-right">
+                                                        <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                                                        </div>
+                                                        <strong>Question 1: </strong><span class="text-preserve-space">Please rate the estimated contribution of your team members and yourself.&nbsp;<span style=" white-space: normal;">
+                                        <a href="javascript:;" id="questionAdditionalInfoButton-1-" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-')" data-more="[more]" data-less="[less]">[more]</a>
+                                        <br>
+                                        <span id="questionAdditionalInfo-1-" style="display:none;">Team contribution question</span>
+                                    </span></span>
+                                                    </div>
+                                                    <div class="panel-collapse collapse in" id="panelBodyCollapse-1">
+                                                    <div class="panel-body padding-0" id="questionBody-0">
+                                                                        
+                                                        <div class="resultStatistics">
+                                                            <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-4 text-color-gray">
+                                                <strong>
+                                                    Response Summary
+                                                </strong>
+                                            </div>
+                                            <div class="col-sm-3 pull-right">
+                                                [<a href="/instructorHelp.html#faq7a" target="_blank" id="interpret_help_link">How do I interpret/use these values?</a>]
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <table class="table table-bordered table-responsive margin-0">
+                                                    <thead>
+                                                    <tr>
+                                                        <td class="button-sort-ascending" id="button_sortteamname" onclick="toggleSort(this,1);">Team 
+                                                            <span class="icon-sort unsorted"></span></td>
+                                                        <td class="button-sort-none" id="button_sortname" onclick="toggleSort(this,2)">Student
+                                                            <span class="icon-sort unsorted"></span></td>
+                                                        <td class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,3,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="This is the students own estimation of his/her contributions">
+                                                            <abbr title="Claimed Contribution">CC</abbr>
+                                                            <span class="icon-sort unsorted"></span></td>
+                                                        <td class="button-sort-none" id="button_sortperceived" onclick="toggleSort(this,4,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="This is the average of what other team members think this student contributed">
+                                                            <abbr title="Percived Contribution">PC</abbr>
+                                                            <span class="icon-sort unsorted"></span></td>
+                                                        <td class="button-sort-none" id="button_sortdiff" onclick="toggleSort(this,5,sortByDiff)" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="Perceived Contribution - Claimed Contribution">Diff
+                                                            <span class="icon-sort unsorted"></span></td>
+                                                        <td class="align-center" data-toggle="tooltip" data-placement="top" data-container="body" title="" data-original-title="The list of points that this student received from others">Ratings Received</td>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody><tr id="student<%=idx%>">
+                                        <td>Team 1</td>
+                                        <td id="studentname"> 
+                                            Emma Farrell
+                                        </td>
+                                        <td><span class="color_neutral">E</span></td>
+                                        <td><span class="color_neutral">E</span></td>
+                                        <td><span>0</span></td>
+                                        <td><span class="color_neutral">E</span>, <span class="color_neutral">E</span>, <span class="color_neutral">E</span></td>
+                                    </tr><tr id="student<%=idx%>">
+                                        <td>Team 1</td>
+                                        <td id="studentname"> 
+                                            Danny Engrid
+                                        </td>
+                                        <td><span class="color_neutral">E</span></td>
+                                        <td><span class="color_neutral">E</span></td>
+                                        <td><span>0</span></td>
+                                        <td><span class="color_neutral">E</span>, <span class="color_neutral">E</span>, <span class="color_neutral">E</span></td>
+                                    </tr><tr id="student<%=idx%>">
+                                        <td>Team 1</td>
+                                        <td id="studentname"> 
+                                            Alice Betsy
+                                        </td>
+                                        <td><span class="color_neutral">E</span></td>
+                                        <td><span class="color_neutral">E</span></td>
+                                        <td><span>0</span></td>
+                                        <td><span class="color_neutral">E</span>, <span class="color_neutral">E</span>, <span class="color_neutral">E</span></td>
+                                    </tr><tr id="student<%=idx%>">
+                                        <td>Team 1</td>
+                                        <td id="studentname"> 
+                                            Benny Charles
+                                        </td>
+                                        <td><span class="color_neutral">E</span></td>
+                                        <td><span class="color_neutral">E</span></td>
+                                        <td><span>0</span></td>
+                                        <td><span class="color_neutral">E</span>, <span class="color_neutral">E</span>, <span class="color_neutral">E</span></td>
+                                    </tr><tr id="student<%=idx%>">
+                                        <td>Team 2</td>
+                                        <td id="studentname"> 
+                                            Gene Hudson
+                                        </td>
+                                        <td><span class="color-positive">E +4%</span></td>
+                                        <td><span class="color-positive">E +5%</span></td>
+                                        <td><span class="color-positive">+1%</span></td>
+                                        <td><span class="color_neutral">E</span>, <span class="color-positive">E +9%</span>, <span class="color-positive">E +7%</span></td>
+                                    </tr><tr id="student<%=idx%>">
+                                        <td>Team 2</td>
+                                        <td id="studentname"> 
+                                            Francis Gabriel
+                                        </td>
+                                        <td><span class="color-positive">E +5%</span></td>
+                                        <td><span class="color-positive">E +6%</span></td>
+                                        <td><span class="color-positive">+1%</span></td>
+                                        <td><span class="color_neutral">E</span>, <span class="color-positive">E +7%</span>, <span class="color-positive">E +10%</span></td>
+                                    </tr><tr id="student<%=idx%>">
+                                        <td>Team 2</td>
+                                        <td id="studentname"> 
+                                            Happy Guy
+                                        </td>
+                                        <td><span class="color-positive">E +5%</span></td>
+                                        <td><span class="color-positive">E +7%</span></td>
+                                        <td><span class="color-positive">+2%</span></td>
+                                        <td><span class="color_neutral">E</span>, <span class="color-positive">E +9%</span>, <span class="color-positive">E +12%</span></td>
+                                    </tr><tr id="student<%=idx%>">
+                                        <td>Team 2</td>
+                                        <td id="studentname"> 
+                                            Charlie Davis
+                                        </td>
+                                        <td><span class="color-negative">E -16%</span></td>
+                                        <td><span class="color-negative">E -18%</span></td>
+                                        <td><span class="color-negative">-2%</span></td>
+                                        <td><span class="color-negative">E -19%</span>, <span class="color-negative">E -19%</span>, <span class="color-negative">E -17%</span></td>
+                                    </tr>
+                                                </tbody></table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                        </div>
+                                                        <div class="table-responsive">
+                                                            <table class="table table-striped table-bordered dataTable margin-0">
+                                                                <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                                                    <tr>
+                                                                        <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                                                            Giver
+                                                                            <span class="icon-sort unsorted"></span>
+                                                                        </th>
+                                                                        <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
+                                                                            Team
+                                                                            <span class="icon-sort unsorted"></span>
+                                                                        </th>
+                                                                        <th id="button_sortToName" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 15%;">
+                                                                            Recipient
+                                                                            <span class="icon-sort unsorted"></span>
+                                                                        </th>
+                                                                        <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                                                            Team
+                                                                            <span class="icon-sort unsorted"></span>
+                                                                        </th>
+                                                                        <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,5)">
+                                                                            Feedback
+                                                                            <span class="icon-sort unsorted"></span>
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead><thead>
+                                                                </thead><tbody>
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Alice Betsy</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="middlealign">Alice Betsy</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="multiline"><span class="color_neutral">Equal Share</span><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color_neutral">Equal Share</span>]</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Alice Betsy</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="middlealign">Benny Charles</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="multiline"><span class="color_neutral">Equal Share</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Alice Betsy</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="middlealign">Danny Engrid</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="multiline"><span class="color_neutral">Equal Share</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Alice Betsy</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="middlealign">Emma Farrell</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="multiline"><span class="color_neutral">Equal Share</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Benny Charles</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="middlealign">Alice Betsy</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="multiline"><span class="color_neutral">Equal Share</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Benny Charles</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="middlealign">Benny Charles</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="multiline"><span class="color_neutral">Equal Share</span><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color_neutral">Equal Share</span>]</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Benny Charles</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="middlealign">Danny Engrid</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="multiline"><span class="color_neutral">Equal Share</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Benny Charles</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="middlealign">Emma Farrell</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="multiline"><span class="color_neutral">Equal Share</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Charlie Davis</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="middlealign">Charlie Davis</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="multiline"><span class="color-negative">Equal Share -16%</span><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color-negative">Equal Share -18%</span>]</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Charlie Davis</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="middlealign">Francis Gabriel</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="multiline"><span class="color-positive">Equal Share +6%</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Charlie Davis</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="middlealign">Gene Hudson</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="multiline"><span class="color-positive">Equal Share +6%</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Charlie Davis</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="middlealign">Happy Guy</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="multiline"><span class="color-positive">Equal Share +6%</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Danny Engrid</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="middlealign">Alice Betsy</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="multiline"><span class="color_neutral">Equal Share</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Danny Engrid</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="middlealign">Benny Charles</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="multiline"><span class="color_neutral">Equal Share</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Danny Engrid</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="middlealign">Danny Engrid</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="multiline"><span class="color_neutral">Equal Share</span><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color_neutral">Equal Share</span>]</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Danny Engrid</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="middlealign">Emma Farrell</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="multiline"><span class="color_neutral">Equal Share</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Emma Farrell</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="middlealign">Alice Betsy</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="multiline"><span class="color_neutral">Equal Share</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Emma Farrell</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="middlealign">Benny Charles</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="multiline"><span class="color_neutral">Equal Share</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Emma Farrell</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="middlealign">Danny Engrid</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="multiline"><span class="color_neutral">Equal Share</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Emma Farrell</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="middlealign">Emma Farrell</td>
+                                                                        <td class="middlealign">Team 1</td>
+                                                                        <td class="multiline"><span class="color_neutral">Equal Share</span><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color_neutral">Equal Share</span>]</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Francis Gabriel</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="middlealign">Charlie Davis</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="multiline"><span class="color-negative">Equal Share -20%</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Francis Gabriel</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="middlealign">Francis Gabriel</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="multiline"><span class="color-positive">Equal Share +5%</span><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color-positive">Equal Share +6%</span>]</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Francis Gabriel</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="middlealign">Gene Hudson</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="multiline"><span class="color-positive">Equal Share +5%</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Francis Gabriel</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="middlealign">Happy Guy</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="multiline"><span class="color-positive">Equal Share +10%</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Gene Hudson</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="middlealign">Charlie Davis</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="multiline"><span class="color-negative">Equal Share -18%</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Gene Hudson</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="middlealign">Francis Gabriel</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="multiline"><span class="color-positive">Equal Share +6%</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Gene Hudson</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="middlealign">Gene Hudson</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="multiline"><span class="color-positive">Equal Share +4%</span><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color-positive">Equal Share +5%</span>]</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Gene Hudson</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="middlealign">Happy Guy</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="multiline"><span class="color-positive">Equal Share +8%</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Happy Guy</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="middlealign">Charlie Davis</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="multiline"><span class="color-negative">Equal Share -20%</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Happy Guy</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="middlealign">Francis Gabriel</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="multiline"><span class="color-positive">Equal Share +8%</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Happy Guy</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="middlealign">Gene Hudson</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="multiline"><span class="color-positive">Equal Share +7%</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                    <tr>
+                                                                    
+                                                                        <td class="middlealign">Happy Guy</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="middlealign">Happy Guy</td>
+                                                                        <td class="middlealign">Team 2</td>
+                                                                        <td class="multiline"><span class="color-positive">Equal Share +5%</span><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color-positive">Equal Share +7%</span>]</span></td>
+                                                                    </tr>        
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                </div>
+                            </div>
+                        </div>
                     </li>
                 </ol>
                 <p align=right>
