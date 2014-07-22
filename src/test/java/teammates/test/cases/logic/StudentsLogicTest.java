@@ -1227,6 +1227,8 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         assertEquals(0, emailsSent.size());
         
         ______TS("typical case: send invite to one student");
+        StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         
         String courseId = dataBundle.courses.get("typicalCourse1").id;
         StudentAttributes newsStudent0Info = new StudentAttributes("sect", "team", "n0", "e0@google.com", "", courseId);

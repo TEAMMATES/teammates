@@ -94,7 +94,7 @@
             "section":"Section A"
         },
         "DropOut":{
-            "googleId":"drop.out",
+            "googleId":"",
             "email":"drop.out@gmail.com",
             "course":"CFResultsUiT.CS2104",
             "name":"Drop out",

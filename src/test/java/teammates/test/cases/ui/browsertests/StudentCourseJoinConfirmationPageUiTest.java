@@ -31,9 +31,8 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();
-        testData = getTypicalDataBundle();
         testData = loadDataBundle("/StudentCourseJoinConfirmationPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
 
         browser = BrowserPool.getBrowser(true);
         browser.driver.manage().deleteAllCookies();
@@ -125,7 +124,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
      
     
     private void testJoinConfirmation() throws Exception {
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         String expectedMsg;
         String joinActionUrl = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.STUDENT_COURSE_JOIN;
         String homePageActionUrl = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.STUDENT_HOME_PAGE;
@@ -157,9 +156,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         browser.driver.get(joinLink);
         confirmationPage = createNewPage(browser, StudentCourseJoinConfirmationPage.class);
         // this test uses accounts from test.properties
-        System.setProperty("godmode", "true");
         confirmationPage.verifyHtml("/studentCourseJoinConfirmationHTML.html");
-        System.clearProperty("godmode");
         
         ______TS("Cancelling goes to login page");
         createCorrectLoginPageType(confirmationPage.clickCancelButtonAndGetSourceOfDestination());
