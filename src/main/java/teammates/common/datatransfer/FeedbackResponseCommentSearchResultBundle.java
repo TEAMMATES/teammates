@@ -28,11 +28,12 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     public Map<String, String> commentGiverTable = new HashMap<String, String>();
     public Map<String, String> responseGiverTable = new HashMap<String, String>();
     public Map<String, String> responseRecipientTable = new HashMap<String, String>();
-
+    public Set<String> instructorEmails = new HashSet<String>();
+    
     public Cursor cursor = null;
     
     private Set<String> isAdded = new HashSet<String>();
-    private Set<String> instructorEmails = new HashSet<String>();
+    
     private Set<String> instructorCourseIdList = new HashSet<String>();
     
     private FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();

@@ -14,7 +14,7 @@ public class InstructorStudentListPage extends AppPage {
     @FindBy(id = "searchbox")
     private WebElement searchBox;
     
-    @FindBy(id = "button_search")
+    @FindBy(id = "buttonSearch")
     private WebElement searchButton;
     
     @FindBy(id = "show_email")

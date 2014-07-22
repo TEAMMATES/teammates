@@ -18,6 +18,7 @@ import teammates.ui.controller.ActionFactory;
 import com.google.appengine.api.taskqueue.dev.LocalTaskQueueCallback;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalSearchServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
 import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
@@ -57,7 +58,9 @@ public class GaeSimulation {
         LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();
         LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
         LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
-        helper = new LocalServiceTestHelper(localDatastore, localMail,    localUserServices, localTasks);
+        LocalSearchServiceTestConfig localSearch = new LocalSearchServiceTestConfig();
+        localSearch.setPersistent(false);
+        helper = new LocalServiceTestHelper(localDatastore, localMail,    localUserServices, localTasks, localSearch);
         helper.setUp();
         
         Datastore.initialize();
@@ -77,7 +80,9 @@ public class GaeSimulation {
         LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();
         LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
         LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
-        helper = new LocalServiceTestHelper(localDatastore, localMail,    localUserServices, localTasks);
+        LocalSearchServiceTestConfig localSearch = new LocalSearchServiceTestConfig();
+        localSearch.setPersistent(false);
+        helper = new LocalServiceTestHelper(localDatastore, localMail,    localUserServices, localTasks, localSearch);
         helper.setUp();
         
         Datastore.initialize();

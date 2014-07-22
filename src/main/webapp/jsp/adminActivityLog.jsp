@@ -91,6 +91,24 @@
                                 <div class="form-group">
 
                                     <div class="col-md-12">
+                                        <h4 class="text-center">
+                                            <span
+                                                class="label label-primary">Append
+                                                "?all=true" to URL to show all
+                                                logs, omit to exclude following requests.
+                                                
+                                            </span> </h4>                                          
+                                            <div class="text-center">                                          
+                                            <ul class="list-group">
+                                                <li class="list-group-item">
+                                                    instructorEvalStatsPage
+                                                </li>
+                                            </ul>
+                                            </div>
+                                        
+                                        
+                                        
+                                        
                                         <div class="alert alert-success">
                                             <p class="text-center">
                                                 <span
@@ -103,6 +121,7 @@
                                                     value2, value3....]</strong><br>
                                             </p>
                                         </div>
+
 
                                         <p class="text-center">
                                             <span
@@ -157,7 +176,8 @@
                                                 <strong>
                                                     Possible Labels:</strong>&nbsp;from,
                                                 to, person, role,
-                                                request, response, version<br>
+                                                request, response,
+                                                version<br>
                                                 <ul>
 
                                                     <li>E.g. from:
@@ -185,15 +205,14 @@
                                                         Delete Course</li>
 
                                                     <li>E.g.
-                                                        version:
-                                                        4.15, 4.16</li>
+                                                        version: 4.15,
+                                                        4.16</li>
 
                                                     <li>E.g.
                                                         version: 4-15,
-                                                        4.16 (both "." 
-                                                        and "-"
-                                                        are acceptable)
-                                                    </li>
+                                                        4.16 (both "."
+                                                        and "-" are
+                                                        acceptable)</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -238,7 +257,8 @@
                                                 class="form-control-static">
                                                 <strong>
                                                     Possible Responses:
-                                                </strong> <br> <br> <div
+                                                </strong> <br> <br>
+                                            <div
                                                 class="table-responsive">
 
 
@@ -367,7 +387,6 @@
 
                                                             </ul>
                                                         </td>
-                                                
                                                 </table>
                                             </div>
 
@@ -381,15 +400,19 @@
 
                         </div>
 
-                        <input type="hidden" name="offset"
-                            value="<%=data.offset%>"> <input
-                                                    type="hidden"
-                                                    name="pageChange"
-                                                    value="false"></form>
+                        <input type="hidden" name="offset" value="<%=data.offset%>">
+                        <input type="hidden" name="pageChange"  value="false">
+                        
+                        <!-- This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" 
+                        in AdminActivityLogPageData should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
+                        logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
+                        or simply reloaded with this parameter omitted. -->
+                        <input type="hidden" name="all" value="<%=data.ifShowAll%>">
+                    </form>
 
 
-            
-                                                </div>
+
+                </div>
 
                 <%
                     if (data.queryMessage != null) {
@@ -413,12 +436,13 @@
 
 
             <br> <br>
-
-
+           
             <%
                 List<ActivityLogEntry> appLogs = data.logs;
                 if (appLogs != null) {
             %>
+            
+                 
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <strong>Activity Log <span>
