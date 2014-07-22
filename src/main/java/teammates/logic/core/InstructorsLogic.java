@@ -177,12 +177,12 @@ public class InstructorsLogic {
         Assumption.assertNotNull("Supplied parameter was null", instructor);
 
         coursesLogic.verifyCourseIsPresent(instructor.courseId);
-        verifyInstructorInDbAndCascade(googleId, instructor);
+        verifyInstructorInDbAndCascadeEmailChange(googleId, instructor);
         
         instructorsDb.updateInstructorByGoogleId(instructor);
     }
 
-    private void verifyInstructorInDbAndCascade(String googleId,
+    private void verifyInstructorInDbAndCascadeEmailChange(String googleId,
             InstructorAttributes instructor) throws EntityDoesNotExistException {
         InstructorAttributes instructorInDb = instructorsDb.getInstructorForGoogleId(instructor.courseId, googleId);
         if (instructorInDb == null) {
@@ -192,6 +192,8 @@ public class InstructorsLogic {
         // cascade comments
         if (!instructorInDb.email.equals(instructor.email)) {
             commentsLogic.updateInstructorEmail(instructor.courseId, instructorInDb.email, instructor.email);
+            FeedbackResponseCommentsLogic.inst().updateFeedbackResponseCommentsGiverEmail(
+                    instructor.courseId, instructorInDb.email, instructor.email);
         }
     }
     
