@@ -227,6 +227,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
         
+        frc.setGiverEmail(newAttributes.giverEmail);
         frc.setCommentText(newAttributes.commentText);
         frc.setSendingState(newAttributes.sendingState);
         frc.setGiverSection(newAttributes.giverSection);
@@ -239,6 +240,25 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         FeedbackResponseCommentAttributes updatedComment = new FeedbackResponseCommentAttributes(frc);
         return updatedComment;
+    }
+    
+    public void updateGiverEmailOfFeedbackResponseComments(String courseId, String oldEmail, String updatedEmail) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, oldEmail);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updatedEmail);
+        
+        if (oldEmail.equals(updatedEmail)) {
+            return ;
+        }
+        
+        List<FeedbackResponseComment> responseComments = 
+                this.getFeedbackResponseCommentEntitiesForGiverInCourse(courseId, oldEmail);
+        
+        for (FeedbackResponseComment responseComment : responseComments) {
+            responseComment.setGiverEmail(updatedEmail);
+        }
+        
+        getPM().close();
     }
     
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(String courseId, String sessionName,
@@ -411,6 +431,17 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         }
     
         return feedbackResponseCommentList.get(0);
+    }
+    
+    private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForGiverInCourse(String courseId, String giverEmail) {
+        Query q = getPM().newQuery(FeedbackResponseComment.class);
+        q.declareParameters("String courseIdParam, String giverEmailParam");
+        q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam");
+        
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponseComment> feedbackResponseComments = (List<FeedbackResponseComment>) q.execute(courseId, giverEmail);
+        
+        return feedbackResponseComments;
     }
     
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForResponse(String feedbackResponseId){

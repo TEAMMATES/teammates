@@ -20,9 +20,21 @@ public class AdminActivityLogPageData extends PageData {
     public List<ActivityLogEntry> logs;
     public List<String> versions;
     
+    /**
+     * This determines whether the logs with requests contained in "excludedLogRequestURIs" below 
+     * should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
+     * logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
+     * or simply reloaded with this parameter omitted.
+     */
+    public boolean ifShowAll;
+    
     public String statusForAjax;
     private QueryParameters q;
     
+    /**
+     * this array stores the requests to be excluded from being shown in admin activity logs page
+     */
+    private static String[] excludedLogRequestURIs = {Const.ActionURIs.INSTRUCTOR_EVAL_STATS_PAGE};
 
     public AdminActivityLogPageData(AccountAttributes account) {
         super(account);
@@ -54,6 +66,29 @@ public class AdminActivityLogPageData extends PageData {
             this.queryMessage = "Error with the query: " + e.getMessage();
         }
     }
+    
+    
+    
+    /**
+     * check current log entry should be excluded as rubbish logs 
+     * returns false if the logEntry is regarded as rubbish
+     */   
+    private boolean shouldExcludeLogEntry(ActivityLogEntry logEntry){
+        
+        if(ifShowAll == true){        
+            return false;
+        }
+        
+        for (String uri: excludedLogRequestURIs){
+            
+            if(uri.contains(logEntry.getServletName())){
+                return true;
+            }
+        }
+        
+        return false;        
+    }
+    
     
     
     /**
@@ -104,6 +139,10 @@ public class AdminActivityLogPageData extends PageData {
             if(!arrayContains(q.roleValues, logEntry.getRole())){
                 return false;
             }
+        }
+        
+        if(shouldExcludeLogEntry(logEntry)){
+            return false;
         }
         
         return true;

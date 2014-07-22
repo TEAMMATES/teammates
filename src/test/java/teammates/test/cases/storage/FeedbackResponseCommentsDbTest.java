@@ -2,6 +2,7 @@ package teammates.test.cases.storage;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -230,6 +231,51 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         verifyListsContainSameResponseCommentAttributes(
                 new ArrayList<FeedbackResponseCommentAttributes>(dataBundle.feedbackResponseComments.values()), 
                 actualFrcas);
+    }
+    
+    public void testUpdateFeedbackResponseCommentsGiverEmail() throws InvalidParametersException, EntityAlreadyExistsException {
+        FeedbackResponseCommentAttributes frcaDataOfNewGiver = dataBundle.feedbackResponseComments
+                .get("comment1FromT1C1ToR1Q3S1C1");
+        String giverEmail = "frcdb.newGiver@email.com";
+        String courseId = "frcdb.giver.courseId";
+        Date createdAt = new Date();
+        frcaDataOfNewGiver.createdAt = createdAt;
+        frcaDataOfNewGiver.commentText = new Text("another comment for this response");
+        frcaDataOfNewGiver.setId(null);
+        frcaDataOfNewGiver.giverEmail = giverEmail;
+        frcaDataOfNewGiver.courseId = courseId;
+        frcDb.createEntity(frcaDataOfNewGiver);
+        assertNotNull(frcDb.getFeedbackResponseComment(courseId, createdAt, giverEmail));
+        
+        ______TS("typical success case");
+        
+        String updatedEmail = "frcdb.updatedGiver@email.com";;
+        frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, giverEmail, updatedEmail);
+        assertNull(frcDb.getFeedbackResponseComment(courseId, createdAt, giverEmail));
+        assertNotNull(frcDb.getFeedbackResponseComment(courseId, createdAt, updatedEmail));
+        
+        ______TS("null parameter");
+
+        try {
+            frcDb.updateGiverEmailOfFeedbackResponseComments(null, giverEmail, updatedEmail);
+            signalFailureToDetectException();
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        }
+        
+        try {
+            frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, null, updatedEmail);
+            signalFailureToDetectException();
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        }
+        
+        try {
+            frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, giverEmail, null);
+            signalFailureToDetectException();
+        } catch (AssertionError ae) {
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        }
     }
 
     public void testDeleteFeedbackResponseCommentsForResponse() throws InvalidParametersException, EntityAlreadyExistsException {
