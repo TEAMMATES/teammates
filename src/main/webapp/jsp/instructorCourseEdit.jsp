@@ -208,7 +208,7 @@
                                 <label class="col-sm-3 control-label">
                                      <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT%>" value="true"
                                      <% if (instructor.isDisplayedToStudents) { %>
-                                         checked="checked"
+                                     checked="checked"
                                      <% } %>
                                      data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_TO_STUDENT%>"
                                      >
@@ -345,23 +345,53 @@
                                                 >
                                                 <div class="panel panel-info">
                                                     <div class="panel-heading">
-                                                        <strong>But in section </strong>
-                                                        <select name="<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>" id="section<%=j%>forinstructor<%=index%>">
-                                                            <%
-                                                            	for (String sectionOptionName : data.sectionNames) {
-                                                            %>
-                                                            <option value="<%=sectionOptionName%>"
-                                                                <%if (sectionOptionName.equals(data.sectionNames.get(j))) {%>
-                                                                selected
-                                                                <%}%>
-                                                            ><%=sectionOptionName%></option>
-                                                            <%
-                                                            	}
-                                                            %>
-                                                        </select>
-                                                        <strong> the instructor can only</strong>
-                                                        <a href="javascript:;" onclick="hideTuneSectionPermissionsDiv(<%=index%>, <%=j%>)" class="pull-right">
+                                                        <div class="row">
+                                                        <div class="col-sm-2">
+                                                        <p style="margin-top: 0;margin-bottom: 0;padding-top: 7px;"><strong>But in section </strong></p>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <select name="<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>" id="section<%=j%>forinstructor<%=index%>" class="form-control"
+                                                                multiple class="select-picker" style="display: none;">
+                                                                <%
+                                                                	for (String sectionOptionName : data.sectionNames) {
+                                                                %>
+                                                                <option value="<%=sectionOptionName%>"
+                                                                    <%if (sectionOptionName.equals(data.sectionNames.get(j))) {%>
+                                                                    selected
+                                                                    <%}%>
+                                                                ><%=sectionOptionName%></option>
+                                                                <%
+                                                                	}
+                                                                %>
+                                                            </select>
+                                                            <div class="btn-group bootstrap-select">
+                                                                <a class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="javascript:;">
+                                                                    Select a Country <span class="caret"></span></a>
+                                                                <ul class="dropdown-menu" role="menu" style="max-height: 141px; overflow-y: auto;">
+                                                                    <% int optionIdx = 0;
+                                                                       for (String sectionOptionName : data.sectionNames) {
+                                                                    %>
+                                                                    <li rel="<%=optionIdx%>" 
+                                                                        <% if (sectionOptionName.equals(data.sectionNames.get(j))) {%>
+                                                                        class="selected"
+                                                                        <%}%>
+                                                                        >
+                                                                        <a><span class="text"><%=sectionOptionName%></span>
+                                                                        <i class="glyphicon glyphicon-ok icon-ok check-mark"></i></a>
+                                                                    </li>
+                                                                    <% } %>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                        <p style="margin-top: 0;margin-bottom: 0;padding-top: 7px;"><strong> the instructor can only</strong></p>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                        <a href="javascript:;" onclick="hideTuneSectionPermissionsDiv(<%=index%>, <%=j%>)" class="pull-right"
+                                                            style="margin-top: 0;margin-bottom: 0;padding-top: 7px;">
                                                             <span class="glyphicon glyphicon-trash"></span></a>
+                                                        </div>
+                                                        </div>
                                                         <%
                                                         	if (!instructor.privileges.isSectionSpecial(data.sectionNames.get(j))) {
                                                         %> 
