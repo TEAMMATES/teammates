@@ -371,7 +371,7 @@ public class AdminActivityLogPageData extends PageData {
                 roleValues = values;
             } else if (label.equals("time")){
                 timeTaken = true;
-                timeTakenValue = Long.parseLong(TimeHelper.convertTimeStringToLongString(values[0]));
+                timeTakenValue = TimeHelper.convertTimeToMillis(values[0]);
             } else {
                 throw new Exception("Invalid label");
             }
