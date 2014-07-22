@@ -205,8 +205,14 @@ public abstract class Action {
             account = loggedInUser;
             if (doesUserNeedRegistration(account) && !loggedInUserType.isAdmin) {
                 if (regkey != null) {
-                    // TODO: redirect to the Course Join Confirmation page based on 
-                    //       current url link (ie check ins/stu from the url)
+                    // TODO: encrypt the email as currently anyone with the regkey can
+                    //       get the email because of this redirect:
+                    
+                    String joinUrl = new Url(student.getRegistrationUrl())
+                                        .withParam(Const.ParamsNames.NEXT_URL, requestUrl)
+                                        .toString();
+                    setRedirectPage(joinUrl);
+                    return null;
                 }
                 throw new UnauthorizedAccessException("Unregistered user for a page that needs one");
             }

@@ -566,6 +566,51 @@
             "giverSection":"Section A",
             "recipientSection":"Section A"
         },
+        "response3a":{
+            "feedbackSessionName":"First Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"CFResultsUiT.alice.b@gmail.com",
+            "recipientEmail":"drop.out@gmail.com",
+            "responseMetaData":{
+                "value":"Response to Dropout."
+            }
+        },
+        "response3b":{
+            "feedbackSessionName":"First Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"drop.out@gmail.com",
+            "recipientEmail":"CFResultsUiT.alice.b@gmail.com",
+            "responseMetaData":{
+                "value":"Response to Alice from Dropout."
+            }
+        },
+        "response3c":{
+            "feedbackSessionName":"First Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"drop.out@gmail.com",
+            "recipientEmail":"CFResultsUiT.danny.e@gmail.com@gmail.com",
+            "responseMetaData":{
+                "value":"Response to Danny from Dropout."
+            }
+        },
+        "response3d":{
+            "feedbackSessionName":"First Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"drop.out@gmail.com",
+            "recipientEmail":"CFResultsUiT.benny.c@gmail.com",
+            "responseMetaData":{
+                "value":"Response to Benny from Dropout."
+            }
+            
+        },
         "response4":{
             "feedbackSessionName":"First Session",
             "courseId":"CFResultsUiT.CS2104",
@@ -599,6 +644,19 @@
             "feedbackQuestionType":"MCQ",
             "giverEmail":"CFResultsUiT.alice.b@gmail.com",
             "recipientEmail":"CFResultsUiT.alice.b@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"PowerSearch\", \"otherFieldContent\" : \"\"}"
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
+        },
+        "mcqResponse6a":{
+            "feedbackSessionName":"First Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"7",
+            "feedbackQuestionType":"MCQ",
+            "giverEmail":"drop.out@gmail.com",
+            "recipientEmail":"drop.out@gmail.com",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"PowerSearch\", \"otherFieldContent\" : \"\"}"
             },
@@ -643,6 +701,20 @@
             },
             "giverSection":"Section A",
             "recipientSection":"Section A"
+        },
+        "mcqResponse9a":{
+            "feedbackSessionName":"First Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"10",
+            "feedbackQuestionType":"MCQ",
+            "giverEmail":"drop.out@gmail.com",
+            "recipientEmail":"drop.out@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Team 2\", \"otherFieldContent\" : \"\"}"
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
+            
         },
         "response10":{
             "feedbackSessionName":"First Session",

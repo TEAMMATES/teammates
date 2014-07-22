@@ -244,30 +244,20 @@ ul #nav {
                 <div id="contentLinks" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li class="">
-                            <a href="/page/studentHomePage?user=SFResultsUiT.benny.c" data-link="studentHome" id="studentHomeLink">Home</a>
+                            <a href="/page/studentHomePage" data-link="studentHome" id="studentHomeLink">Home</a>
                         </li>
                         <li class="">
-                            <a href="/page/studentProfilePage?user=SFResultsUiT.benny.c" data-link="studentProfilePage" id="studentProfileLink">
+                            <a href="/page/studentProfilePage" data-link="studentProfilePage" id="studentProfileLink">
                                 Profile
                             </a>
                         </li>
                         <li class="">
-                            <a href="/page/studentCommentsPage?user=SFResultsUiT.benny.c" data-link="studentCommentsPage" id="studentCommentsLink">
+                            <a href="/page/studentCommentsPage" data-link="studentCommentsPage" id="studentCommentsLink">
                                 Comments
                             </a>
                         </li>
                         <li class="">
                             <a target="_blank" href="/studentHelp.html" class="nav" id="studentHelpLink">Help</a>
-                        </li>
-                    </ul>
-                    
-                    <ul class="nav navbar-nav pull-right">
-                        <li>
-                            <a href="/logout.jsp" class="nav logout">Logout
-                                (<span title="" data-placement="bottom" data-toggle="tooltip" class="text-info" data-original-title="SFResultsUiT.benny.c">
-                                        SFResultsUiT.benny.c
-                                 </span>)
-                            </a>
                         </li>
                     </ul>
                     
@@ -294,7 +284,7 @@ ul #nav {
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Session:</label>
                                 <div class="col-sm-10">
-                                    <p class="form-control-static">First Session</p>
+                                    <p class="form-control-static">MCQ Session</p>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -331,7 +321,12 @@ ul #nav {
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4>Question 1: <span class="text-preserve-space">What is the best selling point of your product?
-                        </span></h4>
+                         <span style=" white-space: normal;">
+    <a data-less="[less]" data-more="[more]" onclick="toggleAdditionalQuestionInfo('1-')" class="color_gray" id="questionAdditionalInfoButton-1-" href="javascript:;">[more]</a>
+    <br />
+    <span style="display:none;" id="questionAdditionalInfo-1-">Multiple-choice (single answer) question options:
+<ul style="list-style-type: disc;margin-left: 20px;"><li>UI</li><li>Algo</li></ul></span>
+</span></span></h4>
                         
                     
                     <div class="panel panel-primary">
@@ -345,25 +340,7 @@ ul #nav {
                                 </td>
                             </tr>
                             <tr>
-                                <td class="multiline">Alice self feedback.</td>
-                            </tr>
-                        
-                            <tr>
-                                <td>
-                                    <ul class="list-group comment-list">
-                                            
-                                                    <li class="list-group-item list-group-item-warning">
-                                                        <span class="text-muted">From: SFResultsUiT.instr@gmail.com [Tue Mar 01 23:59:00 UTC 2016]</span>
-                                                        <div>Instructor first comment to Alice</div>
-                                                    </li>
-                                            
-                                                    <li class="list-group-item list-group-item-warning">
-                                                        <span class="text-muted">From: SFResultsUiT.instr@gmail.com [Wed Mar 02 23:59:00 UTC 2016]</span>
-                                                        <div>Instructor second comment to Alice</div>
-                                                    </li>
-                                            
-                                    </ul>
-                                 </td>    
+                                <td class="multiline">Algo</td>
                             </tr>
                         
                                 </tbody>
@@ -377,7 +354,12 @@ ul #nav {
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4>Question 2: <span class="text-preserve-space">Rate 3 other students' products
-                        </span></h4>
+                         <span style=" white-space: normal;">
+    <a data-less="[less]" data-more="[more]" onclick="toggleAdditionalQuestionInfo('2-')" class="color_gray" id="questionAdditionalInfoButton-2-" href="javascript:;">[more]</a>
+    <br />
+    <span style="display:none;" id="questionAdditionalInfo-2-">Multiple-choice (single answer) question options:
+<ul style="list-style-type: disc;margin-left: 20px;"><li>Good</li><li>OK</li><li>Poor</li></ul></span>
+</span></span></h4>
                         
                     
                     <div class="panel panel-primary">
@@ -387,11 +369,11 @@ ul #nav {
                         
                             <tr class="resultSubheader">
                                 <td>
-                                    <span class="bold"><b>From:</b></span> Alice Betsy
+                                    <span class="bold"><b>From:</b></span> Anonymous student 227201833
                                 </td>
                             </tr>
                             <tr>
-                                <td class="multiline">Response to Danny.</td>
+                                <td class="multiline">OK</td>
                             </tr>
                         
                                 </tbody>
@@ -399,17 +381,17 @@ ul #nav {
                         </div>
                     
                     <div class="panel panel-primary">
-                        <div class="panel-heading"><b>To:</b> Anonymous student 369443139</div>
+                        <div class="panel-heading"><b>To:</b> Anonymous student 410339386</div>
                         <table class="table">
                             <tbody>    
                         
                             <tr class="resultSubheader">
                                 <td>
-                                    <span class="bold"><b>From:</b></span> Alice Betsy
+                                    <span class="bold"><b>From:</b></span> Anonymous student 227201833
                                 </td>
                             </tr>
                             <tr>
-                                <td class="multiline">Response to Dropout.</td>
+                                <td class="multiline">Good</td>
                             </tr>
                         
                                 </tbody>
@@ -417,89 +399,7 @@ ul #nav {
                         </div>
                     
                     <div class="panel panel-primary">
-                        <div class="panel-heading"><b>To:</b> You</div>
-                        <table class="table">
-                            <tbody>    
-                        
-                            <tr class="resultSubheader">
-                                <td>
-                                    <span class="bold"><b>From:</b></span> Alice Betsy
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="multiline">Response to Benny.</td>
-                            </tr>
-                        
-                                </tbody>
-                            </table>
-                        </div>
-                    
-                    <div class="panel panel-primary">
-                        <div class="panel-heading"><b>To:</b> Anonymous student 1138974819</div>
-                        <table class="table">
-                            <tbody>    
-                        
-                            <tr class="resultSubheader">
-                                <td>
-                                    <span class="bold"><b>From:</b></span> Anonymous student 369443139
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="multiline">Response to Danny from Dropout.</td>
-                            </tr>
-                        
-                                </tbody>
-                            </table>
-                        </div>
-                    
-                    <div class="panel panel-primary">
-                        <div class="panel-heading"><b>To:</b> Anonymous student 227201833</div>
-                        <table class="table">
-                            <tbody>    
-                        
-                            <tr class="resultSubheader">
-                                <td>
-                                    <span class="bold"><b>From:</b></span> Anonymous student 369443139
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="multiline">Response to Alice from Dropout.</td>
-                            </tr>
-                        
-                                </tbody>
-                            </table>
-                        </div>
-                    
-                    <div class="panel panel-primary">
-                        <div class="panel-heading"><b>To:</b> You</div>
-                        <table class="table">
-                            <tbody>    
-                        
-                            <tr class="resultSubheader">
-                                <td>
-                                    <span class="bold"><b>From:</b></span> Anonymous student 369443139
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="multiline">Response to Benny from Dropout.</td>
-                            </tr>
-                        
-                                </tbody>
-                            </table>
-                        </div>
-                    
-                    </div>
-                </div>
-                <br />
-            
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4>Question 3: <span class="text-preserve-space">Feedback to class
-                        </span></h4>
-                        
-                    
-                    <div class="panel panel-primary">
-                        <div class="panel-heading"><b>To:</b> -</div>
+                        <div class="panel-heading"><b>To:</b> Charlie Davis</div>
                         <table class="table">
                             <tbody>    
                         
@@ -509,35 +409,7 @@ ul #nav {
                                 </td>
                             </tr>
                             <tr>
-                                <td class="multiline">Secret feedback about class. (to nobody test)</td>
-                            </tr>
-                        
-                                </tbody>
-                            </table>
-                        </div>
-                    
-                    </div>
-                </div>
-                <br />
-            
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4>Question 4: <span class="text-preserve-space">Give feedback to 3 other teams.
-                        </span></h4>
-                        
-                    
-                    <div class="panel panel-primary">
-                        <div class="panel-heading"><b>To:</b> Team 2</div>
-                        <table class="table">
-                            <tbody>    
-                        
-                            <tr class="resultSubheader">
-                                <td>
-                                    <span class="bold"><b>From:</b></span> Your Team (Team 1)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="multiline">alice to team 2</td>
+                                <td class="multiline">Good</td>
                             </tr>
                         
                                 </tbody>
@@ -545,54 +417,7 @@ ul #nav {
                         </div>
                     
                     <div class="panel panel-primary">
-                        <div class="panel-heading"><b>To:</b> Your Team (Team 1)</div>
-                        <table class="table">
-                            <tbody>    
-                        
-                            <tr class="resultSubheader">
-                                <td>
-                                    <span class="bold"><b>From:</b></span> Team 2
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="multiline">Team 2 (charlie) to team 1</td>
-                            </tr>
-                        
-                            <tr class="resultSubheader">
-                                <td>
-                                    <span class="bold"><b>From:</b></span> Team 2
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="multiline">Team 2 (danny) to team 1</td>
-                            </tr>
-                        
-                            <tr class="resultSubheader">
-                                <td>
-                                    <span class="bold"><b>From:</b></span> Team 3
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="multiline">Team 3 to Team 1 
- multiline special char test</td>
-                            </tr>
-                        
-                                </tbody>
-                            </table>
-                        </div>
-                    
-                    </div>
-                </div>
-                <br />
-            
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4>Question 5: <span class="text-preserve-space">Give feedback to your team mates
-                        </span></h4>
-                        
-                    
-                    <div class="panel panel-primary">
-                        <div class="panel-heading"><b>To:</b> Alice Betsy</div>
+                        <div class="panel-heading"><b>To:</b> Danny Engrid</div>
                         <table class="table">
                             <tbody>    
                         
@@ -602,7 +427,40 @@ ul #nav {
                                 </td>
                             </tr>
                             <tr>
-                                <td class="multiline">Teammate feedback from benny</td>
+                                <td class="multiline">Good</td>
+                            </tr>
+                        
+                                </tbody>
+                            </table>
+                        </div>
+                    
+                    </div>
+                </div>
+                <br />
+            
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Question 3: <span class="text-preserve-space">Choose the best student in the course.
+                         <span style=" white-space: normal;">
+    <a data-less="[less]" data-more="[more]" onclick="toggleAdditionalQuestionInfo('3-')" class="color_gray" id="questionAdditionalInfoButton-3-" href="javascript:;">[more]</a>
+    <br />
+    <span style="display:none;" id="questionAdditionalInfo-3-">Multiple-choice (single answer) question options:
+<br />The options for this question is automatically generated from the list of all students in this course.</span>
+</span></span></h4>
+                        
+                    
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><b>To:</b> Anonymous student 1426103091</div>
+                        <table class="table">
+                            <tbody>    
+                        
+                            <tr class="resultSubheader">
+                                <td>
+                                    <span class="bold"><b>From:</b></span> Anonymous student 227201833
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="multiline">Danny</td>
                             </tr>
                         
                                 </tbody>
@@ -628,8 +486,6 @@ ul #nav {
                 <span>[<a href="/index.html">TEAMMATES</a> V{$version}]</span>
             </div>
             <div class="col-md-4">
-                
-                        [for <span class="highlight-white"><span class="color_white">NUS</span></span>]
                 
             </div>
             <div class="col-md-4">
