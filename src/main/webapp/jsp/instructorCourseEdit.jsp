@@ -19,13 +19,11 @@
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css"/>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css"/>
     <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css"/>
-    <link rel="stylesheet" type="text/css" href="/bootstrap-select/bootstrap-select.min.css" />
    
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/bootstrap-select/bootstrap-select.min.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorCourseEdit.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>   
@@ -349,46 +347,45 @@
                                                     <div class="panel-heading">
                                                         <div class="row">
                                                             <div class="col-sm-2">
-                                                                <p style="margin-top: 0;margin-bottom: 0;padding-top: 7px;"><strong>But in section </strong></p>
+                                                                <p><strong>But in section(s)</strong></p>
                                                             </div>
-                                                            <div class="col-sm-3">
-                                                                <select name="<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>" id="section<%=j%>forinstructor<%=index%>"
-                                                                    class="selectpicker" multiple data-selected-text-format="count>3">
-                                                                    <%
-                                                                    	for (String sectionOptionName : data.sectionNames) {
-                                                                    %>
-                                                                    <option value="<%=sectionOptionName%>"
-                                                                        <%if (sectionOptionName.equals(data.sectionNames.get(j))) {%>
-                                                                        selected
-                                                                        <%}%>
-                                                                    ><%=sectionOptionName%></option>
-                                                                    <%
-                                                                    	}
-                                                                    %>
-                                                                </select>
+                                                            <div class="col-sm-9">
+                                                                <% for (int sectionIdx = 0; sectionIdx<data.sectionNames.size(); sectionIdx++) { %>
+                                                                    <% if (sectionIdx%3 == 0) { %>
+                                                                    <div class="col-sm-12">
+                                                                    <% } %>
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>" value="true"
+                                                                            <% if (sectionIdx == j) { %>
+                                                                            checked="checked"
+                                                                            <% } %>
+                                                                            >
+                                                                        <%=data.sectionNames.get(sectionIdx)%>
+                                                                        </div>
+                                                                    <% if (sectionIdx%3 == 2) { %>
+                                                                    </div>
+                                                                    <% } %>
+                                                                <% } %>
+                                                                <% if (data.sectionNames.size()%3 != 0) { %>
+                                                                </div>
+                                                                <% } %>
                                                             </div>
-                                                            <div class="col-sm-3">
-                                                                <p style="margin-top: 0;margin-bottom: 0;padding-top: 7px;"><strong> the instructor can only</strong></p>
-                                                            </div>
-                                                            <div class="col-sm-4">
+                                                            <div class="col-sm-1">
                                                             <a href="javascript:;" onclick="hideTuneSectionPermissionsDiv(<%=index%>, <%=j%>)" class="pull-right"
                                                                 style="margin-top: 0;margin-bottom: 0;padding-top: 7px;">
                                                                 <span class="glyphicon glyphicon-trash"></span></a>
                                                             </div>
                                                         </div>
-                                                        <%
-                                                        	if (!instructor.privileges.isSectionSpecial(data.sectionNames.get(j))) {
-                                                        %> 
+                                                        <br>
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <p><strong> the instructor can only,</strong></p>
+                                                            </div>
+                                                        </div>
+                                                        <% String valueForSection = instructor.privileges.isSectionSpecial(data.sectionNames.get(j)) ? "true" : "false";%>
                                                         <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>set"
-                                                            id="is<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>setforinstructor<%=index%>" value="false"/>
-                                                        <%
-                                                        	} else {
-                                                        %>
-                                                        <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>set"
-                                                            id="is<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>setforinstructor<%=index%>" value="true"/>
-                                                        <%
-                                                        	}
-                                                        %>
+                                                            id="is<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>setforinstructor<%=index%>"
+                                                            value="<%=valueForSection%>"/>
                                                     </div>
                                                     <div class="panel-body">
                                                         <br>

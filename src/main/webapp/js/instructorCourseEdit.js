@@ -318,5 +318,4 @@ $(function(){
 		var role = $(this).attr("value");
 		checkPrivilegesOfRoleForInstructor(instrNum, role);
 	});
-	//$('.selectpicker').selectpicker();
 });
