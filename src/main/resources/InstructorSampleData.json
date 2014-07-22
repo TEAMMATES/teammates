@@ -55,6 +55,22 @@
                 "moreInfo":"I am Emma from IIT India and am here at NUS for exchange. "
             }
         },
+        "charlie.d.tmms": {
+            "googleId": "charlie.d.tmms.sampleData",
+            "name": "Charlie Davis",
+            "isInstructor":false,
+            "email":"charlie.d.tmms@gmail.com",
+            "institute":"NUS",      
+            "studentProfile":{
+                "googleId": "charlie.d.tmms.sampleData",
+                "shortName": "Char",
+                "email": "charlie@d.com",
+                "institute":"IIT",
+                "nationality":"American",
+                "gender":"male",
+                "moreInfo":"I am Charlie - an exchange student"
+            }
+        },
         "teammates.demo.instructor@demo.course": {
           "googleId": "teammates.demo.instructor",
           "email": "teammates.demo.instructor@demo.course",
@@ -146,7 +162,7 @@
       "section": "Tutorial Group 1"
     },    
     "charlie.d.tmms@demo.course": {
-      "googleId": "",
+      "googleId": "charlie.d.tmms.sampleData",
       "email": "charlie.d.tmms@gmail.com",
       "course": "demo.course",
       "name": "Charlie Davis",
@@ -161,6 +177,15 @@
       "name": "Demo_Instructor",
       "comments": "This student's name is Demo_Instructor",
       "team": "Team 2",
+      "section": "Tutorial Group 2"
+    },
+    "teammates.unregistered@demo.course": {
+      "googleId": "",
+      "email": "teammates.unregistered@demo.course",
+      "course": "demo.course",
+      "name": "Demo_Unregistered",
+      "comments": "This student's name is Demo_Unregistered",
+      "team": "Team 3",
       "section": "Tutorial Group 2"
     },
     "francis.g.tmms@demo.course": {
