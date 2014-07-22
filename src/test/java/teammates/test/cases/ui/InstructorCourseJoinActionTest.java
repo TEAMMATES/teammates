@@ -50,7 +50,8 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         ShowPageResult pageResult = (ShowPageResult) confirmAction.executeAndPostProcess();
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION 
-                        + "?error=false&user=" + instructor.googleId, pageResult.getDestinationWithParams());
+                + "?regkey=" + invalidEncryptedKey 
+                + "&error=false&user=idOfInstructor1OfCourse1", pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
@@ -70,7 +71,7 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED 
                         + "?regkey=" + StringHelper.encrypt(instructor.key)
-                        + "&error=false&user=" + instructor.googleId, redirectResult.getDestinationWithParams());
+                        + "&error=false&user=idOfInstructor1OfCourse1", redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals("", redirectResult.getStatusMessage());
         
@@ -101,7 +102,9 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         confirmAction = getAction(submissionParams);
         pageResult = (ShowPageResult) confirmAction.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION + "?error=false&user=ICJAT.instr",
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION + 
+                "?regkey=" + StringHelper.encrypt(newInstructor.key) + 
+                "&error=false&user=ICJAT.instr",
                         pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());

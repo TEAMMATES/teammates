@@ -32,11 +32,7 @@ public class StudentProfilePictureEditAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         new GateKeeper().verifyLoggedInUserPrivileges();
-        if(isUnregistered) { 
-            // unregistered users cannot view the page
-            throw new UnauthorizedAccessException("User is not registered");
-        }        
-        
+
         validatePostParameters();
         
         String leftXString = getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_LEFTX);

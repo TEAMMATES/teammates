@@ -73,18 +73,6 @@ public class StudentProfilePageActionTest extends BaseActionTest {
                 "|||studentProfile Page Load <br> Profile: " + student.studentProfile.toString() + "|||/page/studentProfilePage" ;
         assertEquals(expectedLogMessage, a.getLogMessage());
         
-        ______TS("unregistered user");
-        
-        gaeSimulation.loginUser("random-id-unreg");
-        
-        a = getAction(submissionParams);
-        try {
-            a.executeAndPostProcess();
-            signalFailureToDetectException(" - Unauthorised Exception");
-        } catch(UnauthorizedAccessException ue) {
-            assertEquals("User is not registered", ue.getMessage());
-        }
-        
     }
 
     private StudentProfilePageAction getAction(String... params) throws Exception{

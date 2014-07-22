@@ -3,16 +3,12 @@ package teammates.test.cases.ui;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
+import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.EvaluationsDb;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentEvalSubmissionEditPageAction;
@@ -32,10 +28,12 @@ public class StudentEvalSubmissionEditPageActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcess() throws Exception{
         
-        String recentlyJoinedUserId = "recentlyJoined.student";
+        String recentlyJoinedUserId = dataBundle.students.get("student5InCourse1").googleId;
         EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse1");
         String[] submissionParams = new String[]{};
         
+        // delete student entity to fabricate an "eventual consistency" problem
+        StudentsLogic.inst().deleteStudentsForGoogleIdAndCascade(recentlyJoinedUserId);
         
         ______TS("Student just join course but affected by eventual consistency");
         submissionParams = new String[]{

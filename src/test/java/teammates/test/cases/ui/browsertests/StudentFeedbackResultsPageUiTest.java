@@ -7,8 +7,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
+import teammates.test.driver.BackDoor;
+import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
@@ -29,7 +32,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/StudentFeedbackResultsPageUiTest.json");
         restoreTestDataOnServer(testData);
         
-        browser = BrowserPool.getBrowser();        
+        browser = BrowserPool.getBrowser(); 
     }
     
     @Test
@@ -46,6 +49,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyHtml("/studentFeedbackResultsPageOpen.html");
         
         ______TS("team-to-team session results");
+        // TODO: change all but one verifyHtml to verifyHtmlMainContent
         
         resultsPage = loginToStudentFeedbackResultsPage("Benny", "Open Session");
         resultsPage.verifyHtml("/studentFeedbackResultsPageTeamToTeam.html");
@@ -99,7 +103,18 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage = loginToStudentFeedbackResultsPage("Alice", "CONTRIB Session");
         resultsPage.verifyHtml("/studentFeedbackResultsPageCONTRIB.html");
+        
+        ______TS("unreg student");
 
+        resultsPage.logout();
+        // Open Session
+        StudentAttributes unreg = testData.students.get("DropOut");
+        resultsPage = loginToStudentFeedbackResultsPage(unreg, "Open Session");
+        resultsPage.verifyHtml("/unregisteredStudentFeedbackResultsPageOpen.html");
+        
+        // Mcq Session
+        resultsPage = loginToStudentFeedbackResultsPage(unreg, "MCQ Session");
+        resultsPage.verifyHtml("/unregisteredStudentFeedbackResultsPageMCQ.html");
     }
 
     @AfterClass
@@ -115,6 +130,18 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
                 .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
         return loginAdminToPage(browser, editUrl,
                 StudentFeedbackResultsPage.class);
+    }
+    
+    private StudentFeedbackResultsPage loginToStudentFeedbackResultsPage(StudentAttributes s, String fsDataId) {
+            
+        String submitUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+                .withCourseId(s.course)
+                .withStudentEmail(s.email)
+                .withSessionName(testData.feedbackSessions.get(fsDataId).feedbackSessionName)
+                .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email))
+                .toString();
+        browser.driver.get(submitUrl);
+        return AppPage.getNewPageInstance(browser, StudentFeedbackResultsPage.class);
     }
 
 }

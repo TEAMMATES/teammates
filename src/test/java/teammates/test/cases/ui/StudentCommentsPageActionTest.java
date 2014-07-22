@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.ShowPageResult;
@@ -28,27 +27,16 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        String unregUserId = "unreg.user";
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         String studentId = student1InCourse1.googleId;
         String adminUserId = "admin.user";
         
         String[] submissionParams = new String[]{};
         
-        ______TS("unregistered student cannot view studentCommentsPage");
-        
-        gaeSimulation.loginUser(unregUserId);
-        StudentCommentsPageAction action = getAction(submissionParams);
-        try{
-            action.executeAndPostProcess();
-        } catch (UnauthorizedAccessException error){
-            ignoreExpectedException();
-        }
-        
         ______TS("registered student with comment");
         
         gaeSimulation.loginUser(studentId);
-        action = getAction(submissionParams);
+        StudentCommentsPageAction action = getAction(submissionParams);
         ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
         AssertHelper.assertContainsRegex(Const.ViewURIs.STUDENT_COMMENTS, result.getDestinationWithParams());
         assertEquals(false, result.isError);

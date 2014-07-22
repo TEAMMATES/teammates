@@ -301,13 +301,11 @@ public class AccountsLogic {
         
         if(studentRole == null){
             throw new JoinCourseException(Const.StatusCodes.INVALID_KEY,
-                    "You have used an invalid join link: "
-                            + Const.ActionURIs.STUDENT_COURSE_JOIN 
-                            + "?regkey=" + encryptedKey);
+                    "You have used an invalid join link: %s");
         } else if (studentRole.isRegistered()) {
             if (studentRole.googleId.equals(googleId)) {
                 throw new JoinCourseException(Const.StatusCodes.ALREADY_JOINED,
-                        googleId + " has already joined this course");
+                        "You (" + googleId + ") have already joined this course");
             } else {
                 throw new JoinCourseException(
                         Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,

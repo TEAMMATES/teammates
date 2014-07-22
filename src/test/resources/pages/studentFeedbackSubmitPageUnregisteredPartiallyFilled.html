@@ -3,6 +3,10 @@
         <h1>Submit Feedback</h1>
         <br>
         
+            <div id="registerMessage" class="alert alert-info">
+                You may submit feedback and view results without logging in. To access other features you need <a href="/page/studentCourseJoinAuthentication?regkey={*}&amp;studentemail=drop.out%40gmail.com&amp;courseid=SFSubmitUiT.CS2104" class="link">to login using a google account</a> (recommended).
+            </div>
+        
         <form method="post" name="form_student_submit_response" action="/page/studentFeedbackSubmissionEditSave">
             
 
@@ -18,7 +22,8 @@
     <input name="fsname" value="First Session" type="hidden">
     <input name="courseid" value="SFSubmitUiT.CS2104" type="hidden">
     
-        <input name="user" value="SFSubmitUiT.alice.b" type="hidden">
+        <input name="regkey" value="{*}" type="hidden">
+        <input name="studentemail" value="drop.out@gmail.com" type="hidden">
     
     <div class="well well-plain" id="course1">
             <div class="panel-body">
@@ -63,7 +68,12 @@
 
 
 
-    <div id="statusMessage" style="display: none;"></div>
+    <div id="statusMessage" class="alert alert-warning">
+        All responses submitted succesfully!
+    </div>
+    <script type="text/javascript">
+        document.getElementById( 'statusMessage' ).scrollIntoView();
+    </script>
 
     <br>
 
@@ -88,7 +98,7 @@
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
                         <option value=""></option>
-<option value="SFSubmitUiT.alice.b@gmail.com" selected="selected">Myself</option>
+<option value="drop.out@gmail.com" selected="selected">Myself</option>
 
                         </select><span> Myself</span>
                     </div>
@@ -126,17 +136,17 @@
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="responserecipient-2-0" style="max-width:125px">
                         <option value=""></option>
-<option value="SFSubmitUiT.benny.c@gmail.com" selected="selected">Benny Charles</option>
+<option value="SFSubmitUiT.alice.b@gmail.com" selected="selected">Alice Betsy</option>
+<option style="display: none;" value="SFSubmitUiT.benny.c@gmail.com">Benny Charles</option>
 <option value="SFSubmitUiT.charlie.d@gmail.com">Charlie Davis</option>
 <option value="SFSubmitUiT.danny.e@gmail.com">Danny Engrid</option>
-<option style="display: none;" value="drop.out@gmail.com">Drop out</option>
 <option value="SFSubmitUiT.emily.f@gmail.com">Emily</option>
 <option style="display: none;" value="extra.guy@gmail.com">Extra guy</option>
 
                         </select>
                     </div>
                     <div class="col-sm-10">
-                        <textarea rows="4" cols="100%" class="form-control" name="responsetext-2-0">Response to Benny.</textarea>
+                        <textarea rows="4" cols="100%" class="form-control" name="responsetext-2-0">Response to student who is number 1.</textarea>
                         <input name="responseid-2-0" value="{*}" type="hidden">
                     </div>
                 </div>
@@ -147,17 +157,17 @@
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="responserecipient-2-1" style="max-width:125px">
                         <option value=""></option>
-<option style="display: none;" value="SFSubmitUiT.benny.c@gmail.com">Benny Charles</option>
+<option style="display: none;" value="SFSubmitUiT.alice.b@gmail.com">Alice Betsy</option>
+<option value="SFSubmitUiT.benny.c@gmail.com" selected="selected">Benny Charles</option>
 <option value="SFSubmitUiT.charlie.d@gmail.com">Charlie Davis</option>
 <option value="SFSubmitUiT.danny.e@gmail.com">Danny Engrid</option>
-<option value="drop.out@gmail.com" selected="selected">Drop out</option>
 <option value="SFSubmitUiT.emily.f@gmail.com">Emily</option>
 <option style="display: none;" value="extra.guy@gmail.com">Extra guy</option>
 
                         </select>
                     </div>
                     <div class="col-sm-10">
-                        <textarea rows="4" cols="100%" class="form-control" name="responsetext-2-1">Response to student who is going to drop out.</textarea>
+                        <textarea rows="4" cols="100%" class="form-control" name="responsetext-2-1">Response to Benny.</textarea>
                         <input name="responseid-2-1" value="{*}" type="hidden">
                     </div>
                 </div>
@@ -168,10 +178,10 @@
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="responserecipient-2-2" style="max-width:125px">
                         <option value=""></option>
+<option style="display: none;" value="SFSubmitUiT.alice.b@gmail.com">Alice Betsy</option>
 <option style="display: none;" value="SFSubmitUiT.benny.c@gmail.com">Benny Charles</option>
 <option value="SFSubmitUiT.charlie.d@gmail.com">Charlie Davis</option>
 <option value="SFSubmitUiT.danny.e@gmail.com">Danny Engrid</option>
-<option style="display: none;" value="drop.out@gmail.com">Drop out</option>
 <option value="SFSubmitUiT.emily.f@gmail.com">Emily</option>
 <option value="extra.guy@gmail.com" selected="selected">Extra guy</option>
 
@@ -240,14 +250,14 @@
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="responserecipient-4-0" style="display:none;max-width:125px">
                         <option value=""></option>
-<option style="display: none;" value="Team 2">Team 2</option>
+<option style="display: none;" value="Team 1">Team 1</option>
 <option value="Team 3" selected="selected">Team 3</option>
 
                         </select><span> Team 3</span>
                     </div>
                     <div class="col-sm-10">
                         <textarea rows="4" cols="100%" class="form-control" name="responsetext-4-0">Feedback to team 3</textarea>
-                        <input name="responseid-4-0" value="{*}%SFSubmitUiT.alice.b@gmail.com%Team 3" type="hidden">
+                        <input name="responseid-4-0" value="{*}%drop.out@gmail.com%Team 3" type="hidden">
                     </div>
                 </div>
         
@@ -257,10 +267,10 @@
                         <label for="input">To:</label>
                         <select class="participantSelect middlealign newResponse form-control" name="responserecipient-4-1" style="display:none;max-width:125px">
                         <option value="" selected="selected"></option>
-<option value="Team 2">Team 2</option>
+<option value="Team 1">Team 1</option>
 <option style="display: none;" value="Team 3">Team 3</option>
 
-                        </select><span> Team 2</span>
+                        </select><span> Team 1</span>
                     </div>
                     <div class="col-sm-10">
                     <textarea rows="4" cols="100%" class="form-control" name="responsetext-4-1"></textarea>
@@ -272,7 +282,7 @@
 
         <input name="questiontype-5" value="TEXT" type="hidden">
         <input name="questionid-5" value="{*}" type="hidden">
-        <input name="questionresponsetotal-5" value="1" type="hidden">
+        <input name="questionresponsetotal-5" value="3" type="hidden">
         <div class="form-horizontal">
             <div class="panel panel-primary">
                 <div class="panel-heading">Question 5:<br>
@@ -291,12 +301,48 @@
                         <label for="input">To:</label>
                         <select class="participantSelect middlealign newResponse form-control" name="responserecipient-5-0" style="display:none;max-width:125px">
                         <option value="" selected="selected"></option>
-<option value="SFSubmitUiT.benny.c@gmail.com">Benny Charles</option>
+<option value="SFSubmitUiT.charlie.d@gmail.com">Charlie Davis</option>
+<option style="display: none;" value="SFSubmitUiT.danny.e@gmail.com">Danny Engrid</option>
+<option style="display: none;" value="extra.guy@gmail.com">Extra guy</option>
 
-                        </select><span> Benny Charles</span>
+                        </select><span> Charlie Davis</span>
                     </div>
                     <div class="col-sm-10">
                     <textarea rows="4" cols="100%" class="form-control" name="responsetext-5-0"></textarea>
+                    </div>
+                </div>
+        
+                <br>
+                <div class="form-group margin-0">
+                    <div class="col-sm-2 form-inline" style="text-align:right">
+                        <label for="input">To:</label>
+                        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-5-1" style="display:none;max-width:125px">
+                        <option value="" selected="selected"></option>
+<option style="display: none;" value="SFSubmitUiT.charlie.d@gmail.com">Charlie Davis</option>
+<option value="SFSubmitUiT.danny.e@gmail.com">Danny Engrid</option>
+<option style="display: none;" value="extra.guy@gmail.com">Extra guy</option>
+
+                        </select><span> Danny Engrid</span>
+                    </div>
+                    <div class="col-sm-10">
+                    <textarea rows="4" cols="100%" class="form-control" name="responsetext-5-1"></textarea>
+                    </div>
+                </div>
+        
+                <br>
+                <div class="form-group margin-0">
+                    <div class="col-sm-2 form-inline" style="text-align:right">
+                        <label for="input">To:</label>
+                        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-5-2" style="display:none;max-width:125px">
+                        <option value="" selected="selected"></option>
+<option style="display: none;" value="SFSubmitUiT.charlie.d@gmail.com">Charlie Davis</option>
+<option style="display: none;" value="SFSubmitUiT.danny.e@gmail.com">Danny Engrid</option>
+<option value="extra.guy@gmail.com">Extra guy</option>
+
+                        </select><span> Extra guy</span>
+                    </div>
+                    <div class="col-sm-10">
+                    <textarea rows="4" cols="100%" class="form-control" name="responsetext-5-2"></textarea>
                     </div>
                 </div>
         </div></div>
@@ -324,7 +370,7 @@
                         <label for="input">To:</label>
                         <select class="participantSelect middlealign newResponse form-control" name="responserecipient-6-0" style="display:none;max-width:125px">
                         <option value="" selected="selected"></option>
-<option value="SFSubmitUiT.alice.b@gmail.com">Myself</option>
+<option value="drop.out@gmail.com">Myself</option>
 
                         </select><span> Myself</span>
                     </div>
@@ -369,10 +415,10 @@
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="responserecipient-7-0" style="display:none;max-width:125px">
                         <option value=""></option>
-<option value="Team 2" selected="selected">Team 2</option>
+<option value="Team 1" selected="selected">Team 1</option>
 <option style="display: none;" value="Team 3">Team 3</option>
 
-                        </select><span> Team 2</span>
+                        </select><span> Team 1</span>
                     </div>
                     <div class="col-sm-10">
                         <table>
@@ -388,7 +434,7 @@
 </tr>
 
 </tbody></table>
-                        <input name="responseid-7-0" value="{*}%SFSubmitUiT.alice.b@gmail.com%Team 2" type="hidden">
+                        <input name="responseid-7-0" value="{*}%drop.out@gmail.com%Team 1" type="hidden">
                     </div>
                 </div>
         
@@ -398,7 +444,7 @@
                         <label for="input">To:</label>
                         <select class="participantSelect middlealign newResponse form-control" name="responserecipient-7-1" style="display:none;max-width:125px">
                         <option value="" selected="selected"></option>
-<option style="display: none;" value="Team 2">Team 2</option>
+<option style="display: none;" value="Team 1">Team 1</option>
 <option value="Team 3">Team 3</option>
 
                         </select><span> Team 3</span>
@@ -444,7 +490,7 @@
                         <label for="input">To:</label>
                         <select class="participantSelect middlealign newResponse form-control" name="responserecipient-8-0" style="display:none;max-width:125px">
                         <option value="" selected="selected"></option>
-<option value="SFSubmitUiT.alice.b@gmail.com">Myself</option>
+<option value="drop.out@gmail.com">Myself</option>
 
                         </select><span> Myself</span>
                     </div>
@@ -494,10 +540,10 @@
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="responserecipient-9-0" style="display:none;max-width:125px">
                         <option value=""></option>
-<option value="Team 2" selected="selected">Team 2</option>
+<option value="Team 1" selected="selected">Team 1</option>
 <option style="display: none;" value="Team 3">Team 3</option>
 
-                        </select><span> Team 2</span>
+                        </select><span> Team 1</span>
                     </div>
                     <div class="col-sm-10">
                         <table>
@@ -518,7 +564,7 @@
 </tr>
 
 </tbody></table>
-                        <input name="responseid-9-0" value="{*}%SFSubmitUiT.alice.b@gmail.com%Team 2" type="hidden">
+                        <input name="responseid-9-0" value="{*}%drop.out@gmail.com%Team 1" type="hidden">
                     </div>
                 </div>
         
@@ -528,7 +574,7 @@
                         <label for="input">To:</label>
                         <select class="participantSelect middlealign newResponse form-control" name="responserecipient-9-1" style="display:none;max-width:125px">
                         <option value="" selected="selected"></option>
-<option style="display: none;" value="Team 2">Team 2</option>
+<option style="display: none;" value="Team 1">Team 1</option>
 <option value="Team 3">Team 3</option>
 
                         </select><span> Team 3</span>
@@ -579,7 +625,7 @@
                         <label for="input">To:</label>
                         <select class="participantSelect middlealign newResponse form-control" name="responserecipient-10-0" style="display:none;max-width:125px">
                         <option value="" selected="selected"></option>
-<option value="SFSubmitUiT.alice.b@gmail.com">Myself</option>
+<option value="drop.out@gmail.com">Myself</option>
 
                         </select><span> Myself</span>
                     </div>
@@ -649,7 +695,7 @@
                         <label for="input">To:</label>
                         <select class="participantSelect middlealign newResponse form-control" name="responserecipient-11-0" style="display:none;max-width:125px">
                         <option value="" selected="selected"></option>
-<option value="SFSubmitUiT.alice.b@gmail.com">Myself</option>
+<option value="drop.out@gmail.com">Myself</option>
 
                         </select><span> Myself</span>
                     </div>
@@ -719,7 +765,7 @@
                         <label for="input">To:</label>
                         <select class="participantSelect middlealign newResponse form-control" name="responserecipient-12-0" style="display:none;max-width:125px">
                         <option value="" selected="selected"></option>
-<option value="SFSubmitUiT.alice.b@gmail.com">Myself</option>
+<option value="drop.out@gmail.com">Myself</option>
 
                         </select><span> Myself</span>
                     </div>
@@ -769,7 +815,7 @@
                         <label for="input">To:</label>
                         <select class="participantSelect middlealign newResponse form-control" name="responserecipient-13-0" style="display:none;max-width:125px">
                         <option value="" selected="selected"></option>
-<option value="SFSubmitUiT.alice.b@gmail.com">Myself</option>
+<option value="drop.out@gmail.com">Myself</option>
 
                         </select><span> Myself</span>
                     </div>
@@ -819,7 +865,7 @@
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="responserecipient-14-0" style="display:none;max-width:125px">
                         <option value=""></option>
-<option value="SFSubmitUiT.alice.b@gmail.com" selected="selected">Myself</option>
+<option value="drop.out@gmail.com" selected="selected">Myself</option>
 
                         </select><span> Myself</span>
                     </div>
@@ -860,10 +906,10 @@
                         <label for="input">To:</label>
                         <select class="participantSelect middlealign newResponse form-control" name="responserecipient-15-0" style="display:none;max-width:125px">
                         <option value="" selected="selected"></option>
-<option value="Team 2">Team 2</option>
+<option value="Team 1">Team 1</option>
 <option style="display: none;" value="Team 3">Team 3</option>
 
-                        </select><span> Team 2</span>
+                        </select><span> Team 1</span>
                     </div>
                     <div class="col-sm-10">
                     <div class="col-sm-3"><input class="numScaleAnswerBox form-control col-sm-2" onchange="validateNumScaleAnswer(15, 0)" min="1" max="5" step="0.5" value="" name="responsetext-15-0" type="number"> 
@@ -883,7 +929,7 @@
                         <label for="input">To:</label>
                         <select class="participantSelect middlealign newResponse form-control" name="responserecipient-15-1" style="display:none;max-width:125px">
                         <option value="" selected="selected"></option>
-<option style="display: none;" value="Team 2">Team 2</option>
+<option style="display: none;" value="Team 1">Team 1</option>
 <option value="Team 3">Team 3</option>
 
                         </select><span> Team 3</span>
@@ -924,7 +970,7 @@
                         <label for="input">To:</label>
                         <select class="participantSelect middlealign newResponse form-control" name="responserecipient-16-0" style="display:none;max-width:125px">
                         <option value="" selected="selected"></option>
-<option value="SFSubmitUiT.alice.b@gmail.com">Myself</option>
+<option value="drop.out@gmail.com">Myself</option>
 
                         </select><span> Myself</span>
                     </div>
@@ -974,7 +1020,7 @@
                         <label for="input">To:</label>
                         <select class="participantSelect middlealign newResponse form-control" name="responserecipient-17-0" style="display:none;max-width:125px">
                         <option value="" selected="selected"></option>
-<option value="SFSubmitUiT.alice.b@gmail.com">Myself</option>
+<option value="drop.out@gmail.com">Myself</option>
 
                         </select><span> Myself</span>
                     </div>
@@ -1024,7 +1070,7 @@
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="responserecipient-18-0" style="display:none;max-width:125px">
                         <option value=""></option>
-<option value="SFSubmitUiT.alice.b@gmail.com" selected="selected">Myself</option>
+<option value="drop.out@gmail.com" selected="selected">Myself</option>
 
                         </select><span> Myself</span>
                     </div>
@@ -1087,10 +1133,10 @@
                         <label for="input">To:</label>
                         <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-0" style="display:none;max-width:125px">
                         <option value="" selected="selected"></option>
-<option value="Team 2">Team 2</option>
+<option value="Team 1">Team 1</option>
 <option style="display: none;" value="Team 3">Team 3</option>
 
-                        </select><span> Team 2</span>
+                        </select><span> Team 1</span>
                     </div>
                     <div class="col-sm-10">
                     <div>
@@ -1125,7 +1171,7 @@
                         <label for="input">To:</label>
                         <select class="participantSelect middlealign newResponse form-control" name="responserecipient-19-1" style="display:none;max-width:125px">
                         <option value="" selected="selected"></option>
-<option style="display: none;" value="Team 2">Team 2</option>
+<option style="display: none;" value="Team 1">Team 1</option>
 <option value="Team 3">Team 3</option>
 
                         </select><span> Team 3</span>
@@ -1161,7 +1207,7 @@
 
         <input name="questiontype-20" value="CONTRIB" type="hidden">
         <input name="questionid-20" value="{*}" type="hidden">
-        <input name="questionresponsetotal-20" value="2" type="hidden">
+        <input name="questionresponsetotal-20" value="4" type="hidden">
         <div class="form-horizontal">
             <div class="panel panel-primary">
                 <div class="panel-heading">Question 20:<br>
@@ -1180,10 +1226,12 @@
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="responserecipient-20-0" style="display:none;max-width:125px">
                         <option value=""></option>
-<option value="SFSubmitUiT.alice.b@gmail.com" selected="selected">Alice Betsy</option>
-<option style="display: none;" value="SFSubmitUiT.benny.c@gmail.com">Benny Charles</option>
+<option value="SFSubmitUiT.charlie.d@gmail.com" selected="selected">Charlie Davis</option>
+<option style="display: none;" value="SFSubmitUiT.danny.e@gmail.com">Danny Engrid</option>
+<option style="display: none;" value="drop.out@gmail.com">Drop out</option>
+<option style="display: none;" value="extra.guy@gmail.com">Extra guy</option>
 
-                        </select><span> Alice Betsy</span>
+                        </select><span> Charlie Davis</span>
                     </div>
                     <div class="col-sm-10">
                         <div class="col-sm-3">
@@ -1222,10 +1270,12 @@
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="responserecipient-20-1" style="display:none;max-width:125px">
                         <option value=""></option>
-<option style="display: none;" value="SFSubmitUiT.alice.b@gmail.com">Alice Betsy</option>
-<option value="SFSubmitUiT.benny.c@gmail.com" selected="selected">Benny Charles</option>
+<option style="display: none;" value="SFSubmitUiT.charlie.d@gmail.com">Charlie Davis</option>
+<option value="SFSubmitUiT.danny.e@gmail.com" selected="selected">Danny Engrid</option>
+<option style="display: none;" value="drop.out@gmail.com">Drop out</option>
+<option style="display: none;" value="extra.guy@gmail.com">Extra guy</option>
 
-                        </select><span> Benny Charles</span>
+                        </select><span> Danny Engrid</span>
                     </div>
                     <div class="col-sm-10">
                         <div class="col-sm-3">
@@ -1255,6 +1305,94 @@
 	</select>
 </div>
                         <input name="responseid-20-1" value="{*}" type="hidden">
+                    </div>
+                </div>
+        
+                <br>
+                <div class="form-group margin-0">
+                    <div class="col-sm-2 form-inline" style="text-align:right;">
+                        <label for="input">To: </label>
+                        <select class="participantSelect middlealign form-control" name="responserecipient-20-2" style="display:none;max-width:125px">
+                        <option value=""></option>
+<option style="display: none;" value="SFSubmitUiT.charlie.d@gmail.com">Charlie Davis</option>
+<option style="display: none;" value="SFSubmitUiT.danny.e@gmail.com">Danny Engrid</option>
+<option value="drop.out@gmail.com" selected="selected">Drop out</option>
+<option style="display: none;" value="extra.guy@gmail.com">Extra guy</option>
+
+                        </select><span> Drop out</span>
+                    </div>
+                    <div class="col-sm-10">
+                        <div class="col-sm-3">
+	<select class="form-control" name="responsetext-20-2">
+		<option value="200">Equal share + 100%</option>
+<option value="190">Equal share + 90%</option>
+<option value="180">Equal share + 80%</option>
+<option value="170">Equal share + 70%</option>
+<option value="160">Equal share + 60%</option>
+<option value="150">Equal share + 50%</option>
+<option value="140">Equal share + 40%</option>
+<option value="130">Equal share + 30%</option>
+<option value="120">Equal share + 20%</option>
+<option value="110">Equal share + 10%</option>
+<option value="100">Equal share</option>
+<option value="90">Equal share - 10%</option>
+<option value="80">Equal share - 20%</option>
+<option value="70">Equal share - 30%</option>
+<option value="60">Equal share - 40%</option>
+<option value="50">Equal share - 50%</option>
+<option value="40">Equal share - 60%</option>
+<option value="30">Equal share - 70%</option>
+<option value="20">Equal share - 80%</option>
+<option value="10">Equal share - 90%</option>
+<option value="0">0%</option>
+<option value="-101" selected="selected">Not Sure</option>
+	</select>
+</div>
+                        <input name="responseid-20-2" value="{*}" type="hidden">
+                    </div>
+                </div>
+        
+                <br>
+                <div class="form-group margin-0">
+                    <div class="col-sm-2 form-inline" style="text-align:right;">
+                        <label for="input">To: </label>
+                        <select class="participantSelect middlealign form-control" name="responserecipient-20-3" style="display:none;max-width:125px">
+                        <option value=""></option>
+<option style="display: none;" value="SFSubmitUiT.charlie.d@gmail.com">Charlie Davis</option>
+<option style="display: none;" value="SFSubmitUiT.danny.e@gmail.com">Danny Engrid</option>
+<option style="display: none;" value="drop.out@gmail.com">Drop out</option>
+<option value="extra.guy@gmail.com" selected="selected">Extra guy</option>
+
+                        </select><span> Extra guy</span>
+                    </div>
+                    <div class="col-sm-10">
+                        <div class="col-sm-3">
+	<select class="form-control" name="responsetext-20-3">
+		<option value="200">Equal share + 100%</option>
+<option value="190">Equal share + 90%</option>
+<option value="180">Equal share + 80%</option>
+<option value="170">Equal share + 70%</option>
+<option value="160">Equal share + 60%</option>
+<option value="150">Equal share + 50%</option>
+<option value="140">Equal share + 40%</option>
+<option value="130">Equal share + 30%</option>
+<option value="120">Equal share + 20%</option>
+<option value="110">Equal share + 10%</option>
+<option value="100">Equal share</option>
+<option value="90">Equal share - 10%</option>
+<option value="80">Equal share - 20%</option>
+<option value="70">Equal share - 30%</option>
+<option value="60">Equal share - 40%</option>
+<option value="50">Equal share - 50%</option>
+<option value="40">Equal share - 60%</option>
+<option value="30">Equal share - 70%</option>
+<option value="20">Equal share - 80%</option>
+<option value="10">Equal share - 90%</option>
+<option value="0">0%</option>
+<option value="-101" selected="selected">Not Sure</option>
+	</select>
+</div>
+                        <input name="responseid-20-3" value="{*}" type="hidden">
                     </div>
                 </div>
         </div></div>
