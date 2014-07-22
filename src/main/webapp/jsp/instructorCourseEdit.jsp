@@ -355,7 +355,8 @@
                                                                     <div class="col-sm-12">
                                                                     <% } %>
                                                                     <div class="col-sm-4">
-                                                                        <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>"
+                                                                        <input type="checkbox" 
+                                                                            name="<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j + Const.ParamsNames.INSTRUCTOR_SECTION + sectionIdx%>"
                                                                             value="<%=data.sectionNames.get(sectionIdx)%>"
                                                                             <% if (sectionIdx == j) { %>
                                                                             checked="checked"
@@ -372,8 +373,7 @@
                                                                 <% } %>
                                                             </div>
                                                             <div class="col-sm-1">
-                                                            <a href="javascript:;" onclick="hideTuneSectionPermissionsDiv(<%=index%>, <%=j%>)" class="pull-right"
-                                                                style="margin-top: 0;margin-bottom: 0;padding-top: 7px;">
+                                                            <a href="javascript:;" onclick="hideTuneSectionPermissionsDiv(<%=index%>, <%=j%>)" class="pull-right">
                                                                 <span class="glyphicon glyphicon-trash"></span></a>
                                                             </div>
                                                         </div>
@@ -385,7 +385,7 @@
                                                         </div>
                                                         <% String valueForSection = instructor.privileges.isSectionSpecial(data.sectionNames.get(j)) ? "true" : "false";%>
                                                         <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>set"
-                                                            id="is<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>setforinstructor<%=index%>"
+                                                            id="is<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j%>setforinstructor<%=index%>"
                                                             value="<%=valueForSection%>"/>
                                                     </div>
                                                     <div class="panel-body">

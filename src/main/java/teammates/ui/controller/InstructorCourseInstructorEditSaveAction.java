@@ -169,18 +169,7 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         for (FeedbackSessionAttributes feedback : feedbacks) {
             feedbackNames.add(feedback.feedbackSessionName);
         }
-        HashMap<String, String> sectionNamesMap = new HashMap<String, String>();
-        if (instructorToEdit.role.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
-            for (int i=0;i<sectionNames.size();i++) {
-                String setSectionStr = getRequestParamValue("is" + Const.ParamsNames.INSTRUCTOR_SECTION + i + "set");
-                boolean isSectionSpecial = setSectionStr != null && setSectionStr.equals("true");
-                String valueForSectionName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SECTION + i);
-                if (isSectionSpecial && valueForSectionName != null && sectionNamesTable.containsKey(valueForSectionName)) {
-                    sectionNamesMap.put(Const.ParamsNames.INSTRUCTOR_SECTION + i, valueForSectionName);
-                    sectionNamesTable.put(valueForSectionName, true);
-                }
-            }
-        }
+        HashMap<String, List<String>> sectionNamesMap = extractSectionNames(instructorToEdit, sectionNames, sectionNamesTable);
         for (Entry<String, String> entry : sectionNamesMap.entrySet()) {
             updateInstructorPrivilegesForSectionInSectionLevel(entry.getKey(), entry.getValue(), instructorToEdit);
             String setSessionsStr = getRequestParamValue("is" + entry.getKey() + "sessionsset");
@@ -196,6 +185,28 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
                 instructorToEdit.privileges.removeSectionLevelPrivileges(entry.getKey());
             }
         }
+    }
+
+    private HashMap<String, List<String>> extractSectionNames(
+            InstructorAttributes instructorToEdit, List<String> sectionNames, HashMap<String, Boolean> sectionNamesTable) {
+        HashMap<String, List<String>> sectionNamesMap = new HashMap<String, List<String>>();
+        if (instructorToEdit.role.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
+            for (int i=0; i<sectionNames.size(); i++) {
+                String setSectionGroupStr = getRequestParamValue("is" + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i + "set");
+                boolean isSectionGroupSpecial = setSectionGroupStr != null && setSectionGroupStr.equals("true");
+                for (int j=0; j<sectionNames.size(); j++) {
+                    String valueForSectionName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i + Const.ParamsNames.INSTRUCTOR_SECTION + j);
+                    if (isSectionGroupSpecial && valueForSectionName != null && sectionNamesTable.containsKey(valueForSectionName)) {
+                        if (sectionNamesMap.get(Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i) == null) {
+                            sectionNamesMap.put(Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i, new ArrayList<String>());
+                        }
+                        sectionNamesMap.get(Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + i).add(valueForSectionName);
+                        sectionNamesTable.put(valueForSectionName, true);
+                    }
+                }
+            }
+        }
+        return sectionNamesMap;
     }
 
     private void updateInstructorPrivilegesForSectionInSectionLevel(String sectionParam, String sectionName, InstructorAttributes instructorToEdit) {
