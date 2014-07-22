@@ -1,6 +1,7 @@
 package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.lang.reflect.Constructor;
 
@@ -26,8 +27,19 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.DevServerLoginPage;
 import teammates.test.pageobjects.GoogleLoginPage;
+import teammates.test.pageobjects.HomePage;
+import teammates.test.pageobjects.InstructorCourseDetailsPage;
+import teammates.test.pageobjects.InstructorCourseEditPage;
+import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
+import teammates.test.pageobjects.InstructorCoursesPage;
+import teammates.test.pageobjects.InstructorEvalsPage;
+import teammates.test.pageobjects.InstructorFeedbackResultsPage;
+import teammates.test.pageobjects.InstructorHomePage;
 import teammates.test.pageobjects.LoginPage;
+import teammates.test.pageobjects.StudentCourseDetailsPage;
+import teammates.test.pageobjects.StudentFeedbackResultsPage;
+import teammates.test.pageobjects.StudentHomePage;
 
 /**
  * Covers the home page for admins.
@@ -113,10 +125,82 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
                            .loginAsJoiningInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT,
                                                      TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);  
         confirmationPage.clickConfirmButton();
-        confirmationPage.verifyContains("Instructor Home");
-
+        
         //check a account has been created for the requester successfully
         assertNotNull(BackDoor.getAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT));
+        
+        
+        //verify sample course is accessible for newly joined instructor as an instructor
+        InstructorHomePage instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
+        instructorHomePage.verifyContains("Instructor Home");
+        instructorHomePage.verifyContains(demoCourseId);
+        
+        InstructorCourseEnrollPage enrollPage = instructorHomePage.clickCourseErollLink(demoCourseId);
+        enrollPage.verifyContains("Enroll Students for " + demoCourseId);
+        
+        instructorHomePage = enrollPage.goToPreviousPage(InstructorHomePage.class);
+        InstructorCourseDetailsPage detailsPage = instructorHomePage.clickCourseViewLink(demoCourseId);
+        detailsPage.verifyContains("Course Details");
+        
+        instructorHomePage = detailsPage.goToPreviousPage(InstructorHomePage.class);
+        InstructorCourseEditPage editPage = instructorHomePage.clickCourseEditLink(demoCourseId);
+        editPage.verifyContains("Edit Course Details");
+        editPage.verifyContains(demoCourseId);
+        
+        instructorHomePage = editPage.goToPreviousPage(InstructorHomePage.class);
+        InstructorEvalsPage evalsPage = instructorHomePage.clickCourseAddEvaluationLink(demoCourseId);
+        evalsPage.verifyContains("Add New Evaluation Session");
+        
+        instructorHomePage = evalsPage.goToPreviousPage(InstructorHomePage.class);
+        instructorHomePage.clickArchiveCourseLink(demoCourseId);
+        assertTrue(instructorHomePage.getStatus().contains("The course " + demoCourseId + " has been archived"));
+        
+        
+        String url = Url.addParamToUrl(TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, 
+                                       Const.ParamsNames.USER_ID, 
+                                       TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+        browser.driver.get(url);
+        InstructorCoursesPage coursesPage = AppPage.getNewPageInstance(browser, InstructorCoursesPage.class);
+        coursesPage.unarchiveCourse(demoCourseId);
+        coursesPage.verifyStatus("The course " + demoCourseId + " has been unarchived.");
+        
+        
+        coursesPage.logout();
+        
+        //verify sample course is accessible for newly joined instructor as an student
+        
+        StudentHomePage studentHomePage = HomePage.getNewInstance(browser).clickStudentLogin()
+                                                                          .loginAsStudent(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
+                                                                                          TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+       
+        studentHomePage.verifyContains("Student Home");
+        studentHomePage.verifyContains(demoCourseId);
+        studentHomePage.clickViewTeam();
+        
+        StudentCourseDetailsPage courseDetailsPage = AppPage.getNewPageInstance(browser, StudentCourseDetailsPage.class);
+        courseDetailsPage.verifyContains("Team Details for " + demoCourseId);
+        
+        studentHomePage = courseDetailsPage.goToPreviousPage(StudentHomePage.class);
+        studentHomePage.getViewFeedbackButton("First team feedback session").click();
+        StudentFeedbackResultsPage sfrp = AppPage.getNewPageInstance(browser, StudentFeedbackResultsPage.class);
+        sfrp.verifyContains("Feedback Results - Student");
+        
+        studentHomePage = sfrp.goToPreviousPage(StudentHomePage.class);
+        studentHomePage.getEditFeedbackButton("First team feedback session").click();
+        assertTrue(browser.driver.getPageSource().contains("Submit Feedback"));
+        
+        studentHomePage.logout();
+        
+        //login in as instructor again to test sample course deletion
+        instructorHomePage = HomePage.getNewInstance(browser).clickInstructorLogin()
+                                                             .loginAsInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
+                                                                                TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+        
+  
+        instructorHomePage.clickAndConfirm(instructorHomePage.getDeleteCourseLink(demoCourseId));
+        assertTrue(instructorHomePage.getStatus().contains("The course " + demoCourseId + " has been deleted."));
+     
+        instructorHomePage.logout();
         
         BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
         BackDoor.deleteCourse(demoCourseId);
