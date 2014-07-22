@@ -315,62 +315,6 @@ public class TimeHelper {
                                                          timeInMilliseconds % 1000) : "";
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    /**
-     * This converts a time string in admin log filter to corresponding long value
-     * accepted format: digits followed by correct units: s,seconds,second,ms,milliseconds,millisecond,ml <br>
-     * Attention: maximum time returned is 60 seconds == 600000 milliseconds
-     * eg. <br>
-     * 1.two fileds: 2s 2ms (OR) 30 seconds 2 ms (OR) 30 seconds 2 milliseconds
-     * 2.one filed: 1s (OR) 1second (OR) 2ms (OR) 200milliseconds <br>
-     * @return converted time in milliseconds 
-     */
-    public static long convertTimeToMillis(String timeStr){        
-        
-        long timeAsLong = 0;
-        
-        timeStr = timeStr.toLowerCase()
-                         .replace("second", "s")
-                         .replace("seconds", "s")
-                         .replace("sec", "s")
-                         .replace("millisecond", "l")
-                         .replace("milliseconds", "l")
-                         .replace("milli", "l")
-                         .replace("millis", "l")
-                         .replace("ml" , "l")
-                         .replace("ms" , "l");
-        
-        if(timeStr.contains("m") || timeStr.contains("s") || timeStr.contains("l")){           
-            Pattern second = Pattern.compile("(\\d+)\\s*s");
-            Pattern milli = Pattern.compile("(\\d+)\\s*l");
-            
-            long secondAsLong;
-            long milliAsLong;
-            
-            Matcher m = second.matcher(timeStr);
-            if(m.find()){
-                secondAsLong = Long.parseLong(m.group().replace("s", "").trim());
-            } else {
-                secondAsLong = 0;
-            }
-            
-            m = milli.matcher(timeStr);
-            if(m.find()){
-                milliAsLong = Long.parseLong(m.group().replace("l", "").trim());
-            } else {
-                milliAsLong = 0;
-            }
-            timeAsLong =  secondAsLong * 1000 + milliAsLong;
-        }
-          
-        return timeAsLong > 60000 ? 60000 : timeAsLong;
-    }
+  
     
 }

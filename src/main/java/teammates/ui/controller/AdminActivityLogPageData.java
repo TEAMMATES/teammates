@@ -10,7 +10,6 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 
 public class AdminActivityLogPageData extends PageData {
     
@@ -141,8 +140,8 @@ public class AdminActivityLogPageData extends PageData {
                 return false;
             }
         }
-        if(q.timeTaken){
-            if(logEntry.getTimeTaken() < q.timeTakenValue){
+        if(q.timing){
+            if(logEntry.getTimeTaken() < q.timingValue){
                 return false;
             }
         }       
@@ -169,22 +168,18 @@ public class AdminActivityLogPageData extends PageData {
         query = query.replaceAll(", ", ",");
         query = query.replaceAll(": ", ":");
         String[] tokens = query.split("\\|", -1); 
-
+       
+        System.out.print(tokens.length);
+        
         for(int i = 0; i < tokens.length; i++){           
             String[] pair = tokens[i].split(":", -1);
-            String[] values = pair[1].split(",", -1);
-            String label = pair[0];
             
-            //if label is time, we need the whole string after "time:" 
-            if(label.equals("time")){
-                String[] timeValues = {tokens[i].replace("time:", "")};
-                q.add(label, timeValues);
-                continue;
-            }
-        
             if(pair.length != 2){
                 throw new Exception("Invalid format");
             }
+            
+            String[] values = pair[1].split(",", -1);
+            String label = pair[0];
             
             if (label.equals("version")) {
                 //version is specified in com.google.appengine.api.log.LogQuery,
@@ -328,8 +323,8 @@ public class AdminActivityLogPageData extends PageData {
         public boolean role;
         public String[] roleValues;
         
-        public boolean timeTaken;
-        public long timeTakenValue;
+        public boolean timing;
+        public long timingValue;
         
         public QueryParameters(){
             toDate = false;
@@ -338,7 +333,7 @@ public class AdminActivityLogPageData extends PageData {
             response = false;
             person = false;
             role = false;
-            timeTaken = false;
+            timing = false;
         }
         
         /**
@@ -370,8 +365,8 @@ public class AdminActivityLogPageData extends PageData {
                 role = true;
                 roleValues = values;
             } else if (label.equals("time")){
-                timeTaken = true;
-                timeTakenValue = TimeHelper.convertTimeToMillis(values[0]);
+                timing = true;
+                timingValue = Long.parseLong(values[0]);
             } else {
                 throw new Exception("Invalid label");
             }

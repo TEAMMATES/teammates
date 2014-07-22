@@ -214,12 +214,7 @@
                                                         and "-" are
                                                         acceptable)</li>
                                                      
-                                                     <li>E.g. time: 1000ms </li>
-                                                     <li>E.g. time: 10s </li>
-                                                     <li>E.g. time: 10s 12ms </li>
-                                                     <li>E.g. time: 12 ms </li>
-                                                     
-                                                     <li>E.g. time: 600s (time over maximum 60s will be taken as 60s) </li>                                                    
+                                                     <li>E.g. time: 1000 (means 1000ms) </li>                                                                                         
                                                      
                                                 </ul>
                                             </div>
