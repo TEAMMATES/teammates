@@ -25,14 +25,17 @@ public class CommentSearchQuery extends SearchQuery {
     
     private void prepareVisibilityQueryString(String googleId){
         List<InstructorAttributes> instructorRoles = InstructorsLogic.inst().getInstructorsForGoogleId(googleId);
-        StringBuilder courseIdLimit = new StringBuilder("");
-        StringBuilder giverEmailLimit = new StringBuilder("");
+        StringBuilder courseIdLimit = new StringBuilder("(");
+        StringBuilder giverEmailLimit = new StringBuilder("(");
         String delim = "";
         for(InstructorAttributes ins:instructorRoles){
             courseIdLimit.append(delim).append(ins.courseId);
             giverEmailLimit.append(delim).append(ins.email);
             delim = OR;
         }
+        courseIdLimit.append(")");
+        giverEmailLimit.append(")");
+
         visibilityQueryString = Const.SearchDocumentField.COURSE_ID + ":" + courseIdLimit.toString()
                 + AND + "(" + Const.SearchDocumentField.GIVER_EMAIL + ":" + giverEmailLimit.toString() 
                         + OR + Const.SearchDocumentField.IS_VISIBLE_TO_INSTRUCTOR + ":true)";

@@ -44,9 +44,31 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         testContent();
         testShowPhoto();
         testLinks();
+        testSearch();
         testDeleteAction();
         testSearchScript();
         testDisplayArchive();
+    }
+    
+    private void testSearch() {
+        
+        InstructorAttributes instructorWith2Courses = testData.instructors.get("instructorOfCourse2");
+        String instructorId = instructorWith2Courses.googleId;
+        
+        Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)
+            .withUserId(instructorId);
+        
+        ______TS("content: search no match");
+        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        viewPage.setSearchKey("noMatch");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchNoMatch.html");
+
+        ______TS("content: search student");
+        
+        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        viewPage.setSearchKey("charlie");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchStudent.html");
+        
     }
 
     private void testContent() {
@@ -76,30 +98,6 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
         viewPage.verifyHtmlAjax("/instructorStudentList.html");
-        
-        ______TS("content: search no match");
-        
-        viewPage.setSearchKey("noMatch");
-        viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchNoMatch.html");
-
-        ______TS("content: search student");
-
-        viewPage.setSearchKey("ben");
-        viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchStudent.html");
-        
-        ______TS("content: search and toggle show email");
-        
-        //TODO: these tests can directly check whether the div is visible and
-        //      whether the table pattern is as expected rather than a html check
-        
-        viewPage.clickShowEmail();
-        viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchShowEmail.html");
-        viewPage.clickShowEmail();
-        
-        ______TS("content: live search");
-
-        viewPage.setLiveSearchKey("charlie");
-        viewPage.verifyHtmlMainContent("/instructorStudentListPageLiveSearch.html");
         
         ______TS("content: 1 course with no students");
         
@@ -173,7 +171,13 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         ThreadHelper.waitFor(500);
         InstructorCourseStudentDetailsEditPage studentEditPage = viewPage.clickEditStudent(student2.course, student2.name);
         studentEditPage.verifyIsCorrectPage(student2.email);
-        viewPage = studentEditPage.goToPreviousPage(InstructorStudentListPage.class);
+        studentEditPage.submitButtonClicked();
+        
+        InstructorAttributes instructorWith2Courses = testData.instructors.get("instructorOfCourse2");
+        String instructorId = instructorWith2Courses.googleId;
+        Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)
+            .withUserId(instructorId);
+        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
         
         ______TS("link: view records");
         
@@ -186,9 +190,15 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
     }
     
     private void testDeleteAction() {
+        InstructorAttributes instructorWith2Courses = testData.instructors.get("instructorOfCourse2");
+        String instructorId = instructorWith2Courses.googleId;
         
+        Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)
+            .withUserId(instructorId);
+
         ______TS("action: delete");
         
+        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
         viewPage.checkCourse(0);
         viewPage.checkCourse(1);
         ThreadHelper.waitFor(500);
