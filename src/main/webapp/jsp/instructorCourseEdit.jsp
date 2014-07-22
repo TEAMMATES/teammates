@@ -355,7 +355,8 @@
                                                                     <div class="col-sm-12">
                                                                     <% } %>
                                                                     <div class="col-sm-4">
-                                                                        <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>" value="true"
+                                                                        <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>"
+                                                                            value="<%=data.sectionNames.get(sectionIdx)%>"
                                                                             <% if (sectionIdx == j) { %>
                                                                             checked="checked"
                                                                             <% } %>

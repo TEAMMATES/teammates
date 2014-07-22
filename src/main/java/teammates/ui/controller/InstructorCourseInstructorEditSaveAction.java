@@ -20,9 +20,6 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-
-        //TODO: Allow editing of the instructors whom hasn't join the course yet
-        // Need to change the corresponding UI with extra parameters in the request to have this feature
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
