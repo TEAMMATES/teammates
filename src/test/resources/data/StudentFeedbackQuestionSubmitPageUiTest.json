@@ -14,27 +14,6 @@
             "email":"SFQSubmitUiT.alice.b@gmail.com",
             "comments":"This student's name is Alice Betsy",
             "institute":"National University of Singapore"
-        },
-        "SFQSubmitUiT.charlie.d":{
-            "googleId":"SFQSubmitUiT.charlie.d",
-            "name":"Charlie D.",
-            "isInstructor":false,
-            "email":"SFQSubmitUiT.charlie.d@gmail.com",
-            "institute":"National University of Singapore"
-        },
-        "SFQSubmitUiT.danny.e":{
-            "googleId":"SFQSubmitUiT.danny.e",
-            "name":"Danny E.",
-            "isInstructor":false,
-            "email":"SFQSubmitUiT.danny.e@gmail.com",
-            "institute":"National University of Singapore"
-        },
-        "SFQSubmitUiT.emily.f":{
-            "googleId":"SFQSubmitUiT.emily.f",
-            "name":"Emily F.",
-            "isInstructor":false,
-            "email":"SFQSubmitUiT.emily.f@gmail.com",
-            "institute":"National University of Singapore"
         }
     },
     "courses":{
@@ -63,37 +42,13 @@
             "comments":"This student's name is Alice Betsy",
             "team":"Team 1"
         },
-        "Benny":{
-            "googleId":"SFQSubmitUiT.benny.c",
-            "email":"SFQSubmitUiT.benny.c@gmail.com",
+        "Unregistered":{
+            "googleId":"",
+            "email":"unregistered@gmail.com",
             "course":"SFQSubmitUiT.CS2104",
-            "name":"Benny Charles",
-            "comments":"This student's name is Benny Charles",
+            "name":"Unregistered Charles",
+            "comments":"This student's name is Unreg Charles",
             "team":"Team 1"
-        },
-        "Charlie":{
-            "googleId":"SFQSubmitUiT.charlie.d",
-            "email":"SFQSubmitUiT.charlie.d@gmail.com",
-            "course":"SFQSubmitUiT.CS2104",
-            "name":"Charlie Davis",
-            "comments":"This student's name is Charlie Davis",
-            "team":"Team 2"
-        },
-        "Danny":{
-            "googleId":"SFQSubmitUiT.danny.e",
-            "email":"SFQSubmitUiT.danny.e@gmail.com",
-            "course":"SFQSubmitUiT.CS2104",
-            "name":"Danny Engrid",
-            "comments":"This student's name is Danny Engrid",
-            "team":"Team 2"
-        },
-        "Emily":{
-            "googleId":"SFQSubmitUiT.emily.f",
-            "email":"SFQSubmitUiT.emily.f@gmail.com",
-            "course":"SFQSubmitUiT.CS2104",
-            "name":"Emily",
-            "comments":"This student's name is Emily",
-            "team":"Team 3"
         }
     },
     "feedbackSessions":{
@@ -132,24 +87,6 @@
             "feedbackSessionType":"STANDARD",
             "sentOpenEmail":false,
             "sentPublishedEmail":false
-        },
-        "Empty Session":{
-            "feedbackSessionName":"Empty Session",
-            "courseId":"SFQSubmitUiT.CS2104",
-            "creatorEmail":"SFQSubmitUiT.instr@gmail.com",
-            "instructions":{
-                "value":"Please please fill in the last feedback session"
-            },
-            "createdTime":"2012-04-01 11:59 PM UTC",
-            "startTime":"2012-04-02 11:59 PM UTC",
-            "endTime":"2016-04-30 11:59 PM UTC",
-            "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
-            "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
-            "timeZone":8.0,
-            "gracePeriod":20,
-            "feedbackSessionType":"STANDARD",
-            "sentOpenEmail":true,
-            "sentPublishedEmail":true
         },
         "Awaiting Session":{
             "feedbackSessionName":"Awaiting Session",
@@ -218,7 +155,7 @@
                 "RECEIVER"
             ]
         },
-        "qn1InSession4":{
+        "qn1InSession3":{
             "feedbackSessionName":"Awaiting Session",
             "courseId":"SFQSubmitUiT.CS2104",
             "creatorEmail":"SFQSubmitUiT.instr@gmail.com",

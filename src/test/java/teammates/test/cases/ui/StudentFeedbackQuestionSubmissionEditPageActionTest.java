@@ -5,18 +5,14 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.storage.api.FeedbackQuestionsDb;
-import teammates.ui.controller.Action;
-import teammates.ui.controller.ActionResult;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentFeedbackQuestionSubmissionEditPageAction;
@@ -36,8 +32,6 @@ public class StudentFeedbackQuestionSubmissionEditPageActionTest extends
     @Test
     public void testExecuteAndPostProcess() throws Exception {
 
-        AccountAttributes accountForStudent1InCourse1 = dataBundle.accounts
-                .get("student1InCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students
                 .get("student1InCourse1");
         FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
@@ -110,14 +104,6 @@ public class StudentFeedbackQuestionSubmissionEditPageActionTest extends
         assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT,
                 pageResult.destination);
         assertFalse(pageResult.isError);
-        assertEquals(
-                "You are currently submitting as <span class=\"bold\">"
-                        + accountForStudent1InCourse1.name
-                        + " ("
-                        + accountForStudent1InCourse1.googleId
-                        + ")</span>. "
-                        + "Not you? Please <a href=/logout.jsp>logout</a> and try again.",
-                pageResult.getStatusMessage());
 
         ______TS("masquerade mode");
 
@@ -142,14 +128,6 @@ public class StudentFeedbackQuestionSubmissionEditPageActionTest extends
         assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT,
                 pageResult.destination);
         assertFalse(pageResult.isError);
-        assertEquals(
-                "You are currently submitting as <span class=\"bold\">"
-                        + accountForStudent1InCourse1.name
-                        + " ("
-                        + accountForStudent1InCourse1.googleId
-                        + ")</span>. "
-                        + "Not you? Please <a href=/logout.jsp>logout</a> and try again.",
-                pageResult.getStatusMessage());
 
     }
 

@@ -229,6 +229,10 @@ ul #nav {
             <h1>Submit Feedback Question</h1>
             <br />
             
+                <div class="alert alert-info" id="registerMessage">
+                    You may submit feedback and view results without logging in. To access other features you need <a class="link" href="/page/studentCourseJoinAuthentication?regkey={*}&amp;studentemail=unregistered%40gmail.com&amp;courseid=SFQSubmitUiT.CS2104">to login using a google account</a> (recommended).
+                </div>
+            
             <form name="form_submit_response" action="/page/studentFeedbackQuestionSubmissionEditSave" method="post">
                 
                 
@@ -241,9 +245,9 @@ ul #nav {
 
 
     
-    <input type="hidden" value="Awaiting Session" name="fsname" />
+    <input type="hidden" value="Open Session" name="fsname" />
     <input type="hidden" value="SFQSubmitUiT.CS2104" name="courseid" />
-    <input type="hidden" value="SFQSubmitUiT.alice.b" name="user" />
+    <input type="hidden" value="null" name="user" />
     
     <div class="well well-plain">
         <div role="form" class="form-horizontal">
@@ -256,14 +260,14 @@ ul #nav {
             <div class="form-group">
                 <label class="col-sm-2 control-label">Session Name:</label>
                 <div class="col-sm-10">
-                    <p class="form-control-static">Awaiting Session</p>
+                    <p class="form-control-static">Open Session</p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Opening Time:</label>
                 <div class="col-sm-2">
                     <p class="form-control-static">
-                        02 Apr 2035, 23:59
+                        01 Apr 2012, 23:59
                     </p>
                 </div>
             </div>
@@ -271,14 +275,14 @@ ul #nav {
                 <label class="col-sm-2 control-label">Closing Time:</label>
                 <div class="col-sm-10">
                     <p class="form-control-static">
-                        30 Apr 2035, 23:59
+                        30 Apr 2016, 23:59
                     </p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Instructions:</label>
                 <div class="col-sm-10">
-                    <p class="form-control-static">Please please fill in the last feedback session</p>
+                    <p class="form-control-static">Instructions for first session</p>
                 </div>
             </div>
         </div>
@@ -290,12 +294,7 @@ ul #nav {
 
 
 
-    <div class="alert alert-warning" id="statusMessage">
-        You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.
-    </div>
-    <script type="text/javascript">
-        document.getElementById( 'statusMessage' ).scrollIntoView();
-    </script>
+    <div style="display: none;" id="statusMessage"></div>
 
     <br />
     
@@ -306,28 +305,28 @@ ul #nav {
     <div class="form-horizontal">
         <div class="panel panel-primary">
             <div class="panel-heading">Question 1:<br />
-                <span class="text-preserve-space">Give feedback to your instructors</span>
+                <span class="text-preserve-space">What is the best selling point of your product?</span>
             </div>
             <div class="panel-body">
                 <p class="text-muted">Only the following persons can see your responses: </p>
                 <ul class="text-muted">
                 
-                        <li class="unordered">The receiving instructor can see your response, and your name.</li>
+                        <li class="unordered">You can see your own feedback in the results page later on.</li>
                 
                 </ul>
     
                 <br />
                 <div class="form-group">
-                    <div style="text-align:right" class="col-sm-2 form-inline">
+                    <div style="display:none" class="col-sm-2 form-inline">
                         <label for="input">To:</label>
-                        <select disabled="disabled" name="responserecipient-1-0" style="max-width:125px" class="participantSelect middlealign newResponse form-control">
+                        <select name="responserecipient-1-0" style="max-width:125px" class="participantSelect middlealign newResponse form-control">
                         <option selected="selected" value=""></option>
-<option value="SFQSubmitUiT.instr@gmail.com">Teammates Test</option>
+<option value="unregistered@gmail.com">Myself</option>
 
-                        </select>
+                        </select><span> Myself</span>
                     </div>
-                    <div class="col-sm-10">
-                    <textarea name="responsetext-1-0" disabled="disabled" class="form-control" cols="100%" rows="4"></textarea>
+                    <div class="col-sm-12">
+                    <textarea name="responsetext-1-0" class="form-control" cols="100%" rows="4"></textarea>
                     </div>
                 </div>
     
@@ -335,7 +334,7 @@ ul #nav {
         </div>
                 
                 <div class="bold align-center">
-                    <input type="submit" disabled="disabled" value="Save Feedback" title="" data-placement="top" data-toggle="tooltip" id="response_submit_button" class="btn btn-primary center-block" data-original-title="You can save your responses at any time and come back later to continue." /> 
+                    <input type="submit" value="Save Feedback" title="" data-placement="top" data-toggle="tooltip" id="response_submit_button" class="btn btn-primary center-block" data-original-title="You can save your responses at any time and come back later to continue." /> 
                     
                 </div>
                 <br /><br />    

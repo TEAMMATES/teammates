@@ -54,11 +54,11 @@
         <h1>Submit Feedback</h1>
         <br />
         <% if (data.account.googleId == null) { 
-                String joinUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
-                                .withRegistrationKey(request.getParameter(Const.ParamsNames.REGKEY))
-                                .withStudentEmail(request.getParameter(Const.ParamsNames.STUDENT_EMAIL))
-                                .withCourseId(request.getParameter(Const.ParamsNames.COURSE_ID))
-                                .toString();
+            String joinUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+                            .withRegistrationKey(request.getParameter(Const.ParamsNames.REGKEY))
+                            .withStudentEmail(request.getParameter(Const.ParamsNames.STUDENT_EMAIL))
+                            .withCourseId(request.getParameter(Const.ParamsNames.COURSE_ID))
+                            .toString();
         %>
             <div id="registerMessage" class="alert alert-info">
                 <%=String.format(Const.StatusMessages.UNREGISTERED_STUDENT, joinUrl)%>
