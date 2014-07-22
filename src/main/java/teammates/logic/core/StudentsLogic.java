@@ -93,6 +93,11 @@ public class StudentsLogic {
         studentsDb.createStudent(studentData, hasDocument);
     }
 
+    @SuppressWarnings("deprecation")
+    public List<StudentAttributes> getAllStudents() {
+        return studentsDb.getAllStudents();
+    }
+
     public StudentAttributes getStudentForEmail(String courseId, String email) {
         return studentsDb.getStudentForEmail(courseId, email);
     }
@@ -614,6 +619,10 @@ public class StudentsLogic {
                 frLogic.updateFeedbackResponseForChangingSection(enrollment, response);
             }
         }
+    }
+    
+    public void putDocument(StudentAttributes student){
+        studentsDb.putDocument(student);
     }
     
     private StudentEnrollDetails enrollStudent(StudentAttributes validStudentAttributes, Boolean hasDocument) {

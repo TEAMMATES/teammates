@@ -840,6 +840,15 @@ public class Logic {
         
         return studentsLogic.searchStudents(queryString, googleId, cursorString);
     }
+    
+    /**
+     * Get all students in the database
+     * @return empty list if there is no students
+     */
+    public List<StudentAttributes> getAllStudents() {
+        
+        return studentsLogic.getAllStudents();
+    }
 
     /**
      * Preconditions: <br>
@@ -1199,6 +1208,10 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
         studentsLogic.validateSections(studentList, courseId);
+    }
+    
+    public void putDocument(StudentAttributes student){
+        studentsLogic.putDocument(student);
     }
 
     @SuppressWarnings("unused")
