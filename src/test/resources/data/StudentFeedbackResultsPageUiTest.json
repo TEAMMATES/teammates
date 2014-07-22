@@ -83,7 +83,7 @@
             "team":"Team 2"
         },
         "DropOut":{
-            "googleId":"drop.out",
+            "googleId":"",
             "email":"drop.out@gmail.com",
             "course":"SFResultsUiT.CS2104",
             "name":"Drop out",
@@ -114,7 +114,6 @@
             "comments":"This student's name is Emily",
             "team":"Team 3"
         }
-        
     },
     "feedbackSessions":{
         "Open Session":{
@@ -913,6 +912,51 @@
             }
             
         },
+        "response3a":{
+            "feedbackSessionName":"First Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "feedbackQuestionId":"2",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
+            "recipientEmail":"drop.out@gmail.com",
+            "responseMetaData":{
+                "value":"Response to Dropout."
+            }
+        },
+        "response3b":{
+            "feedbackSessionName":"First Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "feedbackQuestionId":"2",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"drop.out@gmail.com",
+            "recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+            "responseMetaData":{
+                "value":"Response to Alice from Dropout."
+            }
+        },
+        "response3c":{
+            "feedbackSessionName":"First Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "feedbackQuestionId":"2",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"drop.out@gmail.com",
+            "recipientEmail":"SFResultsUiT.danny.e@gmail.com@gmail.com",
+            "responseMetaData":{
+                "value":"Response to Danny from Dropout."
+            }
+        },
+        "response3d":{
+            "feedbackSessionName":"First Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "feedbackQuestionId":"2",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"drop.out@gmail.com",
+            "recipientEmail":"SFResultsUiT.benny.c@gmail.com",
+            "responseMetaData":{
+                "value":"Response to Benny from Dropout."
+            }
+            
+        },
         "response4":{
             "feedbackSessionName":"First Session",
             "courseId":"SFResultsUiT.CS2104",
@@ -1010,12 +1054,48 @@
             }
             
         },
+        "mcqResponse2a":{
+            "feedbackSessionName":"MCQ Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "feedbackQuestionId":"2",
+            "feedbackQuestionType":"MCQ",
+            "giverEmail":"drop.out@gmail.com",
+            "recipientEmail":"SFResultsUiT.charlie.d@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Good\", \"otherFieldContent\" : \"\"}"
+            }
+            
+        },
+        "mcqResponse2b":{
+            "feedbackSessionName":"MCQ Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "feedbackQuestionId":"2",
+            "feedbackQuestionType":"MCQ",
+            "giverEmail":"drop.out@gmail.com",
+            "recipientEmail":"SFResultsUiT.danny.e@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Good\", \"otherFieldContent\" : \"\"}"
+            }
+            
+        },
         "mcqResponse3":{
             "feedbackSessionName":"MCQ Session",
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"MCQ",
             "giverEmail":"SFResultsUiT.alice.b@gmail.com",
+            "recipientEmail":"SFResultsUiT.danny.e@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"OK\", \"otherFieldContent\" : \"\"}"
+            }
+            
+        },
+        "mcqResponse3a":{
+            "feedbackSessionName":"MCQ Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "feedbackQuestionId":"2",
+            "feedbackQuestionType":"MCQ",
+            "giverEmail":"drop.out@gmail.com",
             "recipientEmail":"SFResultsUiT.danny.e@gmail.com",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"OK\", \"otherFieldContent\" : \"\"}"

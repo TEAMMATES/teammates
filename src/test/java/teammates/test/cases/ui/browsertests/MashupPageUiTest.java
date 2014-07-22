@@ -9,14 +9,11 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
-import teammates.common.util.GoogleCloudStorageHelper;
-import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
-import teammates.test.pageobjects.StudentProfilePage;
 
 /**
  * Loads the Mashup page for the tester to do a visual inspection.

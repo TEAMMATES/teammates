@@ -50,8 +50,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Awaiting Session", 1);
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Awaiting Session", fq.getId());
-        submitPage.verifyHtmlMainContent("/studentFeedbackQuestionSubmitPageAwaiting.html");
-
+        submitPage.verifyHtml("/studentFeedbackQuestionSubmitPageAwaiting.html");
         
         ______TS("Open session");
 

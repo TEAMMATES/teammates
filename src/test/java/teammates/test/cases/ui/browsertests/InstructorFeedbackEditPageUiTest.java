@@ -66,7 +66,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     @Test
     public void allTests() throws Exception{
         testContent();
-
+        
         testEditSessionLink();
         testEditSessionAction();
 
@@ -1033,8 +1033,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickCopyTableAtRow(0);
         feedbackEditPage.clickCopySubmitButton();
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackCopyQuestionSuccess.html");
-        
-        
     }
     
     @AfterClass

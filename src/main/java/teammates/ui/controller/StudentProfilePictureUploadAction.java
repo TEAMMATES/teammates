@@ -27,10 +27,6 @@ public class StudentProfilePictureUploadAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         new GateKeeper().verifyLoggedInUserPrivileges();
-        if(isUnregistered) { 
-            // unregistered users cannot view the page
-            throw new UnauthorizedAccessException("User is not registered");
-        }
         
         String pictureKey = "";
         RedirectResult r = createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);
