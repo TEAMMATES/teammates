@@ -70,7 +70,7 @@ public class SubmissionsLogicTest extends BaseComponentTestCase{
         // move student from Team 1.1 to Team 1.2
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         student.team = "Team 1.2";
-        StudentsLogic.inst().updateStudentCascade(student.email, student);
+        StudentsLogic.inst().updateStudentCascadeWithoutDocument(student.email, student);
 
         // Now, team 1.1 has 3 students, team 1.2 has 2 student.
         // There should be 3*3+2*2=13 submissions if no orphans are returned.

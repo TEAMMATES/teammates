@@ -66,8 +66,21 @@ public class StudentsDb extends EntitiesDb {
     
     public void createStudent(StudentAttributes student)
             throws InvalidParametersException, EntityAlreadyExistsException {
+        
+        createStudent(student, true);
+    }
+
+    public void createStudentWithoutDocument(StudentAttributes student)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        createStudent(student, false);
+    }
+
+    public void createStudent(StudentAttributes student, boolean hasDocument)
+            throws InvalidParametersException, EntityAlreadyExistsException {
         StudentAttributes createdStudent = (StudentAttributes) createEntity(student);
-        putDocument(createdStudent);
+        if (hasDocument) {
+            putDocument(createdStudent);
+        }
     }
 
     /**
@@ -277,10 +290,32 @@ public class StudentsDb extends EntitiesDb {
      *   if the parameter is null (due to 'keep existing' policy)<br> 
      * Preconditions: <br>
      * * {@code courseId} and {@code email} are non-null and correspond to an existing student. <br>
+     * @throws EntityDoesNotExistException 
+     * @throws InvalidParametersException 
      */
+
+    public void updateStudent(String courseId, String email, String newName,
+            String newTeamName, String newSectionName, String newEmail,
+            String newGoogleID,
+            String newComments) throws InvalidParametersException,
+            EntityDoesNotExistException {
+        updateStudent(courseId, email, newName, newTeamName, newSectionName,
+                newEmail, newGoogleID, newComments, true);
+    }
+
+    public void updateStudentWithoutDocument(String courseId, String email,
+            String newName,
+            String newTeamName, String newSectionName, String newEmail,
+            String newGoogleID,
+            String newComments) throws InvalidParametersException,
+            EntityDoesNotExistException {
+        updateStudent(courseId, email, newName, newTeamName, newSectionName,
+                newEmail, newGoogleID, newComments, false);
+    }
+
     public void updateStudent(String courseId, String email, String newName,
             String newTeamName, String newSectionName, String newEmail, String newGoogleID,
-            String newComments)
+            String newComments, boolean hasDocument)
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
@@ -303,7 +338,9 @@ public class StudentsDb extends EntitiesDb {
         student.setTeamName(Sanitizer.sanitizeForHtml(newTeamName));
         student.setSectionName(Sanitizer.sanitizeForHtml(newSectionName));
         
-        putDocument(new StudentAttributes(student));
+        if(hasDocument){
+            putDocument(new StudentAttributes(student));   
+        }
         
         getPM().close();
     }
@@ -316,7 +353,16 @@ public class StudentsDb extends EntitiesDb {
      *  * All parameters are non-null.
      *  
      */
+
     public void deleteStudent(String courseId, String email) {
+        deleteStudent(courseId, email, true);
+    }
+
+    public void deleteStudentWithoutDocument(String courseId, String email) {
+        deleteStudent(courseId, email, false);
+    }
+
+    public void deleteStudent(String courseId, String email, boolean hasDocument) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
     
@@ -325,8 +371,11 @@ public class StudentsDb extends EntitiesDb {
         if (studentToDelete == null) {
             return;
         }
-    
-        deleteDocument(new StudentAttributes(studentToDelete));
+        
+        if(hasDocument){
+            deleteDocument(new StudentAttributes(studentToDelete));
+        }
+       
         getPM().deletePersistent(studentToDelete);
         getPM().flush();
     
@@ -354,12 +403,24 @@ public class StudentsDb extends EntitiesDb {
      *  * All parameters are non-null.
      *  
      */
+
     public void deleteStudentsForGoogleId(String googleId) {
+        deleteStudentsForGoogleId(googleId, true);
+    }
+
+    public void deleteStudentsForGoogleIdWithoutDocument(String googleId) {
+        deleteStudentsForGoogleId(googleId, false);
+    }
+
+    public void deleteStudentsForGoogleId(String googleId, boolean hasDocument) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 
         List<Student> studentList = getStudentEntitiesForGoogleId(googleId);
-        for(Student student : studentList){
-            deleteDocument(new StudentAttributes(student));
+        
+        if(hasDocument){
+            for(Student student : studentList){
+                deleteDocument(new StudentAttributes(student));
+            }
         }
         getPM().deletePersistentAll(studentList);
         getPM().flush();
@@ -371,12 +432,23 @@ public class StudentsDb extends EntitiesDb {
      *  * All parameters are non-null.
      *  
      */
+
     public void deleteStudentsForCourse(String courseId) {
+        deleteStudentsForCourse(courseId, true);
+    }
+
+    public void deleteStudentsForCourseWithoutDocument(String courseId) {
+        deleteStudentsForCourse(courseId, false);
+    }
+
+    public void deleteStudentsForCourse(String courseId, boolean hasDocument) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
     
         List<Student> studentList = getStudentEntitiesForCourse(courseId);
-        for(Student student : studentList){
-            deleteDocument(new StudentAttributes(student));
+        if(hasDocument){
+            for(Student student : studentList){
+                deleteDocument(new StudentAttributes(student));
+            }
         }
         getPM().deletePersistentAll(studentList);
         getPM().flush();

@@ -119,7 +119,7 @@ public class SubmissionsAdjustmentTest extends
         List<StudentAttributes> studentsInfo = new ArrayList<StudentAttributes>();
         try {
             studentsInfo = studentsLogic
-                    .enrollStudents(enrollLines, nonExistentCourseId);
+                    .enrollStudentsWithoutDocument(enrollLines, nonExistentCourseId);
             signalFailureToDetectException(" - EntityDoesNotExistException");
         } catch (EntityDoesNotExistException e) {
             ignoreExpectedException();
@@ -136,7 +136,7 @@ public class SubmissionsAdjustmentTest extends
         
         try {
             studentsInfo = studentsLogic
-                    .enrollStudents(enrollLines, course1.id);
+                    .enrollStudentsWithoutDocument(enrollLines, course1.id);
             signalFailureToDetectException("Failure cause : Invalid enrollment executed without exceptions");
         } catch (EnrollException e) {
             String errorMessage = e.getLocalizedMessage();
@@ -158,7 +158,7 @@ public class SubmissionsAdjustmentTest extends
         int counter = 0;
         while(counter != 10){
             SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
-            studentsInfo = studentsLogic.enrollStudents(enrollLines, course1.id);
+            studentsInfo = studentsLogic.enrollStudentsWithoutDocument(enrollLines, course1.id);
         
             //Check whether students are present in database
             assertNotNull(studentsLogic.getStudentForEmail(course1.id, "s@g"));
@@ -186,7 +186,7 @@ public class SubmissionsAdjustmentTest extends
         updatedAttributes.email = "newEmail@g";
         updatedAttributes.course = course1.id;
 
-        studentsLogic.updateStudentCascade(oldEmail, updatedAttributes);
+        studentsLogic.updateStudentCascadeWithoutDocument(oldEmail, updatedAttributes);
 
         TestHelper.verifyPresentInDatastore(updatedAttributes);
 
@@ -214,7 +214,7 @@ public class SubmissionsAdjustmentTest extends
         counter = 0;
         while(counter != 10){
             SubmissionsAdjustmentTaskQueueCallback.resetTaskCount();
-            studentsInfo = studentsLogic.enrollStudents(enrollLines, studentInTeam1.course);
+            studentsInfo = studentsLogic.enrollStudentsWithoutDocument(enrollLines, studentInTeam1.course);
             
             //Verify scheduling of adjustment of responses
             if(SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(
@@ -240,7 +240,7 @@ public class SubmissionsAdjustmentTest extends
         invalidEnrollLine += invalidStudentId + Const.EOL;
         try {
             studentsInfo = studentsLogic
-                    .enrollStudents(invalidEnrollLine, course1.id);
+                    .enrollStudentsWithoutDocument(invalidEnrollLine, course1.id);
             assertTrue(false);
         } catch (EnrollException e) {
             String actualErrorMessage = e.getLocalizedMessage();
@@ -279,7 +279,7 @@ public class SubmissionsAdjustmentTest extends
                 .getSubmissionsForEvaluation(newStudent.course, evaluationName).size();
         assertEquals(17, oldNumberOfSubmissionsForEvaluation);
         
-        studentsLogic.createStudentCascadeWithSubmissionAdjustmentScheduled(newStudent);
+        studentsLogic.createStudentCascadeWithSubmissionAdjustmentScheduled(newStudent, false);
         
         StudentEnrollDetails enrollDetails = new StudentEnrollDetails
                 (UpdateStatus.NEW, newStudent.course, newStudent.email, "", newStudent.team, "", newStudent.section);
@@ -336,7 +336,7 @@ public class SubmissionsAdjustmentTest extends
         paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName);
         paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollString);
         
-        studentsLogic.updateStudentCascadeWithSubmissionAdjustmentScheduled(student.email, student);
+        studentsLogic.updateStudentCascadeWithSubmissionAdjustmentScheduled(student.email, student, false);
         FeedbackSubmissionAdjustmentAction responseAdjustmentAction = new FeedbackSubmissionAdjustmentAction(paramMap);
         assertTrue(responseAdjustmentAction.execute());
         
