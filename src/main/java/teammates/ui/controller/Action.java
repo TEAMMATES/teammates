@@ -284,14 +284,6 @@ public abstract class Action {
         //set error flag of the result
         response.isError = isError;
         
-        /* Override the result if a redirect was requested by the action requester
-        String redirectUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
-        if(redirectUrl != null && new FieldValidator().isLegitimateRedirectUrl(redirectUrl)) {
-            RedirectResult rr = new RedirectResult(redirectUrl, response.account, requestParameters, response.statusToUser);
-            rr.isError = response.isError;
-            response = rr;
-        }*/
-        
         // Set the common parameters for the response
         if (logic.getCurrentUser() != null) {
             response.responseParams.put(Const.ParamsNames.USER_ID, account.googleId);
