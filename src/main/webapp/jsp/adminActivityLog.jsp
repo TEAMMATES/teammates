@@ -218,8 +218,8 @@
                                                      <li>E.g. time: 10s </li>
                                                      <li>E.g. time: 10s 12ms </li>
                                                      <li>E.g. time: 12 ms </li>
-                                                     <li>E.g. time: 1 min 1s 1ms (equals 1m 1s 1ms) </li>
-                                                     <li>E.g. time: 1 min </li>                                                    
+                                                     
+                                                     <li>E.g. time: 600s (time over maximum 60s will be taken as 60s) </li>                                                    
                                                      
                                                 </ul>
                                             </div>

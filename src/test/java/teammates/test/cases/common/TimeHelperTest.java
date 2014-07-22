@@ -92,26 +92,11 @@ public class TimeHelperTest extends BaseTestCase {
     @Test
     public void testConvertTimeStringToLongString(){
        
-       ______TS("typical case: 3 fields with units, no value missing"); 
-       
-       String timeString = "1 m 1 s 223 ms";
-       assertEquals(61223, TimeHelper.convertTimeToMillis(timeString));
-              
-       timeString = "1 m 1 s 223 ms";
-       assertEquals(61223, TimeHelper.convertTimeToMillis(timeString));
-       
-       timeString = "0 m 1 s 223 ms";
-       assertEquals(1223, TimeHelper.convertTimeToMillis(timeString));
-       
-       ______TS("typical case: 3 fields with units, some value missing"); 
-       
-       timeString = " m 1 s 223 ms";
-       assertEquals(1223, TimeHelper.convertTimeToMillis(timeString));
-       
+      
        ______TS("typical case: 2 fields with units, no value missing"); 
        
-       timeString = "1 m  223 ms";
-       assertEquals(60223, TimeHelper.convertTimeToMillis(timeString));
+       String timeString = "1 s  223 ms";
+       assertEquals(1223, TimeHelper.convertTimeToMillis(timeString));
        
        timeString = "1 s 3 ms";
        assertEquals(1003, TimeHelper.convertTimeToMillis(timeString));
@@ -124,11 +109,13 @@ public class TimeHelperTest extends BaseTestCase {
        timeString = " s 3 ms";
        assertEquals(3, TimeHelper.convertTimeToMillis(timeString));
        
+       ______TS("typical case: 2 fields with units, over than 60 seconds"); 
+       
+       timeString = " 600s 3 ms";
+       assertEquals(60000, TimeHelper.convertTimeToMillis(timeString));
+       
        
        ______TS("typical case: 1 fields with unit, no value missing"); 
-       
-       timeString = "1min";
-       assertEquals(60000, TimeHelper.convertTimeToMillis(timeString));
        
        timeString = "1 s";
        assertEquals(1000, TimeHelper.convertTimeToMillis(timeString));
@@ -141,6 +128,11 @@ public class TimeHelperTest extends BaseTestCase {
        timeString = " ms";
        assertEquals(0, TimeHelper.convertTimeToMillis(timeString));
        
+       ______TS("typical case: 1 fields with unit, over 60 seconds"); 
+       
+       timeString = " 10000000ms";
+       assertEquals(60000, TimeHelper.convertTimeToMillis(timeString));
+       
        
        ______TS("case: invalid format");
        
@@ -149,6 +141,14 @@ public class TimeHelperTest extends BaseTestCase {
        
        timeString = "";
        assertEquals(0, TimeHelper.convertTimeToMillis(timeString));
+       
+       ______TS("case: invalid format, unrecognized unit");
+       
+       timeString = "1 min";
+       assertEquals(0, TimeHelper.convertTimeToMillis(timeString));
+       
+       timeString = "1 min 2ms";
+       assertEquals(2, TimeHelper.convertTimeToMillis(timeString));
        
        ______TS("case: invalid format, unit missing");
        

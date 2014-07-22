@@ -325,11 +325,11 @@ public class TimeHelper {
     
     /**
      * This converts a time string in admin log filter to corresponding long value
-     * accepted format: digits followed by correct unit <br>
-     * eg. <br> 
-     * 1.three fileds: 1 m 2 s 3 ms <br>
-     * 2.two fileds: 1 m 2s (OR) 2s 3ms (OR) 1 min 3 ms <br>
-     * 3.one filed: 1 min (OR) 1m (OR) 2s (OR) 2ms <br>
+     * accepted format: digits followed by correct units: s,seconds,second,ms,milliseconds,millisecond,ml <br>
+     * Attention: maximum time returned is 60 seconds == 600000 milliseconds
+     * eg. <br>
+     * 1.two fileds: 2s 2ms (OR) 30 seconds 2 ms (OR) 30 seconds 2 milliseconds
+     * 2.one filed: 1s (OR) 1second (OR) 2ms (OR) 200milliseconds <br>
      * @return converted time in milliseconds 
      */
     public static long convertTimeToMillis(String timeStr){        
@@ -337,11 +337,6 @@ public class TimeHelper {
         long timeAsLong = 0;
         
         timeStr = timeStr.toLowerCase()
-                         .replace("minute","m")
-                         .replace("minutes","m")
-                         .replace("mins","m") 
-                         .replace("min", "m")
-                         .replace("mins", "m")
                          .replace("second", "s")
                          .replace("seconds", "s")
                          .replace("sec", "s")
@@ -353,22 +348,13 @@ public class TimeHelper {
                          .replace("ms" , "l");
         
         if(timeStr.contains("m") || timeStr.contains("s") || timeStr.contains("l")){           
-            Pattern min = Pattern.compile("(\\d+)\\s*m");
             Pattern second = Pattern.compile("(\\d+)\\s*s");
             Pattern milli = Pattern.compile("(\\d+)\\s*l");
             
-            long minAsLong;
             long secondAsLong;
             long milliAsLong;
             
-            Matcher m = min.matcher(timeStr);
-            if(m.find()){
-                minAsLong = Long.parseLong(m.group().replace("m", "").trim());
-            } else {
-                minAsLong = 0;
-            }
-            
-            m = second.matcher(timeStr);
+            Matcher m = second.matcher(timeStr);
             if(m.find()){
                 secondAsLong = Long.parseLong(m.group().replace("s", "").trim());
             } else {
@@ -381,10 +367,10 @@ public class TimeHelper {
             } else {
                 milliAsLong = 0;
             }
-            timeAsLong = minAsLong * 60000 + secondAsLong * 1000 + milliAsLong;
+            timeAsLong =  secondAsLong * 1000 + milliAsLong;
         }
-              
-        return timeAsLong;
+          
+        return timeAsLong > 60000 ? 60000 : timeAsLong;
     }
     
 }
