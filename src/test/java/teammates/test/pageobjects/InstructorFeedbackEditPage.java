@@ -232,6 +232,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
         WebElement stepBox = browser.driver.findElement(By.id("stepBox" + idSuffix));
         fillTextBox(stepBox, StringHelper.toDecimalFormatString(step));
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("$(arguments[0]).change();", stepBox);
     }
     
     public void fillStepNumScaleBox(String step, int qnNumber) {
