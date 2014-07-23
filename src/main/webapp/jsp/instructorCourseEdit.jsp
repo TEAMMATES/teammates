@@ -736,48 +736,71 @@
                                             <div id="tuneSectionPermissionsDiv<%=j%>ForInstructor<%=data.instructorList.size()+1%>" style="display: none;">
                                                 <div class="panel panel-info">
                                                     <div class="panel-heading">
-                                                        <strong>But in section </strong>
-                                                        <select name="<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>" 
-                                                            id="section<%=j%>forinstructor<%=data.instructorList.size()+1%>">
-                                                            <% for (String sectionOptionName : data.sectionNames) { %>
-                                                            <option value="<%=sectionOptionName%>"
-                                                                <% if (sectionOptionName.equals(data.sectionNames.get(j))) { %>
-                                                                selected
+                                                        <div class="row">
+                                                            <div class="col-sm-2">
+                                                                <p><strong>But in section(s)</strong></p>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                <% for (int sectionIdx = 0; sectionIdx<data.sectionNames.size(); sectionIdx++) { %>
+                                                                    <% if (sectionIdx%3 == 0) { %>
+                                                                    <div class="col-sm-12">
+                                                                    <% } %>
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" 
+                                                                            name="<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j + Const.ParamsNames.INSTRUCTOR_SECTION + sectionIdx%>"
+                                                                            value="<%=data.sectionNames.get(sectionIdx)%>"
+                                                                            <% if (sectionIdx == j) { %>
+                                                                            checked="checked"
+                                                                            <% } %>
+                                                                            >
+                                                                        <%=data.sectionNames.get(sectionIdx)%>
+                                                                        </div>
+                                                                    <% if (sectionIdx%3 == 2) { %>
+                                                                    </div>
+                                                                    <% } %>
                                                                 <% } %>
-                                                            ><%=sectionOptionName%></option>
-                                                            <% } %>
-                                                        </select>
-                                                        <strong> the instructor can only</strong>
-                                                        <a href="javascript:;" onclick="hideTuneSectionPermissionsDiv(<%=data.instructorList.size()+1%>, <%=j%>)" class="pull-right">
-                                                            <span class="glyphicon glyphicon-trash"></span></a>
-                                                        <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>set"
-                                                            id="is<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>setforinstructor<%=data.instructorList.size()+1%>" value="false"/>
+                                                                <% if (data.sectionNames.size()%3 != 0) { %>
+                                                                </div>
+                                                                <% } %>
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                            <a href="javascript:;" onclick="hideTuneSectionPermissionsDiv(<%=data.instructorList.size()+1%>, <%=j%>)" class="pull-right">
+                                                                <span class="glyphicon glyphicon-trash"></span></a>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <p><strong> the instructor can only,</strong></p>
+                                                            </div>
+                                                        </div>
+                                                        <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j%>set" value="false"/>
                                                     </div>
                                                     <div class="panel-body">
                                                         <br>
                                                         <div class="col-sm-6 border-right-gray">
                                                             <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS + 
-                                                                Const.ParamsNames.INSTRUCTOR_SECTION + j%>" value="true" checked="checked"/> View Students' Details<br>
+                                                                Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j%>" value="true"/> View Students' Details<br>
                                                             <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS + 
-                                                                Const.ParamsNames.INSTRUCTOR_SECTION + j%>" value="true" checked="checked"/> Give Comments for Students<br>
+                                                                Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j%>" value="true"/> Give Comments for Students<br>
                                                             <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS + 
-                                                                Const.ParamsNames.INSTRUCTOR_SECTION + j%>" value="true" checked="checked"/> View Others' Comments on Students<br>
+                                                                Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j%>" value="true"/> View Others' Comments on Students<br>
                                                             <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS + 
-                                                                Const.ParamsNames.INSTRUCTOR_SECTION + j%>" value="true" checked="checked"/> Edit/Delete Others' Comments on Students<br><br>
+                                                                Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j%>" value="true"/> Edit/Delete Others' Comments on Students<br><br>
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
                                                             <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS + 
-                                                            Const.ParamsNames.INSTRUCTOR_SECTION + j%>" value="true" checked="checked"/> Sessions: Submit Responses and Add Comments<br>
+                                                            Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j%>" value="true"/> Sessions: Submit Responses and Add Comments<br>
                                                             <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS + 
-                                                            Const.ParamsNames.INSTRUCTOR_SECTION + j%>" value="true" checked="checked"/> Sessions: View Responses and Comments<br>
+                                                            Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j%>" value="true"/> Sessions: View Responses and Comments<br>
                                                             <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS + 
-                                                            Const.ParamsNames.INSTRUCTOR_SECTION + j%>" value="true" checked="checked"/> Sessions: Edit/Delete Responses/Comments by Others<br><br>
+                                                            Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j%>" value="true"/> Sessions: Edit/Delete Responses/Comments by Others<br><br>
                                                         </div>
                                                         <a href="javascript:;" onclick="showTuneSessionnPermissionsDiv(<%=data.instructorList.size()+1%>, <%=j%>)"
                                                             id="toggleSessionLevelInSection<%=j%>ForInstructor<%=data.instructorList.size()+1%>"
                                                             class="small col-sm-5">Give different permissions for sessions in this section</a>      
                                                         <div id="tuneSessionPermissionsDiv<%=j%>ForInstructor<%=data.instructorList.size()+1%>" style="display: none;">
-                                                            <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION + j%>sessionsset" value="false"/>
+                                                            <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j%>sessionsset" value="false"/>
                                                             <table class="table table-striped">
                                                                 <thead>
                                                                     <tr>
@@ -798,18 +821,18 @@
                                                                         <td><%=evalName%></td>
                                                                         <td class="align-center">
                                                                             <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS 
-                                                                            + Const.ParamsNames.INSTRUCTOR_SECTION + j + "feedback" + Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName%>" value="true"
-                                                                            checked="checked"/>
+                                                                                + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j + "feedback" + Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName%>"
+                                                                                value="true"/>
                                                                         </td>
                                                                         <td class="align-center">
                                                                             <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS
-                                                                            + Const.ParamsNames.INSTRUCTOR_SECTION + j + "feedback" + Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName%>" value="true"
-                                                                            checked="checked"/>
+                                                                                + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j + "feedback" + Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName%>"
+                                                                                value="true"/>
                                                                         </td>
                                                                         <td class="align-center">
                                                                             <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
-                                                                            + Const.ParamsNames.INSTRUCTOR_SECTION + j + "feedback" + Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName%>" value="true"
-                                                                            checked="checked"/>
+                                                                                + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j + "feedback" + Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName%>"
+                                                                                value="true"/>
                                                                         </td>
                                                                     </tr>
                                                                     <% } %>
@@ -818,18 +841,18 @@
                                                                         <td><%=feedbackName%></td>
                                                                         <td class="align-center">
                                                                             <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS 
-                                                                            + Const.ParamsNames.INSTRUCTOR_SECTION + j + "feedback" + feedbackName%>" value="true"
-                                                                            checked="checked"/>
+                                                                                + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j + "feedback" + feedbackName%>"
+                                                                                value="true"/>
                                                                         </td>
                                                                         <td class="align-center">
                                                                             <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS
-                                                                            + Const.ParamsNames.INSTRUCTOR_SECTION + j + "feedback" + feedbackName%>" value="true"
-                                                                            checked="checked"/>
+                                                                                + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j + "feedback" + feedbackName%>"
+                                                                                value="true"/>
                                                                         </td>
                                                                         <td class="align-center">
                                                                             <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
-                                                                            + Const.ParamsNames.INSTRUCTOR_SECTION + j + "feedback" + feedbackName%>" value="true"
-                                                                            checked="checked"/>
+                                                                                + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j + "feedback" + feedbackName%>"
+                                                                                value="true"/>
                                                                         </td>
                                                                     </tr>
                                                                     <% } %>
