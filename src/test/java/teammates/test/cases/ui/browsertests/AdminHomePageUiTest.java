@@ -76,6 +76,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
     
         ______TS("action success : create instructor account and the account is created successfully after user's verification");
         
+        BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
         
