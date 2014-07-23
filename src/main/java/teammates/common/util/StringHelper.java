@@ -248,11 +248,11 @@ public class StringHelper {
         }
         
         return str.replace("&lt;", "<")
-                .replace("&gt;", ">")
-                .replace("&quot;", "\"")
-                .replace("&#x2f;", "/")
-                .replace("&#39;", "'")
-                .replaceAll("&amp;", "&");
+                  .replace("&gt;", ">")
+                  .replace("&quot;", "\"")
+                  .replace("&#x2f;", "/")
+                  .replace("&#39;", "'")
+                  .replaceAll("&amp;", "&");
     }
     
 }
