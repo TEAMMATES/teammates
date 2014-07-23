@@ -47,19 +47,5 @@ public class InstructorCourseEditPageData extends PageData {
         link = addUserIdToUrl(link);
         return link;
     }
-    
-    public String getJoinLink(InstructorAttributes instructor){
-        
-        String joinUrl = "";
-        if (instructor != null && instructor.key != null && !instructor.key.trim().isEmpty()) {
-            String key;
-            key = StringHelper.encrypt(instructor.key);
-    
-            joinUrl = Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
-            joinUrl = Url.addParamToUrl(joinUrl, Const.ParamsNames.REGKEY, key);
-        }
-        
-        return joinUrl;
-    }
 }
 
