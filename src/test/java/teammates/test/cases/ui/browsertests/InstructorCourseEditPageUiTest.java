@@ -70,6 +70,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("page load: Helper privileges");
         
         instructorId = testData.instructors.get("InsCrsEdit.Helper").googleId;
+        //System.setProperty("godmode", "true");
         courseEditPage = getCourseEditPage();
         courseEditPage.verifyHtml("/instructorCourseEditHelper.html");
         
