@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -56,6 +57,21 @@ public class AccountsDb extends EntitiesDb {
             } catch (EntityDoesNotExistException edne) {
                 // This situation is not tested as replicating such a situation is 
                 // difficult during testing
+                Assumption.fail("Entity found be already existing and not existing simultaneously");
+            }
+        }
+    }
+    
+    public void createAccounts(Collection<AccountAttributes> accountsToAdd) throws InvalidParametersException{
+        
+        List<EntityAttributes> accountsToUpdate = createEntities(accountsToAdd);
+        for(EntityAttributes entity : accountsToUpdate){
+            AccountAttributes account = (AccountAttributes) entity;
+            try {
+                updateAccount(account, true);
+            } catch (EntityDoesNotExistException e) {
+             // This situation is not tested as replicating such a situation is 
+             // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
             }
         }
@@ -170,6 +186,21 @@ public class AccountsDb extends EntitiesDb {
             deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
         }
         deleteEntity(accountToDelete);
+        closePM();
+    }
+    
+    public void deleteAccounts(Collection<AccountAttributes> accounts){
+
+        for(AccountAttributes accountToDelete : accounts){
+            if (accountToDelete != null && accountToDelete.studentProfile == null) {
+                accountToDelete.studentProfile = new StudentProfileAttributes();
+                accountToDelete.studentProfile.googleId = accountToDelete.googleId;
+            }
+            if (!accountToDelete.studentProfile.pictureKey.equals("")) {
+                deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
+            }
+        }
+        deleteEntities(accounts);
         closePM();
     }
 

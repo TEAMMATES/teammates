@@ -30,6 +30,7 @@ import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
+import teammates.storage.api.AccountsDb;
 import teammates.storage.api.EvaluationsDb;
 
 import com.google.appengine.api.blobstore.BlobKey;
@@ -38,6 +39,7 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 public class BackDoorLogic extends Logic {
     private static Logger log = Utils.getLogger();
+    private static final AccountsDb accountsDb = new AccountsDb();
     
     private static final int WAIT_DURATION_FOR_DELETE_CHECKING = 5;
     private static final int MAX_RETRY_COUNT_FOR_DELETE_CHECKING = 20;
@@ -66,20 +68,13 @@ public class BackDoorLogic extends Logic {
         
         HashMap<String, AccountAttributes> accounts = dataBundle.accounts;
         for (AccountAttributes account : accounts.values()) {
-            log.fine("API Servlet adding account :" + account.googleId);
-            try {
-                if(account.studentProfile == null) {
-                    account.studentProfile = new StudentProfileAttributes();
-                    account.studentProfile.googleId = account.googleId;
-                }
-                super.updateStudentProfile(account.studentProfile);
-                super.updateAccount(account);
-            } catch (EntityDoesNotExistException edne) {
-                super.createAccount(account.googleId, account.name, account.isInstructor,
-                account.email, account.institute, account.studentProfile);
+            if (account.studentProfile == null) {
+                account.studentProfile = new StudentProfileAttributes();
+                account.studentProfile.googleId = account.googleId;
             }
         }
-
+        accountsDb.createAccounts(accounts.values());
+        
         HashMap<String, CourseAttributes> courses = dataBundle.courses;
         for (CourseAttributes course : courses.values()) {
             log.fine("API Servlet adding course :" + course.id);
@@ -484,9 +479,7 @@ public class BackDoorLogic extends Logic {
             this.deleteCourse(c.id);
         }
         
-        for (AccountAttributes a : dataBundle.accounts.values()) {
-            deleteAccount(a.googleId);
-        }
+        accountsDb.deleteAccounts(dataBundle.accounts.values());
         
         for(FeedbackResponseCommentAttributes frc : dataBundle.feedbackResponseComments.values()) {
             deleteFeedbackResponseComment(frc);
