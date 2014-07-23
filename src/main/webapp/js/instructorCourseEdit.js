@@ -91,7 +91,7 @@ function setAddSectionLevelLink(instrNum) {
 	for (var idx=0;idx < allSectionSelects.length;idx++) {
 		var item = $(allSectionSelects[idx]);
 		if (item.attr("value") === "false") {
-			var sectionNumStr = item.attr("name").substring(9).slice(0, -3);
+			var sectionNumStr = item.attr("name").substring(14).slice(0, -3);
 			$("#addSectionLevelForInstructor" + instrNum).attr("onclick", "showTuneSectionPermissionsDiv(" + instrNum + ", " + sectionNumStr + ")");
 			foundNewLink = true;
 			break;
@@ -99,6 +99,8 @@ function setAddSectionLevelLink(instrNum) {
 	}
 	if (!foundNewLink) {
 		$("#addSectionLevelForInstructor" + instrNum).hide();
+	} else {
+		$("#addSectionLevelForInstructor" + instrNum).show();
 	}
 }
 
