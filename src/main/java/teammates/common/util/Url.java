@@ -45,6 +45,11 @@ public class Url {
         return this;
     }
     
+    public Url withRegistrationKey(String key) {
+        this.urlString = Url.addParamToUrl(this.urlString, Const.ParamsNames.REGKEY, key);
+        return this;
+    }
+    
     public Url withCourseId(String courseId) {
         this.urlString = Url.addParamToUrl(this.urlString, Const.ParamsNames.COURSE_ID, courseId);
         return this;
