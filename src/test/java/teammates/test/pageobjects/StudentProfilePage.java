@@ -159,7 +159,7 @@ public class StudentProfilePage extends AppPage {
 
     public void uploadPicture() {
         uploadPictureSubmit.click();
-        browser.selenium.waitForPageToLoad("3000");
+        browser.selenium.waitForPageToLoad("10000");
     }
 
     public void editProfilePhoto() {

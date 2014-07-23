@@ -36,6 +36,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
 
         browser = BrowserPool.getBrowser(true);
         browser.driver.manage().deleteAllCookies();
+        AppPage.logout(browser);
     }
     
 
