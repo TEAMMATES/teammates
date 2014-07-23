@@ -233,4 +233,26 @@ public class StringHelper {
         return b;
     }
     
+    
+    
+    /**
+     * This recovers a html-sanitized string to original encoding for appropriate display in files such as csv file <br>
+     * It restores encoding for < > \ / ' &  <br>
+     * @param sanitized string 
+     * @return recovered string  
+     */
+    public static String recoverFromSanitizedText(String str){  
+        
+        if(str == null){
+            return null;
+        }
+        
+        return str.replace("&lt;", "<")
+                .replace("&gt;", ">")
+                .replace("&quot;", "\"")
+                .replace("&#x2f;", "/")
+                .replace("&#39;", "'")
+                .replaceAll("&amp;", "&");
+    }
+    
 }
