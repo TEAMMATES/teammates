@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -270,6 +271,16 @@ public class InstructorsDb extends EntitiesDb{
         //TODO: reuse the method in the parent class instead
     }
     
+    public void deleteInstructorsForCourses(List<String> courseIds){
+        
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+        
+        List<Instructor> instructorsToDelete = getInstructorEntitiesForCourses(courseIds);
+        
+        getPM().deletePersistentAll(instructorsToDelete);
+        getPM().flush();
+    }
+    
     public void deleteInstructorsForGoogleId(String googleId) {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
@@ -322,6 +333,16 @@ public class InstructorsDb extends EntitiesDb{
         }
 
         return instructorList.get(0);
+    }
+    
+    private List<Instructor> getInstructorEntitiesForCourses(List<String> courseIds){
+        Query q = getPM().newQuery(Instructor.class);
+        q.setFilter(":p.contains(courseId)");
+        
+        @SuppressWarnings("unchecked")
+        List<Instructor> instructorList = (List<Instructor>) q.execute(courseIds);
+        
+        return instructorList;
     }
     
     private Instructor getInstructorEntityForRegistrationKey(String key) {

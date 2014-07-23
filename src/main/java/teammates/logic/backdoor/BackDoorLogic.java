@@ -1,6 +1,7 @@
 package teammates.logic.backdoor;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +32,15 @@ import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 import teammates.storage.api.AccountsDb;
+import teammates.storage.api.CommentsDb;
+import teammates.storage.api.CoursesDb;
 import teammates.storage.api.EvaluationsDb;
+import teammates.storage.api.FeedbackQuestionsDb;
+import teammates.storage.api.FeedbackResponseCommentsDb;
+import teammates.storage.api.FeedbackResponsesDb;
+import teammates.storage.api.FeedbackSessionsDb;
+import teammates.storage.api.InstructorsDb;
+import teammates.storage.api.StudentsDb;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
@@ -40,6 +49,15 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 public class BackDoorLogic extends Logic {
     private static Logger log = Utils.getLogger();
     private static final AccountsDb accountsDb = new AccountsDb();
+    private static final CoursesDb coursesDb = new CoursesDb();
+    private static final CommentsDb commentsDb = new CommentsDb();
+    private static final StudentsDb studentsDb = new StudentsDb();
+    private static final InstructorsDb instructorsDb = new InstructorsDb();
+    private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
+    private static final FeedbackSessionsDb fbDb = new FeedbackSessionsDb();
+    private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+    private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+    private static final FeedbackResponseCommentsDb fcDb = new FeedbackResponseCommentsDb();
     
     private static final int WAIT_DURATION_FOR_DELETE_CHECKING = 5;
     private static final int MAX_RETRY_COUNT_FOR_DELETE_CHECKING = 20;
@@ -79,7 +97,6 @@ public class BackDoorLogic extends Logic {
         for (CourseAttributes course : courses.values()) {
             log.fine("API Servlet adding course :" + course.id);
             this.createCourseWithArchiveStatus(course);
-            
         }
 
         HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
@@ -452,44 +469,31 @@ public class BackDoorLogic extends Logic {
     }
 
     public void deleteExistingData(DataBundle dataBundle) {
-        
-        //Deleting submissions is not supported at Logic level. However, they
-        //  will be deleted automatically when we delete evaluations.
-        
-        for (StudentAttributes s : dataBundle.students.values()) {
-            deleteStudentWithoutDocument(s.course, s.email);
-        }
-        
-        for (InstructorAttributes i : dataBundle.instructors.values()) {
-            deleteInstructor(i.courseId, i.email);
-        }
-        
-        for (EvaluationAttributes e : dataBundle.evaluations.values()) {
-            deleteEvaluation(e.courseId, e.name);
-        }
-        
-        for (FeedbackSessionAttributes f : dataBundle.feedbackSessions.values()) {
-            deleteFeedbackSession(f.feedbackSessionName, f.courseId);
-        }
-        
+                
         //TODO: questions and responses will be deleted automatically.
         //  We don't attempt to delete them again, to save time.
         
-        for (CourseAttributes c : dataBundle.courses.values()) {
-            this.deleteCourse(c.id);
-        }
         
+        deleteCourses(dataBundle.courses.values());
+        
+        for (AccountAttributes account : dataBundle.accounts.values()) {
+            if (account.studentProfile == null) {
+                account.studentProfile = new StudentProfileAttributes();
+                account.studentProfile.googleId = account.googleId;
+            }
+        }
         accountsDb.deleteAccounts(dataBundle.accounts.values());
         
-        for(FeedbackResponseCommentAttributes frc : dataBundle.feedbackResponseComments.values()) {
-            deleteFeedbackResponseComment(frc);
-        }
-        
-        for(CommentAttributes c : dataBundle.comments.values()){
-            deleteComment(c);
-        }
-        
         //waitUntilDeletePersists(dataBundle);
+    }
+
+    private void deleteCourses(Collection<CourseAttributes> courses) {
+        List<String> courseIds = new ArrayList<String>();
+        for(CourseAttributes course : courses){
+            courseIds.add(course.id);
+        }
+        coursesDb.deleteEntities(courses);
+        instructorsDb.deleteInstructorsForCourses(courseIds);
     }
 
     //TODO: remove this when we confirm it is not needed

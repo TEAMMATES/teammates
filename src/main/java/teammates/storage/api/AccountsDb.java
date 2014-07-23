@@ -192,10 +192,6 @@ public class AccountsDb extends EntitiesDb {
     public void deleteAccounts(Collection<AccountAttributes> accounts){
 
         for(AccountAttributes accountToDelete : accounts){
-            if (accountToDelete != null && accountToDelete.studentProfile == null) {
-                accountToDelete.studentProfile = new StudentProfileAttributes();
-                accountToDelete.studentProfile.googleId = accountToDelete.googleId;
-            }
             if (!accountToDelete.studentProfile.pictureKey.equals("")) {
                 deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
             }
