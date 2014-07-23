@@ -61,7 +61,7 @@ public class BrowserPool {
         //synchronized to ensure thread-safety
         synchronized (pool) {
             browser.isInUse = false;
-            pool.notify();
+            pool.notifyAll();
         }
     }
 
