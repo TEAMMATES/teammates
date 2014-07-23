@@ -4,7 +4,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -64,11 +63,6 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
         assertFalse(r.isError);
-        assertEquals(
-                "You are currently submitting as <span class=\"bold\">"
-                        + instructorAccount.name + " (" + instructorAccount.googleId + ")</span>. "
-                        + "Not you? Please <a href=/logout.jsp>logout</a> and try again.",
-                r.getStatusMessage());
         
         ______TS("trying to access questions not meant for the user");
         
@@ -103,11 +97,6 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
         assertFalse(r.isError);
-        assertEquals(
-                "You are currently submitting as <span class=\"bold\">"
-                        + instructorAccount.name + " (" + instructorAccount.googleId + ")</span>. "
-                        + "Not you? Please <a href=/logout.jsp>logout</a> and try again.",
-                r.getStatusMessage());
         
         ______TS("Closed session");
         
@@ -130,14 +119,6 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
         assertFalse(r.isError);
-        assertEquals(
-                "You are currently submitting as <span class=\"bold\">"
-                        + instructorAccount.name + " (" + instructorAccount.googleId + ")</span>. "
-                        + "Not you? Please <a href=/logout.jsp>logout</a> and try again."
-                        + "<br />You can view the questions and any submitted responses "
-                        + "for this feedback session but cannot submit new "
-                        + "responses as the session is not currently open for submission.",
-                r.getStatusMessage());
         
         ______TS("Private session");
         
@@ -160,11 +141,6 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
         assertFalse(r.isError);
-        assertEquals(
-                "You are currently submitting as <span class=\"bold\">"
-                        + instructorAccount.name + " (" + instructorAccount.googleId + ")</span>. "
-                        + "Not you? Please <a href=/logout.jsp>logout</a> and try again.",
-                r.getStatusMessage());
         
     }
     
