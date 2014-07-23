@@ -38,67 +38,16 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testAccessControl() throws Exception {
-
-        String iDOfCourseOfStudent = dataBundle.students
-                .get("student1InCourse1").course;
-
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, iDOfCourseOfStudent
-        };
-
-        verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
-        verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
-        verifyUnaccessibleWithoutLogin(submissionParams);
-
-        iDOfCourseOfStudent = dataBundle.students.get("student2InCourse1").course;
-        submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, iDOfCourseOfStudent
-        };
-
-        verifyUnaccessibleForStudentsOfOtherCourses(submissionParams);
-        verifyUnaccessibleForUnregisteredUsers(submissionParams);
-    }
-
-    /*
-     * This Parent's method is overridden because: 1. Parent's
-     * verifyCannotAccess method only check whether there is a
-     * UnauthorizedAccessException 2. In StudentCourseDetailsPageAction's
-     * Execute() function, if student is not joined, it will just return a
-     * redirectResult, leaving no chance for exception throwing 3. So using the
-     * parent's method will fail to verify this case since it is waiting for
-     * exception that will never be created or thrown
-     * 
-     * So, this Overriding method will check the returned result for
-     * verification purpose
-     */
-    @Override
-    protected void verifyCannotAccess(String... params) throws Exception {
-        try {
-            Action c = gaeSimulation.getActionObject(uri, params);
-
-            ActionResult result = c.executeAndPostProcess();
-
-            String classNameOfRedirectResult = RedirectResult.class.getName();
-            assertEquals(classNameOfRedirectResult, result.getClass().getName());
-            
-        } catch (Exception e) {
-            ignoreExpectedException();
-        }
-        
-    }
-
-    @Test
     public void testExecuteAndPostProcess() throws Exception {
 
         StudentAttributes student1InCourse1 = dataBundle.students
                 .get("student1InCourse1");
 
-        String iDOfCourseOfStudent = dataBundle.students
-                .get("student1InCourse1").course;
+        String idOfCourseOfStudent = student1InCourse1.course;
+        gaeSimulation.loginAsStudent(student1InCourse1.googleId);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, iDOfCourseOfStudent
+                Const.ParamsNames.COURSE_ID, idOfCourseOfStudent
         };
 
         ______TS("Invalid parameters");
@@ -107,7 +56,6 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 
         ______TS("Typical case, student in the same course");
         String studentId = student1InCourse1.googleId;
-        gaeSimulation.loginAsStudent(student1InCourse1.googleId);
         StudentCourseDetailsPageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
 

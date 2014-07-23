@@ -11,10 +11,7 @@ public class StudentProfilePictureAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        if (isUnregistered) {
-            throw new UnauthorizedAccessException("User is not registered");
-        }
-        
+
         ActionResult result = null;
         if (getRequestParamValue(Const.ParamsNames.BLOB_KEY) != null) {
             log.info("blob-key given");

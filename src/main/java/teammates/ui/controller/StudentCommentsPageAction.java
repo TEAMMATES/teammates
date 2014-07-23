@@ -82,7 +82,7 @@ public class StudentCommentsPageAction extends Action {
     
     private void verifyBasicAccessibility() {
         new GateKeeper().verifyLoggedInUserPrivileges();
-        if(isUnregistered) { 
+        if(regkey != null) { 
             // unregistered users cannot view the page
             throw new UnauthorizedAccessException("User is not registered");
         }

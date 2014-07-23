@@ -3,7 +3,6 @@ package teammates.test.cases.ui;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -108,10 +107,12 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br/>"
                 + unregisteredStudent1.name + "<span class=\"bold\"> (" 
                 + unregisteredStudent1.email + ")" + "</span>.<br/>"
-                + StringHelper.encrypt(unregisteredStudent1.key) + "<br/>"
+                + StringHelper.encrypt(unregisteredStudent1.key) 
+                + "&studentemail=unregistered1%40email.com&courseid=idOfTypicalCourse1<br/>"
                 + unregisteredStudent2.name + "<span class=\"bold\"> (" 
                 + unregisteredStudent2.email + ")" + "</span>.<br/>"
-                + StringHelper.encrypt(unregisteredStudent2.key) + "<br/>";
+                + StringHelper.encrypt(unregisteredStudent2.key) 
+                + "&studentemail=unregistered2%40email.com&courseid=idOfTypicalCourse1<br/>";
         AssertHelper.assertContains(expectedLogSegment, remindAction.getLogMessage());
         
         StudentsLogic.inst().deleteStudentCascadeWithoutDocument(courseId, unregisteredStudent1.email);
