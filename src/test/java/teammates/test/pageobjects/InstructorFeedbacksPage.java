@@ -395,7 +395,7 @@ public class InstructorFeedbacksPage extends AppPage {
     
     public void verifyResponseValue(String responseRate, String courseId, String sessionName){
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
-        WebDriverWait wait = new WebDriverWait(browser.driver, 3000);
+        WebDriverWait wait = new WebDriverWait(browser.driver, 10);
         try {
             wait.until(ExpectedConditions.textToBePresentInElement(browser.driver.findElement(By.xpath("//tbody/tr["+(int)(sessionRowId+1)+"]/td[contains(@class,'session-response-for-test')]")), responseRate));
         } catch (TimeoutException e){
