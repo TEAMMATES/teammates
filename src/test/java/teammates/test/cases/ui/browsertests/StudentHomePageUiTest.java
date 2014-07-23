@@ -50,7 +50,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
     public void allTests() throws Exception{
         testContentAndLogin();        
         testLinks();
-        //testLinkAndContentAfterDelete();
+        testLinkAndContentAfterDelete();
     }
 
 
