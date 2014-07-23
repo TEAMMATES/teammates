@@ -436,7 +436,7 @@
                                                             <%
                                                             	}
                                                             %></a>      
-                                                        <div id="tuneSessionPermissionsDiv<%=j%>ForInstructor<%=index%>" 
+                                                        <div id="tuneSessionPermissionsDiv<%=j%>ForInstructor<%=index%>" class="row"
                                                             <%if (!instructor.privileges.isSessionsInSectionSpecial(data.sectionNames.get(j))) {%>
                                                             style="display: none;"
                                                             <%}%>
@@ -782,7 +782,7 @@
                                                         <a href="javascript:;" onclick="showTuneSessionnPermissionsDiv(<%=data.instructorList.size()+1%>, <%=j%>)"
                                                             id="toggleSessionLevelInSection<%=j%>ForInstructor<%=data.instructorList.size()+1%>"
                                                             class="small col-sm-5">Give different permissions for sessions in this section</a>      
-                                                        <div id="tuneSessionPermissionsDiv<%=j%>ForInstructor<%=data.instructorList.size()+1%>" style="display: none;">
+                                                        <div id="tuneSessionPermissionsDiv<%=j%>ForInstructor<%=data.instructorList.size()+1%>" class="row" style="display: none;">
                                                             <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j%>sessionsset" value="false"/>
                                                             <table class="table table-striped">
                                                                 <thead>
