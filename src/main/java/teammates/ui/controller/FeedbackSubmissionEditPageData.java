@@ -17,8 +17,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
     public StudentAttributes previewStudent;
     public InstructorAttributes previewInstructor;    
     
-    public FeedbackSubmissionEditPageData(AccountAttributes account) {
-        super(account);
+    public FeedbackSubmissionEditPageData(AccountAttributes account, String regkey) {
+        super(account, regkey);
         isPreview = false;
     }
     

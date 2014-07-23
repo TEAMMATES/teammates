@@ -11,12 +11,7 @@ public class StudentProfileEditSaveAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        
-        if(isUnregistered) {
-            // unregistered users cannot view the page
-            throw new UnauthorizedAccessException("User is not registered");
-        }
-        
+
         try {
             account.studentProfile = extractProfileData();
             account.studentProfile.googleId = account.googleId;

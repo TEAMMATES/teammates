@@ -4,10 +4,10 @@ import teammates.common.datatransfer.AccountAttributes;
 
 public class StudentCourseJoinConfirmationPageData extends PageData {
 
-    public String regkey;
+    public String confirmUrl;
+    public String logoutUrl;
     
-    public StudentCourseJoinConfirmationPageData(AccountAttributes account) {
-        super(account);
+    public StudentCourseJoinConfirmationPageData(AccountAttributes account, String regkey) {
+        super(account, regkey);
     }
-
 }

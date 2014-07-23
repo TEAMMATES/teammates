@@ -22,45 +22,38 @@
                 </div>
                 <div class="collapse navbar-collapse" id="contentLinks">
                     <ul class="nav navbar-nav">
-                        <li class="<%=data.getClass().toString().contains("StudentHome")?"active":""%>">
-                            <a id="studentHomeLink" data-link="studentHome" href="<%=data.getStudentHomeLink()%>">Home</a>
+                        <li class="<%=data.getClass().toString().contains("StudentHome") ? "active":"" %>">
+                            <a id="studentHomeLink" data-link="studentHome" 
+                            href="<%=data.regkey != null ? "" : data.getStudentHomeLink()%>">Home</a>
                         </li>
-                        <li class="<%=data.getClass().toString().contains("StudentProfilePage")?"active":""%>">
-                            <a id="studentProfileLink" data-link="studentProfilePage" href="<%=data.getStudentProfileLink()%>">
+                        <li class="<%=data.getClass().toString().contains("StudentProfilePage") ? "active":""%>">
+                            <a id="studentProfileLink" data-link="studentProfilePage" 
+                            href="<%=data.regkey != null ? "" : data.getStudentProfileLink()%>">
                                 Profile
                             </a>
                         </li>
-                        <li class="<%=data.getClass().toString().contains("StudentComments")?"active":""%>">
-                            <a id="studentCommentsLink" data-link="studentCommentsPage" href="<%=data.getStudentCommentsLink()%>">
+                        <li class="<%=data.getClass().toString().contains("StudentComments") ? "active":""%>">
+                            <a id="studentCommentsLink" data-link="studentCommentsPage" 
+                            href="<%=data.regkey != null ? "" : data.getStudentCommentsLink()%>">
                                 Comments
                             </a>
                         </li>
-                        <li class="<%=data.getClass().toString().contains("StudentHelp")?"active":""%>">
+                        <li class="<%=data.getClass().toString().contains("StudentHelp") ? "active":""%>">
                             <a id="studentHelpLink" class='nav' href="/studentHelp.html" target="_blank">Help</a>
                         </li>
                     </ul>
+                    <% if (data.account != null && data.account.googleId != null) { %>
                     <ul class="nav navbar-nav pull-right">
-                        <li><a class='nav logout' href="<%=Const.ViewURIs.LOGOUT%>">Logout
-                                <%
-                                    if(data.account.googleId.length() > Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH){
-                                %>
-                                (<span class="text-info" data-toggle="tooltip" data-placement="bottom" 
-                                        title="<%=data.account.googleId%>">
-                                        <%=PageData.truncate(data.account.googleId,Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH)%>
-                                </span>)
-                                <%
-                                    } else {
-                                %>
+                        <li>
+                            <a class='nav logout' href="<%=Const.ViewURIs.LOGOUT%>">Logout
                                 (<span class="text-info" data-toggle="tooltip" data-placement="bottom" 
                                         title="<%=data.account.googleId%>">
                                         <%=PageData.truncate(data.account.googleId,Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH)%>
                                  </span>)
-                                <%} %>
                             </a>
                         </li>
                     </ul>
-                    
-                    
+                    <% } %>
                 </div>
             </div>
         </div>

@@ -135,7 +135,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
                 break;
             }
         }
-        assertEquals(FeedbackSessionPublishedCallback.taskCount, 3);
+        assertEquals(3, FeedbackSessionPublishedCallback.taskCount);
         
         ______TS("unpublish a session");
         fsLogic.unpublishFeedbackSession(session2.feedbackSessionName, session2.courseId);

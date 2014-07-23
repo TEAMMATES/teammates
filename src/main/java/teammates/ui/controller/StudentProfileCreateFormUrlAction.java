@@ -11,11 +11,7 @@ import teammates.common.util.Const;
 public class StudentProfileCreateFormUrlAction extends Action {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
-        if(isUnregistered) {
-            throw new UnauthorizedAccessException("User is not registered");
-        }
-        
+    protected ActionResult execute() throws EntityDoesNotExistException {        
         UploadOptions uploadOptions = UploadOptions.Builder.withDefaults()
                 .googleStorageBucketName(Config.GCS_BUCKETNAME)
                 .maxUploadSizeBytes(Const.SystemParams.MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI);

@@ -334,14 +334,19 @@ ul #nav {
                         <span class="glyphicon glyphicon-trash"></span> Delete</a>
                 </div>
             </div>
-                 
+
+            
+
             <!-- Attention: 
             This join link is printed as a hidden html element and is only used for testing purpose. 
             This should not be shown to the user. Please go to element inspector to get this link.        
-            -->       
+            -->
             <div hidden="hidden" class="form-group" id="joinLink">
                 {$app.url}/page/instructorCourseJoin?regkey={*}
             </div>
+
+
+            
 
             <div class="panel-body">
                 <form class="form form-horizontal" name="formEditInstructors" id="formEditInstructor1&gt;" action="/page/instructorCourseInstructorEditSave" method="post">
@@ -452,35 +457,65 @@ ul #nav {
                                             <div style="display: none;" id="tuneSectionPermissionsDiv0ForInstructor1">
                                                 <div class="panel panel-info">
                                                     <div class="panel-heading">
-                                                        <strong>But in section </strong>
-                                                        <select id="section0forinstructor1" name="section0">
-                                                            
-                                                            <option selected="selected" value="Section 1">Section 1</option>
-                                                            
-                                                            <option value="Section 2">Section 2</option>
-                                                            
-                                                            <option value="Section 3">Section 3</option>
-                                                            
-                                                        </select>
-                                                        <strong> the instructor can only</strong>
-                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(1, 0)" href="javascript:;">
-                                                            <span class="glyphicon glyphicon-trash"></span></a>
-                                                         
-                                                        <input type="hidden" value="false" id="issection0setforinstructor1" name="issection0set" />
+                                                        <div class="row">
+                                                            <div class="col-sm-2">
+                                                                <p><strong>But in section(s)</strong></p>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                
+                                                                    
+                                                                    <div class="col-sm-12">
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" checked="checked" value="Section 1" name="sectiongroup0section0" />
+                                                                        Section 1
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 2" name="sectiongroup0section1" />
+                                                                        Section 2
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 3" name="sectiongroup0section2" />
+                                                                        Section 3
+                                                                        </div>
+                                                                    
+                                                                    </div>
+                                                                    
+                                                                
+                                                                
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                            <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(1, 0)" href="javascript:;">
+                                                                <span class="glyphicon glyphicon-trash"></span></a>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <p><strong> the instructor can only,</strong></p>
+                                                            </div>
+                                                        </div>
                                                         
+                                                        <input type="hidden" value="false" name="issectiongroup0set" />
                                                     </div>
                                                     <div class="panel-body">
                                                         <br />
                                                         <div class="col-sm-6 border-right-gray">
-                                                            <input type="checkbox" value="true" name="canviewstudentinsectionsection0" /> View Students' Details<br />
-                                                            <input type="checkbox" value="true" name="cangivecommentinsectionsection0" /> Give Comments for Students<br />
-                                                            <input type="checkbox" value="true" name="canviewcommentinsectionsection0" /> View Others' Comments on Students<br />
-                                                            <input type="checkbox" value="true" name="canmodifycommentinsectionsection0" /> Edit/Delete Others' Comments on Students<br /><br />
+                                                            <input type="checkbox" value="true" name="canviewstudentinsectionsectiongroup0" /> View Students' Details<br />
+                                                            <input type="checkbox" value="true" name="cangivecommentinsectionsectiongroup0" /> Give Comments for Students<br />
+                                                            <input type="checkbox" value="true" name="canviewcommentinsectionsectiongroup0" /> View Others' Comments on Students<br />
+                                                            <input type="checkbox" value="true" name="canmodifycommentinsectionsectiongroup0" /> Edit/Delete Others' Comments on Students<br /><br />
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
-                                                            <input type="checkbox" value="true" name="cansubmitsessioninsectionsection0" /> Sessions: Submit Responses and Add Comments<br />
-                                                            <input type="checkbox" value="true" name="canviewsessioninsectionsection0" /> Sessions: View Responses and Comments<br />
-                                                            <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsection0" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
+                                                            <input type="checkbox" value="true" name="cansubmitsessioninsectionsectiongroup0" /> Sessions: Submit Responses and Add Comments<br />
+                                                            <input type="checkbox" value="true" name="canviewsessioninsectionsectiongroup0" /> Sessions: View Responses and Comments<br />
+                                                            <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsectiongroup0" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         <a class="small col-sm-5" id="toggleSessionLevelInSection0ForInstructor1" onclick="showTuneSessionnPermissionsDiv(1, 0)" href="javascript:;">
                                                              
@@ -488,7 +523,7 @@ ul #nav {
                                                             </a>      
                                                         <div style="display: none;" id="tuneSessionPermissionsDiv0ForInstructor1">
                                                              
-                                                            <input type="hidden" value="false" name="issection0sessionsset" />
+                                                            <input type="hidden" value="false" name="issectiongroup0sessionsset" />
                                                             
                                                             <table class="table table-striped">
                                                                 <thead>
@@ -517,35 +552,65 @@ ul #nav {
                                             <div style="display: none;" id="tuneSectionPermissionsDiv1ForInstructor1">
                                                 <div class="panel panel-info">
                                                     <div class="panel-heading">
-                                                        <strong>But in section </strong>
-                                                        <select id="section1forinstructor1" name="section1">
-                                                            
-                                                            <option value="Section 1">Section 1</option>
-                                                            
-                                                            <option selected="selected" value="Section 2">Section 2</option>
-                                                            
-                                                            <option value="Section 3">Section 3</option>
-                                                            
-                                                        </select>
-                                                        <strong> the instructor can only</strong>
-                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(1, 1)" href="javascript:;">
-                                                            <span class="glyphicon glyphicon-trash"></span></a>
-                                                         
-                                                        <input type="hidden" value="false" id="issection1setforinstructor1" name="issection1set" />
+                                                        <div class="row">
+                                                            <div class="col-sm-2">
+                                                                <p><strong>But in section(s)</strong></p>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                
+                                                                    
+                                                                    <div class="col-sm-12">
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 1" name="sectiongroup1section0" />
+                                                                        Section 1
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" checked="checked" value="Section 2" name="sectiongroup1section1" />
+                                                                        Section 2
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 3" name="sectiongroup1section2" />
+                                                                        Section 3
+                                                                        </div>
+                                                                    
+                                                                    </div>
+                                                                    
+                                                                
+                                                                
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                            <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(1, 1)" href="javascript:;">
+                                                                <span class="glyphicon glyphicon-trash"></span></a>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <p><strong> the instructor can only,</strong></p>
+                                                            </div>
+                                                        </div>
                                                         
+                                                        <input type="hidden" value="false" name="issectiongroup1set" />
                                                     </div>
                                                     <div class="panel-body">
                                                         <br />
                                                         <div class="col-sm-6 border-right-gray">
-                                                            <input type="checkbox" value="true" name="canviewstudentinsectionsection1" /> View Students' Details<br />
-                                                            <input type="checkbox" value="true" name="cangivecommentinsectionsection1" /> Give Comments for Students<br />
-                                                            <input type="checkbox" value="true" name="canviewcommentinsectionsection1" /> View Others' Comments on Students<br />
-                                                            <input type="checkbox" value="true" name="canmodifycommentinsectionsection1" /> Edit/Delete Others' Comments on Students<br /><br />
+                                                            <input type="checkbox" value="true" name="canviewstudentinsectionsectiongroup1" /> View Students' Details<br />
+                                                            <input type="checkbox" value="true" name="cangivecommentinsectionsectiongroup1" /> Give Comments for Students<br />
+                                                            <input type="checkbox" value="true" name="canviewcommentinsectionsectiongroup1" /> View Others' Comments on Students<br />
+                                                            <input type="checkbox" value="true" name="canmodifycommentinsectionsectiongroup1" /> Edit/Delete Others' Comments on Students<br /><br />
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
-                                                            <input type="checkbox" value="true" name="cansubmitsessioninsectionsection1" /> Sessions: Submit Responses and Add Comments<br />
-                                                            <input type="checkbox" value="true" name="canviewsessioninsectionsection1" /> Sessions: View Responses and Comments<br />
-                                                            <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsection1" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
+                                                            <input type="checkbox" value="true" name="cansubmitsessioninsectionsectiongroup1" /> Sessions: Submit Responses and Add Comments<br />
+                                                            <input type="checkbox" value="true" name="canviewsessioninsectionsectiongroup1" /> Sessions: View Responses and Comments<br />
+                                                            <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsectiongroup1" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         <a class="small col-sm-5" id="toggleSessionLevelInSection1ForInstructor1" onclick="showTuneSessionnPermissionsDiv(1, 1)" href="javascript:;">
                                                              
@@ -553,7 +618,7 @@ ul #nav {
                                                             </a>      
                                                         <div style="display: none;" id="tuneSessionPermissionsDiv1ForInstructor1">
                                                              
-                                                            <input type="hidden" value="false" name="issection1sessionsset" />
+                                                            <input type="hidden" value="false" name="issectiongroup1sessionsset" />
                                                             
                                                             <table class="table table-striped">
                                                                 <thead>
@@ -582,35 +647,65 @@ ul #nav {
                                             <div style="display: none;" id="tuneSectionPermissionsDiv2ForInstructor1">
                                                 <div class="panel panel-info">
                                                     <div class="panel-heading">
-                                                        <strong>But in section </strong>
-                                                        <select id="section2forinstructor1" name="section2">
-                                                            
-                                                            <option value="Section 1">Section 1</option>
-                                                            
-                                                            <option value="Section 2">Section 2</option>
-                                                            
-                                                            <option selected="selected" value="Section 3">Section 3</option>
-                                                            
-                                                        </select>
-                                                        <strong> the instructor can only</strong>
-                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(1, 2)" href="javascript:;">
-                                                            <span class="glyphicon glyphicon-trash"></span></a>
-                                                         
-                                                        <input type="hidden" value="false" id="issection2setforinstructor1" name="issection2set" />
+                                                        <div class="row">
+                                                            <div class="col-sm-2">
+                                                                <p><strong>But in section(s)</strong></p>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                
+                                                                    
+                                                                    <div class="col-sm-12">
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 1" name="sectiongroup2section0" />
+                                                                        Section 1
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 2" name="sectiongroup2section1" />
+                                                                        Section 2
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" checked="checked" value="Section 3" name="sectiongroup2section2" />
+                                                                        Section 3
+                                                                        </div>
+                                                                    
+                                                                    </div>
+                                                                    
+                                                                
+                                                                
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                            <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(1, 2)" href="javascript:;">
+                                                                <span class="glyphicon glyphicon-trash"></span></a>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <p><strong> the instructor can only,</strong></p>
+                                                            </div>
+                                                        </div>
                                                         
+                                                        <input type="hidden" value="false" name="issectiongroup2set" />
                                                     </div>
                                                     <div class="panel-body">
                                                         <br />
                                                         <div class="col-sm-6 border-right-gray">
-                                                            <input type="checkbox" value="true" name="canviewstudentinsectionsection2" /> View Students' Details<br />
-                                                            <input type="checkbox" value="true" name="cangivecommentinsectionsection2" /> Give Comments for Students<br />
-                                                            <input type="checkbox" value="true" name="canviewcommentinsectionsection2" /> View Others' Comments on Students<br />
-                                                            <input type="checkbox" value="true" name="canmodifycommentinsectionsection2" /> Edit/Delete Others' Comments on Students<br /><br />
+                                                            <input type="checkbox" value="true" name="canviewstudentinsectionsectiongroup2" /> View Students' Details<br />
+                                                            <input type="checkbox" value="true" name="cangivecommentinsectionsectiongroup2" /> Give Comments for Students<br />
+                                                            <input type="checkbox" value="true" name="canviewcommentinsectionsectiongroup2" /> View Others' Comments on Students<br />
+                                                            <input type="checkbox" value="true" name="canmodifycommentinsectionsectiongroup2" /> Edit/Delete Others' Comments on Students<br /><br />
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
-                                                            <input type="checkbox" value="true" name="cansubmitsessioninsectionsection2" /> Sessions: Submit Responses and Add Comments<br />
-                                                            <input type="checkbox" value="true" name="canviewsessioninsectionsection2" /> Sessions: View Responses and Comments<br />
-                                                            <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsection2" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
+                                                            <input type="checkbox" value="true" name="cansubmitsessioninsectionsectiongroup2" /> Sessions: Submit Responses and Add Comments<br />
+                                                            <input type="checkbox" value="true" name="canviewsessioninsectionsectiongroup2" /> Sessions: View Responses and Comments<br />
+                                                            <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsectiongroup2" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         <a class="small col-sm-5" id="toggleSessionLevelInSection2ForInstructor1" onclick="showTuneSessionnPermissionsDiv(1, 2)" href="javascript:;">
                                                              
@@ -618,7 +713,7 @@ ul #nav {
                                                             </a>      
                                                         <div style="display: none;" id="tuneSessionPermissionsDiv2ForInstructor1">
                                                              
-                                                            <input type="hidden" value="false" name="issection2sessionsset" />
+                                                            <input type="hidden" value="false" name="issectiongroup2sessionsset" />
                                                             
                                                             <table class="table table-striped">
                                                                 <thead>
@@ -674,14 +769,19 @@ ul #nav {
                         <span class="glyphicon glyphicon-trash"></span> Delete</a>
                 </div>
             </div>
-                 
+
+            
+
             <!-- Attention: 
             This join link is printed as a hidden html element and is only used for testing purpose. 
             This should not be shown to the user. Please go to element inspector to get this link.        
-            -->       
+            -->
             <div hidden="hidden" class="form-group" id="joinLink">
                 {$app.url}/page/instructorCourseJoin?regkey={*}
             </div>
+
+
+            
 
             <div class="panel-body">
                 <form class="form form-horizontal" name="formEditInstructors" id="formEditInstructor2&gt;" action="/page/instructorCourseInstructorEditSave" method="post">
@@ -792,35 +892,65 @@ ul #nav {
                                             <div style="display: none;" id="tuneSectionPermissionsDiv0ForInstructor2">
                                                 <div class="panel panel-info">
                                                     <div class="panel-heading">
-                                                        <strong>But in section </strong>
-                                                        <select id="section0forinstructor2" name="section0">
-                                                            
-                                                            <option selected="selected" value="Section 1">Section 1</option>
-                                                            
-                                                            <option value="Section 2">Section 2</option>
-                                                            
-                                                            <option value="Section 3">Section 3</option>
-                                                            
-                                                        </select>
-                                                        <strong> the instructor can only</strong>
-                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(2, 0)" href="javascript:;">
-                                                            <span class="glyphicon glyphicon-trash"></span></a>
-                                                         
-                                                        <input type="hidden" value="false" id="issection0setforinstructor2" name="issection0set" />
+                                                        <div class="row">
+                                                            <div class="col-sm-2">
+                                                                <p><strong>But in section(s)</strong></p>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                
+                                                                    
+                                                                    <div class="col-sm-12">
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" checked="checked" value="Section 1" name="sectiongroup0section0" />
+                                                                        Section 1
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 2" name="sectiongroup0section1" />
+                                                                        Section 2
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 3" name="sectiongroup0section2" />
+                                                                        Section 3
+                                                                        </div>
+                                                                    
+                                                                    </div>
+                                                                    
+                                                                
+                                                                
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                            <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(2, 0)" href="javascript:;">
+                                                                <span class="glyphicon glyphicon-trash"></span></a>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <p><strong> the instructor can only,</strong></p>
+                                                            </div>
+                                                        </div>
                                                         
+                                                        <input type="hidden" value="false" name="issectiongroup0set" />
                                                     </div>
                                                     <div class="panel-body">
                                                         <br />
                                                         <div class="col-sm-6 border-right-gray">
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewstudentinsectionsection0" /> View Students' Details<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="cangivecommentinsectionsection0" /> Give Comments for Students<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewcommentinsectionsection0" /> View Others' Comments on Students<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canmodifycommentinsectionsection0" /> Edit/Delete Others' Comments on Students<br /><br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canviewstudentinsectionsectiongroup0" /> View Students' Details<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="cangivecommentinsectionsectiongroup0" /> Give Comments for Students<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canviewcommentinsectionsectiongroup0" /> View Others' Comments on Students<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canmodifycommentinsectionsectiongroup0" /> Edit/Delete Others' Comments on Students<br /><br />
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
-                                                            <input type="checkbox" checked="checked" value="true" name="cansubmitsessioninsectionsection0" /> Sessions: Submit Responses and Add Comments<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsection0" /> Sessions: View Responses and Comments<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection0" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
+                                                            <input type="checkbox" checked="checked" value="true" name="cansubmitsessioninsectionsectiongroup0" /> Sessions: Submit Responses and Add Comments<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsectiongroup0" /> Sessions: View Responses and Comments<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsectiongroup0" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         <a class="small col-sm-5" id="toggleSessionLevelInSection0ForInstructor2" onclick="showTuneSessionnPermissionsDiv(2, 0)" href="javascript:;">
                                                              
@@ -828,7 +958,7 @@ ul #nav {
                                                             </a>      
                                                         <div style="display: none;" id="tuneSessionPermissionsDiv0ForInstructor2">
                                                              
-                                                            <input type="hidden" value="false" name="issection0sessionsset" />
+                                                            <input type="hidden" value="false" name="issectiongroup0sessionsset" />
                                                             
                                                             <table class="table table-striped">
                                                                 <thead>
@@ -857,35 +987,65 @@ ul #nav {
                                             <div style="display: none;" id="tuneSectionPermissionsDiv1ForInstructor2">
                                                 <div class="panel panel-info">
                                                     <div class="panel-heading">
-                                                        <strong>But in section </strong>
-                                                        <select id="section1forinstructor2" name="section1">
-                                                            
-                                                            <option value="Section 1">Section 1</option>
-                                                            
-                                                            <option selected="selected" value="Section 2">Section 2</option>
-                                                            
-                                                            <option value="Section 3">Section 3</option>
-                                                            
-                                                        </select>
-                                                        <strong> the instructor can only</strong>
-                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(2, 1)" href="javascript:;">
-                                                            <span class="glyphicon glyphicon-trash"></span></a>
-                                                         
-                                                        <input type="hidden" value="false" id="issection1setforinstructor2" name="issection1set" />
+                                                        <div class="row">
+                                                            <div class="col-sm-2">
+                                                                <p><strong>But in section(s)</strong></p>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                
+                                                                    
+                                                                    <div class="col-sm-12">
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 1" name="sectiongroup1section0" />
+                                                                        Section 1
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" checked="checked" value="Section 2" name="sectiongroup1section1" />
+                                                                        Section 2
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 3" name="sectiongroup1section2" />
+                                                                        Section 3
+                                                                        </div>
+                                                                    
+                                                                    </div>
+                                                                    
+                                                                
+                                                                
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                            <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(2, 1)" href="javascript:;">
+                                                                <span class="glyphicon glyphicon-trash"></span></a>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <p><strong> the instructor can only,</strong></p>
+                                                            </div>
+                                                        </div>
                                                         
+                                                        <input type="hidden" value="false" name="issectiongroup1set" />
                                                     </div>
                                                     <div class="panel-body">
                                                         <br />
                                                         <div class="col-sm-6 border-right-gray">
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewstudentinsectionsection1" /> View Students' Details<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="cangivecommentinsectionsection1" /> Give Comments for Students<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewcommentinsectionsection1" /> View Others' Comments on Students<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canmodifycommentinsectionsection1" /> Edit/Delete Others' Comments on Students<br /><br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canviewstudentinsectionsectiongroup1" /> View Students' Details<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="cangivecommentinsectionsectiongroup1" /> Give Comments for Students<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canviewcommentinsectionsectiongroup1" /> View Others' Comments on Students<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canmodifycommentinsectionsectiongroup1" /> Edit/Delete Others' Comments on Students<br /><br />
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
-                                                            <input type="checkbox" checked="checked" value="true" name="cansubmitsessioninsectionsection1" /> Sessions: Submit Responses and Add Comments<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsection1" /> Sessions: View Responses and Comments<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection1" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
+                                                            <input type="checkbox" checked="checked" value="true" name="cansubmitsessioninsectionsectiongroup1" /> Sessions: Submit Responses and Add Comments<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsectiongroup1" /> Sessions: View Responses and Comments<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsectiongroup1" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         <a class="small col-sm-5" id="toggleSessionLevelInSection1ForInstructor2" onclick="showTuneSessionnPermissionsDiv(2, 1)" href="javascript:;">
                                                              
@@ -893,7 +1053,7 @@ ul #nav {
                                                             </a>      
                                                         <div style="display: none;" id="tuneSessionPermissionsDiv1ForInstructor2">
                                                              
-                                                            <input type="hidden" value="false" name="issection1sessionsset" />
+                                                            <input type="hidden" value="false" name="issectiongroup1sessionsset" />
                                                             
                                                             <table class="table table-striped">
                                                                 <thead>
@@ -922,35 +1082,65 @@ ul #nav {
                                             <div style="display: none;" id="tuneSectionPermissionsDiv2ForInstructor2">
                                                 <div class="panel panel-info">
                                                     <div class="panel-heading">
-                                                        <strong>But in section </strong>
-                                                        <select id="section2forinstructor2" name="section2">
-                                                            
-                                                            <option value="Section 1">Section 1</option>
-                                                            
-                                                            <option value="Section 2">Section 2</option>
-                                                            
-                                                            <option selected="selected" value="Section 3">Section 3</option>
-                                                            
-                                                        </select>
-                                                        <strong> the instructor can only</strong>
-                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(2, 2)" href="javascript:;">
-                                                            <span class="glyphicon glyphicon-trash"></span></a>
-                                                         
-                                                        <input type="hidden" value="false" id="issection2setforinstructor2" name="issection2set" />
+                                                        <div class="row">
+                                                            <div class="col-sm-2">
+                                                                <p><strong>But in section(s)</strong></p>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                
+                                                                    
+                                                                    <div class="col-sm-12">
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 1" name="sectiongroup2section0" />
+                                                                        Section 1
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 2" name="sectiongroup2section1" />
+                                                                        Section 2
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" checked="checked" value="Section 3" name="sectiongroup2section2" />
+                                                                        Section 3
+                                                                        </div>
+                                                                    
+                                                                    </div>
+                                                                    
+                                                                
+                                                                
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                            <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(2, 2)" href="javascript:;">
+                                                                <span class="glyphicon glyphicon-trash"></span></a>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <p><strong> the instructor can only,</strong></p>
+                                                            </div>
+                                                        </div>
                                                         
+                                                        <input type="hidden" value="false" name="issectiongroup2set" />
                                                     </div>
                                                     <div class="panel-body">
                                                         <br />
                                                         <div class="col-sm-6 border-right-gray">
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewstudentinsectionsection2" /> View Students' Details<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="cangivecommentinsectionsection2" /> Give Comments for Students<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewcommentinsectionsection2" /> View Others' Comments on Students<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canmodifycommentinsectionsection2" /> Edit/Delete Others' Comments on Students<br /><br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canviewstudentinsectionsectiongroup2" /> View Students' Details<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="cangivecommentinsectionsectiongroup2" /> Give Comments for Students<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canviewcommentinsectionsectiongroup2" /> View Others' Comments on Students<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canmodifycommentinsectionsectiongroup2" /> Edit/Delete Others' Comments on Students<br /><br />
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
-                                                            <input type="checkbox" checked="checked" value="true" name="cansubmitsessioninsectionsection2" /> Sessions: Submit Responses and Add Comments<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsection2" /> Sessions: View Responses and Comments<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection2" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
+                                                            <input type="checkbox" checked="checked" value="true" name="cansubmitsessioninsectionsectiongroup2" /> Sessions: Submit Responses and Add Comments<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsectiongroup2" /> Sessions: View Responses and Comments<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsectiongroup2" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         <a class="small col-sm-5" id="toggleSessionLevelInSection2ForInstructor2" onclick="showTuneSessionnPermissionsDiv(2, 2)" href="javascript:;">
                                                              
@@ -958,7 +1148,7 @@ ul #nav {
                                                             </a>      
                                                         <div style="display: none;" id="tuneSessionPermissionsDiv2ForInstructor2">
                                                              
-                                                            <input type="hidden" value="false" name="issection2sessionsset" />
+                                                            <input type="hidden" value="false" name="issectiongroup2sessionsset" />
                                                             
                                                             <table class="table table-striped">
                                                                 <thead>
@@ -1017,14 +1207,19 @@ ul #nav {
                         <span class="glyphicon glyphicon-trash"></span> Delete</a>
                 </div>
             </div>
-                 
+
+            
+
             <!-- Attention: 
             This join link is printed as a hidden html element and is only used for testing purpose. 
             This should not be shown to the user. Please go to element inspector to get this link.        
-            -->       
+            -->
             <div hidden="hidden" class="form-group" id="joinLink">
                 {$app.url}/page/instructorCourseJoin?regkey={*}
             </div>
+
+
+            
 
             <div class="panel-body">
                 <form class="form form-horizontal" name="formEditInstructors" id="formEditInstructor3&gt;" action="/page/instructorCourseInstructorEditSave" method="post">
@@ -1127,35 +1322,65 @@ ul #nav {
                                             <div style="display: none;" id="tuneSectionPermissionsDiv0ForInstructor3">
                                                 <div class="panel panel-info">
                                                     <div class="panel-heading">
-                                                        <strong>But in section </strong>
-                                                        <select id="section0forinstructor3" name="section0">
-                                                            
-                                                            <option selected="selected" value="Section 1">Section 1</option>
-                                                            
-                                                            <option value="Section 2">Section 2</option>
-                                                            
-                                                            <option value="Section 3">Section 3</option>
-                                                            
-                                                        </select>
-                                                        <strong> the instructor can only</strong>
-                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(3, 0)" href="javascript:;">
-                                                            <span class="glyphicon glyphicon-trash"></span></a>
-                                                         
-                                                        <input type="hidden" value="false" id="issection0setforinstructor3" name="issection0set" />
+                                                        <div class="row">
+                                                            <div class="col-sm-2">
+                                                                <p><strong>But in section(s)</strong></p>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                
+                                                                    
+                                                                    <div class="col-sm-12">
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" checked="checked" value="Section 1" name="sectiongroup0section0" />
+                                                                        Section 1
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 2" name="sectiongroup0section1" />
+                                                                        Section 2
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 3" name="sectiongroup0section2" />
+                                                                        Section 3
+                                                                        </div>
+                                                                    
+                                                                    </div>
+                                                                    
+                                                                
+                                                                
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                            <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(3, 0)" href="javascript:;">
+                                                                <span class="glyphicon glyphicon-trash"></span></a>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <p><strong> the instructor can only,</strong></p>
+                                                            </div>
+                                                        </div>
                                                         
+                                                        <input type="hidden" value="false" name="issectiongroup0set" />
                                                     </div>
                                                     <div class="panel-body">
                                                         <br />
                                                         <div class="col-sm-6 border-right-gray">
-                                                            <input type="checkbox" value="true" name="canviewstudentinsectionsection0" /> View Students' Details<br />
-                                                            <input type="checkbox" value="true" name="cangivecommentinsectionsection0" /> Give Comments for Students<br />
-                                                            <input type="checkbox" value="true" name="canviewcommentinsectionsection0" /> View Others' Comments on Students<br />
-                                                            <input type="checkbox" value="true" name="canmodifycommentinsectionsection0" /> Edit/Delete Others' Comments on Students<br /><br />
+                                                            <input type="checkbox" value="true" name="canviewstudentinsectionsectiongroup0" /> View Students' Details<br />
+                                                            <input type="checkbox" value="true" name="cangivecommentinsectionsectiongroup0" /> Give Comments for Students<br />
+                                                            <input type="checkbox" value="true" name="canviewcommentinsectionsectiongroup0" /> View Others' Comments on Students<br />
+                                                            <input type="checkbox" value="true" name="canmodifycommentinsectionsectiongroup0" /> Edit/Delete Others' Comments on Students<br /><br />
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
-                                                            <input type="checkbox" value="true" name="cansubmitsessioninsectionsection0" /> Sessions: Submit Responses and Add Comments<br />
-                                                            <input type="checkbox" value="true" name="canviewsessioninsectionsection0" /> Sessions: View Responses and Comments<br />
-                                                            <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsection0" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
+                                                            <input type="checkbox" value="true" name="cansubmitsessioninsectionsectiongroup0" /> Sessions: Submit Responses and Add Comments<br />
+                                                            <input type="checkbox" value="true" name="canviewsessioninsectionsectiongroup0" /> Sessions: View Responses and Comments<br />
+                                                            <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsectiongroup0" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         <a class="small col-sm-5" id="toggleSessionLevelInSection0ForInstructor3" onclick="showTuneSessionnPermissionsDiv(3, 0)" href="javascript:;">
                                                              
@@ -1163,7 +1388,7 @@ ul #nav {
                                                             </a>      
                                                         <div style="display: none;" id="tuneSessionPermissionsDiv0ForInstructor3">
                                                              
-                                                            <input type="hidden" value="false" name="issection0sessionsset" />
+                                                            <input type="hidden" value="false" name="issectiongroup0sessionsset" />
                                                             
                                                             <table class="table table-striped">
                                                                 <thead>
@@ -1192,35 +1417,65 @@ ul #nav {
                                             <div style="display: none;" id="tuneSectionPermissionsDiv1ForInstructor3">
                                                 <div class="panel panel-info">
                                                     <div class="panel-heading">
-                                                        <strong>But in section </strong>
-                                                        <select id="section1forinstructor3" name="section1">
-                                                            
-                                                            <option value="Section 1">Section 1</option>
-                                                            
-                                                            <option selected="selected" value="Section 2">Section 2</option>
-                                                            
-                                                            <option value="Section 3">Section 3</option>
-                                                            
-                                                        </select>
-                                                        <strong> the instructor can only</strong>
-                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(3, 1)" href="javascript:;">
-                                                            <span class="glyphicon glyphicon-trash"></span></a>
-                                                         
-                                                        <input type="hidden" value="false" id="issection1setforinstructor3" name="issection1set" />
+                                                        <div class="row">
+                                                            <div class="col-sm-2">
+                                                                <p><strong>But in section(s)</strong></p>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                
+                                                                    
+                                                                    <div class="col-sm-12">
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 1" name="sectiongroup1section0" />
+                                                                        Section 1
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" checked="checked" value="Section 2" name="sectiongroup1section1" />
+                                                                        Section 2
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 3" name="sectiongroup1section2" />
+                                                                        Section 3
+                                                                        </div>
+                                                                    
+                                                                    </div>
+                                                                    
+                                                                
+                                                                
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                            <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(3, 1)" href="javascript:;">
+                                                                <span class="glyphicon glyphicon-trash"></span></a>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <p><strong> the instructor can only,</strong></p>
+                                                            </div>
+                                                        </div>
                                                         
+                                                        <input type="hidden" value="false" name="issectiongroup1set" />
                                                     </div>
                                                     <div class="panel-body">
                                                         <br />
                                                         <div class="col-sm-6 border-right-gray">
-                                                            <input type="checkbox" value="true" name="canviewstudentinsectionsection1" /> View Students' Details<br />
-                                                            <input type="checkbox" value="true" name="cangivecommentinsectionsection1" /> Give Comments for Students<br />
-                                                            <input type="checkbox" value="true" name="canviewcommentinsectionsection1" /> View Others' Comments on Students<br />
-                                                            <input type="checkbox" value="true" name="canmodifycommentinsectionsection1" /> Edit/Delete Others' Comments on Students<br /><br />
+                                                            <input type="checkbox" value="true" name="canviewstudentinsectionsectiongroup1" /> View Students' Details<br />
+                                                            <input type="checkbox" value="true" name="cangivecommentinsectionsectiongroup1" /> Give Comments for Students<br />
+                                                            <input type="checkbox" value="true" name="canviewcommentinsectionsectiongroup1" /> View Others' Comments on Students<br />
+                                                            <input type="checkbox" value="true" name="canmodifycommentinsectionsectiongroup1" /> Edit/Delete Others' Comments on Students<br /><br />
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
-                                                            <input type="checkbox" value="true" name="cansubmitsessioninsectionsection1" /> Sessions: Submit Responses and Add Comments<br />
-                                                            <input type="checkbox" value="true" name="canviewsessioninsectionsection1" /> Sessions: View Responses and Comments<br />
-                                                            <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsection1" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
+                                                            <input type="checkbox" value="true" name="cansubmitsessioninsectionsectiongroup1" /> Sessions: Submit Responses and Add Comments<br />
+                                                            <input type="checkbox" value="true" name="canviewsessioninsectionsectiongroup1" /> Sessions: View Responses and Comments<br />
+                                                            <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsectiongroup1" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         <a class="small col-sm-5" id="toggleSessionLevelInSection1ForInstructor3" onclick="showTuneSessionnPermissionsDiv(3, 1)" href="javascript:;">
                                                              
@@ -1228,7 +1483,7 @@ ul #nav {
                                                             </a>      
                                                         <div style="display: none;" id="tuneSessionPermissionsDiv1ForInstructor3">
                                                              
-                                                            <input type="hidden" value="false" name="issection1sessionsset" />
+                                                            <input type="hidden" value="false" name="issectiongroup1sessionsset" />
                                                             
                                                             <table class="table table-striped">
                                                                 <thead>
@@ -1257,35 +1512,65 @@ ul #nav {
                                             <div style="display: none;" id="tuneSectionPermissionsDiv2ForInstructor3">
                                                 <div class="panel panel-info">
                                                     <div class="panel-heading">
-                                                        <strong>But in section </strong>
-                                                        <select id="section2forinstructor3" name="section2">
-                                                            
-                                                            <option value="Section 1">Section 1</option>
-                                                            
-                                                            <option value="Section 2">Section 2</option>
-                                                            
-                                                            <option selected="selected" value="Section 3">Section 3</option>
-                                                            
-                                                        </select>
-                                                        <strong> the instructor can only</strong>
-                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(3, 2)" href="javascript:;">
-                                                            <span class="glyphicon glyphicon-trash"></span></a>
-                                                         
-                                                        <input type="hidden" value="false" id="issection2setforinstructor3" name="issection2set" />
+                                                        <div class="row">
+                                                            <div class="col-sm-2">
+                                                                <p><strong>But in section(s)</strong></p>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                
+                                                                    
+                                                                    <div class="col-sm-12">
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 1" name="sectiongroup2section0" />
+                                                                        Section 1
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 2" name="sectiongroup2section1" />
+                                                                        Section 2
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" checked="checked" value="Section 3" name="sectiongroup2section2" />
+                                                                        Section 3
+                                                                        </div>
+                                                                    
+                                                                    </div>
+                                                                    
+                                                                
+                                                                
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                            <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(3, 2)" href="javascript:;">
+                                                                <span class="glyphicon glyphicon-trash"></span></a>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <p><strong> the instructor can only,</strong></p>
+                                                            </div>
+                                                        </div>
                                                         
+                                                        <input type="hidden" value="false" name="issectiongroup2set" />
                                                     </div>
                                                     <div class="panel-body">
                                                         <br />
                                                         <div class="col-sm-6 border-right-gray">
-                                                            <input type="checkbox" value="true" name="canviewstudentinsectionsection2" /> View Students' Details<br />
-                                                            <input type="checkbox" value="true" name="cangivecommentinsectionsection2" /> Give Comments for Students<br />
-                                                            <input type="checkbox" value="true" name="canviewcommentinsectionsection2" /> View Others' Comments on Students<br />
-                                                            <input type="checkbox" value="true" name="canmodifycommentinsectionsection2" /> Edit/Delete Others' Comments on Students<br /><br />
+                                                            <input type="checkbox" value="true" name="canviewstudentinsectionsectiongroup2" /> View Students' Details<br />
+                                                            <input type="checkbox" value="true" name="cangivecommentinsectionsectiongroup2" /> Give Comments for Students<br />
+                                                            <input type="checkbox" value="true" name="canviewcommentinsectionsectiongroup2" /> View Others' Comments on Students<br />
+                                                            <input type="checkbox" value="true" name="canmodifycommentinsectionsectiongroup2" /> Edit/Delete Others' Comments on Students<br /><br />
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
-                                                            <input type="checkbox" value="true" name="cansubmitsessioninsectionsection2" /> Sessions: Submit Responses and Add Comments<br />
-                                                            <input type="checkbox" value="true" name="canviewsessioninsectionsection2" /> Sessions: View Responses and Comments<br />
-                                                            <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsection2" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
+                                                            <input type="checkbox" value="true" name="cansubmitsessioninsectionsectiongroup2" /> Sessions: Submit Responses and Add Comments<br />
+                                                            <input type="checkbox" value="true" name="canviewsessioninsectionsectiongroup2" /> Sessions: View Responses and Comments<br />
+                                                            <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsectiongroup2" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         <a class="small col-sm-5" id="toggleSessionLevelInSection2ForInstructor3" onclick="showTuneSessionnPermissionsDiv(3, 2)" href="javascript:;">
                                                              
@@ -1293,7 +1578,7 @@ ul #nav {
                                                             </a>      
                                                         <div style="display: none;" id="tuneSessionPermissionsDiv2ForInstructor3">
                                                              
-                                                            <input type="hidden" value="false" name="issection2sessionsset" />
+                                                            <input type="hidden" value="false" name="issectiongroup2sessionsset" />
                                                             
                                                             <table class="table table-striped">
                                                                 <thead>
@@ -1349,14 +1634,19 @@ ul #nav {
                         <span class="glyphicon glyphicon-trash"></span> Delete</a>
                 </div>
             </div>
-                 
+
+            
+
             <!-- Attention: 
             This join link is printed as a hidden html element and is only used for testing purpose. 
             This should not be shown to the user. Please go to element inspector to get this link.        
-            -->       
+            -->
             <div hidden="hidden" class="form-group" id="joinLink">
                 {$app.url}/page/instructorCourseJoin?regkey={*}
             </div>
+
+
+            
 
             <div class="panel-body">
                 <form class="form form-horizontal" name="formEditInstructors" id="formEditInstructor4&gt;" action="/page/instructorCourseInstructorEditSave" method="post">
@@ -1467,35 +1757,65 @@ ul #nav {
                                             <div style="display: none;" id="tuneSectionPermissionsDiv0ForInstructor4">
                                                 <div class="panel panel-info">
                                                     <div class="panel-heading">
-                                                        <strong>But in section </strong>
-                                                        <select id="section0forinstructor4" name="section0">
-                                                            
-                                                            <option selected="selected" value="Section 1">Section 1</option>
-                                                            
-                                                            <option value="Section 2">Section 2</option>
-                                                            
-                                                            <option value="Section 3">Section 3</option>
-                                                            
-                                                        </select>
-                                                        <strong> the instructor can only</strong>
-                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(4, 0)" href="javascript:;">
-                                                            <span class="glyphicon glyphicon-trash"></span></a>
-                                                         
-                                                        <input type="hidden" value="false" id="issection0setforinstructor4" name="issection0set" />
+                                                        <div class="row">
+                                                            <div class="col-sm-2">
+                                                                <p><strong>But in section(s)</strong></p>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                
+                                                                    
+                                                                    <div class="col-sm-12">
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" checked="checked" value="Section 1" name="sectiongroup0section0" />
+                                                                        Section 1
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 2" name="sectiongroup0section1" />
+                                                                        Section 2
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 3" name="sectiongroup0section2" />
+                                                                        Section 3
+                                                                        </div>
+                                                                    
+                                                                    </div>
+                                                                    
+                                                                
+                                                                
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                            <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(4, 0)" href="javascript:;">
+                                                                <span class="glyphicon glyphicon-trash"></span></a>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <p><strong> the instructor can only,</strong></p>
+                                                            </div>
+                                                        </div>
                                                         
+                                                        <input type="hidden" value="false" name="issectiongroup0set" />
                                                     </div>
                                                     <div class="panel-body">
                                                         <br />
                                                         <div class="col-sm-6 border-right-gray">
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewstudentinsectionsection0" /> View Students' Details<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="cangivecommentinsectionsection0" /> Give Comments for Students<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewcommentinsectionsection0" /> View Others' Comments on Students<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canmodifycommentinsectionsection0" /> Edit/Delete Others' Comments on Students<br /><br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canviewstudentinsectionsectiongroup0" /> View Students' Details<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="cangivecommentinsectionsectiongroup0" /> Give Comments for Students<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canviewcommentinsectionsectiongroup0" /> View Others' Comments on Students<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canmodifycommentinsectionsectiongroup0" /> Edit/Delete Others' Comments on Students<br /><br />
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
-                                                            <input type="checkbox" checked="checked" value="true" name="cansubmitsessioninsectionsection0" /> Sessions: Submit Responses and Add Comments<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsection0" /> Sessions: View Responses and Comments<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection0" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
+                                                            <input type="checkbox" checked="checked" value="true" name="cansubmitsessioninsectionsectiongroup0" /> Sessions: Submit Responses and Add Comments<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsectiongroup0" /> Sessions: View Responses and Comments<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsectiongroup0" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         <a class="small col-sm-5" id="toggleSessionLevelInSection0ForInstructor4" onclick="showTuneSessionnPermissionsDiv(4, 0)" href="javascript:;">
                                                              
@@ -1503,7 +1823,7 @@ ul #nav {
                                                             </a>      
                                                         <div style="display: none;" id="tuneSessionPermissionsDiv0ForInstructor4">
                                                              
-                                                            <input type="hidden" value="false" name="issection0sessionsset" />
+                                                            <input type="hidden" value="false" name="issectiongroup0sessionsset" />
                                                             
                                                             <table class="table table-striped">
                                                                 <thead>
@@ -1532,35 +1852,65 @@ ul #nav {
                                             <div style="display: none;" id="tuneSectionPermissionsDiv1ForInstructor4">
                                                 <div class="panel panel-info">
                                                     <div class="panel-heading">
-                                                        <strong>But in section </strong>
-                                                        <select id="section1forinstructor4" name="section1">
-                                                            
-                                                            <option value="Section 1">Section 1</option>
-                                                            
-                                                            <option selected="selected" value="Section 2">Section 2</option>
-                                                            
-                                                            <option value="Section 3">Section 3</option>
-                                                            
-                                                        </select>
-                                                        <strong> the instructor can only</strong>
-                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(4, 1)" href="javascript:;">
-                                                            <span class="glyphicon glyphicon-trash"></span></a>
-                                                         
-                                                        <input type="hidden" value="false" id="issection1setforinstructor4" name="issection1set" />
+                                                        <div class="row">
+                                                            <div class="col-sm-2">
+                                                                <p><strong>But in section(s)</strong></p>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                
+                                                                    
+                                                                    <div class="col-sm-12">
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 1" name="sectiongroup1section0" />
+                                                                        Section 1
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" checked="checked" value="Section 2" name="sectiongroup1section1" />
+                                                                        Section 2
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 3" name="sectiongroup1section2" />
+                                                                        Section 3
+                                                                        </div>
+                                                                    
+                                                                    </div>
+                                                                    
+                                                                
+                                                                
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                            <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(4, 1)" href="javascript:;">
+                                                                <span class="glyphicon glyphicon-trash"></span></a>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <p><strong> the instructor can only,</strong></p>
+                                                            </div>
+                                                        </div>
                                                         
+                                                        <input type="hidden" value="false" name="issectiongroup1set" />
                                                     </div>
                                                     <div class="panel-body">
                                                         <br />
                                                         <div class="col-sm-6 border-right-gray">
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewstudentinsectionsection1" /> View Students' Details<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="cangivecommentinsectionsection1" /> Give Comments for Students<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewcommentinsectionsection1" /> View Others' Comments on Students<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canmodifycommentinsectionsection1" /> Edit/Delete Others' Comments on Students<br /><br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canviewstudentinsectionsectiongroup1" /> View Students' Details<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="cangivecommentinsectionsectiongroup1" /> Give Comments for Students<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canviewcommentinsectionsectiongroup1" /> View Others' Comments on Students<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canmodifycommentinsectionsectiongroup1" /> Edit/Delete Others' Comments on Students<br /><br />
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
-                                                            <input type="checkbox" checked="checked" value="true" name="cansubmitsessioninsectionsection1" /> Sessions: Submit Responses and Add Comments<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsection1" /> Sessions: View Responses and Comments<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection1" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
+                                                            <input type="checkbox" checked="checked" value="true" name="cansubmitsessioninsectionsectiongroup1" /> Sessions: Submit Responses and Add Comments<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsectiongroup1" /> Sessions: View Responses and Comments<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsectiongroup1" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         <a class="small col-sm-5" id="toggleSessionLevelInSection1ForInstructor4" onclick="showTuneSessionnPermissionsDiv(4, 1)" href="javascript:;">
                                                              
@@ -1568,7 +1918,7 @@ ul #nav {
                                                             </a>      
                                                         <div style="display: none;" id="tuneSessionPermissionsDiv1ForInstructor4">
                                                              
-                                                            <input type="hidden" value="false" name="issection1sessionsset" />
+                                                            <input type="hidden" value="false" name="issectiongroup1sessionsset" />
                                                             
                                                             <table class="table table-striped">
                                                                 <thead>
@@ -1597,35 +1947,65 @@ ul #nav {
                                             <div style="display: none;" id="tuneSectionPermissionsDiv2ForInstructor4">
                                                 <div class="panel panel-info">
                                                     <div class="panel-heading">
-                                                        <strong>But in section </strong>
-                                                        <select id="section2forinstructor4" name="section2">
-                                                            
-                                                            <option value="Section 1">Section 1</option>
-                                                            
-                                                            <option value="Section 2">Section 2</option>
-                                                            
-                                                            <option selected="selected" value="Section 3">Section 3</option>
-                                                            
-                                                        </select>
-                                                        <strong> the instructor can only</strong>
-                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(4, 2)" href="javascript:;">
-                                                            <span class="glyphicon glyphicon-trash"></span></a>
-                                                         
-                                                        <input type="hidden" value="false" id="issection2setforinstructor4" name="issection2set" />
+                                                        <div class="row">
+                                                            <div class="col-sm-2">
+                                                                <p><strong>But in section(s)</strong></p>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                
+                                                                    
+                                                                    <div class="col-sm-12">
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 1" name="sectiongroup2section0" />
+                                                                        Section 1
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 2" name="sectiongroup2section1" />
+                                                                        Section 2
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" checked="checked" value="Section 3" name="sectiongroup2section2" />
+                                                                        Section 3
+                                                                        </div>
+                                                                    
+                                                                    </div>
+                                                                    
+                                                                
+                                                                
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                            <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(4, 2)" href="javascript:;">
+                                                                <span class="glyphicon glyphicon-trash"></span></a>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <p><strong> the instructor can only,</strong></p>
+                                                            </div>
+                                                        </div>
                                                         
+                                                        <input type="hidden" value="false" name="issectiongroup2set" />
                                                     </div>
                                                     <div class="panel-body">
                                                         <br />
                                                         <div class="col-sm-6 border-right-gray">
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewstudentinsectionsection2" /> View Students' Details<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="cangivecommentinsectionsection2" /> Give Comments for Students<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewcommentinsectionsection2" /> View Others' Comments on Students<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canmodifycommentinsectionsection2" /> Edit/Delete Others' Comments on Students<br /><br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canviewstudentinsectionsectiongroup2" /> View Students' Details<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="cangivecommentinsectionsectiongroup2" /> Give Comments for Students<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canviewcommentinsectionsectiongroup2" /> View Others' Comments on Students<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canmodifycommentinsectionsectiongroup2" /> Edit/Delete Others' Comments on Students<br /><br />
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
-                                                            <input type="checkbox" checked="checked" value="true" name="cansubmitsessioninsectionsection2" /> Sessions: Submit Responses and Add Comments<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsection2" /> Sessions: View Responses and Comments<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection2" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
+                                                            <input type="checkbox" checked="checked" value="true" name="cansubmitsessioninsectionsectiongroup2" /> Sessions: Submit Responses and Add Comments<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsectiongroup2" /> Sessions: View Responses and Comments<br />
+                                                            <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsectiongroup2" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         <a class="small col-sm-5" id="toggleSessionLevelInSection2ForInstructor4" onclick="showTuneSessionnPermissionsDiv(4, 2)" href="javascript:;">
                                                              
@@ -1633,7 +2013,7 @@ ul #nav {
                                                             </a>      
                                                         <div style="display: none;" id="tuneSessionPermissionsDiv2ForInstructor4">
                                                              
-                                                            <input type="hidden" value="false" name="issection2sessionsset" />
+                                                            <input type="hidden" value="false" name="issectiongroup2sessionsset" />
                                                             
                                                             <table class="table table-striped">
                                                                 <thead>
@@ -1773,37 +2153,68 @@ ul #nav {
                                             <div style="display: none;" id="tuneSectionPermissionsDiv0ForInstructor5">
                                                 <div class="panel panel-info">
                                                     <div class="panel-heading">
-                                                        <strong>But in section </strong>
-                                                        <select id="section0forinstructor5" name="section0">
-                                                            
-                                                            <option selected="selected" value="Section 1">Section 1</option>
-                                                            
-                                                            <option value="Section 2">Section 2</option>
-                                                            
-                                                            <option value="Section 3">Section 3</option>
-                                                            
-                                                        </select>
-                                                        <strong> the instructor can only</strong>
-                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(5, 0)" href="javascript:;">
-                                                            <span class="glyphicon glyphicon-trash"></span></a>
-                                                        <input type="hidden" value="false" id="issection0setforinstructor5" name="issection0set" />
+                                                        <div class="row">
+                                                            <div class="col-sm-2">
+                                                                <p><strong>But in section(s)</strong></p>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                
+                                                                    
+                                                                    <div class="col-sm-12">
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" checked="checked" value="Section 1" name="sectiongroup0section0" />
+                                                                        Section 1
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 2" name="sectiongroup0section1" />
+                                                                        Section 2
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 3" name="sectiongroup0section2" />
+                                                                        Section 3
+                                                                        </div>
+                                                                    
+                                                                    </div>
+                                                                    
+                                                                
+                                                                
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                            <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(5, 0)" href="javascript:;">
+                                                                <span class="glyphicon glyphicon-trash"></span></a>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <p><strong> the instructor can only,</strong></p>
+                                                            </div>
+                                                        </div>
+                                                        <input type="hidden" value="false" name="issectiongroup0set" />
                                                     </div>
                                                     <div class="panel-body">
                                                         <br />
                                                         <div class="col-sm-6 border-right-gray">
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewstudentinsectionsection0" /> View Students' Details<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="cangivecommentinsectionsection0" /> Give Comments for Students<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewcommentinsectionsection0" /> View Others' Comments on Students<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canmodifycommentinsectionsection0" /> Edit/Delete Others' Comments on Students<br /><br />
+                                                            <input type="checkbox" value="true" name="canviewstudentinsectionsectiongroup0" /> View Students' Details<br />
+                                                            <input type="checkbox" value="true" name="cangivecommentinsectionsectiongroup0" /> Give Comments for Students<br />
+                                                            <input type="checkbox" value="true" name="canviewcommentinsectionsectiongroup0" /> View Others' Comments on Students<br />
+                                                            <input type="checkbox" value="true" name="canmodifycommentinsectionsectiongroup0" /> Edit/Delete Others' Comments on Students<br /><br />
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
-                                                            <input type="checkbox" checked="checked" value="true" name="cansubmitsessioninsectionsection0" /> Sessions: Submit Responses and Add Comments<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsection0" /> Sessions: View Responses and Comments<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection0" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
+                                                            <input type="checkbox" value="true" name="cansubmitsessioninsectionsectiongroup0" /> Sessions: Submit Responses and Add Comments<br />
+                                                            <input type="checkbox" value="true" name="canviewsessioninsectionsectiongroup0" /> Sessions: View Responses and Comments<br />
+                                                            <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsectiongroup0" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         <a class="small col-sm-5" id="toggleSessionLevelInSection0ForInstructor5" onclick="showTuneSessionnPermissionsDiv(5, 0)" href="javascript:;">Give different permissions for sessions in this section</a>      
                                                         <div style="display: none;" id="tuneSessionPermissionsDiv0ForInstructor5">
-                                                            <input type="hidden" value="false" name="issection0sessionsset" />
+                                                            <input type="hidden" value="false" name="issectiongroup0sessionsset" />
                                                             <table class="table table-striped">
                                                                 <thead>
                                                                     <tr>
@@ -1831,37 +2242,68 @@ ul #nav {
                                             <div style="display: none;" id="tuneSectionPermissionsDiv1ForInstructor5">
                                                 <div class="panel panel-info">
                                                     <div class="panel-heading">
-                                                        <strong>But in section </strong>
-                                                        <select id="section1forinstructor5" name="section1">
-                                                            
-                                                            <option value="Section 1">Section 1</option>
-                                                            
-                                                            <option selected="selected" value="Section 2">Section 2</option>
-                                                            
-                                                            <option value="Section 3">Section 3</option>
-                                                            
-                                                        </select>
-                                                        <strong> the instructor can only</strong>
-                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(5, 1)" href="javascript:;">
-                                                            <span class="glyphicon glyphicon-trash"></span></a>
-                                                        <input type="hidden" value="false" id="issection1setforinstructor5" name="issection1set" />
+                                                        <div class="row">
+                                                            <div class="col-sm-2">
+                                                                <p><strong>But in section(s)</strong></p>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                
+                                                                    
+                                                                    <div class="col-sm-12">
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 1" name="sectiongroup1section0" />
+                                                                        Section 1
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" checked="checked" value="Section 2" name="sectiongroup1section1" />
+                                                                        Section 2
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 3" name="sectiongroup1section2" />
+                                                                        Section 3
+                                                                        </div>
+                                                                    
+                                                                    </div>
+                                                                    
+                                                                
+                                                                
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                            <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(5, 1)" href="javascript:;">
+                                                                <span class="glyphicon glyphicon-trash"></span></a>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <p><strong> the instructor can only,</strong></p>
+                                                            </div>
+                                                        </div>
+                                                        <input type="hidden" value="false" name="issectiongroup1set" />
                                                     </div>
                                                     <div class="panel-body">
                                                         <br />
                                                         <div class="col-sm-6 border-right-gray">
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewstudentinsectionsection1" /> View Students' Details<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="cangivecommentinsectionsection1" /> Give Comments for Students<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewcommentinsectionsection1" /> View Others' Comments on Students<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canmodifycommentinsectionsection1" /> Edit/Delete Others' Comments on Students<br /><br />
+                                                            <input type="checkbox" value="true" name="canviewstudentinsectionsectiongroup1" /> View Students' Details<br />
+                                                            <input type="checkbox" value="true" name="cangivecommentinsectionsectiongroup1" /> Give Comments for Students<br />
+                                                            <input type="checkbox" value="true" name="canviewcommentinsectionsectiongroup1" /> View Others' Comments on Students<br />
+                                                            <input type="checkbox" value="true" name="canmodifycommentinsectionsectiongroup1" /> Edit/Delete Others' Comments on Students<br /><br />
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
-                                                            <input type="checkbox" checked="checked" value="true" name="cansubmitsessioninsectionsection1" /> Sessions: Submit Responses and Add Comments<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsection1" /> Sessions: View Responses and Comments<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection1" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
+                                                            <input type="checkbox" value="true" name="cansubmitsessioninsectionsectiongroup1" /> Sessions: Submit Responses and Add Comments<br />
+                                                            <input type="checkbox" value="true" name="canviewsessioninsectionsectiongroup1" /> Sessions: View Responses and Comments<br />
+                                                            <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsectiongroup1" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         <a class="small col-sm-5" id="toggleSessionLevelInSection1ForInstructor5" onclick="showTuneSessionnPermissionsDiv(5, 1)" href="javascript:;">Give different permissions for sessions in this section</a>      
                                                         <div style="display: none;" id="tuneSessionPermissionsDiv1ForInstructor5">
-                                                            <input type="hidden" value="false" name="issection1sessionsset" />
+                                                            <input type="hidden" value="false" name="issectiongroup1sessionsset" />
                                                             <table class="table table-striped">
                                                                 <thead>
                                                                     <tr>
@@ -1889,37 +2331,68 @@ ul #nav {
                                             <div style="display: none;" id="tuneSectionPermissionsDiv2ForInstructor5">
                                                 <div class="panel panel-info">
                                                     <div class="panel-heading">
-                                                        <strong>But in section </strong>
-                                                        <select id="section2forinstructor5" name="section2">
-                                                            
-                                                            <option value="Section 1">Section 1</option>
-                                                            
-                                                            <option value="Section 2">Section 2</option>
-                                                            
-                                                            <option selected="selected" value="Section 3">Section 3</option>
-                                                            
-                                                        </select>
-                                                        <strong> the instructor can only</strong>
-                                                        <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(5, 2)" href="javascript:;">
-                                                            <span class="glyphicon glyphicon-trash"></span></a>
-                                                        <input type="hidden" value="false" id="issection2setforinstructor5" name="issection2set" />
+                                                        <div class="row">
+                                                            <div class="col-sm-2">
+                                                                <p><strong>But in section(s)</strong></p>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                
+                                                                    
+                                                                    <div class="col-sm-12">
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 1" name="sectiongroup2section0" />
+                                                                        Section 1
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" value="Section 2" name="sectiongroup2section1" />
+                                                                        Section 2
+                                                                        </div>
+                                                                    
+                                                                
+                                                                    
+                                                                    <div class="col-sm-4">
+                                                                        <input type="checkbox" checked="checked" value="Section 3" name="sectiongroup2section2" />
+                                                                        Section 3
+                                                                        </div>
+                                                                    
+                                                                    </div>
+                                                                    
+                                                                
+                                                                
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                            <a class="pull-right" onclick="hideTuneSectionPermissionsDiv(5, 2)" href="javascript:;">
+                                                                <span class="glyphicon glyphicon-trash"></span></a>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <p><strong> the instructor can only,</strong></p>
+                                                            </div>
+                                                        </div>
+                                                        <input type="hidden" value="false" name="issectiongroup2set" />
                                                     </div>
                                                     <div class="panel-body">
                                                         <br />
                                                         <div class="col-sm-6 border-right-gray">
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewstudentinsectionsection2" /> View Students' Details<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="cangivecommentinsectionsection2" /> Give Comments for Students<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewcommentinsectionsection2" /> View Others' Comments on Students<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canmodifycommentinsectionsection2" /> Edit/Delete Others' Comments on Students<br /><br />
+                                                            <input type="checkbox" value="true" name="canviewstudentinsectionsectiongroup2" /> View Students' Details<br />
+                                                            <input type="checkbox" value="true" name="cangivecommentinsectionsectiongroup2" /> Give Comments for Students<br />
+                                                            <input type="checkbox" value="true" name="canviewcommentinsectionsectiongroup2" /> View Others' Comments on Students<br />
+                                                            <input type="checkbox" value="true" name="canmodifycommentinsectionsectiongroup2" /> Edit/Delete Others' Comments on Students<br /><br />
                                                         </div>
                                                         <div class="col-sm-5 col-sm-offset-1">
-                                                            <input type="checkbox" checked="checked" value="true" name="cansubmitsessioninsectionsection2" /> Sessions: Submit Responses and Add Comments<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canviewsessioninsectionsection2" /> Sessions: View Responses and Comments<br />
-                                                            <input type="checkbox" checked="checked" value="true" name="canmodifysessioncommentinsectionsection2" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
+                                                            <input type="checkbox" value="true" name="cansubmitsessioninsectionsectiongroup2" /> Sessions: Submit Responses and Add Comments<br />
+                                                            <input type="checkbox" value="true" name="canviewsessioninsectionsectiongroup2" /> Sessions: View Responses and Comments<br />
+                                                            <input type="checkbox" value="true" name="canmodifysessioncommentinsectionsectiongroup2" /> Sessions: Edit/Delete Responses/Comments by Others<br /><br />
                                                         </div>
                                                         <a class="small col-sm-5" id="toggleSessionLevelInSection2ForInstructor5" onclick="showTuneSessionnPermissionsDiv(5, 2)" href="javascript:;">Give different permissions for sessions in this section</a>      
                                                         <div style="display: none;" id="tuneSessionPermissionsDiv2ForInstructor5">
-                                                            <input type="hidden" value="false" name="issection2sessionsset" />
+                                                            <input type="hidden" value="false" name="issectiongroup2sessionsset" />
                                                             <table class="table table-striped">
                                                                 <thead>
                                                                     <tr>
