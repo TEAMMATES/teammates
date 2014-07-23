@@ -82,17 +82,6 @@
             <class name="teammates.test.cases.ui.browsertests.MashupPageUiTest" />
         </classes>
     </test>
-    
-    <test name="rare-tests" parallel="classes">
-     <!-- These need not be run during staging. -->
-        <listeners>
-            <listener class-name="teammates.test.util.PriorityInterceptor" />
-        </listeners>
-        <classes>
-            <class name="teammates.test.cases.ui.browsertests.GodModeTest" />
-            <class name="teammates.test.cases.testdriver.BackDoorTest" />
-        </classes>
-    </test>
 
     <test name="parallel-ui-tests" parallel="classes">
         <!-- These cover the important UI functionality. Can be run in parallel. -->
@@ -123,6 +112,17 @@
             <class name="teammates.test.cases.ui.browsertests.StudentFeedbackQuestionSubmitPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentFeedbackResultsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentProfilePageUiTest" />
+        </classes>
+    </test>
+    
+    <test name="rare-tests" parallel="classes">
+     <!-- These need not be run during staging. -->
+        <listeners>
+            <listener class-name="teammates.test.util.PriorityInterceptor" />
+        </listeners>
+        <classes>
+            <class name="teammates.test.cases.ui.browsertests.GodModeTest" />
+            <class name="teammates.test.cases.testdriver.BackDoorTest" />
         </classes>
     </test>
 
