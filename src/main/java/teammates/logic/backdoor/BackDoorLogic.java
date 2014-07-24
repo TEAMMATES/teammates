@@ -102,7 +102,7 @@ public class BackDoorLogic extends Logic {
         HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
         List<AccountAttributes> instructorAccounts = new ArrayList<AccountAttributes>();
         for (InstructorAttributes instructor : instructors.values()) {
-            if (instructor.googleId != null) {
+            if (instructor.googleId != null && !instructor.googleId.equals("")) {
                 AccountAttributes account = new AccountAttributes(instructor.googleId, instructor.name, true, instructor.email, "National University of Singapore");
                 if (account.studentProfile == null) {
                     account.studentProfile = new StudentProfileAttributes();
@@ -117,7 +117,8 @@ public class BackDoorLogic extends Logic {
         HashMap<String, StudentAttributes> students = dataBundle.students;
         List<AccountAttributes> studentAccounts = new ArrayList<AccountAttributes>();
         for (StudentAttributes student : students.values()) {
-            if (student.googleId != null) {
+            student.section = (student.section == null) ? "None" : student.section;
+            if (student.googleId != null && !student.googleId.equals("")) {
                 AccountAttributes account = new AccountAttributes(student.googleId, student.name, true, student.email, "National University of Singapore");
                 if (account.studentProfile == null) {
                     account.studentProfile = new StudentProfileAttributes();
@@ -174,26 +175,12 @@ public class BackDoorLogic extends Logic {
         
         HashMap<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
         for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
-            log.fine("API Servlet adding feedback response comment :" + responseComment.getId()
-                    + " to session " + responseComment.feedbackSessionName);
             responseComment = injectRealIds(responseComment);
-            try {
-                this.updateFeedbackResponseComment(responseComment);
-            } catch(EntityDoesNotExistException e) {
-                this.createFeedbackResponseComment(responseComment);
-            }
         }
+        fcDb.createFeedbackResponseComments(responseComments.values());
         
         HashMap<String, CommentAttributes> comments = dataBundle.comments;
-        for(CommentAttributes comment : comments.values()){
-            log.fine("API Servlet adding comment :" + comment.getCommentId() + " from "
-                    + comment.giverEmail + " to " + comment.recipientType + ":" + comment.recipients + " in course " + comment.courseId);
-            try {
-                this.updateComment(comment);
-            } catch(EntityDoesNotExistException e) {
-                this.createComment(comment);
-            }
-        }
+        commentsDb.createComments(comments.values());
         
         // any Db can be used to commit the changes. 
         // Eval is used as it is already used in the file
