@@ -111,7 +111,7 @@
       "questionNumber": 5,
       "questionType": "TEXT",
       "giverType": "STUDENTS",
-      "recipientType": "SELF",
+      "recipientType": "OWN_TEAM_MEMBERS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo":[
           "RECEIVER",
