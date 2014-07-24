@@ -120,5 +120,25 @@
       "comments": "This student's name is Danny Engrid",
       "team": "Team 2"
     }
-  }
+  },
+  "feedbackSessions":{
+        "session1InCourse1":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"InsCrsEdit.CS2104",
+            "creatorEmail":"InsCrsEdit.test@gmail.com",
+            "instructions":{
+                "value":"Please please fill in the following questions."
+            },
+            "createdTime":"2012-03-20 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2017-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
+            "resultsVisibleFromTime":"2017-05-01 11:59 PM UTC",
+            "timeZone":2.0,
+            "gracePeriod":10,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":false
+        }
+    }
 }

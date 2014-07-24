@@ -42,7 +42,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorSubmissionAdjustmentUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         
         browser = BrowserPool.getBrowser();
     }
