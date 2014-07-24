@@ -148,6 +148,24 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         
     }
     
+    public void deleteFeedbackQuestionsForCourses(List<String> courseIds){
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+        
+        List<FeedbackQuestion> feedbackQuestionList = getFeedbackQuestionEntitiesForCourses(courseIds);
+        
+        getPM().deletePersistentAll(feedbackQuestionList);
+        getPM().flush();
+    }
+    
+    private List<FeedbackQuestion> getFeedbackQuestionEntitiesForCourses(List<String> courseIds) {
+        Query q = getPM().newQuery(FeedbackQuestion.class);
+        q.setFilter(":p.contains(courseId)");
+        
+        @SuppressWarnings("unchecked")
+        List<FeedbackQuestion> feedbackQuestionList = (List<FeedbackQuestion>) q.execute(courseIds);
+        return feedbackQuestionList;
+    }
+    
     // Gets a question entity if it's Key (feedbackQuestionId) is known.
     private FeedbackQuestion getFeedbackQuestionEntity (String feedbackQuestionId) {
         

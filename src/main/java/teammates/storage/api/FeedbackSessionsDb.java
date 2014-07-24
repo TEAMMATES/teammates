@@ -169,6 +169,24 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPM().close();
     }
     
+    public void deleteFeedbackSessionsForCourses(List<String> courseIds){
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+        
+        List<FeedbackSession> feedbackSessionList = getFeedbackSessionEntitiesForCourses(courseIds);
+        
+        getPM().deletePersistentAll(feedbackSessionList);
+        getPM().flush();
+    }
+    
+    private List<FeedbackSession> getFeedbackSessionEntitiesForCourses(List<String> courseIds) {
+        Query q = getPM().newQuery(FeedbackSession.class);
+        q.setFilter(":p.contains(courseId)");
+        
+        @SuppressWarnings("unchecked")
+        List<FeedbackSession> feedbackSessionList = (List<FeedbackSession>) q.execute(courseIds);
+        return feedbackSessionList;
+    }
+    
     private List<FeedbackSession> getAllFeedbackSessionEntities() {
         
         Query q = getPM().newQuery(FeedbackSession.class);

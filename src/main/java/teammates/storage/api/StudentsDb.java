@@ -454,6 +454,16 @@ public class StudentsDb extends EntitiesDb {
         getPM().flush();
     }
 
+    public void deleteStudentsForCourses(List<String> courseIds){
+        
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+        
+        List<Student> studentsToDelete = getStudentEntitiesForCourses(courseIds);
+        
+        getPM().deletePersistentAll(studentsToDelete);
+        getPM().flush();
+    }
+    
     public void verifyStudentExists(String courseId, String email) 
             throws EntityDoesNotExistException {
         
@@ -488,6 +498,16 @@ public class StudentsDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<Student> studentList = (List<Student>) q.execute(courseId);
+        return studentList;
+    }
+    
+    private List<Student> getStudentEntitiesForCourses(List<String> courseIds){
+        Query q = getPM().newQuery(Student.class);
+        q.setFilter(":p.contains(courseID)");
+        
+        @SuppressWarnings("unchecked")
+        List<Student> studentList = (List<Student>) q.execute(courseIds);
+        
         return studentList;
     }
 

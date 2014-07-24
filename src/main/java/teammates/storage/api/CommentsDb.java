@@ -25,6 +25,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.storage.entity.Comment;
+import teammates.storage.entity.Student;
 import teammates.storage.search.CommentSearchDocument;
 import teammates.storage.search.CommentSearchQuery;
 
@@ -340,6 +341,16 @@ public class CommentsDb extends EntitiesDb{
         getPM().flush();
     }
     
+    public void deleteCommentsForCourses(List<String> courseIds) {
+        
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+        
+        List<Comment> commentsToDelete = getCommentEntitiesForCourses(courseIds);
+        
+        getPM().deletePersistentAll(commentsToDelete);
+        getPM().flush();
+    }
+    
     public void putDocument(CommentAttributes comment){
         putDocument(Const.SearchIndex.COMMENT, new CommentSearchDocument(comment));
     }
@@ -395,6 +406,16 @@ public class CommentsDb extends EntitiesDb{
         
         @SuppressWarnings("unchecked")
         List<Comment> commentsForCourse = (List<Comment>) q.execute(courseId);
+        
+        return commentsForCourse;
+    }
+    
+    private List<Comment> getCommentEntitiesForCourses(List<String> courseIds) {
+        Query q = getPM().newQuery(Comment.class);
+        q.setFilter(":p.contains(courseId)");
+        
+        @SuppressWarnings("unchecked")
+        List<Comment> commentsForCourse = (List<Comment>) q.execute(courseIds);
         
         return commentsForCourse;
     }

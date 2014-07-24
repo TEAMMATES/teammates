@@ -41,6 +41,7 @@ import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
+import teammates.storage.api.SubmissionsDb;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
@@ -54,6 +55,7 @@ public class BackDoorLogic extends Logic {
     private static final StudentsDb studentsDb = new StudentsDb();
     private static final InstructorsDb instructorsDb = new InstructorsDb();
     private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
+    private static final SubmissionsDb submissionsDb = new SubmissionsDb();
     private static final FeedbackSessionsDb fbDb = new FeedbackSessionsDb();
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
@@ -473,7 +475,6 @@ public class BackDoorLogic extends Logic {
         //TODO: questions and responses will be deleted automatically.
         //  We don't attempt to delete them again, to save time.
         
-        
         deleteCourses(dataBundle.courses.values());
         
         for (AccountAttributes account : dataBundle.accounts.values()) {
@@ -492,8 +493,18 @@ public class BackDoorLogic extends Logic {
         for(CourseAttributes course : courses){
             courseIds.add(course.id);
         }
-        coursesDb.deleteEntities(courses);
-        instructorsDb.deleteInstructorsForCourses(courseIds);
+        if(!courseIds.isEmpty()){
+            coursesDb.deleteEntities(courses);
+            instructorsDb.deleteInstructorsForCourses(courseIds);
+            studentsDb.deleteStudentsForCourses(courseIds);
+            commentsDb.deleteCommentsForCourses(courseIds);
+            evaluationsDb.deleteEvaluationsForCourses(courseIds);
+            submissionsDb.deleteSubmissionsForCourses(courseIds);
+            fbDb.deleteFeedbackSessionsForCourses(courseIds);
+            fqDb.deleteFeedbackQuestionsForCourses(courseIds);
+            frDb.deleteFeedbackResponsesForCourses(courseIds);
+            fcDb.deleteFeedbackResponseCommentsForCourses(courseIds);
+        }
     }
 
     //TODO: remove this when we confirm it is not needed

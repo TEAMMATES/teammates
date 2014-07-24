@@ -166,6 +166,24 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         getPM().flush();
     }
     
+    public void deleteFeedbackResponseCommentsForCourses(List<String> courseIds){
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+        
+        List<FeedbackResponseComment> feedbackResponseCommentList = getFeedbackResponseCommentEntitiesForCourses(courseIds);
+        
+        getPM().deletePersistentAll(feedbackResponseCommentList);
+        getPM().flush();
+    }
+    
+    public List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForCourses(List<String> courseIds) {
+        Query q = getPM().newQuery(FeedbackResponseComment.class);
+        q.setFilter(":p.contains(courseId)");
+        
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponseComment> feedbackResponseCommentList = (List<FeedbackResponseComment>) q.execute(courseIds);
+        return feedbackResponseCommentList;
+    }
+    
     
     /**
      * Preconditions: <br>
