@@ -140,6 +140,7 @@ public class BaseTestCase {
     protected static  void restoreDatastoreFromJson(String pathToJsonFile) throws Exception {
         BackDoorLogic backDoorLogic = new BackDoorLogic();
         DataBundle dataBundle = loadDataBundle(pathToJsonFile);
+        backDoorLogic.deleteExistingData(dataBundle);
         backDoorLogic.persistDataBundle(dataBundle);
     }
 
