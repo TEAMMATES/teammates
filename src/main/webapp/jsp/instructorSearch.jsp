@@ -86,7 +86,7 @@
                             </li>
                             <li>
                                 <input id="students-check" type="checkbox" name="<%=Const.ParamsNames.SEARCH_STUDENTS%>" value="true" <%=data.isSearchForStudents?"checked":""%>>
-                                <label for="comments-for-responses-check">Students</label>
+                                <label for="students-check">Students</label>
                             </li>
                         </ul>
                     </div>
