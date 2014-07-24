@@ -67,10 +67,10 @@
                         <select class="form-control"
                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_TYPE%>"
                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_TYPE%>">
-                            <option value="STANDARD"selected="selected">
+                            <option value="STANDARD">
                                 Session with your own questions
                             </option>
-                            <option value="TEAMEVALUATION">
+                            <option value="TEAMEVALUATION" selected="selected">
                                 Team peer evaluation session
                             </option>
                         </select>
