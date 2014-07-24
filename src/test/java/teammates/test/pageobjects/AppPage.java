@@ -96,11 +96,14 @@ public abstract class AppPage {
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[2]/li[1]/a")
     protected WebElement instructorLogoutLink;
     
-    @FindBy(id = "studentHomeLink")
+    @FindBy(id = "studentHomeNavLink")
     protected WebElement studentHomeTab;
     
-    @FindBy(id = "studentProfileLink")
+    @FindBy(id = "studentProfileNavLink")
     protected WebElement studentProfileTab;
+    
+    @FindBy(id = "studentCommentsNavLink")
+    protected WebElement studentCommentsTab;
     
     @FindBy(id = "studentHelpLink")
     protected WebElement studentHelpTab;

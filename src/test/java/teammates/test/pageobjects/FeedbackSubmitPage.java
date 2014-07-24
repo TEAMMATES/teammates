@@ -90,4 +90,21 @@ public class FeedbackSubmitPage extends AppPage {
         button.click();
     }
 
+    public void linkOnHomeLink() {
+        studentHomeTab.click();
+        AppPage.getNewPageInstance(browser, StudentHomePage.class);
+    }
+
+    public void linkOnProfileLink() {
+        studentProfileTab.click();
+        AppPage.getNewPageInstance(browser, StudentProfilePage.class);
+        
+    }
+
+    public void linkOnCommentsLink() {
+        studentCommentsTab.click();
+        AppPage.getNewPageInstance(browser, StudentCommentsPage.class);
+        
+    }
+
 }

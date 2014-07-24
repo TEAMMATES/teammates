@@ -9,6 +9,7 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -40,7 +41,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;
     private FeedbackSubmitPage submitPage;
-        
+    
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();
@@ -54,11 +55,32 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         testContent();
         testSubmitAction();
         testInputValidation();
+        testLinks();
         testModifyData();
-        // No links to test
     }
     
+    private void testLinks() {
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Awaiting Session");
+        submitPage.linkOnHomeLink();
+        submitPage = submitPage.goToPreviousPage(FeedbackSubmitPage.class);
+        submitPage.linkOnProfileLink();
+        submitPage = submitPage.goToPreviousPage(FeedbackSubmitPage.class);
+        submitPage.linkOnCommentsLink();
+        
+        submitPage.logout();
+        submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
+        submitPage.clickAndCancel(browser.driver.findElement(By.id("studentHomeNavLink")));
+        submitPage.clickAndCancel(browser.driver.findElement(By.id("studentProfileNavLink")));
+        submitPage.clickAndCancel(browser.driver.findElement(By.id("studentCommentsNavLink")));
+    }
+
     private void testContent() {
+        ______TS("unreg student");
+        
+        AppPage.logout(browser);
+        submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
+        submitPage.verifyHtmlMainContent("/unregisteredStudentFeedbackSubmitPageOpen.html");
+        
         ______TS("Awaiting session");
         
         // this session contains questions to instructors, and since instr3 is not displayed to students,
@@ -95,11 +117,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Empty Session");
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageEmpty.html");
         
-        ______TS("unreg student");
-        
-        submitPage.logout();
-        submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
-        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageUnregisteredGracePeriod.html");
     }
     
     private void testSubmitAction() {
@@ -380,7 +397,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.clickSubmitButton();
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
                 submitPage.getStatus());
-        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageUnregisteredPartiallyFilled.html");
+        submitPage.verifyHtmlMainContent("/unregisteredStudentFeedbackSubmitPagePartiallyFilled.html");
         
         assertNotNull(BackDoor.getFeedbackResponse(fq.getId(),
                         "SFSubmitUiT.alice.b@gmail.com",
@@ -531,7 +548,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         backDoorOperationStatus = BackDoor.editStudent(student.email, student);
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
     }
-
+    
     @AfterClass
     public static void classTearDown() throws Exception {
         BrowserPool.release(browser);

@@ -62,7 +62,7 @@
                 <li
                     class="<%=courseId.equals(data.courseId) ? "active" : ""%>">
                     <a
-                    href="<%=data.getStudentCommentsLink() + "&courseid=" + courseId%>"><%=courseId%></a>
+                    href="<%=data.getStudentCommentsLink(false) + "&courseid=" + courseId%>"><%=courseId%></a>
                 </li>
                 <%
                     }
@@ -253,7 +253,7 @@
                 <li
                     class="<%=courseId.equals(data.courseId) ? "active" : ""%>">
                     <a
-                    href="<%=data.getStudentCommentsLink() + "&courseid=" + courseId%>"><%=courseId%></a>
+                    href="<%=data.getStudentCommentsLink(false) + "&courseid=" + courseId%>"><%=courseId%></a>
                 </li>
                 <%
                     }

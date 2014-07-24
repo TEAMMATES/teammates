@@ -137,16 +137,25 @@ public abstract class Action {
         if(regkey != null && loggedInUserId != null) {
             student = logic.getStudentForRegistrationKey(regkey);
             boolean isKnownKey = student != null;
-            if (isKnownKey && student.isRegistered() && !loggedInUserId.equals(student.googleId)) {
-                String expectedId = StringHelper.obscure(student.googleId);
-                expectedId = StringHelper.encrypt(expectedId);
-                Url redirectUrl = new Url(Const.ViewURIs.LOGOUT)
-                                    .withParam(Const.ParamsNames.NEXT_URL, Logic.getLoginUrl(requestUrl))
-                                    .withParam(Const.ParamsNames.HINT, expectedId)
-                                    .withUserId(StringHelper.encrypt(loggedInUserId)); 
-                
-                setRedirectPage(redirectUrl.toString());
-                return false;
+            if (isKnownKey) {
+                if (student.isRegistered() && !loggedInUserId.equals(student.googleId)) {
+                    String expectedId = StringHelper.obscure(student.googleId);
+                    expectedId = StringHelper.encrypt(expectedId);
+                    Url redirectUrl = new Url(Const.ViewURIs.LOGOUT)
+                                        .withParam(Const.ParamsNames.NEXT_URL, Logic.getLoginUrl(requestUrl))
+                                        .withParam(Const.ParamsNames.HINT, expectedId)
+                                        .withUserId(StringHelper.encrypt(loggedInUserId)); 
+                    
+                    setRedirectPage(redirectUrl.toString());
+                    return false;
+                } else if (!student.isRegistered()) {
+                    Url redirectUrl = new Url(Const.ViewURIs.LOGOUT)
+                    .withParam(Const.ParamsNames.NEXT_URL, requestUrl)
+                    .withUserId(StringHelper.encrypt(loggedInUserId)); 
+                    
+                    setRedirectPage(redirectUrl.toString());
+                    return false;
+                }
             }
         }
         return true;
