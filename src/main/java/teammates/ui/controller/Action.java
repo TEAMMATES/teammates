@@ -148,13 +148,6 @@ public abstract class Action {
                     
                     setRedirectPage(redirectUrl.toString());
                     return false;
-                } else if (!student.isRegistered()) {
-                    Url redirectUrl = new Url(Const.ViewURIs.LOGOUT)
-                    .withParam(Const.ParamsNames.NEXT_URL, requestUrl)
-                    .withUserId(StringHelper.encrypt(loggedInUserId)); 
-                    
-                    setRedirectPage(redirectUrl.toString());
-                    return false;
                 }
             }
         }
@@ -212,6 +205,7 @@ public abstract class Action {
         
         if (!isMasqueradeModeRequested(loggedInUser, paramRequestedUserId)) {
             account = loggedInUser;
+            boolean isUserLoggedIn = account.googleId != null;
             if (doesUserNeedRegistration(account) && !loggedInUserType.isAdmin) {
                 if (regkey != null) {
                     // TODO: encrypt the email as currently anyone with the regkey can
@@ -224,6 +218,13 @@ public abstract class Action {
                     return null;
                 }
                 throw new UnauthorizedAccessException("Unregistered user for a page that needs one");
+            } else if (isPageNotCourseJoinRelated() && doesRegkeyBelongToUnregisteredStudent() &&  isUserLoggedIn) {
+                Url redirectUrl = new Url(Const.ViewURIs.LOGOUT)
+                .withParam(Const.ParamsNames.NEXT_URL, requestUrl)
+                .withUserId(StringHelper.encrypt(account.googleId)); 
+                
+                setRedirectPage(redirectUrl.toString());
+                return null;
             }
         } else if (loggedInUserType.isAdmin) {
             //Allowing admin to masquerade as another user
@@ -244,6 +245,16 @@ public abstract class Action {
         }
         
         return account;
+    }
+
+    private boolean isPageNotCourseJoinRelated() {
+        String currentURI = request.getRequestURI();
+        return !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN) && !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+                && !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED);
+    }
+
+    private boolean doesRegkeyBelongToUnregisteredStudent() {
+        return student != null && !student.isRegistered();
     }
 
     private boolean doesUserNeedRegistration(AccountAttributes user) {

@@ -305,7 +305,7 @@ public class BaseActionTest extends BaseComponentTestCase {
     @SuppressWarnings("unused")
     private void __________mid_level_access_controll_checks(){};
     
-    private void verifyAccessibleWithoutLogin(String[] submissionParams) throws Exception {
+    protected void verifyAccessibleWithoutLogin(String[] submissionParams) throws Exception {
         gaeSimulation.logoutUser();
         verifyCanAccess(addStudentAuthenticationInfo(submissionParams));
     }

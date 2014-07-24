@@ -77,7 +77,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     private void testContent() {
         ______TS("unreg student");
         
-        AppPage.logout(browser);
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
         submitPage.verifyHtmlMainContent("/unregisteredStudentFeedbackSubmitPageOpen.html");
         
@@ -346,7 +345,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageFullyFilled.html");
         
         ______TS("create new response for unreg student");
-        submitPage.logout();
+        
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
         
         submitPage.fillResponseTextBox(1, 0, "Test Self Feedback");

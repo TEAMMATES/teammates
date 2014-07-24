@@ -8,7 +8,8 @@
 <%@ page import="teammates.ui.controller.PageData" %>
 <%
     PageData data = (PageData)request.getAttribute("data");
-    boolean isUnregistered = data.account.googleId == null;
+    boolean isUnregistered = data.account.googleId == null 
+            || (data.student != null && !data.student.isRegistered());
 %>
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container">
