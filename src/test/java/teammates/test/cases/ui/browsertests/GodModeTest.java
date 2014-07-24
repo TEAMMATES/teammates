@@ -4,6 +4,7 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.util.Date;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -12,6 +13,7 @@ import org.testng.annotations.Test;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.FileHelper;
+import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
@@ -47,6 +49,10 @@ public class GodModeTest extends BaseUiTestCase {
         testAccounts += Config.SUPPORT_EMAIL;
         testAccounts += "</div>";
         String changedContent = initialContent.replace("<!-- TESTACCOUNTSPLACEHOLDER -->", testAccounts);
+        changedContent = changedContent.replace("<!-- DATETODAY -->", 
+                TimeHelper.formatDate(new Date()));
+        changedContent = changedContent.replace("<!-- DATETIMETODAY -->", 
+                TimeHelper.formatTime(new Date()));
         
         writeToFile(TestProperties.TEST_PAGES_FOLDER + "/godmode.html", changedContent);
     }
@@ -131,11 +137,11 @@ public class GodModeTest extends BaseUiTestCase {
         System.clearProperty("godmode");
         writeToFile(TestProperties.TEST_PAGES_FOLDER + "/godmode.html", initialContent);
         
-        /*File file = new File(getOutputFilePath());
+        File file = new File(getOutputFilePath());
         if(!file.delete()){
             System.out.println("Delete failed. " + file.getAbsolutePath());
             file.deleteOnExit();
-        }*/
+        }
     }
 
     private static String getPath() throws Exception{
