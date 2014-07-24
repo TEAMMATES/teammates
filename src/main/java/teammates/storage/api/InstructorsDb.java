@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,7 +30,22 @@ import teammates.storage.entity.Instructor;
 public class InstructorsDb extends EntitiesDb{
     
     private static final Logger log = Utils.getLogger();
+    
+    public void createInstructors(Collection<InstructorAttributes> instructorsToAdd) throws InvalidParametersException{
         
+        List<EntityAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
+        for(EntityAttributes entity : instructorsToUpdate){
+            InstructorAttributes instructor = (InstructorAttributes) entity;
+            try {
+                updateInstructorByEmail(instructor);
+            } catch (EntityDoesNotExistException e) {
+             // This situation is not tested as replicating such a situation is 
+             // difficult during testing
+                Assumption.fail("Entity found be already existing and not existing simultaneously");
+            }
+        }
+    }
+
     /**
      * @return null if no matching objects. 
      */

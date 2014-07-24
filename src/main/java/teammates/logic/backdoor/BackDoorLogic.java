@@ -78,7 +78,9 @@ public class BackDoorLogic extends Logic {
     @SuppressWarnings("deprecation")
     public String persistDataBundle(DataBundle dataBundle)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-
+        
+        long start= System.currentTimeMillis();
+        
         if (dataBundle == null) {
             throw new InvalidParametersException(
                     Const.StatusCodes.NULL_PARAMETER, "Null data bundle");
@@ -96,12 +98,10 @@ public class BackDoorLogic extends Logic {
         accountsDb.createAccounts(accounts.values());
         
         HashMap<String, CourseAttributes> courses = dataBundle.courses;
-        for (CourseAttributes course : courses.values()) {
-            log.fine("API Servlet adding course :" + course.id);
-            this.createCourseWithArchiveStatus(course);
-        }
+        coursesDb.createCourses(courses.values());
 
         HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
+        List<AccountAttributes> instructorAccounts = new ArrayList<AccountAttributes>();
         for (InstructorAttributes instructor : instructors.values()) {
             if (instructor.googleId != null) {
                 log.fine("API Servlet adding instructor :" + instructor.googleId);
@@ -190,11 +190,6 @@ public class BackDoorLogic extends Logic {
             log.fine("API Servlet adding feedback question :" + question.getId()
                     + " to session " + question.feedbackSessionName);
             try {
-                FeedbackQuestionAttributes fqa = 
-                        this.getFeedbackQuestion(question.feedbackSessionName, question.courseId, question.questionNumber);
-                if (fqa == null) {
-                    super.createFeedbackQuestion(question);
-                }
                 super.updateFeedbackQuestion(question);
             } catch(EntityDoesNotExistException e) {
                 super.createFeedbackQuestion(question);
@@ -207,7 +202,7 @@ public class BackDoorLogic extends Logic {
                     + " to session " + response.feedbackSessionName);
             response = injectRealIds(response);
             try {
-               this.updateFeedbackResponse(response);
+                this.updateFeedbackResponse(response);
             } catch(EntityDoesNotExistException e) {
                 this.createFeedbackResponse(response);
             }
@@ -239,6 +234,9 @@ public class BackDoorLogic extends Logic {
         // any Db can be used to commit the changes. 
         // Eval is used as it is already used in the file
         new EvaluationsDb().commitOutstandingChanges();
+        
+        log.info("TIME TAKEN TO PERSIST DATA: " + (System.currentTimeMillis() - start) + "ms");
+        
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
 
@@ -474,7 +472,7 @@ public class BackDoorLogic extends Logic {
                 
         //TODO: questions and responses will be deleted automatically.
         //  We don't attempt to delete them again, to save time.
-        
+        long start = System.currentTimeMillis();  
         deleteCourses(dataBundle.courses.values());
         
         for (AccountAttributes account : dataBundle.accounts.values()) {
@@ -484,11 +482,11 @@ public class BackDoorLogic extends Logic {
             }
         }
         accountsDb.deleteAccounts(dataBundle.accounts.values());
-        
+        log.info("TIME TAKEN TO DELETE DATA: " + (System.currentTimeMillis() - start) + "ms");
         //waitUntilDeletePersists(dataBundle);
     }
 
-    private void deleteCourses(Collection<CourseAttributes> courses) {
+    private void deleteCourses(Collection<CourseAttributes> courses) {  
         List<String> courseIds = new ArrayList<String>();
         for(CourseAttributes course : courses){
             courseIds.add(course.id);
