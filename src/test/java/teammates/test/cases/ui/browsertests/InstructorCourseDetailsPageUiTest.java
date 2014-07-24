@@ -61,6 +61,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         ______TS("content: no students");
         
+        System.setProperty("godmode", "true");
         instructorId = testData.instructors.get("CCDetailsUiT.instrForEmptyCourse").googleId;
         courseId = testData.courses.get("CCDetailsUiT.CourseWithoutStudents").id;
         detailsPage = getCourseDetailsPage();
@@ -135,8 +136,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         ______TS("link: add comment");
         
         StudentAttributes aliceBetsy = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
-        CourseAttributes courseId = testData.courses.get("CCDetailsUiT.CS2104");
-        InstructorCourseStudentDetailsViewPage studentCommentsPage = detailsPage.clickAddCommentStudent(aliceBetsy.name, courseId);
+        InstructorCourseStudentDetailsViewPage studentCommentsPage = detailsPage.clickAddCommentStudent(aliceBetsy.name);
         studentCommentsPage.verifyIsCorrectPage(aliceBetsy.email);
         detailsPage = studentCommentsPage.goToPreviousPage(InstructorCourseDetailsPage.class);
         
