@@ -296,6 +296,7 @@ public class Const {
         public static final String INSTRUCTOR_DISPLAY_NAME = "instructordisplayname";
         public static final String INSTRUCTOR_ROLE_NAME = "instructorrole";
         public static final String INSTRUCTOR_SECTION = "section";
+        public static final String INSTRUCTOR_SECTION_GROUP = "sectiongroup";
         
         public static final String INSTRUCTOR_PERMISSION_MODIFY_COURSE = "canmodifycourse";
         public static final String INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR = "canmodifyinstructor";
