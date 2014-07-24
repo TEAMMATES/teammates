@@ -8,7 +8,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
@@ -61,7 +60,6 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         ______TS("content: no students");
         
-        System.setProperty("godmode", "true");
         instructorId = testData.instructors.get("CCDetailsUiT.instrForEmptyCourse").googleId;
         courseId = testData.courses.get("CCDetailsUiT.CourseWithoutStudents").id;
         detailsPage = getCourseDetailsPage();
