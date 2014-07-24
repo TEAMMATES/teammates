@@ -1,8 +1,12 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
 
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -35,11 +39,18 @@ public class InstructorFeedbackEditPageAction extends Action {
             data.questionHasResponses.put(question.getId(),
                     logic.isQuestionHasResponses(question.getId()));
         }
+
+        data.instructors = new HashMap<String, InstructorAttributes>();
+        List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId); 
+        for (CourseAttributes course : courses) {
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(course.id, account.googleId);
+            data.instructors.put(course.id, instructor);
+        }
         
         data.studentList = logic.getStudentsForCourse(courseId);
         Collections.sort(data.studentList, new StudentComparator());
         
-        data.instructorList = logic.getInstructorsForCourse(courseId);
+        data.instructorList = new ArrayList<InstructorAttributes>(data.instructors.values());
         Collections.sort(data.instructorList, new InstructorComparator());
         
         statusToAdmin = "instructorFeedbackEdit Page Load<br>"

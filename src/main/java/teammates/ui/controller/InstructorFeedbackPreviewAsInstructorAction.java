@@ -38,7 +38,7 @@ public class InstructorFeedbackPreviewAsInstructorAction extends Action {
                     + ".");
         }
         
-        FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, regkey);
+        FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student);
         
         data.bundle = logic.getFeedbackSessionQuestionsBundleForInstructor(
                 feedbackSessionName, courseId, previewInstructor.email);

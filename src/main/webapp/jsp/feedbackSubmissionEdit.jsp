@@ -13,10 +13,10 @@
 %>    
     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>"/>
     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>"/>
-    <% if (data.regkey == null) { %>
+    <% if (data.account.googleId != null) { %>
         <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
     <% } else { %>
-        <input type="hidden" name="<%=Const.ParamsNames.REGKEY%>" value="<%=data.regkey%>">
+        <input type="hidden" name="<%=Const.ParamsNames.REGKEY%>" value="<%=data.student.key%>">
         <input type="hidden" name="<%=Const.ParamsNames.STUDENT_EMAIL%>" value="<%=data.account.email%>">
     <% } %>
     <div class="well well-plain" id="course1">
