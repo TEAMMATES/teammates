@@ -1,5 +1,7 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertEquals;
+
 import java.io.File;
 import java.io.FileWriter;
 
@@ -86,7 +88,7 @@ public class GodModeTest extends BaseUiTestCase {
         String expectedOutputPage = FileHelper.readFile(getExpectedOutputFilePath());
         String actualOutputPage = FileHelper.readFile(getOutputFilePath());
         
-        HtmlHelper.areSameHtmlPart(expectedOutputPage, actualOutputPage);
+        verifyOutput(expectedOutputPage, actualOutputPage);
         
         ______TS("test verifyHtmlMainContent");
         
@@ -111,8 +113,16 @@ public class GodModeTest extends BaseUiTestCase {
         expectedOutputPage = FileHelper.readFile(getExpectedOutputPartFilePath());
         actualOutputPage = FileHelper.readFile(getOutputFilePath());
         
-        HtmlHelper.areSameHtmlPart(expectedOutputPage, actualOutputPage);
+        verifyOutput(expectedOutputPage, actualOutputPage);
         
+        
+    }
+
+    private void verifyOutput(String expected, String actual) {
+        String processedExpectedHtml = HtmlHelper.convertToStandardHtml(expected, true);
+        String processedActualHtml = HtmlHelper.convertToStandardHtml(actual, true);
+        
+        assertEquals(processedExpectedHtml, processedActualHtml);
     }
 
     @AfterClass
@@ -121,11 +131,11 @@ public class GodModeTest extends BaseUiTestCase {
         System.clearProperty("godmode");
         writeToFile(TestProperties.TEST_PAGES_FOLDER + "/godmode.html", initialContent);
         
-        File file = new File(getOutputFilePath());
+        /*File file = new File(getOutputFilePath());
         if(!file.delete()){
             System.out.println("Delete failed. " + file.getAbsolutePath());
             file.deleteOnExit();
-        }
+        }*/
     }
 
     private static String getPath() throws Exception{
