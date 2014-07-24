@@ -50,6 +50,8 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
     private void testContent() throws Exception {
 
+        AppPage.logout(browser);
+        
         ______TS("unreg student");
         
         fqOpen = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Open Session", 1);

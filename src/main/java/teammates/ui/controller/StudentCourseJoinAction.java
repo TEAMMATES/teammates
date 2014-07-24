@@ -36,7 +36,7 @@ public class StudentCourseJoinAction extends Action {
         String confirmUrl = Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED 
                 + "?" + Const.ParamsNames.REGKEY + "=" + regkey 
                 + "&" + Const.ParamsNames.NEXT_URL + "=" + nextUrl;
-        data = new StudentCourseJoinConfirmationPageData(account, regkey);
+        data = new StudentCourseJoinConfirmationPageData(account, student);
         data.confirmUrl = confirmUrl;
         data.logoutUrl = Logic.getLogoutUrl(confirmUrl);
         excludeStudentDetailsFromResponseParams();
