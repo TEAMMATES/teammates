@@ -891,7 +891,7 @@
                     </div>
                     <br>
                     <div>
-                        <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>')">  
+                        <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>">
                             <label class="col-sm-4 control-label">
                                 Feedback Giver:
                             </label>
