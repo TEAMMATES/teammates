@@ -431,6 +431,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         ______TS("Test InputValidation lower than Min value");
         //this should not give any error since the value will be automatically adjusted before the form is submitted
         //adjusted value should be 1
+        submitPage.logout();
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.fillResponseTextBox(14, 0, "");
         submitPage.fillResponseTextBox(14, 0, "0");
