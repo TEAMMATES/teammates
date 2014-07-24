@@ -284,17 +284,22 @@ ul #nav {
 
         <div class="well well-plain">
             <form name="form_addfeedbacksession" action="/page/instructorFeedbackAdd" method="post" class="form-group">
-                <div data-placement="top" data-toggle="tooltip" title="" class="row" data-original-title="Select a different type of session here.">
+                <div class="row">
                     <h4 class="label-control col-md-2 text-md">Create new </h4>
                     <div class="col-md-5">
-                        <select id="fstype" name="fstype" class="form-control">
-                            <option value="STANDARD">
-                                Session with your own questions
-                            </option>
-                            <option selected="selected" value="TEAMEVALUATION">
-                                Team peer evaluation session
-                            </option>
-                        </select>
+                        <div data-placement="top" data-toggle="tooltip" title="" class="col-md-10" data-original-title="Select a session type here.">
+                            <select id="fstype" name="fstype" class="form-control">
+                                <option value="STANDARD">
+                                    Session with your own questions
+                                </option>
+                                <option selected="selected" value="TEAMEVALUATION">
+                                    Team peer evaluation session
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                            <h5><a target="_blank" href="/instructorHelp.html#fbSetupSession"><span class="glyphicon glyphicon-info-sign"></span></a></h5>
+                        </div>
                     </div>
                     <h4 class="label-control col-md-1 text-md">Or: </h4>
                     <div class="col-md-3">
@@ -649,12 +654,6 @@ ul #nav {
                             </div>
                         </div>
                         <div class="row">
-                            <div data-placement="top" data-toggle="tooltip" title="" class="col-sm-2" data-original-title="If the student has not joined the course yet, an email containing the link to join the course will automatically be sent on session opening time.">
-                                <div class="checkbox">
-                                    <label for="sendreminderemail_join">Join
-                                        reminder</label> <input type="checkbox" disabled="disabled" id="sendreminderemail_join" checked="checked" />
-                                </div>
-                            </div>
                             <div data-placement="top" data-toggle="tooltip" title="" class="col-sm-3" data-original-title="Select this option to automatically send an email to students to notify them when the session is open for submission.">
                                 <div class="checkbox">
                                     <label>Session opening
