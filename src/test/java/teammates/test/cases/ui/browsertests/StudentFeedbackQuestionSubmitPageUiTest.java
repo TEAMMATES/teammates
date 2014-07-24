@@ -94,9 +94,6 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         assertEquals(false, submitPage.getSubmitButton().isEnabled());
 
-        testData = loadDataBundle("/StudentFeedbackQuestionSubmitPageUiTest.json");
-        restoreTestDataOnServer(testData);
-
         ______TS("Closed session");
 
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice","Closed Session", fqClosed.getId());
@@ -104,7 +101,8 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private void testSubmitAction() {
-
+        restoreTestDataOnServer(testData);
+        
         ______TS("create new responses");
 
         fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Open Session", 1);
