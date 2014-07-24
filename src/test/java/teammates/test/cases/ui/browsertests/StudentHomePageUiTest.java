@@ -36,7 +36,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/StudentHomePageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         
         gracedFeedbackSession = BackDoor.getFeedbackSession("SHomeUiT.CS2104", "Graced Feedback Session");
         gracedFeedbackSession.endTime = TimeHelper.getDateOffsetToCurrentTime(0);

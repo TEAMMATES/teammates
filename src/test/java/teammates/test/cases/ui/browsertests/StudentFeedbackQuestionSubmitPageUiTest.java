@@ -15,9 +15,11 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
+import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackQuestionSubmitPage;
@@ -26,13 +28,15 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;
     private FeedbackQuestionSubmitPage submitPage;
+    private FeedbackQuestionAttributes fqOpen;
+    private FeedbackQuestionAttributes fqClosed;
     private FeedbackQuestionAttributes fq;
 
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/StudentFeedbackQuestionSubmitPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         
         browser = BrowserPool.getBrowser();
     }
@@ -46,23 +50,38 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
     private void testContent() throws Exception {
 
+        AppPage.logout(browser);
+        
+        ______TS("unreg student");
+        
+        fqOpen = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Open Session", 1);
+        fqClosed = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Closed Session", 1);
+        
+        // Open session
+        StudentAttributes unregStudent = testData.students.get("Unregistered");
+        submitPage = goToStudentFeedbackQuestionSubmitPage(unregStudent, "Open Session", fqOpen.getId());
+        
+        submitPage.verifyHtml("/unregisteredStudentFeedbackQuestionSubmitPageOpen.html");
+        
+        // closed session
+        submitPage = goToStudentFeedbackQuestionSubmitPage(unregStudent, "Closed Session", fqClosed.getId());
+        submitPage.verifyHtmlMainContent("/unregisteredStudentFeedbackQuestionSubmitPageClosed.html");
+        
         ______TS("Awaiting session");
 
         fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Awaiting Session", 1);
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Awaiting Session", fq.getId());
-        submitPage.verifyHtmlMainContent("/studentFeedbackQuestionSubmitPageAwaiting.html");
-
+        submitPage.verifyHtml("/studentFeedbackQuestionSubmitPageAwaiting.html");
         
         ______TS("Open session");
 
-        fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Open Session", 1);
-        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fq.getId());
+        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fqOpen.getId());
         submitPage.verifyHtmlMainContent("/studentFeedbackQuestionSubmitPageOpen.html");
 
         ______TS("Grace period session");
 
         FeedbackSessionAttributes fs = BackDoor.getFeedbackSession("SFQSubmitUiT.CS2104", "Open Session");
-        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fq.getId());
+        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fqOpen.getId());
 
         Calendar endDate = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
         fs.timeZone = 0;
@@ -71,7 +90,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         fs.gracePeriod = 10;
         BackDoor.editFeedbackSession(fs);
 
-        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fq.getId());
+        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fqOpen.getId());
 
         assertEquals(false, submitPage.getSubmitButton().isEnabled());
 
@@ -80,10 +99,8 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         ______TS("Closed session");
 
-        fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Closed Session", 1);
-        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice","Closed Session", fq.getId());
+        submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice","Closed Session", fqClosed.getId());
         submitPage.verifyHtmlMainContent("/studentFeedbackQuestionSubmitPageClosed.html");
-       
     }
 
     private void testSubmitAction() {
@@ -165,7 +182,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.logout();
         testData = loadDataBundle("/StudentFeedbackQuestionSubmitPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
 
         ______TS("Grace period session,submission failure after grace period");
 
@@ -198,6 +215,21 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
                 .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
         
         return loginAdminToPage(browser, editUrl,FeedbackQuestionSubmitPage.class);
+    }
+
+    private FeedbackQuestionSubmitPage goToStudentFeedbackQuestionSubmitPage(
+            StudentAttributes s, String fsName, String questionId) {
+        String editUrl = createUrl(
+                Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
+                .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email))
+                .withStudentEmail(s.email)
+                .withCourseId(s.course)
+                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
+                .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId)
+                .toString();
+        
+        browser.driver.get(editUrl);
+        return AppPage.getNewPageInstance(browser, FeedbackQuestionSubmitPage.class);
     }
     
     @AfterClass

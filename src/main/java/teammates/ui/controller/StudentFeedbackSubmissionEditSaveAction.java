@@ -2,26 +2,28 @@ package teammates.ui.controller;
 
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
 public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionEditSaveAction {
+    
     @Override
     protected void verifyAccesibleForSpecificUser() {
         new GateKeeper().verifyAccessible(
-                logic.getStudentForGoogleId(courseId, account.googleId),
+                getStudent(),
                 logic.getFeedbackSession(feedbackSessionName, courseId));
     }
 
     @Override
     protected String getUserEmailForCourse() {
-        return logic.getStudentForGoogleId(courseId, account.googleId).email;
+        return getStudent().email;
     }
     
     @Override 
     protected String getUserSectionForCourse() {
-        return logic.getStudentForGoogleId(courseId, account.googleId).section;
+        return getStudent().section;
     }
 
     @Override
@@ -45,6 +47,18 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
 
     @Override
     protected RedirectResult createSpecificRedirectResult() {
-        return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+        if (regkey == null) {
+            return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+        } else {
+            return createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);
+        }
+    }
+
+    protected StudentAttributes getStudent() {
+        if (student == null) {
+            student = logic.getStudentForGoogleId(courseId, account.googleId);
+        }
+        
+        return student;
     }
 }

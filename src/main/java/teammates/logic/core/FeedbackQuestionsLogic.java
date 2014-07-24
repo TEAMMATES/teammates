@@ -619,7 +619,7 @@ public class FeedbackQuestionsLogic {
         }
         
         if(oldQuestion.isChangesRequiresResponseDeletion(newAttributes)) {
-            frLogic.deleteFeedbackResponsesForQuestion(oldQuestion.getId());
+            frLogic.deleteFeedbackResponsesForQuestionAndCascade(oldQuestion.getId());
         }
         
         oldQuestion.updateValues(newAttributes);
@@ -675,7 +675,7 @@ public class FeedbackQuestionsLogic {
             return; // Silently fail if question does not exist.
         } else {
             // Cascade delete responses for question.
-            frLogic.deleteFeedbackResponsesForQuestion(questionToDelete.getId());
+            frLogic.deleteFeedbackResponsesForQuestionAndCascade(questionToDelete.getId());
         }
         
         List<FeedbackQuestionAttributes> questionsToShiftQnNumber = null;

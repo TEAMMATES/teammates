@@ -17,7 +17,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
-import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminHomePage;
@@ -28,11 +27,13 @@ import teammates.test.pageobjects.DevServerLoginPage;
 import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
 import teammates.test.pageobjects.LoginPage;
+import teammates.test.util.Priority;
 
 /**
  * Covers the home page for admins.
  * SUT: {@link AdminHomePage}
  */
+@Priority(-2)
 public class AdminHomePageUiTest extends BaseUiTestCase{
     private static Browser browser;
     private static AdminHomePage homePage;
@@ -62,6 +63,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         //Full page content check is omitted because this is an internal page. 
     }
 
+    @SuppressWarnings("deprecation")
     private void testCreateInstructorAction() throws InvalidParametersException, EntityDoesNotExistException {
         
         InstructorAttributes instructor = new InstructorAttributes();
@@ -74,6 +76,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
     
         ______TS("action success : create instructor account and the account is created successfully after user's verification");
         
+        BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
         BackDoor.deleteCourse(demoCourseId);
         BackDoor.deleteInstructor(demoCourseId, instructor.email);
         

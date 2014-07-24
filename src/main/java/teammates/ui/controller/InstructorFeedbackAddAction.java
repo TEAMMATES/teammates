@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -15,6 +16,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.FeedbackSessionTemplates;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.GateKeeper;
@@ -46,8 +48,17 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         
         data.newFeedbackSession = fs;
         
+        String feedbackSessionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TYPE);
+        
         try {
             logic.createFeedbackSession(fs);
+            
+            try {
+                createTemaplateFeedbackQuestions(fs.courseId, fs.feedbackSessionName, fs.creatorEmail, feedbackSessionType);
+            } catch(Exception e){
+                //Failed to create feedback questions for specified template/feedback session type.
+                //TODO: let the user know an error has occurred? delete the feedback session?
+            }
             
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
             statusToAdmin = "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" +
@@ -86,6 +97,25 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
     
+    private void createTemaplateFeedbackQuestions(String courseId,
+            String feedbackSessionName, String creatorEmail,
+            String feedbackSessionType) throws InvalidParametersException {
+        if(feedbackSessionType == null){
+            return;
+        }
+        switch(feedbackSessionType){
+            case "TEAMEVALUATION":
+                List<FeedbackQuestionAttributes> questions =
+                        FeedbackSessionTemplates.getFeedbackSessionTemplateQuestions(FeedbackSessionTemplates.FEEDBACK_SESSION_TEAMEVALUATION, courseId, feedbackSessionName, creatorEmail);
+                for(FeedbackQuestionAttributes fqa : questions){
+                    logic.createFeedbackQuestion(fqa);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
     private FeedbackSessionAttributes extractFeedbackSessionData() {
         //TODO assert parameters are not null then update test
         //TODO make this method stateless

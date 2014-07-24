@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import teammates.common.datatransfer.FeedbackQuestionBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -16,13 +17,20 @@ public class StudentFeedbackQuestionSubmissionEditPageAction extends
     @Override
     protected void verifyAccesibleForSpecificUser() {
         new GateKeeper().verifyAccessible(
-                logic.getStudentForGoogleId(courseId, account.googleId), 
+                getStudent(), 
                 logic.getFeedbackSession(feedbackSessionName, courseId));
+    }
+
+    protected StudentAttributes getStudent() {
+        if (student == null) {
+            student = logic.getStudentForGoogleId(courseId, account.googleId);
+        }
+        return student;
     }
 
     @Override
     protected String getUserEmailForCourse() {
-        return logic.getStudentForGoogleId(courseId, account.googleId).email;
+        return getStudent().email;
     }
 
     @Override

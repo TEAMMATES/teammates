@@ -41,7 +41,7 @@ import com.google.appengine.api.datastore.Text;
  * Covers the 'Feedback Session' page for instructors. 
  * SUT is {@link InstructorFeedbacksPage}.
  */
-@Priority(-1)
+@Priority(1)
 public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorFeedbacksPage feedbackPage;
@@ -54,7 +54,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorFeedbackPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         idOfInstructorWithSessions = testData.accounts.get("instructorWithSessions").googleId;
         
         newSession = new FeedbackSessionAttributes();
@@ -160,8 +160,29 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals(newSession.toString(), savedSession.toString());
         // Check that we are redirected to the edit page.
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackAddSuccess.html");
+        
+        
+        ______TS("success case: Add a Team Peer Evaluation Session(template session)");
+        
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
 
+        feedbackPage.clickManualPublishTimeButton();
+        
+        feedbackPage.selectSessionType("Team peer evaluation session");
+        
+        String templateSessionName = "Team Peer Evaluation Session";
+        feedbackPage.addFeedbackSession(
+                templateSessionName , newSession.courseId, 
+                newSession.startTime, newSession.endTime,
+                null, null,
+                newSession.instructions, newSession.gracePeriod );
+        feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
+        feedbackPage.verifyHtmlMainContent("/instructorFeedbackTeamPeerEvalTemplateAddSuccess.html");
+        //TODO: check that the questions created match. Maybe do that in action test.
 
+        //Remove added session to prevent state leaks.
+        assertEquals("[BACKDOOR_STATUS_SUCCESS]",BackDoor.deleteFeedbackSession(templateSessionName, newSession.courseId));
+        
         ______TS("failure case: session exists already");
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);

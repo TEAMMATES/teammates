@@ -4,12 +4,19 @@
 
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
+<%@ page import="java.util.Set" %>
+<%@ page import="teammates.common.datatransfer.FeedbackParticipantType" %>
 <%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.util.Sanitizer"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.CommentAttributes"%>
+<%@ page import="teammates.common.datatransfer.InstructorAttributes"%>
+<%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
 <%@ page import="teammates.ui.controller.InstructorSearchPageData"%>
+<%@ page import="teammates.ui.controller.PageData"%>
+
 <%
     InstructorSearchPageData data = (InstructorSearchPageData) request.getAttribute("data");
 %>
@@ -77,6 +84,10 @@
                                 <input id="comments-for-responses-check" type="checkbox" name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_RESPONSES%>" value="true" <%=data.isSearchCommentForResponses?"checked":""%>>
                                 <label for="comments-for-responses-check">Comments for responses</label>
                             </li>
+                            <li>
+                                <input id="students-check" type="checkbox" name="<%=Const.ParamsNames.SEARCH_STUDENTS%>" value="true" <%=data.isSearchForStudents?"checked":""%>>
+                                <label for="comments-for-responses-check">Students</label>
+                            </li>
                         </ul>
                     </div>
                     </div>
@@ -127,6 +138,7 @@
                 </div>
             </div>
             <% } %>
+
             <% if(data.feedbackResponseCommentSearchResultBundle.getResultSize() != 0) { %>
             <br>
                 <div class="panel panel-primary">
@@ -135,6 +147,54 @@
                     </div>
                 <%
                     int fsIndx = 0;
+                    Set<String> emailList = data.feedbackResponseCommentSearchResultBundle.instructorEmails;
+                  
+                    for (String fsName : data.feedbackResponseCommentSearchResultBundle.questions.keySet()) {
+                        List<FeedbackQuestionAttributes> questionList = data.feedbackResponseCommentSearchResultBundle.questions.get(fsName);
+                        for(int i = questionList.size() - 1; i >= 0; i--) {
+                                FeedbackQuestionAttributes question = questionList.get(i);
+                                List<FeedbackResponseAttributes> responseList = data.feedbackResponseCommentSearchResultBundle.responses.get(question.getId());
+                                for(int j = responseList.size() - 1; j >= 0; j--){
+                                    FeedbackResponseAttributes feedbackResponse = responseList.get(j);
+                                    List<FeedbackResponseCommentAttributes> commentList = data.feedbackResponseCommentSearchResultBundle.comments.get(feedbackResponse.getId());
+                                    for(int k = commentList.size() - 1;  k >= 0; k--){
+                                        FeedbackResponseCommentAttributes comment = commentList.get(k);
+                                        if(emailList.contains(comment.giverEmail)){
+                                            continue;
+                                        }
+                                        boolean isVisibilityFollowingFeedbackQuestion = comment.isVisibilityFollowingFeedbackQuestion;
+                                        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion? true: comment.isVisibleTo(FeedbackParticipantType.GIVER);
+                                        if(isVisibleToGiver && emailList.contains(feedbackResponse.giverEmail)){
+                                            continue;
+                                        }
+                                        boolean isVisibleToReceiver = isVisibilityFollowingFeedbackQuestion? 
+                                                    question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER): 
+                                                        comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
+                                        if(isVisibleToReceiver && emailList.contains(feedbackResponse.recipientEmail)){
+                                            continue;
+                                        }
+                                        boolean isVisibleToInstructor = isVisibilityFollowingFeedbackQuestion? 
+                                                    question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS): 
+                                                        comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+                                        if(isVisibleToInstructor){
+                                            continue;
+                                        }
+
+                                        commentList.remove(k);
+                                    }
+                                    if(commentList.size() == 0){
+                                        responseList.remove(j);
+                                    }
+                                }
+                                if(responseList.size() == 0){
+                                    questionList.remove(i);
+                                }
+                            }
+                        if(questionList.size() == 0){
+                            data.feedbackResponseCommentSearchResultBundle.questions.remove(fsName);
+                        }
+                    }
+
                     for (String fsName : data.feedbackResponseCommentSearchResultBundle.questions.keySet()) {//FeedbackSession loop starts
                         List<FeedbackQuestionAttributes> questionList = data.feedbackResponseCommentSearchResultBundle.questions.get(fsName);
                         fsIndx++;
@@ -235,6 +295,146 @@
                     }//FeedbackSession loop ends
                 %>
                 </div>
+                <% } %>
+
+            <% if(data.studentSearchResultBundle.getResultSize() != 0) { %>
+            <br>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <strong>Students</strong>
+                    </div>
+                    <div class="panel-body">
+
+                <%
+                    String currentCourse = null;
+                    int studentIdx = 0;
+                    int courseIdx = -1;
+                    for (StudentAttributes student : data.studentSearchResultBundle.studentList) {
+                        studentIdx++;
+                        if(currentCourse != null && !currentCourse.equals(student.course)){
+                %>                  
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                <%
+                        }
+                        if(currentCourse == null || (currentCourse != null && !currentCourse.equals(student.course))){
+                            courseIdx++;
+                            studentIdx = 0;
+                            currentCourse = student.course;
+                %>
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <strong>[<%=currentCourse%>]</strong>
+                                </div>
+                                <div class="panel-body padding-0">
+                                    <table class="table table-responsive table-striped table-bordered margin-0">
+                                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                            <tr>
+                                                <th>Photo</th>
+                                                <th id="button_sortsection-<%=courseIdx%>" class="button-sort-none" onclick="toggleSort(this, 1)">Section <span class="icon-sort unsorted"></th>
+                                                <th id="button_sortteam-<%=courseIdx%>" class="button-sort-none" onclick="toggleSort(this, 2)">Team <span class="icon-sort unsorted"></th>
+                                                <th id="button_sortname-<%=courseIdx%>" class="button-sort-none" onclick="toggleSort(this, 3)">Student Name <span class="icon-sort unsorted"></th>
+                                                <th id="button_sortemail-<%=courseIdx%>" class="button-sort-none" onclick="toggleSort(this, 4)">Email <span class="icon-sort unsorted"></th>
+                                                <th>Action(s)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                <%
+                        }
+                %>
+                        <tr id="student-c<%=courseIdx%>.<%=studentIdx%>" style="display: table-row;">
+                            <td id="studentphoto-c<%=courseIdx%>.<%=studentIdx%>" class="profile-pic-icon">
+                                <a class="student-photo-link-for-test btn-link" 
+                                   data-link=<%=data.getStudentPhotoUrl(student)%>>
+                                   View Photo</a>
+                                <img src="" alt="No Image Given" class="hidden">
+                            </td>
+                            <td id="studentsection-c<%=courseIdx %>.<%=studentIdx%>">
+                                <%=PageData.sanitizeForHtml(student.section)%>
+                            </td>
+                            <td id="studentteam-c<%=courseIdx %>.<%=studentIdx%>">
+                                <%=PageData.sanitizeForHtml(student.team)%>
+                            </td>
+                            <td id="studentname-c<%=courseIdx %>.<%=studentIdx%>">
+                                <%=PageData.sanitizeForHtml(student.name)%>
+                            </td>
+                            <td id="studentemail-c<%=courseIdx %>.<%=studentIdx%>">
+                                <%=PageData.sanitizeForHtml(student.email)%>
+                            </td>
+                            <td class="no-print align-center">
+                                <a class="btn btn-default btn-xs student-view-for-test" 
+                                    href="<%=data.getCourseStudentDetailsLink(student.course, student)%>"
+                                    title="<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>"
+                                    data-toggle="tooltip" data-placement="top"
+                                    <% InstructorAttributes instructor = data.studentSearchResultBundle.instructors.get(student.course);
+                                       if (!instructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {%>
+                                       disabled="disabled"
+                                    <% } %>
+                                    > View
+                                </a> 
+                                
+                                <a class="btn btn-default btn-xs student-edit-for-test"
+                                    href="<%=data.getCourseStudentEditLink(student.course, student)%>"
+                                    title="<%=Const.Tooltips.COURSE_STUDENT_EDIT%>"
+                                    data-toggle="tooltip" data-placement="top"
+                                    <% if (!instructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
+                                       disabled="disabled"
+                                    <% } %>
+                                    > Edit
+                                </a> 
+                                
+                                <a class="btn btn-default btn-xs student-delete-for-test"
+                                    href="<%=data.getCourseStudentDeleteLink(student.course, student)%>"
+                                    onclick="return toggleDeleteStudentConfirmation('<%=Sanitizer.sanitizeForJs(student.course)%>','<%=Sanitizer.sanitizeForJs(student.name)%>')"
+                                    title="<%=Const.Tooltips.COURSE_STUDENT_DELETE%>"
+                                    data-toggle="tooltip" data-placement="top"
+                                    <% if (!instructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
+                                       disabled="disabled"
+                                    <% } %>> Delete
+                                </a>
+                                
+                                <a class="btn btn-default btn-xs student-records-for-test"
+                                    href="<%=data.getStudentRecordsLink(student.course, student)%>"
+                                    title="<%=Const.Tooltips.COURSE_STUDENT_RECORDS%>"
+                                    data-toggle="tooltip"
+                                    data-placement="top"> All Records
+                                </a>
+                                
+                                <div class="dropdown" style="display:inline;">
+                                    <a class="btn btn-default btn-xs dropdown-toggle" 
+                                        href="javascript:;" data-toggle="dropdown"
+                                        <% if (!instructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS)) { %>
+                                            disabled="disabled"
+                                        <% } %>
+                                        > Add Comment
+                                    </a>
+                                  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student.course, student)
+                                        +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=student"%>">
+                                        Comment on <%=PageData.sanitizeForHtml(student.name)%></a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student.course, student)
+                                        +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=team"%>">
+                                        Comment on <%=PageData.sanitizeForHtml(student.team)%></a></li>
+                                    <% if(!student.section.equals(Const.DEFAULT_SECTION)) { %>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student.course, student)
+                                        +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=section"%>">
+                                        Comment on <%=PageData.sanitizeForHtml(student.section)%></a></li>
+                                    <% } %>
+                                  </ul>
+                                </div>
+                            </td>
+                        </tr>                           
+                <%
+                    }
+                %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <% } %>
         </div>
     </div>

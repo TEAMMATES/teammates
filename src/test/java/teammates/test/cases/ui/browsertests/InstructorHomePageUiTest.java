@@ -1,8 +1,8 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterClass;
@@ -29,9 +29,10 @@ import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorEvalEditPage;
 import teammates.test.pageobjects.InstructorEvalPreview;
 import teammates.test.pageobjects.InstructorEvalResultsPage;
-import teammates.test.pageobjects.InstructorEvalsPage;
+import teammates.test.pageobjects.InstructorFeedbacksPage;
 import teammates.test.pageobjects.InstructorHelpPage;
 import teammates.test.pageobjects.InstructorHomePage;
+import teammates.test.util.Priority;
 
 /**
  * Tests Home page and login page for instructors. 
@@ -39,6 +40,7 @@ import teammates.test.pageobjects.InstructorHomePage;
  * Uses a real account.
  * 
  */
+@Priority(4)
 public class InstructorHomePageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;
@@ -66,7 +68,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     private static void loadFinalHomePageTestData() throws Exception {
         
         testData = loadDataBundle("/InstructorHomePageUiTest3.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         
         firstEval_OPEN = testData.evaluations.get("First Eval");
         secondEval_PUBLISHED = testData.evaluations.get("Second Eval");
@@ -137,7 +139,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("content: new instructor, with status message HINT_FOR_NEW_INSTRUCTOR");
         
         //already logged in
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         homePage.clickHomeTab();
         homePage.verifyHtmlMainContent("/InstructorHomeNewInstructorWithoutSampleCourse.html");
         
@@ -209,11 +211,11 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         assertEquals(expectedEditLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
         
-        ______TS("link: course add evaluation");
-        InstructorEvalsPage evalsPage =  homePage.clickCourseAddEvaluationLink(courseId);
-        evalsPage.verifyContains("Add New Evaluation Session");
+        ______TS("link: course add session");
+        InstructorFeedbacksPage feedbacksPage =  homePage.clickCourseAddEvaluationLink(courseId);
+        feedbacksPage.verifyContains("Add New Feedback Session");
         String expectedAddSessionLinkText = TestProperties.inst().TEAMMATES_URL + 
-                Const.ActionURIs.INSTRUCTOR_EVALS_PAGE + 
+                Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + 
                 "?" + Const.ParamsNames.USER_ID + "=" + instructorId +
                 "&" + Const.ParamsNames.COURSE_ID + "=" + courseId;
         assertEquals(expectedAddSessionLinkText, browser.driver.getCurrentUrl());
@@ -359,7 +361,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         //restore
         testData = loadDataBundle("/InstructorHomePageUiTest3.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         loginAsCommonInstructor();
         homePage.clickArchiveCourseLink(courseIdForCS1101);
         homePage.clickHomeTab();
@@ -387,11 +389,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
     
     public void testSearchAction() throws Exception{
-        ______TS("search student");
-        homePage.searchForStudent("Alice").verifySearchKey("Alice");
-        
-        //go back to previous page because 'search' redirects to the 'StudentList' page.
-        homePage.goToPreviousPage(InstructorHomePage.class);
+        // Tested in student list page
     }
     
     public void testSortAction() throws Exception{

@@ -27,7 +27,8 @@ public class InstructorEvalsPageActionTest extends BaseActionTest {
         uri = Const.ActionURIs.INSTRUCTOR_EVALS_PAGE;
     }
 
-    @Test
+    //@Test
+    //This test is deprecated along with creating evaluations.
     public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors
                 .get("instructor1OfCourse1");

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Const {
     
-    public class SystemParams{
+    public static class SystemParams{
 
         public static final String ENCODING = "UTF8";
         public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
@@ -48,6 +48,27 @@ public class Const {
         
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
+        
+        public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Arrays.asList(
+            ActionURIs.STUDENT_COURSE_JOIN,
+            ActionURIs.STUDENT_COURSE_JOIN_NEW,
+            ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE,
+            ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+            ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
+            ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE,
+            ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE
+        );
+        
+        public static final List<String> PAGES_ACCESSIBLE_WITHOUT_REGISTRATION = Arrays.asList(
+            ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED,
+            ActionURIs.STUDENT_HOME_PAGE,
+            ActionURIs.INSTRUCTOR_COURSE_JOIN,
+            ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
+        );
+        
+        public static final List<String> LEGACY_PAGES_WITH_REDUCED_SECURITY = Arrays.asList(
+                ActionURIs.STUDENT_COURSE_JOIN
+        );
     }
 
     /* Text displayed to the user when the mouse hover over certain elements in
@@ -59,11 +80,11 @@ public class Const {
         public static final String COURSE_ENROLL_SAMPLE_SPREADSHEET = "Download a sample team data spreadsheet";
         public static final String COURSE_DETAILS = "View, edit and send invitation emails to the students in the course";
         public static final String COURSE_EDIT = "Edit Course information and instructor list";
-        public static final String COURSE_DELETE = "Delete the course and its corresponding students and evaluations";
+        public static final String COURSE_DELETE = "Delete the course and its corresponding students and sessions";
         public static final String COURSE_ARCHIVE = "Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)";
-        public static final String COURSE_ADD_EVALUATION = "Add an evaluation for the course";
-        public static final String CLAIMED = "This is student own estimation of his/her contributions to the project";
-        public static final String PERCEIVED = "This is the average of what other team members think this student contributed to the project";
+        public static final String COURSE_ADD_EVALUATION = "Add a feedback session for the course";
+        public static final String CLAIMED = "This is the students own estimation of his/her contributions";
+        public static final String PERCEIVED = "This is the average of what other team members think this student contributed";
         public static final String PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
     
         public static final String COURSE_INSTRUCTOR_EDIT = "Edit instructor details";
@@ -140,7 +161,7 @@ public class Const {
         public static final String FEEDBACK_SESSION_COURSE = "Please select the course for which the feedback session is to be created.";
         public static final String FEEDBACK_SESSION_INPUT_NAME = "Enter the name of the feedback session e.g. Feedback Session 1.";
         public static final String FEEDBACK_SESSION_STARTDATE = "Please select the date and time for which users can start submitting responses for the feedback session.";
-        public static final String FEEDBACK_SESSION_ENDDATE = "Please select the date and time for which the feedback session will no longer accept submissions from users.";
+        public static final String FEEDBACK_SESSION_ENDDATE = "Please select the date and time after which the feedback session will no longer accept submissions from users.";
         public static final String FEEDBACK_SESSION_VISIBLEDATE = "Select this option to enter in a custom date and time for which the feedback session will become visible.<br />"
                 + "Note that you can make a session visible before it is open for submissions so that users can preview the questions.";
         public static final String FEEDBACK_SESSION_PUBLISHDATE = "Select this option to enter in a custom date and time for which</br>"
@@ -233,8 +254,8 @@ public class Const {
     
     public class FeedbackQuestionTypeNames{
         public static final String TEXT = "Essay question";
-        public static final String MCQ = "Multiple-choice (single answer)";
-        public static final String MSQ = "Multiple-choice (multiple answers)";
+        public static final String MCQ = "Multiple-choice (single answer) question";
+        public static final String MSQ = "Multiple-choice (multiple answers) question";
         public static final String NUMSCALE = "Numerical-scale question";
         public static final String CONSTSUM_OPTION = "Distribute points (among options) question";
         public static final String CONSTSUM_RECIPIENT = "Distribute points (among recipients) question";
@@ -421,6 +442,7 @@ public class Const {
         public static final String ERROR = "error";
         public static final String NEXT_URL = "next";
         public static final String USER_ID = "user";
+        public static final String HINT = "hint";
     
         public static final String LOGIN_ADMIN = "admin";
         public static final String LOGIN_INSTRUCTOR = "instructor";
@@ -463,6 +485,7 @@ public class Const {
         public static final String PROFILE_PICTURE_HEIGHT = "pictureheight";
         public static final String PROFILE_PICTURE_WIDTH = "picturewidth";
         
+        public static final String SEARCH_STUDENTS = "searchstudents";
         public static final String SEARCH_COMMENTS_FOR_STUDENTS = "searchcommentforstudents";
         public static final String SEARCH_COMMENTS_FOR_RESPONSES = "searchcommentforresponses";
     }
@@ -470,11 +493,13 @@ public class Const {
     public class SearchIndex {
         public static final String COMMENT = "comment";
         public static final String FEEDBACK_RESPONSE_COMMENT = "feedbackresponsecomment";
+        public static final String STUDENT = "student";
     }
     
     public class SearchDocumentField {
         public static final String ATTRIBUTE = "attribute";
         public static final String COMMENT_ATTRIBUTE = "commentAttibute";
+        public static final String STUDENT_ATTRIBUTE = "studentAttribute";
         public static final String COMMENT_GIVER_NAME = "commentGiverName";
         public static final String COMMENT_GIVER_EMAIL = "commentGiverEmail";
         public static final String COMMENT_RECIPIENT_NAME = "commentRecipientName";
@@ -584,6 +609,7 @@ public class Const {
         
         public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
         public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
+        public static final String STUDENT_COURSE_JOIN_NEW = "/page/studentCourseJoinAuthentication";
         public static final String STUDENT_COURSE_JOIN_AUTHENTICATED = "/page/studentCourseJoinAuthenticated";
         public static final String STUDENT_COMMENTS_PAGE = "/page/studentCommentsPage";
         public static final String STUDENT_COURSE_DETAILS_PAGE = "/page/studentCourseDetailsPage";
@@ -891,6 +917,7 @@ public class Const {
         
         // Messages that are templates only
         /** Template String. Parameters: Student's name, Evaluation name, Course ID */
+        public static final String STUDENT_COURSE_JOIN_SUCCESSFUL = "You have been successfully added to the course (%s).";
         public static final String INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED = "You have edited %s's submission for evaluation %s in course %s successfully.<br />"
                 + "The change will not be reflected here until you <span class='color_red bold'>REFRESH</span> the page.";
         /** Template String. Parameters: Evaluation name, Course ID */
@@ -903,6 +930,10 @@ public class Const {
         public static final String STUDENT_PROFILE_PICTURE_EDIT_FAILED = "The photo that was edited did not belong to the user. "
                 + "Please upload another picture to begin editing";
         public static final String STUDENT_NOT_JOINED_YET_FOR_RECORDS = "This student has not joined the course yet or you are not supposed to view his/her profile";
+        
+        public static final String UNREGISTERED_STUDENT = "You may submit feedback and view results without logging in. "
+                + "To access other features you need <a href='%s' class='link'>to login using a google account</a> "
+                + "(recommended).";
     }
 
     /* These indicate status of an operation, but they are not shown to the user */

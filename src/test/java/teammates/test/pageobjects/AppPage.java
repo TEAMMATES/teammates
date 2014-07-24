@@ -3,6 +3,7 @@ package teammates.test.pageobjects;
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 import static org.testng.AssertJUnit.assertEquals;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,9 +19,9 @@ import java.util.logging.Logger;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.params.ClientPNames;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpParams;
 import org.cyberneko.html.parsers.DOMParser;
@@ -95,11 +96,14 @@ public abstract class AppPage {
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[2]/li[1]/a")
     protected WebElement instructorLogoutLink;
     
-    @FindBy(id = "studentHomeLink")
+    @FindBy(id = "studentHomeNavLink")
     protected WebElement studentHomeTab;
     
-    @FindBy(id = "studentProfileLink")
+    @FindBy(id = "studentProfileNavLink")
     protected WebElement studentProfileTab;
+    
+    @FindBy(id = "studentCommentsNavLink")
+    protected WebElement studentCommentsTab;
     
     @FindBy(id = "studentHelpLink")
     protected WebElement studentHelpTab;
@@ -221,7 +225,7 @@ public abstract class AppPage {
     /**
      * Waits for element to be invisible or not present, or timeout.
      */
-    protected void waitForElementToDisappear(By by){
+    public void waitForElementToDisappear(By by){
         WebDriverWait wait = new WebDriverWait(browser.driver, 30);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
     }
@@ -733,7 +737,7 @@ public abstract class AppPage {
         String byId = by.toString().split(":")[1].trim();
         
         DOMParser parser = new DOMParser();
-        parser.parse(new InputSource(new FileReader(filePath)));
+        parser.parse(new InputSource(new BufferedReader(new FileReader(filePath))));
         org.w3c.dom.Document htmlDoc = parser.getDocument();
         org.w3c.dom.Element expectedElement = htmlDoc.getElementById(byId);
         StringBuilder expectedHtml = new StringBuilder();
@@ -776,6 +780,7 @@ public abstract class AppPage {
         
         //Wait for loader gif loader to disappear.
         waitForElementToDisappear(By.cssSelector("img[src='/images/ajax-loader.gif']"));
+        waitForElementToDisappear(By.cssSelector("img[src='/images/ajax-preload.gif']"));
         
         if(filePath.startsWith("/")){
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
@@ -826,11 +831,10 @@ public abstract class AppPage {
     public AppPage verifyStatus(String expectedStatus){
         
         try{
-            boolean isSameStatus = expectedStatus.equals(this.getStatus());
-            assertEquals(true, isSameStatus);
+            assertEquals(expectedStatus, this.getStatus());
         } catch(Exception e){
             if(!expectedStatus.equals("")){
-                this.waitForElementPresence(By.id("statusMessage"), 10);
+                this.waitForElementPresence(By.id("statusMessage"), 15);
                 if(!statusMessage.isDisplayed()){
                     this.waitForElementVisible(statusMessage);
                 }
@@ -878,7 +882,7 @@ public abstract class AppPage {
             downloadedFile.setWritable(true);
         }
         
-        HttpClient client = new DefaultHttpClient();
+        CloseableHttpClient client = new DefaultHttpClient();
         
         HttpGet httpget = new HttpGet(fileToDownload.toURI());
         HttpParams httpRequestParameters = httpget.getParams();
@@ -894,6 +898,8 @@ public abstract class AppPage {
         
         String actualHash = DigestUtils.shaHex(new FileInputStream(downloadedFile));
         assertEquals(expectedHash.toLowerCase(), actualHash);
+        
+        client.close();
     }
     
     public void verifyFieldValue (String fieldId, String expectedValue) {

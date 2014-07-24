@@ -14,7 +14,7 @@ public class InstructorStudentListPage extends AppPage {
     @FindBy(id = "searchbox")
     private WebElement searchBox;
     
-    @FindBy(id = "button_search")
+    @FindBy(id = "buttonSearch")
     private WebElement searchButton;
     
     @FindBy(id = "show_email")
@@ -98,6 +98,7 @@ public class InstructorStudentListPage extends AppPage {
     
     public void checkCourse(int courseIdx){
         browser.driver.findElement(By.id("course_check-" + courseIdx)).click();
+        waitForElementToDisappear(By.cssSelector("img[src='/images/ajax-preload.gif']"));
     }
     
     public void clickSelectAll() {

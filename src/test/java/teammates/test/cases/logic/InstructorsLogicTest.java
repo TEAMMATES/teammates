@@ -95,7 +95,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
             AssertHelper.assertContains("Trying to create a Instructor that exists", e.getMessage());
         }
         
-        instructorsLogic.deleteInstructor(instr.courseId, instr.email);
+        instructorsLogic.deleteInstructorCascade(instr.courseId, instr.email);
         
         ______TS("failure: invalid parameter");
         
@@ -588,7 +588,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 
         ______TS("failure: instructor doesn't exist");
         
-        instructorsLogic.deleteInstructor(courseId, instructorUpdated.email);
+        instructorsLogic.deleteInstructorCascade(courseId, instructorUpdated.email);
         
         try {
             instructorsLogic.updateInstructorByGoogleId(googleId, instructorUpdated);
@@ -641,7 +641,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 
         ______TS("failure: instructor doesn't belong to course");
         
-        instructorsLogic.deleteInstructor(courseId, instructorToBeUpdated.email);
+        instructorsLogic.deleteInstructorCascade(courseId, instructorToBeUpdated.email);
         
         try {
             instructorsLogic.updateInstructorByEmail(email, instructorToBeUpdated);
@@ -682,55 +682,66 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         
         InstructorAttributes instructorDeleted = instructorsLogic.getInstructorForEmail(courseId, email);
         
-        instructorsLogic.deleteInstructor(courseId, email);
+        instructorsLogic.deleteInstructorCascade(courseId, email);
         
         TestHelper.verifyAbsentInDatastore(instructorDeleted);
+        TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
 
         ______TS("typical case: delete a non-existent instructor");
 
-        instructorsLogic.deleteInstructor(courseId, "non-existent@course1.com"); 
+        instructorsLogic.deleteInstructorCascade(courseId, "non-existent@course1.com"); 
 
         ______TS("failure: null parameter");
 
         try {
-            instructorsLogic.deleteInstructor(courseId, null);
+            instructorsLogic.deleteInstructorCascade(courseId, null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
 
         try {
-            instructorsLogic.deleteInstructor(null, email);
+            instructorsLogic.deleteInstructorCascade(null, email);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
-
+        
+        // restore deleted instructor
+        instructorsLogic.createInstructor(instructorDeleted);
     }
 
     public void testDeleteInstructorsForGoogleId() throws Exception {
         
         ______TS("typical case: delete all instructors for a given googleId");
         
-        String googleId = "idOfInstructor3";
+        String googleId = "idOfInstructor1";
         
-        instructorsLogic.deleteInstructorsForGoogleId(googleId);
+        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForGoogleId(googleId);
         
-        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);
+        instructorsLogic.deleteInstructorsForGoogleIdAndCascade(googleId);
         
-        assertEquals(true, instructorList.isEmpty());
-
+        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);      
+        assertEquals(instructorList.isEmpty(), true);
+        TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI1C1toS1C1"));
+        TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment2FromI1C1toS1C1"));
+        
         ______TS("typical case: delete an non-existent googleId");
 
-        instructorsLogic.deleteInstructorsForGoogleId("non-existent");
+        instructorsLogic.deleteInstructorsForGoogleIdAndCascade("non-existent");
 
         ______TS("failure: null parameter");
 
         try {
-            instructorsLogic.deleteInstructorsForGoogleId(null);
+            instructorsLogic.deleteInstructorsForGoogleIdAndCascade(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+        
+        // restore deleted instructors
+        for (InstructorAttributes instructor : instructors) {
+            instructorsLogic.createInstructor(instructor);
         }
     }
 

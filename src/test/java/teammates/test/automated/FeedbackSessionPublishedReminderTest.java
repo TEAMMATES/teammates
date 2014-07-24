@@ -27,8 +27,10 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.Emails.EmailType;
 import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
 import teammates.test.cases.BaseTaskQueueCallback;
+import teammates.test.util.Priority;
 import teammates.test.util.TestHelper;
 
+@Priority(-1)
 public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTaskQueueTestCase {
 
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
@@ -85,13 +87,13 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         ______TS("3 sessions unpublished, 1 published and emails unsent");
         int counter = 0;
 
-        while(counter != 10){
+        while(counter < 10){
+            counter++;
             FeedbackSessionPublishedCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionPublishedEmails();
             if(FeedbackSessionPublishedCallback.verifyTaskCount(1)){
                 break;
             }
-            counter++;
         }
         
         assertEquals(FeedbackSessionPublishedCallback.taskCount, 1);
@@ -125,28 +127,28 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
 
         counter = 0;
 
-        while(counter != 10){
+        while(counter < 10){
+            counter++;
             FeedbackSessionPublishedCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionPublishedEmails();
             if(FeedbackSessionPublishedCallback.verifyTaskCount(3)){
                 break;
             }
-            counter++;
         }
-        assertEquals(FeedbackSessionPublishedCallback.taskCount, 3);
+        assertEquals(3, FeedbackSessionPublishedCallback.taskCount);
         
         ______TS("unpublish a session");
         fsLogic.unpublishFeedbackSession(session2.feedbackSessionName, session2.courseId);
         
         counter = 0;
 
-        while(counter != 10){
+        while(counter < 10){
+            counter++;
             FeedbackSessionPublishedCallback.resetTaskCount();
             fsLogic.scheduleFeedbackSessionPublishedEmails();
             if(FeedbackSessionPublishedCallback.verifyTaskCount(2)){
                 break;
             }
-            counter++;
         }
         if(counter == 10){
             assertEquals(FeedbackSessionPublishedCallback.taskCount, 2);

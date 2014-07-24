@@ -100,9 +100,9 @@ public class InstructorEvalResultsPage extends AppPage {
         return this;
     }
 
-    public InstructorEvalsPage unpublishAndConfirm() {
+    public InstructorFeedbacksPage unpublishAndConfirm() {
         clickAndConfirm(unpublishButton);
-        return changePageType(InstructorEvalsPage.class);
+        return changePageType(InstructorFeedbacksPage.class);
     }
     
     public AppPage publishAndCancel() {
@@ -110,9 +110,9 @@ public class InstructorEvalResultsPage extends AppPage {
         return this;
     }
     
-    public InstructorEvalsPage publishAndConfirm() {
+    public InstructorFeedbacksPage publishAndConfirm() {
         clickAndConfirm(publishButton);
-        return changePageType(InstructorEvalsPage.class);
+        return changePageType(InstructorFeedbacksPage.class);
     }
 
     public InstructorEvalSubmissionEditPage clickEditLinkForStudent(String studentName) {

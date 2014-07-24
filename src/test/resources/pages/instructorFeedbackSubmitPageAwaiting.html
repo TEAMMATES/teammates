@@ -249,7 +249,7 @@ ul #nav {
                     <a href="/page/instructorCoursesPage?user=IFSubmitUiT.instr" data-link="instructorCourse" class="nav courses">Courses</a>
                 </li>
                 <li class="active">
-                    <a href="/page/instructorEvalsPage?user=IFSubmitUiT.instr" data-link="instructorEval" class="nav evaluations">Sessions</a>
+                    <a href="/page/instructorFeedbacksPage?user=IFSubmitUiT.instr" data-link="instructorEval" class="nav evaluations">Sessions</a>
                 </li>
                 <li class="">
                     <a href="/page/instructorStudentListPage?user=IFSubmitUiT.instr" data-link="instructorStudent" class="nav students">Students</a>
@@ -284,6 +284,7 @@ ul #nav {
         <form name="form_submit_response" action="/page/instructorFeedbackSubmissionEditSave" method="post">
             
             
+
 
 
 
@@ -327,9 +328,7 @@ ul #nav {
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Instructions:</label>
                             <div class="col-sm-10">
-                                <pre>
-                                 <p class="form-control-static">Please please fill in the second feedback session</p>
-                                </pre>
+                                <p class="form-control-static text-preserve-space">Please please fill in the second feedback session</p>
                             </div>
                         </div> 
                     </div> 
@@ -356,7 +355,7 @@ ul #nav {
         <div class="form-horizontal">
             <div class="panel panel-primary">
                 <div class="panel-heading">Question 1:<br />
-                    Give feedback to your instructors</div>
+                    <span class="text-preserve-space">Give feedback to your instructors</span></div>
                 <div class="panel-body">
                     <p class="text-muted">Only the following persons can see your responses: </p>
                     <ul class="text-muted">

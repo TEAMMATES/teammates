@@ -97,8 +97,13 @@ public class FeedbackResponseCommentsLogic {
             return frcDb.getFeedbackResponseCommentsForSessionInSection(courseId, feedbackSessionName, section);
         }
     }
-
-    public void updateFeedbackResponseCommentForResponse(String feedbackResponseId) throws InvalidParametersException, EntityDoesNotExistException{
+    
+    public void updateFeedbackResponseCommentsGiverEmail(String courseId, String oldEmail, String updatedEmail) {
+        frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, oldEmail, updatedEmail);
+    }
+    
+    // right now this method is only updating sections
+    public void updateFeedbackResponseCommentsForResponse(String feedbackResponseId) throws InvalidParametersException, EntityDoesNotExistException{
         List<FeedbackResponseCommentAttributes> comments = getFeedbackResponseCommentForResponse(feedbackResponseId);
         FeedbackResponseAttributes response = frLogic.getFeedbackResponse(feedbackResponseId);
         for(FeedbackResponseCommentAttributes comment : comments){
@@ -150,6 +155,10 @@ public class FeedbackResponseCommentsLogic {
     public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(
             String queryString, String googleId, String cursorString) {
         return frcDb.search(queryString, googleId, cursorString);
+    }
+    
+    public void deleteFeedbackResponseCommentsForResponse(String responseId) {
+        frcDb.deleteFeedbackResponseCommentsForResponse(responseId);
     }
     
     public void deleteFeedbackResponseComment(

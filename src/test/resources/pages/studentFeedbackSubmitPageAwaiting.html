@@ -245,15 +245,15 @@ ul #nav {
                 <div id="contentLinks" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li class="">
-                            <a href="/page/studentHomePage?user=SFSubmitUiT.alice.b" data-link="studentHome" id="studentHomeLink">Home</a>
+                            <a href="/page/studentHomePage?user=SFSubmitUiT.alice.b" id="studentHomeNavLink" class="navLinks">Home</a>
                         </li>
                         <li class="">
-                            <a href="/page/studentProfilePage?user=SFSubmitUiT.alice.b" data-link="studentProfilePage" id="studentProfileLink">
+                            <a href="/page/studentProfilePage?user=SFSubmitUiT.alice.b" id="studentProfileNavLink" class="navLinks">
                                 Profile
                             </a>
                         </li>
                         <li class="">
-                            <a href="/page/studentCommentsPage?user=SFSubmitUiT.alice.b" data-link="studentCommentsPage" id="studentCommentsLink">
+                            <a href="/page/studentCommentsPage?user=SFSubmitUiT.alice.b" id="studentCommentsNavLink" class="navLinks">
                                 Comments
                             </a>
                         </li>
@@ -263,7 +263,6 @@ ul #nav {
                     </ul>
                     <ul class="nav navbar-nav pull-right">
                         <li><a href="/logout.jsp" class="nav logout">Logout
-                                
                                 (<span title="" data-placement="bottom" data-toggle="tooltip" class="text-info" data-original-title="SFSubmitUiT.alice.b">
                                         SFSubmitUiT.alice.b
                                  </span>)
@@ -330,7 +329,7 @@ ul #nav {
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Instructions:</label>
                             <div class="col-sm-10">
-                                <pre><p class="form-control-static">Please please fill in the second feedback session</p></pre>
+                                <p class="form-control-static text-preserve-space">Please please fill in the second feedback session</p>
                             </div>
                         </div> 
                     </div> 
@@ -357,7 +356,7 @@ ul #nav {
         <div class="form-horizontal">
             <div class="panel panel-primary">
                 <div class="panel-heading">Question 1:<br />
-                    Give feedback to your instructors</div>
+                    <span class="text-preserve-space">Give feedback to your instructors</span></div>
                 <div class="panel-body">
                     <p class="text-muted">Only the following persons can see your responses: </p>
                     <ul class="text-muted">

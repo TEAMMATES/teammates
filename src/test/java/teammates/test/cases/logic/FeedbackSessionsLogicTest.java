@@ -860,7 +860,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         // Instructor can see responses: q2r1-3, q3r1-2, q4r1-3, q5r1, q6r1
         assertEquals(10, results.responses.size());
-        assertEquals(5, results.questions.size());
+        //Instructor should still see all questions
+        assertEquals(8, results.questions.size());
         
         // Test the user email-name maps used for display purposes
         mapString = results.emailNameTable.toString();
@@ -937,7 +938,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         // Instructor can see responses: q2r1-3, q3r1-2, q4r1-3, q5r1, q6r1
         assertEquals(7, results.responses.size());
-        assertEquals(4, results.questions.size());
+        //Instructor should still see all questions
+        assertEquals(8, results.questions.size());
         
         // Test the user email-name maps used for display purposes
         mapString = results.emailNameTable.toString();
@@ -1404,7 +1406,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
                 session.feedbackSessionName, session.courseId, instructor.email);
         
         exportLines = export.split(Const.EOL);
-        assertEquals(2, exportLines.length);
+        assertEquals(12, exportLines.length);
         assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
         assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
         

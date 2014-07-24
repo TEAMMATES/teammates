@@ -162,7 +162,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     public void addFeedbackResponseComment(String commentText) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, 3000);
+        WebDriverWait wait = new WebDriverWait(browser.driver, 30);
         showResponseCommentAddFormButton.click();
         wait.until(ExpectedConditions.elementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea"))));
         fillTextBox(addResponseCommentForm.findElement(By.tagName("textarea")), commentText);
@@ -207,7 +207,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     public void verifyCommentRowContent(String commentRowIdSuffix, String commentText, String giverName) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, 3000);
+        WebDriverWait wait = new WebDriverWait(browser.driver, 30);
         WebElement commentRow;
         try{
             commentRow = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("responseCommentRow" + commentRowIdSuffix)));
@@ -244,6 +244,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void clickAjaxPanel(int index){
         List<WebElement> ajaxPanels = browser.driver.findElements(By.cssSelector(".ajax_submit"));
         ajaxPanels.get(index).click();
+        ThreadHelper.waitFor(500);
     }
 
     public void clickCollapseSectionButton(int index){

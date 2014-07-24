@@ -12,6 +12,10 @@ body {
     text-align: center;
 }
 
+.align-justify {
+    text-align: justify;
+}
+
 .background-color-white {
     background-color: white;
 }
@@ -136,18 +140,13 @@ input.inline {
     margin: 0;
 }
 
+.narrow-slight {
+    width: 90%;
+}
+
 .padding-top-0.checkbox,
 .padding-top-0 {
    padding-top: 0;
-}
-
-.pre-plain {
-    background-color: #fff;
-    border: 0;
-    font-family: none;
-    font-size: 15px;
-    word-break: normal;
-    white-space: pre-wrap;
 }
 
 .text-bold {
@@ -180,6 +179,10 @@ input.inline {
 
 .text-color-white {
     color: white;
+}
+
+.text-preserve-space {
+    white-space: pre-wrap;
 }
 
 .text-strike {

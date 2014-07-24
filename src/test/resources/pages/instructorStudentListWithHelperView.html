@@ -4,20 +4,26 @@
             <div class="well well-plain">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-10">
-                                <div class="form-group">
-                                    <input data-original-title="Search for student's name" id="searchbox" title="" class="form-control" data-toggle="tooltip" data-placement="top" placeholder="e.g. Charles Shultz" value="" type="text">
+                        <form method="get" action="/page/instructorSearchPage?user=instructorWith2Courses" name="search_form">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <input data-original-title="Search for student's name" id="searchbox" title="" name="searchkey" class="form-control" data-toggle="tooltip" data-placement="top" placeholder="e.g. Charles Shultz" value="" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-md-2 nav">
+                                    <div class="form-group">
+                                        <button id="buttonSearch" class="btn btn-primary" type="submit" value="Search">
+                                            <span class="glyphicon glyphicon-search"></span> Find students
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-2 nav">
-                                <div class="form-group">
-                                    <button id="button_search" class="btn btn-primary" type="submit" onclick="return applyFilters();" value="Search">
-                                        <span class="glyphicon glyphicon-search"></span> Find students
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                            <input name="searchstudents" value="true" type="hidden">
+                            <input name="searchcommentforstudents" value="false" type="hidden">
+                            <input name="searchcommentforresponses" value="false" type="hidden">
+                            <input name="user" value="instructorWith2Courses" type="hidden">
+                        </form>
                      </div>
                  </div>
              </div>

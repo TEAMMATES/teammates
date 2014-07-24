@@ -39,12 +39,22 @@ public class PageData {
     /** The user for whom the pages are displayed (i.e. the 'nominal user'). 
      *    May not be the logged in user (under masquerade mode) */
     public AccountAttributes account;
+    public StudentAttributes student;
 
     /**
      * @param account The account for the nominal user.
      */
     public PageData(AccountAttributes account){
         this.account = account;
+        this.student = null;
+    }
+    
+    /**
+     * @param account The account for the nominal user.
+     */
+    public PageData(AccountAttributes account, StudentAttributes student){
+        this.account = account;
+        this.student = student;
     }
     
     @SuppressWarnings("unused")
@@ -281,9 +291,13 @@ public class PageData {
      * @return The relative path to the student home page. 
      * The user Id is encoded in the url as a parameter.
      */
-    public String getStudentHomeLink(){
+    public String getStudentHomeLink(boolean isUnregistered) {
         String link = Const.ActionURIs.STUDENT_HOME_PAGE;
         link = addUserIdToUrl(link);
+        if (isUnregistered) {
+            link = Url.addParamToUrl(student.getRegistrationUrl(), 
+                    Const.ParamsNames.NEXT_URL, link);
+        }
         return link;
     }
     
@@ -291,9 +305,13 @@ public class PageData {
      * @return The relative path to the student profile page. 
      * The user Id is encoded in the url as a parameter.
      */
-    public String getStudentProfileLink() {
+    public String getStudentProfileLink(boolean isUnregistered) {
         String link = Const.ActionURIs.STUDENT_PROFILE_PAGE;
         link = addUserIdToUrl(link);
+        if (isUnregistered) {
+            link = Url.addParamToUrl(student.getRegistrationUrl(), 
+                    Const.ParamsNames.NEXT_URL, link);
+        }
         return link;
     }
     
@@ -301,9 +319,13 @@ public class PageData {
      * @return The relative path to the student comments page. 
      * The user Id is encoded in the url as a parameter.
      */
-    public String getStudentCommentsLink() {
+    public String getStudentCommentsLink(boolean isUnregistered) {
         String link = Const.ActionURIs.STUDENT_COMMENTS_PAGE;
         link = addUserIdToUrl(link);
+        if (isUnregistered) {
+            link = Url.addParamToUrl(student.getRegistrationUrl(), 
+                    Const.ParamsNames.NEXT_URL, link);
+        }
         return link;
     }
     
@@ -400,7 +422,8 @@ public class PageData {
     }
     
     public String getInstructorEvaluationLink(){
-        String link = Const.ActionURIs.INSTRUCTOR_EVALS_PAGE;
+        //String link = Const.ActionURIs.INSTRUCTOR_EVALS_PAGE;
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
         link = addUserIdToUrl(link);
         return link;
     }
@@ -462,7 +485,7 @@ public class PageData {
         String link = Const.ActionURIs.INSTRUCTOR_EVAL_PUBLISH;
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
-        link = Url.addParamToUrl(link,Const.ParamsNames.NEXT_URL,(isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE): addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_EVALS_PAGE)));
+        link = Url.addParamToUrl(link,Const.ParamsNames.NEXT_URL,(isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE): addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
         link = addUserIdToUrl(link);
         return link;
     }
@@ -472,7 +495,7 @@ public class PageData {
         String link = Const.ActionURIs.INSTRUCTOR_EVAL_UNPUBLISH;
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseID);
         link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
-        link = Url.addParamToUrl(link,Const.ParamsNames.NEXT_URL,(isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE): addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_EVALS_PAGE)));
+        link = Url.addParamToUrl(link,Const.ParamsNames.NEXT_URL,(isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE): addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
         link = addUserIdToUrl(link);
         return link;
     }
@@ -497,6 +520,11 @@ public class PageData {
         return link;
     }
     
+    public String getInstructorFeedbackSessionLink(){
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+        link = addUserIdToUrl(link);
+        return link;
+    }
     
     public String getInstructorFeedbackSessionDeleteLink(String courseId, String feedbackSessionName, String nextURL){
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_DELETE;
@@ -616,7 +644,7 @@ public class PageData {
      * @return
      */
     public String getInstructorEvaluationActions(EvaluationAttributes eval, boolean isHome, InstructorAttributes instructor){
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         
         boolean hasView = false;
         boolean hasEdit = false;
@@ -673,7 +701,7 @@ public class PageData {
         );
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions session-delete-for-test\"" + 
-            "href=\"" + getInstructorEvaluationDeleteLink(eval.courseId,eval.name,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_EVALS_PAGE)) + "\" " +
+            "href=\"" + getInstructorEvaluationDeleteLink(eval.courseId,eval.name,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)) + "\" " +
             "title=\"" + Const.Tooltips.EVALUATION_DELETE + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
             "onclick=\"return toggleDeleteEvaluationConfirmation('" + eval.courseId + "','" + eval.name + "');\" " +
             disableDeleteSessionStr + ">Delete</a> "
@@ -761,7 +789,7 @@ public class PageData {
      */
     public String getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,
             boolean isHome, InstructorAttributes instructor) throws EntityDoesNotExistException{
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         
         // Allowing ALL instructors to view results regardless of publish state.
         boolean hasSubmit = session.isVisible() || session.isPrivateSession();

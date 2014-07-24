@@ -14,7 +14,6 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 import teammates.logic.backdoor.BackDoorServlet;
 import teammates.test.driver.BackDoor;
-import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.StudentHomePage;
@@ -31,8 +30,8 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/StudentProfilePageUiTest.json");
-        restoreTestDataOnServer(testData);
-        browser = BrowserPool.getBrowser(true);
+        removeAndRestoreTestDataOnServer(testData);
+        browser = BrowserPool.getBrowser();
     }
     
     @Test

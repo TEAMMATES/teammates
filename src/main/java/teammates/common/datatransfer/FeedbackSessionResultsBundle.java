@@ -179,11 +179,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 if(studentResult != null){
                     int pc = studentResult.perceivedToInstructor;
                     String pcHtml = ((FeedbackContributionQuestionDetails) questionDetails).convertToEqualShareFormatHtml(pc);
-                    responseAnswerHtml += "&nbsp;&nbsp;["
-                            + "<abbr title=\"Percived Contribution\">PC:</abbr>"
-                            + "&nbsp;"
+                    responseAnswerHtml += "<span>&nbsp;&nbsp;["
+                            + "Perceived Contribution: "
                             + pcHtml
-                            + "]";
+                            + "]</span>";
                 }
             }
             return responseAnswerHtml;
@@ -734,6 +733,15 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             String recipientName1 = emailNameTable.get(o1.recipientEmail);
             String recipientName2 = emailNameTable.get(o2.recipientEmail);            
             order = compareByNames(recipientName1, recipientName2);
+            
+            if(order != 0){
+                return order;
+            }
+            
+            String resp1 = o1.getResponseDetails().getAnswerString();
+            String resp2 = o2.getResponseDetails().getAnswerString();
+            order = compareByNames(resp1, resp2);
+            
             return order; 
         }
     };

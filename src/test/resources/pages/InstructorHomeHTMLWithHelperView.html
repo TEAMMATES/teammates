@@ -6,13 +6,16 @@
                     <h1>Instructor Home</h1>
                 </div>
                 <div class="col-md-5 instructor-header-bar">
-                    <form method="post" action="/page/instructorStudentListPage?user={$test.instructor}" name="search_form">
+                    <form method="get" action="/page/instructorSearchPage?user={$test.instructor}" name="search_form">
                         <div class="input-group">
-                            <input name="searchkey" title="Search for student's name" class="form-control" placeholder="Student Name" id="searchBox" type="text">
+                            <input data-original-title="Search for student's name" id="searchbox" title="" name="searchkey" class="form-control" data-toggle="tooltip" data-placement="top" placeholder="Student Name" type="text">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit" value="Search" id="buttonSearch">Search</button>
-                            </span>
+                            </span> 
                         </div>
+                        <input name="searchstudents" value="true" type="hidden">
+                        <input name="searchcommentforstudents" value="false" type="hidden">
+                        <input name="searchcommentforresponses" value="false" type="hidden">
                         <input name="user" value="{$test.instructor}" type="hidden">
                     </form>
                 </div>
@@ -74,7 +77,7 @@
                                         
                                      <a data-original-title="Edit Course information and instructor list" class="btn btn-primary btn-xs btn-tm-actions course-edit-for-test" href="/page/instructorCourseEditPage?courseid=CHomeUiT.CS1101&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top"> Edit</a>
                                         
-                                     <a data-original-title="Add an evaluation for the course" class="btn btn-primary btn-xs btn-tm-actions course-add-eval-for-test" href="/page/instructorEvalsPage?user={$test.instructor}&amp;courseid=CHomeUiT.CS1101" title="" data-toggle="tooltip" data-placement="top" disabled="disabled"> Add Session</a>
+                                     <a data-original-title="Add a feedback session for the course" class="btn btn-primary btn-xs btn-tm-actions course-add-eval-for-test" href="/page/instructorFeedbacksPage?user={$test.instructor}&amp;courseid=CHomeUiT.CS1101" title="" data-toggle="tooltip" data-placement="top" disabled="disabled"> Add Session</a>
                                      
                                      <a data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" class="btn btn-primary btn-xs btn-tm-actions course-archive-for-test" href="/page/instructorCourseArchive?courseid=CHomeUiT.CS1101&amp;archive=true&amp;next=%2Fpage%2FinstructorHomePage&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleArchiveCourseConfirmation('CHomeUiT.CS1101')">Archive</a>
                                         
@@ -87,7 +90,7 @@
                                         <span class="glyphicon glyphicon-envelope"></span>
                                     </a>
                                         
-                                     <a data-original-title="Delete the course and its corresponding students and evaluations" class="btn btn-primary btn-xs btn-tm-actions course-delete-for-test" href="/page/instructorCourseDelete?courseid=CHomeUiT.CS1101&amp;next=%2Fpage%2FinstructorHomePage&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleDeleteCourseConfirmation('CHomeUiT.CS1101')" disabled="disabled"> Delete</a>
+                                     <a data-original-title="Delete the course and its corresponding students and sessions" class="btn btn-primary btn-xs btn-tm-actions course-delete-for-test" href="/page/instructorCourseDelete?courseid=CHomeUiT.CS1101&amp;next=%2Fpage%2FinstructorHomePage&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleDeleteCourseConfirmation('CHomeUiT.CS1101')" disabled="disabled"> Delete</a>
                                 </span>
                             </div>
                         </div>
@@ -166,7 +169,7 @@
                                         
                                      <a data-original-title="Edit Course information and instructor list" class="btn btn-primary btn-xs btn-tm-actions course-edit-for-test" href="/page/instructorCourseEditPage?courseid=CHomeUiT.CS2104&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top"> Edit</a>
                                         
-                                     <a data-original-title="Add an evaluation for the course" class="btn btn-primary btn-xs btn-tm-actions course-add-eval-for-test" href="/page/instructorEvalsPage?user={$test.instructor}&amp;courseid=CHomeUiT.CS2104" title="" data-toggle="tooltip" data-placement="top"> Add Session</a>
+                                     <a data-original-title="Add a feedback session for the course" class="btn btn-primary btn-xs btn-tm-actions course-add-eval-for-test" href="/page/instructorFeedbacksPage?user={$test.instructor}&amp;courseid=CHomeUiT.CS2104" title="" data-toggle="tooltip" data-placement="top"> Add Session</a>
                                      
                                      <a data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" class="btn btn-primary btn-xs btn-tm-actions course-archive-for-test" href="/page/instructorCourseArchive?courseid=CHomeUiT.CS2104&amp;archive=true&amp;next=%2Fpage%2FinstructorHomePage&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleArchiveCourseConfirmation('CHomeUiT.CS2104')">Archive</a>
                                         
@@ -179,7 +182,7 @@
                                         <span class="glyphicon glyphicon-envelope"></span>
                                     </a>
                                         
-                                     <a data-original-title="Delete the course and its corresponding students and evaluations" class="btn btn-primary btn-xs btn-tm-actions course-delete-for-test" href="/page/instructorCourseDelete?courseid=CHomeUiT.CS2104&amp;next=%2Fpage%2FinstructorHomePage&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleDeleteCourseConfirmation('CHomeUiT.CS2104')"> Delete</a>
+                                     <a data-original-title="Delete the course and its corresponding students and sessions" class="btn btn-primary btn-xs btn-tm-actions course-delete-for-test" href="/page/instructorCourseDelete?courseid=CHomeUiT.CS2104&amp;next=%2Fpage%2FinstructorHomePage&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleDeleteCourseConfirmation('CHomeUiT.CS2104')"> Delete</a>
                                 </span>
                             </div>
                         </div>

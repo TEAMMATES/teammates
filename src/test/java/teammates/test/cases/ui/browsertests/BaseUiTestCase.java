@@ -72,20 +72,54 @@ public class BaseUiTestCase extends BaseTestCase {
     }
     
     /**
-     * Deletes are recreates the given data on the datastore.
+     * Updates/creates the given data on the datastore.
      */
     protected static void restoreTestDataOnServer(DataBundle testData) {
 
         int counter = 0;
         String backDoorOperationStatus = "";
-        while(counter != 5){
+        int retryLimit;
+        if(TestProperties.inst().isDevServer()){
+            retryLimit = 5;
+        } else {
+            retryLimit = 1;
+        }
+
+        while(counter < retryLimit){
+            counter++;
             backDoorOperationStatus = BackDoor.restoreDataBundle(testData);
             if(backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
                 break;
             }
-            counter++;
+            System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
         }
-        if(counter == 5){
+        if(counter >= retryLimit){
+            Assumption.assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+        }
+    }
+    
+    /**
+     * Removes and then creates given data on the datastore.
+     */
+    protected static void removeAndRestoreTestDataOnServer(DataBundle testData) {
+        int counter = 0;
+        String backDoorOperationStatus = "";
+        int retryLimit;
+        if(TestProperties.inst().isDevServer()){
+            retryLimit = 5;
+        } else {
+            retryLimit = 1;
+        }
+
+        while(counter < retryLimit){
+            counter++;
+            backDoorOperationStatus = BackDoor.removeAndRestoreDataBundleFromDb(testData);
+            if(backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
+                break;
+            }
+            System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
+        }
+        if(counter >= retryLimit){
             Assumption.assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
         }
     }

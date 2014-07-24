@@ -39,7 +39,7 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 public class BackDoorLogic extends Logic {
     private static Logger log = Utils.getLogger();
     
-    private static final int WAIT_DURATION_FOR_DELETE_CHECKING = 500;
+    private static final int WAIT_DURATION_FOR_DELETE_CHECKING = 5;
     private static final int MAX_RETRY_COUNT_FOR_DELETE_CHECKING = 20;
     
     
@@ -96,7 +96,7 @@ public class BackDoorLogic extends Logic {
                 } catch (EntityDoesNotExistException e) {
                     if (e.getMessage().equals("Instructor " + instructor.googleId + 
                             " does not belong to course " + instructor.courseId)) {
-                        instructorsLogic.deleteInstructor(instructor.courseId, instructor.email);
+                        instructorsLogic.deleteInstructorCascade(instructor.courseId, instructor.email);
                     }
                     super.createInstructorAccount(
                             instructor.googleId, instructor.courseId, instructor.name,
@@ -120,13 +120,13 @@ public class BackDoorLogic extends Logic {
                     + " to course " + student.course);
             student.section = (student.section == null) ? "None" : student.section;
             try {
-                super.updateStudent(student.email, student);
+                updateStudentWithoutDocument(student.email, student);
             } catch (EntityDoesNotExistException e) {
                 if (student.googleId != null && !student.googleId.isEmpty() 
                         && super.getAccount(student.googleId) == null) {
                     super.createAccount(student.googleId, student.name, false, student.email, "NUS");
                 }
-                super.createStudent(student);
+                createStudentWithoutDocument(student);
             }
         }
 
@@ -338,7 +338,7 @@ public class BackDoorLogic extends Logic {
         StudentAttributes student = Utils.getTeammatesGson().fromJson(newValues,
                 StudentAttributes.class);
         student.section = (student.section == null) ? "None" : student.section;
-        updateStudent(originalEmail, student);
+        updateStudentWithoutDocument(originalEmail, student);
     }
 
     public void editEvaluationAsJson(String evaluationJson)
@@ -462,7 +462,7 @@ public class BackDoorLogic extends Logic {
         //  will be deleted automatically when we delete evaluations.
         
         for (StudentAttributes s : dataBundle.students.values()) {
-            deleteStudent(s.course, s.email);
+            deleteStudentWithoutDocument(s.course, s.email);
         }
         
         for (InstructorAttributes i : dataBundle.instructors.values()) {
@@ -496,9 +496,11 @@ public class BackDoorLogic extends Logic {
             deleteComment(c);
         }
         
-        waitUntilDeletePersists(dataBundle);
+        //waitUntilDeletePersists(dataBundle);
     }
 
+    //TODO: remove this when we confirm it is not needed
+    @SuppressWarnings("unused")
     private void waitUntilDeletePersists(DataBundle dataBundle) {
         
         //TODO: this method has too much duplication. 

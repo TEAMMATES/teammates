@@ -115,7 +115,7 @@
             "team":"Team 2"
         },
         "DropOut":{
-            "googleId":"drop.out",
+            "googleId":"",
             "email":"drop.out@gmail.com",
             "course":"SFSubmitUiT.CS2104",
             "name":"Drop out",

@@ -13,7 +13,12 @@
 %>    
     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>"/>
     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>"/>
-    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+    <% if (data.account.googleId != null) { %>
+        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+    <% } else { %>
+        <input type="hidden" name="<%=Const.ParamsNames.REGKEY%>" value="<%=data.student.key%>">
+        <input type="hidden" name="<%=Const.ParamsNames.STUDENT_EMAIL%>" value="<%=data.account.email%>">
+    <% } %>
     <div class="well well-plain" id="course1">
             <div class="panel-body">
                 <div class="form-horizontal">
@@ -45,7 +50,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Instructions:</label>
                             <div class="col-sm-10">
-                                <pre><p class="form-control-static"><%=sanitizeForHtml(data.bundle.feedbackSession.instructions.getValue())%></p></pre>
+                                <p class="form-control-static text-preserve-space"><%=sanitizeForHtml(data.bundle.feedbackSession.instructions.getValue())%></p>
                             </div>
                         </div> 
                     </div> 
@@ -77,7 +82,7 @@
         <div class="form-horizontal">
             <div class="panel panel-primary">
                 <div class="panel-heading">Question <%=qnIndx%>:<br/>
-                    <%=sanitizeForHtml(questionDetails.questionText)%></div>
+                    <span class="text-preserve-space"><%=sanitizeForHtml(questionDetails.questionText)%></div></span>
                 <div class="panel-body">
                     <p class="text-muted">Only the following persons can see your responses: </p>
                     <ul class="text-muted">

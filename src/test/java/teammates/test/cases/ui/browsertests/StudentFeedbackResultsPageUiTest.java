@@ -7,8 +7,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
+import teammates.test.driver.BackDoor;
+import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
@@ -27,9 +30,9 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/StudentFeedbackResultsPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         
-        browser = BrowserPool.getBrowser();        
+        browser = BrowserPool.getBrowser(); 
     }
     
     @Test
@@ -37,22 +40,23 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("no responses");
         
-        resultsPage = loginToStudentFeedbackSubmitPage("Alice", "Empty Session");
+        resultsPage = loginToStudentFeedbackResultsPage("Alice", "Empty Session");
         resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageEmpty.html");
             
         ______TS("standard session results");
         
-        resultsPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        resultsPage = loginToStudentFeedbackResultsPage("Alice", "Open Session");
         resultsPage.verifyHtml("/studentFeedbackResultsPageOpen.html");
         
         ______TS("team-to-team session results");
+        // TODO: change all but one verifyHtml to verifyHtmlMainContent
         
-        resultsPage = loginToStudentFeedbackSubmitPage("Benny", "Open Session");
+        resultsPage = loginToStudentFeedbackResultsPage("Benny", "Open Session");
         resultsPage.verifyHtml("/studentFeedbackResultsPageTeamToTeam.html");
         
         ______TS("MCQ session results");
         
-        resultsPage = loginToStudentFeedbackSubmitPage("Alice", "MCQ Session");
+        resultsPage = loginToStudentFeedbackResultsPage("Alice", "MCQ Session");
         resultsPage.verifyHtml("/studentFeedbackResultsPageMCQ.html");
         
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(4,""));
@@ -69,7 +73,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("MSQ session results");
         
-        resultsPage = loginToStudentFeedbackSubmitPage("Alice", "MSQ Session");
+        resultsPage = loginToStudentFeedbackResultsPage("Alice", "MSQ Session");
         resultsPage.verifyHtml("/studentFeedbackResultsPageMSQ.html");
         
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(4,""));
@@ -86,20 +90,30 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("NUMSCALE session results");
         
-        resultsPage = loginToStudentFeedbackSubmitPage("Alice", "NUMSCALE Session");
+        resultsPage = loginToStudentFeedbackResultsPage("Alice", "NUMSCALE Session");
         resultsPage.verifyHtml("/studentFeedbackResultsPageNUMSCALE.html");
         
         ______TS("CONSTSUM session results");
         
-        resultsPage = loginToStudentFeedbackSubmitPage("Alice", "CONSTSUM Session");
+        resultsPage = loginToStudentFeedbackResultsPage("Alice", "CONSTSUM Session");
         resultsPage.verifyHtml("/studentFeedbackResultsPageCONSTSUM.html");
         
 
         ______TS("CONTRIB session results");
         
-        resultsPage = loginToStudentFeedbackSubmitPage("Alice", "CONTRIB Session");
+        resultsPage = loginToStudentFeedbackResultsPage("Alice", "CONTRIB Session");
         resultsPage.verifyHtml("/studentFeedbackResultsPageCONTRIB.html");
-
+        
+        ______TS("unreg student");
+        // should automatically logout.
+        // Open Session
+        StudentAttributes unreg = testData.students.get("DropOut");
+        resultsPage = loginToStudentFeedbackResultsPage(unreg, "Open Session");
+        resultsPage.verifyHtml("/unregisteredStudentFeedbackResultsPageOpen.html");
+        
+        // Mcq Session
+        resultsPage = loginToStudentFeedbackResultsPage(unreg, "MCQ Session");
+        resultsPage.verifyHtml("/unregisteredStudentFeedbackResultsPageMCQ.html");
     }
 
     @AfterClass
@@ -107,7 +121,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         BrowserPool.release(browser);
     }
     
-    private StudentFeedbackResultsPage loginToStudentFeedbackSubmitPage(
+    private StudentFeedbackResultsPage loginToStudentFeedbackResultsPage(
             String studentName, String fsName) {
         Url editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                 .withUserId(testData.students.get(studentName).googleId)
@@ -115,6 +129,18 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
                 .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
         return loginAdminToPage(browser, editUrl,
                 StudentFeedbackResultsPage.class);
+    }
+    
+    private StudentFeedbackResultsPage loginToStudentFeedbackResultsPage(StudentAttributes s, String fsDataId) {
+            
+        String submitUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+                .withCourseId(s.course)
+                .withStudentEmail(s.email)
+                .withSessionName(testData.feedbackSessions.get(fsDataId).feedbackSessionName)
+                .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email))
+                .toString();
+        browser.driver.get(submitUrl);
+        return AppPage.getNewPageInstance(browser, StudentFeedbackResultsPage.class);
     }
 
 }

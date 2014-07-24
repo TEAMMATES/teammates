@@ -29,7 +29,7 @@ import teammates.test.util.TestHelper;
 /**
  * Covers Ui aspect of submission adjustment for evaluations and feedbacks
  */
-@Priority(-1)
+@Priority(1)
 public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;
@@ -42,7 +42,7 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorSubmissionAdjustmentUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         
         browser = BrowserPool.getBrowser();
     }

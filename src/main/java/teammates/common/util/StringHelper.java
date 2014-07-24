@@ -60,6 +60,17 @@ public class StringHelper {
         }
         return result;
     }
+    
+    public static String obscure(String inputString) {
+        Assumption.assertNotNull(inputString);
+        int length = inputString.length();
+        if (length == 0) {
+            return inputString;
+        } else if (length == 1) {
+            return inputString.substring(0, 1) + "....." + inputString.substring(length-1);
+        }
+        return inputString.substring(0, 2) + "....." + inputString.substring(length-2);
+    }
 
     public static String encrypt(String value) {
         try {
@@ -212,7 +223,7 @@ public class StringHelper {
     
     
     private static String byteArrayToHexString(byte[] b) {
-        StringBuffer sb = new StringBuffer(b.length * 2);
+        StringBuilder sb = new StringBuilder(b.length * 2);
         for (int i = 0; i < b.length; i++) {
             int v = b[i] & 0xff;
             if (v < 16) {
