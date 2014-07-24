@@ -165,6 +165,9 @@ public class BackDoorLogic extends Logic {
         HashMap<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
         List<FeedbackQuestionAttributes> questionList = new ArrayList<FeedbackQuestionAttributes>(questions.values());
         Collections.sort(questionList);
+        for(FeedbackQuestionAttributes question : questionList){
+            question.removeIrrelevantVisibilityOptions();
+        }
         fqDb.createFeedbackQuestions(questionList);
         
         HashMap<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
