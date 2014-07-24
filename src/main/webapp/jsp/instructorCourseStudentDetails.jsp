@@ -207,7 +207,7 @@
                     <select id="comment_recipient_select" class="form-control">
                         <option value="<%=CommentRecipientType.PERSON%>" selected><%=sanitizeForHtml(data.student.name)%></option>
                         <option value="<%=CommentRecipientType.TEAM%>"><%=sanitizeForHtml(data.student.team)%></option>
-                        <% if (data.hasSection) {%>
+                        <% if (data.hasSection && !data.student.section.equals("None")) {%>
                         <option value="<%=CommentRecipientType.SECTION%>"><%=sanitizeForHtml(data.student.section)%></option>
                         <% } %>
                     </select>
