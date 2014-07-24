@@ -63,17 +63,19 @@ public class AccountsDb extends EntitiesDb {
     }
     
     /* This function is used for persisting data bunble in testing process */
-    public void createAccounts(Collection<AccountAttributes> accountsToAdd) throws InvalidParametersException{
+    public void createAccounts(Collection<AccountAttributes> accountsToAdd, boolean updateAccount) throws InvalidParametersException{
         
         List<EntityAttributes> accountsToUpdate = createEntities(accountsToAdd);
-        for(EntityAttributes entity : accountsToUpdate){
-            AccountAttributes account = (AccountAttributes) entity;
-            try {
-                updateAccount(account, true);
-            } catch (EntityDoesNotExistException e) {
-             // This situation is not tested as replicating such a situation is 
-             // difficult during testing
-                Assumption.fail("Entity found be already existing and not existing simultaneously");
+        if(updateAccount){
+            for(EntityAttributes entity : accountsToUpdate){
+                AccountAttributes account = (AccountAttributes) entity;
+                try {
+                    updateAccount(account, true);
+                } catch (EntityDoesNotExistException e) {
+                 // This situation is not tested as replicating such a situation is 
+                 // difficult during testing
+                    Assumption.fail("Entity found be already existing and not existing simultaneously");
+                }
             }
         }
     }

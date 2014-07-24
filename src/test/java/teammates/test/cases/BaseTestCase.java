@@ -124,6 +124,7 @@ public class BaseTestCase {
     protected static void restoreTypicalDataInDatastore() throws Exception {
         BackDoorLogic backDoorLogic = new BackDoorLogic();
         DataBundle dataBundle = getTypicalDataBundle();
+        backDoorLogic.deleteExistingData(dataBundle);
         backDoorLogic.persistDataBundle(dataBundle);
     }
     

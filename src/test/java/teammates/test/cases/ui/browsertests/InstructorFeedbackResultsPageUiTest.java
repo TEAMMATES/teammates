@@ -4,6 +4,8 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.logging.Logger;
+
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -13,6 +15,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
+import teammates.common.util.Utils;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
@@ -25,7 +28,8 @@ import teammates.test.util.Priority;
  */
 @Priority(1)
 public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
-
+    protected static Logger log = Utils.getLogger();
+    
     private static DataBundle testData;
     private static Browser browser;
     private InstructorFeedbackResultsPage resultsPage;
@@ -34,8 +38,10 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorFeedbackResultsPageUiTest.json");
+        long start = System.currentTimeMillis();
         removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
+        log.severe("TIME TAKEN: " + (System.currentTimeMillis() - start) + "ms");
     }
     
     @Test

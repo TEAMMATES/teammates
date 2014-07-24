@@ -94,7 +94,7 @@ public class BackDoorLogic extends Logic {
                 account.studentProfile.googleId = account.googleId;
             }
         }
-        accountsDb.createAccounts(accounts.values());
+        accountsDb.createAccounts(accounts.values(), true);
         
         HashMap<String, CourseAttributes> courses = dataBundle.courses;
         coursesDb.createCourses(courses.values());
@@ -111,7 +111,7 @@ public class BackDoorLogic extends Logic {
                 instructorAccounts.add(account);
             }
         }
-        accountsDb.createAccounts(instructorAccounts);
+        accountsDb.createAccounts(instructorAccounts, false);
         instructorsDb.createInstructors(instructors.values());
 
         HashMap<String, StudentAttributes> students = dataBundle.students;
@@ -127,7 +127,7 @@ public class BackDoorLogic extends Logic {
                 studentAccounts.add(account);
             }
         }
-        accountsDb.createAccounts(studentAccounts);
+        accountsDb.createAccounts(studentAccounts, false);
         studentsDb.createStudents(students.values());
 
         HashMap<String, EvaluationAttributes> evaluations = dataBundle.evaluations;
