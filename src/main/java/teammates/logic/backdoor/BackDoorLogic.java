@@ -75,7 +75,6 @@ public class BackDoorLogic extends Logic {
      *         "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
      */
 
-    @SuppressWarnings("deprecation")
     public String persistDataBundle(DataBundle dataBundle)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         
@@ -104,45 +103,31 @@ public class BackDoorLogic extends Logic {
         List<AccountAttributes> instructorAccounts = new ArrayList<AccountAttributes>();
         for (InstructorAttributes instructor : instructors.values()) {
             if (instructor.googleId != null) {
-                log.fine("API Servlet adding instructor :" + instructor.googleId);
-                try {
-                    super.updateInstructorByGoogleId(instructor.googleId, instructor);
-                } catch (EntityDoesNotExistException e) {
-                    if (e.getMessage().equals("Instructor " + instructor.googleId + 
-                            " does not belong to course " + instructor.courseId)) {
-                        instructorsLogic.deleteInstructorCascade(instructor.courseId, instructor.email);
-                    }
-                    super.createInstructorAccount(
-                            instructor.googleId, instructor.courseId, instructor.name,
-                            instructor.email, instructor.isArchived, instructor.role,
-                            instructor.isDisplayedToStudents, instructor.displayedName,
-                            instructor.instructorPrivilegesAsText, "National University of Singapore");
+                AccountAttributes account = new AccountAttributes(instructor.googleId, instructor.name, true, instructor.email, "National University of Singapore");
+                if (account.studentProfile == null) {
+                    account.studentProfile = new StudentProfileAttributes();
+                    account.studentProfile.googleId = account.googleId;
                 }
-            } else {
-                log.fine("API Servlet adding instructor :" + instructor.email);
-                try {
-                    super.createInstructor(instructor);
-                } catch (EntityAlreadyExistsException e) {
-                    // ignore if it already exists
-                }
+                instructorAccounts.add(account);
             }
         }
+        accountsDb.createAccounts(instructorAccounts);
+        instructorsDb.createInstructors(instructors.values());
 
         HashMap<String, StudentAttributes> students = dataBundle.students;
+        List<AccountAttributes> studentAccounts = new ArrayList<AccountAttributes>();
         for (StudentAttributes student : students.values()) {
-            log.fine("API Servlet adding student :" + student.email
-                    + " to course " + student.course);
-            student.section = (student.section == null) ? "None" : student.section;
-            try {
-                updateStudentWithoutDocument(student.email, student);
-            } catch (EntityDoesNotExistException e) {
-                if (student.googleId != null && !student.googleId.isEmpty() 
-                        && super.getAccount(student.googleId) == null) {
-                    super.createAccount(student.googleId, student.name, false, student.email, "NUS");
+            if (student.googleId != null) {
+                AccountAttributes account = new AccountAttributes(student.googleId, student.name, true, student.email, "National University of Singapore");
+                if (account.studentProfile == null) {
+                    account.studentProfile = new StudentProfileAttributes();
+                    account.studentProfile.googleId = account.googleId;
                 }
-                createStudentWithoutDocument(student);
+                studentAccounts.add(account);
             }
         }
+        accountsDb.createAccounts(studentAccounts);
+        studentsDb.createStudents(students.values());
 
         HashMap<String, EvaluationAttributes> evaluations = dataBundle.evaluations;
         for (EvaluationAttributes evaluation : evaluations.values()) {
@@ -171,42 +156,21 @@ public class BackDoorLogic extends Logic {
         log.fine("API Servlet added " + submissionsList.size() + " submissions");
 
         HashMap<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
-        for (FeedbackSessionAttributes session : sessions.values()) {
-            log.info("API Servlet adding feedback session :" + session.feedbackSessionName
-                    + " to course " + session.courseId); 
-            session = cleanSessionData(session);
-            try {
-                super.updateFeedbackSession(session);
-            } catch (EntityDoesNotExistException e) {
-                this.createFeedbackSession(session);
-            }
+        for(FeedbackSessionAttributes session : sessions.values()){
+            cleanSessionData(session);
         }
+        fbDb.createFeedbackSessions(sessions.values());
         
         HashMap<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
         List<FeedbackQuestionAttributes> questionList = new ArrayList<FeedbackQuestionAttributes>(questions.values());
         Collections.sort(questionList);
-
-        for (FeedbackQuestionAttributes question : questionList) {
-            log.fine("API Servlet adding feedback question :" + question.getId()
-                    + " to session " + question.feedbackSessionName);
-            try {
-                super.updateFeedbackQuestion(question);
-            } catch(EntityDoesNotExistException e) {
-                super.createFeedbackQuestion(question);
-            }
-        }
+        fqDb.createFeedbackQuestions(questionList);
         
         HashMap<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
         for (FeedbackResponseAttributes response : responses.values()) {
-            log.fine("API Servlet adding feedback response :" + response.getId()
-                    + " to session " + response.feedbackSessionName);
             response = injectRealIds(response);
-            try {
-                this.updateFeedbackResponse(response);
-            } catch(EntityDoesNotExistException e) {
-                this.createFeedbackResponse(response);
-            }
         }
+        frDb.createFeedbackResponses(responses.values());
         
         HashMap<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
         for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {

@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -21,7 +22,21 @@ public class FeedbackSessionsDb extends EntitiesDb {
     
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
     private static final Logger log = Utils.getLogger();
-
+    
+    public void createFeedbackSessions(Collection<FeedbackSessionAttributes> feedbackSessionsToAdd) throws InvalidParametersException{
+        List<EntityAttributes> feedbackSessionsToUpdate = createEntities(feedbackSessionsToAdd);
+        for(EntityAttributes entity : feedbackSessionsToUpdate){
+            FeedbackSessionAttributes session = (FeedbackSessionAttributes) entity;
+            try {
+                updateFeedbackSession(session);
+            } catch (EntityDoesNotExistException e) {
+             // This situation is not tested as replicating such a situation is 
+             // difficult during testing
+                Assumption.fail("Entity found be already existing and not existing simultaneously");
+            }
+        }
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null. 

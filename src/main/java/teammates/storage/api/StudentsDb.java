@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -61,6 +62,20 @@ public class StudentsDb extends EntitiesDb {
             deleteDocument(Const.SearchIndex.STUDENT, student.key);
         } else {
             deleteDocument(Const.SearchIndex.STUDENT, studentToDelete.key);
+        }
+    }
+    
+    public void createStudents(Collection<StudentAttributes> studentsToAdd) throws InvalidParametersException{
+        List<EntityAttributes> studentsToUpdate = createEntities(studentsToAdd);
+        for(EntityAttributes entity : studentsToUpdate){
+            StudentAttributes student = (StudentAttributes) entity;
+            try {
+                updateStudentWithoutDocument(student.course, student.email, student.name, student.team, student.section, student.section, student.googleId, student.comments);
+            } catch (EntityDoesNotExistException e) {
+             // This situation is not tested as replicating such a situation is 
+             // difficult during testing
+                Assumption.fail("Entity found be already existing and not existing simultaneously");
+            }
         }
     }
     

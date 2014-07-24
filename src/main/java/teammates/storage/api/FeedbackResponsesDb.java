@@ -23,6 +23,20 @@ public class FeedbackResponsesDb extends EntitiesDb {
 
     private static final Logger log = Utils.getLogger();
 
+    public void createFeedbackResponses(Collection<FeedbackResponseAttributes> responsesToAdd) throws InvalidParametersException{
+        List<EntityAttributes> responsesToUpdate = createEntities(responsesToAdd);
+        for(EntityAttributes entity : responsesToUpdate){
+            FeedbackResponseAttributes response = (FeedbackResponseAttributes) entity;
+            try {
+                updateFeedbackResponse(response);
+            } catch (EntityDoesNotExistException e) {
+             // This situation is not tested as replicating such a situation is 
+             // difficult during testing
+                Assumption.fail("Entity found be already existing and not existing simultaneously");
+            }
+        }
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null. 
