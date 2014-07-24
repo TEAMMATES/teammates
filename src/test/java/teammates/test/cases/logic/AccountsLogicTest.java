@@ -44,7 +44,6 @@ public class AccountsLogicTest extends BaseComponentTestCase {
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         turnLoggingUp(AccountsLogic.class);
-        removeTypicalDataInDatastore();
         restoreTypicalDataInDatastore();
         
     }

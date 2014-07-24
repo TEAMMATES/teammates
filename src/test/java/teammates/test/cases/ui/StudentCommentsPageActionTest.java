@@ -20,7 +20,6 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        removeTypicalDataInDatastore();
 		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_COMMENTS_PAGE;
     }

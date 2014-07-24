@@ -119,7 +119,7 @@ public class BackDoorLogic extends Logic {
         for (StudentAttributes student : students.values()) {
             student.section = (student.section == null) ? "None" : student.section;
             if (student.googleId != null && !student.googleId.equals("")) {
-                AccountAttributes account = new AccountAttributes(student.googleId, student.name, true, student.email, "National University of Singapore");
+                AccountAttributes account = new AccountAttributes(student.googleId, student.name, false, student.email, "National University of Singapore");
                 if (account.studentProfile == null) {
                     account.studentProfile = new StudentProfileAttributes();
                     account.studentProfile.googleId = account.googleId;

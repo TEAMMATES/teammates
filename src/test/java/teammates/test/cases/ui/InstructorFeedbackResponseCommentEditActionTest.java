@@ -28,7 +28,6 @@ public class InstructorFeedbackResponseCommentEditActionTest extends
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        removeTypicalDataInDatastore();
 		restoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT;
     }
