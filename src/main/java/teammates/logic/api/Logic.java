@@ -842,6 +842,19 @@ public class Logic {
     }
     
     /**
+     * stuent search method for admin only
+     * @param queryString
+     * @param cursorString
+     * @return Null if no match found.
+     */
+    public StudentSearchResultBundle searchStudents(String queryString, String cursorString){
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, cursorString);
+        
+        return studentsLogic.searchStudents(queryString, cursorString);
+    }
+    
+    /**
      * Get all students in the database
      * @return empty list if there is no students
      */

@@ -1,14 +1,12 @@
 package teammates.ui.controller;
 
-import java.util.List;
-
-import com.google.appengine.api.search.Document;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.StudentSearchResultBundle;
 
 public class AdminSearchPageData extends PageData {
     
-    public List<Document> results;
+    public StudentSearchResultBundle studentResultBundle = new StudentSearchResultBundle();
 
     public AdminSearchPageData(AccountAttributes account) {
         super(account);

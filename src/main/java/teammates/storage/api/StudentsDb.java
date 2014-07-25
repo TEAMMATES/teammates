@@ -54,6 +54,26 @@ public class StudentsDb extends EntitiesDb {
         
         return new StudentSearchResultBundle().fromResults(results, googleId);
     }
+    
+    
+    
+    
+    /**
+     * student search method for admin only
+     * @param queryString
+     * @param cursorString
+     * @return null if no result found
+     */ 
+    public StudentSearchResultBundle search(String queryString, String cursorString){
+        if(queryString.trim().isEmpty())
+            return new StudentSearchResultBundle();
+        
+        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT, 
+                new StudentSearchQuery(queryString, cursorString));
+        
+        return new StudentSearchResultBundle().fromResults(results);
+    }
+    
 
     public void deleteDocument(StudentAttributes studentToDelete){
         if(studentToDelete.key == null){

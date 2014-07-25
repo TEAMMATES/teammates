@@ -51,6 +51,38 @@ public class StudentSearchResultBundle extends SearchResultBundle {
             numberOfResults++;
         }
         
+        sortStudentResultList();
+        
+        return this;
+    }
+    
+    public StudentSearchResultBundle fromResults(Results<ScoredDocument> results){
+        if(results == null) 
+            return this;
+        
+        cursor = results.getCursor();
+        
+        for(ScoredDocument doc:results){
+            StudentAttributes student = new Gson().fromJson(doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(), 
+                                                                             StudentAttributes.class);
+            
+            if(studentsLogic.getStudentForRegistrationKey(student.key) == null){
+                studentsLogic.deleteDocument(student);
+                continue;
+            }
+            
+            studentList.add(student);
+            numberOfResults++;
+        }
+        
+        sortStudentResultList();
+        
+        return this;
+    }
+    
+    
+    private void sortStudentResultList(){
+        
         Collections.sort(studentList, new Comparator<StudentAttributes>(){
             @Override
             public int compare(StudentAttributes s1, StudentAttributes s2){
@@ -77,10 +109,9 @@ public class StudentSearchResultBundle extends SearchResultBundle {
                 return s1.email.compareTo(s2.email);
             }
         });
-        
-        return this;
     }
-
+    
+    
     @Override
     public int getResultSize() {
         return numberOfResults;

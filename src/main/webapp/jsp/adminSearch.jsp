@@ -8,32 +8,18 @@
 <%@ page import="java.util.List"%>
 <%@ page import="java.text.DateFormat"%>
 <%@ page import="teammates.ui.controller.AdminSearchPageData"%>
+<%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 
 <%
 	AdminSearchPageData data = (AdminSearchPageData) request
 			.getAttribute("data");
 %>
-<%
-	String outcome = (String) request.getAttribute("outcome");
-	if (outcome == null || outcome.isEmpty()) {
-		outcome = "&nbsp;";
-	}
-	String query = (String) request.getParameter("query");
-	if (query == null) {
-		query = "";
-	}
-	String limit = (String) request.getParameter("limit");
-	if (limit == null || limit.isEmpty()) {
-		limit = "20";
-	}
-%>
+
 <html>
 <head>
 <link rel="shortcut icon" href="/favicon.png" />
 <meta http-equiv="X-UA-Compatible" content="IE=8" />
 <title>TEAMMATES - Administrator</title>
-<link rel=stylesheet href="/stylesheets/common.css" type="text/css" />
-<link rel=stylesheet href="/stylesheets/adminSearch.css" type="text/css" />
 <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
 <link href="/stylesheets/teammatesCommon.css" rel="stylesheet">
@@ -44,103 +30,135 @@
           <![endif]-->
 
 <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-<script language="JavaScript" src="/js/jquery-minified.js"></script>
+<script type="text/javascript" src="/js/jquery-minified.js"></script>
 <script type="text/javascript"
     src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/adminSearch.js"></script>
+
 </head>
 <body>
     <div id="dhtmltooltip"></div>
     <jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
 
-    <div id="frameBody">
-        <div id="frameBodyWrapper">
-            <div id="topOfPage"></div>
-            <div id="headerOperation">
+    <div class="container theme-showcase" role="main">
 
-                <form name="search" action="" method="get">
-                    <select name="limit">
-                        <option <%="5".equals(limit) ? "selected" : ""%>>5</option>
-                        <option
-                            <%="10".equals(limit) ? "selected" : ""%>>10</option>
-                        <option
-                            <%="15".equals(limit) ? "selected" : ""%>>15</option>
-                        <option
-                            <%="20".equals(limit) ? "selected" : ""%>>20</option>
-                        <option
-                            <%="50".equals(limit) ? "selected" : ""%>>50</option>
-                    </select> <input placeholder="Search" style="width: 500px;"
-                        type="search" name="query" id="query"
-                        value='<%=query%>' /> <input name="search"
-                        type="submit" name="search" value="Search"
-                        style="" /> <input name="build_doc"
-                        type="submit" value="Rebuild Document" style="" />
+        <div id="frameBody">
+            <div id="frameBodyWrapper">
+                <div id="topOfPage"></div>
+                <div id="headerOperation" class="page-header">
+                    <h1>Admin Search</h1>
+                </div>
 
-                </form>
-                <br>
-                <hr />
-                <br>
-                <%
-                	List<Document> found = data.results;
-                	if (found != null) {
-                %>
-                <form name="delete" action="" method="get">
-                    <!-- repeated so that we can execute a search after deletion -->
-                    <input type="hidden" name="query" value="<%=query%>" />
-                    <table class="dataTable">
-                        <tr>
-                            <!--
-          <th>
-            <input type="checkbox" name="x" onclick="toggleSelection(this);"/>
-          </th>
-         -->
-                            <th>Name</th>
-                            <th>ID</th>
-                            <th>Email</th>
-                            <th>Link</th>
-                        </tr>
+
+                <div class="well well-plain">
+                    <form class="form-horizontal" method="get" action=""
+                        id="activityLogFilter" role="form">
+
+                        <div class="panel-heading" id="filterForm">
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="input-group">
+                                            <span
+                                                class="input-group-btn">
+                                                <button
+                                                    class="btn btn-default"
+                                                    type="submit"
+                                                    id="rebuildButton"
+                                                    name="<%=Const.ParamsNames.ADMIN_SEARCH_REBUILD_DOC%>"
+                                                    value="">rebuild</button>
+                                            </span> <input type="text"
+                                                class="form-control"
+                                                id="filterQuery"
+                                                name="<%=Const.ParamsNames.ADMIN_SEARCH_KEY%>"
+                                                value=""><span
+                                                class="input-group-btn">
+                                                <button
+                                                    class="btn btn-default"
+                                                    type="submit"
+                                                    name="<%=Const.ParamsNames.ADMIN_SEARCH_BUTTON_HIT%>"
+                                                    id="searchButton"
+                                                    value="true">Search</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <%
-                        	if (found.isEmpty()) {
+                        	List<StudentAttributes> studentResultList = data.studentResultBundle.studentList;
+
+                        	if (!studentResultList.isEmpty()) {
                         %>
-                        <tr>
-                            <td colspan='4'><i>No matching
-                                    documents found</i></td>
-                        </tr>
-                        <%
-                        	} else {
-                        			for (Document doc : found) {
-                        %>
-                        <tr>
-                            <!--
-          <td>
-            <input type="checkbox" name="docid" value="<%=doc.getId()%>"/>
-          </td>
-          -->
-                            <td><%=doc.getOnlyField("name").getText()%>
-                            </td>
-                            <td><%=doc.getOnlyField("id").getText()%>
-                            </td>
-                            <td><%=doc.getOnlyField("email").getHTML()%>
-                            </td>
-                            <td><%=doc.getOnlyField("link").getHTML()%>
-                            </td>
-                        </tr>
-                        <%
-                        	}
-                        		}
-                        %>
-                    </table>
-                </form>
-                <%
-                	}
-                %>
+
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <strong>Students Found </strong>
+
+                            </div>
+
+                            <div class="table-responsive">
+                                <table
+                                    class="table table-condensed dataTable"
+                                    id="search_table">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Course [Section]</th>
+                                            <th>Team</th>
+                                            <th>Name</th>
+                                            <th>Google ID[Email]</th>
+                                            <th>Comments</th>
+
+
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+
+                                        <%
+                                        	for (StudentAttributes student : studentResultList) {
+                                        %>
+
+                                        <tr>
+                                            <td><%=student.course%>&nbsp;[<%=student.section%>]
+                                            </td>
+                                            <td><%=student.team%></td>
+                                            <td><%=student.name%></td>
+                                            <td><%=student.googleId%></td>
+                                            <td><%=student.comments%></td>
+                                        </tr>
+
+
+                                        <%
+                                        	}
+
+                                        	}
+                                        %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+
+                <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+
             </div>
-            <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+
+
+
+
+
         </div>
+
     </div>
 
 
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-
 </body>
 </html>

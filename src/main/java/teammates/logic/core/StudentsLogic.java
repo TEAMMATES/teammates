@@ -137,6 +137,16 @@ public class StudentsLogic {
     public StudentSearchResultBundle searchStudents(String queryString, String googleId, String cursorString){
         return studentsDb.search(queryString, googleId, cursorString);
     }
+
+    /**
+     * student search method for admin only
+     * @param queryString
+     * @param cursorString
+     * @return null if no result found
+     */
+    public StudentSearchResultBundle searchStudents(String queryString, String cursorString){
+        return studentsDb.search(queryString, cursorString);
+    }
     
     public StudentProfileAttributes getStudentProfile(String googleId) {
         Assumption.assertNotNull(googleId);
