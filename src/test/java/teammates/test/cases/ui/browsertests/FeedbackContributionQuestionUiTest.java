@@ -108,6 +108,11 @@ public class FeedbackContributionQuestionUiTest extends BaseUiTestCase{
         ______TS("CONTRIB: edit question success");
 
         assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        
+        //Check invalid feedback paths are disabled.
+        //Javascript should hide giver/recipient options that are not STUDENTS to OWN_TEAM_MEMBERS_INCLUDING_SELF
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionEdit.html");
+        
         feedbackEditPage.fillEditQuestionBox("edited contrib qn text", 1);
         
         feedbackEditPage.clickSaveExistingQuestionButton(1);
