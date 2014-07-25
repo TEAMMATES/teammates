@@ -108,39 +108,43 @@ public class AdminActivityLogPageData extends PageData {
         }
         
         //Filter based on what is in the query
-        if(q.toDate){
+        if(q.isToDateInQuery){
             if(logEntry.getTime() > q.toDateValue){
                 return false;
             }
         }
-        if(q.fromDate){
+        if(q.isFromDateInQuery){
             if(logEntry.getTime() < q.fromDateValue){
                 return false;
             }
         }
-        if(q.request){
+        if(q.isRequestInQuery){
             if(!arrayContains(q.requestValues, logEntry.getServletName())){
                 return false;
             }
         }
-        if(q.response){
+        if(q.isResponseInQuery){
             if(!arrayContains(q.responseValues, logEntry.getAction())){
                 return false;
             }
         }
-        if(q.person){
+        if(q.isPersonInQuery){
             if(!logEntry.getName().toLowerCase().contains(q.personValue) && 
                     !logEntry.getId().toLowerCase().contains(q.personValue) && 
                     !logEntry.getEmail().toLowerCase().contains(q.personValue)){
                 return false;
             }
         }
-        if(q.role){
+        if(q.isRoleInQuery){
             if(!arrayContains(q.roleValues, logEntry.getRole())){
                 return false;
             }
         }
-        
+        if(q.isCutoffInQuery){
+            if(logEntry.getTimeTaken() < q.cutoffValue){
+                return false;
+            }
+        }       
         if(shouldExcludeLogEntry(logEntry)){
             return false;
         }
@@ -164,15 +168,18 @@ public class AdminActivityLogPageData extends PageData {
         query = query.replaceAll(", ", ",");
         query = query.replaceAll(": ", ":");
         String[] tokens = query.split("\\|", -1); 
-
-        for(int i = 0; i < tokens.length; i++){
+       
+        System.out.print(tokens.length);
+        
+        for(int i = 0; i < tokens.length; i++){           
             String[] pair = tokens[i].split(":", -1);
+            
             if(pair.length != 2){
                 throw new Exception("Invalid format");
             }
-            String label = pair[0];
             
             String[] values = pair[1].split(",", -1);
+            String label = pair[0];
             
             if (label.equals("version")) {
                 //version is specified in com.google.appengine.api.log.LogQuery,
@@ -181,6 +188,7 @@ public class AdminActivityLogPageData extends PageData {
                 for (int j = 0; j < values.length; j++) {
                     versions.add(values[j].replace(".", "-"));
                 }
+                
             } else {
                 q.add(label, values);
             }
@@ -297,31 +305,35 @@ public class AdminActivityLogPageData extends PageData {
      * The XXValue variables hold the data linked to the label in the query
      */
     private class QueryParameters{        
-        public boolean toDate;
+        public boolean isToDateInQuery;
         public long toDateValue;
         
-        public boolean fromDate;
+        public boolean isFromDateInQuery;
         public long fromDateValue;
         
-        public boolean request;
+        public boolean isRequestInQuery;
         public String[] requestValues;
         
-        public boolean response;
+        public boolean isResponseInQuery;
         public String[] responseValues;
         
-        public boolean person;
+        public boolean isPersonInQuery;
         public String personValue;
         
-        public boolean role;
+        public boolean isRoleInQuery;
         public String[] roleValues;
         
+        public boolean isCutoffInQuery;
+        public long cutoffValue;
+        
         public QueryParameters(){
-            toDate = false;
-            fromDate = false;
-            request = false;
-            response = false;
-            person = false;
-            role = false;
+            isToDateInQuery = false;
+            isFromDateInQuery = false;
+            isRequestInQuery = false;
+            isResponseInQuery = false;
+            isPersonInQuery = false;
+            isRoleInQuery = false;
+            isCutoffInQuery = false;
         }
         
         /**
@@ -329,29 +341,32 @@ public class AdminActivityLogPageData extends PageData {
          */
         public void add(String label, String[] values) throws Exception{
             if(label.equals("from")){
-                fromDate = true;                
+                isFromDateInQuery = true;                
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
                 Date d = sdf.parse(values[0] + " 00:00");                
                 fromDateValue = d.getTime();
                 
             } else if (label.equals("to")){
-                toDate = true;
+                isToDateInQuery = true;
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
                 Date d = sdf.parse(values[0] + " 23:59");                
                 toDateValue = d.getTime();
                 
             } else if (label.equals("request")){
-                request = true;
+                isRequestInQuery = true;
                 requestValues = values;
             } else if (label.equals("response")){
-                response = true;
+                isResponseInQuery = true;
                 responseValues = values;
             } else if (label.equals("person")){
-                person = true;
+                isPersonInQuery = true;
                 personValue = values[0];
             } else if (label.equals("role")){
-                role = true;
+                isRoleInQuery = true;
                 roleValues = values;
+            } else if (label.equals("time")){
+                isCutoffInQuery = true;
+                cutoffValue = Long.parseLong(values[0]);
             } else {
                 throw new Exception("Invalid label");
             }
