@@ -342,6 +342,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         browser.driver.get(reportUrl.toString());
         String afterReportDownloadUrl = browser.driver.getCurrentUrl();
         assertFalse(reportUrl.equals(afterReportDownloadUrl));
+        //Get an error page due to missing parameters in URL
+        assertEquals(true, afterReportDownloadUrl.contains("errorPage.jsp"));
         
         //return to the previous page
         loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
