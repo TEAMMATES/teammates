@@ -4,6 +4,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
 
+
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -14,7 +15,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
@@ -29,11 +29,13 @@ import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.NotFoundPage;
+import teammates.test.util.Priority;
 
 /**
  * We do not test all access control at UI level. This class contains a few
  * representative tests only. Access control is tested fully at 'Action' level.
  */
+@Priority(6)
 public class AllAccessControlUiTests extends BaseUiTestCase {
     
     private static String unregUsername = TestProperties.inst().TEST_UNREG_ACCOUNT;
@@ -65,7 +67,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
         printTestClassHeader();
 
-        testData = getTypicalDataBundle();
+        testData = loadDataBundle("/AllAccessControlUiTest.json");
         
         otherInstructor = testData.instructors.get("instructor1OfCourse2");
         ownCourse = testData.courses.get("typicalCourse1");
@@ -147,8 +149,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         link = Const.ActionURIs.STUDENT_HOME_PAGE;
         verifyCannotMasquerade(link, otherInstructor.googleId);
     }
-
-
 
     @Test
     public void testStudentEvalSubmission() {
@@ -233,8 +233,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         assertEquals("true", currentPage.getElementAttribute(By.id(Const.ParamsNames.COMMENTS + "0"), "disabled"));
         assertEquals("true", currentPage.getElementAttribute(By.id("button_submit"), "disabled"));
         
-        deleteSpecialTestData();
-        
     }
 
     @Test
@@ -276,8 +274,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     
         link = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
         verifyCannotMasquerade(link, otherInstructor.googleId);
-        
-        deleteSpecialTestData();
     }
     
     @Test
@@ -343,10 +339,10 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
     
     private static void restoreSpecialTestData() {
         
-        testData = getTypicalDataBundle();
+        testData = loadDataBundle("/AllAccessControlUiTest.json");
         
         // This test suite requires some real accounts; Here, we inject them to the test data.
-        testData.students.get("student1InCourse1").googleId = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
+        testData.students.get("student1InCourse1.access").googleId = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
         testData.instructors.get("instructor1OfCourse1").googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
         
         removeAndRestoreTestDataOnServer(testData);
@@ -421,18 +417,13 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
     @AfterClass
     public static void classTearDown() throws Exception {
-        
         //delete any data related to real accounts used in testing (to prevent state leakage to other tests)
-        deleteSpecialTestData();
+        testData = loadDataBundle("/AllAccessControlUiTest.json");
+        
+        // This test suite requires some real accounts; Here, we inject them to the test data.
+        testData.students.get("student1InCourse1.access").googleId = TestProperties.inst().TEST_STUDENT1_ACCOUNT;
+        testData.instructors.get("instructor1OfCourse1").googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
+        removeTestDataOnServer(testData);
         BrowserPool.release(browser);
     }
-
-    private static void deleteSpecialTestData() {
-        StudentAttributes student = testData.students.get("student1InCourse1");
-        BackDoor.deleteStudent(student.course, student.email);
-        InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
-        BackDoor.deleteInstructor(instructor.courseId, instructor.email);
-        BackDoor.deleteCourse(student.course);
-    }
-
 }

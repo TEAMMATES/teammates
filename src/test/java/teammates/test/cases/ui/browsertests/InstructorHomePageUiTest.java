@@ -19,10 +19,8 @@ import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
-import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
-import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
@@ -126,7 +124,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("login");
         
         loginAsCommonInstructor();
-        assertTrue(browser.driver.getCurrentUrl().endsWith(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
+        assertTrue(browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
     }
     
     public void testContent() throws Exception{
@@ -139,7 +137,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("content: new instructor, with status message HINT_FOR_NEW_INSTRUCTOR");
         
         //already logged in
-        removeAndRestoreTestDataOnServer(testData);
         homePage.clickHomeTab();
         homePage.verifyHtmlMainContent("/InstructorHomeNewInstructorWithoutSampleCourse.html");
         
@@ -407,17 +404,15 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
     
     private void loginAsCommonInstructor(){
-        String commonInstructor = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
+        String commonInstructor = "CHomeUiT.instructor.tmms";
         loginAsInstructor(commonInstructor);
     }
     
-    private void loginAsInstructor(String instructorEmail){
-        AppPage.logout(browser);
-        homePage = HomePage.getNewInstance(browser)
-                .clickInstructorLogin()
-                .loginAsInstructor(
-                        instructorEmail, 
-                        TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+    private void loginAsInstructor(String googleId){
+         Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
+                    .withUserId(googleId);
+        
+        homePage = loginAdminToPage(browser, editUrl, InstructorHomePage.class);
     }
 
     @AfterClass

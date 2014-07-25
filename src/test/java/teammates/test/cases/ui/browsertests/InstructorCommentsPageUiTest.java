@@ -4,7 +4,6 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -13,17 +12,13 @@ import teammates.common.util.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCommentsPage;
+import teammates.test.util.Priority;
 
+@Priority(-5)
 public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorCommentsPage commentsPage;
     private static DataBundle testData;
-    
-    @BeforeTest
-    public static void testSetup() {
-        //Set priority of the sequential ui tests thread to max priority.
-        Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
-    }
     
     @BeforeClass
     public static void classSetup() throws Exception {
