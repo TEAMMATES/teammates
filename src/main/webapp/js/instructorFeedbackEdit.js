@@ -469,7 +469,7 @@ function setContribQnVisibilityFormat(questionNumber){
 
 function fixContribQnGiverRecipient(questionNumber){
     var idSuffix;
-    idSuffix = questionNumber ? (questionNumber) : "";
+    idSuffix = questionNumber ? ("-" + questionNumber) : "";
 
     //Fix giver->recipient to be STUDENT->OWN_TEAM_MEMBERS_INCLUDING_SELF
     $('#givertype'+idSuffix).find('option').not('[value="STUDENTS"]').hide();
