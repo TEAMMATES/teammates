@@ -12,7 +12,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Logger;
 
@@ -48,6 +47,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
+import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.test.driver.AssertHelper;
@@ -96,11 +96,14 @@ public abstract class AppPage {
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[2]/li[1]/a")
     protected WebElement instructorLogoutLink;
     
-    @FindBy(id = "studentHomeLink")
+    @FindBy(id = "studentHomeNavLink")
     protected WebElement studentHomeTab;
     
-    @FindBy(id = "studentProfileLink")
+    @FindBy(id = "studentProfileNavLink")
     protected WebElement studentProfileTab;
+    
+    @FindBy(id = "studentCommentsNavLink")
+    protected WebElement studentCommentsTab;
     
     @FindBy(id = "studentHelpLink")
     protected WebElement studentHelpTab;
@@ -630,17 +633,17 @@ public abstract class AppPage {
         }
         String actual = getPageSource();
         
-        boolean runTest = testAndRunGodMode(filePath, actual);
-        
-        if (runTest) {
-            try {
-                String expected = FileHelper.readFile(filePath);
-                HtmlHelper.assertSameHtml(actual, expected);
-                
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+        try {
+            String expected = FileHelper.readFile(filePath);
+            HtmlHelper.assertSameHtml(actual, expected);
+            
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } catch (AssertionError ae) {
+            if (!testAndRunGodMode(filePath, actual)) {
+                throw ae;
             }
-        }
+        } 
         
         return this;
     }
@@ -659,9 +662,9 @@ public abstract class AppPage {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return false;
-        } else {
             return true;
+        } else {
+            return false;
         }
     }
 
@@ -673,6 +676,7 @@ public abstract class AppPage {
                 // photo from instructor
                 .replaceAll("studentemail=([a-zA-Z0-9]){1,}\\&amp;courseid=([a-zA-Z0-9]){1,}", 
                             "studentemail={*}\\&amp;courseid={*}")
+                .replaceAll("regkey=([a-zA-Z0-9]){1,}\\&amp;", "regkey={*}\\&amp;")
                 //responseid
                 .replaceAll("([a-zA-Z0-9-_]){30,}%"
                         + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+%"
@@ -689,7 +693,9 @@ public abstract class AppPage {
                 .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "{$test.unreg}")
                 .replace(Config.SUPPORT_EMAIL, "{$support.email}")
                 // today's date
-                .replace("\""+ new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + "\"", "\"{*}\"");
+                .replace(TimeHelper.formatDate(new Date()), "{*}")
+                // now (used in opening time/closing time Grace period)
+                .replace(TimeHelper.formatTime(new Date()), "{*}");
     }
 
     private boolean areTestAccountsDefaultValues() {
@@ -715,15 +721,15 @@ public abstract class AppPage {
         }
         String actual = element.getAttribute("outerHTML");
         
-        boolean runTest = testAndRunGodMode(filePath, actual);
-        
-        if (runTest) {
-            try {
-                String expected = extractHtmlPartFromFile(by, filePath);
-                
-                HtmlHelper.assertSameHtmlPart(actual, expected);            
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+        try {
+            String expected = extractHtmlPartFromFile(by, filePath);
+            
+            HtmlHelper.assertSameHtmlPart(actual, expected);            
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } catch(AssertionError ae) { 
+            if(!testAndRunGodMode(filePath, actual)) {
+                throw ae;
             }
         }
         return this;

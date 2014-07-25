@@ -2,6 +2,7 @@
 <%@ page import="teammates.common.util.StringHelper"%>
 <%@ page import="teammates.logic.core.FeedbackQuestionsLogic"%>
 <%@ page import="teammates.logic.api.Logic"%>
+<%@ page import="teammates.common.datatransfer.StudentAttributes" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -67,6 +68,7 @@
                                 <li><a href="#studentHomePage">Student Home Page</a></li>
                                 <li><a href="#studentProfilePage">Student Profile Page</a></li>
                                 <li><a href="#studentCourseJoinConfirmationPage">Student Course Join Confirmation Page</a></li>
+                                <li><a href="#studentCourseJoinConfirmationPageNew">Student Course Join Confirmation Page (New)</a></li>
                                 <li><a href="#studentCourseDetailsPage">Student Course Details Page</a></li>
                                 <li><a href="#studentEvalEditPage">Student Eval Edit Page</a></li>
                                 <li><a href="#studentEvalResultsPage">Student Eval Results Page</a></li>
@@ -105,7 +107,6 @@
                                 <li><a href="#errorPage">Error Page</a></li>
                                 <li><a href="#entityNotFoundPage">Entity Not Found Page</a></li>
                             </ul>
-                        </td>
                         </td>
                     </tr>
                     </tbody>
@@ -243,6 +244,10 @@
                 
                 <div class="pageinfo">Student Course Join Confirmation Page</div>
                 <div id="studentCourseJoinConfirmationPage"></div>
+                <br><hr class="hr-bold"><br>
+                
+                <div class="pageinfo">Student Course Join Confirmation Page (New)</div>
+                <div id="studentCourseJoinConfirmationPageNew"></div>
                 <br><hr class="hr-bold"><br>
                 
                 <div class="pageinfo">Student Course Details Page</div>
@@ -493,14 +498,18 @@
                     });
             
             <%
-                String regkey = null;
-                if(new Logic().getStudentForEmail("CS4215", "teammates.test@gmail.com")!=null){
-                    regkey = StringHelper.encrypt(new Logic().getStudentForEmail("CS4215", "teammates.test@gmail.com").key);
+                StudentAttributes student = new Logic().getStudentForEmail("CS4215", "teammates.test@gmail.com");
+                if(student !=null){
+                	String url = StringHelper.encrypt(student.key);
             %>
-            $('#studentCourseJoinConfirmationPage').load("<%=Const.ActionURIs.STUDENT_COURSE_JOIN%>?regkey=<%=regkey%> #frameBodyWrapper",
+            $('#studentCourseJoinConfirmationPage').load("<%=Const.ActionURIs.STUDENT_COURSE_JOIN%>?regkey=<%=student.key%> #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
+            $('#studentCourseJoinConfirmationPageNew').load("<%=student.getRegistrationUrl()%> #frameBodyWrapper",
+                    function (response, status, xml) {
+                        $("[data-toggle='tooltip']").tooltip({html: true}); 
+                    });
             <%
                 }
             %>

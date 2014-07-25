@@ -31,10 +31,6 @@ public abstract class FeedbackQuestionSubmissionEditPageAction extends Action {
         data = new FeedbackQuestionSubmissionEditPageData(account);
         data.bundle = getDataBundle(userEmailForCourse);
         
-        statusToUser.add("You are currently submitting as <span class=\"bold\">" 
-                            + account.name + " (" + account.googleId + ")</span>. "
-                            + "Not you? Please <a href=/logout.jsp>logout</a> and try again."); 
-        
         data.isSessionOpenForSubmission = isSessionOpenForSpecificUser(data.bundle.feedbackSession);
         if (!data.isSessionOpenForSubmission) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN);

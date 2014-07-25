@@ -33,7 +33,7 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         verifyAccesibleForSpecificUser();
         
         String userEmailForCourse = getUserEmailForCourse();
-        data = new FeedbackSubmissionEditPageData(account);
+        data = new FeedbackSubmissionEditPageData(account, student);
         data.bundle = getDataBundle(userEmailForCourse);
         
         data.isSessionOpenForSubmission = isSessionOpenForSpecificUser(data.bundle.feedbackSession);

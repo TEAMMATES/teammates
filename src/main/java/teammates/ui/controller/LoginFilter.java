@@ -12,6 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 
@@ -26,6 +27,9 @@ public class LoginFilter implements Filter {
         exclude = new ArrayList<String>();
         for(int i=0; i<excludedFiles.length; i++){
             exclude.add(excludedFiles[i].trim());
+        }
+        for (int i = 0 ; i < Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.size() ; i ++) {
+            exclude.add(Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.get(i));
         }
     }
 

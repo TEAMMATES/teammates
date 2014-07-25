@@ -241,8 +241,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
             signalFailureToDetectException();
         } catch (JoinCourseException e) {
             assertEquals(
-                    "You have used an invalid join link: "
-                    + "/page/studentCourseJoin?regkey=wrongkey",
+                    "You have used an invalid join link: %s",
                     e.getMessage());
         }
 
@@ -294,7 +293,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
             accountsLogic.joinCourseForStudent(studentData.key, correctStudentId);
             signalFailureToDetectException();
         } catch (JoinCourseException e) {
-            assertEquals(correctStudentId + " has already joined this course",
+            assertEquals("You (" + correctStudentId + ") have already joined this course",
                     e.getMessage());
         }
 

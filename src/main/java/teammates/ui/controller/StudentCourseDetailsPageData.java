@@ -10,7 +10,6 @@ import teammates.common.datatransfer.TeamDetailsBundle;
 
 public class StudentCourseDetailsPageData extends PageData {
     public CourseDetailsBundle courseDetails;
-    public StudentAttributes student;
     public TeamDetailsBundle team;
     public List<InstructorAttributes> instructors;
     

@@ -12,7 +12,7 @@ public class InstructorFeedbackDeleteAction extends Action {
                 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        
+
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(feedbackSessionName);
 

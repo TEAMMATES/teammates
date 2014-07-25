@@ -27,12 +27,6 @@ public class StudentCommentsPageData extends PageData {
         super(account);
         // TODO Auto-generated constructor stub
     }
-
-    public String getStudentCommentsLink(){
-        String link = Const.ActionURIs.STUDENT_COMMENTS_PAGE;
-        link = addUserIdToUrl(link);
-        return link;
-    }
     
     public String getRecipientNames(Set<String> recipients){
         StringBuilder namesStringBuilder = new StringBuilder();

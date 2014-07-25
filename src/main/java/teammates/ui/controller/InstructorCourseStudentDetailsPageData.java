@@ -8,7 +8,6 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 public class InstructorCourseStudentDetailsPageData extends PageData {
     
     public InstructorAttributes currentInstructor;
-    public StudentAttributes student;
     public StudentProfileAttributes studentProfile;
     public String regKey;
     public boolean hasSection;

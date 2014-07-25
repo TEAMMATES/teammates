@@ -1227,6 +1227,8 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         assertEquals(0, emailsSent.size());
         
         ______TS("typical case: send invite to one student");
+        StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         
         String courseId = dataBundle.courses.get("typicalCourse1").id;
         StudentAttributes newsStudent0Info = new StudentAttributes("sect", "team", "n0", "e0@google.com", "", courseId);
@@ -1257,22 +1259,9 @@ public class StudentsLogicTest extends BaseComponentTestCase{
                 "TEAMMATES Admin <Admin@null.appspotmail.com>|subject=TEAMMATES:" + 
                 " Invitation to join course [Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
         assertEquals(expectedEmailInfoForEmail2, emailInfo2);
-    
-        ______TS("some students not registered");
-    
-        // modify two students to make them 'unregistered' and send again
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        student1InCourse1.googleId = "";
-        studentsLogic.updateStudentCascadeWithoutDocument(student1InCourse1.email, student1InCourse1);
-        StudentAttributes student2InCourse1 = dataBundle.students
-                .get("student2InCourse1");
-        student2InCourse1.googleId = "";
-        studentsLogic.updateStudentCascadeWithoutDocument(student2InCourse1.email, student2InCourse1);
-        emailsSent = studentsLogic.sendRegistrationInviteForCourse(course1.id);
-        assertEquals(5, emailsSent.size());
-        TestHelper.verifyJoinInviteToStudent(student2InCourse1, emailsSent.get(0));
-        TestHelper.verifyJoinInviteToStudent(student1InCourse1, emailsSent.get(1));
         
+        studentsLogic.updateStudentCascadeWithoutDocument(student1InCourse1.email, student1InCourse1);
+        studentsLogic.updateStudentCascadeWithoutDocument(student2InCourse1.email, student2InCourse1);
         studentsLogic.deleteStudentCascadeWithoutDocument(newsStudent0Info.course, newsStudent0Info.email);
         studentsLogic.deleteStudentCascadeWithoutDocument(newsStudent1Info.course, newsStudent1Info.email);
         studentsLogic.deleteStudentCascadeWithoutDocument(newsStudent2Info.course, newsStudent2Info.email);
