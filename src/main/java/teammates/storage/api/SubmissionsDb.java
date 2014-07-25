@@ -252,6 +252,15 @@ public class SubmissionsDb extends EntitiesDb {
 
         return;
     }
+    
+    public void deleteSubmissionsForCourses(List<String> courseIds) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+        
+        List<Submission> submissionList = getSubmissionEntitiesForCourses(courseIds);
+        
+        getPM().deletePersistentAll(submissionList);
+        getPM().flush();
+    }
 
     /**
      * Fails silently if no matching objects. <br>
@@ -346,6 +355,15 @@ public class SubmissionsDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<Submission> submissionList = (List<Submission>) q.execute(courseId);
+        return submissionList;
+    }
+    
+    private List<Submission> getSubmissionEntitiesForCourses(List<String> courseIds) {
+        Query q = getPM().newQuery(Submission.class);
+        q.setFilter(":p.contains(courseID)");
+        
+        @SuppressWarnings("unchecked")
+        List<Submission> submissionList = (List<Submission>) q.execute(courseIds);
         return submissionList;
     }
 

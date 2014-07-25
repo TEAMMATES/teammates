@@ -167,6 +167,16 @@ public class EvaluationsDb extends EntitiesDb {
         getPM().deletePersistentAll(evaluationList);
         getPM().flush();
     }
+    
+    public void deleteEvaluationsForCourses(List<String> courseIds) {
+        
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+        
+        List<Evaluation> evaluationList = getEvaluationEntitiesForCourses(courseIds);
+        
+        getPM().deletePersistentAll(evaluationList);
+        getPM().flush();
+    }
 
     private Evaluation getEvaluationEntity(String courseId, String evaluationName) {
         
@@ -192,6 +202,15 @@ public class EvaluationsDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<Evaluation> evaluationList = (List<Evaluation>) q.execute(courseId);
+        return evaluationList;
+    }
+    
+    private List<Evaluation> getEvaluationEntitiesForCourses(List<String> courseIds) {
+        Query q = getPM().newQuery(Evaluation.class);
+        q.setFilter(":p.contains(courseID)");
+        
+        @SuppressWarnings("unchecked")
+        List<Evaluation> evaluationList = (List<Evaluation>) q.execute(courseIds);
         return evaluationList;
     }
 

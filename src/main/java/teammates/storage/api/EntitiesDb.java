@@ -1,5 +1,8 @@
 package teammates.storage.api;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
@@ -90,6 +93,35 @@ public abstract class EntitiesDb {
         return createdEntity;
     }
     
+    public List<EntityAttributes> createEntities(Collection<? extends EntityAttributes> entitiesToAdd) throws InvalidParametersException {
+        
+        Assumption.assertNotNull(
+                Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToAdd);
+        
+        List<EntityAttributes> entitiesToUpdate = new ArrayList<EntityAttributes>();
+        List<Object> entities = new ArrayList<Object>(); 
+        
+        for(EntityAttributes entityToAdd : entitiesToAdd){
+            entityToAdd.sanitizeForSaving();
+            
+            if (!entityToAdd.isValid()) {
+                throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
+            }
+            
+            if(getEntity(entityToAdd) != null){
+                entitiesToUpdate.add(entityToAdd);
+            } else {
+                entities.add(entityToAdd.toEntity());
+            }
+        }
+        
+        getPM().makePersistentAll(entities);
+        getPM().flush();
+ 
+        return entitiesToUpdate;
+    }
+
+    
     /**
      * Warning: Do not use this method unless a previous update might cause
      * adding of the new entity to fail due to EntityAlreadyExists exception
@@ -173,6 +205,21 @@ public abstract class EntitiesDb {
         }
     }
     
+    public void deleteEntities(Collection<? extends EntityAttributes> entitiesToDelete) {
+        
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);
+        List<Object> entities = new ArrayList<Object>();
+        for(EntityAttributes entityToDelete : entitiesToDelete){
+            Object entity = getEntity(entityToDelete);
+            if (entity != null) {
+                entities.add(entity);
+            }
+        }
+        
+        getPM().deletePersistentAll(entities);
+        getPM().flush();
+    }
+    
     public void commitOutstandingChanges() {
         closePM();
     }
@@ -185,6 +232,10 @@ public abstract class EntitiesDb {
     
     public void deletePicture(BlobKey key) throws BlobstoreFailureException {
         BlobstoreServiceFactory.getBlobstoreService().delete(key);
+    }
+    
+    public void deletePictures(BlobKey[] keys) throws BlobstoreFailureException {
+        BlobstoreServiceFactory.getBlobstoreService().delete(keys);
     }
     
     /**

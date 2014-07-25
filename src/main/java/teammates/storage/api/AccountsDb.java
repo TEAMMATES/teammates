@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -31,7 +32,7 @@ import teammates.storage.entity.StudentProfile;
  * 
  */
 public class AccountsDb extends EntitiesDb {
-
+    @SuppressWarnings("unused")
     private static final Logger log = Utils.getLogger();
     
     /**
@@ -57,6 +58,24 @@ public class AccountsDb extends EntitiesDb {
                 // This situation is not tested as replicating such a situation is 
                 // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
+            }
+        }
+    }
+    
+    /* This function is used for persisting data bunble in testing process */
+    public void createAccounts(Collection<AccountAttributes> accountsToAdd, boolean updateAccount) throws InvalidParametersException{
+        
+        List<EntityAttributes> accountsToUpdate = createEntities(accountsToAdd);
+        if(updateAccount){
+            for(EntityAttributes entity : accountsToUpdate){
+                AccountAttributes account = (AccountAttributes) entity;
+                try {
+                    updateAccount(account, true);
+                } catch (EntityDoesNotExistException e) {
+                 // This situation is not tested as replicating such a situation is 
+                 // difficult during testing
+                    Assumption.fail("Entity found be already existing and not existing simultaneously");
+                }
             }
         }
     }
@@ -170,6 +189,17 @@ public class AccountsDb extends EntitiesDb {
             deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
         }
         deleteEntity(accountToDelete);
+        closePM();
+    }
+    
+    public void deleteAccounts(Collection<AccountAttributes> accounts){
+
+        for(AccountAttributes accountToDelete : accounts){
+            if (!accountToDelete.studentProfile.pictureKey.equals("")) {
+                deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
+            }
+        }
+        deleteEntities(accounts);
         closePM();
     }
 

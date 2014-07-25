@@ -41,7 +41,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseDetailsPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser(true);
     }
     
@@ -226,6 +226,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
     @AfterClass
     public static void classTearDown() throws Exception {
+        BackDoor.removeDataBundleFromDb(testData);
         BrowserPool.release(browser);
     }
 }

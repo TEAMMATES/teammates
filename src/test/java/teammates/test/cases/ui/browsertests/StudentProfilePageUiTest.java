@@ -19,7 +19,9 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.StudentHomePage;
 import teammates.test.pageobjects.StudentProfilePage;
 import teammates.test.pageobjects.StudentProfilePicturePage;
+import teammates.test.util.Priority;
 
+@Priority(-3)
 public class StudentProfilePageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static DataBundle testData;
