@@ -20,15 +20,21 @@
     src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 
-</head>
-
 <script type="text/javascript">
-	$(function() {
-		$("[data-toggle='tooltip']").tooltip({
-			html : true
-		});
-	});
+    $(function() {
+        $("[data-toggle='tooltip']").tooltip({
+            html : true
+        });
+    });
 </script>
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]--> 
+
+</head>
 
 <body>
 
@@ -56,9 +62,7 @@
                             Questions</a>
                         <div style="margin: 0 auto; padding: 0 50px;">
                             <ul>
-                                <li><a href="#faq1">How do I
-                                        view a list of students in a
-                                        course?</a></li>
+                                <li><a href="#faq1">How do I view a list of students in a course?</a></li>
                                 <li><a href="#faq2">How do I
                                         change student details after
                                         enrolling?</a></li>
@@ -89,9 +93,12 @@
                                         student influence his ‘perceived
                                         contribution’ value by awarding
                                         himself a larger contribution?</a></li>
-                                <li><a href="#faq11">How are
-                                        the contribution numbers
-                                        calculated?</a></li>
+                                <li><a href="#faq11">How are the contribution numbers calculated?</a></li>
+                                <li><a href="#faq12">How do I add instructors to my course?</a></li>
+                                <li><a href="#faq13">How do I edit instructors in my course?</a></li>
+                                <li><a href="#faq14">How do I set different access level for an instructor?</a></li>
+                                <li><a href="#faq15">How do I view details privileges for different access level?</a></li>
+                                <li><a href="#faq16">How do I set custom privileges for an instructor?</a></li>
                             </ul>
                         </div></li>
                     <li><a href="#tips">Tips for using the
@@ -581,6 +588,24 @@
                                 contribution calculation scheme <a
                                     href="https://teammatesv4.appspot.com/dev/spec.html#supplementaryrequirements-pointcalculationscheme">here</a>.
                             </div></li>
+                        <li>
+                            <b><a name="faq12" id="question">How do I add instructors to my course?</a></b>
+                            <div class="helpSectionContent">
+                                After pressing 'edit' link of the course, you can go to course edit page, where you can add new instructors and edit existing 
+                                instructors in the course. However, depending on your privilege setting, you may or may not perform certain actions.<br>
+                                For example, edit/delete instructors, add instructor links will be disabled for those who do not have the privilege.<br>
+                                <div>
+                                    The screenshot goes here
+                                </div>
+                                If the links are not disabled for you, you can press the link, a form will show up, containing all the necessary information 
+                                that you need to provide.<br>
+                                <div>
+                                    The screenshot goes here
+                                </div>
+                                Fill in the form with the information of the instructor you want to add and press 'Add Instructor' button to add the instructor. 
+                                If you are not clear about certain input field, you can simply hover the input field and see the tooltip for explanation of the field.<br>
+                            </div>
+                        </li>
                     </ul>
                     <p align=right>
                         <a href="#Top">Back to Top 
