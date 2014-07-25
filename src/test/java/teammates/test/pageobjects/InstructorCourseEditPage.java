@@ -127,8 +127,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public WebElement displayedToStudentCheckBox(int instrNum) {
-        return browser.driver.findElement(By.id(
-                "accessControlEditDivForInstr"+ instrNum)).findElement(By.name("instructorisdisplayed"));
+        return browser.driver.findElement(By.cssSelector("#instructorTable" + instrNum + " > div:nth-child(4) > label:nth-child(1) > input:nth-child(1)"));
     }
     
     public void clickDisplayedToStudentCheckBox(int instrNum) {
@@ -145,7 +144,7 @@ public class InstructorCourseEditPage extends AppPage {
         // there is one link before view details link group
         int cssLinkNum = viewLinkNum + 1;
         WebElement viewLink = browser.driver.findElement(By.cssSelector("#accessControlEditDivForInstr" + instrNum +
-                " > div:nth-child(2) > div.col-sm-9 > a:nth-child(" + cssLinkNum + ")"));
+                " > div:nth-child(1) > div.col-sm-9 > a:nth-child(" + cssLinkNum + ")"));
         
         viewLink.click();
         browser.selenium.waitForPageToLoad("500");
