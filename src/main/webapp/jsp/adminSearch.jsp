@@ -47,7 +47,15 @@
             <div id="frameBodyWrapper">
                 <div id="topOfPage"></div>
                 <div id="headerOperation" class="page-header">
-                    <h1>Admin Search</h1>
+                    <h1>
+                        Admin Search <small><span
+                            class="label label-primary"> Tips:
+                                Surround key word to search a whole
+                                string or string contains punctuation
+                                like "-" "." </span></small>
+                    </h1>
+
+
                 </div>
 
 
@@ -87,63 +95,63 @@
                                 </div>
                             </div>
                         </div>
-
-                        <%
-                        	List<StudentAttributes> studentResultList = data.studentResultBundle.studentList;
-
-                        	if (!studentResultList.isEmpty()) {
-                        %>
-
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <strong>Students Found </strong>
-
-                            </div>
-
-                            <div class="table-responsive">
-                                <table
-                                    class="table table-condensed dataTable"
-                                    id="search_table">
-
-                                    <thead>
-                                        <tr>
-                                            <th>Course [Section]</th>
-                                            <th>Team</th>
-                                            <th>Name</th>
-                                            <th>Google ID[Email]</th>
-                                            <th>Comments</th>
-
-
-                                        </tr>
-
-                                    </thead>
-                                    <tbody>
-
-                                        <%
-                                        	for (StudentAttributes student : studentResultList) {
-                                        %>
-
-                                        <tr>
-                                            <td><%=student.course%>&nbsp;[<%=student.section%>]
-                                            </td>
-                                            <td><%=student.team%></td>
-                                            <td><%=student.name%></td>
-                                            <td><%=student.googleId%></td>
-                                            <td><%=student.comments%></td>
-                                        </tr>
-
-
-                                        <%
-                                        	}
-
-                                        	}
-                                        %>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
                     </form>
                 </div>
+                <%
+                	List<StudentAttributes> studentResultList = data.studentResultBundle.studentList;
+
+                	if (!studentResultList.isEmpty()) {
+                %>
+
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <strong>Students Found </strong>
+
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-condensed dataTable"
+                            id="search_table">
+
+                            <thead>
+                                <tr>
+                                    <th>Course [Section]</th>
+                                    <th>Team</th>
+                                    <th>Name</th>
+                                    <th>Google ID[Email]</th>
+                                    <th>Comments</th>
+
+
+                                </tr>
+
+                            </thead>
+                            <tbody>
+
+                                <%
+                                	for (StudentAttributes student : studentResultList) {
+                                %>
+
+                                <tr>
+                                    <td><%=student.course%>&nbsp;[<%=student.section%>]
+                                    </td>
+                                    <td><%=student.team%></td>
+                                    <td><%=student.name%></td>
+                                    <td><%=student.googleId%></td>
+                                    <td><%=student.comments%></td>
+                                </tr>
+
+
+                                <%
+                                	}
+
+                                	}
+                                %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
 
 
                 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
