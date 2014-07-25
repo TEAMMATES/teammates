@@ -132,7 +132,7 @@
             </div>
             <div class="row">
                 <% if(data.sections.size() != 0) { %>
-                <div class="col-sm-5" data-toggle="tooltip" title="View results in separated section">
+                <div class="col-sm-5" data-toggle="tooltip" title="View results by sections">
                     <div class="form-group">
                         <label for="sectionSelect" class="col-sm-2 control-label">
                             Section:

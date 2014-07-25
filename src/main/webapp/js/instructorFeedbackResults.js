@@ -129,7 +129,14 @@ window.onload = function(){
 
     bindCollapseEvents(panels, numPanels);
     $("a[id^='collapse-panels-button-section-']").on('click', function(){
-        var panels = $(this).closest('.panel-success').children('.panel-collapse').find('div.panel.panel-warning').children('.panel-collapse');
+        var isGroupByTeam = document.getElementById('frgroupbyteam').checked;
+        var childPanelType;
+        if(isGroupByTeam){
+            childPanelType = 'div.panel.panel-warning';
+        } else {
+            childPanelType = 'div.panel.panel-primary';
+        }
+        var panels = $(this).closest('.panel-success').children('.panel-collapse').find(childPanelType).children('.panel-collapse');
         toggleCollapse(this, panels);
     });
 
