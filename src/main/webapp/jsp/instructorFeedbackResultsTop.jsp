@@ -107,7 +107,7 @@
                         </label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input type="text" id="results-search-box" class="form-control" placeholder='<%= data.sortType.equals("question") ? "Type question info to filter results" : "Type a student/team name to filter results"%>' onchange="updateResultsFilter()">
+                                <input type="text" id="results-search-box" class="form-control" placeholder='<%= data.sortType.equals("question") ? "Type keywords from the question title" : "Type a student/team name to filter results"%>' onchange="updateResultsFilter()">
                                 <a class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
                             </div>
                         </div>
