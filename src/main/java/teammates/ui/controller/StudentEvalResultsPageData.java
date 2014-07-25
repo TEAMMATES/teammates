@@ -18,7 +18,6 @@ public class StudentEvalResultsPageData extends PageData {
     }
     
     public EvaluationAttributes eval;
-    public StudentAttributes student;
     public List<SubmissionAttributes> incoming;
     public List<SubmissionAttributes> outgoing;
     public List<SubmissionAttributes> selfEvaluations;

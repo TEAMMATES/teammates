@@ -88,8 +88,6 @@ function getAppendedData(data, courseIdx) {
     if(data.courseSectionDetails.length > 0){
         appendedHtml += '<table class="table table-responsive table-striped table-bordered margin-0">'
         appendedHtml += '<thead class="background-color-medium-gray text-color-gray font-weight-normal">';
-        appendedHtml += '<tr id="searchNoResults-' + courseIdx + '" style="display:none;"><th class="align-center color_white bold">Cannot find students in this course</th>';
-        appendedHtml += '</tr>';
         appendedHtml += '<tr id="resultsHeader-' + courseIdx + '"><th>Photo</th>';
         if(data.hasSection) { 
             appendedHtml += '<th id="button_sortsection-' + courseIdx + '" class="button-sort-none" onclick="toggleSort(this,' + (sortIdx++) + ')">';
@@ -100,7 +98,10 @@ function getAppendedData(data, courseIdx) {
         appendedHtml += '<th id="button_sortstudentname-' + courseIdx + '" class="button-sort-none" onclick="toggleSort(this,' + (sortIdx++) + ')">';
         appendedHtml += 'Student Name <span class="icon-sort unsorted"></span></th>';
         appendedHtml += '<th id="button_sortemail-' + courseIdx + '" class="button-sort-none" onclick="toggleSort(this,' + (sortIdx++) + ')">';
-        appendedHtml += 'Email <span class="icon-sort unsorted"></span></th><th>Action(s)</th></tr></thead>';
+        appendedHtml += 'Email <span class="icon-sort unsorted"></span></th><th>Action(s)</th></tr>';
+
+        appendedHtml += '<tr id="searchNoResults-' + courseIdx + '" style="display:none;"><th class="align-center color_white bold">Cannot find students in this course</th>';
+        appendedHtml += '</tr></thead>';
 
         var sectionIdx = -1;
         var teamIdx = -1;

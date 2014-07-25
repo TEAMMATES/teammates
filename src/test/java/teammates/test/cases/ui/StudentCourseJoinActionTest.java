@@ -23,7 +23,7 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
     public static void classSetUp() throws Exception {
         printTestClassHeader();
 		restoreTypicalDataInDatastore();
-        uri = Const.ActionURIs.STUDENT_COURSE_JOIN;
+        uri = Const.ActionURIs.STUDENT_COURSE_JOIN_NEW;
     }
 
     @Test
