@@ -68,6 +68,9 @@ public abstract class AppPage {
     protected static Logger log = Utils.getLogger();
     /**Home page of the application, as per test.properties file*/
     protected static final String HOMEPAGE = TestProperties.inst().TEAMMATES_URL;
+    
+    static final long ONE_MINUTE_IN_MILLIS=60000;
+    
     /** Browser instance the page is loaded into */
     protected Browser browser;
     
@@ -669,6 +672,8 @@ public abstract class AppPage {
     }
 
     private String processPageSourceForGodMode(String content) {
+        Date now = new Date();
+        Date dateTimeOneMinuteAgo = new Date(now.getTime() - ONE_MINUTE_IN_MILLIS);
         return content
                 .replaceAll("<#comment[ ]*</#comment>", "<!---->")
                 .replace(Config.APP_URL, "{$app.url}")
@@ -693,9 +698,10 @@ public abstract class AppPage {
                 .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "{$test.unreg}")
                 .replace(Config.SUPPORT_EMAIL, "{$support.email}")
                 // today's date
-                .replace(TimeHelper.formatDate(new Date()), "{*}")
+                .replace(TimeHelper.formatDate(now), "{*}")
                 // now (used in opening time/closing time Grace period)
-                .replace(TimeHelper.formatTime(new Date()), "{*}");
+                .replace(TimeHelper.formatTime(now), "{*}")
+                .replace(TimeHelper.formatTime(dateTimeOneMinuteAgo), "{*}");
     }
 
     private boolean areTestAccountsDefaultValues() {
