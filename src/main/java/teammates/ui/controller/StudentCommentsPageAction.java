@@ -122,14 +122,14 @@ public class StudentCommentsPageAction extends Action {
     private void setPreviousPageLink(List<CourseAttributes> courses, int currentIndex){
         if(currentIndex - 1 >= 0){
             CourseAttributes course = courses.get(currentIndex - 1);
-            previousPageLink = new PageData(account).getStudentCommentsLink() + "&courseid=" + course.id;
+            previousPageLink = new PageData(account).getStudentCommentsLink(false) + "&courseid=" + course.id;
         }
     }
     
     private void setNextPageLink(List<CourseAttributes> courses, int currentIndex){
         if(currentIndex + 1 < courses.size()){
             CourseAttributes course = courses.get(currentIndex + 1);
-            nextPageLink = new PageData(account).getStudentCommentsLink() + "&courseid=" + course.id;
+            nextPageLink = new PageData(account).getStudentCommentsLink(false) + "&courseid=" + course.id;
         }
     }
     
