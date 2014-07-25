@@ -59,22 +59,27 @@
             <form class="form-group" method="post"
                 action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD%>"
                 name="form_addfeedbacksession">
-                <div class="row"
-                    title="Select a different type of session here."
-                    data-toggle="tooltip" 
-                    data-placement="top">
+                <div class="row">
                     <h4 class="label-control col-md-2 text-md">Create new </h4>
                     <div class="col-md-5">
-                        <select class="form-control"
-                            name="<%=Const.ParamsNames.FEEDBACK_SESSION_TYPE%>"
-                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_TYPE%>">
-                            <option value="STANDARD"selected="selected">
-                                Session with your own questions
-                            </option>
-                            <option value="TEAMEVALUATION">
-                                Team peer evaluation session
-                            </option>
-                        </select>
+                        <div class="col-md-10"
+                        title="Select a session type here."
+                        data-toggle="tooltip"
+                        data-placement="top">
+                            <select class="form-control"
+                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_TYPE%>"
+                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_TYPE%>">
+                                <option value="STANDARD">
+                                    Session with your own questions
+                                </option>
+                                <option value="TEAMEVALUATION" selected="selected">
+                                    Team peer evaluation session
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                            <h5><a href="/instructorHelp.html#fbSetupSession" target="_blank"><span class="glyphicon glyphicon-info-sign"></span></a></h5>
+                        </div>
                     </div>
                     <h4 class="label-control col-md-1 text-md">Or: </h4>
                     <div class="col-md-3">
@@ -514,19 +519,6 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-2"
-                                title="<%=Const.Tooltips.FEEDBACK_SESSION_SENDJOINEMAIL%>"
-                                data-toggle="tooltip"
-                                data-placement="top">
-                                <div class="checkbox">
-                                    <label
-                                        for="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>_join">Join
-                                        reminder</label> <input type="checkbox"
-                                        checked="checked"
-                                        id="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>_join"
-                                        disabled="disabled">
-                                </div>
-                            </div>
                             <div class="col-sm-3"
                                 title="<%=Const.Tooltips.FEEDBACK_SESSION_SENDOPENEMAIL%>"
                                 data-toggle="tooltip"

@@ -45,25 +45,30 @@ public class BaseUiTestCase extends BaseTestCase {
         
         if(browser.isAdminLoggedIn){
             browser.driver.get(url.toString());
-        } else {
-            //logout and attempt to load the requested URL. This will be 
-            //  redirected to a dev-server/google login page
-            AppPage.logout(browser);
-            browser.driver.get(url.toString());
-            String pageSource = browser.driver.getPageSource();
-            
-            //login based on the login page type
-            if(DevServerLoginPage.containsExpectedPageContents(pageSource)){
-                DevServerLoginPage loginPage = AppPage.getNewPageInstance(browser, DevServerLoginPage.class);
-                loginPage.loginAdminAsInstructor(adminUsername, adminPassword, instructorId);
-    
-            } else if(GoogleLoginPage.containsExpectedPageContents(pageSource)){
-                GoogleLoginPage loginPage = AppPage.getNewPageInstance(browser, GoogleLoginPage.class);
-                loginPage.loginAdminAsInstructor(adminUsername, adminPassword, instructorId);
-            
-            } else {
-                throw new IllegalStateException("Not a valid login page :" + pageSource);
+            try {
+                return AppPage.getNewPageInstance(browser, typeOfPage);
+            } catch(Exception e) {
+                //ignore and try to logout and login again if fail.
             }
+        }
+        
+        //logout and attempt to load the requested URL. This will be 
+        //  redirected to a dev-server/google login page
+        AppPage.logout(browser);
+        browser.driver.get(url.toString());
+        String pageSource = browser.driver.getPageSource();
+        
+        //login based on the login page type
+        if(DevServerLoginPage.containsExpectedPageContents(pageSource)){
+            DevServerLoginPage loginPage = AppPage.getNewPageInstance(browser, DevServerLoginPage.class);
+            loginPage.loginAdminAsInstructor(adminUsername, adminPassword, instructorId);
+
+        } else if(GoogleLoginPage.containsExpectedPageContents(pageSource)){
+            GoogleLoginPage loginPage = AppPage.getNewPageInstance(browser, GoogleLoginPage.class);
+            loginPage.loginAdminAsInstructor(adminUsername, adminPassword, instructorId);
+        
+        } else {
+            throw new IllegalStateException("Not a valid login page :" + pageSource);
         }
         
         //After login, the browser should be redirected to the page requested originally.

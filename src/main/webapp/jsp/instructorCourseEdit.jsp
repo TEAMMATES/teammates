@@ -151,7 +151,6 @@
                             <label class="col-sm-3 control-label">Google ID:</label>
                             <div class="col-sm-9"><input class="form-control immutable" type="text" id="<%=Const.ParamsNames.INSTRUCTOR_ID+index%>"
                                 value="<%=instructor.googleId%>"
-                                data-toggle="tooltip" data-placement="top" title="Enter the google id of the instructor."
                                 maxlength=<%=FieldValidator.GOOGLE_ID_MAX_LENGTH%> tabindex=3
                                 disabled="disabled">
                             </div>
@@ -177,31 +176,38 @@
                                 disabled="disabled">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">
+                                 <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT%>" value="true"
+                                     <% if (instructor.isDisplayedToStudents) { %>
+                                     checked="checked"
+                                     <% } %>
+                                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_TO_STUDENT%>"
+                                     disabled="disabled">
+                                     Display to students as:</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>" 
+                                    placeholder="E.g.Co-lecturer, Teaching Assistant" value="<%=instructor.displayedName%>"
+                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_AS%>"
+                                    disabled="disabled"/>
+                            </div>
+                        </div>
                         <div id="accessControlInfoForInstr<%=index%>">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Access Level:</label>
                                 <div class="col-sm-9">
-                                    <p class="form-control-static"><%=instructor.role%></p>
+                                    <p class="form-control-static">
+                                        <span><%=instructor.role%></span>
+                                        <% if (!instructor.role.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) { %>
+                                        <a href="javascript:;" onclick="showInstructorRoleModal('<%=instructor.role%>')">
+                                            &nbsp;View Details</a>
+                                        <% } %>
+                                    </p>
                                 </div>
                             </div>
                         </div>
 
                         <div id="accessControlEditDivForInstr<%=index%>" style="display:none;">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">
-                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT%>" value="true"
-                                     <% if (instructor.isDisplayedToStudents) { %>
-                                     checked="checked"
-                                     <% } %>
-                                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_TO_STUDENT%>"
-                                     >
-                                     Display to students as:</label>
-                                <div class="col-sm-9">
-                                    <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME%>" 
-                                    placeholder="E.g.Co-lecturer, Teaching Assistant" value="<%=instructor.displayedName%>"
-                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.INSTRUCTOR_DISPLAYED_AS%>"/>
-                                </div>
-                            </div>
                             <div class="form-group">
                                 <div class="col-sm-3">
                                     <label class="control-label pull-right">Access-level</label>
@@ -228,7 +234,7 @@
                                                   View Details</a><br>
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
                                         value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>">
-                                        &nbsp;Tutor: Can view student details, give comments and submit/view sessions and comments
+                                        &nbsp;Tutor: Can view student details, give/view comments, submit/view responses for sessions
                                         &nbsp;<a href="javascript:;"
                                                   onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>')">
                                                   View Details</a><br>
@@ -596,7 +602,7 @@
 
             <div class="panel-body fill-plain">
                 <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD%>" name="formAddInstructor" 
-                class="form form-horizontal" id="formAddInstructor">
+                    class="form form-horizontal" id="formAddInstructor">
                     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.course.id%>">
                     <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
                     
@@ -659,7 +665,7 @@
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
                                         id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
                                         value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>"
-                                        >&nbsp;Tutor: Can only submit/view sessions and comments
+                                        >&nbsp;Tutor: Can view student details, give/view comments, submit/view responses for sessions
                                         <a href="javascript:;" 
                                             onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>')">
                                             View Details</a><br>
