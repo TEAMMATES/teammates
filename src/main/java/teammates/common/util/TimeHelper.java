@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import teammates.common.util.Const.SystemParams;
 
@@ -305,11 +307,14 @@ public class TimeHelper {
      * Example: 1200 milliseconds ---> 0:1:200
      */
     
-    public static String ConvertToStandardDuration(Long timeInMilliseconds){
+    public static String convertToStandardDuration(Long timeInMilliseconds){
      
         return timeInMilliseconds !=null? String.format("%d:%d:%d",
                                                          timeInMilliseconds / 60000,
                                                          timeInMilliseconds / 1000,
                                                          timeInMilliseconds % 1000) : "";
     }
+    
+  
+    
 }

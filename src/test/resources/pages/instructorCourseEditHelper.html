@@ -347,7 +347,7 @@ ul #nav {
                         
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Google ID:</label>
-                            <div class="col-sm-9"><input type="text" disabled="disabled" tabindex="3" maxlength="45" title="" data-placement="top" data-toggle="tooltip" value="InsCrsEdit.Helper" id="instructorid1" class="form-control immutable" data-original-title="Enter the google id of the instructor." />
+                            <div class="col-sm-9"><input type="text" disabled="disabled" tabindex="3" maxlength="45" value="InsCrsEdit.Helper" id="instructorid1" class="form-control immutable" />
                             </div>
                         </div>
                         
@@ -361,24 +361,27 @@ ul #nav {
                             <div class="col-sm-9"><input type="text" disabled="disabled" tabindex="5" maxlength="45" title="" data-placement="top" data-toggle="tooltip" value="InsCrsEdit.Helper@gmail.com" id="instructoremail1" name="instructoremail" class="form-control" data-original-title="Enter the Email of the instructor." />
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">
+                                 <input type="checkbox" disabled="disabled" title="" data-placement="top" data-toggle="tooltip" checked="checked" value="true" name="instructorisdisplayed" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" />
+                                     Display to students as:</label>
+                            <div class="col-sm-9">
+                                <input type="text" disabled="disabled" title="" data-placement="top" data-toggle="tooltip" value="Instructor" placeholder="E.g.Co-lecturer, Teaching Assistant" name="instructordisplayname" class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" />
+                            </div>
+                        </div>
                         <div id="accessControlInfoForInstr1">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Access Level:</label>
                                 <div class="col-sm-9">
-                                    <p class="form-control-static">Custom</p>
+                                    <p class="form-control-static">
+                                        <span>Custom</span>
+                                        
+                                    </p>
                                 </div>
                             </div>
                         </div>
 
                         <div style="display:none;" id="accessControlEditDivForInstr1">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">
-                                     <input type="checkbox" title="" data-placement="top" data-toggle="tooltip" checked="checked" value="true" name="instructorisdisplayed" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" />
-                                     Display to students as:</label>
-                                <div class="col-sm-9">
-                                    <input type="text" title="" data-placement="top" data-toggle="tooltip" value="Instructor" placeholder="E.g.Co-lecturer, Teaching Assistant" name="instructordisplayname" class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" />
-                                </div>
-                            </div>
                             <div class="form-group">
                                 <div class="col-sm-3">
                                     <label class="control-label pull-right">Access-level</label>
@@ -398,7 +401,7 @@ ul #nav {
                                          <a onclick="showInstructorRoleModal('Observer')" href="javascript:;">
                                                   View Details</a><br />
                                     <input type="radio" value="Tutor" id="instructorroleforinstructor1" name="instructorrole" />
-                                         Tutor: Can view student details, give comments and submit/view sessions and comments
+                                         Tutor: Can view student details, give/view comments, submit/view responses for sessions
                                          <a onclick="showInstructorRoleModal('Tutor')" href="javascript:;">
                                                   View Details</a><br />
                                     <input type="radio" value="Custom" id="instructorroleforinstructor1" name="instructorrole" />
@@ -796,7 +799,7 @@ ul #nav {
                         
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Google ID:</label>
-                            <div class="col-sm-9"><input type="text" disabled="disabled" tabindex="3" maxlength="45" title="" data-placement="top" data-toggle="tooltip" value="InsCrsEdit.coord" id="instructorid2" class="form-control immutable" data-original-title="Enter the google id of the instructor." />
+                            <div class="col-sm-9"><input type="text" disabled="disabled" tabindex="3" maxlength="45" value="InsCrsEdit.coord" id="instructorid2" class="form-control immutable" />
                             </div>
                         </div>
                         
@@ -810,24 +813,30 @@ ul #nav {
                             <div class="col-sm-9"><input type="text" disabled="disabled" tabindex="5" maxlength="45" title="" data-placement="top" data-toggle="tooltip" value="InsCrsEdit.coord@gmail.com" id="instructoremail2" name="instructoremail" class="form-control" data-original-title="Enter the Email of the instructor." />
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">
+                                 <input type="checkbox" disabled="disabled" title="" data-placement="top" data-toggle="tooltip" checked="checked" value="true" name="instructorisdisplayed" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" />
+                                     Display to students as:</label>
+                            <div class="col-sm-9">
+                                <input type="text" disabled="disabled" title="" data-placement="top" data-toggle="tooltip" value="Instructor" placeholder="E.g.Co-lecturer, Teaching Assistant" name="instructordisplayname" class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" />
+                            </div>
+                        </div>
                         <div id="accessControlInfoForInstr2">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Access Level:</label>
                                 <div class="col-sm-9">
-                                    <p class="form-control-static">Co-owner</p>
+                                    <p class="form-control-static">
+                                        <span>Co-owner</span>
+                                        
+                                        <a onclick="showInstructorRoleModal('Co-owner')" href="javascript:;">
+                                             View Details</a>
+                                        
+                                    </p>
                                 </div>
                             </div>
                         </div>
 
                         <div style="display:none;" id="accessControlEditDivForInstr2">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">
-                                     <input type="checkbox" title="" data-placement="top" data-toggle="tooltip" checked="checked" value="true" name="instructorisdisplayed" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" />
-                                     Display to students as:</label>
-                                <div class="col-sm-9">
-                                    <input type="text" title="" data-placement="top" data-toggle="tooltip" value="Instructor" placeholder="E.g.Co-lecturer, Teaching Assistant" name="instructordisplayname" class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" />
-                                </div>
-                            </div>
                             <div class="form-group">
                                 <div class="col-sm-3">
                                     <label class="control-label pull-right">Access-level</label>
@@ -847,7 +856,7 @@ ul #nav {
                                          <a onclick="showInstructorRoleModal('Observer')" href="javascript:;">
                                                   View Details</a><br />
                                     <input type="radio" value="Tutor" id="instructorroleforinstructor2" name="instructorrole" />
-                                         Tutor: Can view student details, give comments and submit/view sessions and comments
+                                         Tutor: Can view student details, give/view comments, submit/view responses for sessions
                                          <a onclick="showInstructorRoleModal('Tutor')" href="javascript:;">
                                                   View Details</a><br />
                                     <input type="radio" value="Custom" id="instructorroleforinstructor2" name="instructorrole" />
@@ -1254,24 +1263,27 @@ ul #nav {
                             <div class="col-sm-9"><input type="text" disabled="disabled" tabindex="5" maxlength="45" title="" data-placement="top" data-toggle="tooltip" value="InsCrsEdit.newInstr@gmail.com" id="instructoremail3" name="instructoremail" class="form-control" data-original-title="Enter the Email of the instructor." />
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">
+                                 <input type="checkbox" disabled="disabled" title="" data-placement="top" data-toggle="tooltip" checked="checked" value="true" name="instructorisdisplayed" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" />
+                                     Display to students as:</label>
+                            <div class="col-sm-9">
+                                <input type="text" disabled="disabled" title="" data-placement="top" data-toggle="tooltip" value="Instructor" placeholder="E.g.Co-lecturer, Teaching Assistant" name="instructordisplayname" class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" />
+                            </div>
+                        </div>
                         <div id="accessControlInfoForInstr3">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Access Level:</label>
                                 <div class="col-sm-9">
-                                    <p class="form-control-static">Custom</p>
+                                    <p class="form-control-static">
+                                        <span>Custom</span>
+                                        
+                                    </p>
                                 </div>
                             </div>
                         </div>
 
                         <div style="display:none;" id="accessControlEditDivForInstr3">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">
-                                     <input type="checkbox" title="" data-placement="top" data-toggle="tooltip" checked="checked" value="true" name="instructorisdisplayed" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" />
-                                     Display to students as:</label>
-                                <div class="col-sm-9">
-                                    <input type="text" title="" data-placement="top" data-toggle="tooltip" value="Instructor" placeholder="E.g.Co-lecturer, Teaching Assistant" name="instructordisplayname" class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" />
-                                </div>
-                            </div>
                             <div class="form-group">
                                 <div class="col-sm-3">
                                     <label class="control-label pull-right">Access-level</label>
@@ -1291,7 +1303,7 @@ ul #nav {
                                          <a onclick="showInstructorRoleModal('Observer')" href="javascript:;">
                                                   View Details</a><br />
                                     <input type="radio" value="Tutor" id="instructorroleforinstructor3" name="instructorrole" />
-                                         Tutor: Can view student details, give comments and submit/view sessions and comments
+                                         Tutor: Can view student details, give/view comments, submit/view responses for sessions
                                          <a onclick="showInstructorRoleModal('Tutor')" href="javascript:;">
                                                   View Details</a><br />
                                     <input type="radio" value="Custom" id="instructorroleforinstructor3" name="instructorrole" />
@@ -1689,7 +1701,7 @@ ul #nav {
                         
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Google ID:</label>
-                            <div class="col-sm-9"><input type="text" disabled="disabled" tabindex="3" maxlength="45" title="" data-placement="top" data-toggle="tooltip" value="InsCrsEdit.test" id="instructorid4" class="form-control immutable" data-original-title="Enter the google id of the instructor." />
+                            <div class="col-sm-9"><input type="text" disabled="disabled" tabindex="3" maxlength="45" value="InsCrsEdit.test" id="instructorid4" class="form-control immutable" />
                             </div>
                         </div>
                         
@@ -1703,24 +1715,30 @@ ul #nav {
                             <div class="col-sm-9"><input type="text" disabled="disabled" tabindex="5" maxlength="45" title="" data-placement="top" data-toggle="tooltip" value="InsCrsEdit.test@gmail.com" id="instructoremail4" name="instructoremail" class="form-control" data-original-title="Enter the Email of the instructor." />
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">
+                                 <input type="checkbox" disabled="disabled" title="" data-placement="top" data-toggle="tooltip" checked="checked" value="true" name="instructorisdisplayed" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" />
+                                     Display to students as:</label>
+                            <div class="col-sm-9">
+                                <input type="text" disabled="disabled" title="" data-placement="top" data-toggle="tooltip" value="Instructor" placeholder="E.g.Co-lecturer, Teaching Assistant" name="instructordisplayname" class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" />
+                            </div>
+                        </div>
                         <div id="accessControlInfoForInstr4">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Access Level:</label>
                                 <div class="col-sm-9">
-                                    <p class="form-control-static">Co-owner</p>
+                                    <p class="form-control-static">
+                                        <span>Co-owner</span>
+                                        
+                                        <a onclick="showInstructorRoleModal('Co-owner')" href="javascript:;">
+                                             View Details</a>
+                                        
+                                    </p>
                                 </div>
                             </div>
                         </div>
 
                         <div style="display:none;" id="accessControlEditDivForInstr4">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">
-                                     <input type="checkbox" title="" data-placement="top" data-toggle="tooltip" checked="checked" value="true" name="instructorisdisplayed" data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" />
-                                     Display to students as:</label>
-                                <div class="col-sm-9">
-                                    <input type="text" title="" data-placement="top" data-toggle="tooltip" value="Instructor" placeholder="E.g.Co-lecturer, Teaching Assistant" name="instructordisplayname" class="form-control" data-original-title="Specify the role of this instructor in this course as shown to the students" />
-                                </div>
-                            </div>
                             <div class="form-group">
                                 <div class="col-sm-3">
                                     <label class="control-label pull-right">Access-level</label>
@@ -1740,7 +1758,7 @@ ul #nav {
                                          <a onclick="showInstructorRoleModal('Observer')" href="javascript:;">
                                                   View Details</a><br />
                                     <input type="radio" value="Tutor" id="instructorroleforinstructor4" name="instructorrole" />
-                                         Tutor: Can view student details, give comments and submit/view sessions and comments
+                                         Tutor: Can view student details, give/view comments, submit/view responses for sessions
                                          <a onclick="showInstructorRoleModal('Tutor')" href="javascript:;">
                                                   View Details</a><br />
                                     <input type="radio" value="Custom" id="instructorroleforinstructor4" name="instructorrole" />
@@ -2164,7 +2182,7 @@ ul #nav {
                                          Cannot edit/delete/submit anything.
                                         <a onclick="showInstructorRoleModal(<'Observer')" href="javascript:;">
                                             View Details</a><br />
-                                    <input type="radio" value="Tutor" id="instructorroleforinstructor5" name="instructorrole" /> Tutor: Can only submit/view sessions and comments
+                                    <input type="radio" value="Tutor" id="instructorroleforinstructor5" name="instructorrole" /> Tutor: Can view student details, give/view comments, submit/view responses for sessions
                                         <a onclick="showInstructorRoleModal('Tutor')" href="javascript:;">
                                             View Details</a><br />
                                     <input type="radio" value="Custom" id="instructorroleforinstructor5" name="instructorrole" /> Custom: No access by default. Any access needs to be granted explicitly.
