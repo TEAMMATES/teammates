@@ -6,6 +6,9 @@ import java.util.HashSet;
 
 import teammates.common.util.Const;
 
+/**
+ * Representation of instructor privileges. Store the privileges of the instructor
+ */
 public final class InstructorPrivileges {
     private HashMap<String, Boolean> courseLevel;
     private HashMap<String, HashMap<String, Boolean>> sectionLevel;
@@ -185,14 +188,35 @@ public final class InstructorPrivileges {
         return privileges;
     }
     
+    /**
+     * set privilege for the privilege specified by privilegeName
+     * 
+     * @param privilegeName
+     * @param isAllowed
+     */
     public void updatePrivilege(String privilegeName, boolean isAllowed) {
         updatePrivilegeInCourseLevel(privilegeName, isAllowed);
     }
     
+    /**
+     * set privilege for the privilege specified by privilegeName for sectionName
+     * 
+     * @param sectionName
+     * @param privilegeName
+     * @param isAllowed
+     */
     public void updatePrivilege(String sectionName, String privilegeName, boolean isAllowed) {
         updatePrivilegeInSectionLevel(sectionName, privilegeName, isAllowed);
     }
     
+    /**
+     * set privilege for the privilege specified by privilegeName for sessionName in sectionName
+     * 
+     * @param sectionName
+     * @param sessionName
+     * @param privilegeName
+     * @param isAllowed
+     */
     public void updatePrivilege(String sectionName, String sessionName, String privilegeName, boolean isAllowed) {
         updatePrivilegeInSessionLevel(sectionName, sessionName, privilegeName, isAllowed);
     }
@@ -225,10 +249,23 @@ public final class InstructorPrivileges {
         this.sessionLevel.get(sectionName).get(sessionName).put(privilegeName, isAllowed);
     }
     
+    /**
+     * used for bulk update of privileges for sectionName
+     * 
+     * @param sectionName
+     * @param privileges
+     */
     public void updatePrivileges(String sectionName, HashMap<String, Boolean> privileges) {
         updatePrivilegesInSectionLevel(sectionName, privileges);
     }
     
+    /**
+     * used for bulk update of privileges for sessionName in sectionName
+     * 
+     * @param sectionName
+     * @param sessionName
+     * @param privileges
+     */
     public void updatePrivileges(String sectionName, String sessionName, HashMap<String, Boolean> privileges) {
         updatePrivilegesInSessionLevel(sectionName, sessionName, privileges);
     }
@@ -278,14 +315,31 @@ public final class InstructorPrivileges {
         }
     }
     
+    /**
+     * @param privilegeName
+     * @return whether it is allowed for the privilege specified by privilegeName
+     */
     public boolean isAllowedForPrivilege(String privilegeName) {
         return isAllowedInCourseLevel(privilegeName);
     }
     
+    /**
+     * 
+     * @param sectionName
+     * @param privilegeName
+     * @return whether it is allowed for the privilege specified by privilegeName in sectionName
+     */
     public boolean isAllowedForPrivilege(String sectionName, String privilegeName) {
         return isAllowedInSectionLevel(sectionName, privilegeName);
     }
     
+    /**
+     * 
+     * @param sectionName
+     * @param sessionName
+     * @param privilegeName
+     * @return whether it is allowed for the privilege specified by privilegeName for sessionName in sectionName
+     */
     public boolean isAllowedForPrivilege(String sectionName, String sessionName, String privilegeName) {
         return isAllowedInSessionLevel(sectionName, sessionName, privilegeName);
     }
@@ -298,14 +352,29 @@ public final class InstructorPrivileges {
         return this.sectionLevel.keySet().size();
     }
     
+    /**
+     * 
+     * @param sectionName
+     * @return whether there are special settings for sectionName
+     */
     public boolean isSessionsInSectionSpecial(String sectionName) {
         return this.sessionLevel.containsKey(sectionName);
     }
     
+    /**
+     * 
+     * @param sectionName
+     * @param sessionName
+     * @return whether there are special settings for sessionName in sectionName
+     */
     public boolean isSessionInSectionSpecial(String sectionName, String sessionName) {
         return (this.sessionLevel.containsKey(sectionName)) && this.sessionLevel.get(sectionName).containsKey(sessionName);
     }
     
+    /**
+     * remove special settings for sectionName
+     * @param sectionName
+     */
     public void removeSectionLevelPrivileges(String sectionName) {
         if (this.sectionLevel.containsKey(sectionName)) {
             this.sectionLevel.remove(sectionName);
@@ -313,12 +382,21 @@ public final class InstructorPrivileges {
         this.removeSessionsPrivilegesForSection(sectionName);
     }
     
+    /**
+     * remove special settings for all sessionNames in sectionName
+     * @param sectionName
+     */
     public void removeSessionsPrivilegesForSection(String sectionName) {
         if (this.sessionLevel.containsKey(sectionName)) {
             this.sessionLevel.remove(sectionName);
         }
     }
     
+    /**
+     * remove special settings for sessionName in sectionName
+     * @param sectionName
+     * @param sessionName
+     */
     public void removeSessionPrivileges(String sectionName, String sessionName) {
         if (this.sessionLevel.containsKey(sectionName) && this.sessionLevel.get(sectionName).containsKey(sessionName)) {
             this.sessionLevel.get(sectionName).remove(sessionName);
@@ -356,6 +434,10 @@ public final class InstructorPrivileges {
         }
     }
     
+    /**
+     * validate the privileges in course level, section level and session level
+     * make sure there is nothing wrong with privileges hierarchy
+     */
     public void validatePrivileges() {
         if (this.courseLevel.containsKey(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS)
                 && this.courseLevel.get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS).booleanValue()) {
