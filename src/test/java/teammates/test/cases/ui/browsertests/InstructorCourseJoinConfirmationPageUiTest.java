@@ -28,12 +28,6 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static InstructorCourseJoinConfirmationPage confirmationPage;
     String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
-    
-    @BeforeTest
-    public static void testSetup() {
-        //Set priority of the sequential ui tests thread to max priority.
-        Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
-    }
 
     @BeforeClass
     public static void classSetup() throws Exception {
