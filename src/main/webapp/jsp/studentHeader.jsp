@@ -8,6 +8,8 @@
 <%@ page import="teammates.ui.controller.PageData" %>
 <%
     PageData data = (PageData)request.getAttribute("data");
+    boolean isUnregistered = data.account.googleId == null 
+            || (data.student != null && !data.student.isRegistered());
 %>
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container">
@@ -23,18 +25,22 @@
                 <div class="collapse navbar-collapse" id="contentLinks">
                     <ul class="nav navbar-nav">
                         <li class="<%=data.getClass().toString().contains("StudentHome") ? "active":"" %>">
-                            <a id="studentHomeLink" data-link="studentHome" 
-                            href="<%=data.regkey != null ? "" : data.getStudentHomeLink()%>">Home</a>
+                            <a class="navLinks" id="studentHomeNavLink" href="<%=data.getStudentHomeLink(isUnregistered)%>"
+                               <%=isUnregistered ? "data-unreg='true'" : "" %>>
+                                Home
+                            </a>
                         </li>
                         <li class="<%=data.getClass().toString().contains("StudentProfilePage") ? "active":""%>">
-                            <a id="studentProfileLink" data-link="studentProfilePage" 
-                            href="<%=data.regkey != null ? "" : data.getStudentProfileLink()%>">
+                            <a class="navLinks" id="studentProfileNavLink" 
+                               href="<%=data.getStudentProfileLink(isUnregistered)%>"
+                               <%=isUnregistered ? "data-unreg='true'" : "" %>>
                                 Profile
                             </a>
                         </li>
                         <li class="<%=data.getClass().toString().contains("StudentComments") ? "active":""%>">
-                            <a id="studentCommentsLink" data-link="studentCommentsPage" 
-                            href="<%=data.regkey != null ? "" : data.getStudentCommentsLink()%>">
+                            <a class="navLinks" id="studentCommentsNavLink" 
+                               href="<%=data.getStudentCommentsLink(isUnregistered)%>"
+                               <%=isUnregistered ? "data-unreg='true'" : "" %>>
                                 Comments
                             </a>
                         </li>

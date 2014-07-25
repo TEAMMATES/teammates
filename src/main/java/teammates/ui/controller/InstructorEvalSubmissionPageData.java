@@ -8,7 +8,6 @@ import teammates.common.datatransfer.SubmissionAttributes;
 
 public class InstructorEvalSubmissionPageData extends PageData {
     public EvaluationAttributes evaluation;
-    public StudentAttributes student;
     public StudentResultBundle studentResult;
 
     public InstructorEvalSubmissionPageData(AccountAttributes account) {

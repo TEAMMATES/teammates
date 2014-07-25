@@ -881,7 +881,7 @@
                     </div>
                     <br>
                     <div>
-                        <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>')">  
+                        <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>">
                             <label class="col-sm-4 control-label">
                                 Feedback Giver:
                             </label>
@@ -1073,6 +1073,7 @@
                             </thead>
 
                             <% for (FeedbackQuestionAttributes question : data.copiableQuestions) {
+                                    if(data.instructors.get(question.courseId).isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)){
                                     FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                             %>
                                 <tr style="cursor:pointer;">
@@ -1083,7 +1084,9 @@
                                     <td><%= questionDetails.questionText %></td>
                                     <input type="hidden" value="<%= question.getId() %>">
                                 </tr>
-                            <% } %>
+                            <%      }
+                                } 
+                            %>
                         </table>
                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
                         <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">

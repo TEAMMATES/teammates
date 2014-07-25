@@ -15,6 +15,7 @@
 <%
     InstructorFeedbacksPageData data = (InstructorFeedbacksPageData) request
             .getAttribute("data");
+
 %>
 <!DOCTYPE html>
 <html>
@@ -710,7 +711,8 @@
                             <th> Feedback Session Name </th>
                         </thead>
 
-                        <% for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {%>
+                        <% for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {
+                            if(data.instructors.get(fdb.courseId).isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)){ %>
                             <tr style="cursor:pointer;">
                                 <td><input type="radio"></td>
                                 <td><%=fdb.courseId%></td>
@@ -718,7 +720,9 @@
                                     <%=InstructorFeedbacksPageData.sanitizeForHtml(fdb.feedbackSessionName)%>
                                 </td>
                             </tr>
-                        <% } %>
+                        <%      }
+                            } 
+                        %>
                     </table>
                             <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
                                     value="" id="modalSessionName">

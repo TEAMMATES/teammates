@@ -40,7 +40,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         
         String userEmailForCourse = getUserEmailForCourse();
         String userSectionForCourse = getUserSectionForCourse();
-        data = new FeedbackSubmissionEditPageData(account, regkey);
+        data = new FeedbackSubmissionEditPageData(account, student);
         data.bundle = getDataBundle(userEmailForCourse);        
         Assumption.assertNotNull("Feedback session " + feedbackSessionName + " does not exist in " + courseId + ".", data.bundle);
         
