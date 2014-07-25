@@ -74,6 +74,7 @@ function showSingleCollapse(e){
     $(glyphIcon[0]).removeClass('glyphicon-chevron-down');
     $(glyphIcon[0]).addClass('glyphicon-chevron-up');
     $(e).collapse("show");
+    $(heading).find('.btn').show();
 }
 
 function hideSingleCollapse(e){
@@ -82,6 +83,7 @@ function hideSingleCollapse(e){
     $(glyphIcon[0]).removeClass('glyphicon-chevron-up');
     $(glyphIcon[0]).addClass('glyphicon-chevron-down');
     $(e).collapse("hide");
+    $(heading).find('.btn').hide();
 }
 
 function toggleSingleCollapse(e){
