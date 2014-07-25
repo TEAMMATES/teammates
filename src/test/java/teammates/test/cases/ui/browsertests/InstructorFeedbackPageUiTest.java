@@ -146,6 +146,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
 
+        feedbackPage.selectSessionType("Session with your own questions");
+        
         feedbackPage.clickManualPublishTimeButton();
         
         feedbackPage.addFeedbackSession(
