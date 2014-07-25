@@ -126,7 +126,7 @@ function hideTuneSessionnPermissionsDiv(instrNum, sectionNum) {
 }
 
 function checkTheRoleThatApplies(instrNum) {
-	var instrRole = $("#accessControlInfoForInstr"+instrNum+" div div p").html();
+	var instrRole = $("#accessControlInfoForInstr"+instrNum+" div div p span").html();
 	$("input[id='instructorroleforinstructor" + instrNum + "']").filter("[value='" + instrRole + "']").prop("checked", true);
 	if (instrRole === "Custom") {
 		checkPrivilegesOfRoleForInstructor(instrNum, instrRole);

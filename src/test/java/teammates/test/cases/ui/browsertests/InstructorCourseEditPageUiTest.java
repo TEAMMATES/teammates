@@ -62,11 +62,6 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     
     public void testContent() throws Exception{
         
-        
-        /* Attention: Inside the instructorCourseEditPage, the join link for each instructor
-         * is printed as a hidden html element with id "joinLink". This is only for testing
-         * purpose. Please go to element inspector to get the link.
-         */
         ______TS("page load: Helper privileges");
         
         instructorId = testData.instructors.get("InsCrsEdit.Helper").googleId;
