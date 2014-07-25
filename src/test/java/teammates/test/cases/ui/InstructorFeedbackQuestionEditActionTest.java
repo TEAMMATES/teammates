@@ -33,7 +33,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		restoreTypicalDataInDatastore();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT;
     }
     
@@ -263,7 +263,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcessMcq() throws Exception{
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
         
         InstructorAttributes instructor1ofCourse1 =    dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -391,7 +391,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcessMsq() throws Exception{
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
         
         InstructorAttributes instructor1ofCourse1 =    dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -518,7 +518,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcessNumScale() throws Exception{
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
         
         InstructorAttributes instructor1ofCourse1 =    dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -603,7 +603,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcessConstSumOption() throws Exception{
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
         
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -693,7 +693,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcessConstSumRecipient() throws Exception{
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
         
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -782,7 +782,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcessContributionQuestion() throws Exception{
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
         
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 

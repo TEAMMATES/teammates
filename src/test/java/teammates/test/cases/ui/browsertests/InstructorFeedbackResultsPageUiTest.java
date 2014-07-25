@@ -38,9 +38,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorFeedbackResultsPageUiTest.json");
-        long start = System.currentTimeMillis();
         removeAndRestoreTestDataOnServer(testData);
-        log.severe("TIME TAKEN: " + (System.currentTimeMillis() - start) + "ms");
         browser = BrowserPool.getBrowser();
     }
     

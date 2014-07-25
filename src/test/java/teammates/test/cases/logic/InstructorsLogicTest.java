@@ -41,7 +41,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         printTestClassHeader();
         turnLoggingUp(InstructorsLogic.class);
         gaeSimulation.resetDatastore();
-        restoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
     }
 
     @Test

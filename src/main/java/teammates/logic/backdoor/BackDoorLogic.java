@@ -78,8 +78,6 @@ public class BackDoorLogic extends Logic {
     public String persistDataBundle(DataBundle dataBundle)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         
-        long start= System.currentTimeMillis();
-        
         if (dataBundle == null) {
             throw new InvalidParametersException(
                     Const.StatusCodes.NULL_PARAMETER, "Null data bundle");
@@ -188,8 +186,6 @@ public class BackDoorLogic extends Logic {
         // any Db can be used to commit the changes. 
         // Eval is used as it is already used in the file
         new EvaluationsDb().commitOutstandingChanges();
-        
-        log.info("TIME TAKEN TO PERSIST DATA: " + (System.currentTimeMillis() - start) + "ms");
         
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
@@ -426,7 +422,6 @@ public class BackDoorLogic extends Logic {
                 
         //TODO: questions and responses will be deleted automatically.
         //  We don't attempt to delete them again, to save time.
-        long start = System.currentTimeMillis();  
         deleteCourses(dataBundle.courses.values());
         
         for (AccountAttributes account : dataBundle.accounts.values()) {
@@ -436,7 +431,6 @@ public class BackDoorLogic extends Logic {
             }
         }
         accountsDb.deleteAccounts(dataBundle.accounts.values());
-        log.info("TIME TAKEN TO DELETE DATA: " + (System.currentTimeMillis() - start) + "ms");
         //waitUntilDeletePersists(dataBundle);
     }
 

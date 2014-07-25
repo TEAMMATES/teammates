@@ -101,7 +101,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     }
 
     private void testSubmitAction() {
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         
         ______TS("create new responses");
 

@@ -33,7 +33,7 @@ public class SubmissionsLogicTest extends BaseComponentTestCase{
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         turnLoggingUp(SubmissionsLogic.class);
-        restoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
     }
     
     @Test

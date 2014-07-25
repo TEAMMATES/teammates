@@ -61,7 +61,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		restoreTypicalDataInDatastore();
+		removeAndRestoreTypicalDataInDatastore();
 		addUnregStudentToCourse1();
     }
     

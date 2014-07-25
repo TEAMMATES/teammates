@@ -32,7 +32,7 @@ public class InstructorCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseJoinConfirmationPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         
         browser = BrowserPool.getBrowser(true);
         browser.driver.manage().deleteAllCookies();
