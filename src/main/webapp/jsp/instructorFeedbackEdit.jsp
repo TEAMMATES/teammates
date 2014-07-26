@@ -49,7 +49,10 @@
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
-<body onload="readyFeedbackEditPage();readyFeedbackPage();">
+<body onload="readyFeedbackEditPage();
+    bindUncommonSettingsEvents();
+    updateUncommonSettingsInfo();
+    hideUncommonPanels();">
     <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
     <div id="frameBodyWrapper" class="container">

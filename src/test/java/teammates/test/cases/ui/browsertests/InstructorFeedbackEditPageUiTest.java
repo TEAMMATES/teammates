@@ -173,6 +173,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         //feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditPublished.html");
         // Restore defaults
         feedbackEditPage.clickEditSessionButton();
+        
+
+        feedbackEditPage.clickEditUncommonSettingsButton();
         feedbackEditPage.clickDefaultPublishTimeButton();
         feedbackEditPage.clickSaveSessionButton();
     }
