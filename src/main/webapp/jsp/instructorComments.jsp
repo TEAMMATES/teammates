@@ -246,7 +246,7 @@
                       <a type="button" class="btn btn-sm btn-info" data-toggle="tooltip" style="margin-right: 17px;"
                          href="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING + "?" + Const.ParamsNames.COURSE_ID + "=" + data.courseId
                                         + "&" + Const.ParamsNames.USER_ID + "=" + data.account.googleId%>"
-                         title="Send email notification to recipients of <%=data.numberOfPendingComments%> pending <%=data.numberOfPendingComments>1?"comments":"comment"%>">
+                         title="Send email notification to <%=data.numberOfPendingComments%> recipient(s) of comments pending notification">
                         <span class="badge" style="margin-right: 5px"><%=data.numberOfPendingComments%></span>
                         <span class="glyphicon glyphicon-comment"></span>
                         <span class="glyphicon glyphicon-arrow-right"></span>
@@ -345,7 +345,7 @@
                                             %>
                                             <span class="glyphicon glyphicon-bell" data-toggle="tooltip" 
                                                 data-placement="top"
-                                                title="This comment is pending to notify recipients"></span>
+                                                title="This comment is pending notification. i.e., you have not sent a notification about this comment yet"></span>
                                             <% } %>
                                         </div>
                                         <div

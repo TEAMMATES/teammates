@@ -36,9 +36,8 @@ function formatConstSumQuestions(){
 
     for(var i=0 ; i<constSumQuestionNums.length ; i++){
         var qnNum = constSumQuestionNums[i];
-
         //const sum to recipients
-        if(! $("#response_submit_button").is(":disabled")){
+        if(! $("#response_submit_button").is(":disabled") || $(document).find('.navbar').text().indexOf('Preview')!=-1){
             if( $("#constSumToRecipients-"+qnNum).val() === "true" ){
                 var numResponses = $("[name='questionresponsetotal-"+qnNum+"']").val();
                 numResponses = parseInt(numResponses);

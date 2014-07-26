@@ -682,6 +682,7 @@ public abstract class AppPage {
                 .replaceAll("studentemail=([a-zA-Z0-9]){1,}\\&amp;courseid=([a-zA-Z0-9]){1,}", 
                             "studentemail={*}\\&amp;courseid={*}")
                 .replaceAll("regkey=([a-zA-Z0-9]){1,}\\&amp;", "regkey={*}\\&amp;")
+                .replaceAll("regkey%3D([a-zA-Z0-9]){1,}\\%", "regkey%3D{*}\\%")
                 //responseid
                 .replaceAll("([a-zA-Z0-9-_]){30,}%"
                         + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+%"

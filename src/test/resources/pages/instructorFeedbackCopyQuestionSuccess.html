@@ -216,7 +216,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-primary">
+                    <div style="display: none;" class="row" id="uncommonSettingsInfo">
+                        <div class="col-md-12 text-muted">
+                            <span id="uncommonSettingsInfoText">Session is visible at submission opening time, responses are only visible when you publish the results.<br>Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.</span>
+                            <a id="editUncommonSettingsButton" data-edit="[Edit]" data-done="[Done]" onclick="enableEditFS()">[Edit]</a>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary" id="sessionResponsesVisiblePanel">
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-6">
@@ -352,7 +358,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-primary">
+                    <div class="panel panel-primary" id="sendEmailsForPanel">
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -1088,7 +1094,7 @@
                     </div>
                     <br>
                     <div>
-                        <div data-original-title="Who will give feedback" class="col-sm-6" data-toggle="tooltip" data-placement="top" title="">  
+                        <div data-original-title="Who will give feedback" class="col-sm-6" data-toggle="tooltip" data-placement="top" title="">
                             <label class="col-sm-4 control-label">
                                 Feedback Giver:
                             </label>

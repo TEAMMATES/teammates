@@ -408,7 +408,7 @@ public class ActivityLogEntry {
         String result = "";
         result += "<tr> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"+ getDateInfo()
                + "<br> <p class=\"" + getColorCode(getTimeTaken()) + "\">"
-               + "<strong>" + TimeHelper.ConvertToStandardDuration(getTimeTaken()) + "</strong>"
+               + "<strong>" + TimeHelper.convertToStandardDuration(getTimeTaken()) + "</strong>"
                + "</p> </td> <td class=\"" + getTableCellColorCode(timeTaken) + "\">"
                + "<form method=\"post\" action=\"" + Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE + "\"> "
                + "<h4 class=\"list-group-item-heading\">" 
