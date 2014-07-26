@@ -4,10 +4,14 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.blobstore.UploadOptions;
 
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 
+/**
+ * Action: generates the UploadUrl for pictures given by students.
+ *         A dynamic generation is done to avoid the 10 minute time 
+ *         limit to such URLs
+ */
 public class StudentProfileCreateFormUrlAction extends Action {
 
     @Override

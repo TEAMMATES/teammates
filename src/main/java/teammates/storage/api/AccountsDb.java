@@ -32,6 +32,7 @@ import teammates.storage.entity.StudentProfile;
  */
 public class AccountsDb extends EntitiesDb {
 
+    @SuppressWarnings("unused")
     private static final Logger log = Utils.getLogger();
     
     /**
@@ -129,11 +130,12 @@ public class AccountsDb extends EntitiesDb {
         accountToUpdate.setIsInstructor(a.isInstructor);
         accountToUpdate.setInstitute(a.institute);
         
-        // if the student profile has changed then update the store
-        // this is to maintain integrity of the modified date.
         if (updateStudentProfile) {
             StudentProfileAttributes existingProfile = new StudentProfileAttributes(accountToUpdate.getStudentProfile());
             a.studentProfile.modifiedDate = existingProfile.modifiedDate;
+            
+            // if the student profile has changed then update the store
+            // this is to maintain integrity of the modified date.
             if(!(existingProfile.toString().equals(a.studentProfile.toString()))) {
                 accountToUpdate.setStudentProfile((StudentProfile) a.studentProfile.toEntity());
             }
