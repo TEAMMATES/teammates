@@ -217,9 +217,7 @@ function checkCourseBinding(e){
     checkAllSectionsSelected();
     checkAllTeamsSelected();
 
-    if(!haveAjaxRequest){
-        applyFilters();
-    }
+    applyFilters();
 }
 
 /* Check if all available sections are selected */
@@ -341,6 +339,7 @@ function filterTeam(){
 function filterEmails(){
 
     var uniqueEmails={};
+
     $("tr[id^='student-c']").each(function(){
         var $elementId = $(this).attr('id');
         var $studentId = $elementId.split('-')[1];

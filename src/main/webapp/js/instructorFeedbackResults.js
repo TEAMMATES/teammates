@@ -21,7 +21,9 @@ function filterResults(searchText){
 
     if($(element).parents(".resultStatistics").length){
         return;
-    }
+    }   
+
+    searchText = (searchText.split('\\s+')).join(' ');
 
     for(var i = 0 ; i < element.length ; i++){
         var elm = element[i];
