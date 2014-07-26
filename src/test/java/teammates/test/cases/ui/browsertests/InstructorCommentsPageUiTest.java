@@ -39,6 +39,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         testScripts();
         testActions();
         testSearch();
+        testEmailPendingComments();
     }
 
     private void testConent() {
@@ -192,6 +193,11 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.search("comments");
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageSearchNormal.html");
         commentsPage.clickCommentsPageLinkInHeader();
+    }
+    
+    private void testEmailPendingComments() {
+        commentsPage.clickSendEmailNotificationButton();
+        commentsPage.verifyStatus(Const.StatusMessages.COMMENT_CLEARED);
     }
     
     @AfterClass
