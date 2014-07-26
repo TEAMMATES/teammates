@@ -232,6 +232,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
         WebElement stepBox = browser.driver.findElement(By.id("stepBox" + idSuffix));
         fillTextBox(stepBox, StringHelper.toDecimalFormatString(step));
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("$(arguments[0]).change();", stepBox);
     }
     
     public void fillStepNumScaleBox(String step, int qnNumber) {
@@ -259,6 +261,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
         WebElement pointsBox = browser.driver.findElement(By.id("constSumPoints" + idSuffix));
         fillTextBox(pointsBox, Keys.BACK_SPACE+points); //backspace to clear the extra 1 when box is cleared.
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("$(arguments[0]).change();", pointsBox);
     }
     
     public String getConstSumPointsBox(int qnNumber) {
@@ -527,7 +531,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public InstructorFeedbacksPage clickDoneEditingLink() {
-        WebElement doneEditingLink = browser.driver.findElement(By.id("addNewQuestionTable")).findElements(By.tagName("a")).get(2);
+        WebElement doneEditingLink = browser.driver.findElement(By.id("addNewQuestionTable")).findElements(By.tagName("a")).get(3);
         doneEditingLink.click();
         waitForPageToLoad();
         return changePageType(InstructorFeedbacksPage.class);

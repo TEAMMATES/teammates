@@ -217,11 +217,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(true));
         
         resultsPage.clickCollapseExpand();
+        ThreadHelper.waitFor(2500);
         assertEquals(resultsPage.collapseExpandButton.getText(),"Expand Questions");
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(false));
         
 
         resultsPage.clickCollapseExpand();
+        ThreadHelper.waitFor(2500);
         assertEquals(resultsPage.collapseExpandButton.getText(),"Collapse Questions");
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(true));
         
@@ -248,10 +250,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("test search/filter script");
         
         resultsPage.fillSearchBox("question 1");
-        ThreadHelper.waitFor(5000);
+        ThreadHelper.waitFor(3000);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestionSearch.html");
-        
-        
     }
     
     public void testFeedbackResponseCommentActions() {
@@ -338,6 +338,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         browser.driver.get(reportUrl.toString());
         String afterReportDownloadUrl = browser.driver.getCurrentUrl();
         assertFalse(reportUrl.equals(afterReportDownloadUrl));
+        //Get an error page due to missing parameters in URL
+        assertEquals(true, afterReportDownloadUrl.contains("errorPage.jsp"));
         
         //return to the previous page
         loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");

@@ -37,6 +37,7 @@ import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentResultBundle;
+import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.UserType;
@@ -817,6 +818,38 @@ public class Logic {
 
     }
 
+    public void createStudentWithoutDocument(StudentAttributes student)
+            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
+
+        studentsLogic.createStudentCascadeWithoutDocument(student);
+
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * 
+     * @return Null if no match found.
+     */
+    public StudentSearchResultBundle searchStudents(String queryString, String googleId, String cursorString){
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, cursorString);
+        
+        return studentsLogic.searchStudents(queryString, googleId, cursorString);
+    }
+    
+    /**
+     * Get all students in the database
+     * @return empty list if there is no students
+     */
+    public List<StudentAttributes> getAllStudents() {
+        
+        return studentsLogic.getAllStudents();
+    }
+
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -1021,6 +1054,15 @@ public class Logic {
         studentsLogic.updateStudentCascade(originalEmail, student);
     }
 
+    public void updateStudentWithoutDocument(String originalEmail, StudentAttributes student)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, originalEmail);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
+
+        studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, student);
+    }
+
     /**
      * Make the student join the course, i.e. associate the Google ID to the student.<br>
      * Create an account for the student if there is no account exist for him.
@@ -1030,7 +1072,7 @@ public class Logic {
      * @param key the encrypted registration key
      */
     public void joinCourseForStudent(String key, String googleId)
-            throws JoinCourseException, InvalidParametersException, EntityAlreadyExistsException {
+            throws JoinCourseException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
@@ -1134,6 +1176,14 @@ public class Logic {
         studentsLogic.deleteStudentCascade(courseId, studentEmail);
     }
 
+    public void deleteStudentWithoutDocument(String courseId, String studentEmail) {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
+
+        studentsLogic.deleteStudentCascadeWithoutDocument(courseId, studentEmail);
+    }
+
     /**
      *  Checks if a course has sections for each team 
      *  Preconditions: <br>
@@ -1158,6 +1208,10 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
         studentsLogic.validateSections(studentList, courseId);
+    }
+    
+    public void putDocument(StudentAttributes student){
+        studentsLogic.putDocument(student);
     }
 
     @SuppressWarnings("unused")

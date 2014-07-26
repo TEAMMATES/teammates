@@ -3,33 +3,33 @@
         <h1>Add New Feedback Session</h1>
 
         <div class="well well-plain">
-            <form action="/page/instructorFeedbackAdd" class="form-group" method="post" name="form_addfeedbacksession">
-            <div class="row" data-original-title="Select a different type of session here." data-placement="top" data-toggle="tooltip" title="">
-               <h4 class="label-control col-md-2 text-md">
-                  Create new
-               </h4>
-               <div class="col-md-5">
-                  <select class="form-control" id="fstype" name="fstype">
-                     <option selected="selected" value="STANDARD">
-                        Session with your own questions
-                     </option>
-                     <option value="TEAMEVALUATION">
-                        Team peer evaluation session
-                     </option>
-                  </select>
-               </div>
-               <h4 class="label-control col-md-1 text-md">
-                  Or:
-               </h4>
-               <div class="col-md-3">
-                  <a class="btn btn-info" id="button_copy" style="vertical-align:middle;">
-                     Copy
-                            from previous feedback sessions
-                  </a>
-               </div>
-            </div>
-            <br/>
-                        <div class="panel panel-primary">
+            <form class="form-group" method="post" action="/page/instructorFeedbackAdd" name="form_addfeedbacksession">
+                <div class="row">
+                    <h4 class="label-control col-md-2 text-md">Create new </h4>
+                    <div class="col-md-5">
+                        <div data-original-title="Select a session type here." class="col-md-10" title="" data-toggle="tooltip" data-placement="top">
+                            <select class="form-control" name="fstype" id="fstype">
+                                <option value="STANDARD">
+                                    Session with your own questions
+                                </option>
+                                <option value="TEAMEVALUATION" selected="selected">
+                                    Team peer evaluation session
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                            <h5><a href="/instructorHelp.html#fbSetupSession" target="_blank"><span class="glyphicon glyphicon-info-sign"></span></a></h5>
+                        </div>
+                    </div>
+                    <h4 class="label-control col-md-1 text-md">Or: </h4>
+                    <div class="col-md-3">
+                        <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy
+                            from previous feedback sessions</a>
+                    </div>
+                </div>
+                <br>
+            
+                <div class="panel panel-primary">
                     <div class="panel-body">
                         <div class="row">
                             <div data-original-title="Please select the course for which the feedback session is to be created." class="col-md-6" title="" data-toggle="tooltip" data-placement="top">
@@ -54,102 +54,38 @@
                                     </h5>
                                     <div class="col-sm-8">
                                         <select class="form-control" name="timezone" id="timezone">
-                                            <option value="-12">
-                                                 (UTC -12:00) {*}
-                                              </option>
-                                              <option value="-11">
-                                                 (UTC -11:00) {*}
-                                              </option>
-                                              <option value="-10">
-                                                 (UTC -10:00) {*}
-                                              </option>
-                                              <option value="-9">
-                                                 (UTC -09:00) {*}
-                                              </option>
-                                              <option value="-8">
-                                                 (UTC -08:00) {*}
-                                              </option>
-                                              <option value="-7">
-                                                 (UTC -07:00) {*}
-                                              </option>
-                                              <option value="-6">
-                                                 (UTC -06:00) {*}
-                                              </option>
-                                              <option value="-5">
-                                                 (UTC -05:00) {*}
-                                              </option>
-                                              <option value="-4.5">
-                                                 (UTC -04:30) {*}
-                                              </option>
-                                              <option value="-4">
-                                                 (UTC -04:00) {*}
-                                              </option>
-                                              <option value="-3.5">
-                                                 (UTC -03:30) {*}
-                                              </option>
-                                              <option value="-3">
-                                                 (UTC -03:00) {*}
-                                              </option>
-                                              <option value="-2">
-                                                 (UTC -02:00) {*}
-                                              </option>
-                                              <option value="-1">
-                                                 (UTC -01:00) {*}
-                                              </option>
-                                              <option value="0">
-                                                 (UTC) {*}
-                                              </option>
-                                              <option value="1">
-                                                 (UTC +01:00) {*}
-                                              </option>
-                                              <option value="2">
-                                                 (UTC +02:00) {*}
-                                              </option>
-                                              <option value="3">
-                                                 (UTC +03:00) {*}
-                                              </option>
-                                              <option value="3.5">
-                                                 (UTC +03:30) {*}
-                                              </option>
-                                              <option value="4">
-                                                 (UTC +04:00) {*}
-                                              </option>
-                                              <option value="4.5">
-                                                 (UTC +04:30) {*}
-                                              </option>
-                                              <option value="5">
-                                                 (UTC +05:00) {*}
-                                              </option>
-                                              <option value="5.5">
-                                                 (UTC +05:30) {*}
-                                              </option>
-                                              <option value="5.75">
-                                                 (UTC +05:45) {*}
-                                              </option>
-                                              <option value="6">
-                                                 (UTC +06:00) {*}
-                                              </option>
-                                              <option value="7">
-                                                 (UTC +07:00) {*}
-                                              </option>
-                                              <option value="8">
-                                                 (UTC +08:00) {*}
-                                              </option>
-                                              <option value="9">
-                                                 (UTC +09:00) {*}
-                                              </option>
-                                              <option value="10">
-                                                 (UTC +10:00) {*}
-                                              </option>
-                                              <option value="11">
-                                                 (UTC +11:00) {*}
-                                              </option>
-                                              <option value="12">
-                                                 (UTC +12:00) {*}
-                                              </option>
-                                              <option value="13">
-                                                 (UTC +13:00) {*}
-                                              </option>
+                                            <option value="-12">(UTC -12:00) Baker Island, Howland Island</option>
+<option value="-11">(UTC -11:00) American Samoa, Niue</option>
+<option value="-10">(UTC -10:00) Hawaii, Cook Islands, Marquesas Islands</option>
+<option value="-9">(UTC -09:00) Gambier Islands, Alaska</option>
+<option value="-8">(UTC -08:00) Los Angeles, Vancouver, Tijuana</option>
+<option value="-7">(UTC -07:00) Phoenix, Calgary, Ciudad Juárez</option>
+<option value="-6">(UTC -06:00) Chicago, Guatemala City, Mexico City, San José, San Salvador, Tegucigalpa, Winnipeg</option>
+<option value="-5">(UTC -05:00) New York, Lima, Toronto, Bogotá, Havana, Kingston</option>
+<option value="-4.5">(UTC -04:30) Caracas</option>
+<option value="-4">(UTC -04:00) Santiago, La Paz, San Juan de Puerto Rico, Manaus, Halifax</option>
+<option value="-3.5">(UTC -03:30) St. John's</option>
+<option value="-3">(UTC -03:00) Buenos Aires, Montevideo, São Paulo</option>
+<option value="-2">(UTC -02:00) Fernando de Noronha, South Georgia and the South Sandwich Islands</option>
+<option value="-1">(UTC -01:00) Cape Verde, Greenland, Azores islands</option>
+<option value="0">(UTC) Accra, Abidjan, Casablanca, Dakar, Dublin, Lisbon, London</option>
+<option value="1">(UTC +01:00) Belgrade, Berlin, Brussels, Lagos, Madrid, Paris, Rome, Tunis, Vienna, Warsaw</option>
+<option value="2">(UTC +02:00) Athens, Sofia, Cairo, Kiev, Istanbul, Beirut, Helsinki, Jerusalem, Johannesburg, Bucharest</option>
+<option value="3">(UTC +03:00) Nairobi, Baghdad, Doha, Khartoum, Minsk, Riyadh</option>
+<option value="3.5">(UTC +03:30) Tehran</option>
+<option value="4">(UTC +04:00) Baku, Dubai, Moscow</option>
+<option value="4.5">(UTC +04:30) Kabul</option>
+<option value="5">(UTC +05:00) Karachi, Tashkent</option>
+<option value="5.5">(UTC +05:30) Colombo, Delhi</option>
+<option value="5.75">(UTC +05:45) Kathmandu</option>
+<option value="6">(UTC +06:00) Almaty, Dhaka, Yekaterinburg</option>
+<option value="7">(UTC +07:00) Jakarta, Bangkok, Novosibirsk, Hanoi</option>
+<option value="8">(UTC +08:00) Perth, Beijing, Manila, Singapore, Kuala Lumpur, Denpasar, Krasnoyarsk</option>
+<option value="9">(UTC +09:00) Seoul, Tokyo, Pyongyang, Ambon, Irkutsk</option>
+<option value="10">(UTC +10:00) Canberra, Yakutsk, Port Moresby</option>
+<option value="11">(UTC +11:00) Vladivostok, Noumea</option>
+<option value="12">(UTC +12:00) Auckland, Suva</option>
+<option value="13">(UTC +13:00) Phoenix Islands, Tokelau, Tonga</option>
 
                                         </select>
                                     </div>
@@ -440,12 +376,6 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div data-original-title="If the student has not joined the course yet, an email containing the link to join the course will automatically be sent on session opening time." class="col-sm-2" title="" data-toggle="tooltip" data-placement="top">
-                                <div class="checkbox">
-                                    <label for="sendreminderemail_join">Join
-                                        reminder</label> <input checked="checked" id="sendreminderemail_join" disabled="disabled" type="checkbox">
-                                </div>
-                            </div>
                             <div data-original-title="Select this option to automatically send an email to students to notify them when the session is open for submission." class="col-sm-3" title="" data-toggle="tooltip" data-placement="top">
                                 <div class="checkbox">
                                     <label>Session opening
@@ -536,7 +466,7 @@
                         Open
                     </span>
                 </td>
-                <td class="session-response-for-test recent">0 / 0</td>
+                <td class="session-response-for-test recent">0 / 2</td>
                 <td class="no-print"><a data-original-title="View the submitted responses for this feedback session" class="btn btn-default btn-xs btn-tm-actions session-view-for-test" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS1101&amp;fsname=responses+cant+be+seen+my+students+1&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top">View Results</a> <a data-original-title="Edit feedback session details" class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=responses+cant+be+seen+my+students+1&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top">Edit</a> <a data-original-title="Delete the feedback session" class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&amp;fsname=responses+cant+be+seen+my+students+1&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS1101','responses cant be seen my students 1');">Delete</a> <a data-original-title="Start submitting feedback" class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=responses+cant+be+seen+my+students+1&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top">Submit</a> <a data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&amp;fsname=responses+cant+be+seen+my+students+1&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleRemindStudents('responses cant be seen my students 1');">Remind</a> <a data-original-title="Make session responses available for viewing" class="btn btn-default btn-xs btn-tm-actions session-publish-for-test" href="/page/instructorFeedbackPublish?courseid=CFeedbackUiT.CS1101&amp;fsname=responses+cant+be+seen+my+students+1&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top" onclick="return togglePublishEvaluation('responses cant be seen my students 1');">Publish</a> </td>
             </tr><tr class="sessionsRow" id="session1">
                 <td>CFeedbackUiT.CS1101</td>
@@ -545,7 +475,7 @@
                         Published
                     </span>
                 </td>
-                <td class="session-response-for-test recent">0 / 0</td>
+                <td class="session-response-for-test recent">0 / 2</td>
                 <td class="no-print"><a data-original-title="View the submitted responses for this feedback session" class="btn btn-default btn-xs btn-tm-actions session-view-for-test" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Allow+Early+Viewing+Session&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top">View Results</a> <a data-original-title="Edit feedback session details" class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Allow+Early+Viewing+Session&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top">Edit</a> <a data-original-title="Delete the feedback session" class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS1101&amp;fsname=Allow+Early+Viewing+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS1101','Allow Early Viewing Session');">Delete</a> <a data-original-title="Start submitting feedback" class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS1101&amp;fsname=Allow+Early+Viewing+Session&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top">Submit</a> <a data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled" onclick="return false" href="/page/instructorFeedbackRemind?courseid=CFeedbackUiT.CS1101&amp;fsname=Allow+Early+Viewing+Session&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top">Remind</a> <a data-original-title="Make responses no longer visible" class="btn btn-default btn-xs btn-tm-actions session-unpublish-for-test" href="/page/instructorFeedbackUnpublish?courseid=CFeedbackUiT.CS1101&amp;fsname=Allow+Early+Viewing+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleUnpublishEvaluation('Allow Early Viewing Session');">Unpublish</a> </td>
             </tr><tr class="sessionsRow" id="session2">
                 <td>CFeedbackUiT.CS2104</td>
@@ -554,7 +484,7 @@
                         Private
                     </span>
                 </td>
-                <td class="session-response-for-test recent">0 / 0</td>
+                <td class="session-response-for-test recent">1 / 1</td>
                 <td class="no-print"><a data-original-title="View the submitted responses for this feedback session" class="btn btn-default btn-xs btn-tm-actions session-view-for-test" href="/page/instructorFeedbackResultsPage?courseid=CFeedbackUiT.CS2104&amp;fsname=private+session+of+characters123456789&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top">View Results</a> <a data-original-title="Edit feedback session details" class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" href="/page/instructorFeedbackEditPage?courseid=CFeedbackUiT.CS2104&amp;fsname=private+session+of+characters123456789&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top">Edit</a> <a data-original-title="Delete the feedback session" class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" href="/page/instructorFeedbackDelete?courseid=CFeedbackUiT.CS2104&amp;fsname=private+session+of+characters123456789&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFeedbackUiT.instructor&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleDeleteFeedbackSessionConfirmation('CFeedbackUiT.CS2104','private session of characters123456789');">Delete</a> <a data-original-title="Start submitting feedback" class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="/page/instructorFeedbackSubmissionEditPage?courseid=CFeedbackUiT.CS2104&amp;fsname=private+session+of+characters123456789&amp;user=CFeedbackUiT.instructor" title="" data-toggle="tooltip" data-placement="top">Submit</a> </td>
             </tr><tr class="sessionsRow" id="session3">
                 <td>CFeedbackUiT.CS1101</td>

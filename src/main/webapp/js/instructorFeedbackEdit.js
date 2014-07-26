@@ -469,7 +469,7 @@ function setContribQnVisibilityFormat(questionNumber){
 
 function fixContribQnGiverRecipient(questionNumber){
     var idSuffix;
-    idSuffix = questionNumber ? (questionNumber) : "";
+    idSuffix = questionNumber ? ("-" + questionNumber) : "";
 
     //Fix giver->recipient to be STUDENT->OWN_TEAM_MEMBERS_INCLUDING_SELF
     $('#givertype'+idSuffix).find('option').not('[value="STUDENTS"]').hide();
@@ -503,7 +503,7 @@ function addMcqOption(questionNumber) {
         +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
         +               "id=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control mcqOptionTextBox\">"
         +       "<span class=\"input-group-btn\">"
-        +           "<button class=\"btn btn-default removeOptionLink\" id=\"mcqRemoveOptionLink\" "
+        +           "<button type=\"button\" class=\"btn btn-default removeOptionLink\" id=\"mcqRemoveOptionLink\" "
         +                   "onclick=\"removeMcqOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
         +               "<span class=\"glyphicon glyphicon-remove\"></span>"
         +           "</button>"
@@ -536,7 +536,7 @@ function addMsqOption(questionNumber) {
         +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
         +               "id=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control msqOptionTextBox\">"
         +       "<span class=\"input-group-btn\">"
-        +           "<button class=\"btn btn-default removeOptionLink\" id=\"msqRemoveOptionLink\" "
+        +           "<button type=\"button\" class=\"btn btn-default removeOptionLink\" id=\"msqRemoveOptionLink\" "
         +                   "onclick=\"removeMcqOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
         +               "<span class=\"glyphicon glyphicon-remove\"></span>"
         +           "</button>"

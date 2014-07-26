@@ -61,7 +61,7 @@ public class BrowserPool {
         //synchronized to ensure thread-safety
         synchronized (pool) {
             browser.isInUse = false;
-            pool.notify();
+            pool.notifyAll();
         }
     }
 
@@ -92,7 +92,7 @@ public class BrowserPool {
                 
                 // Wait if no more free objects and no more capacity.
                 try {
-                    this.wait(20000);
+                    this.wait(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

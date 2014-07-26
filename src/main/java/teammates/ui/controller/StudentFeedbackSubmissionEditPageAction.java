@@ -11,6 +11,7 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -18,19 +19,28 @@ import teammates.logic.api.GateKeeper;
 public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionEditPageAction {
     @Override
     protected boolean isSpecificUserJoinedCourse() {
-        return isJoinedCourse(courseId, account.googleId);
+        if (student != null) {
+            return student.course.equals(courseId);
+        } else {
+            return isJoinedCourse(courseId, account.googleId);
+        }
     }
     
     @Override
     protected void verifyAccesibleForSpecificUser() {
+        
         new GateKeeper().verifyAccessible(
-                logic.getStudentForGoogleId(courseId, account.googleId), 
+                getStudent(), 
                 logic.getFeedbackSession(feedbackSessionName, courseId));
     }
 
     @Override
     protected String getUserEmailForCourse() {
-        return logic.getStudentForGoogleId(courseId, account.googleId).email;
+        if (student != null) {
+            return student.email;
+        } else {
+            return getStudent().email;
+        }
     }
 
     @Override
@@ -49,7 +59,7 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
         return questionsBundle;
     }
 
-    private void extractNotDisplayedInstrutorEmails(
+    protected void extractNotDisplayedInstrutorEmails(
             List<InstructorAttributes> instructors, HashSet<String> notDisplayedInstructorEmails) {
         for (InstructorAttributes instructor : instructors) {
             if (!instructor.isDisplayedToStudents) {
@@ -58,7 +68,7 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
         }
     }
 
-    private void filterSessionQuestionBundle(
+    protected void filterSessionQuestionBundle(
             FeedbackSessionQuestionsBundle questionsBundle, HashSet<String> notDisplayedInstructorEmails) {
         // remove instructor who are not displayed to students
         for (FeedbackQuestionAttributes question : questionsBundle.questionResponseBundle.keySet()) {
@@ -101,6 +111,18 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
     
     @Override
     protected RedirectResult createSpecificRedirectResult() {
-        return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+        if (regkey == null) {
+            return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+        } else {
+            return createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);
+        }
+    }
+    
+    protected StudentAttributes getStudent() {
+        if (student == null) {
+            student = logic.getStudentForGoogleId(courseId, account.googleId);
+        }
+        
+        return student;
     }
 }

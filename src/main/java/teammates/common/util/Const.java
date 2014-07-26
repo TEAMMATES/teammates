@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Const {
     
-    public class SystemParams{
+    public static class SystemParams{
 
         public static final String ENCODING = "UTF8";
         public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
@@ -48,6 +48,27 @@ public class Const {
         
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
+        
+        public static final List<String> PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN = Arrays.asList(
+            ActionURIs.STUDENT_COURSE_JOIN,
+            ActionURIs.STUDENT_COURSE_JOIN_NEW,
+            ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE,
+            ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE,
+            ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE,
+            ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE,
+            ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE
+        );
+        
+        public static final List<String> PAGES_ACCESSIBLE_WITHOUT_REGISTRATION = Arrays.asList(
+            ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED,
+            ActionURIs.STUDENT_HOME_PAGE,
+            ActionURIs.INSTRUCTOR_COURSE_JOIN,
+            ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
+        );
+        
+        public static final List<String> LEGACY_PAGES_WITH_REDUCED_SECURITY = Arrays.asList(
+                ActionURIs.STUDENT_COURSE_JOIN
+        );
     }
 
     /* Text displayed to the user when the mouse hover over certain elements in
@@ -71,12 +92,17 @@ public class Const {
         public static final String COURSE_INSTRUCTOR_REMIND = "Send invitation email to the instructor";
         
         public static final String COURSE_STUDENT_DETAILS = "View the details of the student";
-        public static final String COURSE_STUDENT_EDIT = "Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly";
-        public static final String COURSE_STUDENT_REMIND = "Send invitation email to the student";
-        public static final String COURSE_STUDENT_DELETE = "Delete the student and the corresponding evaluations from the course";
-        public static final String COURSE_STUDENT_RECORDS = "View all student's evaluations and feedbacks";
+        public static final String COURSE_STUDENT_EDIT = "Use this to edit the details of this student. <br>To edit multiple students"
+                + " in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly";
+        public static final String COURSE_STUDENT_REMIND = "Email an invitation to the student requesting him/her to join the course using his/her "
+                + "Google Account. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile";
+        public static final String COURSE_STUDENT_DELETE = "Delete the student and the corresponding submissions from the course";
+        public static final String COURSE_STUDENT_RECORDS = "View all data about this student";
+        public static final String COURSE_STUDENT_COMMENT = "Give a comment for this student, his/her team/section";
         
-        public static final String COURSE_REMIND = "Send invitation emails to all students yet to join the course";
+        public static final String COURSE_REMIND = "Email an invitation to all students yet to join requesting them to join the course"
+                + " using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access"
+                + " extra features e.g. set up a user profile";
         public static final String COURSE_DELETE_ALL_STUDENTS = "Delete all students in this course";
     
         public static final String EVALUATION_STATUS_AWAITING = "The evaluation is created but has not yet started";
@@ -275,6 +301,7 @@ public class Const {
         public static final String INSTRUCTOR_DISPLAY_NAME = "instructordisplayname";
         public static final String INSTRUCTOR_ROLE_NAME = "instructorrole";
         public static final String INSTRUCTOR_SECTION = "section";
+        public static final String INSTRUCTOR_SECTION_GROUP = "sectiongroup";
         
         public static final String INSTRUCTOR_PERMISSION_MODIFY_COURSE = "canmodifycourse";
         public static final String INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR = "canmodifyinstructor";
@@ -421,6 +448,7 @@ public class Const {
         public static final String ERROR = "error";
         public static final String NEXT_URL = "next";
         public static final String USER_ID = "user";
+        public static final String HINT = "hint";
     
         public static final String LOGIN_ADMIN = "admin";
         public static final String LOGIN_INSTRUCTOR = "instructor";
@@ -463,6 +491,7 @@ public class Const {
         public static final String PROFILE_PICTURE_HEIGHT = "pictureheight";
         public static final String PROFILE_PICTURE_WIDTH = "picturewidth";
         
+        public static final String SEARCH_STUDENTS = "searchstudents";
         public static final String SEARCH_COMMENTS_FOR_STUDENTS = "searchcommentforstudents";
         public static final String SEARCH_COMMENTS_FOR_RESPONSES = "searchcommentforresponses";
     }
@@ -470,11 +499,13 @@ public class Const {
     public class SearchIndex {
         public static final String COMMENT = "comment";
         public static final String FEEDBACK_RESPONSE_COMMENT = "feedbackresponsecomment";
+        public static final String STUDENT = "student";
     }
     
     public class SearchDocumentField {
         public static final String ATTRIBUTE = "attribute";
         public static final String COMMENT_ATTRIBUTE = "commentAttibute";
+        public static final String STUDENT_ATTRIBUTE = "studentAttribute";
         public static final String COMMENT_GIVER_NAME = "commentGiverName";
         public static final String COMMENT_GIVER_EMAIL = "commentGiverEmail";
         public static final String COMMENT_RECIPIENT_NAME = "commentRecipientName";
@@ -584,6 +615,7 @@ public class Const {
         
         public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
         public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
+        public static final String STUDENT_COURSE_JOIN_NEW = "/page/studentCourseJoinAuthentication";
         public static final String STUDENT_COURSE_JOIN_AUTHENTICATED = "/page/studentCourseJoinAuthenticated";
         public static final String STUDENT_COMMENTS_PAGE = "/page/studentCommentsPage";
         public static final String STUDENT_COURSE_DETAILS_PAGE = "/page/studentCourseDetailsPage";
@@ -891,6 +923,7 @@ public class Const {
         
         // Messages that are templates only
         /** Template String. Parameters: Student's name, Evaluation name, Course ID */
+        public static final String STUDENT_COURSE_JOIN_SUCCESSFUL = "You have been successfully added to the course (%s).";
         public static final String INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED = "You have edited %s's submission for evaluation %s in course %s successfully.<br />"
                 + "The change will not be reflected here until you <span class='color_red bold'>REFRESH</span> the page.";
         /** Template String. Parameters: Evaluation name, Course ID */
@@ -903,6 +936,10 @@ public class Const {
         public static final String STUDENT_PROFILE_PICTURE_EDIT_FAILED = "The photo that was edited did not belong to the user. "
                 + "Please upload another picture to begin editing";
         public static final String STUDENT_NOT_JOINED_YET_FOR_RECORDS = "This student has not joined the course yet or you are not supposed to view his/her profile";
+        
+        public static final String UNREGISTERED_STUDENT = "You may submit feedback and view results without logging in. "
+                + "To access other features you need <a href='%s' class='link'>to login using a google account</a> "
+                + "(recommended).";
     }
 
     /* These indicate status of an operation, but they are not shown to the user */

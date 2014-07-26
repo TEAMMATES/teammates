@@ -12,6 +12,10 @@ body {
     text-align: center;
 }
 
+.align-justify {
+    text-align: justify;
+}
+
 .background-color-white {
     background-color: white;
 }
@@ -136,6 +140,10 @@ input.inline {
     margin: 0;
 }
 
+.narrow-slight {
+    width: 90%;
+}
+
 .padding-top-0.checkbox,
 .padding-top-0 {
    padding-top: 0;
@@ -258,11 +266,6 @@ input.inline {
 	background: transparent;
 	border: 0;	
 }
-
-
-
-
-
 
 
 /*////////////////////////////////////////////////////////////
@@ -470,6 +473,9 @@ input.inline {
     text-decoration: none;
 }
 
+.cursor-default {
+    cursor: default;
+}
 
 /*////////////////////////////////////////////////////////////
 ////////////////////////// Footer ///////////////////////////

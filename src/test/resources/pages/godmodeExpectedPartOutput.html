@@ -3,11 +3,15 @@
     <a class="student-photo-link-for-test btn-link" 
        data-link=/page/studentProfilePic?studentemail={*}&courseid={*}>
        View Photo</a>
+    <a class="navLinks" data-unreg="true" href="/page/studentCourseJoinAuthentication?regkey={*}&">
+       Home
+    </a>
     <input class="form-control"
         type="text"
         name="start"
         id="start"
         value="{*}">
+    <p class="form-control-static">{*}</p>
     <input type="hidden"
         name=commentid
         value="{*}">
@@ -20,15 +24,12 @@
     <a class="btn btn-default btn-xs t_course_archive0"
        href="/page/instructorCourseArchive?courseid=testuserm.gma-demo&archive=true&next=%2Fpage%2FinstructorCoursesPage&user=testuser.instructor"
        data-toggle="tooltip" data-placement="top" title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)">
-   </a>
-    
+    </a>
+    <input name="end" 
+              value="21/05/2001">
+              
     <div>
-        {$test.student1}
-        {$test.student2}
-        {$test.instructor}
-        {$test.admin}
-        {$test.unreg}
-        {$support.email}
+        {$test.admin}{$test.instructor}{$test.student1}{$test.student2}{$test.unreg}{$support.email}
     </div>
     
 </div>

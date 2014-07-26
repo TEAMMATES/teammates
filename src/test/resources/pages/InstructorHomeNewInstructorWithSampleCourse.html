@@ -6,13 +6,16 @@
                     <h1>Instructor Home</h1>
                 </div>
                 <div class="col-md-5 instructor-header-bar">
-                    <form method="post" action="/page/instructorStudentListPage?user={$test.instructor}" name="search_form">
+                    <form method="get" action="/page/instructorSearchPage?user={$test.instructor}" name="search_form">
                         <div class="input-group">
-                            <input name="searchkey" title="Search for student's name" class="form-control" placeholder="Student Name" id="searchBox" type="text">
+                            <input data-original-title="Search for student's name" id="searchbox" title="" name="searchkey" class="form-control" data-toggle="tooltip" data-placement="top" placeholder="Student Name" type="text">
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit" value="Search" id="buttonSearch">Search</button>
-                            </span>
+                            </span> 
                         </div>
+                        <input name="searchstudents" value="true" type="hidden">
+                        <input name="searchcommentforstudents" value="false" type="hidden">
+                        <input name="searchcommentforresponses" value="false" type="hidden">
                         <input name="user" value="{$test.instructor}" type="hidden">
                     </form>
                 </div>

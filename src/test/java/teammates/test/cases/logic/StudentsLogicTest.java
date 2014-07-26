@@ -95,7 +95,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         testAdjustFeedbackResponseForEnrollments();
         testCreateStudentWithSubmissionAdjustment();
         testValidateSections();
-        testUpdateStudentCascade();
+        testupdateStudentCascadeWithoutDocument();
         testSendRegistrationInviteToStudent();
         testKeyGeneration();
         testEnrollLinesChecking();
@@ -165,7 +165,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("modify info of existing student");
         //add some more details to the student
         student1.googleId = "googleId";
-        studentsLogic.updateStudentCascade(student1.email, student1);
+        studentsLogic.updateStudentCascadeWithoutDocument(student1.email, student1);
         
         ______TS("add evaluation and modify team of existing student" +
                 "(to check the cascade logic of the SUT)");
@@ -289,7 +289,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    public void testUpdateStudentCascade() throws Exception {
+    public void testupdateStudentCascadeWithoutDocument() throws Exception {
         
         ______TS("typical edit");
 
@@ -307,7 +307,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         List<SubmissionAttributes> submissionsBeforeEdit = submissionsLogic.getSubmissionsForCourse(student4InCourse1.course);
 
         // verify student details changed correctly
-        studentsLogic.updateStudentCascade(originalEmail, student4InCourse1);
+        studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, student4InCourse1);
         TestHelper.verifyPresentInDatastore(student4InCourse1);
 
         // take a snapshot of submissions after the edit
@@ -335,20 +335,20 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         student4InCourse1.email = newEmail;
         copyOfStudent1.email = newEmail;
 
-        studentsLogic.updateStudentCascade(originalEmail, copyOfStudent1);
+        studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, copyOfStudent1);
         TestHelper.verifyPresentInDatastore(student4InCourse1);
 
         ______TS("check for KeepExistingPolicy : change nothing");    
         
         originalEmail = student4InCourse1.email;
         copyOfStudent1.email = null;
-        studentsLogic.updateStudentCascade(originalEmail, copyOfStudent1);
+        studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, copyOfStudent1);
         TestHelper.verifyPresentInDatastore(copyOfStudent1);
         
         ______TS("non-existent student");
         
         try {
-            studentsLogic.updateStudentCascade("non-existent@email", student4InCourse1);
+            studentsLogic.updateStudentCascadeWithoutDocument("non-existent@email", student4InCourse1);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             assertEquals(StudentsDb.ERROR_UPDATE_NON_EXISTENT_STUDENT
@@ -360,7 +360,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("check for InvalidParameters");
         copyOfStudent1.email = "invalid email";
         try {
-            studentsLogic.updateStudentCascade(originalEmail, copyOfStudent1);
+            studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, copyOfStudent1);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains(FieldValidator.REASON_INCORRECT_FORMAT,
@@ -680,7 +680,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         String lines = headerLine + EOL + line0 + EOL + line1 + EOL + line2 + EOL
                     + "  \t \t \t \t           " + EOL + line3 + EOL + EOL + line4
                     + EOL + "    " + EOL + EOL;
-        List<StudentAttributes> enrollResults = studentsLogic.enrollStudents(lines, courseIdForEnrollTest);
+        List<StudentAttributes> enrollResults = studentsLogic.enrollStudentsWithoutDocument(lines, courseIdForEnrollTest);
         
         StudentAttributesFactory saf = new StudentAttributesFactory(headerLine);
         assertEquals(5, enrollResults.size());
@@ -701,7 +701,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         String line0_1 = "t3|modified name|e3@g|c3";
         String line5 = "t6|n6|e6@g|c6";
         lines = headerLine + EOL + line0 + EOL + line0_1 + EOL + line1 + EOL + line5;
-        enrollResults = studentsLogic.enrollStudents(lines, courseIdForEnrollTest);
+        enrollResults = studentsLogic.enrollStudentsWithoutDocument(lines, courseIdForEnrollTest);
         assertEquals(6, enrollResults.size());
         assertEquals(6, studentsLogic.getStudentsForCourse(courseIdForEnrollTest).size());
         TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line0, courseIdForEnrollTest),
@@ -725,7 +725,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         lines = headerLine + EOL +"t7|n7|e7@g|c7" + EOL + incorrectLine + EOL + line2 + EOL
                 + line3;
         try {
-            enrollResults = studentsLogic.enrollStudents(lines, courseIdForEnrollTest);
+            enrollResults = studentsLogic.enrollStudentsWithoutDocument(lines, courseIdForEnrollTest);
             signalFailureToDetectException("Did not throw exception for incorrectly formatted line");
         } catch (EnrollException e) {
             assertTrue(e.getMessage().contains(incorrectLine));
@@ -736,7 +736,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("null parameters");
         
         try {
-            studentsLogic.enrollStudents("a|b|c|d", null);
+            studentsLogic.enrollStudentsWithoutDocument("a|b|c|d", null);
             signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
@@ -752,19 +752,19 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         coursesLogic.createCourseAndInstructor("tes.instructor", "tes.course", "TES Course");
             
         String line = headerLine + EOL + "t8|n8|e8@g|c1" ;
-        enrollResults = studentsLogic.enrollStudents(line, "tes.course");
+        enrollResults = studentsLogic.enrollStudentsWithoutDocument(line, "tes.course");
         assertEquals(1, enrollResults.size());
         assertEquals(StudentAttributes.UpdateStatus.NEW,
                 enrollResults.get(0).updateStatus);
             
         line = headerLine + EOL + "t8|n8a|e8@g|c1";
-        enrollResults = studentsLogic.enrollStudents(line, "tes.course");
+        enrollResults = studentsLogic.enrollStudentsWithoutDocument(line, "tes.course");
         assertEquals(1, enrollResults.size());
         assertEquals(StudentAttributes.UpdateStatus.MODIFIED,
                 enrollResults.get(0).updateStatus);
             
         line = headerLine + EOL + "t8|n8a|e8@g|c1";
-        enrollResults = studentsLogic.enrollStudents(line, "tes.course");
+        enrollResults = studentsLogic.enrollStudentsWithoutDocument(line, "tes.course");
         assertEquals(1, enrollResults.size());
         assertEquals(StudentAttributes.UpdateStatus.UNMODIFIED,
                 enrollResults.get(0).updateStatus);
@@ -775,7 +775,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         String line_t10 = "t10|n10|e9@g|c10";
         lines = headerLine + EOL + line_t9 + EOL + line_t10;
         try {
-            studentsLogic.enrollStudents(lines, "tes.course");
+            studentsLogic.enrollStudentsWithoutDocument(lines, "tes.course");
         } catch (EnrollException e) {
             assertTrue(e.getMessage().contains(line_t10));
             AssertHelper.assertContains("Same email address as the student in line \""+line_t9+"\"", e.getMessage());    
@@ -787,7 +787,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         String enrollLines = headerLine + EOL + "";
         String invalidCourseId = "invalidCourseId";
         try {
-            studentsLogic.enrollStudents(enrollLines, invalidCourseId);
+            studentsLogic.enrollStudentsWithoutDocument(enrollLines, invalidCourseId);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             ignoreExpectedException();
@@ -797,7 +797,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("empty enroll line");
         
         try {
-            studentsLogic.enrollStudents("", courseIdForEnrollTest);
+            studentsLogic.enrollStudentsWithoutDocument("", courseIdForEnrollTest);
             signalFailureToDetectException();
         } catch (EnrollException e) {
             ignoreExpectedException();
@@ -808,7 +808,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         enrollLines = headerLine + EOL + "invalidline0\ninvalidline1\n";
         try {
-            studentsLogic.enrollStudents(enrollLines, courseIdForEnrollTest);
+            studentsLogic.enrollStudentsWithoutDocument(enrollLines, courseIdForEnrollTest);
             signalFailureToDetectException();
         } catch (EnrollException e) {
             ignoreExpectedException();
@@ -828,7 +828,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         List<SubmissionAttributes> submissionsBeforeAdding = submissionsLogic.getSubmissionsForCourse(newStudent.course);
         
-        studentsLogic.createStudentCascade(newStudent);
+        studentsLogic.createStudentCascadeWithoutDocument(newStudent);
         TestHelper.verifyPresentInDatastore(newStudent);
         
         List<SubmissionAttributes> submissionsAfterAdding = submissionsLogic.getSubmissionsForCourse(newStudent.course);
@@ -847,13 +847,13 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
         // try to create the same student
         try {
-            studentsLogic.createStudentCascade(newStudent);
+            studentsLogic.createStudentCascadeWithoutDocument(newStudent);
             signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {
             ignoreExpectedException();
         }
         
-        studentsLogic.deleteStudentCascade(newStudent.course, newStudent.email);
+        studentsLogic.deleteStudentCascadeWithoutDocument(newStudent.course, newStudent.email);
         
         ______TS("invalid parameter");
 
@@ -861,7 +861,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         newStudent.email = "invalid email";
         
         try {
-            studentsLogic.createStudentCascade(newStudent);
+            studentsLogic.createStudentCascadeWithoutDocument(newStudent);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             assertEquals(
@@ -872,7 +872,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("null parameters");
         
         try {
-            studentsLogic.createStudentCascade(null);
+            studentsLogic.createStudentCascadeWithoutDocument(null);
             signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
@@ -1227,6 +1227,8 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         assertEquals(0, emailsSent.size());
         
         ______TS("typical case: send invite to one student");
+        StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         
         String courseId = dataBundle.courses.get("typicalCourse1").id;
         StudentAttributes newsStudent0Info = new StudentAttributes("sect", "team", "n0", "e0@google.com", "", courseId);
@@ -1257,25 +1259,12 @@ public class StudentsLogicTest extends BaseComponentTestCase{
                 "TEAMMATES Admin <Admin@null.appspotmail.com>|subject=TEAMMATES:" + 
                 " Invitation to join course [Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
         assertEquals(expectedEmailInfoForEmail2, emailInfo2);
-    
-        ______TS("some students not registered");
-    
-        // modify two students to make them 'unregistered' and send again
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        student1InCourse1.googleId = "";
-        studentsLogic.updateStudentCascade(student1InCourse1.email, student1InCourse1);
-        StudentAttributes student2InCourse1 = dataBundle.students
-                .get("student2InCourse1");
-        student2InCourse1.googleId = "";
-        studentsLogic.updateStudentCascade(student2InCourse1.email, student2InCourse1);
-        emailsSent = studentsLogic.sendRegistrationInviteForCourse(course1.id);
-        assertEquals(5, emailsSent.size());
-        TestHelper.verifyJoinInviteToStudent(student2InCourse1, emailsSent.get(0));
-        TestHelper.verifyJoinInviteToStudent(student1InCourse1, emailsSent.get(1));
         
-        studentsLogic.deleteStudentCascade(newsStudent0Info.course, newsStudent0Info.email);
-        studentsLogic.deleteStudentCascade(newsStudent1Info.course, newsStudent1Info.email);
-        studentsLogic.deleteStudentCascade(newsStudent2Info.course, newsStudent2Info.email);
+        studentsLogic.updateStudentCascadeWithoutDocument(student1InCourse1.email, student1InCourse1);
+        studentsLogic.updateStudentCascadeWithoutDocument(student2InCourse1.email, student2InCourse1);
+        studentsLogic.deleteStudentCascadeWithoutDocument(newsStudent0Info.course, newsStudent0Info.email);
+        studentsLogic.deleteStudentCascadeWithoutDocument(newsStudent1Info.course, newsStudent1Info.email);
+        studentsLogic.deleteStudentCascadeWithoutDocument(newsStudent2Info.course, newsStudent2Info.email);
     
         ______TS("null parameters");
     
@@ -1303,7 +1292,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         SubmissionAttributes submissionFromS1C1ToS1C1 = dataBundle.submissions.get("submissionFromS1C1ToS1C1");
         TestHelper.verifyPresentInDatastore(submissionFromS1C1ToS1C1);
 
-        studentsLogic.deleteStudentCascade(student2InCourse1.course, student2InCourse1.email);
+        studentsLogic.deleteStudentCascadeWithoutDocument(student2InCourse1.course, student2InCourse1.email);
         TestHelper.verifyAbsentInDatastore(student2InCourse1);
 
         // verify that other students in the course are intact
@@ -1324,12 +1313,12 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("delete non-existent student");
 
         // should fail silently.
-        studentsLogic.deleteStudentCascade(student2InCourse1.course, student2InCourse1.email);
+        studentsLogic.deleteStudentCascadeWithoutDocument(student2InCourse1.course, student2InCourse1.email);
 
         ______TS("null parameters");
 
         try {
-            studentsLogic.deleteStudentCascade(null, "valid@email.com");
+            studentsLogic.deleteStudentCascadeWithoutDocument(null, "valid@email.com");
             signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
@@ -1339,9 +1328,9 @@ public class StudentsLogicTest extends BaseComponentTestCase{
     private static StudentEnrollDetails invokeEnrollStudent(StudentAttributes student)
             throws Exception {
         Method privateMethod = StudentsLogic.class.getDeclaredMethod("enrollStudent",
-                new Class[] { StudentAttributes.class });
+                new Class[] { StudentAttributes.class, Boolean.class });
         privateMethod.setAccessible(true);
-        Object[] params = new Object[] { student };
+        Object[] params = new Object[] { student, new Boolean(false) };
         return (StudentEnrollDetails) privateMethod.invoke(StudentsLogic.inst(), params);
     }
     

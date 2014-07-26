@@ -29,7 +29,7 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/InstructorFeedbackQuestionSubmitPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
 
-        browser = BrowserPool.getBrowser();        
+        browser = BrowserPool.getBrowser();
     }
     
     @Test

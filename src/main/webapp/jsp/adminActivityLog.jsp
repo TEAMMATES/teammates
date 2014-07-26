@@ -177,7 +177,7 @@
                                                     Possible Labels:</strong>&nbsp;from,
                                                 to, person, role,
                                                 request, response,
-                                                version<br>
+                                                version,time<br>
                                                 <ul>
 
                                                     <li>E.g. from:
@@ -213,6 +213,9 @@
                                                         4.16 (both "."
                                                         and "-" are
                                                         acceptable)</li>
+                                                     
+                                                     <li>E.g. time: 1000 (means 1000ms) </li>                                                                                         
+                                                     
                                                 </ul>
                                             </div>
                                         </div>

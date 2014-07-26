@@ -30,7 +30,6 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/InstructorCourseStudentDetailsPageUiTest.json");
         restoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser(true);
-        
         instructorId = testData.instructors.get("CCSDetailsUiT.instr").googleId;
         courseId = testData.courses.get("CCSDetailsUiT.CS2104").id;
     }

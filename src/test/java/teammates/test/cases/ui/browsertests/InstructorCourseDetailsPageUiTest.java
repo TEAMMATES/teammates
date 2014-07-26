@@ -8,7 +8,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
@@ -135,8 +134,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         ______TS("link: add comment");
         
         StudentAttributes aliceBetsy = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
-        CourseAttributes courseId = testData.courses.get("CCDetailsUiT.CS2104");
-        InstructorCourseStudentDetailsViewPage studentCommentsPage = detailsPage.clickAddCommentStudent(aliceBetsy.name, courseId);
+        InstructorCourseStudentDetailsViewPage studentCommentsPage = detailsPage.clickAddCommentStudent(aliceBetsy.name);
         studentCommentsPage.verifyIsCorrectPage(aliceBetsy.email);
         detailsPage = studentCommentsPage.goToPreviousPage(InstructorCourseDetailsPage.class);
         

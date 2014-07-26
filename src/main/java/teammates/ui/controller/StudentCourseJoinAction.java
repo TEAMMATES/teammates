@@ -1,11 +1,10 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
-import teammates.logic.api.GateKeeper;
+import teammates.logic.api.Logic;
 
 /**
  * This action handles students that attempts to join a course.
@@ -22,41 +21,48 @@ public class StudentCourseJoinAction extends Action {
     
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
-        //TODO Remove excessive logging from this method
-        String key = getRequestParamValue(Const.ParamsNames.REGKEY);
-        Assumption.assertNotNull(key);
-
-        new GateKeeper().verifyLoggedInUserPrivileges();
+        Assumption.assertPostParamNotNull(Const.ParamsNames.REGKEY, regkey);
+        String nextUrl = getNextUrl();
         
         statusToAdmin = "Action Student Clicked Join Link"
-                + "<br/>Google ID: " + account.googleId
-                + "<br/>Key: " + key;
+                + account.googleId == null ? "<br/>Email: " + account.email   
+                        : "<br/>Google ID: " + account.googleId
+                + "<br/>Key: " + regkey;
         
-        // Bypass confirmation if student is already registered
-        StudentAttributes student = logic.getStudentForRegistrationKey(key);
-        if (student != null && student.isRegistered()) {
-            String logMsg = "Student already registered with the following information:" 
-                    + "<br/>Course: " + student.course
-                    + "<br/>Name: " + student.name 
-                    + "<br/>Email: " + student.email
-                    + "<br/>Id: " + student.googleId
-                    + "<br/>Bypassing confirmation page.";            
-            log.info(logMsg);
-            
-            String redirectUrl = Url.addParamToUrl(
-                    Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED,
-                    Const.ParamsNames.REGKEY, key);
-            
-            return createRedirectResult(redirectUrl);
-        } 
+        if (logic.getCurrentUser() == null) {
+            return createRedirectToAuthenticatedJoinPage(nextUrl);
+        }
         
-        data = new StudentCourseJoinConfirmationPageData(account);
-        data.regkey = key;
-        
-        String logMsg = "Showing join confirmation page.";
-        log.info(logMsg);
+        String confirmUrl = Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED 
+                + "?" + Const.ParamsNames.REGKEY + "=" + regkey 
+                + "&" + Const.ParamsNames.NEXT_URL + "=" + nextUrl;
+        data = new StudentCourseJoinConfirmationPageData(account, student);
+        data.confirmUrl = confirmUrl;
+        data.logoutUrl = Logic.getLogoutUrl(confirmUrl);
+        excludeStudentDetailsFromResponseParams();
         
         return createShowPageResult(
                 Const.ViewURIs.STUDENT_COURSE_JOIN_CONFIRMATION, data);
+    }
+
+    protected String getNextUrl() {
+        String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
+        if (nextUrl == null) {
+            nextUrl = Const.ActionURIs.STUDENT_HOME_PAGE;
+        }
+        
+        return nextUrl;
+    }
+
+    protected ActionResult createRedirectToAuthenticatedJoinPage(String nextUrl) {
+        // send straight to next page as the user can choose to login as he wishes
+        String redirectUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED)
+                .withRegistrationKey(regkey)
+                .withParam(Const.ParamsNames.NEXT_URL, nextUrl)
+                .toString();
+        
+        excludeStudentDetailsFromResponseParams();
+        
+        return createRedirectResult(redirectUrl);
     }
 }

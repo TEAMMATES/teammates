@@ -10,13 +10,7 @@ public class StudentProfilePageAction extends Action {
     private StudentProfilePageData data;
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
-        new GateKeeper().verifyLoggedInUserPrivileges();
-        if(isUnregistered) { 
-            // unregistered users cannot view the page
-            throw new UnauthorizedAccessException("User is not registered");
-        }
-        
+    protected ActionResult execute() throws EntityDoesNotExistException {        
         account.studentProfile = logic.getStudentProfile(account.googleId); 
         String editPhoto = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_PHOTOEDIT);
         if (editPhoto == null) {

@@ -108,13 +108,13 @@ public class GateKeeper {
      * masquerading going on.
      */
     public void verifyAdminPrivileges(AccountAttributes account){
-        String loggedInUser = getCurrentGoogleUser().getNickname();
         if (isUserLoggedOn() 
                 && userService.isUserAdmin()
-                && loggedInUser.equals(account.googleId)) 
+                && getCurrentGoogleUser().getNickname().equals(account.googleId)) 
             return;
         
-        throw new UnauthorizedAccessException("User "+loggedInUser+" does not have admin privilleges");
+        throw new UnauthorizedAccessException("User " + getCurrentGoogleUser().getNickname() + 
+                " does not have admin privilleges");
     }
 
     /** Verifies that the nominal user has instructor privileges.

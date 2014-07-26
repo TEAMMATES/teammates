@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.util.Url"%>
 <%@ page import="teammates.ui.controller.FeedbackQuestionSubmissionEditPageData"%>
 <%
     FeedbackQuestionSubmissionEditPageData data = (FeedbackQuestionSubmissionEditPageData)request.getAttribute("data");
@@ -37,7 +38,17 @@
             <div id="topOfPage"></div>
             <h1>Submit Feedback Question</h1>
             <br>
-            
+            <% if (data.account.googleId == null) { 
+                String joinUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+                                .withRegistrationKey(request.getParameter(Const.ParamsNames.REGKEY))
+                                .withStudentEmail(request.getParameter(Const.ParamsNames.STUDENT_EMAIL))
+                                .withCourseId(request.getParameter(Const.ParamsNames.COURSE_ID))
+                                .toString();
+            %>
+                <div id="registerMessage" class="alert alert-info">
+                    <%=String.format(Const.StatusMessages.UNREGISTERED_STUDENT, joinUrl)%>
+                </div>
+            <% } %>
             <form method="post" action="<%=Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE%>" name="form_submit_response">
                 
                 <jsp:include page="<%=Const.ViewURIs.FEEDBACK_QUESTION_SUBMISSION_EDIT%>" />

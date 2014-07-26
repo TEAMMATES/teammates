@@ -15,6 +15,7 @@ public class InstructorFeedbackPublishAction extends InstructorFeedbacksPageActi
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
         
@@ -35,7 +36,8 @@ public class InstructorFeedbackPublishAction extends InstructorFeedbacksPageActi
             setStatusForException(e);
         }
         
-        return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE : nextUrl;
+        return createRedirectResult(nextUrl);
     }
     
 }

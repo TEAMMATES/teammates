@@ -509,39 +509,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
     }
     
     @Test
-    public void testGracePeriodAccessControl() throws Exception{
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriodSession");
-        fs.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
-        dataBundle.feedbackSessions.put("gracePeriodSession", fs);
-        
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
-        backDoorLogic.persistDataBundle(dataBundle);
-        
-        assertFalse(fs.isOpened());
-        assertTrue(fs.isInGracePeriod());
-        assertFalse(fs.isClosed());
-                
-        FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1GracePeriodFeedback");
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
-                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", fr.getResponseDetails().getAnswerString() 
-        };
-        
-        verifyUnaccessibleForUnregisteredUsers(submissionParams);
-        verifyUnaccessibleWithoutLogin(submissionParams);
-        
-        // verify student can still submit during grace period
-        StudentAttributes studentInGracePeriod = dataBundle.students.get("student1InCourse1");
-        gaeSimulation.loginAsStudent(studentInGracePeriod.googleId);
-        verifyCanAccess(submissionParams);
-    }
-    
-    @Test
     public void testGracePeriodExecuteAndPostProcess() throws Exception{
         FeedbackSessionsDb feedbackSessionDb = new FeedbackSessionsDb();
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriodSession");
