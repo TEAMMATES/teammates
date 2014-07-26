@@ -268,7 +268,7 @@ public class AccountsLogic {
         InstructorAttributes instructorForKey = InstructorsLogic.inst().getInstructorForRegistrationKey(encryptedKey);
         
         if (instructorForKey == null) {
-            String joinUrl = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN + "?regkey=" + encryptedKey;
+            String joinUrl = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN + "?key=" + encryptedKey;
             throw new JoinCourseException(Const.StatusCodes.INVALID_KEY,
                                           "You have used an invalid join link: " + joinUrl);
             

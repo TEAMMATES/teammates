@@ -499,7 +499,7 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         } catch (JoinCourseException e) {
             assertEquals(
                     "You have used an invalid join link: "
-                    + "/page/instructorCourseJoin?regkey=" + invalidKey,
+                    + "/page/instructorCourseJoin?key=" + invalidKey,
                     e.getMessage());
         }        
     }

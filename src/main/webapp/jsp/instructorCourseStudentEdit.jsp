@@ -93,7 +93,7 @@
                         <div class="col-sm-11">
                             <input id="<%=Const.ParamsNames.REGKEY%>" value="<%=sanitizeForHtml(Config.APP_URL 
                                     + Const.ActionURIs.STUDENT_COURSE_JOIN 
-                                    + "?regkey=" + data.regKey)%>" class="form-control" readonly="readonly">
+                                    + "?key=" + data.regKey)%>" class="form-control" readonly="readonly">
                         </div>
                     </div>
                      <div class="form-group">
