@@ -77,8 +77,17 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
             .withUserId(testData.accounts.get("instructor1OfCourse1").googleId);
 
         commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
+        removePreExistComments();
 
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageForTypicalCourseWithComments.html");
+    }
+
+    private void removePreExistComments() {
+        if(commentsPage.getPageSource().contains("added response comment")
+                || commentsPage.getPageSource().contains("edited response comment")){
+            commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
+            commentsPage.clickCommentsPageLinkInHeader();
+        }
     }
     
     private void testScripts() {
