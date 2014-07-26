@@ -63,6 +63,8 @@ public class AccountsDb extends EntitiesDb {
     }
     
     /**
+     * Gets the data transfer version of the account. Does not retrieve the profile
+     * if the given parameter is false<br>
      * Preconditions: 
      * <br> * All parameters are non-null. 
      * @return Null if not found.

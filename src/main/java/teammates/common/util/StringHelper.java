@@ -61,6 +61,13 @@ public class StringHelper {
         return result;
     }
     
+    /**
+     * Substitutes the middle third of the given string with dots
+     * and returns the "obscured" string
+     * 
+     * @param inputString
+     * @return
+     */
     public static String obscure(String inputString) {
         Assumption.assertNotNull(inputString);
         String frontPart = inputString.substring(0, inputString.length() / 3);
