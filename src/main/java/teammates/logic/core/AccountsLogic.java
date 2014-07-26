@@ -14,13 +14,13 @@ import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.ProfilesDb;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
-
 
 /**
  * Handles the logic related to accounts.
@@ -288,7 +288,7 @@ public class AccountsLogic {
         if (!instructorForKey.googleId.equals(googleId)) {
             throw new JoinCourseException(Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
                                           String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
-                                                        truncateGoogleId(instructorForKey.googleId)));
+                                                  StringHelper.obscure(instructorForKey.googleId)));
         }
     }
     
@@ -310,7 +310,7 @@ public class AccountsLogic {
                 throw new JoinCourseException(
                         Const.StatusCodes.KEY_BELONGS_TO_DIFFERENT_USER,
                         String.format(Const.StatusMessages.JOIN_COURSE_KEY_BELONGS_TO_DIFFERENT_USER,
-                                    truncateGoogleId(studentRole.googleId)));
+                                    StringHelper.obscure(studentRole.googleId)));
             }
         } 
     
@@ -383,19 +383,10 @@ public class AccountsLogic {
         account.studentProfile = spa;
         accountsDb.createAccount(account);
     }
-    
-    
-    
-    private String truncateGoogleId(String googleId) {
-        String frontPart = googleId.substring(0, googleId.length() / 3);
-        String endPart = googleId.substring(2 * googleId.length() / 3);
-        return frontPart + ".." + endPart;
-    }
 
     public StudentProfileAttributes getStudentProfile(String googleId) {
         return profilesDb.getStudentProfile(googleId);
     }
-
 
     public void updateStudentProfile(StudentProfileAttributes newStudentProfileAttributes) 
             throws InvalidParametersException, EntityDoesNotExistException {
