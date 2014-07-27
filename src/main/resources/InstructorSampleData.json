@@ -106,7 +106,7 @@
     },
     
     "instructors":{
-     "teammates.demo.instructor@demo.course":{   	
+     "teammates.demo.instructor@demo.course":{   
       "courseId": "demo.course",
       "name":"Demo_Instructor",
       "email":"teammates.demo.instructor@demo.course",

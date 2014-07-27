@@ -156,6 +156,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
+        if(responses.size() == 0){
+            return "";
+        }
         String csv = "";
         double average = 0;
         double min = Integer.MAX_VALUE;

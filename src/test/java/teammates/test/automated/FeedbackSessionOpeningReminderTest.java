@@ -65,7 +65,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         gaeSimulation.tearDown();
         gaeSimulation.setupWithTaskQueueCallbackClass(FeedbackSessionOpeningCallback.class);
         gaeSimulation.resetDatastore();
-        restoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
     }
     
     @AfterClass

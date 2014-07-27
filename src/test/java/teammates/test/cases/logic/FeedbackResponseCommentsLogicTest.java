@@ -36,7 +36,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
     public void setupClass() throws Exception {
         printTestClassHeader();
         turnLoggingUp(FeedbackResponseCommentsLogic.class);
-        restoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
     }
     
     @Test

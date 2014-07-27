@@ -21,7 +21,7 @@ public class StudentEvalResultsPageActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		restoreTypicalDataInDatastore();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE;
     }
 

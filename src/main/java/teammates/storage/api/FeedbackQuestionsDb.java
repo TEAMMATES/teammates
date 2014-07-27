@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -21,7 +22,21 @@ public class FeedbackQuestionsDb extends EntitiesDb {
     
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Question : ";
     private static final Logger log = Utils.getLogger();
-
+    
+    public void createFeedbackQuestions(Collection<FeedbackQuestionAttributes> questionsToAdd) throws InvalidParametersException{
+        List<EntityAttributes> questionsToUpdate = createEntities(questionsToAdd);
+        for(EntityAttributes entity : questionsToUpdate){
+            FeedbackQuestionAttributes question = (FeedbackQuestionAttributes) entity;
+            try {
+                updateFeedbackQuestion(question);
+            } catch (EntityDoesNotExistException e) {
+             // This situation is not tested as replicating such a situation is 
+             // difficult during testing
+                Assumption.fail("Entity found be already existing and not existing simultaneously");
+            }
+        }
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null. 
@@ -146,6 +161,24 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         
         getPM().close();
         
+    }
+    
+    public void deleteFeedbackQuestionsForCourses(List<String> courseIds){
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+        
+        List<FeedbackQuestion> feedbackQuestionList = getFeedbackQuestionEntitiesForCourses(courseIds);
+        
+        getPM().deletePersistentAll(feedbackQuestionList);
+        getPM().flush();
+    }
+    
+    private List<FeedbackQuestion> getFeedbackQuestionEntitiesForCourses(List<String> courseIds) {
+        Query q = getPM().newQuery(FeedbackQuestion.class);
+        q.setFilter(":p.contains(courseId)");
+        
+        @SuppressWarnings("unchecked")
+        List<FeedbackQuestion> feedbackQuestionList = (List<FeedbackQuestion>) q.execute(courseIds);
+        return feedbackQuestionList;
     }
     
     // Gets a question entity if it's Key (feedbackQuestionId) is known.

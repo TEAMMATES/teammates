@@ -25,8 +25,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
     @BeforeMethod
     public void caseSetUp() throws Exception {
         dataBundle = getTypicalDataBundle();
-        removeTypicalDataInDatastore();
-        restoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
     }
     
     @Test

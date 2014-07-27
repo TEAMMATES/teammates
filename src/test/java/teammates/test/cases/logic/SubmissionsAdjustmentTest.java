@@ -93,7 +93,7 @@ public class SubmissionsAdjustmentTest extends
         gaeSimulation.setupWithTaskQueueCallbackClass(
                 SubmissionsAdjustmentTaskQueueCallback.class);
         gaeSimulation.resetDatastore();
-        restoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
     }
     
     @AfterClass
