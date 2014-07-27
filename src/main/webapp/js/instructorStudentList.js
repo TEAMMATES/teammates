@@ -245,7 +245,14 @@ function bindStudentPhotoLink(elements){
         var link = $(this).attr('data-link');
         $(this).siblings('img')
             .attr("src", link)
-            .removeClass('hidden');
+            .removeClass('hidden')
+            .popover({
+            	html: true,
+                trigger: 'hover',
+                placement: 'top',
+                content: function () {
+                  return '<img class="profile-pic" src="' + $(this)[0].src + '" />';
+                }});
         $(this).remove();
     });
 }

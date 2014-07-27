@@ -200,4 +200,11 @@ public class InstructorStudentListPage extends AppPage {
         }
         return browser.driver.findElement(locator).getText();
     }
+
+    public void verifyHtmlPartForPicture(String courseId, String studentName,
+            String filePath) {
+        String rowId = getStudentRowId(courseId, studentName);
+        this.verifyHtmlPart(By.id("studentphoto-c"+rowId), filePath);
+        
+    }
 }

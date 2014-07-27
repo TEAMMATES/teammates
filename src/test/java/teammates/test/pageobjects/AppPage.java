@@ -719,8 +719,9 @@ public abstract class AppPage {
      * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
      * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
      * @return The page (for chaining method calls).
+     * @throws Throwable 
      */
-    public AppPage verifyHtmlPart(By by, String filePath) {
+    public AppPage verifyHtmlPart(By by, String filePath) throws Throwable {
         WebElement element = browser.driver.findElement(by);
         if(filePath.startsWith("/")){
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
@@ -731,12 +732,12 @@ public abstract class AppPage {
             String expected = extractHtmlPartFromFile(by, filePath);
             
             HtmlHelper.assertSameHtmlPart(actual, expected);            
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } catch(AssertionError ae) { 
+        } catch(AssertionError | FileNotFoundException ae) { 
             if(!testAndRunGodMode(filePath, actual)) {
                 throw ae;
             }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         return this;
     }
