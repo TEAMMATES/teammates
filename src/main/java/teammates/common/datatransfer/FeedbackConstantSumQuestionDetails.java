@@ -2,6 +2,7 @@ package teammates.common.datatransfer;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -267,19 +268,26 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
         List<String> options;
         List<Integer> optionPoints = new ArrayList<Integer>();
         Map<String, Integer[]> optionTotalCount = new LinkedHashMap<String, Integer[]>();
-                
+        Map<String, String> pointsReceived = new HashMap<String, String>();
+        
         if(distributeToRecipients){
             for(FeedbackResponseAttributes response : responses){
                 FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails)response.getResponseDetails(); 
                 String recipientEmail = response.recipientEmail;
                 String recipientName = bundle.getNameForEmail(recipientEmail);
                 Integer[] pointCount = optionTotalCount.get(recipientName);
+                String points = pointsReceived.get(recipientName);
                 if(pointCount == null){
                     pointCount = new Integer[]{0,0};
                 }
+                if(points == null){
+                    points = "";
+                }
                 pointCount[0] += frd.getAnswerList().get(0);
+                points += " , " + frd.getAnswerList().get(0);
                 pointCount[1] += 1;
                 optionTotalCount.put(recipientName, pointCount);
+                pointsReceived.put(recipientName, points);
             }
         } else {
             options = constSumOptions;
@@ -291,6 +299,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
                 FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails)response.getResponseDetails(); 
                 for(int i=0 ; i<frd.getAnswerList().size(); i++){
                     optionPoints.set(i, optionPoints.get(i)+frd.getAnswerList().get(i));
+                    String points = pointsReceived.get(options.get(i));
+                    if(points == null){
+                        points = "";
+                    }
+                    points += " , " + frd.getAnswerList().get(i);
+                    pointsReceived.put(options.get(i), points);
                 }
             }
             
@@ -303,8 +317,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
         
         for(Entry<String, Integer[]> entry : optionTotalCount.entrySet() ){
             double average = entry.getValue()[0]/entry.getValue()[1];
+            String points = pointsReceived.get(entry.getKey());
+            points = points.replaceFirst(",", "").trim();
             fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
                                 "${constSumOptionValue}", entry.getKey(),
+                                "$(pointsReceived)", points,
                                 "${averagePoints}", df.format(average));
         }
         
