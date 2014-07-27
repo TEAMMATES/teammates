@@ -160,10 +160,10 @@ $(document).ready(function(){
         }
     });
 
-    if($(".panel-success").length > 1){
-        $('#collapse-panels-button').hide();
-    } else {
+    if($(".panel-success").length > 1 || $(".panel-info").length > 1){
         $('#collapse-panels-button').show();
+    } else {
+        $('#collapse-panels-button').hide();
     }
 
     //Show/Hide statistics
