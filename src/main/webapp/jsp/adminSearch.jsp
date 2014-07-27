@@ -9,10 +9,11 @@
 <%@ page import="java.text.DateFormat"%>
 <%@ page import="teammates.ui.controller.AdminSearchPageData"%>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
+<%@ page import="teammates.common.util.Sanitizer"%>
 
 <%
-	AdminSearchPageData data = (AdminSearchPageData) request
-			.getAttribute("data");
+    AdminSearchPageData data = (AdminSearchPageData) request
+            .getAttribute("data");
 %>
 
 <html>
@@ -71,17 +72,11 @@
                                         <div class="input-group">
                                             <span
                                                 class="input-group-btn">
-                                                <button
-                                                    class="btn btn-default"
-                                                    type="submit"
-                                                    id="rebuildButton"
-                                                    name="<%=Const.ParamsNames.ADMIN_SEARCH_REBUILD_DOC%>"
-                                                    value="">rebuild</button>
                                             </span> <input type="text"
                                                 class="form-control"
                                                 id="filterQuery"
                                                 name="<%=Const.ParamsNames.ADMIN_SEARCH_KEY%>"
-                                                value=""><span
+                                                value="<%=data.searchKey%>"><span
                                                 class="input-group-btn">
                                                 <button
                                                     class="btn btn-default"
@@ -98,9 +93,9 @@
                     </form>
                 </div>
                 <%
-                	List<StudentAttributes> studentResultList = data.studentResultBundle.studentList;
+                    List<StudentAttributes> studentResultList = data.studentResultBundle.studentList;
 
-                	if (!studentResultList.isEmpty()) {
+                    if (!studentResultList.isEmpty()) {
                 %>
 
                 <div class="panel panel-primary">
@@ -128,23 +123,50 @@
                             <tbody>
 
                                 <%
-                                	for (StudentAttributes student : studentResultList) {
+                                    for (StudentAttributes student : studentResultList) {
+                                        
+                                    	String id = Sanitizer.sanitizeForSearch(student.getIdentificationString());
+                                        id = id.replace(" ", "").replace("@", "");
                                 %>
 
-                                <tr>
+                                <tr id="<%=id%>" class="studentRow">
                                     <td><%=student.course%>&nbsp;[<%=student.section%>]
                                     </td>
                                     <td><%=student.team%></td>
                                     <td><%=student.name%></td>
                                     <td><%=student.googleId%></td>
                                     <td><%=student.comments%></td>
-                                </tr>
-
-
+                               
+                                 </tr>
+                               
+                                   <% 
+                                    
+                                     if(data.studentfeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
+                                            continue;
+                                     }
+                                   
+                                   %>
+                                   
+                                   <%
+                                   
+                                     for (String link : data.studentfeedbackSessionLinksMap.get(student.getIdentificationString())) {
+                                                                        
+                                   %> 
+                                    
+                                        <tr class="fslink fslink<%=id%>">
+                                        <td colspan="5">
+                                        
+                                        <input value=<%=link%> readonly="readonly" class="form-control"/ >
+                                        
+                                        </td>
+                                        </tr> 
+                                                                   
+                                   
                                 <%
-                                	}
+                                          }
+                                   }
 
-                                	}
+                            }
                                 %>
                             </tbody>
                         </table>

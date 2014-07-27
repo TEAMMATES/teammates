@@ -320,7 +320,6 @@ public class Const {
         
         public static final String ADMIN_SEARCH_KEY = "searchkey";
         public static final String ADMIN_SEARCH_BUTTON_HIT = "searchbuttonhit";
-        public static final String ADMIN_SEARCH_REBUILD_DOC = "rebuilddoc";
     
         public static final String EVALUATION_NAME = "evaluationname";
     

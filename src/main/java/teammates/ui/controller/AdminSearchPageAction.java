@@ -1,41 +1,34 @@
 package teammates.ui.controller;
 
 
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.Const;
-import teammates.common.util.Const.ParamsNames;
-import teammates.common.util.ThreadHelper;
-import teammates.logic.api.GateKeeper;
-import teammates.test.driver.BackDoor;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-import com.google.appengine.api.search.Document;
-import com.google.appengine.api.search.Field;
-import com.google.appengine.api.search.Index;
-import com.google.appengine.api.search.IndexSpec;
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
-import com.google.appengine.api.search.SearchServiceFactory;
-import com.google.appengine.api.taskqueue.Queue;
-import com.google.appengine.api.taskqueue.QueueFactory;
-import com.google.appengine.api.taskqueue.TaskOptions;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Config;
+import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
+import teammates.common.util.Url;
+import teammates.logic.api.GateKeeper;
+import teammates.logic.api.Logic;
+
 
 public class AdminSearchPageAction extends Action {
     
+        
+        
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException{
         
         new GateKeeper().verifyAdminPrivileges(account);
-    
-        AdminSearchPageData data = new AdminSearchPageData(account);
-          
+           
         String searchKey = getRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_KEY);
-        String searchButtonHit = getRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_BUTTON_HIT);
-        String ifRebuildDoc = getRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_REBUILD_DOC);
+        String searchButtonHit = getRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_BUTTON_HIT);       
         
-        if(ifRebuildDoc != null && ifRebuildDoc.equals("true")){
-            rebuildDocument();
-            return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
-        }
+        AdminSearchPageData data = new AdminSearchPageData(account);
         
         if(searchKey == null || searchKey.trim().isEmpty()){
             
@@ -46,9 +39,12 @@ public class AdminSearchPageAction extends Action {
             return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
         }
         
-        
+        data.searchKey = searchKey;
+       
         data.studentResultBundle  = logic.searchStudents(searchKey, "");
         
+        data = putFeedbackSessionLinkIntoMap(data.studentResultBundle.studentList, data);
+           
         int numOfResults = data.studentResultBundle.getResultSize();
         if(numOfResults > 0){
             statusToUser.add("Total results found: " + numOfResults);
@@ -64,11 +60,55 @@ public class AdminSearchPageAction extends Action {
     }
     
     
-    private void rebuildDocument(){
-        //rebuild document to update search index to latest datastore records.
-        Queue queue = QueueFactory.getQueue("search-document");
-        queue.add(TaskOptions.Builder.withUrl("/searchTask").method(TaskOptions.Method.GET));
-        statusToUser.add("Rebuild task submitted, please check again in a few minutes.");
-        ThreadHelper.waitBriefly();
+
+    private AdminSearchPageData putFeedbackSessionLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
+        
+        Logic logic = new Logic();
+        
+        for(StudentAttributes student: students){
+        
+            List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(student.course); 
+            
+            System.out.print("**********************************************************\n");
+            System.out.print(feedbackSessions.size()+ "\n");
+            
+            for(FeedbackSessionAttributes fsa: feedbackSessions){
+                
+                if(!fsa.isOpened()){
+                   continue; 
+                }
+                
+                String submitUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                                       .withCourseId(student.course)
+                                       .withSessionName(fsa.feedbackSessionName)
+                                       .withRegistrationKey(StringHelper.encrypt(student.key))
+                                       .withStudentEmail(student.email)
+                                       .toString();
+                
+                if (data.studentfeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
+                     List<String> submitUtlList = new ArrayList<String>();
+                     submitUtlList.add(submitUrl);   
+                     data.studentfeedbackSessionLinksMap.put(student.getIdentificationString(), submitUtlList);
+                } else {
+                    data.studentfeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
+                }          
+    //            String reportUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+    //                                   .withCourseId(c.id)
+    //                                   .withSessionName(fs.feedbackSessionName)
+    //                                   .withRegistrationKey(StringHelper.encrypt(s.key))
+    //                                   .withStudentEmail(s.email)
+    //                                   .toString();
+    
+                
+            }
+        
+        }       
+ 
+        return data;
+           
     }
+    
+    
+    
+    
 }
