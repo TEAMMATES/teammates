@@ -125,7 +125,7 @@
                                 <%
                                     for (StudentAttributes student : studentResultList) {
                                         
-                                    	String id = Sanitizer.sanitizeForSearch(student.getIdentificationString());
+                                        String id = Sanitizer.sanitizeForSearch(student.getIdentificationString());
                                         id = id.replace(" ", "").replace("@", "");
                                 %>
 
@@ -139,6 +139,19 @@
                                
                                  </tr>
                                
+                                    <tr class="info fslink fslink<%=id%>">
+                                        <td>
+                                        
+                                        <strong>Course Join Link</strong>
+                                        
+                                        </td>
+                                        
+                                        <td colspan="4">
+                                        
+                                        <input value="<%=student.getRegistrationUrl()%>" readonly="readonly" class="form-control"/ >
+                                        
+                                        </td>
+                                    </tr> 
                                    <% 
                                     
                                      if(data.studentfeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
@@ -146,15 +159,23 @@
                                      }
                                    
                                    %>
-                                   
+                                      
+                                      
                                    <%
                                    
                                      for (String link : data.studentfeedbackSessionLinksMap.get(student.getIdentificationString())) {
                                                                         
                                    %> 
-                                    
-                                        <tr class="fslink fslink<%=id%>">
-                                        <td colspan="5">
+                                        
+                                        <tr class="warning fslink fslink<%=id%>">
+                                        
+                                        <td>
+                                        
+                                        <strong> <%=data.feedbackSeesionLinkToNameMap.get(link)%> </strong>
+                                        
+                                        </td>
+                                        
+                                        <td colspan="4">
                                         
                                         <input value=<%=link%> readonly="readonly" class="form-control"/ >
                                         

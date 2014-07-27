@@ -69,9 +69,6 @@ public class AdminSearchPageAction extends Action {
         
             List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(student.course); 
             
-            System.out.print("**********************************************************\n");
-            System.out.print(feedbackSessions.size()+ "\n");
-            
             for(FeedbackSessionAttributes fsa: feedbackSessions){
                 
                 if(!fsa.isOpened()){
@@ -91,7 +88,10 @@ public class AdminSearchPageAction extends Action {
                      data.studentfeedbackSessionLinksMap.put(student.getIdentificationString(), submitUtlList);
                 } else {
                     data.studentfeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
-                }          
+                }       
+                
+                data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);
+                
     //            String reportUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
     //                                   .withCourseId(c.id)
     //                                   .withSessionName(fs.feedbackSessionName)
