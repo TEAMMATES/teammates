@@ -139,7 +139,7 @@
                                
                                  </tr>
                                
-                                    <tr class="info fslink fslink<%=id%>">
+                                    <tr class="info fslink fslink<%=id%>" style="display: none;">
                                         <td>
                                         
                                         <strong>Course Join Link</strong>
@@ -167,7 +167,7 @@
                                                                         
                                    %> 
                                         
-                                        <tr class="warning fslink fslink<%=id%>">
+                                        <tr class="warning fslink fslink<%=id%>" style="display: none;">
                                         
                                         <td>
                                         
