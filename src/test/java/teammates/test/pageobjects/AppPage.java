@@ -682,6 +682,7 @@ public abstract class AppPage {
                 .replaceAll("studentemail=([a-zA-Z0-9]){1,}\\&amp;courseid=([a-zA-Z0-9]){1,}", 
                             "studentemail={*}\\&amp;courseid={*}")
                 .replaceAll("key=([a-zA-Z0-9]){1,}\\&amp;", "key={*}\\&amp;")
+                .replaceAll("key%3D([a-zA-Z0-9]){1,}\\%", "key%3D{*}\\%")
                 //responseid
                 .replaceAll("([a-zA-Z0-9-_]){30,}%"
                         + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+%"
@@ -719,9 +720,8 @@ public abstract class AppPage {
      * @param filePath If this starts with "/" (e.g., "/expected.html"), the 
      * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
      * @return The page (for chaining method calls).
-     * @throws Throwable 
      */
-    public AppPage verifyHtmlPart(By by, String filePath) throws Throwable {
+    public AppPage verifyHtmlPart(By by, String filePath) {
         WebElement element = browser.driver.findElement(by);
         if(filePath.startsWith("/")){
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
@@ -730,14 +730,16 @@ public abstract class AppPage {
         
         try {
             String expected = extractHtmlPartFromFile(by, filePath);
-            
             HtmlHelper.assertSameHtmlPart(actual, expected);            
-        } catch(AssertionError | FileNotFoundException ae) { 
+        } catch(AssertionError ae) { 
             if(!testAndRunGodMode(filePath, actual)) {
                 throw ae;
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            if(!testAndRunGodMode(filePath, actual)) {
+                throw new RuntimeException(e);
+            }
+            
         }
         return this;
     }
