@@ -160,6 +160,12 @@ $(document).ready(function(){
         }
     });
 
+    if($(".panel-success").length > 1){
+        $('#collapse-panels-button').hide();
+    } else {
+        $('#collapse-panels-button').show();
+    }
+
     //Show/Hide statistics
     showHideStats();
     $("#show-stats-checkbox").change(showHideStats);
