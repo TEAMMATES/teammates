@@ -78,8 +78,7 @@
           "name": "Demo_Instructor",
           "comments": "This student's name is Demo_Instructor",
           "team": "Team 2",
-          "section": "Tutorial Group 2",
-          "isInstructor":true
+          "section": "Tutorial Group 2"
         },
         "francis.g.tmms@demo.course": {
           "googleId": "francis.g.tmms.sampleData",
@@ -108,7 +107,6 @@
     
     "instructors":{
      "teammates.demo.instructor@demo.course":{   
-      "googleId": "teammates.demo.instructor",	
       "courseId": "demo.course",
       "name":"Demo_Instructor",
       "email":"teammates.demo.instructor@demo.course",
