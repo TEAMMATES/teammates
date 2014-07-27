@@ -257,6 +257,29 @@ h2.subcaption {
     color: gray;
 }
 
+.feature-details {
+    padding-left: 25px;
+}
+
+.feature-description {
+    color: gray;
+    margin: 0.2em 0;
+    padding-top:20px;
+    width:500px
+}
+
+.feature-description p {
+    padding-top:10px;
+}
+
+.tiny-text {
+    color: gray;
+    font-size: 8px;
+}
+
+.tiny-text a:link {
+    color: gray;
+}
 
 #footer {
    background-color: black;
