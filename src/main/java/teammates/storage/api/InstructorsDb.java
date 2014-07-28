@@ -253,6 +253,11 @@ public class InstructorsDb extends EntitiesDb{
         getPM().close();
     }
     
+    /**
+     * delete the instructor specified by courseId and email
+     * @param courseId
+     * @param email
+     */
     public void deleteInstructor(String courseId, String email) {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
@@ -296,6 +301,10 @@ public class InstructorsDb extends EntitiesDb{
         getPM().flush();
     }
     
+    /**
+     * delete all instructors with the given googleId
+     * @param googleId
+     */
     public void deleteInstructorsForGoogleId(String googleId) {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
@@ -306,6 +315,10 @@ public class InstructorsDb extends EntitiesDb{
         getPM().flush();
     }
     
+    /**
+     * delete all instructors for the course specified by courseId
+     * @param courseId
+     */
     public void deleteInstructorsForCourse(String courseId) {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);

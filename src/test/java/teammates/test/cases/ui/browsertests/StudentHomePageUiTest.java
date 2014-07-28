@@ -107,7 +107,8 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         ______TS("link: view team link");
         
         studentHomePage.clickViewTeam();
-        assertTrue(browser.driver.getCurrentUrl().contains("page/studentCourseDetailsPage?user=SHomeUiT.charlie.d&courseid=SHomeUiT.CS2104"));
+        
+        assertTrue(browser.driver.getCurrentUrl().contains("page/studentCourseDetailsPage?user=SHomeUiT.charlie.d&courseid=SHomeUiT.CS1101"));
         studentHomePage.clickHomeTab();
         
         ______TS("link: links of pending eval");
