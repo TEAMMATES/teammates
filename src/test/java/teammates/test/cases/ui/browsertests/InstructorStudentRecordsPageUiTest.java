@@ -53,7 +53,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         
         ______TS("content: typical case, normal student records with comments");
         
-        restoreTestDataOnServer(testDataNormal);
+        removeAndRestoreTestDataOnServer(testDataNormal);
                 
         instructor = testDataNormal.instructors.get("teammates.test.CS2104");
         student = testDataNormal.students.get("benny.c.tmms@ISR.CS2104");
