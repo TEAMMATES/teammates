@@ -698,10 +698,10 @@ public class CoursesLogic {
                     }
                                         
                     String[] splitName = StringHelper.splitName(StringHelper.removeExtraSpace(student.name));
-                                   
-                    export += Sanitizer.sanitizeForCsv(team.name) + "," + 
-                        Sanitizer.sanitizeForCsv(splitName[0]) + "," +
-                        Sanitizer.sanitizeForCsv(splitName[1]) + "," +
+
+                    export += Sanitizer.sanitizeForCsv(StringHelper.recoverFromSanitizedText(team.name)) + "," + 
+                        Sanitizer.sanitizeForCsv(StringHelper.recoverFromSanitizedText(splitName[0])) + "," +
+                        Sanitizer.sanitizeForCsv(StringHelper.recoverFromSanitizedText(splitName[1])) + "," +
                         Sanitizer.sanitizeForCsv(studentStatus) + "," +
                         Sanitizer.sanitizeForCsv(student.email) + Const.EOL;
                 }
