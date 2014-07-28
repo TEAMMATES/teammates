@@ -297,7 +297,15 @@
                     </div>
 
                 </div>
-                <div class="panel panel-primary">
+                <div class="row" id="uncommonSettingsInfo">
+                    <div class="col-md-12 text-muted">
+                        <span id="uncommonSettingsInfoText">
+                        </span>
+                        <a id="editUncommonSettingsButton" data-edit="[Edit]" data-done="[Done]">[Edit]</a>
+                        <br><br>
+                    </div>
+                </div>
+                <div class="panel panel-primary" style="display:none;" id="sessionResponsesVisiblePanel">
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -330,23 +338,18 @@
                                             type="text"
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE%>"
-                                            value="<%=((data.newFeedbackSession == null || TimeHelper
-                    .isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime)) ? ""
-                    : TimeHelper
-                            .formatDate(data.newFeedbackSession.sessionVisibleFromTime))%>"
-                                            <%if (data.newFeedbackSession == null
-                    || TimeHelper
-                            .isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime))
-                out.print("disabled=\"disabled\"");%>>
+                                            value="<%=((data.newFeedbackSession == null || TimeHelper.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime)) ? "": TimeHelper.formatDate(data.newFeedbackSession.sessionVisibleFromTime))%>"
+                                            <%if (data.newFeedbackSession == null || TimeHelper.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime))
+                                                    out.print("disabled=\"disabled\"");
+                                            %>>
                                     </div>
                                     <div class="col-md-4">
                                         <select class="form-control"
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME%>"
-                                            <%if (data.newFeedbackSession == null
-                    || TimeHelper
-                            .isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime))
-                out.print("disabled=\"disabled\"");%>>
+                                            <%if (data.newFeedbackSession == null || TimeHelper.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime))
+                                                    out.print("disabled=\"disabled\"");
+                                            %>>
 
                                             <%
                                                 date = ((data.newFeedbackSession == null || TimeHelper
@@ -370,10 +373,9 @@
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_atopen"
                                             value="<%=Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN%>"
-                                            <%if (data.newFeedbackSession == null
-                    || Const.TIME_REPRESENTS_FOLLOW_OPENING
-                            .equals(data.newFeedbackSession.sessionVisibleFromTime))
-                out.print("checked=\"checked\"");%>>
+                                            <%if (data.newFeedbackSession == null || Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(data.newFeedbackSession.sessionVisibleFromTime))
+                                                    out.print("checked=\"checked\"");
+                                            %>>
                                     </div>
                                 </div>
                                 <div class="row radio">
@@ -388,10 +390,9 @@
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_never"
                                             value="never"
-                                            <%if (data.newFeedbackSession != null
-                    && Const.TIME_REPRESENTS_NEVER
-                            .equals(data.newFeedbackSession.sessionVisibleFromTime))
-                out.print("checked=\"checked\"");%>>
+                                            <%if (data.newFeedbackSession != null && Const.TIME_REPRESENTS_NEVER.equals(data.newFeedbackSession.sessionVisibleFromTime))
+                                                    out.print("checked=\"checked\"");
+                                            %>>
                                     </div>
                                 </div>
                             </div>
@@ -418,10 +419,9 @@
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom"
                                             value="<%=Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM%>"
-                                            <%if (data.newFeedbackSession != null
-                    && !TimeHelper
-                            .isSpecialTime(data.newFeedbackSession.resultsVisibleFromTime))
-                out.print("checked=\"checked\"");%>>
+                                            <%if (data.newFeedbackSession != null && !TimeHelper.isSpecialTime(data.newFeedbackSession.resultsVisibleFromTime))
+                                                out.print("checked=\"checked\"");
+                                            %>>
                                     </div>
                                     <div class="col-md-5">
                                         <input class="form-control"
@@ -464,10 +464,9 @@
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_atvisible"
                                             value="<%=Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE%>"
-                                            <%if (data.newFeedbackSession != null
-                    && Const.TIME_REPRESENTS_FOLLOW_VISIBLE
-                            .equals(data.newFeedbackSession.resultsVisibleFromTime))
-                out.print("checked=\"checked\"");%>>
+                                            <%if (data.newFeedbackSession != null && Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(data.newFeedbackSession.resultsVisibleFromTime))
+                                                    out.print("checked=\"checked\"");
+                                            %>>
                                     </div>
                                 </div>
                                 <div class="row radio">
@@ -481,12 +480,9 @@
                                             name="resultsVisibleFromButton"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_later"
                                             value="<%=Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER%>"
-                                            <%if (data.newFeedbackSession == null
-                    || Const.TIME_REPRESENTS_LATER
-                            .equals(data.newFeedbackSession.resultsVisibleFromTime)
-                    || Const.TIME_REPRESENTS_NOW
-                            .equals(data.newFeedbackSession.resultsVisibleFromTime))
-                out.print("checked=\"checked\"");%>>
+                                            <%if (data.newFeedbackSession == null || Const.TIME_REPRESENTS_LATER.equals(data.newFeedbackSession.resultsVisibleFromTime) || Const.TIME_REPRESENTS_NOW.equals(data.newFeedbackSession.resultsVisibleFromTime))
+                                                    out.print("checked=\"checked\"");
+                                            %>>
                                     </div>
                                 </div>
                                 <div class="row radio">
@@ -500,17 +496,16 @@
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_never"
                                             value="<%=Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER%>"
-                                            <%if (data.newFeedbackSession != null
-                    && Const.TIME_REPRESENTS_NEVER
-                            .equals(data.newFeedbackSession.resultsVisibleFromTime))
-                out.print("checked=\"checked\"");%>>
+                                            <%if (data.newFeedbackSession != null && Const.TIME_REPRESENTS_NEVER.equals(data.newFeedbackSession.resultsVisibleFromTime))
+                                                    out.print("checked=\"checked\"");
+                                            %>>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-primary">
+                <div class="panel panel-primary" style="display:none;" id="sendEmailsForPanel">
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
@@ -565,10 +560,10 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="form-group">
                     <div class="col-md-offset-5 col-md-3">
-                        <button id="button_submit" type="submit" class="btn btn-primary">Create
-                            Feedback Session</button>
+                        <button id="button_submit" type="submit" class="btn btn-primary">Create Feedback Session</button>
                     </div>
                 </div>
                 <input type="hidden"

@@ -58,6 +58,9 @@ public class InstructorFeedbacksPage extends AppPage {
     @FindBy(id = "instructions")
     private WebElement instructionsTextBox;
     
+    @FindBy(id = "editUncommonSettingsButton")
+    private WebElement uncommonSettingsButton;
+    
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_custom")
     private WebElement customSessionVisibleTimeButton;
     
@@ -148,6 +151,10 @@ public class InstructorFeedbacksPage extends AppPage {
     public void clickSubmitButton(){
         submitButton.click();
         waitForPageToLoad();
+    }
+    
+    public void clickEditUncommonSettingsButton(){
+        uncommonSettingsButton.click();
     }
     
     public void clickCustomVisibleTimeButton(){

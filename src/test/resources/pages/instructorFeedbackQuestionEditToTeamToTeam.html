@@ -216,7 +216,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-primary">
+                    <div style="display: none;" class="row" id="uncommonSettingsInfo">
+                        <div class="col-md-12 text-muted">
+                            <span id="uncommonSettingsInfoText">Session is visible at submission opening time, responses are only visible when you publish the results.<br>Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.</span>
+                            <a id="editUncommonSettingsButton" data-edit="[Edit]" data-done="[Done]" onclick="enableEditFS()">[Edit]</a>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary" id="sessionResponsesVisiblePanel">
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-6">
@@ -352,7 +358,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-primary">
+                    <div class="panel panel-primary" id="sendEmailsForPanel">
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -434,7 +440,7 @@
                         </span>
                         <span class="pull-right">
                             <a data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time." class="btn btn-primary btn-xs" id="questiongetlink-1" data-toggle="tooltip" data-placement="top" title="" onclick="getQuestionLink(1)">Get Link</a>
-                            <a style="display: none;" data-original-title="Edit this question" class="btn btn-primary btn-xs" id="questionedittext-1" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(1,1)">Edit</a><div style="top: -33px; left: 999px; display: block;" class="tooltip fade top in"><div class="tooltip-arrow"></div><div class="tooltip-inner">Edit this question</div></div>
+                            <a style="display: none;" data-original-title="Edit this question" class="btn btn-primary btn-xs" id="questionedittext-1" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(1,1)">Edit</a>
                             <a class="btn btn-primary btn-xs" style="" id="questionsavechangestext-1">Save Changes</a>
                             <a data-original-title="Delete this question" class="btn btn-primary btn-xs" onclick="deleteQuestion(1)" data-toggle="tooltip" data-placement="top" title="">Delete</a>
                         </span>
@@ -443,7 +449,7 @@
             </div>
             <div class="panel-body">
                 <div>
-                    <textarea data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-1" data-toggle="tooltip" data-placement="top" title="" tabindex="9">filled qn</textarea><div style="top: 1083px; left: 692px; display: block;" class="tooltip fade top in"><div class="tooltip-arrow"></div><div class="tooltip-inner">Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?</div></div>
+                    <textarea data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-1" data-toggle="tooltip" data-placement="top" title="" tabindex="9">filled qn</textarea>
                 </div>
                 
                 <br>
@@ -479,7 +485,7 @@
 
                             </select>
                         </div>
-                    </div><div style="top: 1284px; left: 988px; display: block;" class="tooltip fade top in"><div class="tooltip-arrow"></div><div class="tooltip-inner">Who the feedback is about</div></div>
+                    </div>
                 </div>
                 <div class="row">
                     <br>
@@ -884,7 +890,7 @@
                     </div>
                     <br>
                     <div>
-                        <div data-original-title="Who will give feedback" class="col-sm-6" data-toggle="tooltip" data-placement="top" title="">  
+                        <div data-original-title="Who will give feedback" class="col-sm-6" data-toggle="tooltip" data-placement="top" title="">
                             <label class="col-sm-4 control-label">
                                 Feedback Giver:
                             </label>
