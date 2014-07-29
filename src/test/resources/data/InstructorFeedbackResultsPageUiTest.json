@@ -14,6 +14,20 @@
             "email":"CFResultsUiT.helper@gmail.com",
             "institute":"National University of Singapore"
         },
+        "CFResultsUiT.alice.b":{
+            "googleId":"CFResultsUiT.alice.b",
+            "name":"Alice B.",
+            "isInstructor":false,
+            "email":"CFResultsUiT.alice.b@gmail.com",
+            "institute":"National University of Singapore"
+        },
+        "CFResultsUiT.benny.c":{
+            "googleId":"CFResultsUiT.benny.c",
+            "name":"Benny C.",
+            "isInstructor":false,
+            "email":"CFResultsUiT.benny.c@gmail.com",
+            "institute":"National University of Singapore"
+        },
         "CFResultsUiT.charlie.d":{
             "googleId":"CFResultsUiT.charlie.d",
             "name":"Charlie D.",

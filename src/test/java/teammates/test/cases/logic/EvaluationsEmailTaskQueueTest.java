@@ -54,7 +54,7 @@ public class EvaluationsEmailTaskQueueTest extends
         gaeSimulation.tearDown();
         gaeSimulation.setupWithTaskQueueCallbackClass(EvaluationsEmailTaskQueueCallback.class);
         gaeSimulation.resetDatastore();
-        restoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         turnLoggingUp(EvaluationsLogic.class);
     }
     

@@ -141,7 +141,7 @@ public class HtmlHelper {
         } else if(isToolTip(currentNode)){
             String tooltip = currentNode.getTextContent();
             if(!tooltip.trim().isEmpty()){
-                System.out.println("ignoring tool tip: "+ tooltip);
+                //ignore tool tip
             }
             return;
         }

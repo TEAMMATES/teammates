@@ -776,12 +776,12 @@ public class Const {
         public static final String COURSE_REMINDER_SENT_TO = "An email has been sent to ";
         public static final String COURSE_REMINDERS_SENT = "Emails have been sent to unregistered students.";
         
-        public static final String COURSE_ENROLL_STUDENTS_ERROR = "There are errors on %d student(s):";
-        public static final String COURSE_ENROLL_STUDENTS_ADDED = "There are %d student(s) added:";
-        public static final String COURSE_ENROLL_STUDENTS_MODIFIED = "There are %d student(s) modified:";
-        public static final String COURSE_ENROLL_STUDENTS_UNMODIFIED = "There are %d student(s) unmodified:";
-        public static final String COURSE_ENROLL_STUDENTS_NOT_IN_LIST = "There are %d other student(s) previously in the course:";
-        public static final String COURSE_ENROLL_STUDENTS_UNKNOWN = "There are %d student(s) for which the enrollment status is unknown:";
+        public static final String COURSE_ENROLL_STUDENTS_ERROR = "Errors on %d student(s):";
+        public static final String COURSE_ENROLL_STUDENTS_ADDED = "%d student(s) added:";
+        public static final String COURSE_ENROLL_STUDENTS_MODIFIED = "%d student(s) modified:";
+        public static final String COURSE_ENROLL_STUDENTS_UNMODIFIED = "%d student(s) updated with no changes:";
+        public static final String COURSE_ENROLL_STUDENTS_NOT_IN_LIST = "%d student(s) remain unmodified:";
+        public static final String COURSE_ENROLL_STUDENTS_UNKNOWN = "%d student(s) with unknown enrolment status:";
 
         public static final String TEAM_INVALID_SECTION_EDIT = "The team \"%s\" is in multiple sections. The team ID should be unique across the entire course and a team cannot be spread across multiple sections.<br>";
         public static final String SECTION_QUOTA_EXCEED = "You are trying enroll more than 100 students in section \"%s\". To avoid performance problems, please do not enroll more than 100 students in a single section.<br>";

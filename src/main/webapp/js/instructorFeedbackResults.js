@@ -21,7 +21,9 @@ function filterResults(searchText){
 
     if($(element).parents(".resultStatistics").length){
         return;
-    }
+    }   
+
+    searchText = (searchText.split('\\s+')).join(' ');
 
     for(var i = 0 ; i < element.length ; i++){
         var elm = element[i];
@@ -129,7 +131,14 @@ window.onload = function(){
 
     bindCollapseEvents(panels, numPanels);
     $("a[id^='collapse-panels-button-section-']").on('click', function(){
-        var panels = $(this).closest('.panel-success').children('.panel-collapse').find('div.panel.panel-warning').children('.panel-collapse');
+        var isGroupByTeam = document.getElementById('frgroupbyteam').checked;
+        var childPanelType;
+        if(isGroupByTeam){
+            childPanelType = 'div.panel.panel-warning';
+        } else {
+            childPanelType = 'div.panel.panel-primary';
+        }
+        var panels = $(this).closest('.panel-success').children('.panel-collapse').find(childPanelType).children('.panel-collapse');
         toggleCollapse(this, panels);
     });
 
@@ -150,6 +159,12 @@ $(document).ready(function(){
             return false;
         }
     });
+
+    if($(".panel-success").length > 1 || $(".panel-info").length > 1){
+        $('#collapse-panels-button').show();
+    } else {
+        $('#collapse-panels-button').hide();
+    }
 
     //Show/Hide statistics
     showHideStats();
