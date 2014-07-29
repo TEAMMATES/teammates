@@ -7,7 +7,6 @@ import java.util.Map;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
@@ -17,10 +16,7 @@ public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
     @Override
     protected ActionResult execute() {
         
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        InstructorAttributes instructorDetailForCourse = logic.getInstructorForGoogleId(courseId, account.googleId);
-        
-        FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData(requestParameters, instructorDetailForCourse.email);
+        FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData(requestParameters, account.email);
         
         List<String> message = feedbackQuestion.getVisibilityMessage();
 
