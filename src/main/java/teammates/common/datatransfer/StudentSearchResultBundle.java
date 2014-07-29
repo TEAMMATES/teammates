@@ -56,6 +56,16 @@ public class StudentSearchResultBundle extends SearchResultBundle {
         return this;
     }
     
+    
+    
+    /**
+     * This method should be used by admin only since the previous searching does not restrict the 
+     * visibility according to the logged-in user's google ID. Therefore,This fromResults method 
+     * does not require a googleID as a parameter. Returned results bundle will contain information
+     * related to matched students only.
+     * @param results
+     * @return studentResultBundle containing information related to matched students only.
+     */   
     public StudentSearchResultBundle fromResults(Results<ScoredDocument> results){
         if(results == null) 
             return this;

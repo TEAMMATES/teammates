@@ -41,7 +41,7 @@ public class AdminSearchPageAction extends Action {
         
         data.searchKey = searchKey;
        
-        data.studentResultBundle  = logic.searchStudents(searchKey, "");
+        data.studentResultBundle  = logic.searchStudentsInWholeSystem(searchKey, "");
         
         data = putFeedbackSessionLinkIntoMap(data.studentResultBundle.studentList, data);
            

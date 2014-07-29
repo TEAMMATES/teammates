@@ -59,12 +59,14 @@ public class StudentsDb extends EntitiesDb {
     
     
     /**
-     * student search method for admin only
+     * This method should be used by admin only since the searching does not restrict the 
+     * visibility according to the logged-in user's google ID. This is used by amdin to
+     * search students in the whole system.
      * @param queryString
      * @param cursorString
      * @return null if no result found
      */ 
-    public StudentSearchResultBundle search(String queryString, String cursorString){
+    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString, String cursorString){
         if(queryString.trim().isEmpty())
             return new StudentSearchResultBundle();
         

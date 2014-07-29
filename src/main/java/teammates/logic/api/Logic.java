@@ -842,16 +842,18 @@ public class Logic {
     }
     
     /**
-     * stuent search method for admin only
+     * This method should be used by admin only since the searching does not restrict the 
+     * visibility according to the logged-in user's google ID. This is used by amdin to
+     * search students in the whole system.
      * @param queryString
      * @param cursorString
      * @return Null if no match found.
      */
-    public StudentSearchResultBundle searchStudents(String queryString, String cursorString){
+    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString, String cursorString){
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, cursorString);
         
-        return studentsLogic.searchStudents(queryString, cursorString);
+        return studentsLogic.searchStudentsInWholeSystem(queryString, cursorString);
     }
     
     /**
