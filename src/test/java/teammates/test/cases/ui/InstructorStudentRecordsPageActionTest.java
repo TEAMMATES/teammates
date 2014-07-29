@@ -33,8 +33,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        removeTypicalDataInDatastore();
-		restoreTypicalDataInDatastore();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE;
     }
 

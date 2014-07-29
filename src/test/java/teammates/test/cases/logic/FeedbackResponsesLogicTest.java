@@ -47,7 +47,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         turnLoggingUp(FeedbackResponsesLogic.class);
-        restoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
     }
     
     @Test
@@ -348,14 +348,14 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                 new StudentsDb().getStudentsForCourse(fq.courseId),
                 new InstructorsDb().getInstructorsForCourse(fq.courseId));
         
-        assertTrue(frLogic.isNameVisibleTo(fq, fr, instructor.email, true, roster));
-        assertTrue(frLogic.isNameVisibleTo(fq, fr, instructor.email, false, roster));
-        assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, false, roster));
+        assertTrue(frLogic.isNameVisibleTo(fq, fr, instructor.email, UserType.Role.INSTRUCTOR, true, roster));
+        assertTrue(frLogic.isNameVisibleTo(fq, fr, instructor.email, UserType.Role.INSTRUCTOR, false, roster));
+        assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, UserType.Role.STUDENT, false, roster));
         
         ______TS("test if visible to own team members");
         
         fr.giverEmail = student.email;
-        assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, false, roster));
+        assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, UserType.Role.STUDENT, false, roster));
         
         ______TS("test if visible to receiver/reciever team members");
         
@@ -363,30 +363,30 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         fq.showRecipientNameTo.clear();
         fq.showRecipientNameTo.add(FeedbackParticipantType.RECEIVER);
         fr.recipientEmail = student.team;
-        assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, false, roster));
-        assertTrue(frLogic.isNameVisibleTo(fq, fr, student3.email, false, roster));
+        assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, UserType.Role.STUDENT, false, roster));
+        assertTrue(frLogic.isNameVisibleTo(fq, fr, student3.email, UserType.Role.STUDENT, false, roster));
         
         fq.recipientType = FeedbackParticipantType.STUDENTS;
         fr.recipientEmail = student.email;
-        assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, false, roster));
-        assertFalse(frLogic.isNameVisibleTo(fq, fr, student2.email, false, roster));
+        assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, UserType.Role.STUDENT, false, roster));
+        assertFalse(frLogic.isNameVisibleTo(fq, fr, student2.email, UserType.Role.STUDENT, false, roster));
         
         fq.recipientType = FeedbackParticipantType.TEAMS;
         fq.showRecipientNameTo.clear();
         fq.showRecipientNameTo.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
         fr.recipientEmail = student.team;
-        assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, false, roster));
-        assertTrue(frLogic.isNameVisibleTo(fq, fr, student3.email, false, roster));
+        assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, UserType.Role.STUDENT, false, roster));
+        assertTrue(frLogic.isNameVisibleTo(fq, fr, student3.email, UserType.Role.STUDENT, false, roster));
         
         fq.recipientType = FeedbackParticipantType.STUDENTS;
         fr.recipientEmail = student.email;
-        assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, false, roster));
-        assertTrue(frLogic.isNameVisibleTo(fq, fr, student2.email, false, roster));
-        assertFalse(frLogic.isNameVisibleTo(fq, fr, student3.email, false, roster));
+        assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, UserType.Role.STUDENT, false, roster));
+        assertTrue(frLogic.isNameVisibleTo(fq, fr, student2.email, UserType.Role.STUDENT, false, roster));
+        assertFalse(frLogic.isNameVisibleTo(fq, fr, student3.email, UserType.Role.STUDENT, false, roster));
         
         ______TS("null question");
         
-        assertFalse(frLogic.isNameVisibleTo(null, fr, student.email, false, roster));
+        assertFalse(frLogic.isNameVisibleTo(null, fr, student.email, UserType.Role.STUDENT, false, roster));
         
     }
     

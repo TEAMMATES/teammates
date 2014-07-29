@@ -1,6 +1,7 @@
 package teammates.logic.backdoor;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +31,17 @@ import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
+import teammates.storage.api.AccountsDb;
+import teammates.storage.api.CommentsDb;
+import teammates.storage.api.CoursesDb;
 import teammates.storage.api.EvaluationsDb;
+import teammates.storage.api.FeedbackQuestionsDb;
+import teammates.storage.api.FeedbackResponseCommentsDb;
+import teammates.storage.api.FeedbackResponsesDb;
+import teammates.storage.api.FeedbackSessionsDb;
+import teammates.storage.api.InstructorsDb;
+import teammates.storage.api.StudentsDb;
+import teammates.storage.api.SubmissionsDb;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
@@ -38,6 +49,17 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 public class BackDoorLogic extends Logic {
     private static Logger log = Utils.getLogger();
+    private static final AccountsDb accountsDb = new AccountsDb();
+    private static final CoursesDb coursesDb = new CoursesDb();
+    private static final CommentsDb commentsDb = new CommentsDb();
+    private static final StudentsDb studentsDb = new StudentsDb();
+    private static final InstructorsDb instructorsDb = new InstructorsDb();
+    private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
+    private static final SubmissionsDb submissionsDb = new SubmissionsDb();
+    private static final FeedbackSessionsDb fbDb = new FeedbackSessionsDb();
+    private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+    private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+    private static final FeedbackResponseCommentsDb fcDb = new FeedbackResponseCommentsDb();
     
     private static final int WAIT_DURATION_FOR_DELETE_CHECKING = 5;
     private static final int MAX_RETRY_COUNT_FOR_DELETE_CHECKING = 20;
@@ -53,10 +75,9 @@ public class BackDoorLogic extends Logic {
      *         "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
      */
 
-    @SuppressWarnings("deprecation")
     public String persistDataBundle(DataBundle dataBundle)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-
+        
         if (dataBundle == null) {
             throw new InvalidParametersException(
                     Const.StatusCodes.NULL_PARAMETER, "Null data bundle");
@@ -66,69 +87,46 @@ public class BackDoorLogic extends Logic {
         
         HashMap<String, AccountAttributes> accounts = dataBundle.accounts;
         for (AccountAttributes account : accounts.values()) {
-            log.fine("API Servlet adding account :" + account.googleId);
-            try {
-                if(account.studentProfile == null) {
+            if (account.studentProfile == null) {
+                account.studentProfile = new StudentProfileAttributes();
+                account.studentProfile.googleId = account.googleId;
+            }
+        }
+        accountsDb.createAccounts(accounts.values(), true);
+        
+        HashMap<String, CourseAttributes> courses = dataBundle.courses;
+        coursesDb.createCourses(courses.values());
+
+        HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
+        List<AccountAttributes> instructorAccounts = new ArrayList<AccountAttributes>();
+        for (InstructorAttributes instructor : instructors.values()) {
+            if (instructor.googleId != null && !instructor.googleId.equals("")) {
+                AccountAttributes account = new AccountAttributes(instructor.googleId, instructor.name, true, instructor.email, "National University of Singapore");
+                if (account.studentProfile == null) {
                     account.studentProfile = new StudentProfileAttributes();
                     account.studentProfile.googleId = account.googleId;
                 }
-                super.updateStudentProfile(account.studentProfile);
-                super.updateAccount(account);
-            } catch (EntityDoesNotExistException edne) {
-                super.createAccount(account.googleId, account.name, account.isInstructor,
-                account.email, account.institute, account.studentProfile);
+                instructorAccounts.add(account);
             }
         }
-
-        HashMap<String, CourseAttributes> courses = dataBundle.courses;
-        for (CourseAttributes course : courses.values()) {
-            log.fine("API Servlet adding course :" + course.id);
-            this.createCourseWithArchiveStatus(course);
-            
-        }
-
-        HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
-        for (InstructorAttributes instructor : instructors.values()) {
-            if (instructor.googleId != null) {
-                log.fine("API Servlet adding instructor :" + instructor.googleId);
-                try {
-                    super.updateInstructorByGoogleId(instructor.googleId, instructor);
-                } catch (EntityDoesNotExistException e) {
-                    if (e.getMessage().equals("Instructor " + instructor.googleId + 
-                            " does not belong to course " + instructor.courseId)) {
-                        instructorsLogic.deleteInstructorCascade(instructor.courseId, instructor.email);
-                    }
-                    super.createInstructorAccount(
-                            instructor.googleId, instructor.courseId, instructor.name,
-                            instructor.email, instructor.isArchived, instructor.role,
-                            instructor.isDisplayedToStudents, instructor.displayedName,
-                            instructor.instructorPrivilegesAsText, "National University of Singapore");
-                }
-            } else {
-                log.fine("API Servlet adding instructor :" + instructor.email);
-                try {
-                    super.createInstructor(instructor);
-                } catch (EntityAlreadyExistsException e) {
-                    // ignore if it already exists
-                }
-            }
-        }
+        accountsDb.createAccounts(instructorAccounts, false);
+        instructorsDb.createInstructors(instructors.values());
 
         HashMap<String, StudentAttributes> students = dataBundle.students;
+        List<AccountAttributes> studentAccounts = new ArrayList<AccountAttributes>();
         for (StudentAttributes student : students.values()) {
-            log.fine("API Servlet adding student :" + student.email
-                    + " to course " + student.course);
             student.section = (student.section == null) ? "None" : student.section;
-            try {
-                updateStudentWithoutDocument(student.email, student);
-            } catch (EntityDoesNotExistException e) {
-                if (student.googleId != null && !student.googleId.isEmpty() 
-                        && super.getAccount(student.googleId) == null) {
-                    super.createAccount(student.googleId, student.name, false, student.email, "NUS");
+            if (student.googleId != null && !student.googleId.equals("")) {
+                AccountAttributes account = new AccountAttributes(student.googleId, student.name, false, student.email, "National University of Singapore");
+                if (account.studentProfile == null) {
+                    account.studentProfile = new StudentProfileAttributes();
+                    account.studentProfile.googleId = account.googleId;
                 }
-                createStudentWithoutDocument(student);
+                studentAccounts.add(account);
             }
         }
+        accountsDb.createAccounts(studentAccounts, false);
+        studentsDb.createStudents(students.values());
 
         HashMap<String, EvaluationAttributes> evaluations = dataBundle.evaluations;
         for (EvaluationAttributes evaluation : evaluations.values()) {
@@ -157,74 +155,38 @@ public class BackDoorLogic extends Logic {
         log.fine("API Servlet added " + submissionsList.size() + " submissions");
 
         HashMap<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
-        for (FeedbackSessionAttributes session : sessions.values()) {
-            log.info("API Servlet adding feedback session :" + session.feedbackSessionName
-                    + " to course " + session.courseId); 
-            session = cleanSessionData(session);
-            try {
-                super.updateFeedbackSession(session);
-            } catch (EntityDoesNotExistException e) {
-                this.createFeedbackSession(session);
-            }
+        for(FeedbackSessionAttributes session : sessions.values()){
+            cleanSessionData(session);
         }
+        fbDb.createFeedbackSessions(sessions.values());
         
         HashMap<String, FeedbackQuestionAttributes> questions = dataBundle.feedbackQuestions;
         List<FeedbackQuestionAttributes> questionList = new ArrayList<FeedbackQuestionAttributes>(questions.values());
         Collections.sort(questionList);
-
-        for (FeedbackQuestionAttributes question : questionList) {
-            log.fine("API Servlet adding feedback question :" + question.getId()
-                    + " to session " + question.feedbackSessionName);
-            try {
-                FeedbackQuestionAttributes fqa = 
-                        this.getFeedbackQuestion(question.feedbackSessionName, question.courseId, question.questionNumber);
-                if (fqa == null) {
-                    super.createFeedbackQuestion(question);
-                }
-                super.updateFeedbackQuestion(question);
-            } catch(EntityDoesNotExistException e) {
-                super.createFeedbackQuestion(question);
-            }
+        for(FeedbackQuestionAttributes question : questionList){
+            question.removeIrrelevantVisibilityOptions();
         }
+        fqDb.createFeedbackQuestions(questionList);
         
         HashMap<String, FeedbackResponseAttributes> responses = dataBundle.feedbackResponses;
         for (FeedbackResponseAttributes response : responses.values()) {
-            log.fine("API Servlet adding feedback response :" + response.getId()
-                    + " to session " + response.feedbackSessionName);
             response = injectRealIds(response);
-            try {
-               this.updateFeedbackResponse(response);
-            } catch(EntityDoesNotExistException e) {
-                this.createFeedbackResponse(response);
-            }
         }
+        frDb.createFeedbackResponses(responses.values());
         
         HashMap<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
         for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
-            log.fine("API Servlet adding feedback response comment :" + responseComment.getId()
-                    + " to session " + responseComment.feedbackSessionName);
             responseComment = injectRealIds(responseComment);
-            try {
-                this.updateFeedbackResponseComment(responseComment);
-            } catch(EntityDoesNotExistException e) {
-                this.createFeedbackResponseComment(responseComment);
-            }
         }
+        fcDb.createFeedbackResponseComments(responseComments.values());
         
         HashMap<String, CommentAttributes> comments = dataBundle.comments;
-        for(CommentAttributes comment : comments.values()){
-            log.fine("API Servlet adding comment :" + comment.getCommentId() + " from "
-                    + comment.giverEmail + " to " + comment.recipientType + ":" + comment.recipients + " in course " + comment.courseId);
-            try {
-                this.updateComment(comment);
-            } catch(EntityDoesNotExistException e) {
-                this.createComment(comment);
-            }
-        }
+        commentsDb.createComments(comments.values());
         
         // any Db can be used to commit the changes. 
         // Eval is used as it is already used in the file
         new EvaluationsDb().commitOutstandingChanges();
+        
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }
 
@@ -457,46 +419,38 @@ public class BackDoorLogic extends Logic {
     }
 
     public void deleteExistingData(DataBundle dataBundle) {
-        
-        //Deleting submissions is not supported at Logic level. However, they
-        //  will be deleted automatically when we delete evaluations.
-        
-        for (StudentAttributes s : dataBundle.students.values()) {
-            deleteStudentWithoutDocument(s.course, s.email);
-        }
-        
-        for (InstructorAttributes i : dataBundle.instructors.values()) {
-            deleteInstructor(i.courseId, i.email);
-        }
-        
-        for (EvaluationAttributes e : dataBundle.evaluations.values()) {
-            deleteEvaluation(e.courseId, e.name);
-        }
-        
-        for (FeedbackSessionAttributes f : dataBundle.feedbackSessions.values()) {
-            deleteFeedbackSession(f.feedbackSessionName, f.courseId);
-        }
-        
+                
         //TODO: questions and responses will be deleted automatically.
         //  We don't attempt to delete them again, to save time.
+        deleteCourses(dataBundle.courses.values());
         
-        for (CourseAttributes c : dataBundle.courses.values()) {
-            this.deleteCourse(c.id);
+        for (AccountAttributes account : dataBundle.accounts.values()) {
+            if (account.studentProfile == null) {
+                account.studentProfile = new StudentProfileAttributes();
+                account.studentProfile.googleId = account.googleId;
+            }
         }
-        
-        for (AccountAttributes a : dataBundle.accounts.values()) {
-            deleteAccount(a.googleId);
-        }
-        
-        for(FeedbackResponseCommentAttributes frc : dataBundle.feedbackResponseComments.values()) {
-            deleteFeedbackResponseComment(frc);
-        }
-        
-        for(CommentAttributes c : dataBundle.comments.values()){
-            deleteComment(c);
-        }
-        
+        accountsDb.deleteAccounts(dataBundle.accounts.values());
         //waitUntilDeletePersists(dataBundle);
+    }
+
+    private void deleteCourses(Collection<CourseAttributes> courses) {  
+        List<String> courseIds = new ArrayList<String>();
+        for(CourseAttributes course : courses){
+            courseIds.add(course.id);
+        }
+        if(!courseIds.isEmpty()){
+            coursesDb.deleteEntities(courses);
+            instructorsDb.deleteInstructorsForCourses(courseIds);
+            studentsDb.deleteStudentsForCourses(courseIds);
+            commentsDb.deleteCommentsForCourses(courseIds);
+            evaluationsDb.deleteEvaluationsForCourses(courseIds);
+            submissionsDb.deleteSubmissionsForCourses(courseIds);
+            fbDb.deleteFeedbackSessionsForCourses(courseIds);
+            fqDb.deleteFeedbackQuestionsForCourses(courseIds);
+            frDb.deleteFeedbackResponsesForCourses(courseIds);
+            fcDb.deleteFeedbackResponseCommentsForCourses(courseIds);
+        }
     }
 
     //TODO: remove this when we confirm it is not needed
