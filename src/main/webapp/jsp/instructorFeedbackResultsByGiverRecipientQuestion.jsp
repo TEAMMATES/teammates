@@ -266,9 +266,8 @@
                     <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
                         <strong><%=responsesFromGiver.getKey()%></strong>
                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                        <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmail%>]</a>
+                        <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
                     </div>
-                <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
 			 <span class='glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right'></span>
                </div>
                 <div class='panel-collapse collapse <%= shouldCollapsed ? "" : "in"%>'>
@@ -282,8 +281,8 @@
                     <div class="row <%=recipientIndex == 1? "": "border-top-gray"%>">
                             <div class="col-md-2">
                                 <div class="col-md-12">
-                                    <div class="middlealign profile-pic-icon-hover inline-block" data-link="<%=data.getProfilePictureLink(recipientEmail)%>">
-                                        <strong>To: <%=responsesFromGiverToRecipient.getKey()%></strong>
+                                    To: <div class="middlealign profile-pic-icon-hover inline-block" data-link="<%=data.getProfilePictureLink(recipientEmail)%>">
+                                        <strong><%=responsesFromGiverToRecipient.getKey()%></strong>
                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                     </div>
                                 </div>

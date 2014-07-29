@@ -144,6 +144,7 @@ $(document).ready(function(){
     $("#results-search-box").keyup(function(e){
         updateResultsFilter();
     });
+    
     //prevent submitting form when enter is pressed.
     $("#results-search-box").keypress(function(e) {
         if(e.which == 13) {
@@ -153,73 +154,68 @@ $(document).ready(function(){
     
     //bind errors with default profile picture
     $(".profile-pic-icon-hover, .profile-pic-icon-click").children('img').on('error', function() {
-    	$('.profile-pic').on('error', function() {
+    	if ($(this).attr('src') != "") {
     		$(this).attr("src","../images/profile_picture_default.png");
-    	});
-    	$(this).attr("src","../images/profile_picture_default.png");
+    	}
     });
     
+    // bind the default popover event for the
+    // show picture onhover events
     $('.profile-pic-icon-hover').popover({
     	html: true,
         trigger: 'manual',
         placement: 'top',
-        delay: {show: 300, hide: 300},
         content: function () {
         	if ($(this).attr('data-link') === "") {
         		return '<img class="profile-pic" src="' + $(this).children('img')[0].src + '" />';
         	} else {
-        		return '<a class="link" onclick="loadProfilePicture($(this).closest(\'.popover\').siblings(\'.profile-pic-icon-hover\'))">View Photo</a>';
+        		return '<a class="cursor-pointer" onclick="loadProfilePicture($(this).closest(\'.popover\').siblings(\'.profile-pic-icon-hover\'))">View Photo</a>';
         	}
         }});
     
-    $('.profile-pic-icon-hover').hover(function() {
-    	$(this).popover('show');
-    	$(this).siblings('.popover').on('mouseleave', function() {
-    		$(this).siblings('.profile-pic-icon-hover').popover("hide");
+    // bind the show picture onhover events
+    $('.profile-pic-icon-hover')
+    	.mouseenter(function() {
+			$(this).popover('show');
+	    	$(this).siblings('.popover').on('mouseleave', function() {
+	    		$(this).siblings('.profile-pic-icon-hover').popover("hide");
+	    	});
     	})
-    	.on('click', function(event) {
-    		event.stopPropagation();
-    		window.event.cancelBubble = true;
-    	});
-    	
-    }, function() {
-    	// this is so that the user can hover over the 
-    	// popover without accidentally hiding it
-    	
-    	setTimeout(function(obj) {
-    		if (!$(obj).siblings(".popover").is(":hover")) {
-                $(obj).popover("hide");
-            }
-    	}, 200, this);
-    });
+    	.mouseleave(function() {
+	    	// this is so that the user can hover over the 
+	    	// pop-over without accidentally hiding the 'view photo' link
+	    	setTimeout(function(obj) {
+	    		if ($(obj).siblings('.popover').find('.profile-pic').length != 0 
+	    				|| !$(obj).siblings(".popover").is(":hover")) {
+	                $(obj).popover("hide");
+	            }
+	    	}, 200, this);
+	    });
     
-    
-    // bind the show picture events    
+    // bind the show picture onclick events
     $(".profile-pic-icon-click > .student-profile-pic-view-link").on('click', function(event){
     	window.event.cancelBubble = true;
     	event.stopPropagation();
     	
-        var link = $(this).parent().attr('data-link');
-        $(this).siblings('img')
-            .attr("src", link)
-            .removeClass('hidden')
-            .parent()
-            .attr('data-link', '')
-            .popover({
-            	html: true,
-                trigger: 'hover',
-                placement: 'top',
-                content: function () {
-                	return '<img class="profile-pic" src="' + $(this).children('img')[0].src + '" />';
-                }});
-        
-        // this code is done to directly show the picture for other
-		// hover-triggered links for this student
-        $(".profile-pic-icon-hover[data-link='" + link + "']")
-			.children('img')
-			.attr('src', link)
-			.parent()
-			.attr('data-link', "");
+        var actualLink = $(this).parent().attr('data-link');
+        $(this).siblings('img').attr('src', actualLink)
+        	.load(function() {
+        		var actualLink = $(this).parent().attr('data-link');
+        		var resolvedLink = $(this).attr('src');
+                $(this)
+                	.removeClass('hidden')
+                    .parent().attr('data-link', '')
+                    .popover({
+                    	html: true,
+                        trigger: 'hover',
+                        placement: 'top',
+                        content: function () {
+                        	return '<img class="profile-pic" src="' + resolvedLink + '" />';
+                        }
+                    });
+                
+                updateHoverShowPictureEvents(actualLink, resolvedLink);
+        	});
         $(this).remove();
     });
 
@@ -232,16 +228,44 @@ function loadProfilePicture(obj) {
 	obj.children('img')[0].src = obj.attr('data-link');
 	// load the pictures in all similar links
 	obj.children('img').load(function() {
-		var link = $(this).parent().attr('data-link'); 
-		$(this).parent().attr('data-link', "");
-		obj.popover('show');
+		var actualLink = $(this).parent().attr('data-link');
+		var resolvedLink = $(this).attr('src');
 
-		// this code is done to directly show the picture for other
-		// hover-triggered links for this student
-		$(".profile-pic-icon-hover[data-link='" + link + "']")
-				.children('img')
-				.attr('src', link)
-				.parent()
-				.attr('data-link', "");
+		updateHoverShowPictureEvents(actualLink, resolvedLink);
+		
+		// this is to show the picture immediately for the one 
+		// the user just clicked on
+		$(this).parent()
+			.popover('show')
+			// this is to handle the manual hide action of the popover
+			.siblings('.popover').on('mouseleave', function() {
+	    		$(this).siblings('.profile-pic-icon-hover').popover("hide");
+			});
 	});
+}
+
+/**
+ * updates all the student names that show profile picture
+ * on hover with the resolved link after one instance of the name
+ * has been loaded<br>
+ * Helps to avoid clicking view photo when hovering over names of 
+ * students whose picture has already been loaded elsewhere in the page
+ * @param link
+ * @param resolvedLink
+ */
+function updateHoverShowPictureEvents(actualLink, resolvedLink) {
+	$(".profile-pic-icon-hover[data-link='" + actualLink + "']")
+	.attr('data-link', "")
+	.off( "mouseenter mouseleave" )
+	.popover('destroy')
+	.popover({
+		html: true,
+		trigger: 'hover',
+		placement: 'top',
+		delay: {show: 300, hide: 300},
+		content: function () {
+			return '<img class="profile-pic" src="' + resolvedLink + '" />';
+		}
+	})
+	.children('img').attr('src', resolvedLink);
 }
