@@ -1,7 +1,17 @@
 package teammates.ui.controller;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
@@ -64,6 +74,20 @@ public class InstructorSearchPageAction extends Action {
                     + "</ul>");
         }
         
+        List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId);
+        Set<String> instructorEmails = new HashSet<String>();
+        for (InstructorAttributes instructor : instructors) {
+            instructorEmails.add(instructor.email);
+        }
+        Iterator<Entry<String, List<CommentAttributes>>> iter = commentSearchResults.giverCommentTable.entrySet().iterator();
+        while (iter.hasNext()) {
+            List<CommentAttributes> commentList = iter.next().getValue();
+            if (!commentList.isEmpty() && !isInstructorAllowedToViewComment(commentList.get(0), instructorEmails, instructors)) {
+                iter.remove();
+                totalResultsSize--;
+            }
+        }
+        
         InstructorSearchPageData data = new InstructorSearchPageData(account);
         data.searchKey = searchKey;
         data.commentSearchResultBundle = commentSearchResults;
@@ -76,5 +100,55 @@ public class InstructorSearchPageAction extends Action {
         data.isSearchForStudents = isSearchForStudents;
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_SEARCH, data);
+    }
+
+    private boolean isInstructorAllowedToViewComment(
+            CommentAttributes commentAttributes, Set<String> instructorEmails, List<InstructorAttributes> instructors) {
+        if (instructorEmails.contains(commentAttributes.giverEmail)) {
+            return true;
+        }
+        for (InstructorAttributes instructor : instructors) {
+            if (instructor.courseId.equals(commentAttributes.courseId)) {
+                boolean isForSection = true;
+                String section = "None";
+                String recipient = "";
+                if (commentAttributes.recipients.size() == 0) {
+                    // prevent error--however, this should never happen unless there is corruption of data
+                    return false;
+                }
+                for (String recipientInSet : commentAttributes.recipients) {
+                    recipient = recipientInSet;
+                    break;
+                }
+                if (commentAttributes.recipientType == CommentRecipientType.PERSON) {
+                    StudentAttributes student = logic.getStudentForEmail(commentAttributes.courseId, recipient);
+                    if (student == null) {
+                        // error checking--comment that is for a student who is deleted or whose email got edited
+                        logic.deleteComment(commentAttributes);
+                        return false;
+                    }
+                    section = student.section;
+                } else if (commentAttributes.recipientType == CommentRecipientType.TEAM) {
+                    List<StudentAttributes> studentsInTeam = logic.getStudentsForTeam(recipient, commentAttributes.courseId);
+                    if (studentsInTeam.isEmpty()) {
+                        // error checking--no students in the team, delete the comment
+                        logic.deleteComment(commentAttributes);
+                        return false;
+                    }
+                    section = studentsInTeam.get(0).section;
+                } else if (commentAttributes.recipientType == CommentRecipientType.SECTION) {
+                    section = recipient;
+                } else if (commentAttributes.recipientType == CommentRecipientType.COURSE) {
+                    isForSection = false;
+                }
+                if (isForSection) {
+                    return instructor.isAllowedForPrivilege(section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
+                } else {
+                    return instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
+                }
+            }
+        }
+        
+        return false;
     }
 }
