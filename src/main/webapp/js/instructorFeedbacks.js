@@ -316,7 +316,6 @@ function readyFeedbackPage() {
 }
 
 function bindUncommonSettingsEvents(){
-    console.log('asd');
     $('#editUncommonSettingsButton').click(uncommonSettingsButtonClick);
 }
 
