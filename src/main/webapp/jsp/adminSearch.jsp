@@ -106,12 +106,12 @@
                             class="pull-right"><button
                                 class="btn btn-primary btn-xs"
                                 type="button"
-                                onclick="adminSearchDiscloseAll()">disclose
-                                all</button>
+                                onclick="adminSearchDiscloseAll()">Disclose
+                                All</button>
                             <button class="btn btn-primary btn-xs"
                                 type="button"
                                 onclick="adminSearchCollapseAll()">Collapse
-                                all</button></span>
+                                All</button></span>
                     </div>
 
                     <div class="table-responsive">
