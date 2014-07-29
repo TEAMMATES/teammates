@@ -40,7 +40,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/InstructorFeedbackResultsPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
-        //System.setProperty("godmode", "true");
     }
     
     @Test
