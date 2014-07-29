@@ -358,6 +358,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        
+        //NOTE: Tests feedback giver/recipient and visibility options are copied from previous question.
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMcqQuestionAddSuccess.html");
     }
 
