@@ -4,7 +4,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -14,12 +13,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
-import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackTextResponseDetails;
@@ -27,7 +22,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -36,10 +30,8 @@ import teammates.test.util.TestHelper;
 public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-    private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
     private static DataBundle dataBundle = getTypicalDataBundle();
     private static HashMap<String, FeedbackResponseAttributes> fras;
-    private static String questionIdWithoutResponses;
     
     @BeforeClass
     public void classSetUp() throws Exception {
