@@ -27,8 +27,9 @@ public class StudentSearchResultBundle extends SearchResultBundle {
     public StudentSearchResultBundle(){}
     
     public StudentSearchResultBundle fromResults(Results<ScoredDocument> results, String googleId){
-        if(results == null) 
+        if(results == null){
             return this;
+        }
         
         cursor = results.getCursor();
         List<InstructorAttributes> instructorRoles = InstructorsLogic.inst().getInstructorsForGoogleId(googleId);
@@ -50,6 +51,49 @@ public class StudentSearchResultBundle extends SearchResultBundle {
             studentList.add(student);
             numberOfResults++;
         }
+        
+        sortStudentResultList();
+        
+        return this;
+    }
+    
+    
+    
+    /**
+     * This method should be used by admin only since the previous searching does not restrict the 
+     * visibility according to the logged-in user's google ID. Therefore,This fromResults method 
+     * does not require a googleID as a parameter. Returned results bundle will contain information
+     * related to matched students only.
+     * @param results
+     * @return studentResultBundle containing information related to matched students only.
+     */   
+    public StudentSearchResultBundle getStudentsfromResults(Results<ScoredDocument> results){
+        if(results == null) {
+            return this;
+        }
+        
+        cursor = results.getCursor();
+        
+        for(ScoredDocument doc:results){
+            StudentAttributes student = new Gson().fromJson(doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(), 
+                                                                             StudentAttributes.class);
+            
+            if(studentsLogic.getStudentForRegistrationKey(student.key) == null){
+                studentsLogic.deleteDocument(student);
+                continue;
+            }
+            
+            studentList.add(student);
+            numberOfResults++;
+        }
+        
+        sortStudentResultList();
+        
+        return this;
+    }
+    
+    
+    private void sortStudentResultList(){
         
         Collections.sort(studentList, new Comparator<StudentAttributes>(){
             @Override
@@ -77,10 +121,9 @@ public class StudentSearchResultBundle extends SearchResultBundle {
                 return s1.email.compareTo(s2.email);
             }
         });
-        
-        return this;
     }
-
+    
+    
     @Override
     public int getResultSize() {
         return numberOfResults;

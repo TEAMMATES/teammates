@@ -277,6 +277,7 @@ public class Const {
     }
 
     public class ParamsNames{
+        
         public static final String BLOB_KEY = "blob-key";
         
         public static final String COPIED_FEEDBACK_SESSION_NAME = "copiedfsname";
@@ -317,7 +318,8 @@ public class Const {
         
         public static final String COURSE_ARCHIVE_STATUS = "archive";
         
-        public static final String ADMIN_SEARCH_REBUILD_DOC = "build_doc";
+        public static final String ADMIN_SEARCH_KEY = "searchkey";
+        public static final String ADMIN_SEARCH_BUTTON_HIT = "searchbuttonhit";
     
         public static final String EVALUATION_NAME = "evaluationname";
     
