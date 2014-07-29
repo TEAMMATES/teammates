@@ -796,7 +796,7 @@ function formatCheckBoxes() {
  */
 function copyOptions() {
     //There's no need to previous question to copy options from.
-    if($("table[class*='questionTable']").size() < 2){
+    if($("div[class*='questionTable']").size() < 2){
         return;
     }
     
