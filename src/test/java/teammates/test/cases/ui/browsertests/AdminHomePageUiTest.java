@@ -136,28 +136,30 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         //verify sample course is accessible for newly joined instructor as an instructor
         InstructorHomePage instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
-        instructorHomePage.verifyContains("Instructor Home");
-        instructorHomePage.verifyContains(demoCourseId);
+        
+        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorHomePage.html");
         
         InstructorCourseEnrollPage enrollPage = instructorHomePage.clickCourseErollLink(demoCourseId);
-        enrollPage.verifyContains("Enroll Students for " + demoCourseId);
+        enrollPage.verifyHtmlMainContent("/newlyJoinedInstructorCourseEnrollPage.html");
         
         instructorHomePage = enrollPage.goToPreviousPage(InstructorHomePage.class);
         InstructorCourseDetailsPage detailsPage = instructorHomePage.clickCourseViewLink(demoCourseId);
-        detailsPage.verifyContains("Course Details");
+        detailsPage.verifyHtmlMainContent("/newlyJoinedInstructorCourseDetailsPage.html");
         
         instructorHomePage = detailsPage.goToPreviousPage(InstructorHomePage.class);
         InstructorCourseEditPage editPage = instructorHomePage.clickCourseEditLink(demoCourseId);
-        editPage.verifyContains("Edit Course Details");
-        editPage.verifyContains(demoCourseId);
+        editPage.verifyHtmlMainContent("/newlyJoinedInstructorCourseEditPage.html");
+        
         
         instructorHomePage = editPage.goToPreviousPage(InstructorHomePage.class);
         InstructorFeedbacksPage feedbacksPage = instructorHomePage.clickCourseAddEvaluationLink(demoCourseId);
-        feedbacksPage.verifyContains("Add New Feedback Session");
+        feedbacksPage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbacksPage.html");
         
         instructorHomePage = feedbacksPage.goToPreviousPage(InstructorHomePage.class);
         instructorHomePage.clickArchiveCourseLink(demoCourseId);
-        assertTrue(instructorHomePage.getStatus().contains("The course " + demoCourseId + " has been archived"));
+        instructorHomePage.verifyHtmlMainContent("/NJIHomePageSampleCourseArchived.html");
+        
+        
         
         
         String url = Url.addParamToUrl(TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, 
@@ -166,7 +168,20 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         browser.driver.get(url);
         InstructorCoursesPage coursesPage = AppPage.getNewPageInstance(browser, InstructorCoursesPage.class);
         coursesPage.unarchiveCourse(demoCourseId);
-        coursesPage.verifyStatus("The course " + demoCourseId + " has been unarchived.");
+        coursesPage.verifyHtmlMainContent("/NJICoursesPageSampleCourseUnarhived.html");
+             
+        coursesPage.loadStudentsTab().verifyHtmlMainContent("/newlyJoinedInstructorStudentListPage.html");
+        coursesPage.loadInstructorCommentsTab().verifyHtmlMainContent("/newlyJoinedInstructorCommentsPage.html");
+        
+        
+        coursesPage.loadInstructorHomeTab();
+        instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
+        instructorHomePage.clickSessionViewResultsLink("AHPUiT.instr1.gma-demo", "Second team feedback session");
+//                          .verifyHtmlMainContent("/newlyJoinedInstructorFeedbackResultsPage.html");
+//        
+//        instructorHomePage.goToPreviousPage(InstructorHomePage.class);
+//        instructorHomePage.clickSessionEditLink("AHPUiT.instr1.gma-demo", "Second team feedback session");
+//        instructorHomePage.verifyHtmlMainContent("/");
         
         
         coursesPage.logout();
@@ -180,55 +195,55 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         instructor.email = "AHPUiT.email.com";        
         homePage.createInstructor(shortName,instructor,institute).verifyStatus(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email, FieldValidator.REASON_INCORRECT_FORMAT));
       
-        
-        ______TS("action success: course is accessible for newly joined instructor as student");
-        //in staging server, the student account uses the hardcoded email above, so this can only be test on dev server
-        if(!TestProperties.inst().TEAMMATES_URL.contains("local")){
-            
-            BackDoor.deleteCourse(demoCourseId);
-            BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
-            BackDoor.deleteInstructor(demoCourseId, instructor.email);
-            return;
-        }
-        
-        //verify sample course is accessible for newly joined instructor as an student
-        
-        StudentHomePage studentHomePage = HomePage.getNewInstance(browser).clickStudentLogin()
-                                                                          .loginAsStudent(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
-                                                                                          TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
-       
-        studentHomePage.verifyContains("Student Home");
-        studentHomePage.verifyContains(demoCourseId);
-        studentHomePage.clickViewTeam();
-        
-        StudentCourseDetailsPage courseDetailsPage = AppPage.getNewPageInstance(browser, StudentCourseDetailsPage.class);
-        courseDetailsPage.verifyContains("Team Details for " + demoCourseId);
-        
-        studentHomePage = courseDetailsPage.goToPreviousPage(StudentHomePage.class);
-        studentHomePage.getViewFeedbackButton("First team feedback session").click();
-        StudentFeedbackResultsPage sfrp = AppPage.getNewPageInstance(browser, StudentFeedbackResultsPage.class);
-        sfrp.verifyContains("Feedback Results - Student");
-        
-        studentHomePage = sfrp.goToPreviousPage(StudentHomePage.class);
-        studentHomePage.getEditFeedbackButton("First team feedback session").click();
-        assertTrue(browser.driver.getPageSource().contains("Submit Feedback"));
-        
-        studentHomePage.logout();
-        
-        //login in as instructor again to test sample course deletion
-        instructorHomePage = HomePage.getNewInstance(browser).clickInstructorLogin()
-                                                             .loginAsInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
-                                                                                TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
-        
-  
-        instructorHomePage.clickAndConfirm(instructorHomePage.getDeleteCourseLink(demoCourseId));
-        assertTrue(instructorHomePage.getStatus().contains("The course " + demoCourseId + " has been deleted."));
-     
-        instructorHomePage.logout();
-        
-        BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
-        BackDoor.deleteCourse(demoCourseId);
-        BackDoor.deleteInstructor(demoCourseId, instructor.email);
+//        
+//        ______TS("action success: course is accessible for newly joined instructor as student");
+//        //in staging server, the student account uses the hardcoded email above, so this can only be test on dev server
+//        if(!TestProperties.inst().TEAMMATES_URL.contains("local")){
+//            
+//            BackDoor.deleteCourse(demoCourseId);
+//            BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+//            BackDoor.deleteInstructor(demoCourseId, instructor.email);
+//            return;
+//        }
+//        
+//        //verify sample course is accessible for newly joined instructor as an student
+//        
+//        StudentHomePage studentHomePage = HomePage.getNewInstance(browser).clickStudentLogin()
+//                                                                          .loginAsStudent(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
+//                                                                                          TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+//       
+//        studentHomePage.verifyContains("Student Home");
+//        studentHomePage.verifyContains(demoCourseId);
+//        studentHomePage.clickViewTeam();
+//        
+//        StudentCourseDetailsPage courseDetailsPage = AppPage.getNewPageInstance(browser, StudentCourseDetailsPage.class);
+//        courseDetailsPage.verifyContains("Team Details for " + demoCourseId);
+//        
+//        studentHomePage = courseDetailsPage.goToPreviousPage(StudentHomePage.class);
+//        studentHomePage.getViewFeedbackButton("First team feedback session").click();
+//        StudentFeedbackResultsPage sfrp = AppPage.getNewPageInstance(browser, StudentFeedbackResultsPage.class);
+//        sfrp.verifyContains("Feedback Results - Student");
+//        
+//        studentHomePage = sfrp.goToPreviousPage(StudentHomePage.class);
+//        studentHomePage.getEditFeedbackButton("First team feedback session").click();
+//        assertTrue(browser.driver.getPageSource().contains("Submit Feedback"));
+//        
+//        studentHomePage.logout();
+//        
+//        //login in as instructor again to test sample course deletion
+//        instructorHomePage = HomePage.getNewInstance(browser).clickInstructorLogin()
+//                                                             .loginAsInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
+//                                                                                TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+//        
+//  
+//        instructorHomePage.clickAndConfirm(instructorHomePage.getDeleteCourseLink(demoCourseId));
+//        assertTrue(instructorHomePage.getStatus().contains("The course " + demoCourseId + " has been deleted."));
+//     
+//        instructorHomePage.logout();
+//        
+//        BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+//        BackDoor.deleteCourse(demoCourseId);
+//        BackDoor.deleteInstructor(demoCourseId, instructor.email);
         
    
     }

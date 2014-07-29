@@ -90,6 +90,9 @@ public abstract class AppPage {
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[4]/a")
     protected WebElement instructorStudentsTab;
     
+    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[5]/a")
+    protected WebElement instructorCommentsTab;
+    
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[6]/a")
     protected WebElement instructorHelpTab;
     
@@ -281,6 +284,47 @@ public abstract class AppPage {
      */
     public AppPage loadCoursesTab() {
         instructorCoursesTab.click();
+        waitForPageToLoad();
+        return this;
+    }
+    
+    /**
+     * Equivalent to clicking the 'Students' tab on the top menu of the page.
+     * @return the loaded page.
+     */
+    public AppPage loadStudentsTab() {
+        instructorStudentsTab.click();
+        waitForPageToLoad();
+        return this;
+    }
+    
+    
+    /**
+     * Equivalent to clicking the 'Home' tab on the top menu of the page.
+     * @return the loaded page.
+     */
+    public AppPage loadInstructorHomeTab() {
+        instructorHomeTab.click();
+        waitForPageToLoad();
+        return this;
+    }
+    
+    /**
+     * Equivalent to clicking the 'Help' tab on the top menu of the page.
+     * @return the loaded page.
+     */
+    public AppPage loadInstructorHelpTab() {
+        instructorHelpTab.click();
+        waitForPageToLoad();
+        return this;
+    }
+    
+    /**
+     * Equivalent to clicking the 'Comments' tab on the top menu of the page.
+     * @return the loaded page.
+     */
+    public AppPage loadInstructorCommentsTab() {
+        instructorCommentsTab.click();
         waitForPageToLoad();
         return this;
     }
