@@ -437,6 +437,12 @@ public class Logic {
         return instructorsLogic.getAllInstructors();
     }
     
+   
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
+        
+        return feedbackSessionsLogic.getAllOpenFeedbackSessions(start, end, zone);
+    }
+    
     
     
     /**

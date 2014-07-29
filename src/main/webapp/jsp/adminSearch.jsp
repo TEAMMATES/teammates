@@ -42,6 +42,7 @@
     <div id="dhtmltooltip"></div>
     <jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
 
+
     <div class="container theme-showcase" role="main">
 
         <div id="frameBody">
@@ -212,19 +213,16 @@
                 </div>
 
 
-
-
                 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 
             </div>
 
 
-
-
-
         </div>
 
+
     </div>
+
 
 
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
