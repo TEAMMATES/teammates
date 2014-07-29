@@ -27,8 +27,9 @@ public class StudentSearchResultBundle extends SearchResultBundle {
     public StudentSearchResultBundle(){}
     
     public StudentSearchResultBundle fromResults(Results<ScoredDocument> results, String googleId){
-        if(results == null) 
+        if(results == null){
             return this;
+        }
         
         cursor = results.getCursor();
         List<InstructorAttributes> instructorRoles = InstructorsLogic.inst().getInstructorsForGoogleId(googleId);
@@ -66,9 +67,10 @@ public class StudentSearchResultBundle extends SearchResultBundle {
      * @param results
      * @return studentResultBundle containing information related to matched students only.
      */   
-    public StudentSearchResultBundle fromResults(Results<ScoredDocument> results){
-        if(results == null) 
+    public StudentSearchResultBundle getStudentsfromResults(Results<ScoredDocument> results){
+        if(results == null) {
             return this;
+        }
         
         cursor = results.getCursor();
         

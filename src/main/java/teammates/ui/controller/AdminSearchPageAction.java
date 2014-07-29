@@ -84,42 +84,45 @@ public class AdminSearchPageAction extends Action {
         
         Logic logic = new Logic();
         
-        for(StudentAttributes student : students){
-        
+        for(StudentAttributes student : students){    
             List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(student.course); 
             
-            for(FeedbackSessionAttributes fsa : feedbackSessions){
-                
-                if(!fsa.isOpened()){
-                   continue; 
-                }
-                
-                String submitUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                                       .withCourseId(student.course)
-                                       .withSessionName(fsa.feedbackSessionName)
-                                       .withRegistrationKey(StringHelper.encrypt(student.key))
-                                       .withStudentEmail(student.email)
-                                       .toString();
-                
-                if (data.studentfeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
-                     List<String> submitUtlList = new ArrayList<String>();
-                     submitUtlList.add(submitUrl);   
-                     data.studentfeedbackSessionLinksMap.put(student.getIdentificationString(), submitUtlList);
-                } else {
-                    data.studentfeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
-                }       
-                
-                data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);    
-                
-            }
-        
+            for(FeedbackSessionAttributes fsa : feedbackSessions){               
+                data = extractDataFromFeedbackSeesion(fsa, data, student);              
+            }       
         }       
  
         return data;
            
     }
     
-    
+    private AdminSearchPageData extractDataFromFeedbackSeesion(FeedbackSessionAttributes fsa, 
+                                                               AdminSearchPageData data, 
+                                                               StudentAttributes student){
+        
+        if(!fsa.isOpened()){
+            return data;
+         }
+         
+         String submitUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                                .withCourseId(student.course)
+                                .withSessionName(fsa.feedbackSessionName)
+                                .withRegistrationKey(StringHelper.encrypt(student.key))
+                                .withStudentEmail(student.email)
+                                .toString();
+         
+         if (data.studentfeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
+              List<String> submitUrlList = new ArrayList<String>();
+              submitUrlList.add(submitUrl);   
+              data.studentfeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
+         } else {
+             data.studentfeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
+         }       
+         
+         data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);    
+         
+         return data;
+    }
     
     
 }

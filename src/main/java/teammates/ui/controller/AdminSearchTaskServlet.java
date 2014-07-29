@@ -74,53 +74,6 @@ public class AdminSearchTaskServlet extends HttpServlet {
         
     }
     
-//    /**
-//     * Add student/instructor data to search index
-//     */
-//    private void addDocument(ArrayList<Document> docs) {
-//        // Insert 200 documents each time
-//         
-//        int currentIndex = 0;
-//        int finishingIndexOfCurrentBatch = 0;
-//        try {
-//            while(currentIndex < docs.size()){
-//                finishingIndexOfCurrentBatch = currentIndex + Const.SystemParams.MAX_NUM_OF_INPUT_FOR_APP_ENGINE_BATCH;
-//                if(finishingIndexOfCurrentBatch > docs.size()){
-//                    finishingIndexOfCurrentBatch = docs.size();
-//                } 
-//                getIndex().put(docs.subList(currentIndex, finishingIndexOfCurrentBatch));
-//                currentIndex = finishingIndexOfCurrentBatch;
-//            }
-//            
-//        } catch (RuntimeException e) {
-//            log.warning("Failed to adding documents ");
-//        }
-//    }
-//    
-//    /**
-//     * Create a document for the inputs
-//     */
-//    private Document makeDocument(String name, String email, String id, String url){
-//        Document.Builder docBuilder = Document
-//                .newBuilder()
-//                .addField(
-//                        Field.newBuilder().setName("name")
-//                                .setText(name))
-//                .addField(
-//                        Field.newBuilder().setName("email")
-//                                .setText(email))
-//                .addField(
-//                        Field.newBuilder().setName("id")
-//                                .setText(id))
-//                .addField(
-//                        Field.newBuilder().setName("link").setHTML(
-//                            String.format("<a href=\"%s\">View</a>",url+"?"+Const.ParamsNames.USER_ID+"="+id)
-//                                ))
-//                ;
-//
-//        Document doc = docBuilder.build();
-//        return doc;
-//    }
 
     /**
      * Clean up existing search indexes 

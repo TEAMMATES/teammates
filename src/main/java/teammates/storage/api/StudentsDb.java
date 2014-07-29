@@ -73,7 +73,7 @@ public class StudentsDb extends EntitiesDb {
         Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT, 
                 new StudentSearchQuery(queryString, cursorString));
         
-        return new StudentSearchResultBundle().fromResults(results);
+        return new StudentSearchResultBundle().getStudentsfromResults(results);
     }
     
 
