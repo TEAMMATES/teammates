@@ -12,30 +12,30 @@
 <%@ page import="teammates.common.util.Sanitizer"%>
 
 <%
-    AdminSearchPageData data = (AdminSearchPageData) request
-            .getAttribute("data");
+	AdminSearchPageData data = (AdminSearchPageData) request
+			.getAttribute("data");
 %>
 
 <html>
 <head>
-<link rel="shortcut icon" href="/favicon.png" />
-<meta http-equiv="X-UA-Compatible" content="IE=8" />
-<title>TEAMMATES - Administrator</title>
-<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
-<link href="/stylesheets/teammatesCommon.css" rel="stylesheet">
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-          <![endif]-->
-
-<script type="text/javascript" src="/js/googleAnalytics.js"></script>
-<script type="text/javascript" src="/js/jquery-minified.js"></script>
-<script type="text/javascript"
-    src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/js/adminSearch.js"></script>
+    <link rel="shortcut icon" href="/favicon.png" />
+    <meta http-equiv="X-UA-Compatible" content="IE=8" />
+    <title>TEAMMATES - Administrator</title>
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="/stylesheets/teammatesCommon.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+              <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+              <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+              <![endif]-->
+    
+    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
+    <script type="text/javascript" src="/js/jquery-minified.js"></script>
+    <script type="text/javascript"
+        src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/adminSearch.js"></script>
 
 </head>
 <body>
@@ -48,13 +48,7 @@
             <div id="frameBodyWrapper">
                 <div id="topOfPage"></div>
                 <div id="headerOperation" class="page-header">
-                    <h1>
-                        Admin Search <small><span
-                            class="label label-primary"> Tips:
-                                Surround key word to search a whole
-                                string or string contains punctuation
-                                like "-" "." </span></small>
-                    </h1>
+                    <h1>Admin Search</h1>
 
 
                 </div>
@@ -69,14 +63,20 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-12">
+                                        <span class="help-block">Tips:
+                                            Surround key word to search
+                                            a whole string or string
+                                            contains punctuation like
+                                            "-" "."</span>
                                         <div class="input-group">
-                                            <span
-                                                class="input-group-btn">
-                                            </span> <input type="text"
+
+                                            <input type="text"
                                                 class="form-control"
                                                 id="filterQuery"
                                                 name="<%=Const.ParamsNames.ADMIN_SEARCH_KEY%>"
-                                                value="<%=data.searchKey%>"><span
+                                                value="<%=data.searchKey%>">
+
+                                            <span
                                                 class="input-group-btn">
                                                 <button
                                                     class="btn btn-default"
@@ -85,6 +85,8 @@
                                                     id="searchButton"
                                                     value="true">Search</button>
                                             </span>
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -93,19 +95,27 @@
                     </form>
                 </div>
                 <%
-                    List<StudentAttributes> studentResultList = data.studentResultBundle.studentList;
+                	List<StudentAttributes> studentResultList = data.studentResultBundle.studentList;
 
-                    if (!studentResultList.isEmpty()) {
+                	if (!studentResultList.isEmpty()) {
                 %>
 
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <strong>Students Found </strong>
-
+                        <strong>Students Found </strong> <span
+                            class="pull-right"><button
+                                class="btn btn-primary btn-xs"
+                                type="button"
+                                onclick="adminSearchDiscloseAll()">disclose
+                                all</button>
+                            <button class="btn btn-primary btn-xs"
+                                type="button"
+                                onclick="adminSearchCollapseAll()">Collapse
+                                all</button></span>
                     </div>
 
                     <div class="table-responsive">
-                        <table class="table table-condensed dataTable"
+                        <table class="table table-striped dataTable"
                             id="search_table">
 
                             <thead>
@@ -123,10 +133,11 @@
                             <tbody>
 
                                 <%
-                                    for (StudentAttributes student : studentResultList) {
-                                        
-                                        String id = Sanitizer.sanitizeForSearch(student.getIdentificationString());
-                                        id = id.replace(" ", "").replace("@", "");
+                                	for (StudentAttributes student : studentResultList) {
+
+                                			String id = Sanitizer.sanitizeForSearch(student
+                                					.getIdentificationString());
+                                			id = id.replace(" ", "").replace("@", "");
                                 %>
 
                                 <tr id="<%=id%>" class="studentRow">
@@ -134,60 +145,66 @@
                                     </td>
                                     <td><%=student.team%></td>
                                     <td><%=student.name%></td>
-                                    <td><%=student.googleId%></td>
+                                    <td><a
+                                        href="<%=data.studentIdToHomePageLinkMap
+                                        		     .get(student.googleId)%>"
+                                        target="blank"
+                                        class="homePageLink"><%=student.googleId%></a></td>
                                     <td><%=student.comments%></td>
-                               
-                                 </tr>
-                               
-                                    <tr class="info fslink fslink<%=id%>" style="display: none;">
-                                        <td>
-                                        
-                                        <strong>Course Join Link</strong>
-                                        
-                                        </td>
-                                        
-                                        <td colspan="4">
-                                        
-                                        <input value="<%=student.getRegistrationUrl()%>" readonly="readonly" class="form-control"/ >
-                                        
-                                        </td>
-                                    </tr> 
-                                   <% 
-                                    
-                                     if(data.studentfeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
-                                            continue;
-                                     }
-                                   
-                                   %>
-                                      
-                                      
-                                   <%
-                                   
-                                     for (String link : data.studentfeedbackSessionLinksMap.get(student.getIdentificationString())) {
-                                                                        
-                                   %> 
-                                        
-                                        <tr class="warning fslink fslink<%=id%>" style="display: none;">
-                                        
-                                        <td>
-                                        
-                                        <strong> <%=data.feedbackSeesionLinkToNameMap.get(link)%> </strong>
-                                        
-                                        </td>
-                                        
-                                        <td colspan="4">
-                                        
-                                        <input value=<%=link%> readonly="readonly" class="form-control"/ >
-                                        
-                                        </td>
-                                        </tr> 
-                                                                   
-                                   
-                                <%
-                                          }
-                                   }
 
-                            }
+                                </tr>
+
+                                <tr
+                                    class="has-danger list-group fslink fslink<%=id%>"
+                                    style="display: none;">
+                                    <td colspan="5">
+                                        <ul class="list-group">
+                                            <li
+                                                class="list-group-item list-group-item-info">
+                                                <strong>Course
+                                                    Join Link</strong> <input
+                                                value="<%=student.getRegistrationUrl()%>"
+                                                readonly="readonly"
+                                                class="form-control" />
+                                            </li>
+
+                                            <%
+                                            	if (data.studentfeedbackSessionLinksMap.get(student
+                                            					.getIdentificationString()) == null) {
+                                            				continue;
+                                            			}
+                                            %>
+
+
+
+                                            <%
+                                            	for (String link : data.studentfeedbackSessionLinksMap
+                                            					.get(student.getIdentificationString())) {
+                                            %>
+
+
+
+                                            <li
+                                                class="list-group-item list-group-item-warning">
+                                                <strong> <%=data.feedbackSeesionLinkToNameMap.get(link)%>
+                                            </strong> <input value=<%=link%>
+                                                readonly="readonly"
+                                                class="form-control"/ >
+                                            </li>
+
+
+
+                                            <%
+                                            	}
+                                            %>
+                                        </ul>
+                                    </td>
+
+                                </tr>
+                                <%
+                                	}
+
+                                	}
                                 %>
                             </tbody>
                         </table>

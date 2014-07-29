@@ -44,6 +44,7 @@ public class AdminSearchPageAction extends Action {
         data.studentResultBundle  = logic.searchStudentsInWholeSystem(searchKey, "");
         
         data = putFeedbackSessionLinkIntoMap(data.studentResultBundle.studentList, data);
+        data = putHomePageLinkIntoMap(data.studentResultBundle.studentList, data);
            
         int numOfResults = data.studentResultBundle.getResultSize();
         if(numOfResults > 0){
@@ -53,10 +54,28 @@ public class AdminSearchPageAction extends Action {
             statusToUser.add("No result found, please try again");
             isError = true;
         }
-        
-        
+              
         
         return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
+    }
+    
+    
+    private AdminSearchPageData putHomePageLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
+        
+        for(StudentAttributes student : students){
+            
+            if(student.googleId == null){
+                continue;
+            }
+            
+            String curLink = Url.addParamToUrl(Const.ActionURIs.STUDENT_HOME_PAGE,
+                                                        Const.ParamsNames.USER_ID, 
+                                                        student.googleId);
+            
+            data.studentIdToHomePageLinkMap.put(student.googleId, curLink);
+        }
+        
+        return data;
     }
     
     
@@ -65,11 +84,11 @@ public class AdminSearchPageAction extends Action {
         
         Logic logic = new Logic();
         
-        for(StudentAttributes student: students){
+        for(StudentAttributes student : students){
         
             List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(student.course); 
             
-            for(FeedbackSessionAttributes fsa: feedbackSessions){
+            for(FeedbackSessionAttributes fsa : feedbackSessions){
                 
                 if(!fsa.isOpened()){
                    continue; 
@@ -90,15 +109,7 @@ public class AdminSearchPageAction extends Action {
                     data.studentfeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
                 }       
                 
-                data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);
-                
-    //            String reportUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
-    //                                   .withCourseId(c.id)
-    //                                   .withSessionName(fs.feedbackSessionName)
-    //                                   .withRegistrationKey(StringHelper.encrypt(s.key))
-    //                                   .withStudentEmail(s.email)
-    //                                   .toString();
-    
+                data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);    
                 
             }
         
