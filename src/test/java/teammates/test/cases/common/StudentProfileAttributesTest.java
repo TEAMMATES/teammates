@@ -3,6 +3,10 @@
  */
 package teammates.test.cases.common;
 
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,13 +14,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Text;
-
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
@@ -24,6 +21,9 @@ import teammates.common.util.StringHelper;
 import teammates.storage.entity.StudentProfile;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.util.TestHelper;
+
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.datastore.Text;
 
 public class StudentProfileAttributesTest extends BaseTestCase {
 
@@ -108,7 +108,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         assertEquals(expectedEntity.getNationality(), actualEntity.getNationality());
         assertEquals(expectedEntity.getGender(), actualEntity.getGender());
         assertEquals(expectedEntity.getMoreInfo(), actualEntity.getMoreInfo());
-        assertEquals(expectedEntity.getModifiedDate(), actualEntity.getModifiedDate());
+        assertEquals(expectedEntity.getModifiedDate().toString(), actualEntity.getModifiedDate().toString());
         assertEquals(expectedEntity.getPictureKey(), actualEntity.getPictureKey());
     }
     
