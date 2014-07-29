@@ -76,7 +76,7 @@ function addParamToUrl(url, key, value) {
 
 function bindPhotos(courseIdx) {
     $("td[id^=studentphoto-c" + courseIdx + "]").each(function(){
-        bindStudentPhotoLink($(this).children('.student-photo-link-for-test'));
+        bindStudentPhotoLink($(this).children('.student-profile-pic-view-link'));
         bindErrorImages($(this).children('img'));
     });
 }
@@ -132,7 +132,7 @@ function getAppendedData(data, courseIdx) {
 
                     appendedHtml += '<tr id="student-c' + courseIdx + '.' + studentIdx + '" style="display: table-row;">';
                     appendedHtml += '<td id="studentphoto-c' + courseIdx + '.' + studentIdx + '" class="profile-pic-icon">';
-                    appendedHtml += '<a class="student-photo-link-for-test btn-link" data-link="' + data.emailPhotoUrlMapping[student.email] + '">'
+                    appendedHtml += '<a class="student-profile-pic-view-link btn-link" data-link="' + data.emailPhotoUrlMapping[student.email] + '">'
                                        + 'View Photo</a><img src="" alt="No Image Given" class="hidden"></td>';
                     if(data.hasSection) { 
                         appendedHtml += '<td id="studentsection-c' + courseIdx + '.' + sectionIdx + '">' + sanitizeForHtml(section.name) + '</td>';

@@ -346,7 +346,7 @@
                 %>
                         <tr id="student-c<%=courseIdx%>.<%=studentIdx%>" style="display: table-row;">
                             <td id="studentphoto-c<%=courseIdx%>.<%=studentIdx%>" class="profile-pic-icon">
-                                <a class="student-photo-link-for-test btn-link" 
+                                <a class="student-profile-pic-view-link btn-link" 
                                    data-link=<%=data.getStudentPhotoUrl(student)%>>
                                    View Photo</a>
                                 <img src="" alt="No Image Given" class="hidden">

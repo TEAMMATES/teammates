@@ -51,10 +51,8 @@ public class StudentProfilePictureAction extends Action {
             throw new EntityDoesNotExistException("student with " +
                     courseId + "/" + email);
         }
-        log.info(student.googleId);
         // googleId == null is handled at logic level
         String blobKey = logic.getStudentProfile(student.googleId).pictureKey;
-        log.info(blobKey);
         return createImageResult(blobKey);
     }
 

@@ -262,8 +262,13 @@
 
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    From: <strong><%=responsesFromGiver.getKey()%></strong>
-                        <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
+                    From: 
+                    <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
+                        <strong><%=responsesFromGiver.getKey()%></strong>
+                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                        <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmail%>]</a>
+                    </div>
+                <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
 			 <span class='glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right'></span>
                </div>
                 <div class='panel-collapse collapse <%= shouldCollapsed ? "" : "in"%>'>
@@ -272,11 +277,23 @@
                     int recipientIndex = 0;
                     for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesFromGiverToRecipient : responsesFromGiver.getValue().entrySet()) {
                         recipientIndex++;
+                        String recipientEmail = responsesFromGiverToRecipient.getValue().get(0).recipientEmail;
                 %>
                     <div class="row <%=recipientIndex == 1? "": "border-top-gray"%>">
                             <div class="col-md-2">
-                                <div class="col-md-12"><strong>To: <%=responsesFromGiverToRecipient.getKey()%></strong></div>
-                                <div class="col-md-12 text-muted small"><span><br>From: <%=responsesFromGiver.getKey()%></span></div>
+                                <div class="col-md-12">
+                                    <div class="middlealign profile-pic-icon-hover inline-block" data-link="<%=data.getProfilePictureLink(recipientEmail)%>">
+                                        <strong>To: <%=responsesFromGiverToRecipient.getKey()%></strong>
+                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                    </div>
+                                </div>
+                                <div class="col-md-12 text-muted small"><br>
+                                    From:   
+                                    <div class="middlealign profile-pic-icon-hover inline-block" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
+                                        <%=responsesFromGiver.getKey()%>
+                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-10">
                     <%

@@ -27,7 +27,7 @@ function bindErrorImages(elements){
 
 $(document).ready(function(){
     $("td[id^=studentphoto-c]").each(function(){
-        bindStudentPhotoLink($(this).children('.student-photo-link-for-test'));
+        bindStudentPhotoLink($(this).children('.student-profile-pic-view-link'));
         bindErrorImages($(this).children('img'));
     });
 });

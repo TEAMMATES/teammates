@@ -6,6 +6,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 
 public class InstructorFeedbackResultsPageData extends PageData {
@@ -39,6 +40,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
         } else {
             return TimeHelper.formatTime(bundle.feedbackSession.resultsVisibleFromTime);
         }
+    }
+    
+    public String getProfilePictureLink(String studentEmail) {
+        
+        return Const.ActionURIs.STUDENT_PROFILE_PICTURE 
+                + "?" + Const.ParamsNames.COURSE_ID + "=" + StringHelper.encrypt(instructor.courseId)
+                + "&" + Const.ParamsNames.STUDENT_EMAIL + "=" + StringHelper.encrypt(studentEmail);
     }
 
 }

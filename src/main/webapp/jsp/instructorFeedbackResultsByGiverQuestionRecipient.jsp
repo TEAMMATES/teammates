@@ -304,7 +304,10 @@
 
                 <div class="panel panel-primary">
                 <div class="panel-heading">
-                    From: <strong><%=responsesFromGiver.getKey()%></strong>
+                    From: <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(giverEmail)%>">
+                            <strong><%=responsesFromGiver.getKey()%></strong>
+                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                        </div>
                         <a class="link-in-dark-bg" href="mailTo:<%= giverEmail%> " <%=mailtoStyleAttr%>>[<%=giverEmail%>]</a>
                     <span class='glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right'></span>                </div>
                 <div class='panel-collapse collapse <%= shouldCollapsed ? "" : "in"%>'>
@@ -329,6 +332,7 @@
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
+                                            <th>Photo</th>
                                             <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
                                                 Recipient
                                                 <span class="icon-sort unsorted"></span>
@@ -352,6 +356,14 @@
                                             String recipientName = data.bundle.getRecipientNameForResponse(question, responseEntry);
                                             String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
                                         %>
+                                            <td class="middlealign">
+                                                <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(responseEntry.recipientEmail)%>">
+                                                    <a class="student-profile-pic-view-link btn-link">
+                                                        View Photo
+                                                    </a>
+                                                    <img src="" alt="No Image Given" class="hidden">
+                                                </div>
+                                            </td>
                                             <td class="middlealign"><%=recipientName%></td>
                                             <td class="middlealign"><%=recipientTeamName%></td>
                                             <td class="multiline"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
