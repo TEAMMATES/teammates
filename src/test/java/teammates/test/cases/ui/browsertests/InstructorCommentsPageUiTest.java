@@ -13,7 +13,6 @@ import teammates.common.util.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCommentsPage;
-import teammates.test.util.Priority;
 
 public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     private static Browser browser;
@@ -36,6 +35,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     
     @Test 
     public void allTests() throws Exception{
+        //System.setProperty("godmode", "true");
         testConent();
         testScripts();
         testActions();
