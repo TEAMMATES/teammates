@@ -94,7 +94,11 @@
 
         <br>
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-        <br>
+        
+        <div class="pull-right">
+            <a href="../instructorHelp.html#editCourse" class="small" target="_blank">More about configuring access permissions</a>
+        </div>
+        <br><br>
         
         <%
             for (int i = 0; i < data.instructorList.size(); i++) {
