@@ -729,7 +729,7 @@
             "courseId":"SFSubmitUiT.CS2104",
             "creatorEmail":"SFSubmitUiT.instr@gmail.com",
             "questionMetaData":{
-                "value":"{\"questionText\":\"Rate the contribution of your team members and yourself.\"}"
+                "value":"{\"questionType\":\"CONTRIB\", \"questionText\":\"Rate the contribution of your team members and yourself.\"}"
             },
             "questionNumber":"21",
             "questionType":"CONTRIB",

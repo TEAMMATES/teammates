@@ -36,7 +36,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        restoreDatastoreFromJson("/InstructorFeedbackSubmissionEditSaveActionTest.json");
+        removeAndRestoreDatastoreFromJson("/InstructorFeedbackSubmissionEditSaveActionTest.json");
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE;
     }
     
@@ -262,7 +262,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         ______TS("Successful case: mcq: typical case");
         
         DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
         
         fq = fqDb.getFeedbackQuestion("MCQ Session", "FSQTT.idOfTypicalCourse1", 2);
         assertNotNull("Feedback question not found in database", fq);

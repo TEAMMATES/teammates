@@ -14,6 +14,13 @@
             "email":"SFResultsUiT.alice.b@gmail.com",
             "institute":"National University of Singapore"
         },
+        "SFResultsUiT.benny.c":{
+            "googleId":"SFResultsUiT.benny.c",
+            "name":"Benny C.",
+            "isInstructor":false,
+            "email":"SFResultsUiT.benny.c@gmail.com",
+            "institute":"National University of Singapore"
+        },
         "SFResultsUiT.charlie.d":{
             "googleId":"SFResultsUiT.charlie.d",
             "name":"Charlie D.",

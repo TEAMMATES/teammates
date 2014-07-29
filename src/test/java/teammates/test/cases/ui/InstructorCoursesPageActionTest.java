@@ -30,7 +30,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
         
         /* Explanation: This is just to display the test class name in the console */
         printTestClassHeader();
-		restoreTypicalDataInDatastore();
+		removeAndRestoreTypicalDataInDatastore();
         
         /* Explanation: we set the Action URI once as a static variable, to avoid passing
          * it as a parameter multiple times. This is for convenience. Any other
@@ -41,7 +41,7 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
          * simulated GAE datastore. A replica of this can be found in the 'dataBundle' variable
          * declared above
          */
-        		restoreTypicalDataInDatastore();
+        		removeAndRestoreTypicalDataInDatastore();
     }
     
     @Test

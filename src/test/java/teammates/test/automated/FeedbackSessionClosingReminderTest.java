@@ -68,7 +68,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         gaeSimulation.tearDown();
         gaeSimulation.setupWithTaskQueueCallbackClass(FeedbackSessionClosingCallback.class);
         gaeSimulation.resetDatastore();
-        restoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
     }
     
     @AfterClass

@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -21,7 +22,21 @@ public class FeedbackSessionsDb extends EntitiesDb {
     
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
     private static final Logger log = Utils.getLogger();
-
+    
+    public void createFeedbackSessions(Collection<FeedbackSessionAttributes> feedbackSessionsToAdd) throws InvalidParametersException{
+        List<EntityAttributes> feedbackSessionsToUpdate = createEntities(feedbackSessionsToAdd);
+        for(EntityAttributes entity : feedbackSessionsToUpdate){
+            FeedbackSessionAttributes session = (FeedbackSessionAttributes) entity;
+            try {
+                updateFeedbackSession(session);
+            } catch (EntityDoesNotExistException e) {
+             // This situation is not tested as replicating such a situation is 
+             // difficult during testing
+                Assumption.fail("Entity found be already existing and not existing simultaneously");
+            }
+        }
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null. 
@@ -167,6 +182,24 @@ public class FeedbackSessionsDb extends EntitiesDb {
         fs.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled);
                 
         getPM().close();
+    }
+    
+    public void deleteFeedbackSessionsForCourses(List<String> courseIds){
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+        
+        List<FeedbackSession> feedbackSessionList = getFeedbackSessionEntitiesForCourses(courseIds);
+        
+        getPM().deletePersistentAll(feedbackSessionList);
+        getPM().flush();
+    }
+    
+    private List<FeedbackSession> getFeedbackSessionEntitiesForCourses(List<String> courseIds) {
+        Query q = getPM().newQuery(FeedbackSession.class);
+        q.setFilter(":p.contains(courseId)");
+        
+        @SuppressWarnings("unchecked")
+        List<FeedbackSession> feedbackSessionList = (List<FeedbackSession>) q.execute(courseIds);
+        return feedbackSessionList;
     }
     
     private List<FeedbackSession> getAllFeedbackSessionEntities() {

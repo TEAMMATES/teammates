@@ -100,7 +100,6 @@ public class BackDoor {
      * @return
      */
     public static String restoreDataBundle(String dataBundleJson) {
-        deleteInstructors(dataBundleJson);
         return persistNewDataBundle(dataBundleJson);
     }
     

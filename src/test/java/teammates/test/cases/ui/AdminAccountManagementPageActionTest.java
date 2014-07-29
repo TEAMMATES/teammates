@@ -19,7 +19,7 @@ public class AdminAccountManagementPageActionTest extends BaseActionTest {
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE;
-        // restoreTypicalDataInDatastore();
+        // removeAndRestoreTypicalDataInDatastore();
     }
     
     @Test

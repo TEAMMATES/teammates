@@ -20,7 +20,7 @@ public class AdminAccountDeletePageActionTest extends BaseActionTest {
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_ACCOUNT_DELETE;
-        restoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
     }
 
     

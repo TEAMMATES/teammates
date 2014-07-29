@@ -29,13 +29,17 @@ public class InstructorAttributes extends EntityAttributes {
     public String role;
     public boolean isDisplayedToStudents;
     public String displayedName;
+    /**
+     * The json representation of privileges, used for storing the 
+     * instructorPrivilege content in instructor entity
+     */
     public String instructorPrivilegesAsText;
     public transient InstructorPrivileges privileges;
     
     public static final String DEFAULT_DISPLAY_NAME = "Instructor";
     
     /**
-     * Creates a new instructor with default access controls
+     * Creates a new instructor with default access level and default displayedName
      * Deprecated as it is only to be used for testing
      * 
      * @param googleId
@@ -50,6 +54,17 @@ public class InstructorAttributes extends EntityAttributes {
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
     }
 
+    /**
+     * Creates a new instructor with params specified(isDisplayedToStudent is set to true by default)
+     * 
+     * @param googleId
+     * @param courseId
+     * @param name
+     * @param email
+     * @param role
+     * @param displayedName
+     * @param instructorPrivilegesAsText
+     */
     public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
             String displayedName, String instructorPrivilegesAsText) {        
         this.googleId = Sanitizer.sanitizeGoogleId(googleId);
@@ -64,6 +79,17 @@ public class InstructorAttributes extends EntityAttributes {
         this.privileges = this.getInstructorPrivilegesFromText();
     }
     
+    /**
+     * Create an instructor(isDisplayedToStudent is set to true by default)
+     * 
+     * @param googleId
+     * @param courseId
+     * @param name
+     * @param email
+     * @param role
+     * @param displayedName
+     * @param privileges
+     */
     public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
             String displayedName, InstructorPrivileges privileges) {        
         this.googleId = Sanitizer.sanitizeGoogleId(googleId);
@@ -78,6 +104,18 @@ public class InstructorAttributes extends EntityAttributes {
         this.instructorPrivilegesAsText = this.getTextFromInstructorPrivileges();     
     }
     
+    /**
+     * create an instructor
+     * 
+     * @param googleId
+     * @param courseId
+     * @param name
+     * @param email
+     * @param role
+     * @param isDisplayedToStudents
+     * @param displayName
+     * @param privileges
+     */
     public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
             boolean isDisplayedToStudents, String displayName, InstructorPrivileges privileges) {
         this(googleId, courseId, name, email, role, displayName, privileges);

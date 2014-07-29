@@ -35,7 +35,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		restoreTypicalDataInDatastore();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
     }
 
@@ -195,7 +195,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
         ______TS("typical case");
 
-        		restoreTypicalDataInDatastore();
+        		removeAndRestoreTypicalDataInDatastore();
 
         FeedbackSessionsLogic.inst().publishFeedbackSession(
                 session1InCourse1.getSessionName(), session1InCourse1.courseId);

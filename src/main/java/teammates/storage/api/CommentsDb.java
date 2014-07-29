@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +33,20 @@ public class CommentsDb extends EntitiesDb{
     
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Comment: ";
     private static final Logger log = Utils.getLogger();
+    
+    public void createComments(Collection<CommentAttributes> commentsToAdd) throws InvalidParametersException{
+        List<EntityAttributes> commentsToUpdate = createEntities(commentsToAdd);
+        for(EntityAttributes entity : commentsToUpdate){
+            CommentAttributes comment = (CommentAttributes) entity;
+            try {
+                updateComment(comment);
+            } catch (EntityDoesNotExistException e) {
+             // This situation is not tested as replicating such a situation is 
+             // difficult during testing
+                Assumption.fail("Entity found be already existing and not existing simultaneously");
+            }
+        }
+    }
     
     @Override
     public CommentAttributes createEntity(EntityAttributes entityToAdd) 
@@ -340,6 +355,16 @@ public class CommentsDb extends EntitiesDb{
         getPM().flush();
     }
     
+    public void deleteCommentsForCourses(List<String> courseIds) {
+        
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+        
+        List<Comment> commentsToDelete = getCommentEntitiesForCourses(courseIds);
+        
+        getPM().deletePersistentAll(commentsToDelete);
+        getPM().flush();
+    }
+    
     public void putDocument(CommentAttributes comment){
         putDocument(Const.SearchIndex.COMMENT, new CommentSearchDocument(comment));
     }
@@ -395,6 +420,16 @@ public class CommentsDb extends EntitiesDb{
         
         @SuppressWarnings("unchecked")
         List<Comment> commentsForCourse = (List<Comment>) q.execute(courseId);
+        
+        return commentsForCourse;
+    }
+    
+    private List<Comment> getCommentEntitiesForCourses(List<String> courseIds) {
+        Query q = getPM().newQuery(Comment.class);
+        q.setFilter(":p.contains(courseId)");
+        
+        @SuppressWarnings("unchecked")
+        List<Comment> commentsForCourse = (List<Comment>) q.execute(courseIds);
         
         return commentsForCourse;
     }
