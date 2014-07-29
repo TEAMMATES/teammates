@@ -41,7 +41,7 @@ public class StudentHomePage extends AppPage {
 
         List<WebElement> viewTeamLinks = browser.driver.findElements(By.linkText("View Team"));
 
-        viewTeamLinks.get(1).click();
+        viewTeamLinks.get(0).click();
     }
 
     public WebElement getViewEvalResultsButton(String EvalOrFeedbackName) {

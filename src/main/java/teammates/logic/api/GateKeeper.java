@@ -215,6 +215,13 @@ public class GateKeeper {
         }
     }
     
+    /**
+     * verify the instructor and course are not null, the instructor belongs to the course and
+     * the instructor has the privilege specified by privilegeName
+     * @param instructor
+     * @param course
+     * @param privilegeName
+     */
     public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course, String privilegeName) {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
@@ -230,6 +237,14 @@ public class GateKeeper {
         }
     }
     
+    /**
+     * verify the instructor and course are not null, the instructor belongs to the course and
+     * the instructor has the privilege specified by privilegeName for sectionName
+     * @param instructor
+     * @param course
+     * @param sectionName
+     * @param privilegeName
+     */
     public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course, String sectionName, String privilegeName) {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
@@ -259,6 +274,13 @@ public class GateKeeper {
         }
     }
     
+    /**
+     * verify the instructor and course are not null, the instructor belongs to the course and
+     * the instructor has the privilege specified by privilegeName for evaluation--not in use any more
+     * @param instructor
+     * @param evaluation
+     * @param privilegeName
+     */
     public void verifyAccessible(InstructorAttributes instructor, EvaluationAttributes evaluation, String privilegeName) {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
@@ -276,6 +298,15 @@ public class GateKeeper {
         }
     }
     
+    /**
+     * verify the instructor and course are not null, the instructor belongs to the course and
+     * the instructor has the privilege specified by privilegeName for evaluationName--not in use any more
+     * @param instructor
+     * @param evaluation
+     * @param sectionName
+     * @param sessionName
+     * @param privilegeName
+     */
     public void verifyAccessible(InstructorAttributes instructor, EvaluationAttributes evaluation, String sectionName, 
             String sessionName, String privilegeName) {
         verifyNotNull(instructor, "instructor");
@@ -318,6 +349,14 @@ public class GateKeeper {
         }           
     }
     
+    /**
+     * verify the instructor and course are not null, the instructor belongs to the course and
+     * the instructor has the privilege specified by privilegeName for feedbackSession
+     * @param instructor
+     * @param feedbacksession
+     * @param creatorOnly
+     * @param privilegeName
+     */
     public void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbacksession,
             boolean creatorOnly, String privilegeName){
         verifyNotNull(instructor, "instructor");
@@ -346,6 +385,7 @@ public class GateKeeper {
         }
     }
     
+    // TODO: refactor this method as sesssionName in fact is part of feedbacksession
     public void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbacksession,
             boolean creatorOnly, String sectionName, String sessionName, String privilegeName){
         verifyNotNull(instructor, "instructor");
