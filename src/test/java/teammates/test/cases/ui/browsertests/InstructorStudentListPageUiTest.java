@@ -1,5 +1,7 @@
 package teammates.test.cases.ui.browsertests;
 
+
+import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
 import java.io.File;
@@ -40,6 +42,8 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorStudentListPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
+        
+        BackDoor.putDocumentsForStudents(Utils.getTeammatesGson().toJson(testData));
         browser = BrowserPool.getBrowser();
     }
     
@@ -68,11 +72,17 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.setSearchKey("noMatch");
         viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchNoMatch.html");
 
-        ______TS("content: search student");
+        ______TS("content: search student with 1 result");
         
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
         viewPage.setSearchKey("charlie");
         viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchStudent.html");
+        
+        ______TS("content: search student with multiple results");
+        
+        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        viewPage.setSearchKey("alice");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchStudentMultiple.html");
         
     }
 
@@ -152,7 +162,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         File picture = new File("src/test/resources/images/profile_pic_updated.png");
         String pictureData = Utils.getTeammatesGson().toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
          
-        BackDoor.uploadAndUpdateStudentProfilePicture(student2.googleId, pictureData);
+        assertEquals("[BACKDOOR_STATUS_SUCCESS]", BackDoor.uploadAndUpdateStudentProfilePicture(student2.googleId, pictureData));
         
         viewPage.clickShowPhoto(student2.course, student2.name);
         viewPage.verifyHtmlMainContent("/instructorStudentListPageWithPicture.html");
