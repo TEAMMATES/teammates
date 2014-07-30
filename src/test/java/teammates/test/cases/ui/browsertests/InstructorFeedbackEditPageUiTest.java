@@ -26,6 +26,7 @@ import teammates.test.pageobjects.FeedbackQuestionSubmitPage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
+import teammates.test.util.Priority;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -33,6 +34,7 @@ import com.google.appengine.api.datastore.Text;
  * Covers the 'Edit Feedback Session' page for instructors.
  * SUT is {@link InstructorFeedbackEditPage}.
  */
+@Priority(4)
 public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorFeedbackEditPage feedbackEditPage;
@@ -356,6 +358,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        
+        //NOTE: Tests feedback giver/recipient and visibility options are copied from previous question.
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMcqQuestionAddSuccess.html");
     }
 

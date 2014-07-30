@@ -40,7 +40,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorStudentListPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
     }
     
@@ -146,7 +146,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         
         ______TS("student has uploaded an image");
         
-        StudentAttributes student2 = testData.students.get("Student2Course2");
+        StudentAttributes student2 = testData.students.get("Student3Course3");
         
         File picture = new File("src/test/resources/images/profile_pic_updated.png");
         String pictureData = Utils.getTeammatesGson().toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
@@ -154,10 +154,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         BackDoor.uploadAndUpdateStudentProfilePicture(student2.googleId, pictureData);
         
         viewPage.clickShowPhoto(student2.course, student2.name);
-        
-        System.setProperty("godmode", "true");
-        viewPage.verifyHtmlPartForPicture(student2.course, student2.name, "/instructorStudentListPageWithPicture.html");
-        System.clearProperty("godmode");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageWithPicture.html");
     }
     
     public void testLinks() throws Exception{

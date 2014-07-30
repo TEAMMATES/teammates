@@ -260,7 +260,8 @@ public class FeedbackResponsesLogic {
     public boolean isNameVisibleTo(
             FeedbackQuestionAttributes question,
             FeedbackResponseAttributes response,
-            String userEmail, boolean isGiverName, CourseRoster roster) {
+            String userEmail,
+            UserType.Role role, boolean isGiverName, CourseRoster roster) {
 
         if (question == null) {
             return false;
@@ -278,7 +279,7 @@ public class FeedbackResponsesLogic {
         for (FeedbackParticipantType type : showNameTo) {
             switch (type) {
             case INSTRUCTORS:
-                if (roster.getInstructorForEmail(userEmail) != null) {
+                if (roster.getInstructorForEmail(userEmail) != null && role == UserType.Role.INSTRUCTOR) {
                     return true;
                 } else {
                     break;

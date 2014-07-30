@@ -24,12 +24,12 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         //Set priority of the sequential ui tests thread to max priority.
         Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
     }
-    
+
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCommentsPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser(true);
     }
     

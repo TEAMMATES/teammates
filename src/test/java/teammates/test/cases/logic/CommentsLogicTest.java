@@ -36,7 +36,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     public static void setupClass() throws Exception {
         printTestClassHeader();
         turnLoggingUp(CommentsLogic.class);
-        restoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
     }
     
     @Test

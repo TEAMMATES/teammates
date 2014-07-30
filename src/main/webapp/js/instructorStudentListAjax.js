@@ -76,8 +76,8 @@ function addParamToUrl(url, key, value) {
 
 function bindPhotos(courseIdx) {
     $("td[id^=studentphoto-c" + courseIdx + "]").each(function(){
-        bindStudentPhotoLink($(this).children('.student-profile-pic-view-link'));
-        bindErrorImages($(this).children('img'));
+    	bindErrorImages($(this).children('.profile-pic-icon-click'));
+        bindStudentPhotoLink($(this).children('.profile-pic-icon-click').children('.student-profile-pic-view-link'));
     });
 }
 
@@ -86,12 +86,12 @@ function getAppendedData(data, courseIdx) {
     var appendedHtml = "";
     var sortIdx = 2;
     if(data.courseSectionDetails.length > 0){
-        appendedHtml += '<table class="table table-responsive table-striped table-bordered margin-0">'
+        appendedHtml += '<table class="table table-responsive table-striped table-bordered margin-0">';
         appendedHtml += '<thead class="background-color-medium-gray text-color-gray font-weight-normal">';
         appendedHtml += '<tr id="resultsHeader-' + courseIdx + '"><th>Photo</th>';
         if(data.hasSection) { 
             appendedHtml += '<th id="button_sortsection-' + courseIdx + '" class="button-sort-none" onclick="toggleSort(this,' + (sortIdx++) + ')">';
-            appendedHtml += 'Section <span class="icon-sort unsorted"></span></th>'
+            appendedHtml += 'Section <span class="icon-sort unsorted"></span></th>';
         } 
         appendedHtml += '<th id="button_sortteam-' + courseIdx + '" class="button-sort-none" onclick="toggleSort(this,' + (sortIdx++) + ')">';
         appendedHtml += 'Team <span class="icon-sort unsorted"></span></th>';
@@ -131,9 +131,10 @@ function getAppendedData(data, courseIdx) {
                     $('#emails').append(appendedEmail);
 
                     appendedHtml += '<tr id="student-c' + courseIdx + '.' + studentIdx + '" style="display: table-row;">';
-                    appendedHtml += '<td id="studentphoto-c' + courseIdx + '.' + studentIdx + '" class="profile-pic-icon">';
-                    appendedHtml += '<a class="student-profile-pic-view-link btn-link" data-link="' + data.emailPhotoUrlMapping[student.email] + '">'
-                                       + 'View Photo</a><img src="" alt="No Image Given" class="hidden"></td>';
+                    appendedHtml += '<td id="studentphoto-c' + courseIdx + '.' + studentIdx + '">';
+                    appendedHtml += '<div class="profile-pic-icon-click align-center" data-link="' + data.emailPhotoUrlMapping[student.email] + '">';
+                    appendedHtml += '<a class="student-profile-pic-view-link btn-link">'
+                                       + 'View Photo</a><img src="" alt="No Image Given" class="hidden"></div></td>';
                     if(data.hasSection) { 
                         appendedHtml += '<td id="studentsection-c' + courseIdx + '.' + sectionIdx + '">' + sanitizeForHtml(section.name) + '</td>';
                     } else {
@@ -254,6 +255,7 @@ var seeMoreRequest = function(e) {
                     if($(panelCollapse[0]).attr('class').indexOf("in") == -1){
                         $(panelHeading).trigger('click');
                     }
+                    $("[data-toggle='tooltip']").tooltip({html: true, container: 'body'}); 
                 }
             });
         } else {

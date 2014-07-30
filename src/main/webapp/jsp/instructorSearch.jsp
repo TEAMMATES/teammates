@@ -345,11 +345,12 @@
                         }
                 %>
                         <tr id="student-c<%=courseIdx%>.<%=studentIdx%>" style="display: table-row;">
-                            <td id="studentphoto-c<%=courseIdx%>.<%=studentIdx%>" class="profile-pic-icon">
-                                <a class="student-profile-pic-view-link btn-link" 
-                                   data-link=<%=data.getStudentPhotoUrl(student)%>>
-                                   View Photo</a>
-                                <img src="" alt="No Image Given" class="hidden">
+                            <td id="studentphoto-c<%=courseIdx%>.<%=studentIdx%>">
+                                <div class="profile-pic-icon-click align-center" data-link="<%=student.getProfilePictureUrl()%>">
+                                    <a class="student-profile-pic-view-link btn-link" >
+                                       View Photo</a>
+                                    <img src="" alt="No Image Given" class="hidden">
+                                </div>
                             </td>
                             <td id="studentsection-c<%=courseIdx %>.<%=studentIdx%>">
                                 <%=PageData.sanitizeForHtml(student.section)%>
