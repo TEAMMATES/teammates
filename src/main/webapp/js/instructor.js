@@ -209,7 +209,7 @@ function bindStudentPhotoHoverLink(elements) {
 	    trigger: 'manual',
 	    placement: 'top',
 	    content: function () {
-    		return '<a class="cursor-pointer" onclick="loadProfilePicture($(this).closest(\'.popover\').siblings(\'.profile-pic-icon-hover\'))">'
+    		return '<a class="cursor-pointer" onclick="loadProfilePictureForHoverEvent($(this).closest(\'.popover\').siblings(\'.profile-pic-icon-hover\'))">'
     					+ 'View Photo</a>';
 	    }});
 }
@@ -264,5 +264,5 @@ function updateHoverShowPictureEvents(actualLink, resolvedLink) {
 			return '<img class="profile-pic" src="' + resolvedLink + '" />';
 		}
 	})
-	.children('img').attr('src', resolvedLink);
+	.children('img[src=""]').attr('src', resolvedLink);
 }
