@@ -53,7 +53,7 @@ $(document).ready(function(){
                     if(isGroupByTeam){
                         childPanelType = 'div.panel.panel-warning';
                     } else {
-                        childPanelType = 'div.panel.panel-primar';
+                        childPanelType = 'div.panel.panel-primary';
                     }
                     var panels = $(this).closest('.panel-success').children('.panel-collapse').find(childPanelType).children('.panel-collapse');
                     toggleCollapse(this, panels);

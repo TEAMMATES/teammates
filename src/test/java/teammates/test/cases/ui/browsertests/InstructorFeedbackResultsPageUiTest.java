@@ -33,7 +33,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;
     private InstructorFeedbackResultsPage resultsPage;
-        
+
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();

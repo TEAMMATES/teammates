@@ -238,23 +238,6 @@ function checkAllTeamsSelected(){
     }
 }
 
-function bindStudentPhotoLink(elements){
-    $(elements).on('click', function(){
-        var link = $(this).attr('data-link');
-        $(this).siblings('img')
-            .attr("src", link)
-            .removeClass('hidden');
-        $(this).remove();
-    });
-}
-
-function bindErrorImages(elements){
-    $(elements).on('error', function() {
-        $(this).attr("src","../images/profile_picture_default.png");
-    });
-}
-
-
 /**
  * Check whether a string contains the substr or not
  */

@@ -172,8 +172,8 @@ public abstract class EmailAction {
     }
     
     private String extractRegistrationKey(String emailContent) {
-        if (emailContent.contains("regkey=")) {
-            int startIndex = emailContent.indexOf("regkey=") + "regkey=".length();
+        if (emailContent.contains("key=")) {
+            int startIndex = emailContent.indexOf("key=") + "key=".length();
             int endIndex = emailContent.indexOf("\">http://");
             return emailContent.substring(startIndex, endIndex);
         } else {

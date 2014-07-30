@@ -153,6 +153,7 @@ $(document).ready(function(){
     $("#results-search-box").keyup(function(e){
         updateResultsFilter();
     });
+    
     //prevent submitting form when enter is pressed.
     $("#results-search-box").keypress(function(e) {
         if(e.which == 13) {

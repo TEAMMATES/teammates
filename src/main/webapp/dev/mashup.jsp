@@ -502,7 +502,7 @@
                 if(student !=null){
                 	String url = StringHelper.encrypt(student.key);
             %>
-            $('#studentCourseJoinConfirmationPage').load("<%=Const.ActionURIs.STUDENT_COURSE_JOIN%>?regkey=<%=student.key%> #frameBodyWrapper",
+            $('#studentCourseJoinConfirmationPage').load("<%=Const.ActionURIs.STUDENT_COURSE_JOIN%>?key=<%=student.key%> #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });

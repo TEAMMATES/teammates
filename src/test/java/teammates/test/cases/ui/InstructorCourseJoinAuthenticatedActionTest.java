@@ -49,15 +49,15 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         RedirectResult redirectResult = (RedirectResult) joinAction.executeAndPostProcess();
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-                + "?regkey=" + invalidEncryptedKey 
-                + "&error=true&user=idOfInstructor1OfCourse1",
+                + "?error=true&user=idOfInstructor1OfCourse1" 
+                + "&key=" + invalidEncryptedKey,
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals("You have used an invalid join link: " + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN 
-            + "?regkey=" + invalidEncryptedKey, redirectResult.getStatusMessage());
+            + "?key=" + invalidEncryptedKey, redirectResult.getStatusMessage());
 
         String expectedLogSegment = "Servlet Action Failure : You have used an invalid join link: " + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN 
-                                    + "?regkey=" + invalidEncryptedKey + "<br/><br/>Action Instructor Joins Course<br/>"
+                                    + "?key=" + invalidEncryptedKey + "<br/><br/>Action Instructor Joins Course<br/>"
                                     + "Google ID: idOfInstructor1OfCourse1<br/>Key : invalidKey";
         AssertHelper.assertContains(expectedLogSegment, joinAction.getLogMessage());
         
@@ -72,8 +72,8 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                 + "?persistencecourse=" + instructor.courseId
-                + "&regkey=" + StringHelper.encrypt(instructor.key) 
-                + "&error=true&user=idOfInstructor1OfCourse1",
+                + "&error=true&user=idOfInstructor1OfCourse1"
+                + "&" + Const.ParamsNames.REGKEY + "=" + StringHelper.encrypt(instructor.key),
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals(instructor.googleId + " has already joined this course", redirectResult.getStatusMessage());
@@ -97,8 +97,8 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                 + "?persistencecourse=" + instructor2.courseId
-                + "&regkey=" + StringHelper.encrypt(instructor2.key) 
-                + "&error=true&user=idOfInstructor1OfCourse1",
+                + "&error=true&user=idOfInstructor1OfCourse1"
+                + "&" + Const.ParamsNames.REGKEY + "=" + StringHelper.encrypt(instructor2.key),
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         AssertHelper.assertContains("The join link used belongs to a different user", redirectResult.getStatusMessage());
@@ -130,8 +130,8 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                 + "?persistencecourse=idOfTypicalCourse1"
-                + "&regkey=" + StringHelper.encrypt(newInstructor.key) 
-                + "&error=false&user=ICJAAT.instr",
+                + "&error=false&user=ICJAAT.instr"
+                + "&" + Const.ParamsNames.REGKEY + "=" + StringHelper.encrypt(newInstructor.key),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals("", redirectResult.getStatusMessage());
@@ -166,8 +166,8 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                 + "?persistencecourse=idOfTypicalCourse1"
-                + "&regkey=" + StringHelper.encrypt(newInstructor.key) 
-                + "&error=true&user=ICJAAT.instr",
+                + "&error=true&user=ICJAAT.instr"
+                + "&" + Const.ParamsNames.REGKEY + "=" + StringHelper.encrypt(newInstructor.key),
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER, currentLoginId), 
