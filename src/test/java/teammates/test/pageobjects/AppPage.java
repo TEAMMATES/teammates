@@ -680,8 +680,8 @@ public abstract class AppPage {
                 .replace(Config.APP_URL, "{$app.url}")
                 .replaceAll("V[0-9]\\.[0-9]+", "V{\\$version}")
                 // photo from instructor
-                .replaceAll("studentemail=([a-zA-Z0-9]){1,}\\&amp;courseid=([a-zA-Z0-9]){1,}", 
-                            "studentemail={*}\\&amp;courseid={*}")
+                .replaceAll("courseid=([a-zA-Z0-9]){1,}\\&amp;studentemail=([a-zA-Z0-9]){1,}", 
+                            "courseid={*}\\&amp;studentemail={*}")
                 .replaceAll("key=([a-zA-Z0-9]){1,}\\&amp;", "key={*}\\&amp;")
                 .replaceAll("key%3D([a-zA-Z0-9]){1,}\\%", "key%3D{*}\\%")
                 //responseid
