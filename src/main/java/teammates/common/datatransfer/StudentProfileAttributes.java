@@ -13,6 +13,9 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.storage.entity.StudentProfile;
 
+/**
+ * The data transfer object for StudentProfile entities.
+ */
 public class StudentProfileAttributes extends EntityAttributes {
 
     public String googleId;

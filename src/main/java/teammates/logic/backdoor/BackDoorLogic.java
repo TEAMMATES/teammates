@@ -64,6 +64,15 @@ public class BackDoorLogic extends Logic {
     private static final int WAIT_DURATION_FOR_DELETE_CHECKING = 5;
     private static final int MAX_RETRY_COUNT_FOR_DELETE_CHECKING = 20;
     
+    public String putDocumentsForStudents(DataBundle dataBundle) {
+        for(StudentAttributes student : dataBundle.students.values()){
+            student = getStudentForEmail(student.course, student.email);
+            putDocument(student);
+            ThreadHelper.waitFor(50);
+        }
+        
+        return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
+    }
     
     /**
      * Persists given data in the datastore Works ONLY if the data is correct.

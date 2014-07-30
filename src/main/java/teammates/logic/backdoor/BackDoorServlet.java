@@ -68,6 +68,8 @@ public class BackDoorServlet extends HttpServlet {
     public static final String OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON = "OPERATION_GET_FEEDBACK_RESPONSE_AS_JSON";
     public static final String OPERATION_IS_PICTURE_PRESENT_IN_GCS = "OPERATION_IS_PICTURE_PRESENT_IN_GCS";
     
+    public static final String OPERATION_PUT_DOCUMENTS_FOR_STUDENTS = "OPERATION_PUT_DOCUMENTS_FOR_STUDENTS";
+
     public static final String OPERATION_PERSIST_DATABUNDLE = "OPERATION_PERSIST_DATABUNDLE";
     public static final String OPERATION_REMOVE_DATABUNDLE = "OPERATION_REMOVE_DATABUNDLE";
     public static final String OPERATION_REMOVE_AND_RESTORE_DATABUNDLE = "OPERATION_REMOVE_AND_RESTORE_DATABUNDLE";
@@ -225,6 +227,12 @@ public class BackDoorServlet extends HttpServlet {
             DataBundle dataBundle = Utils.getTeammatesGson().fromJson(
                     dataBundleJsonString, DataBundle.class);
             backDoorLogic.removeDataBundle(dataBundle);
+        } else if (action.equals(OPERATION_PUT_DOCUMENTS_FOR_STUDENTS)) {
+            String dataBundleJsonString = req
+                    .getParameter(PARAMETER_DATABUNDLE_JSON);
+            DataBundle dataBundle = Utils.getTeammatesGson().fromJson(
+                    dataBundleJsonString, DataBundle.class);
+            backDoorLogic.putDocumentsForStudents(dataBundle);
         } else if (action.equals(OPERATION_REMOVE_AND_RESTORE_DATABUNDLE)) {
             String dataBundleJsonString = req
                     .getParameter(PARAMETER_DATABUNDLE_JSON);

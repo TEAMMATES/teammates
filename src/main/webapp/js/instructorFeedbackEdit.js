@@ -94,18 +94,19 @@ function getCustomDateTimeFields(){
  * @param elem is the anchor link being clicked on.
  */
 function toggleVisibilityOptions(elem){
-    $elementParent = $(elem).parent().parent();
-    $options = $elementParent.next('.visibilityOptions');
+    $elementParent = $(elem).closest('form');
+    $options = $elementParent.find('.visibilityOptions');
+    $visibilityMessage = $elementParent.find('.visibilityMessage');
     if($options.is(':hidden')) {
         $giverType = $elementParent.prev().find("select[name=givertype]");
         $recipientType = $elementParent.prev().find("select[name=recipienttype]");
         $options.show();
+        $visibilityMessage.hide();
         feedbackGiverUpdateVisibilityOptions($giverType);
         feedbackRecipientUpdateVisibilityOptions($recipientType);
-        $(elem).html("<span class=\"glyphicon glyphicon-eye-close\"></span> Hide Visibility Options");
     } else {
         $options.hide();
-        $(elem).html("<span class=\"glyphicon glyphicon-eye-open\"></span> Show Visibility Options");
+        $visibilityMessage.show();
     }
 }
 
@@ -320,6 +321,8 @@ function showNewQuestionFrame(type){
     $('#empty_message').hide();
     $('html, body').animate({scrollTop: $('#frameBodyWrapper')[0].scrollHeight}, 1000);
     copyOptions();
+    $('#questionTableNew').find('.visibilityOptions').hide();
+    getVisibilityMessage($('#questionTableNew').find('.visibilityMessageButton'));
 }
 
 function prepareQuestionForm(type) {
@@ -991,4 +994,65 @@ function bindCopyEvents() {
 
         return false;
     });
+}
+
+function toggleVisibilityMessage(elem){
+    $elementParent = $(elem).closest('form');
+    $options = $elementParent.find('.visibilityOptions');
+    $visibilityMessage = $elementParent.find('.visibilityMessage');
+
+    $giverType = $elementParent.prev().find("select[name=givertype]");
+    $recipientType = $elementParent.prev().find("select[name=recipienttype]");
+    if($options.is(':hidden')) {
+        $options.show();
+        $visibilityMessage.hide();
+        feedbackGiverUpdateVisibilityOptions($giverType);
+        feedbackRecipientUpdateVisibilityOptions($recipientType);
+    } else {
+        $options.hide();
+        $visibilityMessage.html("");
+        $disabledInputs = $elementParent.find('input:disabled, select:disabled');
+        $disabledInputs.prop('disabled', false);
+
+        feedbackGiverUpdateVisibilityOptions($giverType);
+        feedbackRecipientUpdateVisibilityOptions($recipientType);
+
+        getVisibilityMessage(elem);
+        $disabledInputs.prop('disabled', true);
+    }
+}
+
+function getVisibilityMessage(buttonElem){
+    var form = $(buttonElem).closest("form");
+    var url = "/page/instructorFeedbackQuestionvisibilityMessage";
+
+    eval($(form).attr('onsubmit'));
+
+    var data = $(form[0]).serialize();
+
+    $.ajax({
+            type: "POST",
+            url: url,
+            data: $(form[0]).serialize(),
+            success: function(data)
+            {
+                $(form).find('.visibilityMessage').html(formatVisibilityMessageHtml(data.visibilityMessage));
+                $(form).find('.visibilityMessage').show();
+            },
+            error: function(jqXHR, textStatus, errorThrown) 
+            {
+                console.log('AJAX request failed');
+            }
+        });
+
+}
+
+function formatVisibilityMessageHtml(visibilityMessage){
+    var htmlString = "This is the visibility as seen by the feedback giver.";
+    htmlString += "<ul>";
+    for(var i=0 ; i<visibilityMessage.length ; i++){
+        htmlString += "<li>" + visibilityMessage[i] + "</li>";
+    }
+    htmlString += "</ul>";
+    return htmlString;
 }

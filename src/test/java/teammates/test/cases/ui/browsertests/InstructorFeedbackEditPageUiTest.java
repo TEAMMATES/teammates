@@ -6,6 +6,7 @@ import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -240,7 +241,15 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         //TODO: use simple element checks instead of html checks after adding names to the checkboxes 
         //      in the edit page (follow todo in instructorsFeedbackEdit.js)
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionVisibilityOptions.html");
+        
+        ______TS("test visibility preview of question 1");
+        feedbackEditPage.clickVisibilityPreviewForQuestion1();
+        WebElement visibilityMessage = browser.driver.findElement(By.className("visibilityMessageButton"));
+        feedbackEditPage.waitForElementVisible(visibilityMessage);
 
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionVisibilityPreview.html");
+        feedbackEditPage.clickVisibilityOptionsForQuestion1();
+        
         //change back
         feedbackEditPage.clickQuestionEditForQuestion1();
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
