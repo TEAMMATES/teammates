@@ -1,5 +1,7 @@
 package teammates.test.cases.ui.browsertests;
 
+
+import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
 import java.io.File;
@@ -159,7 +161,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         File picture = new File("src/test/resources/images/profile_pic_updated.png");
         String pictureData = Utils.getTeammatesGson().toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
          
-        BackDoor.uploadAndUpdateStudentProfilePicture(student2.googleId, pictureData);
+        assertEquals("[BACKDOOR_STATUS_SUCCESS]", BackDoor.uploadAndUpdateStudentProfilePicture(student2.googleId, pictureData));
         
         viewPage.clickShowPhoto(student2.course, student2.name);
         viewPage.verifyHtmlMainContent("/instructorStudentListPageWithPicture.html");
