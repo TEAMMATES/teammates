@@ -221,6 +221,22 @@ public abstract class AppPage {
         return;
     }
     
+    protected void waitForElementToAppear(By by) throws Exception {
+        int timeOut = 3000;
+        while (timeOut > 0) {
+            try {
+                if (browser.driver.findElement(by).isDisplayed()) {
+                    break;
+                }
+            } catch (NoSuchElementException e) {
+                // ignore exception
+            }
+            Thread.sleep(100);
+            timeOut -= 100;
+        }
+        return;
+    }
+    
     public void waitForElementVisible(WebElement element){
         WebDriverWait wait = new WebDriverWait(browser.driver, 10);
         wait.until(ExpectedConditions.visibilityOf(element));
