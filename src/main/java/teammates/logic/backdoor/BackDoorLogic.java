@@ -218,12 +218,12 @@ public class BackDoorLogic extends Logic {
     public String putDocuments(DataBundle dataBundle) {
         // query the entity in db first to get the actual data and create document for actual entity
         
-//        HashMap<String, StudentAttributes> students = dataBundle.students;
-//        for (StudentAttributes student : students.values()) {
-//            StudentAttributes studentInDb = studentsDb.getStudentForEmail(student.course, student.email);
-//            studentsDb.putDocument(studentInDb);
-//        }
-        this.putDocumentsForStudents(dataBundle);
+        HashMap<String, StudentAttributes> students = dataBundle.students;
+        for (StudentAttributes student : students.values()) {
+            StudentAttributes studentInDb = studentsDb.getStudentForEmail(student.course, student.email);
+            studentsDb.putDocument(studentInDb);
+            ThreadHelper.waitFor(50);
+        }
         
         HashMap<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
         for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
