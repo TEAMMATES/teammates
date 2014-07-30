@@ -489,12 +489,18 @@
                     </div>
                 </div>
                 <div class="row">
-                    <br>
-                    <div class="col-sm-6">
-                        <a class="visibilityOptionsLabel btn btn-xs  btn-info" onclick="toggleVisibilityOptions(this)">
-                            <span class="glyphicon glyphicon-eye-open">
-                            </span> Show Visibility Options
-                        </a>
+                    <br><br>
+                    <div class="col-sm-6 btn-group" data-toggle="buttons">
+                        <label class="btn btn-xs btn-info visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
+                            <input type="radio">
+                                <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
+                            
+                        </label>
+                        <label class="btn btn-xs btn-info active visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+                            <input type="radio">
+                                <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
+                            
+                        </label>
                     </div>
                     <div class="col-sm-6 numberOfEntitiesElements1">
                         <label id="numofrecipients_text-1" class="control-label col-sm-4 small">
@@ -510,6 +516,18 @@
                                 <span class="">Unlimited</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 text-muted visibilityMessage">
+                        This is the visibility as seen by the feedback giver.
+                        <ul>
+                        
+                                <li>The receiving student can see your response, and your name.</li>
+                        
+                                <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
+                        
+                        </ul>
                     </div>
                 </div>
                 <div style="display: none;" class="visibilityOptions">
@@ -688,12 +706,18 @@
                     </div>
                 </div>
                 <div class="row">
-                    <br>
-                    <div class="col-sm-6">
-                        <a class="visibilityOptionsLabel btn btn-xs  btn-info" onclick="toggleVisibilityOptions(this)">
-                            <span class="glyphicon glyphicon-eye-open">
-                            </span> Show Visibility Options
-                        </a>
+                    <br><br>
+                    <div class="col-sm-6 btn-group" data-toggle="buttons">
+                        <label class="btn btn-xs btn-info visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
+                            <input type="radio">
+                                <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
+                            
+                        </label>
+                        <label class="btn btn-xs btn-info active visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+                            <input type="radio">
+                                <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
+                            
+                        </label>
                     </div>
                     <div class="col-sm-6 numberOfEntitiesElements2">
                         <label id="numofrecipients_text-2" class="control-label col-sm-4 small">
@@ -709,6 +733,18 @@
                                 <span class="">Unlimited</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 text-muted visibilityMessage">
+                        This is the visibility as seen by the feedback giver.
+                        <ul>
+                        
+                                <li>The receiving student can see your response, and your name.</li>
+                        
+                                <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
+                        
+                        </ul>
                     </div>
                 </div>
                 <div style="display: none;" class="visibilityOptions">
@@ -1128,12 +1164,18 @@
                         </div>
                     </div>
                     <div class="row">
-                        <br>
-                        <div class="col-sm-6">
-                            <a class="visibilityOptionsLabel btn btn-xs  btn-info" onclick="toggleVisibilityOptions(this)">
-                                <span class="glyphicon glyphicon-eye-open">
-                                </span> Show Visibility Options
-                            </a>
+                        <br><br>
+                        <div class="col-sm-6 btn-group" data-toggle="buttons">
+                            <label class="btn btn-xs btn-info visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
+                                <input type="radio">
+                                    <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
+                                
+                            </label>
+                            <label class="btn btn-xs btn-info active visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+                                <input type="radio">
+                                    <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
+                                
+                            </label>
                         </div>
                         <div style="display: none;" class="col-sm-6 numberOfEntitiesElements">
                             <label id="numofrecipients_text-" class="control-label col-sm-4 small">
@@ -1149,6 +1191,11 @@
                                     <span class="">Unlimited</span>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 text-muted visibilityMessage">
+
                         </div>
                     </div>
                     <div style="display: none;" class="visibilityOptions">
