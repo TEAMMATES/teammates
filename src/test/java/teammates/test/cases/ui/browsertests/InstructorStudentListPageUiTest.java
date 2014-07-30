@@ -43,6 +43,8 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorStudentListPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
+        
+        BackDoor.putDocumentsForStudents(Utils.getTeammatesGson().toJson(testData));
         browser = BrowserPool.getBrowser();
     }
     
@@ -71,11 +73,17 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.setSearchKey("noMatch");
         viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchNoMatch.html");
 
-        ______TS("content: search student");
+        ______TS("content: search student with 1 result");
         
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
         viewPage.setSearchKey("charlie");
         viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchStudent.html");
+        
+        ______TS("content: search student with multiple results");
+        
+        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        viewPage.setSearchKey("alice");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchStudentMultiple.html");
         
     }
 
