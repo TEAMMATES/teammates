@@ -72,7 +72,7 @@ function toggleCollapse(e, panels){
 
 function showSingleCollapse(e){
     var heading = $(e).parent().children('.panel-heading');
-    var glyphIcon = $(heading[0]).find('.glyphicon.pull-right');
+    var glyphIcon = $(heading[0]).find('.glyphicon');
     $(glyphIcon[0]).removeClass('glyphicon-chevron-down');
     $(glyphIcon[0]).addClass('glyphicon-chevron-up');
     $(e).collapse("show");
@@ -81,7 +81,7 @@ function showSingleCollapse(e){
 
 function hideSingleCollapse(e){
     var heading = $(e).parent().children('.panel-heading');
-    var glyphIcon = $(heading[0]).find('.glyphicon.pull-right');
+    var glyphIcon = $(heading[0]).find('.glyphicon');
     $(glyphIcon[0]).removeClass('glyphicon-chevron-up');
     $(glyphIcon[0]).addClass('glyphicon-chevron-down');
     $(e).collapse("hide");
@@ -90,7 +90,7 @@ function hideSingleCollapse(e){
 
 function toggleSingleCollapse(e){
     if(!$(e.target).is('a')){
-        var glyphIcon = $(this).find('.glyphicon.pull-right');
+        var glyphIcon = $(this).find('.glyphicon');
         var className = $(glyphIcon[0]).attr('class');
         if(className.indexOf('glyphicon-chevron-up') != -1){
             hideSingleCollapse($(e.currentTarget).attr('data-target'));

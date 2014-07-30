@@ -28,6 +28,7 @@ $(document).ready(function(){
                 console.log('Error');
             },
             success : function(data) {
+            	console.log(data);
                 if(numPanels == 0){
                     numPanels +=  $('.panel-collapse').length;
                 }
@@ -45,13 +46,11 @@ $(document).ready(function(){
                 displayIcon.html('<span class="glyphicon glyphicon-chevron-down"></span>');
                 var childrenPanels = $(panelBody[0]).find("div.panel");
                 numPanels = bindCollapseEvents(childrenPanels, numPanels);
-
                 $(panelBody[0]).find("form[class*='responseCommentAddForm'] > div > a").click(addCommentHandler);
     
                 $(panelBody[0]).find("form[class*='responseCommentEditForm'] > div > a").click(editCommentHandler);
     
                 $(panelBody[0]).find("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
-
                 $("a[id^='collapse-panels-button-section-'],a[id^='collapse-panels-button-team-']").off('click');
                 $("a[id^='collapse-panels-button-section-']").on('click', function(){
                     var isGroupByTeam = $('#frgroupbyteam').prop('checked');
@@ -59,17 +58,15 @@ $(document).ready(function(){
                     if(isGroupByTeam){
                         childPanelType = 'div.panel.panel-warning';
                     } else {
-                        childPanelType = 'div.panel.panel-primar';
+                        childPanelType = 'div.panel.panel-primary';
                     }
                     var panels = $(this).closest('.panel-success').children('.panel-collapse').find(childPanelType).children('.panel-collapse');
                     toggleCollapse(this, panels);
                 });
-
                 $("a[id^='collapse-panels-button-team-']").on('click', function(){
                     var panels = $(this).closest('.panel-warning').children('.panel-collapse').find('div.panel.panel-primary').children('.panel-collapse');
                     toggleCollapse(this, panels);
                 });
-
                 $(panelHeading).click(toggleSingleCollapse);
                 $(panelHeading).trigger('click');
                 showHideStats();
