@@ -1,6 +1,7 @@
 package teammates.common.util;
 
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -282,6 +283,7 @@ public class Const {
     }
 
     public class ParamsNames{
+        
         public static final String BLOB_KEY = "blob-key";
         
         public static final String COPIED_FEEDBACK_SESSION_NAME = "copiedfsname";
@@ -323,7 +325,8 @@ public class Const {
         
         public static final String COURSE_ARCHIVE_STATUS = "archive";
         
-        public static final String ADMIN_SEARCH_REBUILD_DOC = "build_doc";
+        public static final String ADMIN_SEARCH_KEY = "searchkey";
+        public static final String ADMIN_SEARCH_BUTTON_HIT = "searchbuttonhit";
     
         public static final String EVALUATION_NAME = "evaluationname";
     
@@ -347,8 +350,12 @@ public class Const {
         public static final String FEEDBACK_SESSION_CREATETIME = "createtime";
         public static final String FEEDBACK_SESSION_STARTDATE = "startdate";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
+        public static final String FEEDBACK_SESSION_STARTHOUR = "starthour";
+        public static final String FEEDBACK_SESSION_STARTMINUTE = "startminute";
         public static final String FEEDBACK_SESSION_ENDDATE = "enddate";
         public static final String FEEDBACK_SESSION_ENDTIME = "endtime";
+        public static final String FEEDBACK_SESSION_ENDHOUR = "endhour";
+        public static final String FEEDBACK_SESSION_ENDMINUTE = "endminute";
         public static final String FEEDBACK_SESSION_VISIBLEDATE = "visibledate";
         public static final String FEEDBACK_SESSION_VISIBLETIME = "visibletime";
         public static final String FEEDBACK_SESSION_PUBLISHDATE = "publishdate";
@@ -643,6 +650,7 @@ public class Const {
         public static final String ADMIN_ACCOUNT_DELETE = "/admin/adminAccountDelete";
         public static final String ADMIN_EXCEPTION_TEST = "/admin/adminExceptionTest";
         public static final String ADMIN_ACTIVITY_LOG_PAGE = "/admin/adminActivityLogPage";
+        public static final String ADMIN_SESSIONS_PAGE = "/admin/adminSessionsPage";
         public static final String ADMIN_SEARCH_PAGE = "/admin/adminSearchPage";
         
         public static final String AUTOMATED_EVAL_OPENING_REMINDERS = "/evaluationopeningreminders";
@@ -717,6 +725,7 @@ public class Const {
         public static final String ADMIN_SEARCH = "/jsp/adminSearch.jsp";
         public static final String ADMIN_ACTIVITY_LOG = "/jsp/adminActivityLog.jsp";
         public static final String ADMIN_ACCOUNT_DETAILS = "/jsp/adminAccountDetails.jsp";
+        public static final String ADMIN_SESSIONS = "/jsp/adminSessions.jsp";
         
         public static final String LOGOUT = "/logout.jsp"; 
         
@@ -1053,6 +1062,10 @@ public class Const {
     public static final Date TIME_REPRESENTS_NEVER;
     public static final Date TIME_REPRESENTS_LATER;
     public static final Date TIME_REPRESENTS_NOW;
+    
+    public static final double[] TIME_ZONE_VALUES = { -12, -11, -10, -9, -8,
+            -7, -6, -5, -4.5, -4, -3.5, -3, -2, -1, 0, 1, 2, 3, 3.5, 4, 4.5, 5,
+            5.75, 6, 7, 8, 9, 10, 11, 12, 13 };
     
     static {
         TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 00:00 AM UTC");

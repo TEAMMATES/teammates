@@ -101,11 +101,24 @@ public abstract class SearchQuery {
     
     private String buildQueryString(){
         StringBuilder queryStringBuilder = new StringBuilder(visibilityQueryString);
+        
+        boolean isfirstElement = visibilityQueryString.isEmpty() ? true : false;
+        
         for(String textQuery : textQueryStrings){
-            queryStringBuilder.append(AND).append(textQuery);
+            if(isfirstElement){
+                queryStringBuilder.append(textQuery);
+                isfirstElement = false;
+            } else {
+                queryStringBuilder.append(AND).append(textQuery);
+            }
         }
         for(String dateQuery : dateQueryStrings){
-            queryStringBuilder.append(AND).append(dateQuery);
+            if(isfirstElement){
+                queryStringBuilder.append(dateQuery);
+                isfirstElement = false;
+            } else {
+                queryStringBuilder.append(AND).append(dateQuery);
+            }
         }
         log.info("Query: " + queryStringBuilder.toString());
         return queryStringBuilder.toString();
