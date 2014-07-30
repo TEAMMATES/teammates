@@ -762,6 +762,8 @@ public abstract class AppPage {
                 // photo from instructor
                 .replaceAll("courseid=([a-zA-Z0-9]){1,}\\&amp;studentemail=([a-zA-Z0-9]){1,}", 
                             "courseid={*}\\&amp;studentemail={*}")
+                .replaceAll("studentemail=([a-zA-Z0-9]){1,}\\&amp;courseid=([a-zA-Z0-9]){1,}", 
+                            "studentemail={*}\\&amp;courseid={*}")
                 .replaceAll("key=([a-zA-Z0-9]){1,}\\&amp;", "key={*}\\&amp;")
                 .replaceAll("key%3D([a-zA-Z0-9]){1,}\\%", "key%3D{*}\\%")
                 //responseid
