@@ -1030,7 +1030,7 @@ function getVisibilityMessage(buttonElem){
     eval($(form).attr('onsubmit'));
 
     var data = $(form[0]).serialize();
-    console.log(data);
+    
     $.ajax({
             type: "POST",
             url: url,

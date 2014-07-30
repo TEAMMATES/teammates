@@ -635,13 +635,13 @@
                 <div class="row">
                     <br><br>
                     <div class="col-sm-6 btn-group" data-toggle="buttons">
-                        <label class="btn btn-xs btn-info" onchange="toggleVisibilityOptions(this)">
-                            <input type="radio" class="visibilityOptionsLabel">
+                        <label class="btn btn-xs btn-info visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
+                            <input type="radio">
                                 <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
                             </input>
                         </label>
-                        <label class="btn btn-xs btn-info active" onchange="toggleVisibilityMessage(this)">
-                            <input type="radio" class="visibilityMessageButton">
+                        <label class="btn btn-xs btn-info active visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+                            <input type="radio">
                                 <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
                             </input>
                         </label>
@@ -941,13 +941,13 @@
                     <div class="row">
                         <br><br>
                         <div class="col-sm-6 btn-group" data-toggle="buttons">
-                            <label class="btn btn-xs btn-info" onchange="toggleVisibilityOptions(this)">
-                                <input type="radio" class="visibilityOptionsLabel">
+                            <label class="btn btn-xs btn-info visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
+                                <input type="radio">
                                     <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
                                 </input>
                             </label>
-                            <label class="btn btn-xs btn-info active" onchange="toggleVisibilityMessage(this)">
-                                <input type="radio" class="visibilityMessageButton">
+                            <label class="btn btn-xs btn-info active visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+                                <input type="radio">
                                     <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
                                 </input>
                             </label>
