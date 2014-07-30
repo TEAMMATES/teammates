@@ -180,7 +180,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
                     line += ", and your name";
                 } 
                 if(recipientType != FeedbackParticipantType.NONE) {
-                    line += ", but <span class=\"bold color_red\">not</span> the name of the recipient";
+                    line += ", but not the name of the recipient";
                 }
                 if(showGiverNameTo.contains(participant) == false) {
                     line += ", or your name";
@@ -193,7 +193,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
                 if(showGiverNameTo.contains(participant)) {
                     line += ", and your name";
                 } else {
-                    line += ", but <span class=\"bold color_red\">not</span> your name";
+                    line += ", but not your name";
                 }
             }
             line += ".";
