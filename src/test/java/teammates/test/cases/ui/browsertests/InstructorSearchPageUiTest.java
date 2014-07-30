@@ -36,8 +36,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
     private void testContent() {
         
         ______TS("content: default search page");
-        
-        System.setProperty("godmode", "true");
+        //System.setProperty("godmode", "true");
         String instructorId = testData.accounts.get("instructor1OfCourse1").googleId;
         searchPage = getInstructorSearchPage(instructorId);
         searchPage.verifyHtml("/InstructorSearchPageDefault.html");
@@ -80,7 +79,12 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchContent = "student1";
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
-        searchPage.verifyHtmlMainContent("/InstructorSearchPageSearchStudents.html");
+        searchPage.verifyHtmlMainContent("/InstructorSearchPageSearchStudentsForStudent1.html");
+        searchPage.clearSearchBox();
+        searchContent = "student2";
+        searchPage.inputSearchContent(searchContent);
+        searchPage.clickSearchButton();
+        searchPage.verifyHtmlMainContent("/InstructorSearchPageSearchStudentsForStudent2.html");
         
     }
 

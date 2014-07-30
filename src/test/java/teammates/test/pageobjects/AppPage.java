@@ -692,6 +692,8 @@ public abstract class AppPage {
                 .replaceAll("([a-zA-Z0-9-_]){62,}","{*}")
                 //commentid
                 .replaceAll("\\\"([0-9]){16}\\\"", "\\\"{*}\\\"")
+                //commentid in url
+                .replaceAll("#[0-9]{16}", "#{*}")
                 // the test accounts/ email
                 .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "{$test.student1}")
                 .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "{$test.student2}")
