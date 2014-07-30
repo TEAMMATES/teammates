@@ -41,11 +41,9 @@ public class FeedbackSession {
     private Date createdTime;
     
     @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private Date startTime;
     
     @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private Date endTime;
     
     @Persistent
@@ -70,7 +68,6 @@ public class FeedbackSession {
      * TODO Rename to timeZone after removing legacy field
      */
     @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private Double timeZoneDouble;
     
     @Persistent

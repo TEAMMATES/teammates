@@ -80,6 +80,13 @@ public class FeedbackSessionsLogic {
         fsDb.createEntity(fsa);
     }
 
+    
+
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
+        
+        return fsDb.getAllOpenFeedbackSessions(start, end, zone);
+    }
+    
     /**
      * This method returns a single feedback session. Returns null if not found.
      */

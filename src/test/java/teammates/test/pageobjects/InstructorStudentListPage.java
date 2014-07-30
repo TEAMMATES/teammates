@@ -5,6 +5,7 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
@@ -199,5 +200,16 @@ public class InstructorStudentListPage extends AppPage {
             return "";
         }
         return browser.driver.findElement(locator).getText();
+    }
+
+    public void verifyPopoverPicture(String course, String name, String srcUrl) throws Exception {
+        String rowId = getStudentRowId(course, name);
+        WebElement photo = browser.driver.findElement(By.id("studentphoto-c" + rowId))
+                                         .findElement(By.cssSelector(".profile-pic-icon-click > img"));
+        Actions action = new Actions(browser.driver);
+        action.click(photo).build().perform();
+        assertEquals(srcUrl, browser.driver
+                                .findElement(By.cssSelector(".popover-content > .profile-pic"))
+                                .getAttribute("src"));
     }
 }
