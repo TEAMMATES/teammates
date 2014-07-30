@@ -36,7 +36,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
     private void testContent() {
         
         ______TS("content: default search page");
-        //System.setProperty("godmode", "true");
+        
         String instructorId = testData.accounts.get("instructor1OfCourse1").googleId;
         searchPage = getInstructorSearchPage(instructorId);
         searchPage.verifyHtml("/InstructorSearchPageDefault.html");
