@@ -1016,7 +1016,6 @@ function toggleVisibilityMessage(elem){
 
         feedbackGiverUpdateVisibilityOptions($giverType);
         feedbackRecipientUpdateVisibilityOptions($recipientType);
-        $visibilityMessage.show();
 
         getVisibilityMessage(elem);
         $disabledInputs.prop('disabled', true);
@@ -1030,15 +1029,15 @@ function getVisibilityMessage(buttonElem){
     eval($(form).attr('onsubmit'));
 
     var data = $(form[0]).serialize();
-    
+
     $.ajax({
             type: "POST",
             url: url,
             data: $(form[0]).serialize(),
             success: function(data)
             {
-                console.log(data);
                 $(form).find('.visibilityMessage').html(formatVisibilityMessageHtml(data.visibilityMessage));
+                $(form).find('.visibilityMessage').show();
             },
             error: function(jqXHR, textStatus, errorThrown) 
             {
