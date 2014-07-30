@@ -2,6 +2,7 @@
 
 <%@page import="teammates.ui.controller.InstructorFeedbacksPageData"%>
 <%@ page import="java.util.Date"%>
+<%@ page import="java.util.List"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
@@ -632,12 +633,18 @@
                     </div>
                 </div>
                 <div class="row">
-                    <br>
-                    <div class="col-sm-6">
-                        <a class="visibilityOptionsLabel btn btn-xs  btn-info" onclick="toggleVisibilityOptions(this)">
-                            <span class="glyphicon glyphicon-eye-open">
-                            </span> Show Visibility Options
-                        </a>
+                    <br><br>
+                    <div class="col-sm-6 btn-group" data-toggle="buttons">
+                        <label class="btn btn-xs btn-info" onchange="toggleVisibilityOptions(this)">
+                            <input type="radio" class="visibilityOptionsLabel">
+                                <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
+                            </input>
+                        </label>
+                        <label class="btn btn-xs btn-info active" onchange="toggleVisibilityMessage(this)">
+                            <input type="radio" class="visibilityMessageButton">
+                                <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
+                            </input>
+                        </label>
                     </div>
                     <div class="col-sm-6 numberOfEntitiesElements<%=question.questionNumber%>">
                         <label id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-<%=question.questionNumber%>" class="control-label col-sm-4 small">
@@ -653,6 +660,21 @@
                                 <span class="">Unlimited</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 text-muted visibilityMessage">
+                        This is the visibility as seen by the feedback giver.
+                        <ul>
+                        <%
+                            List<String> visibilityMessage = question.getVisibilityMessage();
+                            for(String message : visibilityMessage){
+                        %>
+                                <li><%=message%></li>
+                        <%
+                            }
+                        %>
+                        </ul>
                     </div>
                 </div>
                 <div class="visibilityOptions">
@@ -917,12 +939,18 @@
                         </div>
                     </div>
                     <div class="row">
-                        <br>
-                        <div class="col-sm-6">
-                            <a class="visibilityOptionsLabel btn btn-xs  btn-info" onclick="toggleVisibilityOptions(this)">
-                                <span class="glyphicon glyphicon-eye-open">
-                                </span> Show Visibility Options
-                            </a>
+                        <br><br>
+                        <div class="col-sm-6 btn-group" data-toggle="buttons">
+                            <label class="btn btn-xs btn-info" onchange="toggleVisibilityOptions(this)">
+                                <input type="radio" class="visibilityOptionsLabel">
+                                    <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
+                                </input>
+                            </label>
+                            <label class="btn btn-xs btn-info active" onchange="toggleVisibilityMessage(this)">
+                                <input type="radio" class="visibilityMessageButton">
+                                    <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
+                                </input>
+                            </label>
                         </div>
                         <div class="col-sm-6 numberOfEntitiesElements">
                             <label id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-" class="control-label col-sm-4 small">
@@ -938,6 +966,11 @@
                                     <span class="">Unlimited</span>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 text-muted visibilityMessage">
+
                         </div>
                     </div>
                     <div class="visibilityOptions">
