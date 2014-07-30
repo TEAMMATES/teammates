@@ -1,11 +1,13 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.lang.reflect.Constructor;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -22,6 +24,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
+import teammates.logic.backdoor.BackDoorServlet;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
@@ -44,6 +47,8 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
 import teammates.test.pageobjects.InstructorHomePage;
 import teammates.test.pageobjects.LoginPage;
+import teammates.test.pageobjects.StudentCommentsPage;
+import teammates.test.pageobjects.StudentProfilePage;
 import teammates.test.util.Priority;
 import teammates.test.pageobjects.StudentCourseDetailsPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
@@ -68,7 +73,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
     }
     
     @Test
-    public void testAll() throws InvalidParametersException, EntityDoesNotExistException{
+    public void testAll() throws InvalidParametersException, EntityDoesNotExistException, Exception{
         testContent();
         //no links to check
         testCreateInstructorAction();
@@ -84,7 +89,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
     }
 
     @SuppressWarnings("deprecation")
-    private void testCreateInstructorAction() throws InvalidParametersException, EntityDoesNotExistException {
+    private void testCreateInstructorAction() throws Exception {
         
         InstructorAttributes instructor = new InstructorAttributes();
         
@@ -234,14 +239,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
                                                                            "Second team feedback session");
         feedbacksPage.verifyHtmlMainContent("/NJIfeedbackSessionPublished.html");       
         
-        ______TS("new instructor can access help page");
-        instructorHomePage.loadInstructorHelpTab().verifyHtml("/NJInstructorHelp.html");
- 
-        
-        
-        
-        coursesPage.logout();
-        
+        feedbacksPage.logout();
         
         ______TS("action failure : invalid parameter");
         
@@ -251,55 +249,78 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         instructor.email = "AHPUiT.email.com";        
         homePage.createInstructor(shortName,instructor,institute).verifyStatus(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email, FieldValidator.REASON_INCORRECT_FORMAT));
       
-//        
-//        ______TS("action success: course is accessible for newly joined instructor as student");
-//        //in staging server, the student account uses the hardcoded email above, so this can only be test on dev server
-//        if(!TestProperties.inst().TEAMMATES_URL.contains("local")){
-//            
-//            BackDoor.deleteCourse(demoCourseId);
-//            BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
-//            BackDoor.deleteInstructor(demoCourseId, instructor.email);
-//            return;
-//        }
-//        
-//        //verify sample course is accessible for newly joined instructor as an student
-//        
-//        StudentHomePage studentHomePage = HomePage.getNewInstance(browser).clickStudentLogin()
-//                                                                          .loginAsStudent(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
-//                                                                                          TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
-//       
-//        studentHomePage.verifyContains("Student Home");
-//        studentHomePage.verifyContains(demoCourseId);
-//        studentHomePage.clickViewTeam();
-//        
-//        StudentCourseDetailsPage courseDetailsPage = AppPage.getNewPageInstance(browser, StudentCourseDetailsPage.class);
-//        courseDetailsPage.verifyContains("Team Details for " + demoCourseId);
-//        
-//        studentHomePage = courseDetailsPage.goToPreviousPage(StudentHomePage.class);
-//        studentHomePage.getViewFeedbackButton("First team feedback session").click();
-//        StudentFeedbackResultsPage sfrp = AppPage.getNewPageInstance(browser, StudentFeedbackResultsPage.class);
-//        sfrp.verifyContains("Feedback Results - Student");
-//        
-//        studentHomePage = sfrp.goToPreviousPage(StudentHomePage.class);
-//        studentHomePage.getEditFeedbackButton("First team feedback session").click();
-//        assertTrue(browser.driver.getPageSource().contains("Submit Feedback"));
-//        
-//        studentHomePage.logout();
-//        
-//        //login in as instructor again to test sample course deletion
-//        instructorHomePage = HomePage.getNewInstance(browser).clickInstructorLogin()
-//                                                             .loginAsInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
-//                                                                                TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
-//        
-//  
-//        instructorHomePage.clickAndConfirm(instructorHomePage.getDeleteCourseLink(demoCourseId));
-//        assertTrue(instructorHomePage.getStatus().contains("The course " + demoCourseId + " has been deleted."));
-//     
-//        instructorHomePage.logout();
-//        
-//        BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
-//        BackDoor.deleteCourse(demoCourseId);
-//        BackDoor.deleteInstructor(demoCourseId, instructor.email);
+        
+        ______TS("action success: course is accessible for newly joined instructor as student");
+        //in staging server, the student account uses the hardcoded email above, so this can only be test on dev server
+        if(!TestProperties.inst().TEAMMATES_URL.contains("local")){
+            
+            BackDoor.deleteCourse(demoCourseId);
+            BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+            BackDoor.deleteInstructor(demoCourseId, instructor.email);
+            return;
+        }
+        
+        //verify sample course is accessible for newly joined instructor as an student
+        
+        StudentHomePage studentHomePage = HomePage.getNewInstance(browser).clickStudentLogin()
+                                                                          .loginAsStudent(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
+                                                                                          TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+       
+        studentHomePage.verifyContains("Student Home");
+        studentHomePage.verifyContains(demoCourseId);
+        studentHomePage.clickViewTeam();
+        
+        StudentCourseDetailsPage courseDetailsPage = AppPage.getNewPageInstance(browser, StudentCourseDetailsPage.class);
+        courseDetailsPage.verifyHtmlMainContent("/NJIstudentCourseDetailsPage.html");
+        
+        studentHomePage = courseDetailsPage.goToPreviousPage(StudentHomePage.class);
+        studentHomePage.getViewFeedbackButton("First team feedback session").click();
+        StudentFeedbackResultsPage sfrp = AppPage.getNewPageInstance(browser, StudentFeedbackResultsPage.class);
+        sfrp.verifyHtmlMainContent("/NJIstudentFeedbackResultsPage.html");
+        
+        studentHomePage = sfrp.goToPreviousPage(StudentHomePage.class);
+        studentHomePage.getEditFeedbackButton("First team feedback session").click();
+        FeedbackSubmitPage fsp = AppPage.getNewPageInstance(browser, FeedbackSubmitPage.class);
+        fsp.verifyHtmlMainContent("/NJIstudentFeedbackSubmissionEdit.html");
+        
+        studentHomePage = fsp.loadStudentHomeTab();
+        StudentCommentsPage scp = studentHomePage.loadStudentCommentsTab();    
+        scp.verifyHtmlMainContent("/NJIstudentCommentsPage.html");
+        
+        studentHomePage = scp.loadStudentHomeTab();
+        
+        StudentProfilePage spp = studentHomePage.loadProfileTab();
+        spp.fillProfilePic("src/test/resources/images/profile_pic.png");
+        spp.uploadPicture();
+        spp.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
+        spp.isElementVisible("studentPhotoUploader");
+        spp.editProfilePhoto();
+        spp.editProfileThroughUi("", "short.name", "e@email.com", "inst", "Usual Nationality", 
+                "female", "this is enough!$%&*</>");
+        spp.ensureProfileContains("short.name", "e@email.com", "inst", "Usual Nationality", 
+                "female", "this is enough!$%&*</>");
+        spp.verifyPhotoSize(150, 150);
+        String prevPictureKey = BackDoor.getStudentProfile(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT).pictureKey;
+        verifyPictureIsPresent(prevPictureKey);
+        
+        spp.verifyHtmlMainContent("/NJIstudentProfilePage.html");
+        
+        studentHomePage.logout();
+        
+        //login in as instructor again to test sample course deletion
+        instructorHomePage = HomePage.getNewInstance(browser).clickInstructorLogin()
+                                                             .loginAsInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
+                                                                                TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+        
+  
+        instructorHomePage.clickAndConfirm(instructorHomePage.getDeleteCourseLink(demoCourseId));
+        assertTrue(instructorHomePage.getStatus().contains("The course " + demoCourseId + " has been deleted."));
+     
+        instructorHomePage.logout();
+        
+        BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+        BackDoor.deleteCourse(demoCourseId);
+        BackDoor.deleteInstructor(demoCourseId, instructor.email);
         
    
     }
@@ -308,7 +329,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
     public static void classTearDown() throws Exception {
         BrowserPool.release(browser);
     }
-
     
     private LoginPage createCorrectLoginPageType(String pageSource) {
         if (DevServerLoginPage.containsExpectedPageContents(pageSource)) {
@@ -318,6 +338,10 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         } else {
             throw new IllegalStateException("Not a valid login page :" + pageSource);
         }
+    }
+    
+    private void verifyPictureIsPresent(String pictureKey) {
+        assertEquals(BackDoorServlet.RETURN_VALUE_TRUE, BackDoor.getWhetherPictureIsPresentInGcs(pictureKey));
     }
     
     private <T extends AppPage> T createNewPage(Browser browser, Class<T> typeOfPage) {
