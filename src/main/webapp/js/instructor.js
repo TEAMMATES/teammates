@@ -134,9 +134,7 @@ function isStudentInputValid(editName, editTeamName, editEmail) {
  * class: profile-pic-icon-click or profile-pic-icon-hover 
  */
 function bindErrorImages(elements){
-	// alert('error binding');
 	$(elements).children('img').on('error', function() {
-		// alert('error occ')
 		if ($(this).attr('src') != "") {
 			$(this).attr("src","../images/profile_picture_default.png");
 		}
@@ -149,24 +147,20 @@ function bindErrorImages(elements){
  * class: student-profile-pic-view-link
  */
 function bindStudentPhotoLink(elements){
-	// alert('binding click');
 	$(elements).on('click', function(event) {
 		if (!event) {
-			var event = window.event
+			var event = window.event;
 		}
 		event.cancelBubble = true;
 		if (event.stopPropagation) {
 			event.stopPropagation();
 		} 
 		
-		// alert('event entered');
 	    var actualLink = $(this).parent().attr('data-link');
 	    $(this).siblings('img').attr('src', actualLink)
 	    	.load(function() {
-	    		// alert('pic loaded');
 	    		var actualLink = $(this).parent().attr('data-link');
 	    		var resolvedLink = $(this).attr('src');
-	    		// alert('links obtained');
 	            $(this)
 	            	.removeClass('hidden')
 	                .parent().attr('data-link', '')
@@ -178,7 +172,6 @@ function bindStudentPhotoLink(elements){
 	                    	return '<img class="profile-pic" src="' + resolvedLink + '" />';
 	                    }
 	                });
-	            // alert('updated popover');
 	            updateHoverShowPictureEvents(actualLink, resolvedLink);
 	    	});
 	    $(this).remove();
