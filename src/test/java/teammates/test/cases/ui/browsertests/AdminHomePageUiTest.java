@@ -5,11 +5,15 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.lang.reflect.Constructor;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -18,6 +22,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminHomePage;
@@ -25,6 +30,7 @@ import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.DevServerLoginPage;
+import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.GoogleLoginPage;
 import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
@@ -33,6 +39,7 @@ import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
 import teammates.test.pageobjects.InstructorCoursesPage;
 import teammates.test.pageobjects.InstructorEvalsPage;
+import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
 import teammates.test.pageobjects.InstructorHomePage;
@@ -135,33 +142,38 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         
         //verify sample course is accessible for newly joined instructor as an instructor
-        InstructorHomePage instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
         
+        ______TS("new instructor can see sample course in homepage");
+        InstructorHomePage instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);  
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorHomePage.html");
         
+        ______TS("new instructor can access sample coure enroll page");
         InstructorCourseEnrollPage enrollPage = instructorHomePage.clickCourseErollLink(demoCourseId);
         enrollPage.verifyHtmlMainContent("/newlyJoinedInstructorCourseEnrollPage.html");
         
+        ______TS("new instructor can access sample coure details page");
         instructorHomePage = enrollPage.goToPreviousPage(InstructorHomePage.class);
         InstructorCourseDetailsPage detailsPage = instructorHomePage.clickCourseViewLink(demoCourseId);
         detailsPage.verifyHtmlMainContent("/newlyJoinedInstructorCourseDetailsPage.html");
         
+        ______TS("new instructor can access sample coure edit page");
         instructorHomePage = detailsPage.goToPreviousPage(InstructorHomePage.class);
         InstructorCourseEditPage editPage = instructorHomePage.clickCourseEditLink(demoCourseId);
         editPage.verifyHtmlMainContent("/newlyJoinedInstructorCourseEditPage.html");
         
-        
+        ______TS("new instructor can access sample coure feedback session adding page");
         instructorHomePage = editPage.goToPreviousPage(InstructorHomePage.class);
         InstructorFeedbacksPage feedbacksPage = instructorHomePage.clickCourseAddEvaluationLink(demoCourseId);
         feedbacksPage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbacksPage.html");
         
+        ______TS("new instructor can archive sample course");
         instructorHomePage = feedbacksPage.goToPreviousPage(InstructorHomePage.class);
         instructorHomePage.clickArchiveCourseLink(demoCourseId);
         instructorHomePage.verifyHtmlMainContent("/NJIHomePageSampleCourseArchived.html");
         
         
         
-        
+        ______TS("new instructor can unarchive sample course");
         String url = Url.addParamToUrl(TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, 
                                        Const.ParamsNames.USER_ID, 
                                        TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
@@ -169,19 +181,63 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         InstructorCoursesPage coursesPage = AppPage.getNewPageInstance(browser, InstructorCoursesPage.class);
         coursesPage.unarchiveCourse(demoCourseId);
         coursesPage.verifyHtmlMainContent("/NJICoursesPageSampleCourseUnarhived.html");
-             
+        
+        ______TS("new instructor can access sample course students page");
         coursesPage.loadStudentsTab().verifyHtmlMainContent("/newlyJoinedInstructorStudentListPage.html");
+        ______TS("new instructor can access sample course comments page");
         coursesPage.loadInstructorCommentsTab().verifyHtmlMainContent("/newlyJoinedInstructorCommentsPage.html");
         
-        
+        ______TS("new instructor can view feedbackSession result of sample course");
         coursesPage.loadInstructorHomeTab();
         instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
-        instructorHomePage.clickSessionViewResultsLink("AHPUiT.instr1.gma-demo", "Second team feedback session");
-//                          .verifyHtmlMainContent("/newlyJoinedInstructorFeedbackResultsPage.html");
-//        
-//        instructorHomePage.goToPreviousPage(InstructorHomePage.class);
-//        instructorHomePage.clickSessionEditLink("AHPUiT.instr1.gma-demo", "Second team feedback session");
-//        instructorHomePage.verifyHtmlMainContent("/");
+        instructorHomePage.clickFeedbackSessionViewResultsLink("AHPUiT.instr1.gma-demo", "Second team feedback session")
+                          .verifyHtmlMainContent("/newlyJoinedInstructorFeedbackResultsPage.html");
+        
+        ______TS("new instructor can edit feedbackSession of sample course");
+        instructorHomePage.loadInstructorHomeTab();
+        InstructorFeedbackEditPage feedbackEditPage = instructorHomePage.clickFeedbackSessionEditLink("AHPUiT.instr1.gma-demo", 
+                                                                                                      "Second team feedback session");
+        
+        feedbackEditPage.clickEditSessionButton();
+        
+        FeedbackSessionAttributes feedbackSession = BackDoor.getFeedbackSession("AHPUiT.instr1.gma-demo", 
+                                                                                "Second team feedback session");
+        feedbackEditPage.editFeedbackSession(feedbackSession.startTime, 
+                                             feedbackSession.endTime,
+                                             new Text("updated instructions"),
+                                             feedbackSession.gracePeriod);        
+        instructorHomePage.verifyHtmlMainContent("/NJIfeedbackSessionSuccessEdited.html");
+        
+        
+        
+        ______TS("new instructor can click submit button of sample feedbackSession");
+        instructorHomePage.loadInstructorHomeTab();
+        FeedbackSubmitPage fbsp = instructorHomePage.clickFeedbackSessionSubmitLink("AHPUiT.instr1.gma-demo", 
+                                                                                    "Second team feedback session");
+        fbsp.verifyHtmlMainContent("/NJIfeedbackSubmissionEditPage.html");
+        
+        ______TS("new instructor can send reminder of sample course");
+        instructorHomePage.loadInstructorHomeTab();
+        feedbacksPage = instructorHomePage.clickFeedbackSessionRemindLink("AHPUiT.instr1.gma-demo", 
+                                                                          "Second team feedback session");
+        feedbacksPage.verifyHtmlMainContent("/NJIfeedbackSessionRemind.html");
+        
+        ______TS("new instructor can unpublish feedbackSession of sample course");
+        instructorHomePage.loadInstructorHomeTab();
+        feedbacksPage = instructorHomePage.clickFeedbackSessionUnpublishLink("AHPUiT.instr1.gma-demo", 
+                                                                             "Second team feedback session");
+        feedbacksPage.verifyHtmlMainContent("/NJIfeedbackSessionUnpublished.html");
+        
+        ______TS("new instructor can publish feedbackSession of sample course");
+        instructorHomePage.loadInstructorHomeTab();
+        feedbacksPage = instructorHomePage.clickFeedbackSessionPublishLink("AHPUiT.instr1.gma-demo", 
+                                                                           "Second team feedback session");
+        feedbacksPage.verifyHtmlMainContent("/NJIfeedbackSessionPublished.html");       
+        
+        ______TS("new instructor can access help page");
+        instructorHomePage.loadInstructorHelpTab().verifyHtml("/NJInstructorHelp.html");
+ 
+        
         
         
         coursesPage.logout();
