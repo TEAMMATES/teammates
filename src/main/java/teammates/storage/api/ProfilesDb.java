@@ -1,5 +1,6 @@
 package teammates.storage.api;
 
+import java.util.Date;
 import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
@@ -22,8 +23,14 @@ import teammates.common.util.Utils;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
 
+/**
+ * Handles CRUD Operations for profiles.
+ * The API uses data transfer classes (i.e. *Attributes) instead of persistable classes.
+ * 
+ */
 public class ProfilesDb extends EntitiesDb {
     
+    @SuppressWarnings("unused")
     private static final Logger log = Utils.getLogger();
     
     @Override
@@ -84,6 +91,15 @@ public class ProfilesDb extends EntitiesDb {
         return new StudentProfileAttributes(sp);
     }
     
+    /**
+     * Updates the entire profile based on the given new profile attributes.
+     * Assumes that the googleId remains the same and so updates the profile
+     * with the given googleId.
+     * 
+     * @param newSpa
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException
+     */
     public void updateStudentProfile(StudentProfileAttributes newSpa) 
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newSpa);
@@ -103,9 +119,9 @@ public class ProfilesDb extends EntitiesDb {
                     + ThreadHelper.getCurrentThreadStack());
         }
         
-        // return if no changes have been made
         StudentProfileAttributes existingProfile = new StudentProfileAttributes(profileToUpdate);
         newSpa.modifiedDate = existingProfile.modifiedDate;
+        // return if no changes have been made
         if(existingProfile.toString().equals(newSpa.toString())) return;
 
         newSpa.sanitizeForSaving();
@@ -115,6 +131,7 @@ public class ProfilesDb extends EntitiesDb {
         profileToUpdate.setNationality(newSpa.nationality);
         profileToUpdate.setGender(newSpa.gender);
         profileToUpdate.setMoreInfo(new Text(newSpa.moreInfo));
+        profileToUpdate.setModifiedDate(new Date());
         if (!newSpa.pictureKey.isEmpty() 
                 && !newSpa.pictureKey.equals(profileToUpdate.getPictureKey().getKeyString())) {
             if (! profileToUpdate.getPictureKey().equals(new BlobKey(""))) {
@@ -125,6 +142,16 @@ public class ProfilesDb extends EntitiesDb {
         
         closePM();
     }
+    
+    /**
+     * Udates the pictureKey of the profile with given GoogleId.
+     * Deletes existing picture if key is different and updates
+     * modifiedDate
+     * 
+     * @param googleId
+     * @param newPictureKey
+     * @throws EntityDoesNotExistException
+     */
     
     public void updateStudentProfilePicture(String googleId,
             String newPictureKey) throws EntityDoesNotExistException {
@@ -149,17 +176,27 @@ public class ProfilesDb extends EntitiesDb {
                 deletePicture(profileToUpdate.getPictureKey());
             }
             profileToUpdate.setPictureKey(new BlobKey(newPictureKey));
+            profileToUpdate.setModifiedDate(new Date());
         }
         
         closePM();
     }
     
+    /**
+     * Deletes the profile picture from GCS and 
+     * updates the profile entity: 
+     *     empties the key and updates the modifiedDate 
+     * 
+     * @param googleId
+     * @throws BlobstoreFailureException
+     */
     public void deleteStudentProfilePicture(String googleId) throws BlobstoreFailureException {
         StudentProfile sp = getStudentProfileEntity(googleId);
         if (!sp.getPictureKey().equals(new BlobKey(""))) {
             try {
                 deletePicture(sp.getPictureKey());
                 sp.setPictureKey(new BlobKey(""));
+                sp.setModifiedDate(new Date());
             } catch (BlobstoreFailureException bfe) {
                 // this branch is not tested as it is 
                 //      => difficult to reproduce during testing

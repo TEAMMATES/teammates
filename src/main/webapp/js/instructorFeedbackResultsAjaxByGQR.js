@@ -47,13 +47,13 @@ $(document).ready(function(){
                 numPanels = bindCollapseEvents(childrenPanels, numPanels);
 
                 $("a[id^='collapse-panels-button-section-'],a[id^='collapse-panels-button-team-']").off('click');
-                $("a[id^='collapse-panels-button-section-']").on('click', function(){
+                $("a[id^='collapse-panels-button-section-']").on('click', function() {
                     var isGroupByTeam = $('#frgroupbyteam').prop('checked');
                     var childPanelType;
                     if(isGroupByTeam){
                         childPanelType = 'div.panel.panel-warning';
                     } else {
-                        childPanelType = 'div.panel.panel-primar';
+                        childPanelType = 'div.panel.panel-primary';
                     }
                     var panels = $(this).closest('.panel-success').children('.panel-collapse').find(childPanelType).children('.panel-collapse');
                     toggleCollapse(this, panels);

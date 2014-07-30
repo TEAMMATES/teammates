@@ -35,7 +35,6 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     
     @Test 
     public void allTests() throws Exception{
-        //System.setProperty("godmode", "true");
         testConent();
         testScripts();
         testActions();

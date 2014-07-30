@@ -124,6 +124,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
      
     
     private void testJoinConfirmation() throws Exception {
+        AppPage.logout(browser);
         removeAndRestoreTestDataOnServer(testData);
         String expectedMsg;
         String joinActionUrl = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.STUDENT_COURSE_JOIN;

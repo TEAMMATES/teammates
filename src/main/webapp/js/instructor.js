@@ -12,6 +12,13 @@ window.addEventListener('load', function (){
     if(typeof doPageSpecificOnload !== 'undefined'){
         doPageSpecificOnload();
     };
+    
+    bindErrorImages(".profile-pic-icon-hover, .profile-pic-icon-click");
+    // bind the show picture onclick events
+    bindStudentPhotoLink(".profile-pic-icon-click > .student-profile-pic-view-link");
+    // bind the show picture onhover events
+    bindStudentPhotoHoverLink(".profile-pic-icon-hover");
+    
 });
 
 
@@ -115,4 +122,147 @@ function isStudentInputValid(editName, editTeamName, editEmail) {
         return false;
     }
     return true;
+}
+
+
+// Student Profile Picture
+//--------------------------------------------------------------------------
+
+/**
+ * @param elements:
+ * 		identifier that points to elements with
+ * class: profile-pic-icon-click or profile-pic-icon-hover 
+ */
+function bindErrorImages(elements){
+	$(elements).children('img').on('error', function() {
+		if ($(this).attr('src') != "") {
+			$(this).attr("src","../images/profile_picture_default.png");
+		}
+	});
+}
+
+/**
+ * @param elements:
+ * 		identifier that points to elements with
+ * class: student-profile-pic-view-link
+ */
+function bindStudentPhotoLink(elements){
+	$(elements).on('click', function(event) {
+		if (!event) {
+			var event = window.event;
+		}
+		event.cancelBubble = true;
+		if (event.stopPropagation) {
+			event.stopPropagation();
+		} 
+		
+	    var actualLink = $(this).parent().attr('data-link');
+	    $(this).siblings('img').attr('src', actualLink)
+	    	.load(function() {
+	    		var actualLink = $(this).parent().attr('data-link');
+	    		var resolvedLink = $(this).attr('src');
+	            $(this)
+	            	.removeClass('hidden')
+	                .parent().attr('data-link', '')
+	                .popover({
+	                	html: true,
+	                    trigger: 'hover',
+	                    placement: 'top',
+	                    content: function () {
+	                    	return '<img class="profile-pic" src="' + resolvedLink + '" />';
+	                    }
+	                });
+	            updateHoverShowPictureEvents(actualLink, resolvedLink);
+	    	});
+	    $(this).remove();
+	});
+}
+
+/**
+ * @param elements:
+ * 		identifier that points to elements with
+ * class: profile-pic-icon-hover
+ */
+function bindStudentPhotoHoverLink(elements) {
+	$(elements)
+	.mouseenter(function() {
+		$(this).popover('show');
+    	$(this).siblings('.popover').on('mouseleave', function() {
+    		$(this).siblings('.profile-pic-icon-hover').popover("hide");
+    	});
+	})
+	.mouseleave(function() {
+    	// this is so that the user can hover over the 
+    	// pop-over without accidentally hiding the 'view photo' link
+    	setTimeout(function(obj) {
+    		if ($(obj).siblings('.popover').find('.profile-pic').length != 0 
+    				|| !$(obj).siblings(".popover").is(":hover")) {
+                $(obj).popover("hide");
+            }
+    	}, 200, this);
+    });
+	
+	// bind the default popover event for the
+	// show picture onhover events	
+	$(elements).popover({
+		html: true,
+	    trigger: 'manual',
+	    placement: 'top',
+	    content: function () {
+    		return '<a class="cursor-pointer" onclick="loadProfilePicture($(this).closest(\'.popover\').siblings(\'.profile-pic-icon-hover\'))">'
+    					+ 'View Photo</a>';
+	    }});
+}
+
+/**
+ * completes the loading cycle for showing profile picture 
+ * for an onhover event
+ * 
+ * @param link
+ * @param resolvedLink
+ */
+function loadProfilePictureForHoverEvent(obj) {
+	obj.children('img')[0].src = obj.attr('data-link');
+	// load the pictures in all similar links
+	obj.children('img').load(function() {
+		var actualLink = $(this).parent().attr('data-link');
+		var resolvedLink = $(this).attr('src');
+
+		updateHoverShowPictureEvents(actualLink, resolvedLink);
+		
+		// this is to show the picture immediately for the one 
+		// the user just clicked on
+		$(this).parent()
+			.popover('show')
+			// this is to handle the manual hide action of the popover
+			.siblings('.popover').on('mouseleave', function() {
+	    		$(this).siblings('.profile-pic-icon-hover').popover("hide");
+			});
+	});
+}
+
+/**
+ * updates all the student names that show profile picture
+ * on hover with the resolved link after one instance of the name
+ * has been loaded<br>
+ * Helps to avoid clicking view photo when hovering over names of 
+ * students whose picture has already been loaded elsewhere in the page
+ * @param link
+ * @param resolvedLink
+ */
+function updateHoverShowPictureEvents(actualLink, resolvedLink) {
+	$(".profile-pic-icon-hover[data-link='" + actualLink + "']")
+	.attr('data-link', "")
+	.off( "mouseenter mouseleave" )
+	.popover('destroy')
+	.popover({
+		html: true,
+		trigger: 'hover',
+		placement: 'top',
+		delay: {show: 300, hide: 300},
+		content: function () {
+			return '<img class="profile-pic" src="' + resolvedLink + '" />';
+		}
+	})
+	.children('img').attr('src', resolvedLink);
 }
