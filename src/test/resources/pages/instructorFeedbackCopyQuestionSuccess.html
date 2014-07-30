@@ -474,7 +474,7 @@
                             Feedback Recipient:
                         </label>
                         <div class="col-sm-8">
-                            <select class="form-control participantSelect" name="recipienttype" id="recipienttype-1" disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
+                            <select class="form-control participantSelect" name="recipienttype" id="recipienttype-1" disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
                                 <option value="SELF">Giver (Self feedback)</option>
 <option value="STUDENTS" selected="selected">Other students in the course</option>
 <option value="INSTRUCTORS">Instructors in the course</option>
@@ -521,7 +521,7 @@
                 <div class="row">
                     <div class="col-sm-12 text-muted visibilityMessage">
                         This is the visibility as seen by the feedback giver.
-                        <ul>
+                        <ul class="background-color-warning">
                         
                                 <li>The receiving student can see your response, and your name.</li>
                         
@@ -691,7 +691,7 @@
                             Feedback Recipient:
                         </label>
                         <div class="col-sm-8">
-                            <select class="form-control participantSelect" name="recipienttype" id="recipienttype-2" disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
+                            <select class="form-control participantSelect" name="recipienttype" id="recipienttype-2" disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
                                 <option value="SELF">Giver (Self feedback)</option>
 <option value="STUDENTS" selected="selected">Other students in the course</option>
 <option value="INSTRUCTORS">Instructors in the course</option>
@@ -738,7 +738,7 @@
                 <div class="row">
                     <div class="col-sm-12 text-muted visibilityMessage">
                         This is the visibility as seen by the feedback giver.
-                        <ul>
+                        <ul class="background-color-warning">
                         
                                 <li>The receiving student can see your response, and your name.</li>
                         
@@ -1149,7 +1149,7 @@
                                 Feedback Recipient:
                             </label>
                             <div class="col-sm-8">
-                                <select class="form-control participantSelect" name="recipienttype" id="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
+                                <select class="form-control participantSelect" name="recipienttype" id="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
                                     <option value="SELF">Giver (Self feedback)</option>
 <option value="STUDENTS">Other students in the course</option>
 <option value="INSTRUCTORS">Instructors in the course</option>

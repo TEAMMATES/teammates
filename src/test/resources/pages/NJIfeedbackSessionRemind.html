@@ -4,17 +4,22 @@
 
         <div class="well well-plain">
             <form class="form-group" method="post" action="/page/instructorFeedbackAdd" name="form_addfeedbacksession">
-                <div data-original-title="Select a different type of session here." class="row" title="" data-toggle="tooltip" data-placement="top">
+                <div class="row">
                     <h4 class="label-control col-md-2 text-md">Create new </h4>
                     <div class="col-md-5">
-                        <select class="form-control" name="fstype" id="fstype">
-                            <option value="STANDARD" selected="selected">
-                                Session with your own questions
-                            </option>
-                            <option value="TEAMEVALUATION">
-                                Team peer evaluation session
-                            </option>
-                        </select>
+                        <div data-original-title="Select a session type here." class="col-md-10" title="" data-toggle="tooltip" data-placement="top">
+                            <select class="form-control" name="fstype" id="fstype">
+                                <option value="STANDARD">
+                                    Session with your own questions
+                                </option>
+                                <option value="TEAMEVALUATION" selected="selected">
+                                    Team peer evaluation session
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                            <h5><a href="/instructorHelp.html#fbSetupSession" target="_blank"><span class="glyphicon glyphicon-info-sign"></span></a></h5>
+                        </div>
                     </div>
                     <h4 class="label-control col-md-1 text-md">Or: </h4>
                     <div class="col-md-3">
@@ -48,38 +53,38 @@
                                     </h5>
                                     <div class="col-sm-8">
                                         <select class="form-control" name="timezone" id="timezone">
-                                            <option value="-12">(UTC -12:00) {*}</option>
-<option value="-11">(UTC -11:00) {*}</option>
-<option value="-10">(UTC -10:00) {*}</option>
-<option value="-9">(UTC -09:00) {*}</option>
-<option value="-8">(UTC -08:00) {*}</option>
-<option value="-7">(UTC -07:00) {*}</option>
-<option value="-6">(UTC -06:00) {*}</option>
-<option value="-5">(UTC -05:00) {*}</option>
-<option value="-4.5">(UTC -04:30) {*}</option>
-<option value="-4">(UTC -04:00) {*}</option>
-<option value="-3.5">(UTC -03:30) {*}</option>
-<option value="-3">(UTC -03:00) {*}</option>
-<option value="-2">(UTC -02:00) {*}</option>
-<option value="-1">(UTC -01:00) {*}s</option>
-<option value="0">(UTC) {*}</option>
-<option value="1">(UTC +01:00) {*}</option>
-<option value="2">(UTC +02:00) {*}</option>
-<option value="3">(UTC +03:00) {*}</option>
-<option value="3.5">(UTC +03:30) {*}</option>
-<option value="4">(UTC +04:00) {*}</option>
-<option value="4.5">(UTC +04:30) {*}</option>
-<option value="5">(UTC +05:00) {*}</option>
-<option value="5.5">(UTC +05:30) {*}</option>
-<option value="5.75">(UTC +05:45) {*}</option>
-<option value="6">(UTC +06:00) {*}</option>
-<option value="7">(UTC +07:00) {*}</option>
-<option value="8">(UTC +08:00) {*}</option>
-<option value="9">(UTC +09:00) {*}</option>
-<option value="10">(UTC +10:00) {*}</option>
-<option value="11">(UTC +11:00) {*}</option>
-<option value="12">(UTC +12:00) {*}</option>
-<option value="13">(UTC +13:00) {*}</option>
+                                            <option value="-12">(UTC -12:00) Baker Island, Howland Island</option>
+<option value="-11">(UTC -11:00) American Samoa, Niue</option>
+<option value="-10">(UTC -10:00) Hawaii, Cook Islands, Marquesas Islands</option>
+<option value="-9">(UTC -09:00) Gambier Islands, Alaska</option>
+<option value="-8">(UTC -08:00) Los Angeles, Vancouver, Tijuana</option>
+<option value="-7">(UTC -07:00) Phoenix, Calgary, Ciudad Juárez</option>
+<option value="-6">(UTC -06:00) Chicago, Guatemala City, Mexico City, San José, San Salvador, Tegucigalpa, Winnipeg</option>
+<option value="-5">(UTC -05:00) New York, Lima, Toronto, Bogotá, Havana, Kingston</option>
+<option value="-4.5">(UTC -04:30) Caracas</option>
+<option value="-4">(UTC -04:00) Santiago, La Paz, San Juan de Puerto Rico, Manaus, Halifax</option>
+<option value="-3.5">(UTC -03:30) St. John's</option>
+<option value="-3">(UTC -03:00) Buenos Aires, Montevideo, São Paulo</option>
+<option value="-2">(UTC -02:00) Fernando de Noronha, South Georgia and the South Sandwich Islands</option>
+<option value="-1">(UTC -01:00) Cape Verde, Greenland, Azores islands</option>
+<option value="0">(UTC) Accra, Abidjan, Casablanca, Dakar, Dublin, Lisbon, London</option>
+<option value="1">(UTC +01:00) Belgrade, Berlin, Brussels, Lagos, Madrid, Paris, Rome, Tunis, Vienna, Warsaw</option>
+<option value="2">(UTC +02:00) Athens, Sofia, Cairo, Kiev, Istanbul, Beirut, Helsinki, Jerusalem, Johannesburg, Bucharest</option>
+<option value="3">(UTC +03:00) Nairobi, Baghdad, Doha, Khartoum, Minsk, Riyadh</option>
+<option value="3.5">(UTC +03:30) Tehran</option>
+<option value="4">(UTC +04:00) Baku, Dubai, Moscow</option>
+<option value="4.5">(UTC +04:30) Kabul</option>
+<option value="5">(UTC +05:00) Karachi, Tashkent</option>
+<option value="5.5">(UTC +05:30) Colombo, Delhi</option>
+<option value="5.75">(UTC +05:45) Kathmandu</option>
+<option value="6">(UTC +06:00) Almaty, Dhaka, Yekaterinburg</option>
+<option value="7">(UTC +07:00) Jakarta, Bangkok, Novosibirsk, Hanoi</option>
+<option value="8">(UTC +08:00) Perth, Beijing, Manila, Singapore, Kuala Lumpur, Denpasar, Krasnoyarsk</option>
+<option value="9">(UTC +09:00) Seoul, Tokyo, Pyongyang, Ambon, Irkutsk</option>
+<option value="10">(UTC +10:00) Canberra, Yakutsk, Port Moresby</option>
+<option value="11">(UTC +11:00) Vladivostok, Noumea</option>
+<option value="12">(UTC +12:00) Auckland, Suva</option>
+<option value="13">(UTC +13:00) Phoenix Islands, Tokelau, Tonga</option>
 
                                         </select>
                                     </div>
@@ -127,7 +132,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input class="form-control col-sm-2 hasDatepicker" name="startdate" id="startdate" value="30/07/2014" placeholder="Date" type="text">
+                                        <input class="form-control col-sm-2 hasDatepicker" name="startdate" id="startdate" value="{*}" placeholder="Date" type="text">
                                     </div>
                                     <div class="col-md-6">
                                         <select class="form-control" name="starttime" id="starttime">
@@ -228,7 +233,14 @@
                     </div>
 
                 </div>
-                <div class="panel panel-primary">
+                <div class="row" id="uncommonSettingsInfo">
+                    <div class="col-md-12 text-muted">
+                        <span id="uncommonSettingsInfoText">Session is visible at submission opening time, responses are only visible when you publish the results.<br>Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.</span>
+                        <a id="editUncommonSettingsButton" data-edit="[Edit]" data-done="[Done]">[Edit]</a>
+                        <br><br>
+                    </div>
+                </div>
+                <div class="panel panel-primary" style="display:none;" id="sessionResponsesVisiblePanel">
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -361,7 +373,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-primary">
+                <div class="panel panel-primary" style="display:none;" id="sendEmailsForPanel">
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
@@ -370,12 +382,6 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div data-original-title="If the student has not joined the course yet, an email containing the link to join the course will automatically be sent on session opening time." class="col-sm-2" title="" data-toggle="tooltip" data-placement="top">
-                                <div class="checkbox">
-                                    <label for="sendreminderemail_join">Join
-                                        reminder</label> <input checked="checked" id="sendreminderemail_join" disabled="disabled" type="checkbox">
-                                </div>
-                            </div>
                             <div data-original-title="Select this option to automatically send an email to students to notify them when the session is open for submission." class="col-sm-3" title="" data-toggle="tooltip" data-placement="top">
                                 <div class="checkbox">
                                     <label>Session opening
@@ -397,10 +403,10 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="form-group">
                     <div class="col-md-offset-5 col-md-3">
-                        <button id="button_submit" type="submit" class="btn btn-primary">Create
-                            Feedback Session</button>
+                        <button id="button_submit" type="submit" class="btn btn-primary">Create Feedback Session</button>
                     </div>
                 </div>
                 <input name="user" value="{$test.instructor}" type="hidden">

@@ -624,7 +624,7 @@
                         </label>
                         <div class="col-sm-8">
                             <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>-<%=question.questionNumber%>"
-                                disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
+                                disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
                                 <%
                                     for(String opt: data.getParticipantOptions(question, false)) out.println(opt);
                                 %>
@@ -665,7 +665,7 @@
                 <div class="row">
                     <div class="col-sm-12 text-muted visibilityMessage">
                         This is the visibility as seen by the feedback giver.
-                        <ul>
+                        <ul class="background-color-warning">
                         <%
                             List<String> visibilityMessage = question.getVisibilityMessage();
                             for(String message : visibilityMessage){
@@ -930,7 +930,7 @@
                                 Feedback Recipient:
                             </label>
                             <div class="col-sm-8">
-                                <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
+                                <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
                                     <%
                                         for(String opt: data.getParticipantOptions(null, false)) out.println(opt);
                                     %>
