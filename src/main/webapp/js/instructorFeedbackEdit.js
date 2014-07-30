@@ -97,13 +97,17 @@ function toggleVisibilityOptions(elem){
     $elementParent = $(elem).closest('form');
     $options = $elementParent.find('.visibilityOptions');
     $visibilityMessage = $elementParent.find('.visibilityMessage');
+
+    //enable edit
+    $elementParent.find('[id*="questionedittext"]').click();
+
     if($options.is(':hidden')) {
-        $giverType = $elementParent.prev().find("select[name=givertype]");
-        $recipientType = $elementParent.prev().find("select[name=recipienttype]");
+        giverType = $elementParent.find("select[name='givertype']");
+        recipientType = $elementParent.find("select[name='recipienttype']");
         $options.show();
         $visibilityMessage.hide();
-        feedbackGiverUpdateVisibilityOptions($giverType);
-        feedbackRecipientUpdateVisibilityOptions($recipientType);
+        feedbackGiverUpdateVisibilityOptions(giverType);
+        feedbackRecipientUpdateVisibilityOptions(recipientType);
     } else {
         $options.hide();
         $visibilityMessage.show();
@@ -805,18 +809,18 @@ function copyOptions() {
     
     //FEEDBACK GIVER SETUP
     var $prevGiver = $("select[name='givertype']").eq(-2);
-    var $currGiver = $("select[name='givertype']").last();
+    var currGiver = $("select[name='givertype']").last();
     
-    $currGiver.val($prevGiver.val());
+    $(currGiver).val($prevGiver.val());
     
     //FEEDBACK RECIPIENT SETUP
     var $prevRecipient = $("select[name='recipienttype']").eq(-2);
-    var $currRecipient = $("select[name='recipienttype']").last();
+    var currRecipient = $("select[name='recipienttype']").last();
     
-    $currRecipient.val($prevRecipient.val());
+    $(currRecipient).val($prevRecipient.val());
     
     //NUMBER OF RECIPIENT SETUP
-    formatNumberBox($currRecipient.val(), '');
+    formatNumberBox($(currRecipient).val(), '');
     var $prevRadioButtons = $("table[class*='questionTable']").eq(-2).find("input[name='numofrecipientstype']");
     var $currRadioButtons = $("table[class*='questionTable']").last().find("input[name='numofrecipientstype']");
     
@@ -836,29 +840,31 @@ function copyOptions() {
     $currTable.each(function (index) {
         $(this).prop('checked', $prevTable.eq(index).prop('checked'));
     });
-    feedbackGiverUpdateVisibilityOptions($currGiver);
-    feedbackRecipientUpdateVisibilityOptions($currRecipient);
+    feedbackGiverUpdateVisibilityOptions(currGiver);
+    feedbackRecipientUpdateVisibilityOptions(currRecipient);
 }
 
 function enableRow(el,row){
-    var visibilityOptions = ($(el).parent().parent().next().next());
-    var table = visibilityOptions.children().children();
+    var visibilityOptions = ($(el).closest('form').find('.visibilityOptions'));
+    var table = visibilityOptions.find('table');
     var tdElements = $($(table).children().children()[row]).children();
     if($(tdElements).parent().prop("tagName") == "tr"){
-        return; 
+        return;
     }
     $(tdElements).unwrap().wrapAll("<tr>");
+
 }
 
 function disableRow(el,row){
-    var visibilityOptions = ($(el).parent().parent().next().next());
-    var table = visibilityOptions.children().children();
+    var visibilityOptions = ($(el).closest('form').find('.visibilityOptions'));
+    var table = visibilityOptions.find('table');
     var tdElements = $($(table).children().children()[row]).children();
     if($(tdElements).parent().prop("tagName") == "hide"){
         return; 
     }
     $(tdElements).unwrap().wrapAll("<hide>");
     $(tdElements).parent().hide();
+
 }
 
 function feedbackRecipientUpdateVisibilityOptions(el){
@@ -1001,25 +1007,19 @@ function toggleVisibilityMessage(elem){
     $options = $elementParent.find('.visibilityOptions');
     $visibilityMessage = $elementParent.find('.visibilityMessage');
 
-    $giverType = $elementParent.prev().find("select[name=givertype]");
-    $recipientType = $elementParent.prev().find("select[name=recipienttype]");
-    if($options.is(':hidden')) {
-        $options.show();
-        $visibilityMessage.hide();
-        feedbackGiverUpdateVisibilityOptions($giverType);
-        feedbackRecipientUpdateVisibilityOptions($recipientType);
-    } else {
-        $options.hide();
-        $visibilityMessage.html("");
-        $disabledInputs = $elementParent.find('input:disabled, select:disabled');
-        $disabledInputs.prop('disabled', false);
+    giverType = $elementParent.find("select[name='givertype']");
+    recipientType = $elementParent.find("select[name='recipienttype']");
 
-        feedbackGiverUpdateVisibilityOptions($giverType);
-        feedbackRecipientUpdateVisibilityOptions($recipientType);
+    $options.hide();
+    $visibilityMessage.html("");
+    $disabledInputs = $elementParent.find('input:disabled, select:disabled');
+    $disabledInputs.prop('disabled', false);
 
-        getVisibilityMessage(elem);
-        $disabledInputs.prop('disabled', true);
-    }
+    feedbackGiverUpdateVisibilityOptions(giverType);
+    feedbackRecipientUpdateVisibilityOptions(recipientType);
+
+    getVisibilityMessage(elem);
+    $disabledInputs.prop('disabled', true);
 }
 
 function getVisibilityMessage(buttonElem){
@@ -1037,6 +1037,7 @@ function getVisibilityMessage(buttonElem){
             success: function(data)
             {
                 $(form).find('.visibilityMessage').html(formatVisibilityMessageHtml(data.visibilityMessage));
+                $(form).find('.visibilityOptions').hide();
                 $(form).find('.visibilityMessage').show();
             },
             error: function(jqXHR, textStatus, errorThrown) 
@@ -1049,7 +1050,7 @@ function getVisibilityMessage(buttonElem){
 
 function formatVisibilityMessageHtml(visibilityMessage){
     var htmlString = "This is the visibility as seen by the feedback giver.";
-    htmlString += "<ul>";
+    htmlString += "<ul class='background-color-warning'>";
     for(var i=0 ; i<visibilityMessage.length ; i++){
         htmlString += "<li>" + visibilityMessage[i] + "</li>";
     }

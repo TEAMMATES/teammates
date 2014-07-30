@@ -248,10 +248,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.waitForElementVisible(visibilityMessage);
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionVisibilityPreview.html");
-        feedbackEditPage.clickVisibilityOptionsForQuestion1();
         
         //change back
-        feedbackEditPage.clickQuestionEditForQuestion1();
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
         feedbackEditPage.selectGiverTypeForQuestion1("Me (Session creator)");
         feedbackEditPage.selectRecipientTypeForQuestion1("Other students in the course");

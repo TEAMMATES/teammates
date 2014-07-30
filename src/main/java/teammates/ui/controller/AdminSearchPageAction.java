@@ -1,96 +1,128 @@
 package teammates.ui.controller;
 
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
-import teammates.common.util.Const.ParamsNames;
+import teammates.common.util.StringHelper;
+import teammates.common.util.Url;
 import teammates.logic.api.GateKeeper;
+import teammates.logic.api.Logic;
 
-import com.google.appengine.api.search.Document;
-import com.google.appengine.api.search.Field;
-import com.google.appengine.api.search.Index;
-import com.google.appengine.api.search.IndexSpec;
-import com.google.appengine.api.search.Query;
-import com.google.appengine.api.search.QueryOptions;
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
-import com.google.appengine.api.search.SearchServiceFactory;
-import com.google.appengine.api.taskqueue.Queue;
-import com.google.appengine.api.taskqueue.QueueFactory;
-import com.google.appengine.api.taskqueue.TaskOptions;
 
 public class AdminSearchPageAction extends Action {
     
-    private static final Index INDEX = SearchServiceFactory.getSearchService()
-            .getIndex(IndexSpec.newBuilder().setName("instructor_search_index"));
-
+        
+        
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException{
         
         new GateKeeper().verifyAdminPrivileges(account);
-        
-        String rebuildDoc = getRequestParamValue(ParamsNames.ADMIN_SEARCH_REBUILD_DOC);
+           
+        String searchKey = getRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_KEY);
+        String searchButtonHit = getRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_BUTTON_HIT);       
         
         AdminSearchPageData data = new AdminSearchPageData(account);
         
-        if(rebuildDoc != null) {
-            //rebuild document to update search index to latest datastore records.
-            //the search indexed will not be updated when a new user is added to the system
-            Queue queue = QueueFactory.getQueue("search-document");
-            queue.add(TaskOptions.Builder.withUrl("/searchTask").method(TaskOptions.Method.GET));
-            statusToUser.add("Rebuild task submitted, please check again in a few minutes.");
-            ThreadHelper.waitBriefly();
-            String queryStr = getRequestParamValue("query");
-            String limitStr = getRequestParamValue("limit");
-            search(queryStr, limitStr);
-        }else {
-            String queryStr = getRequestParamValue("query");
-            String limitStr = getRequestParamValue("limit");
-            data.results = search(queryStr, limitStr);
-            statusToUser.add("Found "+ data.results.size() + " results.");
+        if(searchKey == null || searchKey.trim().isEmpty()){
+            
+            if(searchButtonHit != null){             
+                statusToUser.add("Search key cannot be empty");
+                isError = true;
+            }
+            return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
         }
+        
+        data.searchKey = searchKey;
+       
+        data.studentResultBundle  = logic.searchStudentsInWholeSystem(searchKey, "");
+        
+        data = putFeedbackSessionLinkIntoMap(data.studentResultBundle.studentList, data);
+        data = putHomePageLinkIntoMap(data.studentResultBundle.studentList, data);
+           
+        int numOfResults = data.studentResultBundle.getResultSize();
+        if(numOfResults > 0){
+            statusToUser.add("Total results found: " + numOfResults);
+            isError = false;
+        } else {
+            statusToUser.add("No result found, please try again");
+            isError = true;
+        }
+              
         
         return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
     }
     
-    private List<Document> search(String queryStr, String limitStr) {
-        List<Document> found = new ArrayList<Document>();
-        if (queryStr == null || queryStr.trim().isEmpty()) {
-            return found;
-        }
-        int limit = 50;
-        if (limitStr != null) {
-            try {
-                limit = Integer.parseInt(limitStr);
-            } catch (NumberFormatException e) {
-                //TODO: handle this exception
+    
+    private AdminSearchPageData putHomePageLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
+        
+        for(StudentAttributes student : students){
+            
+            if(student.googleId == null){
+                continue;
             }
+            
+            String curLink = Url.addParamToUrl(Const.ActionURIs.STUDENT_HOME_PAGE,
+                                                        Const.ParamsNames.USER_ID, 
+                                                        student.googleId);
+            
+            data.studentIdToHomePageLinkMap.put(student.googleId, curLink);
         }
         
-        Query query = Query.newBuilder()
-                .setOptions(QueryOptions.newBuilder().setLimit(limit).
-                        build()).build(queryStr);
-        Results<ScoredDocument> results = INDEX.search(query);
-        for (ScoredDocument scoredDoc : results) {
-            String email = scoredDoc.getOnlyField("email").getText();
-              Document derived = Document.newBuilder()
-                        .setId(scoredDoc.getId())
-                        .addField(Field.newBuilder().setName("id").setText(
-                                scoredDoc.getOnlyField("id").getText()))
-                        .addField(Field.newBuilder().setName("name").setText(
-                                scoredDoc.getOnlyField("name").getText()))
-                        .addField(Field.newBuilder().setName("email").setHTML(
-                                String.format("<a href=\"mailto:%s\">%s</a>", email,email)))
-                        .addField(Field.newBuilder().setName("link").setHTML(
-                                scoredDoc.getOnlyField("link").getHTML()))
-                        .build();
-            found.add(derived);
-        }
-        return found;
+        return data;
     }
+    
+    
 
-
+    private AdminSearchPageData putFeedbackSessionLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
+        
+        Logic logic = new Logic();
+        
+        for(StudentAttributes student : students){    
+            List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(student.course); 
+            
+            for(FeedbackSessionAttributes fsa : feedbackSessions){               
+                data = extractDataFromFeedbackSeesion(fsa, data, student);              
+            }       
+        }       
+ 
+        return data;
+           
+    }
+    
+    private AdminSearchPageData extractDataFromFeedbackSeesion(FeedbackSessionAttributes fsa, 
+                                                               AdminSearchPageData data, 
+                                                               StudentAttributes student){
+        
+        if(!fsa.isOpened()){
+            return data;
+         }
+         
+         String submitUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                                .withCourseId(student.course)
+                                .withSessionName(fsa.feedbackSessionName)
+                                .withRegistrationKey(StringHelper.encrypt(student.key))
+                                .withStudentEmail(student.email)
+                                .toString();
+         
+         if (data.studentfeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
+              List<String> submitUrlList = new ArrayList<String>();
+              submitUrlList.add(submitUrl);   
+              data.studentfeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
+         } else {
+             data.studentfeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
+         }       
+         
+         data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);    
+         
+         return data;
+    }
+    
+    
 }

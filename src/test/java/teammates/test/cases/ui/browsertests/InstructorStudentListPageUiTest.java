@@ -5,8 +5,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -21,6 +19,7 @@ import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
@@ -43,6 +42,8 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorStudentListPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
+        
+        BackDoor.putDocumentsForStudents(Utils.getTeammatesGson().toJson(testData));
         browser = BrowserPool.getBrowser();
     }
     
@@ -71,11 +72,17 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.setSearchKey("noMatch");
         viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchNoMatch.html");
 
-        ______TS("content: search student");
+        ______TS("content: search student with 1 result");
         
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
         viewPage.setSearchKey("charlie");
         viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchStudent.html");
+        
+        ______TS("content: search student with multiple results");
+        
+        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        viewPage.setSearchKey("alice");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchStudentMultiple.html");
         
     }
 
@@ -130,7 +137,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.verifyHtmlMainContent("/instructorStudentListPageNoCourse.html");
     }
 
-    private void testShowPhoto() throws FileNotFoundException, IOException {
+    private void testShowPhoto() throws Exception {
         String instructorId = testData.instructors.get("instructorOfCourse2").googleId;
         Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)
                     .withUserId(instructorId);
@@ -145,6 +152,8 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         
         viewPage.clickShowPhoto(student.course, student.name);
         viewPage.verifyProfilePhotoIsDefault(student.course, student.name);
+        viewPage.verifyPopoverPicture(student.course, student.name, 
+                TestProperties.inst().TEAMMATES_URL + "/images/profile_picture_default.png");
         
         ______TS("student has uploaded an image");
         
@@ -157,6 +166,8 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         
         viewPage.clickShowPhoto(student2.course, student2.name);
         viewPage.verifyHtmlMainContent("/instructorStudentListPageWithPicture.html");
+        viewPage.verifyPopoverPicture(student2.course, student2.name, 
+                TestProperties.inst().TEAMMATES_URL + "/page/studentProfilePic?studentemail=F702AF37C82846594241AA61DA9E8121513646F6B96E433CF5475D7A0DDC960D5C8E51DD1B4E0C5A912A6CF5CFD797E1&courseid=C179779D673504E85F7ADD572ED9CD4D");
     }
     
     public void testLinks() throws Exception{

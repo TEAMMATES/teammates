@@ -94,6 +94,9 @@ public abstract class AppPage {
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[4]/a")
     protected WebElement instructorStudentsTab;
     
+    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[5]/a")
+    protected WebElement instructorCommentsTab;
+    
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[7]/a")
     protected WebElement instructorHelpTab;
     
@@ -221,6 +224,22 @@ public abstract class AppPage {
         return;
     }
     
+    protected void waitForElementToAppear(By by) throws Exception {
+        int timeOut = 3000;
+        while (timeOut > 0) {
+            try {
+                if (browser.driver.findElement(by).isDisplayed()) {
+                    break;
+                }
+            } catch (NoSuchElementException e) {
+                // ignore exception
+            }
+            Thread.sleep(100);
+            timeOut -= 100;
+        }
+        return;
+    }
+    
     public void waitForElementVisible(WebElement element){
         WebDriverWait wait = new WebDriverWait(browser.driver, 10);
         wait.until(ExpectedConditions.visibilityOf(element));
@@ -288,6 +307,47 @@ public abstract class AppPage {
         waitForPageToLoad();
         return this;
     }
+    
+    /**
+     * Equivalent to clicking the 'Students' tab on the top menu of the page.
+     * @return the loaded page.
+     */
+    public AppPage loadStudentsTab() {
+        instructorStudentsTab.click();
+        waitForPageToLoad();
+        return this;
+    }
+    
+    
+    /**
+     * Equivalent to clicking the 'Home' tab on the top menu of the page.
+     * @return the loaded page.
+     */
+    public AppPage loadInstructorHomeTab() {
+        instructorHomeTab.click();
+        waitForPageToLoad();
+        return this;
+    }
+    
+    /**
+     * Equivalent to clicking the 'Help' tab on the top menu of the page.
+     * @return the loaded page.
+     */
+    public AppPage loadInstructorHelpTab() {
+        instructorHelpTab.click();
+        waitForPageToLoad();
+        return this;
+    }
+    
+    /**
+     * Equivalent to clicking the 'Comments' tab on the top menu of the page.
+     * @return the loaded page.
+     */
+    public AppPage loadInstructorCommentsTab() {
+        instructorCommentsTab.click();
+        waitForPageToLoad();
+        return this;
+    }
 
     /**
      * Equivalent to clicking the 'Evaluations' tab on the top menu of the page.
@@ -303,10 +363,30 @@ public abstract class AppPage {
      * Equivalent of clicking the 'Profile' tab on the top menu of the page.
      * @return the loaded page
      */
-    public AppPage loadProfileTab() {
+    public StudentProfilePage loadProfileTab() {
         studentProfileTab.click();
         waitForPageToLoad();
-        return this;
+        return changePageType(StudentProfilePage.class);
+    }
+    
+    /**
+     * Equivalent of student clicking the 'Home' tab on the top menu of the page.
+     * @return the loaded page
+     */
+    public StudentHomePage loadStudentHomeTab() {
+        studentHomeTab.click();
+        waitForPageToLoad();
+        return changePageType(StudentHomePage.class);
+    }
+    
+    /**
+     * Equivalent of student clicking the 'Comments' tab on the top menu of the page.
+     * @return the loaded page
+     */
+    public StudentCommentsPage loadStudentCommentsTab() {
+        studentCommentsTab.click();
+        waitForPageToLoad();
+        return changePageType(StudentCommentsPage.class);
     }
 
     /**
@@ -680,6 +760,8 @@ public abstract class AppPage {
                 .replace(Config.APP_URL, "{$app.url}")
                 .replaceAll("V[0-9]\\.[0-9]+", "V{\\$version}")
                 // photo from instructor
+                .replaceAll("courseid=([a-zA-Z0-9]){1,}\\&amp;studentemail=([a-zA-Z0-9]){1,}", 
+                            "courseid={*}\\&amp;studentemail={*}")
                 .replaceAll("studentemail=([a-zA-Z0-9]){1,}\\&amp;courseid=([a-zA-Z0-9]){1,}", 
                             "studentemail={*}\\&amp;courseid={*}")
                 .replaceAll("key=([a-zA-Z0-9]){1,}\\&amp;", "key={*}\\&amp;")
