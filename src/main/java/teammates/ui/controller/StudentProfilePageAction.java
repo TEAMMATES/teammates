@@ -1,10 +1,11 @@
 package teammates.ui.controller;
 
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
 
+/**
+ * Action: showing the profile page for a student in a course
+ */
 public class StudentProfilePageAction extends Action {
 
     private StudentProfilePageData data;

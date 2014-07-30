@@ -135,6 +135,13 @@ public class StudentAttributes extends EntityAttributes {
                     .withCourseId(course)
                     .toString();
     }
+    
+    public String getProfilePictureUrl() {
+        return new Url(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
+                    .withStudentEmail(StringHelper.encrypt(email))
+                    .withCourseId(StringHelper.encrypt(course))
+                    .toString();
+    }
 
     public boolean isEnrollInfoSameAs(StudentAttributes otherStudent) {
         return (otherStudent != null) && otherStudent.email.equals(this.email)

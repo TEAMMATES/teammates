@@ -62,7 +62,7 @@ public class AccountsDb extends EntitiesDb {
         }
     }
     
-    /* This function is used for persisting data bunble in testing process */
+    /* This function is used for persisting data bundle in testing process */
     public void createAccounts(Collection<AccountAttributes> accountsToAdd, boolean updateAccount) throws InvalidParametersException{
         
         List<EntityAttributes> accountsToUpdate = createEntities(accountsToAdd);
@@ -81,6 +81,8 @@ public class AccountsDb extends EntitiesDb {
     }
     
     /**
+     * Gets the data transfer version of the account. Does not retrieve the profile
+     * if the given parameter is false<br>
      * Preconditions: 
      * <br> * All parameters are non-null. 
      * @return Null if not found.
@@ -148,11 +150,12 @@ public class AccountsDb extends EntitiesDb {
         accountToUpdate.setIsInstructor(a.isInstructor);
         accountToUpdate.setInstitute(a.institute);
         
-        // if the student profile has changed then update the store
-        // this is to maintain integrity of the modified date.
         if (updateStudentProfile) {
             StudentProfileAttributes existingProfile = new StudentProfileAttributes(accountToUpdate.getStudentProfile());
             a.studentProfile.modifiedDate = existingProfile.modifiedDate;
+            
+            // if the student profile has changed then update the store
+            // this is to maintain integrity of the modified date.
             if(!(existingProfile.toString().equals(a.studentProfile.toString()))) {
                 accountToUpdate.setStudentProfile((StudentProfile) a.studentProfile.toEntity());
             }

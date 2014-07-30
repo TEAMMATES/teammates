@@ -2,6 +2,10 @@ package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertNotNull;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -10,8 +14,10 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
+import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
@@ -122,7 +128,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.verifyHtmlMainContent("/instructorStudentListPageNoCourse.html");
     }
 
-    private void testShowPhoto() {
+    private void testShowPhoto() throws FileNotFoundException, IOException {
         String instructorId = testData.instructors.get("instructorOfCourse2").googleId;
         Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)
                     .withUserId(instructorId);
@@ -140,9 +146,15 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         
         ______TS("student has uploaded an image");
         
-        //TODO: implement this method after a backend way to upload to cloud storage
-        // has been implemented
+        StudentAttributes student2 = testData.students.get("Student3Course3");
         
+        File picture = new File("src/test/resources/images/profile_pic_updated.png");
+        String pictureData = Utils.getTeammatesGson().toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
+         
+        BackDoor.uploadAndUpdateStudentProfilePicture(student2.googleId, pictureData);
+        
+        viewPage.clickShowPhoto(student2.course, student2.name);
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageWithPicture.html");
     }
     
     public void testLinks() throws Exception{

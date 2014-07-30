@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Logger;
 
@@ -673,7 +674,7 @@ public abstract class AppPage {
 
     private String processPageSourceForGodMode(String content) {
         Date now = new Date();
-        Date dateTimeOneMinuteAgo = new Date(now.getTime() - ONE_MINUTE_IN_MILLIS);
+        assertEquals(new SimpleDateFormat("dd MMM yyyy, HH:mm").format(now), TimeHelper.formatTime(now));
         return content
                 .replaceAll("<#comment[ ]*</#comment>", "<!---->")
                 .replace(Config.APP_URL, "{$app.url}")
@@ -681,8 +682,8 @@ public abstract class AppPage {
                 // photo from instructor
                 .replaceAll("studentemail=([a-zA-Z0-9]){1,}\\&amp;courseid=([a-zA-Z0-9]){1,}", 
                             "studentemail={*}\\&amp;courseid={*}")
-                .replaceAll("regkey=([a-zA-Z0-9]){1,}\\&amp;", "regkey={*}\\&amp;")
-                .replaceAll("regkey%3D([a-zA-Z0-9]){1,}\\%", "regkey%3D{*}\\%")
+                .replaceAll("key=([a-zA-Z0-9]){1,}\\&amp;", "key={*}\\&amp;")
+                .replaceAll("key%3D([a-zA-Z0-9]){1,}\\%", "key%3D{*}\\%")
                 //responseid
                 .replaceAll("([a-zA-Z0-9-_]){30,}%"
                         + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+%"
@@ -701,16 +702,15 @@ public abstract class AppPage {
                 // today's date
                 .replace(TimeHelper.formatDate(now), "{*}")
                 // now (used in opening time/closing time Grace period)
-                .replace(TimeHelper.formatTime(now), "{*}")
-                .replace(TimeHelper.formatTime(dateTimeOneMinuteAgo), "{*}");
+                .replaceAll(new SimpleDateFormat("dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}", "{*}");
     }
 
     private boolean areTestAccountsDefaultValues() {
-        return TestProperties.inst().TEST_STUDENT1_ACCOUNT == "alice.tmms"
-                || TestProperties.inst().TEST_STUDENT2_ACCOUNT == "charlie.tmms" 
-                || TestProperties.inst().TEST_UNREG_ACCOUNT == "teammates.unreg"
-                || TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT == "teammates.coord"
-                || TestProperties.inst().TEST_ADMIN_ACCOUNT == "yourGoogleId";
+        return "alice.tmms".contains(TestProperties.inst().TEST_STUDENT1_ACCOUNT)
+                || "charlie.tmms".contains(TestProperties.inst().TEST_STUDENT2_ACCOUNT)  
+                || "teammates.unreg".contains(TestProperties.inst().TEST_UNREG_ACCOUNT) 
+                || "teammates.coord".contains(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT)
+                || "yourGoogleId".contains(TestProperties.inst().TEST_ADMIN_ACCOUNT);
     }
     
     /**
@@ -730,14 +730,16 @@ public abstract class AppPage {
         
         try {
             String expected = extractHtmlPartFromFile(by, filePath);
-            
             HtmlHelper.assertSameHtmlPart(actual, expected);            
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         } catch(AssertionError ae) { 
             if(!testAndRunGodMode(filePath, actual)) {
                 throw ae;
             }
+        } catch (Exception e) {
+            if(!testAndRunGodMode(filePath, actual)) {
+                throw new RuntimeException(e);
+            }
+            
         }
         return this;
     }

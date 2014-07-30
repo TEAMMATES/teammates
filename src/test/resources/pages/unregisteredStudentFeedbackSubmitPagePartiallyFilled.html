@@ -4,7 +4,7 @@
         <br>
         
             <div id="registerMessage" class="alert alert-info">
-                You may submit feedback and view results without logging in. To access other features you need <a href="/page/studentCourseJoinAuthentication?regkey={*}&amp;studentemail=drop.out%40gmail.com&amp;courseid=SFSubmitUiT.CS2104" class="link">to login using a google account</a> (recommended).
+                You may submit feedback and view results without logging in. To access other features you need <a href="/page/studentCourseJoinAuthentication?key={*}&amp;studentemail=drop.out%40gmail.com&amp;courseid=SFSubmitUiT.CS2104" class="link">to login using a google account</a> (recommended).
             </div>
         
         <form method="post" name="form_student_submit_response" action="/page/studentFeedbackSubmissionEditSave">
@@ -22,7 +22,7 @@
     <input name="fsname" value="First Session" type="hidden">
     <input name="courseid" value="SFSubmitUiT.CS2104" type="hidden">
     
-        <input name="regkey" value="{*}" type="hidden">
+        <input name="key" value="{*}" type="hidden">
         <input name="studentemail" value="drop.out@gmail.com" type="hidden">
     
     <div class="well well-plain" id="course1">
