@@ -15,11 +15,18 @@ public class InstructorSearchPage extends AppPage {
     }
     
     public void inputSearchContent(String content) {
-        this.getSearchBox().sendKeys(content);
+        WebElement inputBox = this.getSearchBox();
+        inputBox.sendKeys(content);
+    }
+    
+    public void clearSearchBox() {
+        WebElement inputBox = this.getSearchBox();
+        inputBox.clear();
     }
     
     public void clickSearchButton() {
         this.getSearchButton().click();
+        this.waitForPageToLoad();
     }
     
     public void clickStudentCommentCheckBox() {

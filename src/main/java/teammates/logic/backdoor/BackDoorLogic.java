@@ -198,6 +198,39 @@ public class BackDoorLogic extends Logic {
     public void removeDataBundle(DataBundle dataBundle) {
         deleteExistingData(dataBundle);
     }
+    
+    /**
+     * create document for entities that have document--searchable
+     * @param dataBundle
+     * @return status of the request in the form 'status meassage'+'additional
+     *         info (if any)' e.g., "[BACKEND_STATUS_SUCCESS]" e.g.,
+     *         "[BACKEND_STATUS_FAILURE]NullPointerException at ..."
+     */
+    public String putDocuments(DataBundle dataBundle) {
+        // query the entity in db first to get the actual data and create document for actual entity
+        
+        HashMap<String, StudentAttributes> students = dataBundle.students;
+        for (StudentAttributes student : students.values()) {
+            StudentAttributes studentInDb = studentsDb.getStudentForEmail(student.course, student.email);
+            studentsDb.putDocument(studentInDb);
+            ThreadHelper.waitFor(50);
+        }
+        
+        HashMap<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
+        for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
+            FeedbackResponseCommentAttributes fcInDb = fcDb.getFeedbackResponseComment(
+                    responseComment.courseId, responseComment.createdAt, responseComment.giverEmail);
+            fcDb.putDocument(fcInDb);
+        }
+        
+        HashMap<String, CommentAttributes> comments = dataBundle.comments;
+        for (CommentAttributes comment : comments.values()) {
+            CommentAttributes commentInDb = commentsDb.getComment(comment);
+            commentsDb.putDocument(commentInDb);
+        }
+        
+        return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
+    }
 
     public String getAccountAsJson(String googleId) {
         AccountAttributes accountData = getAccount(googleId, true);
