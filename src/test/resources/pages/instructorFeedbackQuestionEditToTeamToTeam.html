@@ -473,7 +473,7 @@
                             Feedback Recipient:
                         </label>
                         <div class="col-sm-8">
-                            <select class="form-control participantSelect" name="recipienttype" id="recipienttype-1" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
+                            <select class="form-control participantSelect" name="recipienttype" id="recipienttype-1" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
                                 <option value="SELF">Giver (Self feedback)</option>
 <option value="STUDENTS" selected="selected">Other students in the course</option>
 <option value="INSTRUCTORS">Instructors in the course</option>
@@ -518,18 +518,9 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div style="display: none;" class="col-sm-12 text-muted visibilityMessage">
-                        This is the visibility as seen by the feedback giver.
-                        <ul>
-                        
-                                <li>The receiving student can see your response, and your name.</li>
-                        
-                                <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
-                        
-                        </ul>
-                    </div>
+                    <div style="display: block;" class="col-sm-12 text-muted visibilityMessage">This is the visibility as seen by the feedback giver.<ul class="background-color-warning"><li>The receiving team can see your response, and your name.</li><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
                 </div>
-                <div style="display: block;" class="visibilityOptions">
+                <div style="display: none;" class="visibilityOptions">
                     <br>
                     <table class="dataTable participantTable table table-striped text-center">
                         <tbody><tr>
@@ -538,54 +529,54 @@
                             <th class="text-center">Can see giver's name</th>
                             <th class="text-center">Can see recipient's name</th>
                         </tr>
-                        <tr>
-                            <td class="text-left">
+                        
+                            <tr><td class="text-left">
                                 <div data-original-title="Control what feedback recipient(s) can view" data-toggle="tooltip" data-placement="top" title="">
                                     Recipient(s)
                                 </div>
-                            </td>
-                            <td>
+                            </td><td>
                                 <input class="visibilityCheckbox answerCheckbox1 centered" name="receiverLeaderCheckbox" value="RECEIVER" checked="checked" type="checkbox">
-                            </td>
-                            <td>
+                            </td><td>
                                 <input class="visibilityCheckbox giverCheckbox1" value="RECEIVER" checked="checked" type="checkbox">     
-                            </td>
-                            <td>
+                            </td><td>
                                 <input class="visibilityCheckbox recipientCheckbox1" name="receiverFollowerCheckbox" value="RECEIVER" disabled="disabled" checked="checked" type="checkbox">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">
+                            </td></tr>
+                            
+                            
+                            
+                        
+                        
+                            <hide style="display: none;"><td class="text-left">
                                 <div data-original-title="Control what team members of feedback giver can view" data-toggle="tooltip" data-placement="top" title="">
                                     Giver's Team Members
                                 </div>
-                            </td>
-                            <td>
+                            </td><td>
                                 <input class="visibilityCheckbox answerCheckbox1" value="OWN_TEAM_MEMBERS" type="checkbox">
-                            </td>
-                            <td>
+                            </td><td>
                                 <input class="visibilityCheckbox giverCheckbox1" value="OWN_TEAM_MEMBERS" type="checkbox">
-                            </td>
-                            <td>
+                            </td><td>
                                 <input class="visibilityCheckbox recipientCheckbox1" value="OWN_TEAM_MEMBERS" type="checkbox">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">
+                            </td></hide>
+                            
+                            
+                            
+                        
+                        
+                            <hide style="display: none;"><td class="text-left">
                                 <div data-original-title="Control what team members of feedback recipients can view" data-toggle="tooltip" data-placement="top" title="">
                                     Recipient's Team Members
                                 </div>
-                            </td>
-                            <td>
+                            </td><td>
                                 <input class="visibilityCheckbox answerCheckbox1" value="RECEIVER_TEAM_MEMBERS" type="checkbox">
-                            </td>
-                            <td>
+                            </td><td>
                                 <input class="visibilityCheckbox giverCheckbox1" value="RECEIVER_TEAM_MEMBERS" type="checkbox">
-                            </td>
-                            <td>
+                            </td><td>
                                 <input class="visibilityCheckbox recipientCheckbox1" value="RECEIVER_TEAM_MEMBERS" type="checkbox">
-                            </td>
-                        </tr>
+                            </td></hide>
+                            
+                            
+                            
+                        
                         <tr>
                             <td class="text-left">
                                 <div data-original-title="Control what other students can view" data-toggle="tooltip" data-placement="top" title="">
@@ -930,7 +921,7 @@
                                 Feedback Recipient:
                             </label>
                             <div class="col-sm-8">
-                                <select class="form-control participantSelect" name="recipienttype" id="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
+                                <select class="form-control participantSelect" name="recipienttype" id="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
                                     <option value="SELF">Giver (Self feedback)</option>
 <option value="STUDENTS">Other students in the course</option>
 <option value="INSTRUCTORS">Instructors in the course</option>
