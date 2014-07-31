@@ -9,6 +9,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
+import teammates.test.driver.AssertHelper;
 
 public class InstructorStudentListPage extends AppPage {
     
@@ -208,7 +209,7 @@ public class InstructorStudentListPage extends AppPage {
                                          .findElement(By.cssSelector(".profile-pic-icon-click > img"));
         Actions action = new Actions(browser.driver);
         action.click(photo).build().perform();
-        assertEquals(srcUrl, browser.driver
+        AssertHelper.assertContainsRegex(srcUrl, browser.driver
                                 .findElement(By.cssSelector(".popover-content > .profile-pic"))
                                 .getAttribute("src"));
     }
