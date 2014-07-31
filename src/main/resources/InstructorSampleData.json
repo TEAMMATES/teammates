@@ -179,12 +179,12 @@
       "team": "Team 2",
       "section": "Tutorial Group 2"
     },
-    "teammates.new@demo.course": {
+    "barney.s.tmms@demo.course": {
       "googleId": "",
-      "email": "teammates.new@gmail.com",
+      "email": "barney.s.tmms@gmail.com",
       "course": "demo.course",
-      "name": "Demo_New",
-      "comments": "This student's name is Demo_New",
+      "name": "Barney Stinson",
+      "comments": "This student's name is Barney Stinson",
       "team": "Team 3",
       "section": "Tutorial Group 2"
     },
