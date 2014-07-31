@@ -85,9 +85,14 @@ $(document).ready(function(){
 		//if no panel_check checkboxes are checked, show the no-comment box to user
 		if($("input[id^='panel_check']:checked").length == 0){
     		$('#no-comment-panel').show();
-    		//if nothing to display, also hide giverCheckboxes column
-    		$('#giver_all').parent().parent().hide();
-    		$('#status_all').parent().parent().hide();
+    		//if all is checked, show giver and status for better user experience
+    		if (!$('#panel_all').prop("checked")) {
+     		   $('#giver_all').parent().parent().hide();
+     		   $('#status_all').parent().parent().hide();
+ 			} else {
+ 				$('#giver_all').parent().parent().show();
+     		    $('#status_all').parent().parent().show();
+ 			}
     	} else {
     		$('#no-comment-panel').hide();
     		$('#giver_all').parent().parent().show();
