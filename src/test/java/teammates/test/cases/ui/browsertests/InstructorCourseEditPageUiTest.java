@@ -62,11 +62,6 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     
     public void testContent() throws Exception{
         
-        
-        /* Attention: Inside the instructorCourseEditPage, the join link for each instructor
-         * is printed as a hidden html element with id "joinLink". This is only for testing
-         * purpose. Please go to element inspector to get the link.
-         */
         ______TS("page load: Helper privileges");
         
         instructorId = testData.instructors.get("InsCrsEdit.Helper").googleId;
@@ -185,11 +180,18 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         // select the role as Observer for instr1
         courseEditPage.selectRoleForInstructor(1, "Custom");
         courseEditPage.clickAddSessionLevelPrivilegesLink(1);
+        courseEditPage.clickSectionCheckBoxInSectionLevel(1, 1, 2);
+        courseEditPage.clickViewStudentCheckBoxInSectionLevel(1, 1);
+        courseEditPage.clickViewOthersCommentsCheckBoxInSectionLevel(1, 1);
+        courseEditPage.clickViewSessionResultsCheckBoxInSectionLevel(1, 1);
+        courseEditPage.clickSessionLevelInSectionLevel(1, 1);
         courseEditPage.clickAddSessionLevelPrivilegesLink(1);
         courseEditPage.clickAddSessionLevelPrivilegesLink(1);
+        courseEditPage.clickSectionCheckBoxInSectionLevel(1, 3, 2);
+        courseEditPage.clickModifySessionResultCheckBoxInSectionLevel(1, 3);
         // after 3 sections added, no more things to add
         assertEquals(false, courseEditPage.addSessionLevelPrivilegesLink(1).isDisplayed());
-        // TODO: configure more privileges to test the privilege hierarchy. e.g. set can edit/delete comments but unset view comments
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesBeforeSubmit.html");
         courseEditPage.clickSaveInstructorButton(1);
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesSuccessful.html");
         

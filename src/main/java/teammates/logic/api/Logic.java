@@ -143,6 +143,8 @@ public class Logic {
     }
 
     /**
+     * Creates a new Account based on given values. If a profile is not given,
+     * a default empty profile is created for the user<br>
      * Preconditions: <br>
      * * All parameters are non-null.
      * 
@@ -185,7 +187,6 @@ public class Logic {
     }
     
     public AccountAttributes getAccount(String googleId, boolean retrieveStudentProfile) {
-        
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         
         return accountsLogic.getAccount(googleId, retrieveStudentProfile);
@@ -224,7 +225,6 @@ public class Logic {
      */
     public void updateStudentProfile(StudentProfileAttributes newStudentProfileAttributes) 
             throws InvalidParametersException, EntityDoesNotExistException {
-        
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, newStudentProfileAttributes);
         
         accountsLogic.updateStudentProfile(newStudentProfileAttributes);
@@ -237,7 +237,6 @@ public class Logic {
      */
     public void updateStudentProfilePicture(String googleId, String newPictureKey) 
             throws EntityDoesNotExistException {
-        
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, newPictureKey);
         

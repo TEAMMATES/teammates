@@ -31,7 +31,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD;
-        // restoreTypicalDataInDatastore();
+        // removeAndRestoreTypicalDataInDatastore();
     }
 
     @Test

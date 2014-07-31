@@ -1,5 +1,4 @@
-<div id="frameBody">
-        <div id="frameBodyWrapper" class="container">
+<div id="frameBodyWrapper" class="container">
             <div id="topOfPage"></div>
             <div class="inner-container">
                 <div class="row">
@@ -136,7 +135,7 @@
                         </strong>
                     </h4>
                     <div class="btn-group pull-right" style="display:none">
-                      <a data-original-title="Send email notification to recipients of 0 pending comment" type="button" class="btn btn-sm btn-info" data-toggle="tooltip" style="margin-right: 17px;" href="/page/instructorStudentCommentClearPending?courseid=AHPUiT.instr1.gma-demo&amp;user={$test.instructor}" title="">
+                      <a data-original-title="Send email notification to 0 recipient(s) of comments pending notification" type="button" class="btn btn-sm btn-info" data-toggle="tooltip" style="margin-right: 17px;" href="/page/instructorStudentCommentClearPending?courseid=AHPUiT.instr1.gma-demo&amp;user={$test.instructor}" title="">
                         <span class="badge" style="margin-right: 5px">0</span>
                         <span class="glyphicon glyphicon-comment"></span>
                         <span class="glyphicon glyphicon-arrow-right"></span>
@@ -184,7 +183,7 @@
                                             
                                             
                                         </div>
-                                        <div style="margin-left: 15px;" id="plainCommentText1">Comment from Instructor to Student Alice in AHPUiT.instr1.gma-demo</div>
+                                        <div style="margin-left: 15px;" id="plainCommentText1">Alice wanted me to help her catch up with project work</div>
                                         
                                         <div id="commentTextEdit1" style="display: none;">
                                            <div class="form-group form-inline">
@@ -278,7 +277,7 @@
                                                 </table>
                                             </div>
                                             <div class="form-group">
-                                                <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText1">Comment from Instructor to Student Alice in AHPUiT.instr1.gma-demo</textarea>
+                                                <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText1">Alice wanted me to help her catch up with project work</textarea>
                                             </div>
                                             <div class="col-sm-offset-5">
                                                 <input id="commentsave-1" title="Save comment" onclick="return submitCommentForm('1');" class="btn btn-primary" value="Save" type="submit">
@@ -292,6 +291,137 @@
                                         <input name="showcommentsto" value="" type="hidden">
                                         <input name="showgiverto" value="" type="hidden">
                                         <input name="showrecipientto" value="" type="hidden">
+                                        <input name="user" value="{$test.instructor}" type="hidden">
+                                        
+                                    </form>
+                                </li>
+                                
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
+                                    <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-2">
+                                        <div id="commentBar-2">
+                                            
+                                            <span class="text-muted">To <b>Benny Charles</b> (Team 1, <a href="mailto:benny.c.tmms@gmail.com">benny.c.tmms@gmail.com</a>) on
+                                                01 Apr 2016, 23:59</span>
+                                            
+                                            <a type="button" id="commentdelete-2" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('2');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
+                                                <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                                            </a> <a type="button" id="commentedit-2" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('2');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
+                                                <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                                            </a>
+                                            
+                                            
+                                            <span data-original-title="This comment is visible to recipient's team" class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;" data-placement="top" title=""></span>
+                                            
+                                            
+                                        </div>
+                                        <div style="margin-left: 15px;" id="plainCommentText2">Benny, Thanks for helping Alice in her project work. Keep up the good work!</div>
+                                        
+                                        <div id="commentTextEdit2" style="display: none;">
+                                           <div class="form-group form-inline">
+                                                <div class="form-group text-muted">
+                                                    You may change comment's visibility using the visibility options on the right hand side.
+                                                </div>
+                                                <a id="visibility-options-trigger2" class="btn btn-sm btn-info pull-right">
+                                                    <span class="glyphicon glyphicon-eye-close"></span>
+                                                    Show Visibility Options
+                                                </a>
+                                            </div>
+                                            <div id="visibility-options2" class="panel panel-default" style="display: none;">
+                                                <div class="panel-heading">Visibility Options</div>
+                                                <table class="table text-center text-color-black">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th class="text-center">User/Group</th>
+                                                            <th class="text-center">Can see
+                                                                your comment</th>
+                                                            <th class="text-center">Can see
+                                                                giver's name</th>
+                                                            <th class="text-center">Can see
+                                                                recipient's name</th>
+                                                        </tr>
+                                                        
+                                                        <tr id="recipient-person2">
+                                                            <td class="text-left">
+                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what comment recipient(s) can view">
+                                                                    Recipient(s)</div>
+                                                            </td>
+                                                            <td><input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="PERSON" type="checkbox">
+                                                            </td>
+                                                            <td><input class="visibilityCheckbox giverCheckbox" value="PERSON" type="checkbox">
+                                                            </td>
+                                                            <td><input class="visibilityCheckbox recipientCheckbox" name="receiverFollowerCheckbox" value="PERSON" disabled="disabled" type="checkbox"></td>
+                                                        </tr>
+                                                        
+                                                        
+                                                        <tr id="recipient-team2">
+                                                            <td class="text-left">
+                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of comment recipients can view">
+                                                                    Recipient's Team</div>
+                                                            </td>
+                                                            <td><input class="visibilityCheckbox answerCheckbox" value="TEAM" checked="checked" type="checkbox">
+                                                            </td>
+                                                            <td><input class="visibilityCheckbox giverCheckbox" value="TEAM" checked="checked" type="checkbox">
+                                                            </td>
+                                                            <td><input class="visibilityCheckbox recipientCheckbox" value="TEAM" checked="checked" type="checkbox">
+                                                            </td>
+                                                        </tr>
+                                                        
+                                                        
+                                                        <tr id="recipient-section2">
+                                                            <td class="text-left">
+                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what students in the same section can view">
+                                                                    Recipient's Section</div>
+                                                            </td>
+                                                            <td><input class="visibilityCheckbox answerCheckbox" value="SECTION" type="checkbox">
+                                                            </td>
+                                                            <td><input class="visibilityCheckbox giverCheckbox" value="SECTION" type="checkbox">
+                                                            </td>
+                                                            <td><input class="visibilityCheckbox recipientCheckbox" value="SECTION" type="checkbox">
+                                                            </td>
+                                                        </tr>
+                                                        
+                                                        <tr id="recipient-course2">
+                                                            <td class="text-left">
+                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students in this course can view">
+                                                                    Other students in this course</div>
+                                                            </td>
+                                                            <td><input class="visibilityCheckbox answerCheckbox" value="COURSE" type="checkbox">
+                                                            </td>
+                                                            <td><input class="visibilityCheckbox giverCheckbox" value="COURSE" type="checkbox">
+                                                            </td>
+                                                            <td><input class="visibilityCheckbox recipientCheckbox" value="COURSE" type="checkbox">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-left">
+                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
+                                                                    Instructors</div>
+                                                        </td>
+                                                        <td><input class="visibilityCheckbox answerCheckbox" value="INSTRUCTOR" type="checkbox">
+                                                        </td>
+                                                        <td><input class="visibilityCheckbox giverCheckbox" value="INSTRUCTOR" type="checkbox">
+                                                        </td>
+                                                            <td><input class="visibilityCheckbox recipientCheckbox" value="INSTRUCTOR" type="checkbox">
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="form-group">
+                                                <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText2">Benny, Thanks for helping Alice in her project work. Keep up the good work!</textarea>
+                                            </div>
+                                            <div class="col-sm-offset-5">
+                                                <input id="commentsave-2" title="Save comment" onclick="return submitCommentForm('2');" class="btn btn-primary" value="Save" type="submit">
+                                                <input class="btn btn-default" value="Cancel" onclick="return disableComment('2');" type="button">
+                                            </div>
+                                        </div>
+                                        <input name="commentedittype" id="commentedittype-2" value="edit" type="hidden">
+                                        <input name="commentid" value="{*}" type="hidden">
+                                        <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
+                                        <input name="commentpage" value="true" type="hidden"> 
+                                        <input name="showcommentsto" value="TEAM" type="hidden">
+                                        <input name="showgiverto" value="TEAM" type="hidden">
+                                        <input name="showrecipientto" value="TEAM" type="hidden">
                                         <input name="user" value="{$test.instructor}" type="hidden">
                                         
                                     </form>
@@ -344,12 +474,14 @@
                                             
                                             <ul class="list-group comments" id="responseCommentTable-1-1-1" style="">
                                                 
-                                                <li id="{*}" class="list-group-item list-group-item-warning giver_display-by-you status_display-private">
+                                                <li id="{*}" class="list-group-item list-group-item-warning giver_display-by-you status_display-public">
                                                     <div id="commentBar-1-1-1-1">
                                                         <span class="text-muted">From:
                                                             <b>you</b>
-                                                            {*}
+                                                            [Tue Mar 01 23:59:00 UTC 2016]
                                                         </span>
+                                                        
+                                                        <span data-original-title="This response comment is visible to response giver" class="glyphicon glyphicon-eye-open" data-toggle="tooltip" data-placement="top" style="margin-left: 5px;" title=""></span>
                                                         
                                                         
                                                         
@@ -357,7 +489,7 @@
                                                             <a data-original-title="Delete this comment" href="/page/instructorFeedbackResponseCommentDelete" type="button" id="commentdelete-1-1-1-1" class="btn btn-default btn-xs icon-button" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
                                                                 <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                                                             </a>
-                                                            <input name="responseid" value="{*}%alice.b.tmms@gmail.com%alice.b.tmms@gmail.com" type="hidden">
+                                                            <input name="responseid" value="{*}" type="hidden">
                                                             <input name="responsecommentid" value="{*}" type="hidden">
                                                             <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
                                                             <input name="fsname" value="Session with different question types" type="hidden">
@@ -368,7 +500,7 @@
                                                         </a>
                                                         
                                                     </div> <!-- frComment Content -->
-                                                    <div style="margin-left: 15px;" id="plainCommentText-1-1-1-1">Instructor comment to student Alice self feedback</div>
+                                                    <div style="margin-left: 15px;" id="plainCommentText-1-1-1-1">Alice, good to know that you liked applying software engineering skills in the project. Don’t forget to use the project to practice communication skills too.</div>
                                                     <!-- frComment Edit Form -->
                                                     <form style="display: none;" id="responseCommentEditForm-1-1-1-1" class="responseCommentEditForm">
                                                         <div class="form-group">
@@ -397,7 +529,7 @@
                                                                                 <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what response giver can view">
                                                                                     Response Giver</div>
                                                                             </td>
-                                                                            <td><input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="GIVER" type="checkbox">
+                                                                            <td><input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="GIVER" checked="checked" type="checkbox">
                                                                             </td>
                                                                             <td><input class="visibilityCheckbox giverCheckbox" value="GIVER" type="checkbox">
                                                                             </td>
@@ -421,18 +553,18 @@
                                                                     </tbody>
                                                                 </table>
                                                             </div>
-                                                            <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responsecommenttext-1-1-1-1">Instructor comment to student Alice self feedback</textarea>
+                                                            <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responsecommenttext-1-1-1-1">Alice, good to know that you liked applying software engineering skills in the project. Don’t forget to use the project to practice communication skills too.</textarea>
                                                         </div>
                                                         <div class="col-sm-offset-5">
                                                             <a href="/page/instructorFeedbackResponseCommentEdit" class="btn btn-primary" id="button_save_comment_for_edit-1-1-1-1">
                                                                 Save </a> <input class="btn btn-default" value="Cancel" onclick="return hideResponseCommentEditForm(1,1,1,1);" type="button">
                                                         </div>
-                                                        <input name="responseid" value="{*}%alice.b.tmms@gmail.com%alice.b.tmms@gmail.com" type="hidden">
+                                                        <input name="responseid" value="{*}" type="hidden">
                                                         <input name="responsecommentid" value="{*}" type="hidden">
                                                         <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
                                                         <input name="fsname" value="Session with different question types" type="hidden">
                                                         <input name="user" value="{$test.instructor}" type="hidden">
-                                                        <input name="showresponsecommentsto" value="" type="hidden">
+                                                        <input name="showresponsecommentsto" value="GIVER" type="hidden">
                                                         <input name="showresponsegiverto" value="" type="hidden">
                                                     </form>
                                                 </li>
@@ -498,7 +630,7 @@
                                                             <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
                                                             <input name="fsname" value="Session with different question types" type="hidden">
                                                             <input name="questionid" value="{*}" type="hidden">
-                                                            <input name="responseid" value="{*}%alice.b.tmms@gmail.com%alice.b.tmms@gmail.com" type="hidden">
+                                                            <input name="responseid" value="{*}" type="hidden">
                                                             <input name="user" value="{$test.instructor}" type="hidden">
                                                             <input name="showresponsecommentsto" value="GIVER,RECEIVER, RECEIVER_TEAM_MEMBERS, INSTRUCTORS" type="hidden">
                                                             <input name="showresponsegiverto" value="GIVER,RECEIVER, RECEIVER_TEAM_MEMBERS, INSTRUCTORS" type="hidden">
@@ -531,4 +663,3 @@
             </ul>
             
         </div>
-    </div>

@@ -216,7 +216,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-primary">
+                    <div style="display: none;" class="row" id="uncommonSettingsInfo">
+                        <div class="col-md-12 text-muted">
+                            <span id="uncommonSettingsInfoText">Session is visible at submission opening time, responses are only visible when you publish the results.<br>Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.</span>
+                            <a id="editUncommonSettingsButton" data-edit="[Edit]" data-done="[Done]" onclick="enableEditFS()">[Edit]</a>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary" id="sessionResponsesVisiblePanel">
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-6">
@@ -352,7 +358,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-primary">
+                    <div class="panel panel-primary" id="sendEmailsForPanel">
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -362,14 +368,6 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div data-original-title="If the student has not joined the course yet, an email containing the link to join the course will automatically be sent on session opening time." class="col-sm-2" title="" data-toggle="tooltip" data-placement="top">
-                                    <div class="checkbox">
-                                        <label for="sendreminderemail_join">
-                                            Join reminder
-                                        </label>
-                                        <input checked="checked" id="sendreminderemail_join" disabled="" type="checkbox">
-                                    </div>
-                                </div>
                                 <div data-original-title="Select this option to automatically send an email to students to notify them when the session is open for submission." class="col-sm-3" title="" data-toggle="tooltip" data-placement="top">
                                     <div class="checkbox">
                                         <label>
@@ -442,7 +440,7 @@
                         </span>
                         <span class="pull-right">
                             <a data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time." class="btn btn-primary btn-xs" id="questiongetlink-1" data-toggle="tooltip" data-placement="top" title="" onclick="getQuestionLink(1)">Get Link</a>
-                            <a style="display: none;" data-original-title="Edit this question" class="btn btn-primary btn-xs" id="questionedittext-1" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(1,1)">Edit</a><div style="top: -33px; left: 999px; display: block;" class="tooltip fade top in"><div class="tooltip-arrow"></div><div class="tooltip-inner">Edit this question</div></div>
+                            <a style="display: none;" data-original-title="Edit this question" class="btn btn-primary btn-xs" id="questionedittext-1" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(1,1)">Edit</a>
                             <a class="btn btn-primary btn-xs" style="" id="questionsavechangestext-1">Save Changes</a>
                             <a data-original-title="Delete this question" class="btn btn-primary btn-xs" onclick="deleteQuestion(1)" data-toggle="tooltip" data-placement="top" title="">Delete</a>
                         </span>
@@ -451,7 +449,7 @@
             </div>
             <div class="panel-body">
                 <div>
-                    <textarea data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-1" data-toggle="tooltip" data-placement="top" title="" tabindex="9">filled qn</textarea><div style="top: 1083px; left: 692px; display: block;" class="tooltip fade top in"><div class="tooltip-arrow"></div><div class="tooltip-inner">Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?</div></div>
+                    <textarea data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-1" data-toggle="tooltip" data-placement="top" title="" tabindex="9">filled qn</textarea>
                 </div>
                 
                 <br>
@@ -475,7 +473,7 @@
                             Feedback Recipient:
                         </label>
                         <div class="col-sm-8">
-                            <select class="form-control participantSelect" name="recipienttype" id="recipienttype-1" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
+                            <select class="form-control participantSelect" name="recipienttype" id="recipienttype-1" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
                                 <option value="SELF">Giver (Self feedback)</option>
 <option value="STUDENTS" selected="selected">Other students in the course</option>
 <option value="INSTRUCTORS">Instructors in the course</option>
@@ -487,12 +485,21 @@
 
                             </select>
                         </div>
-                    </div><div style="top: 1284px; left: 988px; display: block;" class="tooltip fade top in"><div class="tooltip-arrow"></div><div class="tooltip-inner">Who the feedback is about</div></div>
+                    </div>
                 </div>
                 <div class="row">
-                    <br>
-                    <div class="col-sm-6">
-                        <a class="visibilityOptionsLabel btn btn-xs  btn-info" onclick="toggleVisibilityOptions(this)"><span class="glyphicon glyphicon-eye-close"></span> Hide Visibility Options</a>
+                    <br><br>
+                    <div class="col-sm-6 btn-group" data-toggle="buttons">
+                        <label class="btn btn-xs btn-info visibilityOptionsLabel active" onchange="toggleVisibilityOptions(this)">
+                            <input type="radio">
+                                <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
+                            
+                        </label>
+                        <label class="btn btn-xs btn-info visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+                            <input type="radio">
+                                <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
+                            
+                        </label>
                     </div>
                     <div class="col-sm-6 numberOfEntitiesElements1">
                         <label id="numofrecipients_text-1" class="control-label col-sm-4 small">
@@ -510,7 +517,10 @@
                         </div>
                     </div>
                 </div>
-                <div style="display: block;" class="visibilityOptions">
+                <div class="row">
+                    <div style="display: block;" class="col-sm-12 text-muted visibilityMessage">This is the visibility as seen by the feedback giver.<ul class="background-color-warning"><li>The receiving team can see your response, and your name.</li><li>Instructors in this course can see your response, the name of the recipient, and your name.</li></ul></div>
+                </div>
+                <div style="display: none;" class="visibilityOptions">
                     <br>
                     <table class="dataTable participantTable table table-striped text-center">
                         <tbody><tr>
@@ -519,54 +529,54 @@
                             <th class="text-center">Can see giver's name</th>
                             <th class="text-center">Can see recipient's name</th>
                         </tr>
-                        <tr>
-                            <td class="text-left">
+                        
+                            <tr><td class="text-left">
                                 <div data-original-title="Control what feedback recipient(s) can view" data-toggle="tooltip" data-placement="top" title="">
                                     Recipient(s)
                                 </div>
-                            </td>
-                            <td>
+                            </td><td>
                                 <input class="visibilityCheckbox answerCheckbox1 centered" name="receiverLeaderCheckbox" value="RECEIVER" checked="checked" type="checkbox">
-                            </td>
-                            <td>
+                            </td><td>
                                 <input class="visibilityCheckbox giverCheckbox1" value="RECEIVER" checked="checked" type="checkbox">     
-                            </td>
-                            <td>
+                            </td><td>
                                 <input class="visibilityCheckbox recipientCheckbox1" name="receiverFollowerCheckbox" value="RECEIVER" disabled="disabled" checked="checked" type="checkbox">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">
+                            </td></tr>
+                            
+                            
+                            
+                        
+                        
+                            <hide style="display: none;"><td class="text-left">
                                 <div data-original-title="Control what team members of feedback giver can view" data-toggle="tooltip" data-placement="top" title="">
                                     Giver's Team Members
                                 </div>
-                            </td>
-                            <td>
+                            </td><td>
                                 <input class="visibilityCheckbox answerCheckbox1" value="OWN_TEAM_MEMBERS" type="checkbox">
-                            </td>
-                            <td>
+                            </td><td>
                                 <input class="visibilityCheckbox giverCheckbox1" value="OWN_TEAM_MEMBERS" type="checkbox">
-                            </td>
-                            <td>
+                            </td><td>
                                 <input class="visibilityCheckbox recipientCheckbox1" value="OWN_TEAM_MEMBERS" type="checkbox">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">
+                            </td></hide>
+                            
+                            
+                            
+                        
+                        
+                            <hide style="display: none;"><td class="text-left">
                                 <div data-original-title="Control what team members of feedback recipients can view" data-toggle="tooltip" data-placement="top" title="">
                                     Recipient's Team Members
                                 </div>
-                            </td>
-                            <td>
+                            </td><td>
                                 <input class="visibilityCheckbox answerCheckbox1" value="RECEIVER_TEAM_MEMBERS" type="checkbox">
-                            </td>
-                            <td>
+                            </td><td>
                                 <input class="visibilityCheckbox giverCheckbox1" value="RECEIVER_TEAM_MEMBERS" type="checkbox">
-                            </td>
-                            <td>
+                            </td><td>
                                 <input class="visibilityCheckbox recipientCheckbox1" value="RECEIVER_TEAM_MEMBERS" type="checkbox">
-                            </td>
-                        </tr>
+                            </td></hide>
+                            
+                            
+                            
+                        
                         <tr>
                             <td class="text-left">
                                 <div data-original-title="Control what other students can view" data-toggle="tooltip" data-placement="top" title="">
@@ -626,7 +636,7 @@
             <div class="well well-plain inputTable" id="addNewQuestionTable">
                 <div class="row">
                     <div class="col-sm-6">
-                        <label for="questionTypeChoice" class="control-label col-sm-4">
+                        <label for="questionTypeChoice" class="control-label col-sm-3">
                             Question Type
                         </label>
                         <div class="col-sm-8">
@@ -641,9 +651,13 @@
                                 <option value="CONTRIB">Team contribution question</option>
                             </select>
                         </div>
+                        <div class="col-sm-1">
+                            <h5><a href="/instructorHelp.html#fbQuestionTypes" target="_blank"><span class="glyphicon glyphicon-info-sign"></span></a></h5>
+                        </div>
                     </div>
                     <div class="col-sm-2">
                         <a id="button_openframe" class="btn btn-primary" value="Add New Question" onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)">&nbsp;&nbsp;&nbsp;Add New Question&nbsp;&nbsp;&nbsp;</a>
+
                     </div>
                     <div class="col-sm-2">
                         <a id="button_copy" class="btn btn-primary" value="Copy Question">&nbsp;&nbsp;&nbsp;Copy Question&nbsp;&nbsp;&nbsp;</a>
@@ -888,7 +902,7 @@
                     </div>
                     <br>
                     <div>
-                        <div data-original-title="Who will give feedback" class="col-sm-6" data-toggle="tooltip" data-placement="top" title="">  
+                        <div data-original-title="Who will give feedback" class="col-sm-6" data-toggle="tooltip" data-placement="top" title="">
                             <label class="col-sm-4 control-label">
                                 Feedback Giver:
                             </label>
@@ -907,7 +921,7 @@
                                 Feedback Recipient:
                             </label>
                             <div class="col-sm-8">
-                                <select class="form-control participantSelect" name="recipienttype" id="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
+                                <select class="form-control participantSelect" name="recipienttype" id="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
                                     <option value="SELF">Giver (Self feedback)</option>
 <option value="STUDENTS">Other students in the course</option>
 <option value="INSTRUCTORS">Instructors in the course</option>
@@ -922,12 +936,18 @@
                         </div>
                     </div>
                     <div class="row">
-                        <br>
-                        <div class="col-sm-6">
-                            <a class="visibilityOptionsLabel btn btn-xs  btn-info" onclick="toggleVisibilityOptions(this)">
-                                <span class="glyphicon glyphicon-eye-open">
-                                </span> Show Visibility Options
-                            </a>
+                        <br><br>
+                        <div class="col-sm-6 btn-group" data-toggle="buttons">
+                            <label class="btn btn-xs btn-info visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
+                                <input type="radio">
+                                    <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
+                                
+                            </label>
+                            <label class="btn btn-xs btn-info active visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+                                <input type="radio">
+                                    <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
+                                
+                            </label>
                         </div>
                         <div style="display: none;" class="col-sm-6 numberOfEntitiesElements">
                             <label id="numofrecipients_text-" class="control-label col-sm-4 small">
@@ -943,6 +963,11 @@
                                     <span class="">Unlimited</span>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 text-muted visibilityMessage">
+
                         </div>
                     </div>
                     <div style="display: none;" class="visibilityOptions">

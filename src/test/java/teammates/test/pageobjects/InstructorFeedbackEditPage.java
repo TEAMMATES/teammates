@@ -45,6 +45,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "instructions")
     private WebElement instructionsTextBox;
     
+    @FindBy(id = "editUncommonSettingsButton")
+    private WebElement uncommonSettingsButton;
+    
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_custom")
     private WebElement customSessionVisibleTimeButton;
     
@@ -261,6 +264,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
         WebElement pointsBox = browser.driver.findElement(By.id("constSumPoints" + idSuffix));
         fillTextBox(pointsBox, Keys.BACK_SPACE+points); //backspace to clear the extra 1 when box is cleared.
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("$(arguments[0]).change();", pointsBox);
     }
     
     public String getConstSumPointsBox(int qnNumber) {
@@ -282,6 +287,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void clickCustomNumberOfRecipientsButton() {
         customNumOfRecipients.click();
+    }
+    
+    public void clickEditUncommonSettingsButton(){
+        uncommonSettingsButton.click();
     }
     
     public void clickCustomVisibleTimeButton(){
@@ -332,6 +341,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void clickquestionSaveForQuestion1(){
         questionSaveForQuestion1.click();
         waitForPageToLoad();
+    }
+    
+    public void clickVisibilityPreviewForQuestion1(){
+        browser.driver.findElement(By.className("visibilityMessageButton")).click();
     }
     
     public void clickVisibilityOptionsForQuestion1(){
@@ -529,7 +542,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public InstructorFeedbacksPage clickDoneEditingLink() {
-        WebElement doneEditingLink = browser.driver.findElement(By.id("addNewQuestionTable")).findElements(By.tagName("a")).get(2);
+        WebElement doneEditingLink = browser.driver.findElement(By.id("addNewQuestionTable")).findElements(By.tagName("a")).get(3);
         doneEditingLink.click();
         waitForPageToLoad();
         return changePageType(InstructorFeedbacksPage.class);

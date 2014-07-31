@@ -103,7 +103,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         
         ______TS("content: multiple feedback session type student record");
         
-        restoreTestDataOnServer(testDataQuestionType);
+        removeAndRestoreTestDataOnServer(testDataQuestionType);
                 
         instructor = testDataQuestionType.instructors.get("instructor1OfCourse1");
         student = testDataQuestionType.students.get("student1InCourse1");
@@ -120,7 +120,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     private void testLinks() throws Exception{
         InstructorAttributes instructor = testDataLinks.instructors.get("CESubEditUiT.instructor");
         StudentAttributes student = testDataLinks.students.get("Charlie");
-        restoreTestDataOnServer(testDataLinks);
+        removeAndRestoreTestDataOnServer(testDataLinks);
         
         instructorId = instructor.googleId;
         courseId = instructor.courseId;

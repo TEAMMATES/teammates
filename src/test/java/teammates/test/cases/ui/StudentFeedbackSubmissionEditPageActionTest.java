@@ -27,7 +27,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		restoreTypicalDataInDatastore();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
     }
 
@@ -85,7 +85,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
 
         ______TS("typical success case");
 
-        		restoreTypicalDataInDatastore();
+        		removeAndRestoreTypicalDataInDatastore();
 
         session1InCourse1 = dataBundle.feedbackSessions
                 .get("session1InCourse1");

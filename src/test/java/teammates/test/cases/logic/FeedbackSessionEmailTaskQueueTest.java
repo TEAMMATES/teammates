@@ -57,7 +57,7 @@ public class FeedbackSessionEmailTaskQueueTest extends
         gaeSimulation.tearDown();
         gaeSimulation.setupWithTaskQueueCallbackClass(FeedbackSessionsEmailTaskQueueCallback.class);
         gaeSimulation.resetDatastore();
-        restoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         turnLoggingUp(FeedbackSessionsLogic.class);
     }
     

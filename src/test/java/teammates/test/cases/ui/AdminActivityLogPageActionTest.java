@@ -15,7 +15,7 @@ public class AdminActivityLogPageActionTest extends BaseActionTest {
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE;
-        // restoreTypicalDataInDatastore();
+        // removeAndRestoreTypicalDataInDatastore();
     }
     
     @Test

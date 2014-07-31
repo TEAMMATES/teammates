@@ -60,7 +60,7 @@ public class SubmissionTaskQueueLogicTest extends
         gaeSimulation.tearDown();
         gaeSimulation.setupWithTaskQueueCallbackClass(SubmissionTaskQueueCallback.class);
         gaeSimulation.resetDatastore();
-        restoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         turnLoggingUp(EvaluationsLogic.class);
     }
     

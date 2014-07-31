@@ -38,7 +38,6 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         browser.driver.manage().deleteAllCookies();
         AppPage.logout(browser);
     }
-    
 
     @Test
     public void testAll() throws Exception {
@@ -125,6 +124,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
      
     
     private void testJoinConfirmation() throws Exception {
+        AppPage.logout(browser);
         removeAndRestoreTestDataOnServer(testData);
         String expectedMsg;
         String joinActionUrl = TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.STUDENT_COURSE_JOIN;
@@ -189,6 +189,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
 
     @AfterClass
     public static void classTearDown() throws Exception {
+        BackDoor.removeDataBundleFromDb(testData);
         BrowserPool.release(browser);
     }
 

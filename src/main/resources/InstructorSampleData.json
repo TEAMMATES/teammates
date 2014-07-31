@@ -106,7 +106,7 @@
     },
     
     "instructors":{
-     "teammates.demo.instructor@demo.course":{   	
+     "teammates.demo.instructor@demo.course":{   
       "courseId": "demo.course",
       "name":"Demo_Instructor",
       "email":"teammates.demo.instructor@demo.course",
@@ -179,12 +179,12 @@
       "team": "Team 2",
       "section": "Tutorial Group 2"
     },
-    "teammates.new@demo.course": {
+    "barney.s.tmms@demo.course": {
       "googleId": "",
-      "email": "teammates.new@gmail.com",
+      "email": "barney.s.tmms@gmail.com",
       "course": "demo.course",
-      "name": "Demo_New",
-      "comments": "This student's name is Demo_New",
+      "name": "Barney Stinson",
+      "comments": "This student's name is Barney Stinson",
       "team": "Team 3",
       "section": "Tutorial Group 2"
     },
@@ -2564,8 +2564,9 @@
             "giverEmail":"teammates.demo.instructor@demo.course",
             "feedbackResponseId":"2%alice.b.tmms@gmail.com%alice.b.tmms@gmail.com",
             "createdAt":"2016-03-01 11:59 PM UTC",
+            "showCommentTo":[GIVER],
             "commentText":{
-                "value":"Instructor comment to student Alice self feedback" 
+                "value":"Alice, good to know that you liked applying software engineering skills in the project. Don’t forget to use the project to practice communication skills too." 
             }
         }
     },
@@ -2582,7 +2583,23 @@
             "receiverEmail":"alice.b.tmms@gmail.com",
             "createdAt":"2016-04-01 11:59 PM UTC",
             "commentText":{
-                "value":"Comment from Instructor to Student Alice in demo.course"
+                "value":"Alice wanted me to help her catch up with project work"
+            }
+            
+        },
+        "comment1FromI1C1toS2C1":{
+            "courseId":"demo.course",
+            "giverEmail":"teammates.demo.instructor@demo.course",
+            "recipientType":"PERSON",
+            "recipients":["benny.c.tmms@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": [TEAM],
+            "showGiverNameTo": [TEAM],
+            "showRecipientNameTo": [TEAM],
+            "receiverEmail":"benny.c.tmms@gmail.com",
+            "createdAt":"2016-04-01 11:59 PM UTC",
+            "commentText":{
+                "value":"Benny, Thanks for helping Alice in her project work. Keep up the good work!"
             }
             
         }

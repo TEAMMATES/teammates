@@ -76,8 +76,8 @@ function addParamToUrl(url, key, value) {
 
 function bindPhotos(courseIdx) {
     $("td[id^=studentphoto-c" + courseIdx + "]").each(function(){
-        bindStudentPhotoLink($(this).children('.student-photo-link-for-test'));
-        bindErrorImages($(this).children('img'));
+    	bindErrorImages($(this).children('.profile-pic-icon-click'));
+        bindStudentPhotoLink($(this).children('.profile-pic-icon-click').children('.student-profile-pic-view-link'));
     });
 }
 
@@ -86,13 +86,16 @@ function getAppendedData(data, courseIdx) {
     var appendedHtml = "";
     var sortIdx = 2;
     if(data.courseSectionDetails.length > 0){
-        appendedHtml += '<table class="table table-responsive table-striped table-bordered margin-0">'
+        appendedHtml += '<table class="table table-responsive table-striped table-bordered margin-0">';
         appendedHtml += '<thead class="background-color-medium-gray text-color-gray font-weight-normal">';
         appendedHtml += '<tr id="resultsHeader-' + courseIdx + '"><th>Photo</th>';
         if(data.hasSection) { 
             appendedHtml += '<th id="button_sortsection-' + courseIdx + '" class="button-sort-none" onclick="toggleSort(this,' + (sortIdx++) + ')">';
-            appendedHtml += 'Section <span class="icon-sort unsorted"></span></th>'
-        } 
+            appendedHtml += 'Section <span class="icon-sort unsorted"></span></th>';
+        } else {
+            appendedHtml += '<th id="button_sortsection-' + courseIdx + '" class="button-sort-none hidden" onclick="toggleSort(this,' + (sortIdx++) + ')">';
+            appendedHtml += 'Section <span class="icon-sort unsorted"></span></th>';
+        }
         appendedHtml += '<th id="button_sortteam-' + courseIdx + '" class="button-sort-none" onclick="toggleSort(this,' + (sortIdx++) + ')">';
         appendedHtml += 'Team <span class="icon-sort unsorted"></span></th>';
         appendedHtml += '<th id="button_sortstudentname-' + courseIdx + '" class="button-sort-none" onclick="toggleSort(this,' + (sortIdx++) + ')">';
@@ -100,7 +103,7 @@ function getAppendedData(data, courseIdx) {
         appendedHtml += '<th id="button_sortemail-' + courseIdx + '" class="button-sort-none" onclick="toggleSort(this,' + (sortIdx++) + ')">';
         appendedHtml += 'Email <span class="icon-sort unsorted"></span></th><th>Action(s)</th></tr>';
 
-        appendedHtml += '<tr id="searchNoResults-' + courseIdx + '" style="display:none;"><th class="align-center color_white bold">Cannot find students in this course</th>';
+        appendedHtml += '<tr id="searchNoResults-' + courseIdx + '" class="hidden"><th class="align-center color_white bold">Cannot find students in this course</th>';
         appendedHtml += '</tr></thead>';
 
         var sectionIdx = -1;
@@ -130,10 +133,11 @@ function getAppendedData(data, courseIdx) {
                     var appendedEmail = '<div id="student_email-c' + courseIdx + '.' + studentIdx + '">' + student.email + '</div>';
                     $('#emails').append(appendedEmail);
 
-                    appendedHtml += '<tr id="student-c' + courseIdx + '.' + studentIdx + '" style="display: table-row;">';
-                    appendedHtml += '<td id="studentphoto-c' + courseIdx + '.' + studentIdx + '" class="profile-pic-icon">';
-                    appendedHtml += '<a class="student-photo-link-for-test btn-link" data-link="' + data.emailPhotoUrlMapping[student.email] + '">'
-                                       + 'View Photo</a><img src="" alt="No Image Given" class="hidden"></td>';
+                    appendedHtml += '<tr id="student-c' + courseIdx + '.' + studentIdx + '">';
+                    appendedHtml += '<td id="studentphoto-c' + courseIdx + '.' + studentIdx + '">';
+                    appendedHtml += '<div class="profile-pic-icon-click align-center" data-link="' + data.emailPhotoUrlMapping[student.email] + '">';
+                    appendedHtml += '<a class="student-profile-pic-view-link btn-link">'
+                                       + 'View Photo</a><img src="" alt="No Image Given" class="hidden"></div></td>';
                     if(data.hasSection) { 
                         appendedHtml += '<td id="studentsection-c' + courseIdx + '.' + sectionIdx + '">' + sanitizeForHtml(section.name) + '</td>';
                     } else {
@@ -171,13 +175,13 @@ function getAppendedData(data, courseIdx) {
                     appendedHtml += '<a class="btn btn-default btn-xs student-records-for-test"'
                                      + 'href="' + getStudentRecordsLink(student, data.account.googleId) + '"'
                                      + 'title="' + COURSE_STUDENT_RECORDS + '"data-toggle="tooltip" data-placement="top"> All Records</a>&nbsp;';
-                    appendedHtml += '<div class="dropdown" style="display:inline;"><a class="btn btn-default btn-xs dropdown-toggle"' 
+                    appendedHtml += '<div class="dropdown inline"><a class="btn btn-default btn-xs dropdown-toggle"' 
                                        + ' href="javascript:;" data-toggle="dropdown"';
                     if(!data.sectionPrivileges[section.name]['cangivecommentinsection']){
                         appendedHtml += 'disabled="disabled"';
                     }
                     appendedHtml += '> Add Comment</a>';
-                    appendedHtml += '<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">';
+                    appendedHtml += '<ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">';
                     appendedHtml += '<li role="presentation"><a role="menuitem" tabindex="-1" href="' + getCourseStudentDetailsLink(student, data.account.googleId) 
                                             +"&addComment=student" + '">';
                     appendedHtml += 'Comment on ' + sanitizeForHtml(student.name) + '</a></li>';
@@ -235,27 +239,30 @@ var seeMoreRequest = function(e) {
             var courseIdx = $(formObject[0]).attr('class').split('-')[1];
             var formData = formObject.serialize();
             e.preventDefault();
-            $.ajax({
-                type : 'POST',
-                url :   $(formObject[0]).attr('action') + "?" + formData,
-                beforeSend : function() {
-                    displayIcon.html("<img height='25' width='25' src='/images/ajax-preload.gif'/>")
-                },
-                error : function() {
-                    numStudents -= courseNumStudents;
-                    console.log('Error');
-                },
-                success : function(data) {
-                    var appendedData = getAppendedData(data, courseIdx);
-                    $(panelBody[0]).html(appendedData);
-                    bindPhotos(courseIdx);
-                    $(panelHeading).removeClass('ajax_submit');
-                    displayIcon.html('');
-                    if($(panelCollapse[0]).attr('class').indexOf("in") == -1){
-                        $(panelHeading).trigger('click');
+            if(displayIcon.html().indexOf('img') == -1){
+                $.ajax({
+                    type : 'POST',
+                    url :   $(formObject[0]).attr('action') + "?" + formData,
+                    beforeSend : function() {
+                        displayIcon.html("<img height='25' width='25' src='/images/ajax-preload.gif'/>")
+                    },
+                    error : function() {
+                        numStudents -= courseNumStudents;
+                        console.log('Error');
+                    },
+                    success : function(data) {
+                        var appendedData = getAppendedData(data, courseIdx);
+                        $(panelBody[0]).html(appendedData);
+                        bindPhotos(courseIdx);
+                        $(panelHeading).removeClass('ajax_submit');
+                        displayIcon.html('');
+                        if($(panelCollapse[0]).attr('class').indexOf("in") == -1){
+                            $(panelHeading).trigger('click');
+                        }
+                        $("[data-toggle='tooltip']").tooltip({html: true, container: 'body'}); 
                     }
-                }
-            });
+                });
+            }
         } else {
             numStudents -= courseNumStudents;
             courseCheck.prop('checked', false);

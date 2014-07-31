@@ -6,14 +6,9 @@ import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 
 public class InstructorSearchPageData extends PageData {
-
-    private final String photoUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?" + 
-                Const.ParamsNames.STUDENT_EMAIL+"=%s&" + 
-                Const.ParamsNames.COURSE_ID + "=%s";
 
     public CommentSearchResultBundle commentSearchResultBundle = new CommentSearchResultBundle();
     public FeedbackResponseCommentSearchResultBundle feedbackResponseCommentSearchResultBundle = new FeedbackResponseCommentSearchResultBundle();
@@ -26,10 +21,6 @@ public class InstructorSearchPageData extends PageData {
     
     public InstructorSearchPageData(AccountAttributes account) {
         super(account);
-    }
-
-    public String getStudentPhotoUrl(StudentAttributes student) {
-        return String.format(photoUrl, StringHelper.encrypt(student.email),  StringHelper.encrypt(student.course));
     }
 
     public String getCourseStudentDetailsLink(String courseId, StudentAttributes student){

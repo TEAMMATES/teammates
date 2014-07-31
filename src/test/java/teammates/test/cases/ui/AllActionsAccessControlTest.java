@@ -61,8 +61,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        removeTypicalDataInDatastore();
-		restoreTypicalDataInDatastore();
+		removeAndRestoreTypicalDataInDatastore();
 		addUnregStudentToCourse1();
     }
     
@@ -1462,9 +1461,6 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriodSession");
         fs.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
         dataBundle.feedbackSessions.put("gracePeriodSession", fs);
-        
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
-        backDoorLogic.persistDataBundle(dataBundle);
         
         assertFalse(fs.isOpened());
         assertTrue(fs.isInGracePeriod());

@@ -25,7 +25,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		restoreTypicalDataInDatastore();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
     }
     

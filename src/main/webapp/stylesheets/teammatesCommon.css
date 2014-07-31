@@ -11,6 +11,10 @@ body {
     text-align: center;
 }
 
+.align-left {
+    text-align: left;
+}
+
 .align-justify {
     text-align: justify;
 }
@@ -42,6 +46,10 @@ body {
 .border-top-gray {
     border-top: 1px solid #ddd;
     padding-top: 10px;
+}
+
+.color-white {
+    color: white;
 }
 
 .color-positive {
@@ -416,14 +424,20 @@ Apply to thead to make headers not bold.
 }
 
 /* used on the div/td that contains the img */
-.profile-pic-icon {
-    text-align: center;
+.profile-pic-icon-hover,
+.profile-pic-icon-click {
     overflow: hidden;
+        cursor: default;
 }
-
-.profile-pic-icon>img {
+        .profile-pic-icon-hover > img,
+        .profile-pic-icon-click > img {
     width: 40px;
     height: 40px;
+}
+
+
+.profile-pic-icon-hidden {
+    display: none;
 }
 
 .unsorted {
@@ -453,6 +467,13 @@ Apply to thead to make headers not bold.
     text-decoration: none;
 }
 
+.cursor-default {
+    cursor: default;
+}
+
+.student-profile-pic-view-link {
+    text-align: center;
+}
 /*////////////////////////////////////////////////////////////
 ////////////////////////// Footer ///////////////////////////
 //////////////////////////////////////////////////////////*/
