@@ -1,6 +1,8 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -180,5 +182,13 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
                 + ", feedbackResponseId = " + feedbackResponseId
                 + ", commentText = " + commentText.getValue() 
                 + ", createdAt = " + createdAt + "]";
+    }
+    
+    public static void sortFeedbackResponseCommentsByCreationTime(List<FeedbackResponseCommentAttributes> frcs) {
+        Collections.sort(frcs, new Comparator<FeedbackResponseCommentAttributes>() {
+           public int compare(FeedbackResponseCommentAttributes frc1, FeedbackResponseCommentAttributes frc2) {
+               return frc1.createdAt.compareTo(frc2.createdAt);
+           }
+        });
     }
 }

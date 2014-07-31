@@ -137,6 +137,14 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             Collections.sort(questions);
         }
         
+        for (List<FeedbackResponseAttributes> responses : this.responses.values()) {
+            FeedbackResponseAttributes.sortFeedbackResponses(responses);
+        }
+        
+        for (List<FeedbackResponseCommentAttributes> responseComments : this.comments.values()) {
+            FeedbackResponseCommentAttributes.sortFeedbackResponseCommentsByCreationTime(responseComments);
+        }
+        
         return this;
     }
     
