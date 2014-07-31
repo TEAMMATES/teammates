@@ -587,7 +587,7 @@
             "receiverEmail":"searchUI.idOfTypicalCourse1",
             "createdAt":"2012-06-02 07:22 PM UTC",
             "commentText":{
-                "value":"This is a private comment--cannot seen by other instructors"
+                "value":"This is a private comment which will not seen by other instructors"
             }
         }
         
