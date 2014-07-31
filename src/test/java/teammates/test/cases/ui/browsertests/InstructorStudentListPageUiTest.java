@@ -167,7 +167,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.clickShowPhoto(student2.course, student2.name);
         viewPage.verifyHtmlMainContent("/instructorStudentListPageWithPicture.html");
         viewPage.verifyPopoverPicture(student2.course, student2.name, 
-                TestProperties.inst().TEAMMATES_URL + "/page/studentProfilePic?studentemail=F702AF37C82846594241AA61DA9E8121513646F6B96E433CF5475D7A0DDC960D5C8E51DD1B4E0C5A912A6CF5CFD797E1&courseid=C179779D673504E85F7ADD572ED9CD4D");
+                TestProperties.inst().TEAMMATES_URL + "/page/studentProfilePic?studentemail=");
     }
     
     public void testLinks() throws Exception{

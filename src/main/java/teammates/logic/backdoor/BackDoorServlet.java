@@ -74,6 +74,7 @@ public class BackDoorServlet extends HttpServlet {
     public static final String OPERATION_REMOVE_DATABUNDLE = "OPERATION_REMOVE_DATABUNDLE";
     public static final String OPERATION_REMOVE_AND_RESTORE_DATABUNDLE = "OPERATION_REMOVE_AND_RESTORE_DATABUNDLE";
     public static final String OPERATION_SYSTEM_ACTIVATE_AUTOMATED_REMINDER = "activate_auto_reminder";
+    public static final String OPERATION_PUT_DOCUMENTS = "OPERATION_PUT_DOCUMENTS";
     
     public static final String PARAMETER_BACKDOOR_KEY = "Params.BACKDOOR_KEY";
     public static final String PARAMETER_BACKDOOR_OPERATION = "PARAMETER_BACKDOOR_OPERATION";
@@ -239,6 +240,12 @@ public class BackDoorServlet extends HttpServlet {
                     dataBundleJsonString, DataBundle.class);
             backDoorLogic.deleteExistingData(dataBundle);
             backDoorLogic.persistDataBundle(dataBundle);
+        } else if (action.equals(OPERATION_PUT_DOCUMENTS)) {
+            String dataBundleJsonString = req
+                    .getParameter(PARAMETER_DATABUNDLE_JSON);
+            DataBundle dataBundle = Utils.getTeammatesGson().fromJson(
+                    dataBundleJsonString, DataBundle.class);
+            backDoorLogic.putDocuments(dataBundle);
         } else if (action.equals(OPERATION_EDIT_ACCOUNT)) {
             String newValues = req.getParameter(PARAMETER_JSON_STRING);
             backDoorLogic.editAccountAsJson(newValues);
