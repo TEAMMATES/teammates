@@ -273,9 +273,7 @@
                             <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmail%>]</a>
                         </div>
                     <% } else {%>
-                        <div class="middlealign">
-                            <strong><%=responsesForRecipient.getKey()%></strong>
-                        </div>
+                        <strong><%=responsesForRecipient.getKey()%></strong>
                     <% } %>
                     <span class='glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right'></span>
                 </div>
@@ -297,9 +295,7 @@
                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                         </div>
                                     <% } else {%>
-                                        <div class="middlealign">
-                                            <strong><%=responsesForRecipientFromGiver.getKey()%></strong>
-                                        </div>
+                                        <strong><%=responsesForRecipientFromGiver.getKey()%></strong>
                                     <% } %>
                                     
                                 </div>
@@ -312,9 +308,7 @@
                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                     </div>
                                 <% } else {%>
-                                    <div class="middlealign">
-                                        <%=responsesForRecipient.getKey()%>
-                                    </div>
+                                    <%=responsesForRecipient.getKey()%>
                                 <% } %> 
                                 </div>
                             </div>

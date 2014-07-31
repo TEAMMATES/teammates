@@ -294,9 +294,7 @@
                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                         </div>
                                     <% } else {%>
-                                        <div class="middlealign">
-                                            <%=responsesFromGiverToRecipient.getKey()%>
-                                        </div>
+                                        <%=responsesFromGiverToRecipient.getKey()%>
                                     <% } %> 
                                 </div>
                                 <div class="col-md-12 text-muted small"><br>
@@ -308,10 +306,8 @@
                                             <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
                                         </div>
                                     <% } else {%>
-                                        <div class="middlealign">
                                             <%=responsesFromGiver.getKey()%>
                                             <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
-                                        </div>
                                     <% } %>
                                     <div class="middlealign profile-pic-icon-hover inline-block" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
                                         <%=responsesFromGiver.getKey()%>
