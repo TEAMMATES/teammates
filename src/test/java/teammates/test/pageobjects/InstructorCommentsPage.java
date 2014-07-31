@@ -26,6 +26,11 @@ public class InstructorCommentsPage extends AppPage {
         return getPageSource().contains("<h1>Comments from Instructors</h1>");
     }
     
+    public void clickSendEmailNotificationButton(){
+        browser.driver.findElement(By.xpath("//*[@id=\"frameBodyWrapper\"]/div[5]/div[1]/div/a")).click();
+        waitForPageToLoad();
+    }
+    
     public void clickCommentsPageLinkInHeader(){
         browser.driver.findElement(By.xpath("//*[@id=\"contentLinks\"]/ul[1]/li[5]/a")).click();
         waitForPageToLoad();
