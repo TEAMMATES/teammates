@@ -10,6 +10,7 @@ import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -117,11 +118,16 @@ public class AdminInstructorAccountAddAction extends Action {
         //produce searchable documents
         List<CommentAttributes> comments = backdoor.getCommentsForGiver(courseId, helper.instructorEmail);
         List<FeedbackResponseCommentAttributes> frComments = backdoor.getFeedbackResponseCommentForGiver(courseId, helper.instructorEmail);
+        List<StudentAttributes> students = backdoor.getStudentsForCourse(courseId);
+        
         for(CommentAttributes comment:comments){
             backdoor.putDocument(comment);
         }
         for(FeedbackResponseCommentAttributes comment:frComments){
             backdoor.putDocument(comment);
+        }
+        for(StudentAttributes student:students){
+            backdoor.putDocument(student);
         }
         
         return courseId;
