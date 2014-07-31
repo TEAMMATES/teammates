@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
@@ -52,7 +53,11 @@ public class StudentProfilePictureAction extends Action {
                     courseId + "/" + email);
         }
         // googleId == null is handled at logic level
-        String blobKey = logic.getStudentProfile(student.googleId).pictureKey;
+        StudentProfileAttributes profile = logic.getStudentProfile(student.googleId);
+        String blobKey = "";
+        if (profile != null) {
+            blobKey = profile.pictureKey;
+        }
         return createImageResult(blobKey);
     }
 

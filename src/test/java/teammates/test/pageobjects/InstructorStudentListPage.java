@@ -84,6 +84,8 @@ public class InstructorStudentListPage extends AppPage {
         String rowId = getStudentRowId(courseId, studentName);
         browser.driver.findElement(By.id("studentphoto-c"+rowId))
                       .findElement(By.tagName("a")).click();
+        waitForElementVisible(browser.driver.findElement(By.id("studentphoto-c"+rowId))
+                      .findElement(By.tagName("img")));
         return this;
     }
     
