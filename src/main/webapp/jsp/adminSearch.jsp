@@ -160,6 +160,20 @@
                                     style="display: none;">
                                     <td colspan="5">
                                         <ul class="list-group">
+                                            
+                                            <%if(student.email != null && !student.email.trim().isEmpty()){                                                                                  
+                                            %>                                            
+                                             <li
+                                                class="list-group-item list-group-item-success has-success">
+                                                <strong>Email</strong> <input
+                                                value="<%=student.email%>"
+                                                readonly="readonly"
+                                                class="form-control" />
+                                            </li>                                            
+                                            <%                                           
+                                            }
+                                            %>
+                                        
                                             <li
                                                 class="list-group-item list-group-item-info">
                                                 <strong>Course
