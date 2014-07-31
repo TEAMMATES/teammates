@@ -3,6 +3,7 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
 <%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
@@ -12,6 +13,7 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData) request.getAttribute("data");
+    FieldValidator validator = new FieldValidator();
     boolean showAll = data.bundle.isComplete;
     boolean shouldCollapsed = data.bundle.responses.size() > 500;
     boolean groupByTeamEnabled = (data.groupByTeam == null || !data.groupByTeam.equals("on")) ? false : true;
@@ -263,11 +265,15 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     From: 
-                    <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
+                    <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, giverEmail).isEmpty()) { %>
+                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
+                            <strong><%=responsesFromGiver.getKey()%></strong>
+                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                            <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
+                        </div>
+                    <% } else {%>
                         <strong><%=responsesFromGiver.getKey()%></strong>
-                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                        <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
-                    </div>
+                    <% } %>
 			 <span class='glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right'></span>
                </div>
                 <div class='panel-collapse collapse <%= shouldCollapsed ? "" : "in"%>'>
@@ -281,13 +287,32 @@
                     <div class="row <%=recipientIndex == 1? "": "border-top-gray"%>">
                             <div class="col-md-2">
                                 <div class="col-md-12">
-                                    To: <div class="middlealign profile-pic-icon-hover inline-block" data-link="<%=data.getProfilePictureLink(recipientEmail)%>">
-                                        <strong><%=responsesFromGiverToRecipient.getKey()%></strong>
-                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                    </div>
+                                    To:
+                                    <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, recipientEmail).isEmpty()) { %>
+                                        <div class="middlealign profile-pic-icon-hover inline-block" data-link="<%=data.getProfilePictureLink(recipientEmail)%>">
+                                            <%=responsesFromGiverToRecipient.getKey()%>
+                                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                        </div>
+                                    <% } else {%>
+                                        <div class="middlealign">
+                                            <%=responsesFromGiverToRecipient.getKey()%>
+                                        </div>
+                                    <% } %> 
                                 </div>
                                 <div class="col-md-12 text-muted small"><br>
-                                    From:   
+                                    From:
+                                    <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) { %>
+                                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
+                                            <%=responsesFromGiver.getKey()%>
+                                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                            <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
+                                        </div>
+                                    <% } else {%>
+                                        <div class="middlealign">
+                                            <%=responsesFromGiver.getKey()%>
+                                            <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
+                                        </div>
+                                    <% } %>
                                     <div class="middlealign profile-pic-icon-hover inline-block" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
                                         <%=responsesFromGiver.getKey()%>
                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
