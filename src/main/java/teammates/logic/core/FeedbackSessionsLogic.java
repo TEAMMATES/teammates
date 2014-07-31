@@ -80,6 +80,13 @@ public class FeedbackSessionsLogic {
         fsDb.createEntity(fsa);
     }
 
+    
+
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
+        
+        return fsDb.getAllOpenFeedbackSessions(start, end, zone);
+    }
+    
     /**
      * This method returns a single feedback session. Returns null if not found.
      */
@@ -1130,7 +1137,7 @@ public class FeedbackSessionsLogic {
                     addEmailTeamNamePairsToTable(emailTeamNameTable, response,
                             question, roster);
                     addVisibilityToTable(visibilityTable, question, response,
-                            userEmail, roster);
+                            userEmail, role, roster);
                 }
             }
         }
@@ -1288,7 +1295,7 @@ public class FeedbackSessionsLogic {
                                     response,
                                     question, roster);
                             addVisibilityToTable(visibilityTable, question,
-                                    response, userEmail, roster);
+                                    response, userEmail, role, roster);
                         }
                         isVisibleResponse = false;
                     }
@@ -1389,7 +1396,7 @@ public class FeedbackSessionsLogic {
                     addEmailTeamNamePairsToTable(emailTeamNameTable, response,
                             relatedQuestion, roster);
                     addVisibilityToTable(visibilityTable, relatedQuestion,
-                            response, userEmail, roster);
+                            response, userEmail, role, roster);
                 }
                 isVisibleResponse = false;
             }
@@ -1487,12 +1494,13 @@ public class FeedbackSessionsLogic {
             FeedbackQuestionAttributes question,
             FeedbackResponseAttributes response,
             String userEmail,
+            UserType.Role role,
             CourseRoster roster) {
         boolean[] visibility = new boolean[2];
         visibility[Const.VISIBILITY_TABLE_GIVER] = frLogic.isNameVisibleTo(
-                question, response, userEmail, true, roster);
+                question, response, userEmail, role, true, roster);
         visibility[Const.VISIBILITY_TABLE_RECIPIENT] = frLogic.isNameVisibleTo(
-                question, response, userEmail, false, roster);
+                question, response, userEmail, role, false, roster);
         visibilityTable.put(response.getId(), visibility);
     }
 

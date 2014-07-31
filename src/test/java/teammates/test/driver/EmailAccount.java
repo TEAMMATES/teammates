@@ -73,7 +73,7 @@ public class EmailAccount {
 
     private static String getKey(String body) {
         String key = body.substring(
-                body.indexOf("regkey=") + "regkey=".length(),
+                body.indexOf("key=") + "key=".length(),
                 body.indexOf("studentemail=") - 1);//*If prompted to log in
         return key.trim();
     }

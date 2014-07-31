@@ -2,6 +2,7 @@
 
 <%@page import="teammates.ui.controller.InstructorFeedbacksPageData"%>
 <%@ page import="java.util.Date"%>
+<%@ page import="java.util.List"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
@@ -49,7 +50,10 @@
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
-<body onload="readyFeedbackEditPage();">
+<body onload="readyFeedbackEditPage();
+    bindUncommonSettingsEvents();
+    updateUncommonSettingsInfo();
+    hideUncommonPanels();">
     <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
     <div id="frameBodyWrapper" class="container">
@@ -265,7 +269,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-primary">
+                    <div class="row" id="uncommonSettingsInfo">
+                        <div class="col-md-12 text-muted">
+                            <span id="uncommonSettingsInfoText">
+                            </span>
+                            <a id="editUncommonSettingsButton" data-edit="[Edit]" data-done="[Done]" onclick="enableEditFS()">[Edit]</a>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary" id="sessionResponsesVisiblePanel">
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-6">
@@ -457,7 +468,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-primary">
+                    <div class="panel panel-primary" id="sendEmailsForPanel">
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -613,7 +624,7 @@
                         </label>
                         <div class="col-sm-8">
                             <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>-<%=question.questionNumber%>"
-                                disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
+                                disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
                                 <%
                                     for(String opt: data.getParticipantOptions(question, false)) out.println(opt);
                                 %>
@@ -622,12 +633,18 @@
                     </div>
                 </div>
                 <div class="row">
-                    <br>
-                    <div class="col-sm-6">
-                        <a class="visibilityOptionsLabel btn btn-xs  btn-info" onclick="toggleVisibilityOptions(this)">
-                            <span class="glyphicon glyphicon-eye-open">
-                            </span> Show Visibility Options
-                        </a>
+                    <br><br>
+                    <div class="col-sm-6 btn-group" data-toggle="buttons">
+                        <label class="btn btn-xs btn-info visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
+                            <input type="radio">
+                                <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
+                            </input>
+                        </label>
+                        <label class="btn btn-xs btn-info active visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+                            <input type="radio">
+                                <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
+                            </input>
+                        </label>
                     </div>
                     <div class="col-sm-6 numberOfEntitiesElements<%=question.questionNumber%>">
                         <label id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-<%=question.questionNumber%>" class="control-label col-sm-4 small">
@@ -643,6 +660,21 @@
                                 <span class="">Unlimited</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 text-muted visibilityMessage">
+                        This is the visibility as seen by the feedback giver.
+                        <ul class="background-color-warning">
+                        <%
+                            List<String> visibilityMessage = question.getVisibilityMessage();
+                            for(String message : visibilityMessage){
+                        %>
+                                <li><%=message%></li>
+                        <%
+                            }
+                        %>
+                        </ul>
                     </div>
                 </div>
                 <div class="visibilityOptions">
@@ -898,7 +930,7 @@
                                 Feedback Recipient:
                             </label>
                             <div class="col-sm-8">
-                                <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
+                                <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
                                     <%
                                         for(String opt: data.getParticipantOptions(null, false)) out.println(opt);
                                     %>
@@ -907,12 +939,18 @@
                         </div>
                     </div>
                     <div class="row">
-                        <br>
-                        <div class="col-sm-6">
-                            <a class="visibilityOptionsLabel btn btn-xs  btn-info" onclick="toggleVisibilityOptions(this)">
-                                <span class="glyphicon glyphicon-eye-open">
-                                </span> Show Visibility Options
-                            </a>
+                        <br><br>
+                        <div class="col-sm-6 btn-group" data-toggle="buttons">
+                            <label class="btn btn-xs btn-info visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
+                                <input type="radio">
+                                    <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
+                                </input>
+                            </label>
+                            <label class="btn btn-xs btn-info active visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+                                <input type="radio">
+                                    <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
+                                </input>
+                            </label>
                         </div>
                         <div class="col-sm-6 numberOfEntitiesElements">
                             <label id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-" class="control-label col-sm-4 small">
@@ -928,6 +966,11 @@
                                     <span class="">Unlimited</span>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 text-muted visibilityMessage">
+
                         </div>
                     </div>
                     <div class="visibilityOptions">

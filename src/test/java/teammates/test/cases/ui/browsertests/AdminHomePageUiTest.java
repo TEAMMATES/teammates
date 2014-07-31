@@ -1,14 +1,17 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
-
+import static org.testng.AssertJUnit.assertTrue;
 import java.lang.reflect.Constructor;
-
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.datastore.Text;
+
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -17,6 +20,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
+import teammates.logic.backdoor.BackDoorServlet;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.AdminHomePage;
@@ -24,10 +28,24 @@ import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.DevServerLoginPage;
+import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.GoogleLoginPage;
+import teammates.test.pageobjects.HomePage;
+import teammates.test.pageobjects.InstructorCourseDetailsPage;
+import teammates.test.pageobjects.InstructorCourseEditPage;
+import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
+import teammates.test.pageobjects.InstructorCoursesPage;
+import teammates.test.pageobjects.InstructorFeedbackEditPage;
+import teammates.test.pageobjects.InstructorFeedbacksPage;
+import teammates.test.pageobjects.InstructorHomePage;
 import teammates.test.pageobjects.LoginPage;
+import teammates.test.pageobjects.StudentCommentsPage;
+import teammates.test.pageobjects.StudentProfilePage;
 import teammates.test.util.Priority;
+import teammates.test.pageobjects.StudentCourseDetailsPage;
+import teammates.test.pageobjects.StudentFeedbackResultsPage;
+import teammates.test.pageobjects.StudentHomePage;
 
 /**
  * Covers the home page for admins.
@@ -48,7 +66,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
     }
     
     @Test
-    public void testAll() throws InvalidParametersException, EntityDoesNotExistException{
+    public void testAll() throws InvalidParametersException, EntityDoesNotExistException, Exception{
         testContent();
         //no links to check
         testCreateInstructorAction();
@@ -64,7 +82,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
     }
 
     @SuppressWarnings("deprecation")
-    private void testCreateInstructorAction() throws InvalidParametersException, EntityDoesNotExistException {
+    private void testCreateInstructorAction() throws Exception {
         
         InstructorAttributes instructor = new InstructorAttributes();
         
@@ -116,16 +134,105 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
                            .loginAsJoiningInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT,
                                                      TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);  
         confirmationPage.clickConfirmButton();
-        confirmationPage.verifyContains("Instructor Home");
-
+        
         //check a account has been created for the requester successfully
         assertNotNull(BackDoor.getAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT));
         
-        BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
-        BackDoor.deleteCourse(demoCourseId);
-        BackDoor.deleteInstructor(demoCourseId, instructor.email);
         
-        confirmationPage.logout();
+        //verify sample course is accessible for newly joined instructor as an instructor
+        
+        ______TS("new instructor can see sample course in homepage");
+        InstructorHomePage instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);  
+        instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorHomePage.html");
+        
+        ______TS("new instructor can access sample coure enroll page");
+        InstructorCourseEnrollPage enrollPage = instructorHomePage.clickCourseErollLink(demoCourseId);
+        enrollPage.verifyHtmlMainContent("/newlyJoinedInstructorCourseEnrollPage.html");
+        
+        ______TS("new instructor can access sample coure details page");
+        instructorHomePage = enrollPage.goToPreviousPage(InstructorHomePage.class);
+        InstructorCourseDetailsPage detailsPage = instructorHomePage.clickCourseViewLink(demoCourseId);
+        detailsPage.verifyHtmlMainContent("/newlyJoinedInstructorCourseDetailsPage.html");
+        
+        ______TS("new instructor can access sample coure edit page");
+        instructorHomePage = detailsPage.goToPreviousPage(InstructorHomePage.class);
+        InstructorCourseEditPage editPage = instructorHomePage.clickCourseEditLink(demoCourseId);
+        editPage.verifyHtmlMainContent("/newlyJoinedInstructorCourseEditPage.html");
+        
+        ______TS("new instructor can access sample coure feedback session adding page");
+        instructorHomePage = editPage.goToPreviousPage(InstructorHomePage.class);
+        InstructorFeedbacksPage feedbacksPage = instructorHomePage.clickCourseAddEvaluationLink(demoCourseId);
+        feedbacksPage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbacksPage.html");
+        
+        ______TS("new instructor can archive sample course");
+        instructorHomePage = feedbacksPage.goToPreviousPage(InstructorHomePage.class);
+        instructorHomePage.clickArchiveCourseLink(demoCourseId);
+        instructorHomePage.verifyHtmlMainContent("/NJIHomePageSampleCourseArchived.html");
+        
+        
+        
+        ______TS("new instructor can unarchive sample course");
+        String url = Url.addParamToUrl(TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, 
+                                       Const.ParamsNames.USER_ID, 
+                                       TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+        browser.driver.get(url);
+        InstructorCoursesPage coursesPage = AppPage.getNewPageInstance(browser, InstructorCoursesPage.class);
+        coursesPage.unarchiveCourse(demoCourseId);
+        coursesPage.verifyHtmlMainContent("/NJICoursesPageSampleCourseUnarhived.html");
+        
+        ______TS("new instructor can access sample course students page");
+        coursesPage.loadStudentsTab().verifyHtmlMainContent("/newlyJoinedInstructorStudentListPage.html");
+        ______TS("new instructor can access sample course comments page");
+        coursesPage.loadInstructorCommentsTab().verifyHtmlMainContent("/newlyJoinedInstructorCommentsPage.html");
+        
+        ______TS("new instructor can view feedbackSession result of sample course");
+        coursesPage.loadInstructorHomeTab();
+        instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
+        instructorHomePage.clickFeedbackSessionViewResultsLink("AHPUiT.instr1.gma-demo", "Second team feedback session")
+                          .verifyHtmlMainContent("/newlyJoinedInstructorFeedbackResultsPage.html");
+        
+        ______TS("new instructor can edit feedbackSession of sample course");
+        instructorHomePage.loadInstructorHomeTab();
+        InstructorFeedbackEditPage feedbackEditPage = instructorHomePage.clickFeedbackSessionEditLink("AHPUiT.instr1.gma-demo", 
+                                                                                                      "Second team feedback session");
+        
+        feedbackEditPage.clickEditSessionButton();
+        
+        FeedbackSessionAttributes feedbackSession = BackDoor.getFeedbackSession("AHPUiT.instr1.gma-demo", 
+                                                                                "Second team feedback session");
+        feedbackEditPage.editFeedbackSession(feedbackSession.startTime, 
+                                             feedbackSession.endTime,
+                                             new Text("updated instructions"),
+                                             feedbackSession.gracePeriod);        
+        instructorHomePage.verifyHtmlMainContent("/NJIfeedbackSessionSuccessEdited.html");
+        
+        
+        
+        ______TS("new instructor can click submit button of sample feedbackSession");
+        instructorHomePage.loadInstructorHomeTab();
+        FeedbackSubmitPage fbsp = instructorHomePage.clickFeedbackSessionSubmitLink("AHPUiT.instr1.gma-demo", 
+                                                                                    "Second team feedback session");
+        fbsp.verifyHtmlMainContent("/NJIfeedbackSubmissionEditPage.html");
+        
+        ______TS("new instructor can send reminder of sample course");
+        instructorHomePage.loadInstructorHomeTab();
+        feedbacksPage = instructorHomePage.clickFeedbackSessionRemindLink("AHPUiT.instr1.gma-demo", 
+                                                                          "Second team feedback session");
+        feedbacksPage.verifyHtmlMainContent("/NJIfeedbackSessionRemind.html");
+        
+        ______TS("new instructor can unpublish feedbackSession of sample course");
+        instructorHomePage.loadInstructorHomeTab();
+        feedbacksPage = instructorHomePage.clickFeedbackSessionUnpublishLink("AHPUiT.instr1.gma-demo", 
+                                                                             "Second team feedback session");
+        feedbacksPage.verifyHtmlMainContent("/NJIfeedbackSessionUnpublished.html");
+        
+        ______TS("new instructor can publish feedbackSession of sample course");
+        instructorHomePage.loadInstructorHomeTab();
+        feedbacksPage = instructorHomePage.clickFeedbackSessionPublishLink("AHPUiT.instr1.gma-demo", 
+                                                                           "Second team feedback session");
+        feedbacksPage.verifyHtmlMainContent("/NJIfeedbackSessionPublished.html");       
+        
+        feedbacksPage.logout();
         
         ______TS("action failure : invalid parameter");
         
@@ -136,13 +243,85 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         homePage.createInstructor(shortName,instructor,institute).verifyStatus(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email, FieldValidator.REASON_INCORRECT_FORMAT));
       
         
+        ______TS("action success: course is accessible for newly joined instructor as student");
+        //in staging server, the student account uses the hardcoded email above, so this can only be test on dev server
+        if(!TestProperties.inst().TEAMMATES_URL.contains("local")){
+            
+            BackDoor.deleteCourse(demoCourseId);
+            BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+            BackDoor.deleteInstructor(demoCourseId, instructor.email);
+            return;
+        }
+        
+        //verify sample course is accessible for newly joined instructor as an student
+        
+        StudentHomePage studentHomePage = HomePage.getNewInstance(browser).clickStudentLogin()
+                                                                          .loginAsStudent(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
+                                                                                          TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+       
+        studentHomePage.verifyContains("Student Home");
+        studentHomePage.verifyContains(demoCourseId);
+        studentHomePage.clickViewTeam();
+        
+        StudentCourseDetailsPage courseDetailsPage = AppPage.getNewPageInstance(browser, StudentCourseDetailsPage.class);
+        courseDetailsPage.verifyHtmlMainContent("/NJIstudentCourseDetailsPage.html");
+        
+        studentHomePage = courseDetailsPage.goToPreviousPage(StudentHomePage.class);
+        studentHomePage.getViewFeedbackButton("First team feedback session").click();
+        StudentFeedbackResultsPage sfrp = AppPage.getNewPageInstance(browser, StudentFeedbackResultsPage.class);
+        sfrp.verifyHtmlMainContent("/NJIstudentFeedbackResultsPage.html");
+        
+        studentHomePage = sfrp.goToPreviousPage(StudentHomePage.class);
+        studentHomePage.getEditFeedbackButton("First team feedback session").click();
+        FeedbackSubmitPage fsp = AppPage.getNewPageInstance(browser, FeedbackSubmitPage.class);
+        fsp.verifyHtmlMainContent("/NJIstudentFeedbackSubmissionEdit.html");
+        
+        studentHomePage = fsp.loadStudentHomeTab();
+        StudentCommentsPage scp = studentHomePage.loadStudentCommentsTab();    
+        scp.verifyHtmlMainContent("/NJIstudentCommentsPage.html");
+        
+        studentHomePage = scp.loadStudentHomeTab();
+        
+        StudentProfilePage spp = studentHomePage.loadProfileTab();
+        spp.fillProfilePic("src/test/resources/images/profile_pic.png");
+        spp.uploadPicture();
+        spp.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
+        spp.isElementVisible("studentPhotoUploader");
+        spp.editProfilePhoto();
+        spp.editProfileThroughUi("", "short.name", "e@email.com", "inst", "Usual Nationality", 
+                "female", "this is enough!$%&*</>");
+        spp.ensureProfileContains("short.name", "e@email.com", "inst", "Usual Nationality", 
+                "female", "this is enough!$%&*</>");
+        spp.verifyPhotoSize(150, 150);
+        String prevPictureKey = BackDoor.getStudentProfile(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT).pictureKey;
+        verifyPictureIsPresent(prevPictureKey);
+        
+        spp.verifyHtmlMainContent("/NJIstudentProfilePage.html");
+        
+        studentHomePage.logout();
+        
+        //login in as instructor again to test sample course deletion
+        instructorHomePage = HomePage.getNewInstance(browser).clickInstructorLogin()
+                                                             .loginAsInstructor(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
+                                                                                TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+        
+  
+        instructorHomePage.clickAndConfirm(instructorHomePage.getDeleteCourseLink(demoCourseId));
+        assertTrue(instructorHomePage.getStatus().contains("The course " + demoCourseId + " has been deleted."));
+     
+        instructorHomePage.logout();
+        
+        BackDoor.deleteAccount(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
+        BackDoor.deleteCourse(demoCourseId);
+        BackDoor.deleteInstructor(demoCourseId, instructor.email);
+        
+   
     }
 
     @AfterClass
     public static void classTearDown() throws Exception {
         BrowserPool.release(browser);
     }
-
     
     private LoginPage createCorrectLoginPageType(String pageSource) {
         if (DevServerLoginPage.containsExpectedPageContents(pageSource)) {
@@ -152,6 +331,10 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         } else {
             throw new IllegalStateException("Not a valid login page :" + pageSource);
         }
+    }
+    
+    private void verifyPictureIsPresent(String pictureKey) {
+        assertEquals(BackDoorServlet.RETURN_VALUE_TRUE, BackDoor.getWhetherPictureIsPresentInGcs(pictureKey));
     }
     
     private <T extends AppPage> T createNewPage(Browser browser, Class<T> typeOfPage) {

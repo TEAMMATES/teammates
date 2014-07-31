@@ -1,7 +1,7 @@
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.ui.controller.PageData"%>
 <%
-	PageData data = (PageData) request.getAttribute("data");
+    PageData data = (PageData) request.getAttribute("data");
 %>
 
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -22,29 +22,35 @@
             <ul class="nav navbar-nav">
                 <li
                     class="<%=data.getClass().toString()
-					.contains("AdminHomePage") ? "active" : ""%>">
+                    .contains("AdminHomePage") ? "active" : ""%>">
                     <a href="<%=Const.ActionURIs.ADMIN_HOME_PAGE%>">Create
                         Instructor</a>
                 </li>
                 
                 <li
                     class="<%=data.getClass().toString()
-					.contains("AdminAccountManagementPage") ? "active" : ""%>">
+                    .contains("AdminAccountManagementPage") ? "active" : ""%>">
                     <a href="<%=Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE%>">Account
                         Management</a>
                 </li>
                 
                 <li
                     class="<%=data.getClass().toString().contains("AdminSearchPage") ? "active"
-					: ""%>">
+                    : ""%>">
                     <a href="<%=Const.ActionURIs.ADMIN_SEARCH_PAGE%>">Search</a>
                 </li>
                 
                 <li
                     class="<%=data.getClass().toString()
-					.contains("AdminActivityLogPage") ? "active" : ""%>">
+                    .contains("AdminActivityLogPage") ? "active" : ""%>">
                     <a href="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">Activity
                         Log</a>
+                </li>
+                
+                <li
+                    class="<%=data.getClass().toString()
+                    .contains("AdminSessionsPage") ? "active" : ""%>">
+                    <a href="<%=Const.ActionURIs.ADMIN_SESSIONS_PAGE%>">Sessions</a>
                 </li>
                 
             </ul>
@@ -55,19 +61,19 @@
                         href="<%=Const.ViewURIs.LOGOUT%>">
                         <span class="glyphicon glyphicon-user"></span>
                         Logout <%
-                    	if (data.account.googleId.length() > Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH) {
+                        if (data.account.googleId.length() > Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH) {
                     %> (<span class="text-info" data-toggle="tooltip"
                             data-placement="bottom"
                             title="<%=data.account.googleId%>"> <%=PageData.truncate(data.account.googleId,
-    						Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH)%>
+                            Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH)%>
                         </span>) <%
-                        	} else {
+                            } else {
                         %> (<span class="text-info" data-toggle="tooltip"
                             data-placement="bottom"
                             title="<%=data.account.googleId%>"> <%=PageData.truncate(data.account.googleId,
-    						Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH)%>
+                            Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH)%>
                         </span>) <%
-                        	}
+                            }
                         %>
                     </a>  
                 </li>

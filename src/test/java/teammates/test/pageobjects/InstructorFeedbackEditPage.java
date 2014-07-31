@@ -45,6 +45,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "instructions")
     private WebElement instructionsTextBox;
     
+    @FindBy(id = "editUncommonSettingsButton")
+    private WebElement uncommonSettingsButton;
+    
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_custom")
     private WebElement customSessionVisibleTimeButton;
     
@@ -286,6 +289,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         customNumOfRecipients.click();
     }
     
+    public void clickEditUncommonSettingsButton(){
+        uncommonSettingsButton.click();
+    }
+    
     public void clickCustomVisibleTimeButton(){
         customSessionVisibleTimeButton.click();
     }
@@ -334,6 +341,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void clickquestionSaveForQuestion1(){
         questionSaveForQuestion1.click();
         waitForPageToLoad();
+    }
+    
+    public void clickVisibilityPreviewForQuestion1(){
+        browser.driver.findElement(By.className("visibilityMessageButton")).click();
     }
     
     public void clickVisibilityOptionsForQuestion1(){

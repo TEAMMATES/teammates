@@ -1,6 +1,7 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -131,6 +132,19 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             commentGiverTable.put(comment.getId().toString(), getFilteredCommentGiverName(response, comment, commentGiverName));
             numberOfCommentFound++;
         }
+        
+        for (List<FeedbackQuestionAttributes> questions : this.questions.values()) {
+            Collections.sort(questions);
+        }
+        
+        for (List<FeedbackResponseAttributes> responses : this.responses.values()) {
+            FeedbackResponseAttributes.sortFeedbackResponses(responses);
+        }
+        
+        for (List<FeedbackResponseCommentAttributes> responseComments : this.comments.values()) {
+            FeedbackResponseCommentAttributes.sortFeedbackResponseCommentsByCreationTime(responseComments);
+        }
+        
         return this;
     }
     

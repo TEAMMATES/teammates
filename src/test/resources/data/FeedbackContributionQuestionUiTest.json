@@ -1,0 +1,68 @@
+{
+  "accounts": {
+  	"instructor1": {
+  	  "googleId": "FContribQnUiT.instructor",
+  	  "name": "Teammates Test",
+  	  "isInstructor": true,
+  	  "email": "tmms.test@gmail.com",
+  	  "institute": "National University of Singapore"
+  	},
+  	"alice.tmms": {
+  	  "googleId": "CFeedbackEditUiT.alice.tmms",
+  	  "name": "Alice Betsy",
+  	  "isInstructor": false,
+  	  "email": "alice.b.tmms@gmail.com",
+  	  "institute": "National University of Singapore"
+  	}
+  },
+
+  "courses": {
+    "course": {
+      "id": "FContribQnUiT.CS2104",
+      "name": "Programming Language Concepts",
+      "isArchived": false
+    }
+  },
+  
+  "instructors": {
+    "teammates.test.instructor": {
+      "googleId": "FContribQnUiT.instructor",
+      "courseId": "FContribQnUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "tmms.test@gmail.com",
+      "role":"Co-owner",
+      "displayedName":"Co-owner",
+      "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+    }
+  },
+  
+  "students": {
+    "alice.tmms@FContribQnUiT.CS2104": {
+      "googleId": "CFeedbackEditUiT.alice.tmms",
+      "email": "alice.b.tmms@gmail.com",
+      "course": "FContribQnUiT.CS2104",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy",
+      "team": "Team 1"
+    }
+  },
+  
+  "feedbackSessions" : {  
+    "openSession": {
+      "feedbackSessionName" : "First Session",
+      "courseId" : "FContribQnUiT.CS2104",
+      "creatorEmail" : "tmms.test@gmail.com",
+      "instructions": {"value" : "Instructions for first session"},
+      "createdTime" : "2012-04-01 11:59 PM UTC",
+      "startTime" : "2012-04-01 11:59 PM UTC",
+      "endTime" : "2016-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime" : "2012-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime" : "2016-05-01 11:59 PM UTC",
+      "timeZone" : 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType" : "STANDARD",
+      "sentOpenEmail" : true,
+      "sentPublishedEmail" : false
+    }
+  }
+}

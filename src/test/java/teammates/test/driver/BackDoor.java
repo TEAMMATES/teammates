@@ -53,6 +53,13 @@ public class BackDoor {
     private void ____SYSTEM_level_methods______________________________() {
     }
 
+    public static String putDocumentsForStudents(String dataBundleJson){
+        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_PUT_DOCUMENTS_FOR_STUDENTS);
+        params.put(BackDoorServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
+        String status = makePOSTRequest(params);
+        return status;
+    }
+
     /**
      * This persists the given data if no such data already exists in the
      * datastore.
@@ -62,6 +69,18 @@ public class BackDoor {
      */
     public static String persistNewDataBundle(String dataBundleJson) {
         HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_PERSIST_DATABUNDLE);
+        params.put(BackDoorServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
+        String status = makePOSTRequest(params);
+        return status;
+    }
+    
+    /**
+     * This create documents for entities through back door
+     * @param dataBundleJson
+     * @return
+     */
+    public static String putDocumentsInBackDoor(String dataBundleJson) {
+        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_PUT_DOCUMENTS);
         params.put(BackDoorServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
         String status = makePOSTRequest(params);
         return status;
@@ -100,7 +119,6 @@ public class BackDoor {
      * @return
      */
     public static String restoreDataBundle(String dataBundleJson) {
-        deleteInstructors(dataBundleJson);
         return persistNewDataBundle(dataBundleJson);
     }
     
@@ -128,6 +146,11 @@ public class BackDoor {
     public static String restoreDataBundle(DataBundle dataBundle) {
         String json = Utils.getTeammatesGson().toJson(dataBundle);
         return persistNewDataBundle(json);
+    }
+    
+    public static String putDocuments(DataBundle dataBundle) {
+        String json = Utils.getTeammatesGson().toJson(dataBundle);;
+        return putDocumentsInBackDoor(json);
     }
 
     /**

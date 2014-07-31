@@ -67,7 +67,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         printTestClassHeader();
         gaeSimulation.resetDatastore();
         turnLoggingUp(EvaluationsLogic.class);
-        restoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
     }
     
     @Test

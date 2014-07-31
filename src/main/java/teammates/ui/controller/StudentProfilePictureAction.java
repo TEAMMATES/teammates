@@ -7,6 +7,9 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 
+/**
+ * Action: serves a profile picture that is stored in Google Cloud Storage
+ */
 public class StudentProfilePictureAction extends Action {
 
     @Override
@@ -48,10 +51,8 @@ public class StudentProfilePictureAction extends Action {
             throw new EntityDoesNotExistException("student with " +
                     courseId + "/" + email);
         }
-        log.info(student.googleId);
         // googleId == null is handled at logic level
         String blobKey = logic.getStudentProfile(student.googleId).pictureKey;
-        log.info(blobKey);
         return createImageResult(blobKey);
     }
 

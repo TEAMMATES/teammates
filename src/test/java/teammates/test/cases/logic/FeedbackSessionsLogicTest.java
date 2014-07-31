@@ -71,7 +71,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         turnLoggingUp(FeedbackSessionsLogic.class);
         gaeSimulation.setupWithTaskQueueCallbackClass(PublishUnpublishSessionCallback.class);
         gaeSimulation.resetDatastore();
-        restoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
     }
     
     @SuppressWarnings("serial")
@@ -135,7 +135,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
     }
     
     public void testIsFeedbackSessionHasQuestionForStudents () throws Exception{
-        // no need to restoreTypicalDataInDatastore() as the previous test does not change the db
+        // no need to removeAndRestoreTypicalDataInDatastore() as the previous test does not change the db
         
         FeedbackSessionAttributes sessionWithStudents = dataBundle.feedbackSessions.get("gracePeriodSession");
         FeedbackSessionAttributes sessionWithoutStudents = dataBundle.feedbackSessions.get("closedSession");
@@ -192,7 +192,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
                 .getFeedbackSessionsClosingWithinTimeLimit();
         assertEquals(0, sessionList.size());
         
-        //delete the newly added session as restoreTypicalDataInDatastore()
+        //delete the newly added session as removeAndRestoreTypicalDataInDatastore()
                 //wont do it
         fsLogic.deleteFeedbackSessionCascade(session.feedbackSessionName,
                 session.courseId);
@@ -239,7 +239,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
                 .getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
         assertEquals(0, sessionList.size());
         
-        //delete the newly added session as restoreTypicalDataInDatastore()
+        //delete the newly added session as removeAndRestoreTypicalDataInDatastore()
         //wont do it
         fsLogic.deleteFeedbackSessionCascade(session.feedbackSessionName,
                 session.courseId);
@@ -1120,7 +1120,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         ______TS("MCQ results");
         
-        restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
         DataBundle newDataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
         session = newDataBundle.feedbackSessions.get("mcqSession");
         instructor = newDataBundle.instructors.get("instructor1OfCourse1");

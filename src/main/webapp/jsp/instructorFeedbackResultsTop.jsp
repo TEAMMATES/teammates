@@ -107,7 +107,7 @@
                         </label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input type="text" id="results-search-box" class="form-control" placeholder='<%= data.sortType.equals("question") ? "Type question info to filter results" : "Type a student/team name to filter results"%>' onchange="updateResultsFilter()">
+                                <input type="text" id="results-search-box" class="form-control" placeholder='<%= data.sortType.equals("question") ? "Type keywords from the question title" : "Type a student/team name to filter results"%>' onchange="updateResultsFilter()">
                                 <a class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
                             </div>
                         </div>
@@ -132,7 +132,7 @@
             </div>
             <div class="row">
                 <% if(data.sections.size() != 0) { %>
-                <div class="col-sm-5" data-toggle="tooltip" title="View results in separated section">
+                <div class="col-sm-5" data-toggle="tooltip" title="View results by sections">
                     <div class="form-group">
                         <label for="sectionSelect" class="col-sm-2 control-label">
                             Section:
@@ -154,7 +154,7 @@
                 <% } %>
                 <div class="col-sm-7 pull-right" style="padding-top:8px;">
                     <% if(!showAll || shouldCollapsed){ %>
-                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" data-toggle="tooltip" title="Collapse or expand all loaded panels. Since the data is too large, you have to click on each individual panel to load it.">
+                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" data-toggle="tooltip" title="Collapse or expand all loaded panels. Since the data is too large, you have to click on each individual panel to load it." <%= showAll ? "" : "disabled='disabled'" %>>
                         Expand <%= data.sortType.equals("question") ? "Questions" : "Sections" %>
                     </a>
                     <% } else { %>

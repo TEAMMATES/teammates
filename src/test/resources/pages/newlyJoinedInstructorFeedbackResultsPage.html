@@ -1,0 +1,225 @@
+<div id="frameBodyWrapper" class="container">
+            <div id="topOfPage"></div>
+            <div id="headerOperation">
+                <h1>Session Results</h1>
+            </div>            
+            
+
+
+
+
+
+
+<div class="well well-plain padding-0">
+    <form class="form-horizontal" role="form" method="post" action="/page/instructorFeedbackResultsDownload">
+        <div class="panel-heading">
+          <div class="row">
+          <div class="col-sm-4">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Course:</label>
+                <div class="col-sm-10">
+                  <p class="form-control-static">AHPUiT.instr1.gma-demo</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Session:</label>
+                <div class="col-sm-10">
+                  <p class="form-control-static">Second team feedback session 
+                      
+                          <a href="/page/instructorFeedbackEditPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Second+team+feedback+session&amp;user={$test.instructor}">
+                          [Edit]</a>
+                      
+                  </p>
+                </div>
+              </div>
+          </div>
+          <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-sm-4 control-label">Session duration:</label>
+                <div class="col-sm-8">
+                  <p class="form-control-static">{*}&nbsp;&nbsp;&nbsp;<b>to</b>&nbsp;&nbsp;&nbsp;{*}</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-4 control-label">Results visible from:</label>
+                <div class="col-sm-8">
+                  <p class="form-control-static">
+                    {*}
+                    
+                    </p>
+                </div>
+              </div>
+          </div>
+          <div class="col-sm-2">
+              <div id="feedbackDataButtons">
+                  <input id="button_download" class="btn btn-primary pull-right" name="fruploaddownloadbtn" value="Download results" type="submit">
+              </div>
+              <input name="user" value="{$test.instructor}" type="hidden">
+              <input name="fsname" value="Second team feedback session" type="hidden">
+              <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
+              <input name="sectionname" value="All" type="hidden">
+          </div>
+        </div>
+        </div>
+      </form>
+    
+</div>
+
+
+<br>
+
+
+
+
+
+    <div id="statusMessage" style="display: none;"></div>
+
+<br>
+
+    <div class="bold color_red align-center">There are no responses for this feedback session yet or you do not have access to the responses collected so far.</div>
+
+
+            <br>
+            
+            <div class="panel panel-info">
+                <div style="cursor: pointer;" data-target="#panelBodyCollapse-1" class="panel-heading">
+                    <form style="display:none;" id="seeMore-1" class="seeMoreForm-1" action="/page/instructorFeedbackResultsPage">
+                        <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
+                        <input name="fsname" value="Second team feedback session" type="hidden">
+                        <input name="user" value="{$test.instructor}" type="hidden">
+                        <input name="frgroupbyteam" value="on" type="hidden">
+                        <input name="frsorttype" value="question" type="hidden">
+                        <input name="frshowstats" value="on" id="showStats-1" type="hidden">
+                        <input name="questionnum" value="1" type="hidden">
+                    </form>
+                    <div class="display-icon pull-right">
+                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                    </div>
+                    <strong>Question 1: </strong><span class="text-preserve-space">Please rate the estimated contribution of your team members and yourself.&nbsp;<span style=" white-space: normal;">
+    <a href="javascript:;" id="questionAdditionalInfoButton-1-" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-')" data-more="[more]" data-less="[less]">[more]</a>
+    <br>
+    <span id="questionAdditionalInfo-1-" style="display:none;">Team contribution question</span>
+</span></span>
+                </div>
+                <div id="panelBodyCollapse-1" class="panel-collapse collapse in">
+                <div class="panel-body padding-0" id="questionBody-0">
+                    
+                        <div class="col-sm-12">
+                            <i class="text-muted">There are no responses for this question.</i>
+                        </div>
+                    
+                </div>
+                </div>
+            </div>
+            
+            <div class="panel panel-info">
+                <div style="cursor: pointer;" data-target="#panelBodyCollapse-2" class="panel-heading">
+                    <form style="display:none;" id="seeMore-2" class="seeMoreForm-2" action="/page/instructorFeedbackResultsPage">
+                        <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
+                        <input name="fsname" value="Second team feedback session" type="hidden">
+                        <input name="user" value="{$test.instructor}" type="hidden">
+                        <input name="frgroupbyteam" value="on" type="hidden">
+                        <input name="frsorttype" value="question" type="hidden">
+                        <input name="frshowstats" value="on" id="showStats-2" type="hidden">
+                        <input name="questionnum" value="2" type="hidden">
+                    </form>
+                    <div class="display-icon pull-right">
+                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                    </div>
+                    <strong>Question 2: </strong><span class="text-preserve-space">Comments about my contribution (shown to other teammates)</span>
+                </div>
+                <div id="panelBodyCollapse-2" class="panel-collapse collapse in">
+                <div class="panel-body padding-0" id="questionBody-1">
+                    
+                        <div class="col-sm-12">
+                            <i class="text-muted">There are no responses for this question.</i>
+                        </div>
+                    
+                </div>
+                </div>
+            </div>
+            
+            <div class="panel panel-info">
+                <div style="cursor: pointer;" data-target="#panelBodyCollapse-3" class="panel-heading">
+                    <form style="display:none;" id="seeMore-3" class="seeMoreForm-3" action="/page/instructorFeedbackResultsPage">
+                        <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
+                        <input name="fsname" value="Second team feedback session" type="hidden">
+                        <input name="user" value="{$test.instructor}" type="hidden">
+                        <input name="frgroupbyteam" value="on" type="hidden">
+                        <input name="frsorttype" value="question" type="hidden">
+                        <input name="frshowstats" value="on" id="showStats-3" type="hidden">
+                        <input name="questionnum" value="3" type="hidden">
+                    </form>
+                    <div class="display-icon pull-right">
+                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                    </div>
+                    <strong>Question 3: </strong><span class="text-preserve-space">My comments about this teammate(confidential and only shown to instructor)</span>
+                </div>
+                <div id="panelBodyCollapse-3" class="panel-collapse collapse in">
+                <div class="panel-body padding-0" id="questionBody-2">
+                    
+                        <div class="col-sm-12">
+                            <i class="text-muted">There are no responses for this question.</i>
+                        </div>
+                    
+                </div>
+                </div>
+            </div>
+            
+            <div class="panel panel-info">
+                <div style="cursor: pointer;" data-target="#panelBodyCollapse-4" class="panel-heading">
+                    <form style="display:none;" id="seeMore-4" class="seeMoreForm-4" action="/page/instructorFeedbackResultsPage">
+                        <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
+                        <input name="fsname" value="Second team feedback session" type="hidden">
+                        <input name="user" value="{$test.instructor}" type="hidden">
+                        <input name="frgroupbyteam" value="on" type="hidden">
+                        <input name="frsorttype" value="question" type="hidden">
+                        <input name="frshowstats" value="on" id="showStats-4" type="hidden">
+                        <input name="questionnum" value="4" type="hidden">
+                    </form>
+                    <div class="display-icon pull-right">
+                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                    </div>
+                    <strong>Question 4: </strong><span class="text-preserve-space">Comments about team dynamics(confidential and only shown to instructor)</span>
+                </div>
+                <div id="panelBodyCollapse-4" class="panel-collapse collapse in">
+                <div class="panel-body padding-0" id="questionBody-3">
+                    
+                        <div class="col-sm-12">
+                            <i class="text-muted">There are no responses for this question.</i>
+                        </div>
+                    
+                </div>
+                </div>
+            </div>
+            
+            <div class="panel panel-info">
+                <div style="cursor: pointer;" data-target="#panelBodyCollapse-5" class="panel-heading">
+                    <form style="display:none;" id="seeMore-5" class="seeMoreForm-5" action="/page/instructorFeedbackResultsPage">
+                        <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
+                        <input name="fsname" value="Second team feedback session" type="hidden">
+                        <input name="user" value="{$test.instructor}" type="hidden">
+                        <input name="frgroupbyteam" value="on" type="hidden">
+                        <input name="frsorttype" value="question" type="hidden">
+                        <input name="frshowstats" value="on" id="showStats-5" type="hidden">
+                        <input name="questionnum" value="5" type="hidden">
+                    </form>
+                    <div class="display-icon pull-right">
+                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                    </div>
+                    <strong>Question 5: </strong><span class="text-preserve-space">My feedback to this teammate(shown anonymously to the teammate)</span>
+                </div>
+                <div id="panelBodyCollapse-5" class="panel-collapse collapse in">
+                <div class="panel-body padding-0" id="questionBody-4">
+                    
+                        <div class="col-sm-12">
+                            <i class="text-muted">There are no responses for this question.</i>
+                        </div>
+                    
+                </div>
+                </div>
+            </div>
+            
+            
+            
+            </div>

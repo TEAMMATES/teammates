@@ -309,6 +309,62 @@ function readyFeedbackPage() {
     bindCopyEvents();
 
     window.doPageSpecificOnload = selectDefaultTimeOptions();
+
+    bindUncommonSettingsEvents();
+    updateUncommonSettingsInfo();
+    hideUncommonPanels();
+}
+
+function bindUncommonSettingsEvents(){
+    $('#editUncommonSettingsButton').click(uncommonSettingsButtonClick);
+}
+
+function updateUncommonSettingsInfo(){
+    var info = "Session is visible at submission opening time, responses are only visible when you publish the results.<br>" +
+                "Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.";
+
+    $('#uncommonSettingsInfoText').html(info);
+}
+
+function uncommonSettingsButtonClick(){
+    var button = $('#editUncommonSettingsButton');
+    var button_edit = $(button).attr('data-edit');
+    if($(button).text() == button_edit){
+        showUncommonPanels();
+        $('#uncommonSettingsInfo').hide();
+    }
+}
+
+function isDefaultSetting(){
+    if ($('#sessionVisibleFromButton_atopen').prop('checked') &&
+        $('#resultsVisibleFromButton_later').prop('checked') &&
+        $('#sendreminderemail_open').prop('checked') &&
+        $('#sendreminderemail_closing').prop('checked') &&
+        $('#sendreminderemail_published').prop('checked')){
+        return true;
+    } else {
+        return false;   
+    }
+}
+
+function showUncommonPanels(){
+    //Hide panels only if they do not match the default values.
+    if(isDefaultSetting()){
+        $('#sessionResponsesVisiblePanel').show();
+        $('#sendEmailsForPanel').show();
+    } else {
+        $('#uncommonSettingsInfo').hide();
+    }
+}
+
+function hideUncommonPanels(){
+    //Hide panels only if they do not match the default values.
+    if(isDefaultSetting()){
+        $('#sessionResponsesVisiblePanel').hide();
+        $('#sendEmailsForPanel').hide();
+    } else {
+        $('#uncommonSettingsInfo').hide();
+    }
 }
 
 /**

@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -31,7 +32,7 @@ import teammates.storage.entity.StudentProfile;
  * 
  */
 public class AccountsDb extends EntitiesDb {
-
+    @SuppressWarnings("unused")
     private static final Logger log = Utils.getLogger();
     
     /**
@@ -61,7 +62,27 @@ public class AccountsDb extends EntitiesDb {
         }
     }
     
+    /* This function is used for persisting data bundle in testing process */
+    public void createAccounts(Collection<AccountAttributes> accountsToAdd, boolean updateAccount) throws InvalidParametersException{
+        
+        List<EntityAttributes> accountsToUpdate = createEntities(accountsToAdd);
+        if(updateAccount){
+            for(EntityAttributes entity : accountsToUpdate){
+                AccountAttributes account = (AccountAttributes) entity;
+                try {
+                    updateAccount(account, true);
+                } catch (EntityDoesNotExistException e) {
+                 // This situation is not tested as replicating such a situation is 
+                 // difficult during testing
+                    Assumption.fail("Entity found be already existing and not existing simultaneously");
+                }
+            }
+        }
+    }
+    
     /**
+     * Gets the data transfer version of the account. Does not retrieve the profile
+     * if the given parameter is false<br>
      * Preconditions: 
      * <br> * All parameters are non-null. 
      * @return Null if not found.
@@ -129,11 +150,12 @@ public class AccountsDb extends EntitiesDb {
         accountToUpdate.setIsInstructor(a.isInstructor);
         accountToUpdate.setInstitute(a.institute);
         
-        // if the student profile has changed then update the store
-        // this is to maintain integrity of the modified date.
         if (updateStudentProfile) {
             StudentProfileAttributes existingProfile = new StudentProfileAttributes(accountToUpdate.getStudentProfile());
             a.studentProfile.modifiedDate = existingProfile.modifiedDate;
+            
+            // if the student profile has changed then update the store
+            // this is to maintain integrity of the modified date.
             if(!(existingProfile.toString().equals(a.studentProfile.toString()))) {
                 accountToUpdate.setStudentProfile((StudentProfile) a.studentProfile.toEntity());
             }
@@ -170,6 +192,17 @@ public class AccountsDb extends EntitiesDb {
             deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
         }
         deleteEntity(accountToDelete);
+        closePM();
+    }
+    
+    public void deleteAccounts(Collection<AccountAttributes> accounts){
+
+        for(AccountAttributes accountToDelete : accounts){
+            if (!accountToDelete.studentProfile.pictureKey.equals("")) {
+                deletePicture(new BlobKey(accountToDelete.studentProfile.pictureKey));
+            }
+        }
+        deleteEntities(accounts);
         closePM();
     }
 

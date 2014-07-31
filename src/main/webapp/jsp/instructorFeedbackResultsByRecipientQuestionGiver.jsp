@@ -71,7 +71,7 @@
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="pull-right">
-                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%= groupByTeamEnabled == true ? "team" : "student" %> panels. You can also click on the panel heading to toggle each one individually.'>
+                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%= groupByTeamEnabled == true ? "team" : "student" %> panels. You can also click on the panel heading to toggle each one individually.' style="display:none;">
                                                     Expand
                                                     <%= groupByTeamEnabled == true ? " Teams" : " Students" %>
                                                 </a>
@@ -111,7 +111,7 @@
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="pull-right">
-                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%= groupByTeamEnabled == true ? "team" : "student" %> panels. You can also click on the panel heading to toggle each one individually.'>
+                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%= groupByTeamEnabled == true ? "team" : "student" %> panels. You can also click on the panel heading to toggle each one individually.' style="display:none;">
                                                     Expand
                                                     <%= groupByTeamEnabled == true ? " Teams" : " Students" %>
                                                 </a>
@@ -303,7 +303,10 @@
 
                 <div class="panel panel-primary">
                 <div class="panel-heading">
-                    To: <strong><%=responsesForRecipient.getKey()%></strong>
+                    To: <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
+                            <strong><%=responsesForRecipient.getKey()%></strong>
+                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                        </div>
                         <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmail%>]</a>
                     <span class='glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right'></span>
                 </div>
@@ -329,15 +332,18 @@
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
-                                            <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                            <th>
+                                                Photo
+                                            </th>
+                                            <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                 Giver
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,2)" style="width: 15%;">
+                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,3)" style="width: 15%;">
                                                 Team
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,3)">
+                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,4)">
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
@@ -352,6 +358,14 @@
                                             String giverName = data.bundle.getGiverNameForResponse(question, responseEntry);
                                             String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
                                         %>
+                                            <td class="middlealign">
+                                                <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(responseEntry.giverEmail)%>">
+                                                    <a class="student-profile-pic-view-link btn-link">
+                                                        View Photo
+                                                    </a>
+                                                    <img src="" alt="No Image Given" class="hidden">
+                                                </div>
+                                            </td>
                                             <td class="middlealign"><%=giverName%></td>
                                             <td class="middlealign"><%=giverTeamName%></td>
                                             <td class="multiline"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>

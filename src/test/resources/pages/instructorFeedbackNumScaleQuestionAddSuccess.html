@@ -216,7 +216,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-primary">
+                    <div style="display: none;" class="row" id="uncommonSettingsInfo">
+                        <div class="col-md-12 text-muted">
+                            <span id="uncommonSettingsInfoText">Session is visible at submission opening time, responses are only visible when you publish the results.<br>Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.</span>
+                            <a id="editUncommonSettingsButton" data-edit="[Edit]" data-done="[Done]" onclick="enableEditFS()">[Edit]</a>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary" id="sessionResponsesVisiblePanel">
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-6">
@@ -352,7 +358,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-primary">
+                    <div class="panel panel-primary" id="sendEmailsForPanel">
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -468,7 +474,7 @@
                             Feedback Recipient:
                         </label>
                         <div class="col-sm-8">
-                            <select class="form-control participantSelect" name="recipienttype" id="recipienttype-1" disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
+                            <select class="form-control participantSelect" name="recipienttype" id="recipienttype-1" disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
                                 <option value="SELF">Giver (Self feedback)</option>
 <option value="STUDENTS" selected="selected">Other students in the course</option>
 <option value="INSTRUCTORS">Instructors in the course</option>
@@ -483,12 +489,18 @@
                     </div>
                 </div>
                 <div class="row">
-                    <br>
-                    <div class="col-sm-6">
-                        <a class="visibilityOptionsLabel btn btn-xs  btn-info" onclick="toggleVisibilityOptions(this)">
-                            <span class="glyphicon glyphicon-eye-open">
-                            </span> Show Visibility Options
-                        </a>
+                    <br><br>
+                    <div class="col-sm-6 btn-group" data-toggle="buttons">
+                        <label class="btn btn-xs btn-info visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
+                            <input type="radio">
+                                <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
+                            
+                        </label>
+                        <label class="btn btn-xs btn-info active visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+                            <input type="radio">
+                                <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
+                            
+                        </label>
                     </div>
                     <div class="col-sm-6 numberOfEntitiesElements1">
                         <label id="numofrecipients_text-1" class="control-label col-sm-4 small">
@@ -504,6 +516,18 @@
                                 <span class="">Unlimited</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 text-muted visibilityMessage">
+                        This is the visibility as seen by the feedback giver.
+                        <ul class="background-color-warning">
+                        
+                                <li>The receiving student can see your response, and your name.</li>
+                        
+                                <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
+                        
+                        </ul>
                     </div>
                 </div>
                 <div style="display: none;" class="visibilityOptions">
@@ -690,9 +714,9 @@
                             Feedback Recipient:
                         </label>
                         <div class="col-sm-8">
-                            <select class="form-control participantSelect" name="recipienttype" id="recipienttype-2" disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
-                                <option value="SELF" selected="selected">Giver (Self feedback)</option>
-<option value="STUDENTS">Other students in the course</option>
+                            <select class="form-control participantSelect" name="recipienttype" id="recipienttype-2" disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
+                                <option value="SELF">Giver (Self feedback)</option>
+<option value="STUDENTS" selected="selected">Other students in the course</option>
 <option value="INSTRUCTORS">Instructors in the course</option>
 <option value="TEAMS">Other teams in the course</option>
 <option value="OWN_TEAM">Giver's team</option>
@@ -705,16 +729,22 @@
                     </div>
                 </div>
                 <div class="row">
-                    <br>
-                    <div class="col-sm-6">
-                        <a class="visibilityOptionsLabel btn btn-xs  btn-info" onclick="toggleVisibilityOptions(this)">
-                            <span class="glyphicon glyphicon-eye-open">
-                            </span> Show Visibility Options
-                        </a>
+                    <br><br>
+                    <div class="col-sm-6 btn-group" data-toggle="buttons">
+                        <label class="btn btn-xs btn-info visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
+                            <input type="radio">
+                                <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
+                            
+                        </label>
+                        <label class="btn btn-xs btn-info active visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+                            <input type="radio">
+                                <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
+                            
+                        </label>
                     </div>
-                    <div style="display: none;" class="col-sm-6 numberOfEntitiesElements2">
+                    <div class="col-sm-6 numberOfEntitiesElements2">
                         <label id="numofrecipients_text-2" class="control-label col-sm-4 small">
-                            The maximum number of <span id="numofrecipients_text_inner-2"></span> each respondant should give feedback to:
+                            The maximum number of <span id="numofrecipients_text_inner-2">students</span> each respondant should give feedback to:
                         </label>
                         <div class="col-sm-8 form-control-static">
                             <div class="col-sm-6">
@@ -726,6 +756,18 @@
                                 <span class="">Unlimited</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 text-muted visibilityMessage">
+                        This is the visibility as seen by the feedback giver.
+                        <ul class="background-color-warning">
+                        
+                                <li>The receiving student can see your response, and your name.</li>
+                        
+                                <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
+                        
+                        </ul>
                     </div>
                 </div>
                 <div style="display: none;" class="visibilityOptions">
@@ -1130,7 +1172,7 @@
                                 Feedback Recipient:
                             </label>
                             <div class="col-sm-8">
-                                <select class="form-control participantSelect" name="recipienttype" id="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
+                                <select class="form-control participantSelect" name="recipienttype" id="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
                                     <option value="SELF">Giver (Self feedback)</option>
 <option value="STUDENTS">Other students in the course</option>
 <option value="INSTRUCTORS">Instructors in the course</option>
@@ -1145,12 +1187,18 @@
                         </div>
                     </div>
                     <div class="row">
-                        <br>
-                        <div class="col-sm-6">
-                            <a class="visibilityOptionsLabel btn btn-xs  btn-info" onclick="toggleVisibilityOptions(this)">
-                                <span class="glyphicon glyphicon-eye-open">
-                                </span> Show Visibility Options
-                            </a>
+                        <br><br>
+                        <div class="col-sm-6 btn-group" data-toggle="buttons">
+                            <label class="btn btn-xs btn-info visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
+                                <input type="radio">
+                                    <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
+                                
+                            </label>
+                            <label class="btn btn-xs btn-info active visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+                                <input type="radio">
+                                    <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
+                                
+                            </label>
                         </div>
                         <div style="display: none;" class="col-sm-6 numberOfEntitiesElements">
                             <label id="numofrecipients_text-" class="control-label col-sm-4 small">
@@ -1166,6 +1214,11 @@
                                     <span class="">Unlimited</span>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 text-muted visibilityMessage">
+
                         </div>
                     </div>
                     <div style="display: none;" class="visibilityOptions">

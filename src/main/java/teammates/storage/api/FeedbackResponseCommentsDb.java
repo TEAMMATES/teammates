@@ -32,6 +32,20 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
 
     private static final Logger log = Utils.getLogger();
     
+    public void createFeedbackResponseComments(Collection<FeedbackResponseCommentAttributes> commentsToAdd) throws InvalidParametersException{
+        List<EntityAttributes> commentsToUpdate = createEntities(commentsToAdd);
+        for(EntityAttributes entity : commentsToUpdate){
+            FeedbackResponseCommentAttributes comment = (FeedbackResponseCommentAttributes) entity;
+            try {
+                updateFeedbackResponseComment(comment);
+            } catch (EntityDoesNotExistException e) {
+             // This situation is not tested as replicating such a situation is 
+             // difficult during testing
+                Assumption.fail("Entity found be already existing and not existing simultaneously");
+            }
+        }
+    }
+    
     @Override
     public FeedbackResponseCommentAttributes createEntity(EntityAttributes entityToAdd) 
             throws InvalidParametersException, EntityAlreadyExistsException{
@@ -164,6 +178,24 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         getPM().deletePersistentAll(frcList);
         getPM().flush();
+    }
+    
+    public void deleteFeedbackResponseCommentsForCourses(List<String> courseIds){
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+        
+        List<FeedbackResponseComment> feedbackResponseCommentList = getFeedbackResponseCommentEntitiesForCourses(courseIds);
+        
+        getPM().deletePersistentAll(feedbackResponseCommentList);
+        getPM().flush();
+    }
+    
+    public List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForCourses(List<String> courseIds) {
+        Query q = getPM().newQuery(FeedbackResponseComment.class);
+        q.setFilter(":p.contains(courseId)");
+        
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponseComment> feedbackResponseCommentList = (List<FeedbackResponseComment>) q.execute(courseIds);
+        return feedbackResponseCommentList;
     }
     
     

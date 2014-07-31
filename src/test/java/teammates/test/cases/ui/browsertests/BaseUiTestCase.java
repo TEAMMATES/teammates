@@ -102,6 +102,33 @@ public class BaseUiTestCase extends BaseTestCase {
             Assumption.assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
         }
     }
+
+    /**
+     * Updates/creates the given data on the datastore.
+     */
+    protected static void removeTestDataOnServer(DataBundle testData) {
+
+        int counter = 0;
+        String backDoorOperationStatus = "";
+        int retryLimit;
+        if(TestProperties.inst().isDevServer()){
+            retryLimit = 5;
+        } else {
+            retryLimit = 1;
+        }
+
+        while(counter < retryLimit){
+            counter++;
+            backDoorOperationStatus = BackDoor.removeDataBundleFromDb(testData);
+            if(backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
+                break;
+            }
+            System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
+        }
+        if(counter >= retryLimit){
+            Assumption.assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+        }
+    }
     
     /**
      * Removes and then creates given data on the datastore.
@@ -119,6 +146,29 @@ public class BaseUiTestCase extends BaseTestCase {
         while(counter < retryLimit){
             counter++;
             backDoorOperationStatus = BackDoor.removeAndRestoreDataBundleFromDb(testData);
+            if(backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
+                break;
+            }
+            System.out.println("Re-trying restoreDataBundle - " + backDoorOperationStatus);
+        }
+        if(counter >= retryLimit){
+            Assumption.assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+        }
+    }
+    
+    protected static void putDocuments(DataBundle testData) {
+        int counter = 0;
+        String backDoorOperationStatus = "";
+        int retryLimit;
+        if(TestProperties.inst().isDevServer()){
+            retryLimit = 5;
+        } else {
+            retryLimit = 1;
+        }
+
+        while(counter < retryLimit){
+            counter++;
+            backDoorOperationStatus = BackDoor.putDocuments(testData);
             if(backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS)){
                 break;
             }

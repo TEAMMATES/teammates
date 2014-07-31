@@ -23,6 +23,20 @@ public class FeedbackResponsesDb extends EntitiesDb {
 
     private static final Logger log = Utils.getLogger();
 
+    public void createFeedbackResponses(Collection<FeedbackResponseAttributes> responsesToAdd) throws InvalidParametersException{
+        List<EntityAttributes> responsesToUpdate = createEntities(responsesToAdd);
+        for(EntityAttributes entity : responsesToUpdate){
+            FeedbackResponseAttributes response = (FeedbackResponseAttributes) entity;
+            try {
+                updateFeedbackResponse(response);
+            } catch (EntityDoesNotExistException e) {
+             // This situation is not tested as replicating such a situation is 
+             // difficult during testing
+                Assumption.fail("Entity found be already existing and not existing simultaneously");
+            }
+        }
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null. 
@@ -471,6 +485,24 @@ public class FeedbackResponsesDb extends EntitiesDb {
         fr.setRecipientSection(newAttributes.recipientSection);
                 
         getPM().close();
+    }
+    
+    public void deleteFeedbackResponsesForCourses(List<String> courseIds) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+        
+        List<FeedbackResponse> feedbackResponseList = getFeedbackResponseEntitiesForCourses(courseIds);
+        
+        getPM().deletePersistentAll(feedbackResponseList);
+        getPM().flush();
+    }
+    
+    public List<FeedbackResponse> getFeedbackResponseEntitiesForCourses(List<String> courseIds) {
+        Query q = getPM().newQuery(FeedbackResponse.class);
+        q.setFilter(":p.contains(courseId)");
+        
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponse> feedbackResponseList = (List<FeedbackResponse>) q.execute(courseIds);
+        return feedbackResponseList;
     }
     
     

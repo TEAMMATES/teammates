@@ -27,7 +27,7 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		restoreTypicalDataInDatastore();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
     }
     
@@ -50,8 +50,8 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         ShowPageResult pageResult = (ShowPageResult) confirmAction.executeAndPostProcess();
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION 
-                + "?regkey=" + invalidEncryptedKey 
-                + "&error=false&user=idOfInstructor1OfCourse1", pageResult.getDestinationWithParams());
+                + "?error=false&user=idOfInstructor1OfCourse1" 
+                + "&key=" + invalidEncryptedKey, pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
@@ -70,7 +70,7 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         RedirectResult redirectResult = (RedirectResult) confirmAction.executeAndPostProcess();
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED 
-                        + "?regkey=" + StringHelper.encrypt(instructor.key)
+                        + "?key=" + StringHelper.encrypt(instructor.key)
                         + "&error=false&user=idOfInstructor1OfCourse1", redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals("", redirectResult.getStatusMessage());
@@ -103,8 +103,8 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         pageResult = (ShowPageResult) confirmAction.executeAndPostProcess();
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION + 
-                "?regkey=" + StringHelper.encrypt(newInstructor.key) + 
-                "&error=false&user=ICJAT.instr",
+                "?error=false&user=ICJAT.instr" + 
+                "&key=" + StringHelper.encrypt(newInstructor.key),
                         pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());

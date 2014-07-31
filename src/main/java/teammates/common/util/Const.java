@@ -1,6 +1,7 @@
 package teammates.common.util;
 
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -282,6 +283,7 @@ public class Const {
     }
 
     public class ParamsNames{
+        
         public static final String BLOB_KEY = "blob-key";
         
         public static final String COPIED_FEEDBACK_SESSION_NAME = "copiedfsname";
@@ -323,7 +325,8 @@ public class Const {
         
         public static final String COURSE_ARCHIVE_STATUS = "archive";
         
-        public static final String ADMIN_SEARCH_REBUILD_DOC = "build_doc";
+        public static final String ADMIN_SEARCH_KEY = "searchkey";
+        public static final String ADMIN_SEARCH_BUTTON_HIT = "searchbuttonhit";
     
         public static final String EVALUATION_NAME = "evaluationname";
     
@@ -347,8 +350,12 @@ public class Const {
         public static final String FEEDBACK_SESSION_CREATETIME = "createtime";
         public static final String FEEDBACK_SESSION_STARTDATE = "startdate";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
+        public static final String FEEDBACK_SESSION_STARTHOUR = "starthour";
+        public static final String FEEDBACK_SESSION_STARTMINUTE = "startminute";
         public static final String FEEDBACK_SESSION_ENDDATE = "enddate";
         public static final String FEEDBACK_SESSION_ENDTIME = "endtime";
+        public static final String FEEDBACK_SESSION_ENDHOUR = "endhour";
+        public static final String FEEDBACK_SESSION_ENDMINUTE = "endminute";
         public static final String FEEDBACK_SESSION_VISIBLEDATE = "visibledate";
         public static final String FEEDBACK_SESSION_VISIBLETIME = "visibletime";
         public static final String FEEDBACK_SESSION_PUBLISHDATE = "publishdate";
@@ -411,7 +418,7 @@ public class Const {
         
         public static final String STUDENT_ID = "googleid";
         
-        public static final String REGKEY = "regkey";
+        public static final String REGKEY = "key";
         public static final String STUDENT_EMAIL = "studentemail";
         public static final String FROM_COMMENTS_PAGE = "commentpage";
         public static final String FROM_COURSE_DETAILS_PAGE = "coursedetailspage";
@@ -601,7 +608,8 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_ADD = "/page/instructorFeedbackQuestionAdd";
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_COPY = "/page/instructorFeedbackQuestionCopy";
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_EDIT = "/page/instructorFeedbackQuestionEdit";
-
+        public static final String INSTRUCTOR_FEEDBACK_QUESTION_VISIBILITY_MESSAGE = "/page/instructorFeedbackQuestionvisibilityMessage";
+        
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD = "/page/instructorFeedbackResponseCommentAdd";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT = "/page/instructorFeedbackResponseCommentEdit";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE = "/page/instructorFeedbackResponseCommentDelete";
@@ -642,6 +650,7 @@ public class Const {
         public static final String ADMIN_ACCOUNT_DELETE = "/admin/adminAccountDelete";
         public static final String ADMIN_EXCEPTION_TEST = "/admin/adminExceptionTest";
         public static final String ADMIN_ACTIVITY_LOG_PAGE = "/admin/adminActivityLogPage";
+        public static final String ADMIN_SESSIONS_PAGE = "/admin/adminSessionsPage";
         public static final String ADMIN_SEARCH_PAGE = "/admin/adminSearchPage";
         
         public static final String AUTOMATED_EVAL_OPENING_REMINDERS = "/evaluationopeningreminders";
@@ -716,6 +725,7 @@ public class Const {
         public static final String ADMIN_SEARCH = "/jsp/adminSearch.jsp";
         public static final String ADMIN_ACTIVITY_LOG = "/jsp/adminActivityLog.jsp";
         public static final String ADMIN_ACCOUNT_DETAILS = "/jsp/adminAccountDetails.jsp";
+        public static final String ADMIN_SESSIONS = "/jsp/adminSessions.jsp";
         
         public static final String LOGOUT = "/logout.jsp"; 
         
@@ -776,12 +786,12 @@ public class Const {
         public static final String COURSE_REMINDER_SENT_TO = "An email has been sent to ";
         public static final String COURSE_REMINDERS_SENT = "Emails have been sent to unregistered students.";
         
-        public static final String COURSE_ENROLL_STUDENTS_ERROR = "There are errors on %d student(s):";
-        public static final String COURSE_ENROLL_STUDENTS_ADDED = "There are %d student(s) added:";
-        public static final String COURSE_ENROLL_STUDENTS_MODIFIED = "There are %d student(s) modified:";
-        public static final String COURSE_ENROLL_STUDENTS_UNMODIFIED = "There are %d student(s) unmodified:";
-        public static final String COURSE_ENROLL_STUDENTS_NOT_IN_LIST = "There are %d other student(s) previously in the course:";
-        public static final String COURSE_ENROLL_STUDENTS_UNKNOWN = "There are %d student(s) for which the enrollment status is unknown:";
+        public static final String COURSE_ENROLL_STUDENTS_ERROR = "Errors on %d student(s):";
+        public static final String COURSE_ENROLL_STUDENTS_ADDED = "%d student(s) added:";
+        public static final String COURSE_ENROLL_STUDENTS_MODIFIED = "%d student(s) modified:";
+        public static final String COURSE_ENROLL_STUDENTS_UNMODIFIED = "%d student(s) updated with no changes:";
+        public static final String COURSE_ENROLL_STUDENTS_NOT_IN_LIST = "%d student(s) remain unmodified:";
+        public static final String COURSE_ENROLL_STUDENTS_UNKNOWN = "%d student(s) with unknown enrolment status:";
 
         public static final String TEAM_INVALID_SECTION_EDIT = "The team \"%s\" is in multiple sections. The team ID should be unique across the entire course and a team cannot be spread across multiple sections.<br>";
         public static final String SECTION_QUOTA_EXCEED = "You are trying enroll more than 100 students in section \"%s\". To avoid performance problems, please do not enroll more than 100 students in a single section.<br>";
@@ -918,7 +928,7 @@ public class Const {
         public static final String COMMENT_DUPLICATE = "An existing comment with the same content is found, comment not added";
         
         public static final String HINT_FOR_NEW_INSTRUCTOR = "New to TEAMMATES? You may wish to have a look at our "
-                + "<a href='/instructorHelp.html#gs' target='_blank'>Getting Started Guide</a>.<br>A <a href='https://youtube.googleapis.com/v/wCxBOUEiD6Q&hd=1&autoplay=1&rel=0' target='_blank'>video tour</a>"
+                + "<a href='/instructorHelp.html#gs' target='_blank'>Getting Started Guide</a>.<br>A video tour"
                 + " is also available in our <a href='/index.html' target='_blank'>home page</a>.";
         
         // Messages that are templates only
@@ -1052,6 +1062,10 @@ public class Const {
     public static final Date TIME_REPRESENTS_NEVER;
     public static final Date TIME_REPRESENTS_LATER;
     public static final Date TIME_REPRESENTS_NOW;
+    
+    public static final double[] TIME_ZONE_VALUES = { -12, -11, -10, -9, -8,
+            -7, -6, -5, -4.5, -4, -3.5, -3, -2, -1, 0, 1, 2, 3, 3.5, 4, 4.5, 5,
+            5.75, 6, 7, 8, 9, 10, 11, 12, 13 };
     
     static {
         TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 00:00 AM UTC");

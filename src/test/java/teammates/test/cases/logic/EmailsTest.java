@@ -519,7 +519,7 @@ public class EmailsTest extends BaseComponentTestCase {
     @Test
     public void testGenerateFeedbackSessionEmails() throws Exception {
 
-        restoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         
         List<StudentAttributes> students = new ArrayList<StudentAttributes>();
         List<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>();

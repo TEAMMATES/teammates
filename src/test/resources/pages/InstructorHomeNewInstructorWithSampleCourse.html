@@ -6,7 +6,7 @@
                     <h1>Instructor Home</h1>
                 </div>
                 <div class="col-md-5 instructor-header-bar">
-                    <form method="get" action="/page/instructorSearchPage?user={$test.instructor}" name="search_form">
+                    <form method="get" action="/page/instructorSearchPage?user=CHomeUiT.instructor.tmms" name="search_form">
                         <div class="input-group">
                             <input data-original-title="Search for student's name" id="searchbox" title="" name="searchkey" class="form-control" data-toggle="tooltip" data-placement="top" placeholder="Student Name" type="text">
                             <span class="input-group-btn">
@@ -16,11 +16,11 @@
                         <input name="searchstudents" value="true" type="hidden">
                         <input name="searchcommentforstudents" value="false" type="hidden">
                         <input name="searchcommentforresponses" value="false" type="hidden">
-                        <input name="user" value="{$test.instructor}" type="hidden">
+                        <input name="user" value="CHomeUiT.instructor.tmms" type="hidden">
                     </form>
                 </div>
                 <div class="col-md-2 instructor-header-bar">
-                    <a class="btn btn-primary btn-md" href="/page/instructorCoursesPage?user={$test.instructor}" id="addNewCourse">Add New Course </a>
+                    <a class="btn btn-primary btn-md" href="/page/instructorCoursesPage?user=CHomeUiT.instructor.tmms" id="addNewCourse">Add New Course </a>
                 </div>
             </div>
         </div>
@@ -31,7 +31,7 @@
 
 
     <div id="statusMessage" class="alert alert-warning">
-        New to TEAMMATES? You may wish to have a look at our <a href="/instructorHelp.html#gs" target="_blank">Getting Started Guide</a>.<br>A <a href="https://youtube.googleapis.com/v/wCxBOUEiD6Q&amp;hd=1&amp;autoplay=1&amp;rel=0" target="_blank">video tour</a> is also available in our <a href="/index.html" target="_blank">home page</a>.
+        New to TEAMMATES? You may wish to have a look at our <a href="/instructorHelp.html#gs" target="_blank">Getting Started Guide</a>.<br>A video tour is also available in our <a href="/index.html" target="_blank">home page</a>.
     </div>
     <script type="text/javascript">
         document.getElementById( 'statusMessage' ).scrollIntoView();
@@ -76,26 +76,26 @@
                             </div>
                             <div class="col-md-6">
                                 <span class="pull-right">
-                                     <a data-original-title="Enroll student into the course" class="btn btn-primary btn-xs btn-tm-actions course-enroll-for-test" href="/page/instructorCourseEnrollPage?courseid=newIns.wit-demo&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top"> Enroll</a>
+                                     <a data-original-title="Enroll student into the course" class="btn btn-primary btn-xs btn-tm-actions course-enroll-for-test" href="/page/instructorCourseEnrollPage?courseid=newIns.wit-demo&amp;user=CHomeUiT.instructor.tmms" title="" data-toggle="tooltip" data-placement="top"> Enroll</a>
                                          
-                                     <a data-original-title="View, edit and send invitation emails to the students in the course" class="btn btn-primary btn-xs btn-tm-actions course-view-for-test" href="/page/instructorCourseDetailsPage?courseid=newIns.wit-demo&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top"> View</a> 
+                                     <a data-original-title="View, edit and send invitation emails to the students in the course" class="btn btn-primary btn-xs btn-tm-actions course-view-for-test" href="/page/instructorCourseDetailsPage?courseid=newIns.wit-demo&amp;user=CHomeUiT.instructor.tmms" title="" data-toggle="tooltip" data-placement="top"> View</a> 
                                         
-                                     <a data-original-title="Edit Course information and instructor list" class="btn btn-primary btn-xs btn-tm-actions course-edit-for-test" href="/page/instructorCourseEditPage?courseid=newIns.wit-demo&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top"> Edit</a>
+                                     <a data-original-title="Edit Course information and instructor list" class="btn btn-primary btn-xs btn-tm-actions course-edit-for-test" href="/page/instructorCourseEditPage?courseid=newIns.wit-demo&amp;user=CHomeUiT.instructor.tmms" title="" data-toggle="tooltip" data-placement="top"> Edit</a>
                                         
-                                     <a data-original-title="Add a feedback session for the course" class="btn btn-primary btn-xs btn-tm-actions course-add-eval-for-test" href="/page/instructorFeedbacksPage?user={$test.instructor}&amp;courseid=newIns.wit-demo" title="" data-toggle="tooltip" data-placement="top"> Add Session</a>
+                                     <a data-original-title="Add a feedback session for the course" class="btn btn-primary btn-xs btn-tm-actions course-add-eval-for-test" href="/page/instructorFeedbacksPage?user=CHomeUiT.instructor.tmms&amp;courseid=newIns.wit-demo" title="" data-toggle="tooltip" data-placement="top"> Add Session</a>
                                      
-                                     <a data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" class="btn btn-primary btn-xs btn-tm-actions course-archive-for-test" href="/page/instructorCourseArchive?courseid=newIns.wit-demo&amp;archive=true&amp;next=%2Fpage%2FinstructorHomePage&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleArchiveCourseConfirmation('newIns.wit-demo')">Archive</a>
+                                     <a data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" class="btn btn-primary btn-xs btn-tm-actions course-archive-for-test" href="/page/instructorCourseArchive?courseid=newIns.wit-demo&amp;archive=true&amp;next=%2Fpage%2FinstructorHomePage&amp;user=CHomeUiT.instructor.tmms" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleArchiveCourseConfirmation('newIns.wit-demo')">Archive</a>
                                         
                                     
                                     <a data-original-title="Send email notification to recipients of 0 pending comment" class="btn btn-primary btn-xs btn-tm-actions course-notify-pending-comments-for-test
-                                        hidden" href="/page/instructorStudentCommentClearPending?courseid=newIns.wit-demo&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">
+                                        hidden" href="/page/instructorStudentCommentClearPending?courseid=newIns.wit-demo&amp;user=CHomeUiT.instructor.tmms" title="" data-toggle="tooltip" data-placement="top">
                                         <span class="badge">0</span>
                                         <span class="glyphicon glyphicon-comment"></span>
                                         <span class="glyphicon glyphicon-arrow-right"></span>
                                         <span class="glyphicon glyphicon-envelope"></span>
                                     </a>
                                         
-                                     <a data-original-title="Delete the course and its corresponding students and sessions" class="btn btn-primary btn-xs btn-tm-actions course-delete-for-test" href="/page/instructorCourseDelete?courseid=newIns.wit-demo&amp;next=%2Fpage%2FinstructorHomePage&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleDeleteCourseConfirmation('newIns.wit-demo')"> Delete</a>
+                                     <a data-original-title="Delete the course and its corresponding students and sessions" class="btn btn-primary btn-xs btn-tm-actions course-delete-for-test" href="/page/instructorCourseDelete?courseid=newIns.wit-demo&amp;next=%2Fpage%2FinstructorHomePage&amp;user=CHomeUiT.instructor.tmms" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleDeleteCourseConfirmation('newIns.wit-demo')"> Delete</a>
                                 </span>
                             </div>
                         </div>
