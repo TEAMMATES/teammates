@@ -871,7 +871,7 @@ public abstract class AppPage {
      * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
      * @return The page (for chaining method calls).
      */
-    public AppPage verifyHtmlAjax(String filePath) {
+    public AppPage verifyHtmlAjax(String filePath) throws Exception {
         int maxRetryCount = 5;
         int waitDuration = 1000;
         
@@ -885,15 +885,7 @@ public abstract class AppPage {
         
         String expectedString = "";
         
-        try {
-            expectedString = extractHtmlPartFromFile(By.id("frameBodyWrapper"), filePath);
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        expectedString = extractHtmlPartFromFile(By.id("frameBodyWrapper"), filePath);
         
         for(int i =0; i < maxRetryCount; i++) {
             try {

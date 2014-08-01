@@ -95,7 +95,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         testDeleteCourseAction();
     }
     
-    private void testShowFeedbackStatsLink() {
+    private void testShowFeedbackStatsLink() throws Exception {
         WebElement viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         
         String currentValidUrl = viewResponseLink.getAttribute("href");

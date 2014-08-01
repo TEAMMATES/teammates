@@ -48,15 +48,18 @@ public class StudentProfilePictureAction extends Action {
         }
         
         StudentAttributes student = logic.getStudentForEmail(courseId, email);
+        String blobKey = "";
         if (student == null) {
             throw new EntityDoesNotExistException("student with " +
                     courseId + "/" + email);
-        }
-        // googleId == null is handled at logic level
-        StudentProfileAttributes profile = logic.getStudentProfile(student.googleId);
-        String blobKey = "";
-        if (profile != null) {
-            blobKey = profile.pictureKey;
+        } else if (student.googleId == null 
+                || student.googleId.isEmpty()) {
+            // unregistered student, so ignore the picture request
+        } else {
+            StudentProfileAttributes profile = logic.getStudentProfile(student.googleId);
+            if (profile != null) {
+                blobKey = profile.pictureKey;
+            }
         }
         return createImageResult(blobKey);
     }

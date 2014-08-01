@@ -75,7 +75,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title">Emma's Profile - More Info</h4>
+                                <h4 class="modal-title"><%=data.student.name%>'s Profile - More Info</h4>
                             </div>
                             <div class="modal-body">
                                 <br>
@@ -179,15 +179,6 @@
                     <div class="col-sm-11"
                         id="<%=Const.ParamsNames.STUDENT_EMAIL%>">
                         <p class="form-control-static"><%=sanitizeForHtml(data.student.email)%></p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label">Join
-                        Link:</label>
-                    <div class="col-sm-11">
-                        <input id="<%=Const.ParamsNames.REGKEY%>"
-                            value="<%=sanitizeForHtml(data.student.getRegistrationUrl())%>"
-                            class="form-control" readonly="readonly">
                     </div>
                 </div>
                 <div class="form-group">
