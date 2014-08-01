@@ -206,8 +206,8 @@ public class StudentHomePageData extends PageData {
      * @return The list of available actions for a specific feedback session.
      */
     public String getStudentFeedbackSessionActions(FeedbackSessionAttributes fs, int idx) {
-        
-        Boolean hasSubmitted = sessionSubmissionStatusMap.get(fs.courseId+"%"+fs.feedbackSessionName);
+        String keyOfMap = fs.courseId+"%"+fs.feedbackSessionName;
+        boolean hasSubmitted = sessionSubmissionStatusMap.get(keyOfMap).booleanValue();
         
         // @formatter:off
         String result = "<a class=\"btn btn-default btn-xs btn-tm-actions" + (fs.isPublished() ? "\"" : DISABLED) 
