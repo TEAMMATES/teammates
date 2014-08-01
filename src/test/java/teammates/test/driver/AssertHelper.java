@@ -89,9 +89,9 @@ public class AssertHelper {
     public static boolean isContainsRegex(String regexExpected,    String stringActual) {
         String processedActual = stringActual.replaceAll("[\t\r\n]", "");
         String processedRegex = Pattern.quote(regexExpected)
-                .replaceAll(Pattern.quote("{*}"), "\\\\E.*\\\\Q")
+                .replaceAll(Pattern.quote("{*}"), "\\\\E.*?\\\\Q")
                 .replaceAll("[\t\r\n]", "");
-        return processedActual.matches("(?s)(?m).*" + processedRegex + ".*");
+        return processedActual.matches("(?s)(?m).*?" + processedRegex + ".*?");
     }
 
 }
