@@ -58,8 +58,8 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
     @Test
     public void testAll() throws Exception {
         
-        testContent();
         testShowPhoto();
+        testContent();
         testLinks();
         testSearch();
         testDeleteAction();
@@ -169,8 +169,6 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         
         viewPage.clickShowPhoto(student2.course, student2.name);
         viewPage.verifyHtmlMainContent("/instructorStudentListPageWithPicture.html");
-        viewPage.verifyPopoverPicture(student2.course, student2.name, 
-                TestProperties.inst().TEAMMATES_URL + "/page/studentProfilePic?studentemail=");
     }
     
     public void testLinks() throws Exception{
