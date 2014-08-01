@@ -6,7 +6,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -870,7 +869,7 @@ public abstract class AppPage {
      * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
      * @return The page (for chaining method calls).
      */
-    public AppPage verifyHtmlAjax(String filePath) {
+    public AppPage verifyHtmlAjax(String filePath) throws Exception {
         int maxRetryCount = 5;
         int waitDuration = 1000;
         
@@ -884,24 +883,15 @@ public abstract class AppPage {
         
         String expectedString = "";
         
-        try {
-            expectedString = extractHtmlPartFromFile(By.id("frameBodyWrapper"), filePath);
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        expectedString = extractHtmlPartFromFile(By.id("frameBodyWrapper"), filePath);
         
         for(int i =0; i < maxRetryCount; i++) {
-            ThreadHelper.waitFor(waitDuration);    
             try {
                 String actual = browser.driver.findElement(By.id("frameBodyWrapper")).getAttribute("outerHTML");
                 if(HtmlHelper.areSameHtml(actual, expectedString)) {
                     break;
                 }
-                
+                ThreadHelper.waitFor(waitDuration);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

@@ -44,14 +44,22 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         removeAndRestoreTestDataOnServer(testData);
         
         BackDoor.putDocumentsForStudents(Utils.getTeammatesGson().toJson(testData));
+        
+        // upload a profile picture for one of the students
+        StudentAttributes student = testData.students.get("Student3Course3");
+        File picture = new File("src/test/resources/images/profile_pic_updated.png");
+        String pictureData = Utils.getTeammatesGson().toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
+        assertEquals("Unable to upload profile picture", "[BACKDOOR_STATUS_SUCCESS]", 
+                BackDoor.uploadAndUpdateStudentProfilePicture(student.googleId, pictureData));
+        
         browser = BrowserPool.getBrowser();
     }
     
     @Test
-    public void testAll() throws Exception{
+    public void testAll() throws Exception {
         
-        testContent();
         testShowPhoto();
+        testContent();
         testLinks();
         testSearch();
         testDeleteAction();
@@ -86,7 +94,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         
     }
 
-    private void testContent() {
+    private void testContent() throws Exception {
         String instructorId;
         
         ______TS("content: 2 course with students");
@@ -159,15 +167,8 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         
         StudentAttributes student2 = testData.students.get("Student3Course3");
         
-        File picture = new File("src/test/resources/images/profile_pic_updated.png");
-        String pictureData = Utils.getTeammatesGson().toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
-         
-        assertEquals("[BACKDOOR_STATUS_SUCCESS]", BackDoor.uploadAndUpdateStudentProfilePicture(student2.googleId, pictureData));
-        
         viewPage.clickShowPhoto(student2.course, student2.name);
         viewPage.verifyHtmlMainContent("/instructorStudentListPageWithPicture.html");
-        viewPage.verifyPopoverPicture(student2.course, student2.name, 
-                TestProperties.inst().TEAMMATES_URL + "/page/studentProfilePic?studentemail=");
     }
     
     public void testLinks() throws Exception{
@@ -244,7 +245,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         // already covered under testContent() ______TS("content: search active")
     }
     
-    private void testDisplayArchive() {
+    private void testDisplayArchive() throws Exception {
         String instructorId = testData.instructors.get("instructorOfCourse4").googleId;
         Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)
                 .withUserId(instructorId);

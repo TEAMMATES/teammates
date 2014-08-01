@@ -357,7 +357,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         editPage.verifyContains("First Session");
     }
     
-    public void testAjaxForLargeScaledSession() {
+    public void testAjaxForLargeScaledSession() throws Exception {
         
         ______TS("Ajax for view by questions");
         
