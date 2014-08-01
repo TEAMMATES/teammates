@@ -303,16 +303,10 @@
                                         <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
                                             <%=responsesFromGiver.getKey()%>
                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                            <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
                                         </div>
                                     <% } else {%>
                                             <%=responsesFromGiver.getKey()%>
-                                            <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
                                     <% } %>
-                                    <div class="middlealign profile-pic-icon-hover inline-block" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
-                                        <%=responsesFromGiver.getKey()%>
-                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-10">
