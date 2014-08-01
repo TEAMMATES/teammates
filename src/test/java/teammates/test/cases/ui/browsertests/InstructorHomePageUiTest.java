@@ -59,7 +59,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/InstructorHomePageUiTest1.json");
         removeTestDataOnServer(loadDataBundle("/InstructorHomePageUiTest3.json"));
         restoreTestDataOnServer(testData);
-        browser = BrowserPool.getBrowser(true);
+        browser = BrowserPool.getBrowser();
     }
     
     private static void loadFinalHomePageTestData() throws Exception {
