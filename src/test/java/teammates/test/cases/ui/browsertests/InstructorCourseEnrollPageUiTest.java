@@ -37,7 +37,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/InstructorCourseEnrollPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
         
-        browser = BrowserPool.getBrowser(true);
+        browser = BrowserPool.getBrowser();
     }
     
     @Test

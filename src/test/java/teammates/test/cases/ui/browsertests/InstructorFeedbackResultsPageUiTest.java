@@ -26,7 +26,7 @@ import teammates.test.util.Priority;
  * Tests 'Feedback Results' view of instructors.
  * SUT: {@link InstructorFeedbackResultsPage}.
  */
-@Priority(1)
+@Priority(-1)
 public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     protected static Logger log = Utils.getLogger();
     
@@ -57,7 +57,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     }
 
     public void testContent(){
-        
+
         ______TS("standard session results");
         
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
@@ -73,7 +73,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Empty Session");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageEmpty.html");
     
-        //TODO: test content for results page for different question types, and views.
     }
     
     public void testSortAction(){
@@ -221,13 +220,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(true));
         
         resultsPage.clickCollapseExpand();
-        ThreadHelper.waitFor(2500);
+        ThreadHelper.waitFor(1000);
         assertEquals(resultsPage.collapseExpandButton.getText(),"Expand Questions");
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(false));
         
 
         resultsPage.clickCollapseExpand();
-        ThreadHelper.waitFor(2500);
+        ThreadHelper.waitFor(1000);
         assertEquals(resultsPage.collapseExpandButton.getText(),"Collapse Questions");
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(true));
         
@@ -254,7 +253,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("test search/filter script");
         
         resultsPage.fillSearchBox("question 1");
-        ThreadHelper.waitFor(3000);
+        ThreadHelper.waitFor(1000);
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestionSearch.html");
     }
     

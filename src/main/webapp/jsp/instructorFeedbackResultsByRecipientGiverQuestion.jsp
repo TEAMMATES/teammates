@@ -304,11 +304,11 @@
                                 To: 
                                 <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) { %>
                                     <div class="middlealign profile-pic-icon-hover inline-block" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
-                                        <%=responsesForRecipient.getKey()%>
+                                        <strong><%=responsesForRecipient.getKey()%></strong>
                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                     </div>
                                 <% } else {%>
-                                    <%=responsesForRecipient.getKey()%>
+                                    <strong><%=responsesForRecipient.getKey()%></strong>
                                 <% } %> 
                                 </div>
                             </div>
