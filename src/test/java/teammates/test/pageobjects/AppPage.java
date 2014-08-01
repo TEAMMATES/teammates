@@ -249,7 +249,7 @@ public abstract class AppPage {
      * Waits for element to be invisible or not present, or timeout.
      */
     public void waitForElementToDisappear(By by){
-        WebDriverWait wait = new WebDriverWait(browser.driver, 30);
+        WebDriverWait wait = new WebDriverWait(browser.driver, 10);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
     }
     
@@ -895,16 +895,15 @@ public abstract class AppPage {
         }
         
         for(int i =0; i < maxRetryCount; i++) {
-            ThreadHelper.waitFor(waitDuration);    
             try {
                 String actual = browser.driver.findElement(By.id("frameBodyWrapper")).getAttribute("outerHTML");
                 if(HtmlHelper.areSameHtml(actual, expectedString)) {
                     break;
                 }
-                
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+            ThreadHelper.waitFor(waitDuration);   
         }
         
         
