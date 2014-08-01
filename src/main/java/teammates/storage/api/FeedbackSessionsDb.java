@@ -1,6 +1,12 @@
 package teammates.storage.api;
 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -14,6 +20,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
+import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackSession;
 
@@ -22,6 +30,77 @@ public class FeedbackSessionsDb extends EntitiesDb {
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Feedback Session : ";
     private static final Logger log = Utils.getLogger();
 
+    public void createFeedbackSessions(Collection<FeedbackSessionAttributes> feedbackSessionsToAdd) throws InvalidParametersException{
+        List<EntityAttributes> feedbackSessionsToUpdate = createEntities(feedbackSessionsToAdd);
+        for(EntityAttributes entity : feedbackSessionsToUpdate){
+            FeedbackSessionAttributes session = (FeedbackSessionAttributes) entity;
+            try {
+                updateFeedbackSession(session);
+            } catch (EntityDoesNotExistException e) {
+             // This situation is not tested as replicating such a situation is 
+             // difficult during testing
+                Assumption.fail("Entity found be already existing and not existing simultaneously");
+            }
+        }
+    }
+       
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
+        
+        List<FeedbackSessionAttributes> list = new LinkedList<FeedbackSessionAttributes>();
+        
+        final Query endTimequery = getPM().newQuery("SELECT FROM teammates.storage.entity.FeedbackSession "
+                                                    + "WHERE this.endTime>rangeStart && this.endTime<=rangeEnd "
+                                                    + " PARAMETERS java.util.Date rangeStart, "
+                                                    + "java.util.Date rangeEnd");
+
+        final Query startTimequery = getPM().newQuery("SELECT FROM teammates.storage.entity.FeedbackSession "
+                                                      + "WHERE this.startTime>=rangeStart && this.startTime<rangeEnd "
+                                                      + "PARAMETERS java.util.Date rangeStart, "
+                                                      + "java.util.Date rangeEnd");
+            
+        Calendar startCal = Calendar.getInstance();
+        startCal.setTime(start);
+        Calendar endCal = Calendar.getInstance();
+        endCal.setTime(end);
+
+        Date curStart = TimeHelper.convertToUserTimeZone(startCal, -25).getTime();
+        Date curEnd = TimeHelper.convertToUserTimeZone(endCal, 25).getTime();
+     
+        @SuppressWarnings("unchecked")
+        List<FeedbackSession> endEntities = (List<FeedbackSession>) endTimequery.execute(curStart, curEnd);
+        @SuppressWarnings("unchecked")
+        List<FeedbackSession> startEntities = (List<FeedbackSession>) startTimequery.execute(curStart, curEnd);
+        
+        List<FeedbackSession> endTimeEntities = new ArrayList<FeedbackSession>(endEntities);
+        List<FeedbackSession> startTimeEntities = new ArrayList<FeedbackSession>(startEntities); 
+        
+        endTimeEntities.removeAll(startTimeEntities);
+        startTimeEntities.removeAll(endTimeEntities);
+        endTimeEntities.addAll(startTimeEntities);        
+                    
+        
+        Iterator<FeedbackSession> it = endTimeEntities.iterator();
+
+        while (it.hasNext()) {
+            startCal.setTime(start);
+            endCal.setTime(end);
+            FeedbackSessionAttributes fs = new FeedbackSessionAttributes(it.next());
+            
+            Date standardStart = TimeHelper.convertToUserTimeZone(startCal, fs.timeZone - zone).getTime();
+            Date standardEnd = TimeHelper.convertToUserTimeZone(endCal, fs.timeZone - zone).getTime();
+            
+            if( (fs.startTime.getTime() >= standardStart.getTime() && fs.startTime.getTime() < standardEnd.getTime())                    
+              ||(fs.endTime.getTime() > standardStart.getTime() && fs.endTime.getTime() <= standardEnd.getTime()))
+            
+            list.add(fs);
+      
+        }
+             
+        return list;
+    }
+
+
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null. 
@@ -167,6 +246,24 @@ public class FeedbackSessionsDb extends EntitiesDb {
         fs.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled);
                 
         getPM().close();
+    }
+    
+    public void deleteFeedbackSessionsForCourses(List<String> courseIds){
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+        
+        List<FeedbackSession> feedbackSessionList = getFeedbackSessionEntitiesForCourses(courseIds);
+        
+        getPM().deletePersistentAll(feedbackSessionList);
+        getPM().flush();
+    }
+    
+    private List<FeedbackSession> getFeedbackSessionEntitiesForCourses(List<String> courseIds) {
+        Query q = getPM().newQuery(FeedbackSession.class);
+        q.setFilter(":p.contains(courseId)");
+        
+        @SuppressWarnings("unchecked")
+        List<FeedbackSession> feedbackSessionList = (List<FeedbackSession>) q.execute(courseIds);
+        return feedbackSessionList;
     }
     
     private List<FeedbackSession> getAllFeedbackSessionEntities() {

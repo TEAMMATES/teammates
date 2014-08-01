@@ -244,15 +244,15 @@ ul #nav {
                 <div id="contentLinks" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li class="">
-                            <a href="/page/studentHomePage" data-link="studentHome" id="studentHomeLink">Home</a>
+                            <a data-unreg="true" id="studentHomeNavLink" href="{$app.url}/page/studentCourseJoinAuthentication?{*}studentHomePage" class="navLinks">Home</a>
                         </li>
                         <li class="">
-                            <a href="/page/studentProfilePage" data-link="studentProfilePage" id="studentProfileLink">
+                            <a data-unreg="true" id="studentProfileNavLink" href="{$app.url}/page/studentCourseJoinAuthentication?{*}studentProfilePage" class="navLinks">
                                 Profile
                             </a>
                         </li>
                         <li class="">
-                            <a href="/page/studentCommentsPage" data-link="studentCommentsPage" id="studentCommentsLink">
+                            <a data-unreg="true" id="studentCommentsNavLink" href="{$app.url}/page/studentCourseJoinAuthentication?{*}studentCommentsPage" class="navLinks">
                                 Comments
                             </a>
                         </li>
@@ -272,7 +272,7 @@ ul #nav {
             <br />
             
                 <div class="alert alert-info" id="registerMessage">
-                    You may submit feedback and view results without logging in. To access other features you need <a class="link" href="/page/studentCourseJoinAuthentication?regkey={*}&amp;studentemail=drop.out%40gmail.com&amp;courseid=SFResultsUiT.CS2104">to login using a google account</a> (recommended).
+                    You may submit feedback and view results without logging in. To access other features you need <a class="link" href="/page/studentCourseJoinAuthentication?key={*}&amp;studentemail=drop.out%40gmail.com&amp;courseid=SFResultsUiT.CS2104">to login using a google account</a> (recommended).
                 </div>
             
             <div class="well well-plain">
@@ -521,7 +521,7 @@ ul #nav {
                                 </td>
                             </tr>
                             <tr>
-                                <td class="multiline">Team 2 (danny) to team 1</td>
+                                <td class="multiline">Team 2 (charlie) to team 1</td>
                             </tr>
                         
                             <tr class="resultSubheader">
@@ -530,7 +530,7 @@ ul #nav {
                                 </td>
                             </tr>
                             <tr>
-                                <td class="multiline">Team 2 (charlie) to team 1</td>
+                                <td class="multiline">Team 2 (danny) to team 1</td>
                             </tr>
                         
                                 </tbody>

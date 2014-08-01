@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -54,6 +55,28 @@ public class StudentsDb extends EntitiesDb {
         
         return new StudentSearchResultBundle().fromResults(results, googleId);
     }
+    
+    
+    
+    
+    /**
+     * This method should be used by admin only since the searching does not restrict the 
+     * visibility according to the logged-in user's google ID. This is used by amdin to
+     * search students in the whole system.
+     * @param queryString
+     * @param cursorString
+     * @return null if no result found
+     */ 
+    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString, String cursorString){
+        if(queryString.trim().isEmpty())
+            return new StudentSearchResultBundle();
+        
+        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT, 
+                new StudentSearchQuery(queryString, cursorString));
+        
+        return new StudentSearchResultBundle().getStudentsfromResults(results);
+    }
+    
 
     public void deleteDocument(StudentAttributes studentToDelete){
         if(studentToDelete.key == null){
@@ -61,6 +84,20 @@ public class StudentsDb extends EntitiesDb {
             deleteDocument(Const.SearchIndex.STUDENT, student.key);
         } else {
             deleteDocument(Const.SearchIndex.STUDENT, studentToDelete.key);
+        }
+    }
+    
+    public void createStudents(Collection<StudentAttributes> studentsToAdd) throws InvalidParametersException{
+        List<EntityAttributes> studentsToUpdate = createEntities(studentsToAdd);
+        for(EntityAttributes entity : studentsToUpdate){
+            StudentAttributes student = (StudentAttributes) entity;
+            try {
+                updateStudentWithoutDocument(student.course, student.email, student.name, student.team, student.section, student.section, student.googleId, student.comments);
+            } catch (EntityDoesNotExistException e) {
+             // This situation is not tested as replicating such a situation is 
+             // difficult during testing
+                Assumption.fail("Entity found be already existing and not existing simultaneously");
+            }
         }
     }
     
@@ -454,6 +491,16 @@ public class StudentsDb extends EntitiesDb {
         getPM().flush();
     }
 
+    public void deleteStudentsForCourses(List<String> courseIds){
+        
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+        
+        List<Student> studentsToDelete = getStudentEntitiesForCourses(courseIds);
+        
+        getPM().deletePersistentAll(studentsToDelete);
+        getPM().flush();
+    }
+    
     public void verifyStudentExists(String courseId, String email) 
             throws EntityDoesNotExistException {
         
@@ -488,6 +535,16 @@ public class StudentsDb extends EntitiesDb {
         
         @SuppressWarnings("unchecked")
         List<Student> studentList = (List<Student>) q.execute(courseId);
+        return studentList;
+    }
+    
+    private List<Student> getStudentEntitiesForCourses(List<String> courseIds){
+        Query q = getPM().newQuery(Student.class);
+        q.setFilter(":p.contains(courseID)");
+        
+        @SuppressWarnings("unchecked")
+        List<Student> studentList = (List<Student>) q.execute(courseIds);
+        
         return studentList;
     }
 

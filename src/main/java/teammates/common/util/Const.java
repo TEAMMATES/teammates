@@ -92,12 +92,17 @@ public class Const {
         public static final String COURSE_INSTRUCTOR_REMIND = "Send invitation email to the instructor";
         
         public static final String COURSE_STUDENT_DETAILS = "View the details of the student";
-        public static final String COURSE_STUDENT_EDIT = "Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly";
-        public static final String COURSE_STUDENT_REMIND = "Send invitation email to the student";
-        public static final String COURSE_STUDENT_DELETE = "Delete the student and the corresponding evaluations from the course";
-        public static final String COURSE_STUDENT_RECORDS = "View all student's evaluations and feedbacks";
+        public static final String COURSE_STUDENT_EDIT = "Use this to edit the details of this student. <br>To edit multiple students"
+                + " in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly";
+        public static final String COURSE_STUDENT_REMIND = "Email an invitation to the student requesting him/her to join the course using his/her "
+                + "Google Account. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile";
+        public static final String COURSE_STUDENT_DELETE = "Delete the student and the corresponding submissions from the course";
+        public static final String COURSE_STUDENT_RECORDS = "View all data about this student";
+        public static final String COURSE_STUDENT_COMMENT = "Give a comment for this student, his/her team/section";
         
-        public static final String COURSE_REMIND = "Send invitation emails to all students yet to join the course";
+        public static final String COURSE_REMIND = "Email an invitation to all students yet to join requesting them to join the course"
+                + " using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access"
+                + " extra features e.g. set up a user profile";
         public static final String COURSE_DELETE_ALL_STUDENTS = "Delete all students in this course";
     
         public static final String EVALUATION_STATUS_AWAITING = "The evaluation is created but has not yet started";
@@ -277,6 +282,7 @@ public class Const {
     }
 
     public class ParamsNames{
+        
         public static final String BLOB_KEY = "blob-key";
         
         public static final String COPIED_FEEDBACK_SESSION_NAME = "copiedfsname";
@@ -296,6 +302,7 @@ public class Const {
         public static final String INSTRUCTOR_DISPLAY_NAME = "instructordisplayname";
         public static final String INSTRUCTOR_ROLE_NAME = "instructorrole";
         public static final String INSTRUCTOR_SECTION = "section";
+        public static final String INSTRUCTOR_SECTION_GROUP = "sectiongroup";
         
         public static final String INSTRUCTOR_PERMISSION_MODIFY_COURSE = "canmodifycourse";
         public static final String INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR = "canmodifyinstructor";
@@ -317,7 +324,8 @@ public class Const {
         
         public static final String COURSE_ARCHIVE_STATUS = "archive";
         
-        public static final String ADMIN_SEARCH_REBUILD_DOC = "build_doc";
+        public static final String ADMIN_SEARCH_KEY = "searchkey";
+        public static final String ADMIN_SEARCH_BUTTON_HIT = "searchbuttonhit";
     
         public static final String EVALUATION_NAME = "evaluationname";
     
@@ -341,8 +349,12 @@ public class Const {
         public static final String FEEDBACK_SESSION_CREATETIME = "createtime";
         public static final String FEEDBACK_SESSION_STARTDATE = "startdate";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
+        public static final String FEEDBACK_SESSION_STARTHOUR = "starthour";
+        public static final String FEEDBACK_SESSION_STARTMINUTE = "startminute";
         public static final String FEEDBACK_SESSION_ENDDATE = "enddate";
         public static final String FEEDBACK_SESSION_ENDTIME = "endtime";
+        public static final String FEEDBACK_SESSION_ENDHOUR = "endhour";
+        public static final String FEEDBACK_SESSION_ENDMINUTE = "endminute";
         public static final String FEEDBACK_SESSION_VISIBLEDATE = "visibledate";
         public static final String FEEDBACK_SESSION_VISIBLETIME = "visibletime";
         public static final String FEEDBACK_SESSION_PUBLISHDATE = "publishdate";
@@ -405,7 +417,7 @@ public class Const {
         
         public static final String STUDENT_ID = "googleid";
         
-        public static final String REGKEY = "regkey";
+        public static final String REGKEY = "key";
         public static final String STUDENT_EMAIL = "studentemail";
         public static final String FROM_COMMENTS_PAGE = "commentpage";
         public static final String FROM_COURSE_DETAILS_PAGE = "coursedetailspage";
@@ -595,7 +607,8 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_ADD = "/page/instructorFeedbackQuestionAdd";
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_COPY = "/page/instructorFeedbackQuestionCopy";
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_EDIT = "/page/instructorFeedbackQuestionEdit";
-
+        public static final String INSTRUCTOR_FEEDBACK_QUESTION_VISIBILITY_MESSAGE = "/page/instructorFeedbackQuestionvisibilityMessage";
+        
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD = "/page/instructorFeedbackResponseCommentAdd";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT = "/page/instructorFeedbackResponseCommentEdit";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE = "/page/instructorFeedbackResponseCommentDelete";
@@ -636,6 +649,7 @@ public class Const {
         public static final String ADMIN_ACCOUNT_DELETE = "/admin/adminAccountDelete";
         public static final String ADMIN_EXCEPTION_TEST = "/admin/adminExceptionTest";
         public static final String ADMIN_ACTIVITY_LOG_PAGE = "/admin/adminActivityLogPage";
+        public static final String ADMIN_SESSIONS_PAGE = "/admin/adminSessionsPage";
         public static final String ADMIN_SEARCH_PAGE = "/admin/adminSearchPage";
         
         public static final String AUTOMATED_EVAL_OPENING_REMINDERS = "/evaluationopeningreminders";
@@ -710,6 +724,7 @@ public class Const {
         public static final String ADMIN_SEARCH = "/jsp/adminSearch.jsp";
         public static final String ADMIN_ACTIVITY_LOG = "/jsp/adminActivityLog.jsp";
         public static final String ADMIN_ACCOUNT_DETAILS = "/jsp/adminAccountDetails.jsp";
+        public static final String ADMIN_SESSIONS = "/jsp/adminSessions.jsp";
         
         public static final String LOGOUT = "/logout.jsp"; 
         
@@ -770,12 +785,12 @@ public class Const {
         public static final String COURSE_REMINDER_SENT_TO = "An email has been sent to ";
         public static final String COURSE_REMINDERS_SENT = "Emails have been sent to unregistered students.";
         
-        public static final String COURSE_ENROLL_STUDENTS_ERROR = "There are errors on %d student(s):";
-        public static final String COURSE_ENROLL_STUDENTS_ADDED = "There are %d student(s) added:";
-        public static final String COURSE_ENROLL_STUDENTS_MODIFIED = "There are %d student(s) modified:";
-        public static final String COURSE_ENROLL_STUDENTS_UNMODIFIED = "There are %d student(s) unmodified:";
-        public static final String COURSE_ENROLL_STUDENTS_NOT_IN_LIST = "There are %d other student(s) previously in the course:";
-        public static final String COURSE_ENROLL_STUDENTS_UNKNOWN = "There are %d student(s) for which the enrollment status is unknown:";
+        public static final String COURSE_ENROLL_STUDENTS_ERROR = "Errors on %d student(s):";
+        public static final String COURSE_ENROLL_STUDENTS_ADDED = "%d student(s) added:";
+        public static final String COURSE_ENROLL_STUDENTS_MODIFIED = "%d student(s) modified:";
+        public static final String COURSE_ENROLL_STUDENTS_UNMODIFIED = "%d student(s) updated with no changes:";
+        public static final String COURSE_ENROLL_STUDENTS_NOT_IN_LIST = "%d student(s) remain unmodified:";
+        public static final String COURSE_ENROLL_STUDENTS_UNKNOWN = "%d student(s) with unknown enrolment status:";
 
         public static final String TEAM_INVALID_SECTION_EDIT = "The team \"%s\" is in multiple sections. The team ID should be unique across the entire course and a team cannot be spread across multiple sections.<br>";
         public static final String SECTION_QUOTA_EXCEED = "You are trying enroll more than 100 students in section \"%s\". To avoid performance problems, please do not enroll more than 100 students in a single section.<br>";
@@ -912,7 +927,7 @@ public class Const {
         public static final String COMMENT_DUPLICATE = "An existing comment with the same content is found, comment not added";
         
         public static final String HINT_FOR_NEW_INSTRUCTOR = "New to TEAMMATES? You may wish to have a look at our "
-                + "<a href='/instructorHelp.html#gs' target='_blank'>Getting Started Guide</a>.<br>A <a href='https://youtube.googleapis.com/v/wCxBOUEiD6Q&hd=1&autoplay=1&rel=0' target='_blank'>video tour</a>"
+                + "<a href='/instructorHelp.html#gs' target='_blank'>Getting Started Guide</a>.<br>A video tour"
                 + " is also available in our <a href='/index.html' target='_blank'>home page</a>.";
         
         // Messages that are templates only
@@ -929,7 +944,10 @@ public class Const {
         public static final String STUDENT_NOT_FOUND_FOR_COURSE_DETAILS = "The student you tried to view details for does not exist.";
         public static final String STUDENT_PROFILE_PICTURE_EDIT_FAILED = "The photo that was edited did not belong to the user. "
                 + "Please upload another picture to begin editing";
-        public static final String STUDENT_NOT_JOINED_YET_FOR_RECORDS = "This student has not joined the course yet or you are not supposed to view his/her profile";
+        public static final String STUDENT_NOT_JOINED_YET_FOR_RECORDS = "Normally, we would show the student’s profile here. "
+                + "However, this student has not created a profile yet"; 
+        public static final String STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR = "Normally, we would show the student’s profile here. "
+                + "However you do not have access to view this student's profile";
         
         public static final String UNREGISTERED_STUDENT = "You may submit feedback and view results without logging in. "
                 + "To access other features you need <a href='%s' class='link'>to login using a google account</a> "
@@ -1046,6 +1064,10 @@ public class Const {
     public static final Date TIME_REPRESENTS_NEVER;
     public static final Date TIME_REPRESENTS_LATER;
     public static final Date TIME_REPRESENTS_NOW;
+    
+    public static final double[] TIME_ZONE_VALUES = { -12, -11, -10, -9, -8,
+            -7, -6, -5, -4.5, -4, -3.5, -3, -2, -1, 0, 1, 2, 3, 3.5, 4, 4.5, 5,
+            5.75, 6, 7, 8, 9, 10, 11, 12, 13 };
     
     static {
         TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.convertToDate("1970-12-31 00:00 AM UTC");

@@ -143,6 +143,8 @@ public class Logic {
     }
 
     /**
+     * Creates a new Account based on given values. If a profile is not given,
+     * a default empty profile is created for the user<br>
      * Preconditions: <br>
      * * All parameters are non-null.
      * 
@@ -185,7 +187,6 @@ public class Logic {
     }
     
     public AccountAttributes getAccount(String googleId, boolean retrieveStudentProfile) {
-        
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         
         return accountsLogic.getAccount(googleId, retrieveStudentProfile);
@@ -224,7 +225,6 @@ public class Logic {
      */
     public void updateStudentProfile(StudentProfileAttributes newStudentProfileAttributes) 
             throws InvalidParametersException, EntityDoesNotExistException {
-        
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, newStudentProfileAttributes);
         
         accountsLogic.updateStudentProfile(newStudentProfileAttributes);
@@ -237,7 +237,6 @@ public class Logic {
      */
     public void updateStudentProfilePicture(String googleId, String newPictureKey) 
             throws EntityDoesNotExistException {
-        
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, newPictureKey);
         
@@ -435,6 +434,12 @@ public class Logic {
     public List<InstructorAttributes> getAllInstructors() {
         
         return instructorsLogic.getAllInstructors();
+    }
+    
+   
+    public List<FeedbackSessionAttributes> getAllOpenFeedbackSessions(Date start, Date end, double zone) {
+        
+        return feedbackSessionsLogic.getAllOpenFeedbackSessions(start, end, zone);
     }
     
     
@@ -839,6 +844,21 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, cursorString);
         
         return studentsLogic.searchStudents(queryString, googleId, cursorString);
+    }
+    
+    /**
+     * This method should be used by admin only since the searching does not restrict the 
+     * visibility according to the logged-in user's google ID. This is used by admin to
+     * search students in the whole system.
+     * @param queryString
+     * @param cursorString
+     * @return Null if no match found.
+     */
+    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString, String cursorString){
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, cursorString);
+        
+        return studentsLogic.searchStudentsInWholeSystem(queryString, cursorString);
     }
     
     /**

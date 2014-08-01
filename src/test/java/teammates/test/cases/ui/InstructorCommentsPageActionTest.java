@@ -9,10 +9,12 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
+import teammates.test.util.Priority;
 import teammates.ui.controller.InstructorCommentsPageAction;
 import teammates.ui.controller.InstructorCommentsPageData;
 import teammates.ui.controller.ShowPageResult;
 
+@Priority(-1)
 public class InstructorCommentsPageActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
@@ -20,7 +22,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		restoreTypicalDataInDatastore();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE;
     }
 

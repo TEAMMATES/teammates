@@ -6,7 +6,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -48,6 +47,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
+import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.test.driver.AssertHelper;
@@ -68,6 +68,9 @@ public abstract class AppPage {
     protected static Logger log = Utils.getLogger();
     /**Home page of the application, as per test.properties file*/
     protected static final String HOMEPAGE = TestProperties.inst().TEAMMATES_URL;
+    
+    static final long ONE_MINUTE_IN_MILLIS=60000;
+    
     /** Browser instance the page is loaded into */
     protected Browser browser;
     
@@ -90,17 +93,23 @@ public abstract class AppPage {
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[4]/a")
     protected WebElement instructorStudentsTab;
     
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[6]/a")
+    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[5]/a")
+    protected WebElement instructorCommentsTab;
+    
+    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[7]/a")
     protected WebElement instructorHelpTab;
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[2]/li[1]/a")
     protected WebElement instructorLogoutLink;
     
-    @FindBy(id = "studentHomeLink")
+    @FindBy(id = "studentHomeNavLink")
     protected WebElement studentHomeTab;
     
-    @FindBy(id = "studentProfileLink")
+    @FindBy(id = "studentProfileNavLink")
     protected WebElement studentProfileTab;
+    
+    @FindBy(id = "studentCommentsNavLink")
+    protected WebElement studentCommentsTab;
     
     @FindBy(id = "studentHelpLink")
     protected WebElement studentHelpTab;
@@ -214,6 +223,22 @@ public abstract class AppPage {
         return;
     }
     
+    protected void waitForElementToAppear(By by) throws Exception {
+        int timeOut = 3000;
+        while (timeOut > 0) {
+            try {
+                if (browser.driver.findElement(by).isDisplayed()) {
+                    break;
+                }
+            } catch (NoSuchElementException e) {
+                // ignore exception
+            }
+            Thread.sleep(100);
+            timeOut -= 100;
+        }
+        return;
+    }
+    
     public void waitForElementVisible(WebElement element){
         WebDriverWait wait = new WebDriverWait(browser.driver, 10);
         wait.until(ExpectedConditions.visibilityOf(element));
@@ -281,6 +306,47 @@ public abstract class AppPage {
         waitForPageToLoad();
         return this;
     }
+    
+    /**
+     * Equivalent to clicking the 'Students' tab on the top menu of the page.
+     * @return the loaded page.
+     */
+    public AppPage loadStudentsTab() {
+        instructorStudentsTab.click();
+        waitForPageToLoad();
+        return this;
+    }
+    
+    
+    /**
+     * Equivalent to clicking the 'Home' tab on the top menu of the page.
+     * @return the loaded page.
+     */
+    public AppPage loadInstructorHomeTab() {
+        instructorHomeTab.click();
+        waitForPageToLoad();
+        return this;
+    }
+    
+    /**
+     * Equivalent to clicking the 'Help' tab on the top menu of the page.
+     * @return the loaded page.
+     */
+    public AppPage loadInstructorHelpTab() {
+        instructorHelpTab.click();
+        waitForPageToLoad();
+        return this;
+    }
+    
+    /**
+     * Equivalent to clicking the 'Comments' tab on the top menu of the page.
+     * @return the loaded page.
+     */
+    public AppPage loadInstructorCommentsTab() {
+        instructorCommentsTab.click();
+        waitForPageToLoad();
+        return this;
+    }
 
     /**
      * Equivalent to clicking the 'Evaluations' tab on the top menu of the page.
@@ -296,10 +362,30 @@ public abstract class AppPage {
      * Equivalent of clicking the 'Profile' tab on the top menu of the page.
      * @return the loaded page
      */
-    public AppPage loadProfileTab() {
+    public StudentProfilePage loadProfileTab() {
         studentProfileTab.click();
         waitForPageToLoad();
-        return this;
+        return changePageType(StudentProfilePage.class);
+    }
+    
+    /**
+     * Equivalent of student clicking the 'Home' tab on the top menu of the page.
+     * @return the loaded page
+     */
+    public StudentHomePage loadStudentHomeTab() {
+        studentHomeTab.click();
+        waitForPageToLoad();
+        return changePageType(StudentHomePage.class);
+    }
+    
+    /**
+     * Equivalent of student clicking the 'Comments' tab on the top menu of the page.
+     * @return the loaded page
+     */
+    public StudentCommentsPage loadStudentCommentsTab() {
+        studentCommentsTab.click();
+        waitForPageToLoad();
+        return changePageType(StudentCommentsPage.class);
     }
 
     /**
@@ -630,17 +716,17 @@ public abstract class AppPage {
         }
         String actual = getPageSource();
         
-        boolean runTest = testAndRunGodMode(filePath, actual);
-        
-        if (runTest) {
-            try {
-                String expected = FileHelper.readFile(filePath);
-                HtmlHelper.assertSameHtml(actual, expected);
-                
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+        try {
+            String expected = FileHelper.readFile(filePath);
+            HtmlHelper.assertSameHtml(actual, expected);
+            
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } catch (AssertionError ae) {
+            if (!testAndRunGodMode(filePath, actual)) {
+                throw ae;
             }
-        }
+        } 
         
         return this;
     }
@@ -659,20 +745,26 @@ public abstract class AppPage {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return false;
-        } else {
             return true;
+        } else {
+            return false;
         }
     }
 
     private String processPageSourceForGodMode(String content) {
+        Date now = new Date();
+        assertEquals(new SimpleDateFormat("dd MMM yyyy, HH:mm").format(now), TimeHelper.formatTime(now));
         return content
                 .replaceAll("<#comment[ ]*</#comment>", "<!---->")
                 .replace(Config.APP_URL, "{$app.url}")
                 .replaceAll("V[0-9]\\.[0-9]+", "V{\\$version}")
                 // photo from instructor
+                .replaceAll("courseid=([a-zA-Z0-9]){1,}\\&amp;studentemail=([a-zA-Z0-9]){1,}", 
+                            "courseid={*}\\&amp;studentemail={*}")
                 .replaceAll("studentemail=([a-zA-Z0-9]){1,}\\&amp;courseid=([a-zA-Z0-9]){1,}", 
                             "studentemail={*}\\&amp;courseid={*}")
+                .replaceAll("key=([a-zA-Z0-9]){1,}\\&amp;", "key={*}\\&amp;")
+                .replaceAll("key%3D([a-zA-Z0-9]){1,}\\%", "key%3D{*}\\%")
                 //responseid
                 .replaceAll("([a-zA-Z0-9-_]){30,}%"
                         + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+%"
@@ -681,6 +773,8 @@ public abstract class AppPage {
                 .replaceAll("([a-zA-Z0-9-_]){62,}","{*}")
                 //commentid
                 .replaceAll("\\\"([0-9]){16}\\\"", "\\\"{*}\\\"")
+                //commentid in url
+                .replaceAll("#[0-9]{16}", "#{*}")
                 // the test accounts/ email
                 .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "{$test.student1}")
                 .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "{$test.student2}")
@@ -689,15 +783,17 @@ public abstract class AppPage {
                 .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "{$test.unreg}")
                 .replace(Config.SUPPORT_EMAIL, "{$support.email}")
                 // today's date
-                .replace("\""+ new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + "\"", "\"{*}\"");
+                .replace(TimeHelper.formatDate(now), "{*}")
+                // now (used in opening time/closing time Grace period)
+                .replaceAll(new SimpleDateFormat("dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}", "{*}");
     }
 
     private boolean areTestAccountsDefaultValues() {
-        return TestProperties.inst().TEST_STUDENT1_ACCOUNT == "alice.tmms"
-                || TestProperties.inst().TEST_STUDENT2_ACCOUNT == "charlie.tmms" 
-                || TestProperties.inst().TEST_UNREG_ACCOUNT == "teammates.unreg"
-                || TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT == "teammates.coord"
-                || TestProperties.inst().TEST_ADMIN_ACCOUNT == "yourGoogleId";
+        return "alice.tmms".contains(TestProperties.inst().TEST_STUDENT1_ACCOUNT)
+                || "charlie.tmms".contains(TestProperties.inst().TEST_STUDENT2_ACCOUNT)  
+                || "teammates.unreg".contains(TestProperties.inst().TEST_UNREG_ACCOUNT) 
+                || "teammates.coord".contains(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT)
+                || "yourGoogleId".contains(TestProperties.inst().TEST_ADMIN_ACCOUNT);
     }
     
     /**
@@ -715,16 +811,18 @@ public abstract class AppPage {
         }
         String actual = element.getAttribute("outerHTML");
         
-        boolean runTest = testAndRunGodMode(filePath, actual);
-        
-        if (runTest) {
-            try {
-                String expected = extractHtmlPartFromFile(by, filePath);
-                
-                HtmlHelper.assertSameHtmlPart(actual, expected);            
-            } catch (Exception e) {
+        try {
+            String expected = extractHtmlPartFromFile(by, filePath);
+            HtmlHelper.assertSameHtmlPart(actual, expected);            
+        } catch(AssertionError ae) { 
+            if(!testAndRunGodMode(filePath, actual)) {
+                throw ae;
+            }
+        } catch (Exception e) {
+            if(!testAndRunGodMode(filePath, actual)) {
                 throw new RuntimeException(e);
             }
+            
         }
         return this;
     }
@@ -771,7 +869,7 @@ public abstract class AppPage {
      * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
      * @return The page (for chaining method calls).
      */
-    public AppPage verifyHtmlAjax(String filePath) {
+    public AppPage verifyHtmlAjax(String filePath) throws Exception {
         int maxRetryCount = 5;
         int waitDuration = 1000;
         
@@ -785,24 +883,15 @@ public abstract class AppPage {
         
         String expectedString = "";
         
-        try {
-            expectedString = extractHtmlPartFromFile(By.id("frameBodyWrapper"), filePath);
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        expectedString = extractHtmlPartFromFile(By.id("frameBodyWrapper"), filePath);
         
         for(int i =0; i < maxRetryCount; i++) {
-            ThreadHelper.waitFor(waitDuration);    
             try {
                 String actual = browser.driver.findElement(By.id("frameBodyWrapper")).getAttribute("outerHTML");
                 if(HtmlHelper.areSameHtml(actual, expectedString)) {
                     break;
                 }
-                
+                ThreadHelper.waitFor(waitDuration);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

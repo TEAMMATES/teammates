@@ -13,7 +13,7 @@ public class BrowserPool {
      */
     
     /** Ideally, should be equal to the number of threads used for testing */
-    private static final int CAPACITY = 5 + 1;//+1 in case a sequential ui test uses a browser other than the first in pool
+    private static final int CAPACITY = 9 + 1;//+1 in case a sequential ui test uses a browser other than the first in pool
 
     private static BrowserPool instance = null;
     private ArrayList<Browser> pool;
@@ -61,7 +61,7 @@ public class BrowserPool {
         //synchronized to ensure thread-safety
         synchronized (pool) {
             browser.isInUse = false;
-            pool.notify();
+            pool.notifyAll();
         }
     }
 
@@ -92,7 +92,7 @@ public class BrowserPool {
                 
                 // Wait if no more free objects and no more capacity.
                 try {
-                    this.wait(20000);
+                    this.wait(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

@@ -42,7 +42,7 @@ public class BackDoorTest extends BaseTestCase {
     public static void setUp() throws Exception {
         printTestClassHeader();
         dataBundle = getTypicalDataBundle();
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, BackDoor.restoreDataBundle(dataBundle));
+        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, BackDoor.removeAndRestoreDataBundleFromDb(dataBundle));
     }
 
     @SuppressWarnings("unused")

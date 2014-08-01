@@ -261,6 +261,11 @@ ul #nav {
                 <li class="">
                     <a href="/page/instructorCommentsPage?user=CFResultsUiT.instr" data-link="instructorComments" class="nav comments">Comments</a>
                 </li>
+                <li class="">
+                    <a href="/page/instructorSearchPage?user=CFResultsUiT.instr" data-link="instructorSearch" class="nav search">
+                        Search
+                    </a>
+                </li>
                 <li>
                     <a target="_blank" href="/instructorHelp.html" class="nav help">Help</a>
                 </li>
@@ -386,7 +391,7 @@ ul #nav {
                         </label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input type="text" onchange="updateResultsFilter()" placeholder="Type question info to filter results" class="form-control" id="results-search-box" />
+                                <input type="text" onchange="updateResultsFilter()" placeholder="Type keywords from the question title" class="form-control" id="results-search-box" />
                                 <a class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
                             </div>
                         </div>
@@ -411,7 +416,7 @@ ul #nav {
             </div>
             <div class="row">
                 
-                <div title="" data-toggle="tooltip" class="col-sm-5" data-original-title="View results in separated section">
+                <div title="" data-toggle="tooltip" class="col-sm-5" data-original-title="View results by sections">
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="sectionSelect">
                             Section:
@@ -437,7 +442,7 @@ ul #nav {
                 
                 <div style="padding-top:8px;" class="col-sm-7 pull-right">
                     
-                    <a title="" data-toggle="tooltip" onclick="toggleCollapse(this)" id="collapse-panels-button" class="btn btn-default btn-xs pull-right" data-original-title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually.">
+                    <a title="" data-toggle="tooltip" onclick="toggleCollapse(this)" id="collapse-panels-button" class="btn btn-default btn-xs pull-right" data-original-title="Collapse all panels. You can also click on the panel heading to toggle each one individually.">
                         Collapse Questions
                     </a>
                     
@@ -580,8 +585,8 @@ ul #nav {
                                 
                                     <td class="middlealign">Drop out</td>
                                     <td class="middlealign">Team 2</td>
-                                    <td class="middlealign">Unknown user</td>
-                                    <td class="middlealign"></td>
+                                    <td class="middlealign">Danny Engrid</td>
+                                    <td class="middlealign">Team 2</td>
                                     <td class="multiline">Response to Danny from Dropout.</td>
                                 </tr>        
                                 

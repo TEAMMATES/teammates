@@ -5,9 +5,11 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
+import teammates.test.driver.AssertHelper;
 
 public class InstructorStudentListPage extends AppPage {
     
@@ -80,8 +82,10 @@ public class InstructorStudentListPage extends AppPage {
     
     public InstructorStudentListPage clickShowPhoto(String courseId, String studentName) {
         String rowId = getStudentRowId(courseId, studentName);
-        browser.driver.findElement(By.id("studentphoto-c"+rowId))
-                      .findElement(By.tagName("a")).click();
+        WebElement photoCell = browser.driver.findElement(By.id("studentphoto-c" + rowId));
+        WebElement photoLink = photoCell.findElement(By.tagName("a"));
+        Actions actions = new Actions(browser.driver);
+        actions.click(photoLink).build().perform();
         return this;
     }
     
@@ -199,5 +203,16 @@ public class InstructorStudentListPage extends AppPage {
             return "";
         }
         return browser.driver.findElement(locator).getText();
+    }
+
+    public void verifyPopoverPicture(String course, String name, String srcUrl) throws Exception {
+        String rowId = getStudentRowId(course, name);
+        WebElement photo = browser.driver.findElement(By.id("studentphoto-c" + rowId))
+                                         .findElement(By.cssSelector(".profile-pic-icon-click > img"));
+        Actions action = new Actions(browser.driver);
+        action.click(photo).build().perform();
+        AssertHelper.assertContainsRegex(srcUrl, browser.driver
+                                .findElement(By.cssSelector(".popover-content > .profile-pic"))
+                                .getAttribute("src"));
     }
 }

@@ -1,6 +1,10 @@
 package teammates.test.cases.ui.browsertests;
 
+
+import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
+
+import java.io.File;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -10,9 +14,12 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
+import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
@@ -34,15 +41,25 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorStudentListPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
+        
+        BackDoor.putDocumentsForStudents(Utils.getTeammatesGson().toJson(testData));
+        
+        // upload a profile picture for one of the students
+        StudentAttributes student = testData.students.get("Student3Course3");
+        File picture = new File("src/test/resources/images/profile_pic_updated.png");
+        String pictureData = Utils.getTeammatesGson().toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
+        assertEquals("Unable to upload profile picture", "[BACKDOOR_STATUS_SUCCESS]", 
+                BackDoor.uploadAndUpdateStudentProfilePicture(student.googleId, pictureData));
+        
         browser = BrowserPool.getBrowser();
     }
     
     @Test
-    public void testAll() throws Exception{
+    public void testAll() throws Exception {
         
-        testContent();
         testShowPhoto();
+        testContent();
         testLinks();
         testSearch();
         testDeleteAction();
@@ -63,15 +80,21 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.setSearchKey("noMatch");
         viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchNoMatch.html");
 
-        ______TS("content: search student");
+        ______TS("content: search student with 1 result");
         
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
         viewPage.setSearchKey("charlie");
         viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchStudent.html");
         
+        ______TS("content: search student with multiple results");
+        
+        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
+        viewPage.setSearchKey("alice");
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchStudentMultiple.html");
+        
     }
 
-    private void testContent() {
+    private void testContent() throws Exception {
         String instructorId;
         
         ______TS("content: 2 course with students");
@@ -122,7 +145,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         viewPage.verifyHtmlMainContent("/instructorStudentListPageNoCourse.html");
     }
 
-    private void testShowPhoto() {
+    private void testShowPhoto() throws Exception {
         String instructorId = testData.instructors.get("instructorOfCourse2").googleId;
         Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)
                     .withUserId(instructorId);
@@ -137,12 +160,15 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         
         viewPage.clickShowPhoto(student.course, student.name);
         viewPage.verifyProfilePhotoIsDefault(student.course, student.name);
+        viewPage.verifyPopoverPicture(student.course, student.name, 
+                TestProperties.inst().TEAMMATES_URL + "/images/profile_picture_default.png");
         
         ______TS("student has uploaded an image");
         
-        //TODO: implement this method after a backend way to upload to cloud storage
-        // has been implemented
+        StudentAttributes student2 = testData.students.get("Student3Course3");
         
+        viewPage.clickShowPhoto(student2.course, student2.name);
+        viewPage.verifyHtmlMainContent("/instructorStudentListPageWithPicture.html");
     }
     
     public void testLinks() throws Exception{
@@ -219,7 +245,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         // already covered under testContent() ______TS("content: search active")
     }
     
-    private void testDisplayArchive() {
+    private void testDisplayArchive() throws Exception {
         String instructorId = testData.instructors.get("instructorOfCourse4").googleId;
         Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)
                 .withUserId(instructorId);

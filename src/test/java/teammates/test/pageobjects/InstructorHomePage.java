@@ -86,24 +86,105 @@ public class InstructorHomePage extends AppPage {
         return changePageType(InstructorFeedbacksPage.class);
     }
     
+    /**
+     * This is for standard evaluation 
+     */
     public InstructorEvalResultsPage clickSessionViewResultsLink(String courseId, String evalName) {
         getViewResultsLink(courseId, evalName).click();
         waitForPageToLoad();
         return changePageType(InstructorEvalResultsPage.class);
     }
     
+    /**
+     * This is for standard evaluation 
+     */
     public InstructorEvalEditPage clickSessionEditLink(String courseId, String evalName) {
         getEditLink(courseId, evalName).click();
         waitForPageToLoad();
         return changePageType(InstructorEvalEditPage.class);
     }
     
+    /**
+     * This is for standard evaluation 
+     */
     public InstructorEvalPreview clickSessionPreviewLink(String courseId, String evalName) {
         getPreviewLink(courseId, evalName).click();
         waitForPageToLoad();
         switchToNewWindow();
         return changePageType(InstructorEvalPreview.class);
     }
+    
+    
+    /**
+     * This is for customized feedback session 
+     */
+    public InstructorFeedbackResultsPage clickFeedbackSessionViewResultsLink(String courseId, String fsName) {
+        getViewResultsLink(courseId, fsName).click();
+        waitForPageToLoad();
+        return changePageType(InstructorFeedbackResultsPage.class);
+    }
+    
+    
+    /**
+     * This is for customized feedback session 
+     */
+    public InstructorFeedbackEditPage clickFeedbackSessionEditLink(String courseId, String fsName) {
+        getEditLink(courseId, fsName).click();
+        waitForPageToLoad();
+        return changePageType(InstructorFeedbackEditPage.class);
+    }
+    
+    /**
+     * This is for customized feedback session 
+     */
+    public InstructorFeedbacksPage clickFeedbackSessionDeleteLink(String courseId, String fsName) {
+        clickAndConfirm(getDeleteEvalLink(courseId, fsName));
+        waitForPageToLoad();
+        switchToNewWindow();
+        return changePageType(InstructorFeedbacksPage.class);
+    }
+    
+    /**
+     * This is for customized feedback session 
+     */
+    public FeedbackSubmitPage clickFeedbackSessionSubmitLink(String courseId, String fsName) {
+        this.getSubmitLink(courseId, fsName).click();
+        waitForPageToLoad();
+        switchToNewWindow();
+        return changePageType(FeedbackSubmitPage.class);
+    }
+    
+    /**
+     * This is for customized feedback session 
+     */
+    public InstructorFeedbacksPage clickFeedbackSessionRemindLink(String courseId, String fsName){
+        clickAndConfirm(getRemindLink(courseId, fsName));
+        waitForPageToLoad();
+        switchToNewWindow();
+        return changePageType(InstructorFeedbacksPage.class);
+    }
+    
+    /**
+     * This is for customized feedback session 
+     */
+    public InstructorFeedbacksPage clickFeedbackSessionUnpublishLink(String courseId, String fsName){
+        clickAndConfirm(getUnpublishLink(courseId, fsName));
+        waitForPageToLoad();
+        switchToNewWindow();
+        return changePageType(InstructorFeedbacksPage.class);
+    }
+    
+    /**
+     * This is for customized feedback session 
+     */
+    public InstructorFeedbacksPage clickFeedbackSessionPublishLink(String courseId, String fsName){
+        clickAndConfirm(getPublishLink(courseId, fsName));
+        waitForPageToLoad();
+        switchToNewWindow();
+        return changePageType(InstructorFeedbacksPage.class);
+    }
+    
+    
     
     public void clickHomeTab() {
         instructorHomeTab.click();
@@ -136,6 +217,10 @@ public class InstructorHomePage extends AppPage {
     
     public WebElement getEditLink(String courseId, String evalName) {
         return getSessionLinkInRow("session-edit-for-test", getEvaluationRowId(courseId, evalName));
+    }
+    
+    public WebElement getSubmitLink(String courseId, String evalName) {
+        return getSessionLinkInRow("session-submit-for-test", getEvaluationRowId(courseId, evalName));
     }
     
     public WebElement getPreviewLink(String courseId, String evalName) {

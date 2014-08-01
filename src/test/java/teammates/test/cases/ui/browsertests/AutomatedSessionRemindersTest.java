@@ -46,7 +46,7 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
         
         //Published time for one feedback session already set to some time in the past.
         
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
     }
     

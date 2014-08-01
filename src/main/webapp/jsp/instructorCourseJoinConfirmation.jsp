@@ -60,10 +60,10 @@
                         if (data.institute == null) {
 
                             ref = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
-                                    + "?regkey=" + data.regkey;
+                                    + "?key=" + data.regkey;
                         } else {
                             ref = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
-                                    + "?regkey=" + data.regkey + "&"
+                                    + "?key=" + data.regkey + "&"
                                     + Const.ParamsNames.INSTRUCTOR_INSTITUTION + "="
                                     + data.institute;
                         }

@@ -1,12 +1,16 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 
+/**
+ * Action: serves a profile picture that is stored in Google Cloud Storage
+ */
 public class StudentProfilePictureAction extends Action {
 
     @Override
@@ -44,14 +48,19 @@ public class StudentProfilePictureAction extends Action {
         }
         
         StudentAttributes student = logic.getStudentForEmail(courseId, email);
+        String blobKey = "";
         if (student == null) {
             throw new EntityDoesNotExistException("student with " +
                     courseId + "/" + email);
+        } else if (student.googleId == null 
+                || student.googleId.isEmpty()) {
+            // unregistered student, so ignore the picture request
+        } else {
+            StudentProfileAttributes profile = logic.getStudentProfile(student.googleId);
+            if (profile != null) {
+                blobKey = profile.pictureKey;
+            }
         }
-        log.info(student.googleId);
-        // googleId == null is handled at logic level
-        String blobKey = logic.getStudentProfile(student.googleId).pictureKey;
-        log.info(blobKey);
         return createImageResult(blobKey);
     }
 

@@ -105,8 +105,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyHtml("/studentFeedbackResultsPageCONTRIB.html");
         
         ______TS("unreg student");
-
-        resultsPage.logout();
+        // should automatically logout.
         // Open Session
         StudentAttributes unreg = testData.students.get("DropOut");
         resultsPage = loginToStudentFeedbackResultsPage(unreg, "Open Session");

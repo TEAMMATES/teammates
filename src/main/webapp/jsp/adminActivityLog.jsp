@@ -21,6 +21,7 @@
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="/stylesheets/teammatesCommon.css" rel="stylesheet">
+    <link href="/stylesheets/adminCommon.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
                   <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -177,7 +178,7 @@
                                                     Possible Labels:</strong>&nbsp;from,
                                                 to, person, role,
                                                 request, response,
-                                                version<br>
+                                                version,time<br>
                                                 <ul>
 
                                                     <li>E.g. from:
@@ -213,6 +214,9 @@
                                                         4.16 (both "."
                                                         and "-" are
                                                         acceptable)</li>
+                                                     
+                                                     <li>E.g. time: 1000 (means 1000ms) </li>                                                                                         
+                                                     
                                                 </ul>
                                             </div>
                                         </div>
@@ -495,12 +499,15 @@
                 page="<%=Const.ViewURIs.STATUS_MESSAGE_WITHOUT_FOCUS%>" />
                 
             <br>
+
+
+            <a href="#" class="back-to-top-left"><span
+            class="glyphicon glyphicon-arrow-up"></span>&nbsp;Top</a> 
             
-            <div>
-                <a href="#frameBodyWrapper" class="btn  btn-primary"><span
-                    class="glyphicon glyphicon-arrow-up"></span> Back To
-                    Top</a>
-            </div>
+            <a
+            href="#" class="back-to-top-right">Top&nbsp;<span
+            class="glyphicon glyphicon-arrow-up"></span></a>
+            
             <br> <br>
         </div>
     </div>

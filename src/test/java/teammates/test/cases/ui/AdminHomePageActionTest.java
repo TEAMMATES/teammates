@@ -19,7 +19,7 @@ public class AdminHomePageActionTest extends BaseActionTest {
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_HOME_PAGE;
-        // restoreTypicalDataInDatastore();
+        // removeAndRestoreTypicalDataInDatastore();
     }
     
     @Test

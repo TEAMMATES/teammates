@@ -3,10 +3,14 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
+/**
+ * Action: saves the new profile details given by a student. 
+ *         A purely Action based URI as it redirects back to
+ *         StudentProfilePageAction once completed
+ */
 public class StudentProfileEditSaveAction extends Action {
 
     @Override

@@ -23,6 +23,7 @@ public class AjaxResult extends ActionResult {
         super(destination, account, parametersFromPreviousRequest, status);
     }
 
+    //TODO: remove destination parameter and use empty string instead? It is not used for ajax results.
     public AjaxResult(String destination, AccountAttributes account,
             Map<String, String[]> parametersFromPreviousRequest,
             List<String> status, PageData data) {

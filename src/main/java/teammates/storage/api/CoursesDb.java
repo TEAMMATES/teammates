@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -31,6 +32,21 @@ public class CoursesDb extends EntitiesDb {
     
     @SuppressWarnings("unused")
     private static final Logger log = Utils.getLogger();
+    
+    public void createCourses(Collection<CourseAttributes> coursesToAdd) throws InvalidParametersException{
+        
+        List<EntityAttributes> coursesToUpdate = createEntities(coursesToAdd);
+        for(EntityAttributes entity : coursesToUpdate){
+            CourseAttributes course = (CourseAttributes) entity;
+            try {
+                updateCourse(course);
+            } catch (EntityDoesNotExistException e) {
+             // This situation is not tested as replicating such a situation is 
+             // difficult during testing
+                Assumption.fail("Entity found be already existing and not existing simultaneously");
+            }
+        }
+    }
 
     /**
      * Preconditions: <br>

@@ -14,7 +14,7 @@ public class AdminExceptionTestActionTest extends BaseActionTest {
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_EXCEPTION_TEST;
-        // restoreTypicalDataInDatastore();
+        // removeAndRestoreTypicalDataInDatastore();
     }
     
     @Test

@@ -127,8 +127,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public WebElement displayedToStudentCheckBox(int instrNum) {
-        return browser.driver.findElement(By.id(
-                "accessControlEditDivForInstr"+ instrNum)).findElement(By.name("instructorisdisplayed"));
+        return browser.driver.findElement(By.cssSelector("#instructorTable" + instrNum + " > div:nth-child(4) > label:nth-child(1) > input:nth-child(1)"));
     }
     
     public void clickDisplayedToStudentCheckBox(int instrNum) {
@@ -145,7 +144,7 @@ public class InstructorCourseEditPage extends AppPage {
         // there is one link before view details link group
         int cssLinkNum = viewLinkNum + 1;
         WebElement viewLink = browser.driver.findElement(By.cssSelector("#accessControlEditDivForInstr" + instrNum +
-                " > div:nth-child(2) > div.col-sm-9 > a:nth-child(" + cssLinkNum + ")"));
+                " > div:nth-child(1) > div.col-sm-9 > a:nth-child(" + cssLinkNum + ")"));
         
         viewLink.click();
         browser.selenium.waitForPageToLoad("500");
@@ -169,6 +168,53 @@ public class InstructorCourseEditPage extends AppPage {
     
     public void clickAddSessionLevelPrivilegesLink(int instrNum) {
         this.addSessionLevelPrivilegesLink(instrNum).click();
+    }
+    
+    public WebElement sectionCheckBoxInSectionLevel(int instrNum, int sectionLevelNum, int sectionNum) {
+        sectionLevelNum--;
+        sectionNum--;
+        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
+                + " input[name=sectiongroup" + sectionLevelNum + "section" + sectionNum + "]";
+        return browser.driver.findElement(By.cssSelector(cssSelector));
+    }
+    
+    public void clickSectionCheckBoxInSectionLevel(int instrNum, int sectionLevelNum, int sectionNum) {
+        this.sectionCheckBoxInSectionLevel(instrNum, sectionLevelNum, sectionNum).click();
+    }
+    
+    public void clickViewStudentCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
+        // in page, sectionLevel is 0 based
+        sectionLevelNum--;
+        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
+                + " > div > div.panel-body > div.col-sm-6.border-right-gray > input[type=\"checkbox\"]:nth-child(1)";
+        browser.driver.findElement(By.cssSelector(cssSelector)).click();
+    }
+    
+    public void clickViewOthersCommentsCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
+        sectionLevelNum--;
+        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
+                + " > div > div.panel-body > div.col-sm-6.border-right-gray > input[type=\"checkbox\"]:nth-child(5)";
+        browser.driver.findElement(By.cssSelector(cssSelector)).click();
+    }
+    
+    public void clickViewSessionResultsCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
+        sectionLevelNum--;
+        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
+                + " > div > div.panel-body > div.col-sm-5.col-sm-offset-1 > input[type=\"checkbox\"]:nth-child(3)";
+        browser.driver.findElement(By.cssSelector(cssSelector)).click();
+    }
+    
+    public void clickModifySessionResultCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
+        sectionLevelNum--;
+        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
+                + " > div > div.panel-body > div.col-sm-5.col-sm-offset-1 > input[type=\"checkbox\"]:nth-child(5)";
+        browser.driver.findElement(By.cssSelector(cssSelector)).click();
+    }
+    
+    public void clickSessionLevelInSectionLevel(int instrNum, int sectionLevelNum) {
+        sectionLevelNum--;
+        String linkId = "toggleSessionLevelInSection" + sectionLevelNum + "ForInstructor" + instrNum;
+        browser.driver.findElement(By.id(linkId)).click();
     }
     
     public boolean clickShowNewInstructorFormButton() {

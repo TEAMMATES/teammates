@@ -137,6 +137,18 @@ public class StudentsLogic {
     public StudentSearchResultBundle searchStudents(String queryString, String googleId, String cursorString){
         return studentsDb.search(queryString, googleId, cursorString);
     }
+
+    /**
+     * This method should be used by admin only since the searching does not restrict the 
+     * visibility according to the logged-in user's google ID. This is used by admin to
+     * search students in the whole system.
+     * @param queryString
+     * @param cursorString
+     * @return null if no result found
+     */
+    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString, String cursorString){
+        return studentsDb.searchStudentsInWholeSystem(queryString, cursorString);
+    }
     
     public StudentProfileAttributes getStudentProfile(String googleId) {
         Assumption.assertNotNull(googleId);

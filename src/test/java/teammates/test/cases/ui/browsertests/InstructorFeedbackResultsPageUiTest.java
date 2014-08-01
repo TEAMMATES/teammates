@@ -4,6 +4,8 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.logging.Logger;
+
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -13,6 +15,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
+import teammates.common.util.Utils;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
@@ -25,11 +28,12 @@ import teammates.test.util.Priority;
  */
 @Priority(1)
 public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
-
+    protected static Logger log = Utils.getLogger();
+    
     private static DataBundle testData;
     private static Browser browser;
     private InstructorFeedbackResultsPage resultsPage;
-        
+
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();
@@ -338,6 +342,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         browser.driver.get(reportUrl.toString());
         String afterReportDownloadUrl = browser.driver.getCurrentUrl();
         assertFalse(reportUrl.equals(afterReportDownloadUrl));
+        //Get an error page due to missing parameters in URL
+        assertEquals(true, afterReportDownloadUrl.contains("errorPage.jsp"));
         
         //return to the previous page
         loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
@@ -351,7 +357,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         editPage.verifyContains("First Session");
     }
     
-    public void testAjaxForLargeScaledSession() {
+    public void testAjaxForLargeScaledSession() throws Exception {
         
         ______TS("Ajax for view by questions");
         

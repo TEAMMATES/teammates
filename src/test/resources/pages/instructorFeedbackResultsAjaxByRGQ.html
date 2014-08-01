@@ -129,7 +129,7 @@
             </div>
             <div class="row">
                 
-                <div data-original-title="View results in separated section" class="col-sm-5" data-toggle="tooltip" title="">
+                <div data-original-title="View results by sections" class="col-sm-5" data-toggle="tooltip" title="">
                     <div class="form-group">
                         <label for="sectionSelect" class="col-sm-2 control-label">
                             Section:
@@ -155,9 +155,11 @@
                 
                 <div class="col-sm-7 pull-right" style="padding-top:8px;">
                     
-                    <a data-original-title="Collapse or expand all loaded panels. Since the data is too large, you have to click on each individual panel to load it." class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" data-toggle="tooltip" title="">
+                      <div data-original-title="This button is disabled. Since the data is too large, you have to click on each individual panel to load it." style="display:inline-block;" class="pull-right" data-toggle="tooltip" title="">
+                       <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" disabled="disabled">
                         Expand Sections
                     </a>
+                    </div>
                     
                 </div>
             </div>
@@ -190,7 +192,7 @@
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="pull-right">
-                                                <a data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." class="btn btn-success btn-xs" id="collapse-panels-button-section-0" data-toggle="tooltip" title="">
+                                                <a data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." class="btn btn-success btn-xs" id="collapse-panels-button-section-0" data-toggle="tooltip" title="" style="">
                                                     Expand
                                                      Students
                                                 </a>
@@ -220,8 +222,14 @@
 
             <div class="panel panel-primary">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-5" class="panel-heading">
-                    To: <strong>Alice Betsy (Team 1)</strong>
-                        <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.alice.b@gmail.com ">[CFResultsUiT.alice.b@gmail.com]</a>
+                    To: 
+                    
+                        <div class="middlealign profile-pic-icon-hover inline" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                            <strong>Alice Betsy (Team 1)</strong>
+                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                            <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.alice.b@gmail.com ">[CFResultsUiT.alice.b@gmail.com]</a>
+                        </div>
+                    
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                 </div>
                 <div id="panelBodyCollapse-5" class="panel-collapse collapse in">
@@ -229,8 +237,26 @@
                 
                         <div class="row ">
                             <div class="col-md-2">
-                                <div class="col-md-12"><strong>From: Alice Betsy (Team 1)</strong></div>
-                                <div class="col-md-12 text-muted small"><span><br>To: Alice Betsy (Team 1)</span></div>
+                                <div class="col-md-12">
+                                    From: 
+                                    
+                                        <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                            <strong>Alice Betsy (Team 1)</strong>
+                                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                        </div>
+                                    
+                                    
+                                </div>
+                                    
+                                <div class="col-md-12 text-muted small"><br>
+                                To: 
+                                
+                                    <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                        Alice Betsy (Team 1)
+                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                    </div>
+                                 
+                                </div>
                             </div>
                             <div class="col-md-10">
                             
@@ -1095,8 +1121,14 @@
 
             <div class="panel panel-primary">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-6" class="panel-heading">
-                    To: <strong>Benny Charles (Team 1)</strong>
-                        <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.benny.c@gmail.com ">[CFResultsUiT.benny.c@gmail.com]</a>
+                    To: 
+                    
+                        <div class="middlealign profile-pic-icon-hover inline" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                            <strong>Benny Charles (Team 1)</strong>
+                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                            <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.benny.c@gmail.com ">[CFResultsUiT.benny.c@gmail.com]</a>
+                        </div>
+                    
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                 </div>
                 <div id="panelBodyCollapse-6" class="panel-collapse collapse in">
@@ -1104,8 +1136,26 @@
                 
                         <div class="row ">
                             <div class="col-md-2">
-                                <div class="col-md-12"><strong>From: Alice Betsy (Team 1)</strong></div>
-                                <div class="col-md-12 text-muted small"><span><br>To: Benny Charles (Team 1)</span></div>
+                                <div class="col-md-12">
+                                    From: 
+                                    
+                                        <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                            <strong>Alice Betsy (Team 1)</strong>
+                                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                        </div>
+                                    
+                                    
+                                </div>
+                                    
+                                <div class="col-md-12 text-muted small"><br>
+                                To: 
+                                
+                                    <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                        Benny Charles (Team 1)
+                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                    </div>
+                                 
+                                </div>
                             </div>
                             <div class="col-md-10">
                             
@@ -1241,8 +1291,14 @@
 
             <div class="panel panel-primary">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-7" class="panel-heading">
-                    To: <strong>Charlie Dávis (Team 2)</strong>
-                        <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.charlie.d@gmail.com ">[CFResultsUiT.charlie.d@gmail.com]</a>
+                    To: 
+                    
+                        <div class="middlealign profile-pic-icon-hover inline" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                            <strong>Charlie Dávis (Team 2)</strong>
+                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                            <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.charlie.d@gmail.com ">[CFResultsUiT.charlie.d@gmail.com]</a>
+                        </div>
+                    
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                 </div>
                 <div id="panelBodyCollapse-7" class="panel-collapse collapse in">
@@ -1250,8 +1306,26 @@
                 
                         <div class="row ">
                             <div class="col-md-2">
-                                <div class="col-md-12"><strong>From: Benny Charles (Team 1)</strong></div>
-                                <div class="col-md-12 text-muted small"><span><br>To: Charlie Dávis (Team 2)</span></div>
+                                <div class="col-md-12">
+                                    From: 
+                                    
+                                        <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                            <strong>Benny Charles (Team 1)</strong>
+                                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                        </div>
+                                    
+                                    
+                                </div>
+                                    
+                                <div class="col-md-12 text-muted small"><br>
+                                To: 
+                                
+                                    <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                        Charlie Dávis (Team 2)
+                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                    </div>
+                                 
+                                </div>
                             </div>
                             <div class="col-md-10">
                             
@@ -1387,8 +1461,14 @@
 
             <div class="panel panel-primary">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-8" class="panel-heading">
-                    To: <strong>Danny Engrid (Team 2)</strong>
-                        <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.danny.e@gmail.com ">[CFResultsUiT.danny.e@gmail.com]</a>
+                    To: 
+                    
+                        <div class="middlealign profile-pic-icon-hover inline" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                            <strong>Danny Engrid (Team 2)</strong>
+                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                            <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.danny.e@gmail.com ">[CFResultsUiT.danny.e@gmail.com]</a>
+                        </div>
+                    
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                 </div>
                 <div id="panelBodyCollapse-8" class="panel-collapse collapse in">
@@ -1396,8 +1476,26 @@
                 
                         <div class="row ">
                             <div class="col-md-2">
-                                <div class="col-md-12"><strong>From: Benny Charles (Team 1)</strong></div>
-                                <div class="col-md-12 text-muted small"><span><br>To: Danny Engrid (Team 2)</span></div>
+                                <div class="col-md-12">
+                                    From: 
+                                    
+                                        <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                            <strong>Benny Charles (Team 1)</strong>
+                                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                        </div>
+                                    
+                                    
+                                </div>
+                                    
+                                <div class="col-md-12 text-muted small"><br>
+                                To: 
+                                
+                                    <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                        Danny Engrid (Team 2)
+                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                    </div>
+                                 
+                                </div>
                             </div>
                             <div class="col-md-10">
                             
@@ -1533,8 +1631,14 @@
 
             <div class="panel panel-primary">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-9" class="panel-heading">
-                    To: <strong>Drop out (Team 2)</strong>
-                        <a class="link-in-dark-bg" href="mailTo:drop.out@gmail.com ">[drop.out@gmail.com]</a>
+                    To: 
+                    
+                        <div class="middlealign profile-pic-icon-hover inline" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                            <strong>Drop out (Team 2)</strong>
+                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                            <a class="link-in-dark-bg" href="mailTo:drop.out@gmail.com ">[drop.out@gmail.com]</a>
+                        </div>
+                    
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                 </div>
                 <div id="panelBodyCollapse-9" class="panel-collapse collapse in">
@@ -1542,8 +1646,26 @@
                 
                         <div class="row ">
                             <div class="col-md-2">
-                                <div class="col-md-12"><strong>From: Drop out (Team 2)</strong></div>
-                                <div class="col-md-12 text-muted small"><span><br>To: Drop out (Team 2)</span></div>
+                                <div class="col-md-12">
+                                    From: 
+                                    
+                                        <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                            <strong>Drop out (Team 2)</strong>
+                                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                        </div>
+                                    
+                                    
+                                </div>
+                                    
+                                <div class="col-md-12 text-muted small"><br>
+                                To: 
+                                
+                                    <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                        Drop out (Team 2)
+                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                    </div>
+                                 
+                                </div>
                             </div>
                             <div class="col-md-10">
                             
@@ -1782,8 +1904,10 @@
 
             <div class="panel panel-primary">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-10" class="panel-heading">
-                    To: <strong>Team 2</strong>
-                        <a class="link-in-dark-bg" href="mailTo:Team 2 " style="display:none;">[Team 2]</a>
+                    To: 
+                    
+                        <strong>Team 2</strong>
+                    
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                 </div>
                 <div id="panelBodyCollapse-10" class="panel-collapse collapse in">
@@ -1791,8 +1915,20 @@
                 
                         <div class="row ">
                             <div class="col-md-2">
-                                <div class="col-md-12"><strong>From: Team 1</strong></div>
-                                <div class="col-md-12 text-muted small"><span><br>To: Team 2</span></div>
+                                <div class="col-md-12">
+                                    From: 
+                                    
+                                        <strong>Team 1</strong>
+                                    
+                                    
+                                </div>
+                                    
+                                <div class="col-md-12 text-muted small"><br>
+                                To: 
+                                
+                                    Team 2
+                                 
+                                </div>
                             </div>
                             <div class="col-md-10">
                             
@@ -1910,7 +2046,7 @@
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="pull-right">
-                                                <a data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." class="btn btn-success btn-xs" id="collapse-panels-button-section-1" data-toggle="tooltip" title="">
+                                                <a data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." class="btn btn-success btn-xs" id="collapse-panels-button-section-1" data-toggle="tooltip" title="" style="display:none;">
                                                     Expand
                                                      Students
                                                 </a>
@@ -1947,7 +2083,7 @@
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="pull-right">
-                                                <a data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." class="btn btn-success btn-xs" id="collapse-panels-button-section-2" data-toggle="tooltip" title="">
+                                                <a data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." class="btn btn-success btn-xs" id="collapse-panels-button-section-2" data-toggle="tooltip" title="" style="display:none;">
                                                     Expand
                                                      Students
                                                 </a>

@@ -129,7 +129,7 @@
             </div>
             <div class="row">
                 
-                <div data-original-title="View results in separated section" class="col-sm-5" data-toggle="tooltip" title="">
+                <div data-original-title="View results by sections" class="col-sm-5" data-toggle="tooltip" title="">
                     <div class="form-group">
                         <label for="sectionSelect" class="col-sm-2 control-label">
                             Section:
@@ -155,7 +155,7 @@
                 
                 <div class="col-sm-7 pull-right" style="padding-top:8px;">
                     
-                    <a data-original-title="Collapse or expand all panels. You can also click on the panel heading to toggle each one individually." class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" data-toggle="tooltip" title="">
+                    <a data-original-title="Collapse all panels. You can also click on the panel heading to toggle each one individually." class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" data-toggle="tooltip" title="">
                         Collapse Sections
                     </a>
                     
@@ -248,7 +248,13 @@
 
                 <div class="panel panel-primary">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-3" class="panel-heading">
-                    From: <strong>Teammates Test</strong>
+                    From: 
+                    
+                        <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                            <strong>Teammates Test</strong>
+                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                        </div>
+                    
                         <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.instr@gmail.com ">[CFResultsUiT.instr@gmail.com]</a>
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>                </div>
                 <div id="panelBodyCollapse-3" class="panel-collapse collapse in">
@@ -264,15 +270,16 @@
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
-                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                            <th>Photo</th>
+                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                 Recipient
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,2)" style="width: 15%;">
+                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,3)" style="width: 15%;">
                                                 Team
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,3)">
+                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,4)">
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
@@ -282,6 +289,14 @@
                                         
                                         <tr>
                                         
+                                            <td class="middlealign">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                                    <a class="student-profile-pic-view-link btn-link">
+                                                        View Photo
+                                                    </a>
+                                                    <img src="" alt="No Image Given" class="hidden">
+                                                </div>
+                                            </td>
                                             <td class="middlealign">-</td>
                                             <td class="middlealign">-</td>
                                             <td class="multiline">This is for nobody specific.</td>
@@ -816,7 +831,13 @@
 
                 <div class="panel panel-primary">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-6" class="panel-heading">
-                    From: <strong>Alice Betsy</strong>
+                    From: 
+                    
+                        <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                            <strong>Alice Betsy</strong>
+                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                        </div>
+                    
                         <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.alice.b@gmail.com ">[CFResultsUiT.alice.b@gmail.com]</a>
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>                </div>
                 <div id="panelBodyCollapse-6" class="panel-collapse collapse in">
@@ -832,15 +853,16 @@
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
-                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                            <th>Photo</th>
+                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                 Recipient
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,2)" style="width: 15%;">
+                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,3)" style="width: 15%;">
                                                 Team
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,3)">
+                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,4)">
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
@@ -850,6 +872,14 @@
                                         
                                         <tr>
                                         
+                                            <td class="middlealign">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                                    <a class="student-profile-pic-view-link btn-link">
+                                                        View Photo
+                                                    </a>
+                                                    <img src="" alt="No Image Given" class="hidden">
+                                                </div>
+                                            </td>
                                             <td class="middlealign">Benny Charles</td>
                                             <td class="middlealign">Team 1</td>
                                             <td class="multiline">2 Response to Benny.</td>
@@ -870,15 +900,16 @@
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
-                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                            <th>Photo</th>
+                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                 Recipient
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,2)" style="width: 15%;">
+                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,3)" style="width: 15%;">
                                                 Team
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,3)">
+                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,4)">
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
@@ -888,6 +919,14 @@
                                         
                                         <tr>
                                         
+                                            <td class="middlealign">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                                    <a class="student-profile-pic-view-link btn-link">
+                                                        View Photo
+                                                    </a>
+                                                    <img src="" alt="No Image Given" class="hidden">
+                                                </div>
+                                            </td>
                                             <td class="middlealign">Alice Betsy</td>
                                             <td class="middlealign">Team 1</td>
                                             <td class="multiline">Alice self feedback.</td>
@@ -983,15 +1022,16 @@
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
-                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                            <th>Photo</th>
+                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                 Recipient
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,2)" style="width: 15%;">
+                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,3)" style="width: 15%;">
                                                 Team
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,3)">
+                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,4)">
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
@@ -1001,6 +1041,14 @@
                                         
                                         <tr>
                                         
+                                            <td class="middlealign">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                                    <a class="student-profile-pic-view-link btn-link">
+                                                        View Photo
+                                                    </a>
+                                                    <img src="" alt="No Image Given" class="hidden">
+                                                </div>
+                                            </td>
                                             <td class="middlealign">Alice Betsy</td>
                                             <td class="middlealign">Team 1</td>
                                             <td class="multiline">PowerSearch</td>
@@ -1096,15 +1144,16 @@
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
-                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                            <th>Photo</th>
+                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                 Recipient
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,2)" style="width: 15%;">
+                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,3)" style="width: 15%;">
                                                 Team
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,3)">
+                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,4)">
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
@@ -1114,6 +1163,14 @@
                                         
                                         <tr>
                                         
+                                            <td class="middlealign">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                                    <a class="student-profile-pic-view-link btn-link">
+                                                        View Photo
+                                                    </a>
+                                                    <img src="" alt="No Image Given" class="hidden">
+                                                </div>
+                                            </td>
                                             <td class="middlealign">Alice Betsy</td>
                                             <td class="middlealign">Team 1</td>
                                             <td class="multiline"><ul class="selectedOptionsList"><li>PowerSearch</li><li>GoodUI</li></ul></td>
@@ -1179,15 +1236,16 @@
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
-                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                            <th>Photo</th>
+                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                 Recipient
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,2)" style="width: 15%;">
+                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,3)" style="width: 15%;">
                                                 Team
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,3)">
+                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,4)">
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
@@ -1197,6 +1255,14 @@
                                         
                                         <tr>
                                         
+                                            <td class="middlealign">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                                    <a class="student-profile-pic-view-link btn-link">
+                                                        View Photo
+                                                    </a>
+                                                    <img src="" alt="No Image Given" class="hidden">
+                                                </div>
+                                            </td>
                                             <td class="middlealign">Alice Betsy</td>
                                             <td class="middlealign">Team 1</td>
                                             <td class="multiline">Danny</td>
@@ -1262,15 +1328,16 @@
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
-                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                            <th>Photo</th>
+                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                 Recipient
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,2)" style="width: 15%;">
+                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,3)" style="width: 15%;">
                                                 Team
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,3)">
+                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,4)">
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
@@ -1280,6 +1347,14 @@
                                         
                                         <tr>
                                         
+                                            <td class="middlealign">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                                    <a class="student-profile-pic-view-link btn-link">
+                                                        View Photo
+                                                    </a>
+                                                    <img src="" alt="No Image Given" class="hidden">
+                                                </div>
+                                            </td>
                                             <td class="middlealign">Alice Betsy</td>
                                             <td class="middlealign">Team 1</td>
                                             <td class="multiline">Team 1</td>
@@ -1345,15 +1420,16 @@
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
-                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                            <th>Photo</th>
+                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                 Recipient
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,2)" style="width: 15%;">
+                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,3)" style="width: 15%;">
                                                 Team
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,3)">
+                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,4)">
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
@@ -1363,6 +1439,14 @@
                                         
                                         <tr>
                                         
+                                            <td class="middlealign">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                                    <a class="student-profile-pic-view-link btn-link">
+                                                        View Photo
+                                                    </a>
+                                                    <img src="" alt="No Image Given" class="hidden">
+                                                </div>
+                                            </td>
                                             <td class="middlealign">Alice Betsy</td>
                                             <td class="middlealign">Team 1</td>
                                             <td class="multiline"><ul class="selectedOptionsList"><li>Danny</li></ul></td>
@@ -1438,15 +1522,16 @@
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
-                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                            <th>Photo</th>
+                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                 Recipient
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,2)" style="width: 15%;">
+                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,3)" style="width: 15%;">
                                                 Team
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,3)">
+                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,4)">
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
@@ -1456,6 +1541,14 @@
                                         
                                         <tr>
                                         
+                                            <td class="middlealign">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                                    <a class="student-profile-pic-view-link btn-link">
+                                                        View Photo
+                                                    </a>
+                                                    <img src="" alt="No Image Given" class="hidden">
+                                                </div>
+                                            </td>
                                             <td class="middlealign">Alice Betsy</td>
                                             <td class="middlealign">Team 1</td>
                                             <td class="multiline"><ul class="selectedOptionsList"><li>Team 1</li><li>Team 2</li></ul></td>
@@ -1510,15 +1603,16 @@
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
-                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                            <th>Photo</th>
+                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                 Recipient
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,2)" style="width: 15%;">
+                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,3)" style="width: 15%;">
                                                 Team
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,3)">
+                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,4)">
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
@@ -1528,6 +1622,14 @@
                                         
                                         <tr>
                                         
+                                            <td class="middlealign">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                                    <a class="student-profile-pic-view-link btn-link">
+                                                        View Photo
+                                                    </a>
+                                                    <img src="" alt="No Image Given" class="hidden">
+                                                </div>
+                                            </td>
                                             <td class="middlealign">Alice Betsy</td>
                                             <td class="middlealign">Team 1</td>
                                             <td class="multiline">3.5</td>
@@ -1728,7 +1830,13 @@
 
                 <div class="panel panel-primary">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-8" class="panel-heading">
-                    From: <strong>Drop out</strong>
+                    From: 
+                    
+                        <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                            <strong>Drop out</strong>
+                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                        </div>
+                    
                         <a class="link-in-dark-bg" href="mailTo:drop.out@gmail.com ">[drop.out@gmail.com]</a>
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>                </div>
                 <div id="panelBodyCollapse-8" class="panel-collapse collapse in">
@@ -1819,15 +1927,16 @@
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
-                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                            <th>Photo</th>
+                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                 Recipient
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,2)" style="width: 15%;">
+                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,3)" style="width: 15%;">
                                                 Team
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,3)">
+                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,4)">
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
@@ -1837,6 +1946,14 @@
                                         
                                         <tr>
                                         
+                                            <td class="middlealign">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                                    <a class="student-profile-pic-view-link btn-link">
+                                                        View Photo
+                                                    </a>
+                                                    <img src="" alt="No Image Given" class="hidden">
+                                                </div>
+                                            </td>
                                             <td class="middlealign">Drop out</td>
                                             <td class="middlealign">Team 2</td>
                                             <td class="multiline">PowerSearch</td>
@@ -1902,15 +2019,16 @@
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
-                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                            <th>Photo</th>
+                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                 Recipient
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,2)" style="width: 15%;">
+                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,3)" style="width: 15%;">
                                                 Team
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,3)">
+                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,4)">
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
@@ -1920,6 +2038,14 @@
                                         
                                         <tr>
                                         
+                                            <td class="middlealign">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                                    <a class="student-profile-pic-view-link btn-link">
+                                                        View Photo
+                                                    </a>
+                                                    <img src="" alt="No Image Given" class="hidden">
+                                                </div>
+                                            </td>
                                             <td class="middlealign">Drop out</td>
                                             <td class="middlealign">Team 2</td>
                                             <td class="multiline">Team 2</td>
@@ -2429,7 +2555,13 @@
 
                 <div class="panel panel-primary">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-10" class="panel-heading">
-                    From: <strong>Benny Charles</strong>
+                    From: 
+                    
+                        <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                            <strong>Benny Charles</strong>
+                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                        </div>
+                    
                         <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.benny.c@gmail.com ">[CFResultsUiT.benny.c@gmail.com]</a>
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>                </div>
                 <div id="panelBodyCollapse-10" class="panel-collapse collapse in">
@@ -2445,15 +2577,16 @@
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
-                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                            <th>Photo</th>
+                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                 Recipient
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,2)" style="width: 15%;">
+                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,3)" style="width: 15%;">
                                                 Team
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,3)">
+                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,4)">
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
@@ -2463,6 +2596,14 @@
                                         
                                         <tr>
                                         
+                                            <td class="middlealign">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                                    <a class="student-profile-pic-view-link btn-link">
+                                                        View Photo
+                                                    </a>
+                                                    <img src="" alt="No Image Given" class="hidden">
+                                                </div>
+                                            </td>
                                             <td class="middlealign">Charlie Dávis</td>
                                             <td class="middlealign">Team 2</td>
                                             <td class="multiline">4 Response to Charlie.</td>
@@ -2470,6 +2611,14 @@
                                         
                                         <tr>
                                         
+                                            <td class="middlealign">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                                    <a class="student-profile-pic-view-link btn-link">
+                                                        View Photo
+                                                    </a>
+                                                    <img src="" alt="No Image Given" class="hidden">
+                                                </div>
+                                            </td>
                                             <td class="middlealign">Danny Engrid</td>
                                             <td class="middlealign">Team 2</td>
                                             <td class="multiline">1 Response to Danny.</td>
@@ -2497,7 +2646,10 @@
 
                 <div class="panel panel-primary">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-11" class="panel-heading">
-                    From: <strong>Team 1</strong>
+                    From: 
+                    
+                        <strong>Team 1</strong>
+                    
                         <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.alice.b@gmail.com's Team " style="display:none;">[CFResultsUiT.alice.b@gmail.com's Team]</a>
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>                </div>
                 <div id="panelBodyCollapse-11" class="panel-collapse collapse in">
@@ -2513,15 +2665,16 @@
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
-                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                            <th>Photo</th>
+                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                 Recipient
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,2)" style="width: 15%;">
+                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,3)" style="width: 15%;">
                                                 Team
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,3)">
+                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,4)">
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
@@ -2531,6 +2684,14 @@
                                         
                                         <tr>
                                         
+                                            <td class="middlealign">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                                    <a class="student-profile-pic-view-link btn-link">
+                                                        View Photo
+                                                    </a>
+                                                    <img src="" alt="No Image Given" class="hidden">
+                                                </div>
+                                            </td>
                                             <td class="middlealign">Team 2</td>
                                             <td class="middlealign"></td>
                                             <td class="multiline">Response from team 1 (by alice) to team 2.</td>
@@ -2731,7 +2892,13 @@
 
                 <div class="panel panel-primary">
                 <div style="cursor: pointer;" data-target="#panelBodyCollapse-13" class="panel-heading">
-                    From: <strong>Charlie Dávis</strong>
+                    From: 
+                    
+                        <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                            <strong>Charlie Dávis</strong>
+                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                        </div>
+                    
                         <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.charlie.d@gmail.com ">[CFResultsUiT.charlie.d@gmail.com]</a>
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>                </div>
                 <div id="panelBodyCollapse-13" class="panel-collapse collapse in">
@@ -2747,15 +2914,16 @@
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
-                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                            <th>Photo</th>
+                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                 Recipient
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,2)" style="width: 15%;">
+                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,3)" style="width: 15%;">
                                                 Team
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,3)">
+                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,4)">
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
@@ -2765,6 +2933,14 @@
                                         
                                         <tr>
                                         
+                                            <td class="middlealign">
+                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?courseid={*}&amp;studentemail={*}">
+                                                    <a class="student-profile-pic-view-link btn-link">
+                                                        View Photo
+                                                    </a>
+                                                    <img src="" alt="No Image Given" class="hidden">
+                                                </div>
+                                            </td>
                                             <td class="middlealign">Emily</td>
                                             <td class="middlealign">Team 3</td>
                                             <td class="multiline">3 Response to Emily.</td>

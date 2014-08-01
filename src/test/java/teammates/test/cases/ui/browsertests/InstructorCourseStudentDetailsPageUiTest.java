@@ -28,10 +28,11 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseStudentDetailsPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser(true);
         instructorId = testData.instructors.get("CCSDetailsUiT.instr").googleId;
         courseId = testData.courses.get("CCSDetailsUiT.CS2104").id;
+        System.setProperty("godmode", "true");
     }
     
     

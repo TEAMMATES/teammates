@@ -146,6 +146,10 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
 
+        feedbackPage.selectSessionType("Session with your own questions");
+        
+        feedbackPage.clickEditUncommonSettingsButton();
+        
         feedbackPage.clickManualPublishTimeButton();
         
         feedbackPage.addFeedbackSession(
@@ -166,6 +170,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
 
+        feedbackPage.clickEditUncommonSettingsButton();
         feedbackPage.clickManualPublishTimeButton();
         
         feedbackPage.selectSessionType("Team peer evaluation session");
@@ -198,6 +203,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("success case: private session, boundary length name, timezone = 5.75, only results email");
 
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+        feedbackPage.clickEditUncommonSettingsButton();
         feedbackPage.clickNeverVisibleTimeButton();
         
         //verify that timeFrameTable, instructions and ResponseVisTable are all hidden
@@ -243,6 +249,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
 
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
+        feedbackPage.clickEditUncommonSettingsButton();
         feedbackPage.clickCustomVisibleTimeButton();
         feedbackPage.clickDefaultPublishTimeButton();
         
@@ -281,6 +288,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
+        feedbackPage.clickEditUncommonSettingsButton();
         feedbackPage.clickDefaultVisibleTimeButton();
         feedbackPage.clickNeverPublishTimeButton();
         
@@ -315,6 +323,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
+        feedbackPage.clickEditUncommonSettingsButton();
         feedbackPage.clickDefaultVisibleTimeButton();
         feedbackPage.clickCustomPublishTimeButton();
         newSession.feedbackSessionName = "Long Instruction Test";
@@ -346,6 +355,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
+        feedbackPage.clickEditUncommonSettingsButton();
         feedbackPage.clickCustomVisibleTimeButton();
         feedbackPage.clickCustomPublishTimeButton();
         
@@ -448,7 +458,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
     }
     
-    public void testPublishAction(){        
+    public void testPublishAction() throws Exception {        
         // refresh page
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
@@ -481,7 +491,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
     }
     
-    public void testUnpublishAction(){
+    public void testUnpublishAction() throws Exception {
         // refresh page
         
         String courseId = testData.feedbackSessions.get("publishedSession").courseId;
@@ -529,7 +539,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     public void testSessionViewableTable() {
         
         ______TS("all 4 datetime elements enabled when custom is selected");
-        
+        feedbackPage.clickEditUncommonSettingsButton();
         feedbackPage.clickCustomPublishTimeButton();
         feedbackPage.clickCustomVisibleTimeButton();
         

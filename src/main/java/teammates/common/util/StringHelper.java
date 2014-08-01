@@ -61,15 +61,18 @@ public class StringHelper {
         return result;
     }
     
+    /**
+     * Substitutes the middle third of the given string with dots
+     * and returns the "obscured" string
+     * 
+     * @param inputString
+     * @return
+     */
     public static String obscure(String inputString) {
         Assumption.assertNotNull(inputString);
-        int length = inputString.length();
-        if (length == 0) {
-            return inputString;
-        } else if (length == 1) {
-            return inputString.substring(0, 1) + "....." + inputString.substring(length-1);
-        }
-        return inputString.substring(0, 2) + "....." + inputString.substring(length-2);
+        String frontPart = inputString.substring(0, inputString.length() / 3);
+        String endPart = inputString.substring(2 * inputString.length() / 3);
+        return frontPart + ".." + endPart;
     }
 
     public static String encrypt(String value) {
@@ -242,6 +245,28 @@ public class StringHelper {
             b[i] = (byte) v;
         }
         return b;
+    }
+    
+    
+    
+    /**
+     * This recovers a html-sanitized string to original encoding for appropriate display in files such as csv file <br>
+     * It restores encoding for < > \ / ' &  <br>
+     * @param sanitized string 
+     * @return recovered string  
+     */
+    public static String recoverFromSanitizedText(String str){  
+        
+        if(str == null){
+            return null;
+        }
+        
+        return str.replace("&lt;", "<")
+                  .replace("&gt;", ">")
+                  .replace("&quot;", "\"")
+                  .replace("&#x2f;", "/")
+                  .replace("&#39;", "'")
+                  .replaceAll("&amp;", "&");
     }
     
 }

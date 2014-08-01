@@ -6,6 +6,7 @@ import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -26,6 +27,7 @@ import teammates.test.pageobjects.FeedbackQuestionSubmitPage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
+import teammates.test.util.Priority;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -33,6 +35,7 @@ import com.google.appengine.api.datastore.Text;
  * Covers the 'Edit Feedback Session' page for instructors.
  * SUT is {@link InstructorFeedbackEditPage}.
  */
+@Priority(4)
 public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorFeedbackEditPage feedbackEditPage;
@@ -119,12 +122,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testEditConstSumRecipientQuestionAction();
         testDeleteConstSumRecipientQuestionAction();
         
-        testNewContributionQuestionFrame();
-        testInputValidationForContributionQuestion();
-        testCustomizeContributionOptions();
-        testAddContributionQuestionAction();
-        testEditContributionQuestionAction();
-        testDeleteContributionQuestionAction();
+        //Contribution questions tests moved to own test class.
         
         testCopyQuestion();
       
@@ -178,6 +176,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         //feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditPublished.html");
         // Restore defaults
         feedbackEditPage.clickEditSessionButton();
+        
+
+        feedbackEditPage.clickEditUncommonSettingsButton();
         feedbackEditPage.clickDefaultPublishTimeButton();
         feedbackEditPage.clickSaveSessionButton();
     }
@@ -240,9 +241,15 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         //TODO: use simple element checks instead of html checks after adding names to the checkboxes 
         //      in the edit page (follow todo in instructorsFeedbackEdit.js)
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionVisibilityOptions.html");
+        
+        ______TS("test visibility preview of question 1");
+        feedbackEditPage.clickVisibilityPreviewForQuestion1();
+        WebElement visibilityMessage = browser.driver.findElement(By.className("visibilityMessageButton"));
+        feedbackEditPage.waitForElementVisible(visibilityMessage);
 
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionVisibilityPreview.html");
+        
         //change back
-        feedbackEditPage.clickQuestionEditForQuestion1();
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
         feedbackEditPage.selectGiverTypeForQuestion1("Me (Session creator)");
         feedbackEditPage.selectRecipientTypeForQuestion1("Other students in the course");
@@ -358,6 +365,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        
+        //NOTE: Tests feedback giver/recipient and visibility options are copied from previous question.
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMcqQuestionAddSuccess.html");
     }
 
@@ -885,78 +894,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));    
     }
     
-
-    @SuppressWarnings("unused")
-    private void ____CONTRIB_methods___________________________________() {
-    }
-    
-    private void testNewContributionQuestionFrame() {
-        ______TS("CONTRIB: new question (frame) link");
-
-        feedbackEditPage.selectNewQuestionType("Team contribution question");
-        feedbackEditPage.clickNewQuestionButton();
-        assertTrue(feedbackEditPage.verifyNewContributionQuestionFormIsDisplayed());
-    }
-    
-    private void testInputValidationForContributionQuestion() {
-        
-        ______TS("empty question text");
-
-        feedbackEditPage.clickAddQuestionButton();
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID, feedbackEditPage.getStatus());
-        
-    }
-    
-
-    private void testCustomizeContributionOptions() {
-
-        //no question specific options to test
-        
-        ______TS("CONTRIB: set visibility options");
-        
-        feedbackEditPage.clickVisibilityOptionsForQuestion2();
-        //TODO: click and ensure can see answer for recipients,
-        //giver team members, recipient team members
-        //are always the same.
-        
-    }
-
-    private void testAddContributionQuestionAction() {
-        ______TS("CONTRIB: add question action success");
-        
-        feedbackEditPage.fillQuestionBox("contrib qn");
-        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
-        feedbackEditPage.clickAddQuestionButton();
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
-        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
-        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionAddSuccess.html");
-    }
-
-    private void testEditContributionQuestionAction() {
-        ______TS("CONTRIB: edit question success");
-
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
-        feedbackEditPage.fillEditQuestionBox("edited contrib qn text", 2);
-        
-        feedbackEditPage.clickSaveExistingQuestionButton(2);
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
-
-        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionEditSuccess.html");
-    }
-    
-    private void testDeleteContributionQuestionAction(){
-        ______TS("CONTRIB: qn delete then cancel");
-
-        feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(2));
-        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
-
-        ______TS("CONTRIB: qn delete then accept");
-
-        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
-        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));    
-    }
-
     @SuppressWarnings("unused")
     private void ____other_methods___________________________________() {
     }

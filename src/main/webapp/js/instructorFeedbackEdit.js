@@ -94,18 +94,23 @@ function getCustomDateTimeFields(){
  * @param elem is the anchor link being clicked on.
  */
 function toggleVisibilityOptions(elem){
-    $elementParent = $(elem).parent().parent();
-    $options = $elementParent.next('.visibilityOptions');
+    $elementParent = $(elem).closest('form');
+    $options = $elementParent.find('.visibilityOptions');
+    $visibilityMessage = $elementParent.find('.visibilityMessage');
+
+    //enable edit
+    $elementParent.find('[id*="questionedittext"]').click();
+
     if($options.is(':hidden')) {
-        $giverType = $elementParent.prev().find("select[name=givertype]");
-        $recipientType = $elementParent.prev().find("select[name=recipienttype]");
+        giverType = $elementParent.find("select[name='givertype']");
+        recipientType = $elementParent.find("select[name='recipienttype']");
         $options.show();
-        feedbackGiverUpdateVisibilityOptions($giverType);
-        feedbackRecipientUpdateVisibilityOptions($recipientType);
-        $(elem).html("<span class=\"glyphicon glyphicon-eye-close\"></span> Hide Visibility Options");
+        $visibilityMessage.hide();
+        feedbackGiverUpdateVisibilityOptions(giverType);
+        feedbackRecipientUpdateVisibilityOptions(recipientType);
     } else {
         $options.hide();
-        $(elem).html("<span class=\"glyphicon glyphicon-eye-open\"></span> Show Visibility Options");
+        $visibilityMessage.show();
     }
 }
 
@@ -320,6 +325,8 @@ function showNewQuestionFrame(type){
     $('#empty_message').hide();
     $('html, body').animate({scrollTop: $('#frameBodyWrapper')[0].scrollHeight}, 1000);
     copyOptions();
+    $('#questionTableNew').find('.visibilityOptions').hide();
+    getVisibilityMessage($('#questionTableNew').find('.visibilityMessageButton'));
 }
 
 function prepareQuestionForm(type) {
@@ -469,7 +476,7 @@ function setContribQnVisibilityFormat(questionNumber){
 
 function fixContribQnGiverRecipient(questionNumber){
     var idSuffix;
-    idSuffix = questionNumber ? (questionNumber) : "";
+    idSuffix = questionNumber ? ("-" + questionNumber) : "";
 
     //Fix giver->recipient to be STUDENT->OWN_TEAM_MEMBERS_INCLUDING_SELF
     $('#givertype'+idSuffix).find('option').not('[value="STUDENTS"]').hide();
@@ -503,7 +510,7 @@ function addMcqOption(questionNumber) {
         +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
         +               "id=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control mcqOptionTextBox\">"
         +       "<span class=\"input-group-btn\">"
-        +           "<button class=\"btn btn-default removeOptionLink\" id=\"mcqRemoveOptionLink\" "
+        +           "<button type=\"button\" class=\"btn btn-default removeOptionLink\" id=\"mcqRemoveOptionLink\" "
         +                   "onclick=\"removeMcqOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
         +               "<span class=\"glyphicon glyphicon-remove\"></span>"
         +           "</button>"
@@ -536,7 +543,7 @@ function addMsqOption(questionNumber) {
         +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
         +               "id=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control msqOptionTextBox\">"
         +       "<span class=\"input-group-btn\">"
-        +           "<button class=\"btn btn-default removeOptionLink\" id=\"msqRemoveOptionLink\" "
+        +           "<button type=\"button\" class=\"btn btn-default removeOptionLink\" id=\"msqRemoveOptionLink\" "
         +                   "onclick=\"removeMcqOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
         +               "<span class=\"glyphicon glyphicon-remove\"></span>"
         +           "</button>"
@@ -796,24 +803,24 @@ function formatCheckBoxes() {
  */
 function copyOptions() {
     //There's no need to previous question to copy options from.
-    if($("table[class*='questionTable']").size() < 2){
+    if($("div[class*='questionTable']").size() < 2){
         return;
     }
     
     //FEEDBACK GIVER SETUP
     var $prevGiver = $("select[name='givertype']").eq(-2);
-    var $currGiver = $("select[name='givertype']").last();
+    var currGiver = $("select[name='givertype']").last();
     
-    $currGiver.val($prevGiver.val());
+    $(currGiver).val($prevGiver.val());
     
     //FEEDBACK RECIPIENT SETUP
     var $prevRecipient = $("select[name='recipienttype']").eq(-2);
-    var $currRecipient = $("select[name='recipienttype']").last();
+    var currRecipient = $("select[name='recipienttype']").last();
     
-    $currRecipient.val($prevRecipient.val());
+    $(currRecipient).val($prevRecipient.val());
     
     //NUMBER OF RECIPIENT SETUP
-    formatNumberBox($currRecipient.val(), '');
+    formatNumberBox($(currRecipient).val(), '');
     var $prevRadioButtons = $("table[class*='questionTable']").eq(-2).find("input[name='numofrecipientstype']");
     var $currRadioButtons = $("table[class*='questionTable']").last().find("input[name='numofrecipientstype']");
     
@@ -833,29 +840,31 @@ function copyOptions() {
     $currTable.each(function (index) {
         $(this).prop('checked', $prevTable.eq(index).prop('checked'));
     });
-    feedbackGiverUpdateVisibilityOptions($currGiver);
-    feedbackRecipientUpdateVisibilityOptions($currRecipient);
+    feedbackGiverUpdateVisibilityOptions(currGiver);
+    feedbackRecipientUpdateVisibilityOptions(currRecipient);
 }
 
 function enableRow(el,row){
-    var visibilityOptions = ($(el).parent().parent().next().next());
-    var table = visibilityOptions.children().children();
+    var visibilityOptions = ($(el).closest('form').find('.visibilityOptions'));
+    var table = visibilityOptions.find('table');
     var tdElements = $($(table).children().children()[row]).children();
     if($(tdElements).parent().prop("tagName") == "tr"){
-        return; 
+        return;
     }
     $(tdElements).unwrap().wrapAll("<tr>");
+
 }
 
 function disableRow(el,row){
-    var visibilityOptions = ($(el).parent().parent().next().next());
-    var table = visibilityOptions.children().children();
+    var visibilityOptions = ($(el).closest('form').find('.visibilityOptions'));
+    var table = visibilityOptions.find('table');
     var tdElements = $($(table).children().children()[row]).children();
     if($(tdElements).parent().prop("tagName") == "hide"){
         return; 
     }
     $(tdElements).unwrap().wrapAll("<hide>");
     $(tdElements).parent().hide();
+
 }
 
 function feedbackRecipientUpdateVisibilityOptions(el){
@@ -991,4 +1000,60 @@ function bindCopyEvents() {
 
         return false;
     });
+}
+
+function toggleVisibilityMessage(elem){
+    $elementParent = $(elem).closest('form');
+    $options = $elementParent.find('.visibilityOptions');
+    $visibilityMessage = $elementParent.find('.visibilityMessage');
+
+    giverType = $elementParent.find("select[name='givertype']");
+    recipientType = $elementParent.find("select[name='recipienttype']");
+
+    $options.hide();
+    $visibilityMessage.html("");
+    $disabledInputs = $elementParent.find('input:disabled, select:disabled');
+    $disabledInputs.prop('disabled', false);
+
+    feedbackGiverUpdateVisibilityOptions(giverType);
+    feedbackRecipientUpdateVisibilityOptions(recipientType);
+
+    getVisibilityMessage(elem);
+    $disabledInputs.prop('disabled', true);
+}
+
+function getVisibilityMessage(buttonElem){
+    var form = $(buttonElem).closest("form");
+    var url = "/page/instructorFeedbackQuestionvisibilityMessage";
+
+    eval($(form).attr('onsubmit'));
+
+    var data = $(form[0]).serialize();
+
+    $.ajax({
+            type: "POST",
+            url: url,
+            data: $(form[0]).serialize(),
+            success: function(data)
+            {
+                $(form).find('.visibilityMessage').html(formatVisibilityMessageHtml(data.visibilityMessage));
+                $(form).find('.visibilityOptions').hide();
+                $(form).find('.visibilityMessage').show();
+            },
+            error: function(jqXHR, textStatus, errorThrown) 
+            {
+                console.log('AJAX request failed');
+            }
+        });
+
+}
+
+function formatVisibilityMessageHtml(visibilityMessage){
+    var htmlString = "This is the visibility as seen by the feedback giver.";
+    htmlString += "<ul class='background-color-warning'>";
+    for(var i=0 ; i<visibilityMessage.length ; i++){
+        htmlString += "<li>" + visibilityMessage[i] + "</li>";
+    }
+    htmlString += "</ul>";
+    return htmlString;
 }

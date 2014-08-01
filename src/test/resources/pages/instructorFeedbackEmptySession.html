@@ -4,17 +4,22 @@
 
         <div class="well well-plain">
             <form class="form-group" method="post" action="/page/instructorFeedbackAdd" name="form_addfeedbacksession">
-                <div data-original-title="Select a different type of session here." class="row" title="" data-toggle="tooltip" data-placement="top">
+                <div class="row">
                     <h4 class="label-control col-md-2 text-md">Create new </h4>
                     <div class="col-md-5">
-                        <select class="form-control" name="fstype" id="fstype">
-                            <option value="STANDARD" selected="selected">
-                                Session with your own questions
-                            </option>
-                            <option value="TEAMEVALUATION">
-                                Team peer evaluation session
-                            </option>
-                        </select>
+                        <div data-original-title="Select a session type here." class="col-md-10" title="" data-toggle="tooltip" data-placement="top">
+                            <select class="form-control" name="fstype" id="fstype">
+                                <option value="STANDARD">
+                                    Session with your own questions
+                                </option>
+                                <option value="TEAMEVALUATION" selected="selected">
+                                    Team peer evaluation session
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                            <h5><a href="/instructorHelp.html#fbSetupSession" target="_blank"><span class="glyphicon glyphicon-info-sign"></span></a></h5>
+                        </div>
                     </div>
                     <h4 class="label-control col-md-1 text-md">Or: </h4>
                     <div class="col-md-3">
@@ -228,7 +233,14 @@
                     </div>
 
                 </div>
-                <div class="panel panel-primary">
+                <div class="row" id="uncommonSettingsInfo">
+                    <div class="col-md-12 text-muted">
+                        <span id="uncommonSettingsInfoText">Session is visible at submission opening time, responses are only visible when you publish the results.<br>Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.</span>
+                        <a id="editUncommonSettingsButton" data-edit="[Edit]" data-done="[Done]">[Edit]</a>
+                        <br><br>
+                    </div>
+                </div>
+                <div class="panel panel-primary" style="display:none;" id="sessionResponsesVisiblePanel">
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -361,7 +373,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-primary">
+                <div class="panel panel-primary" style="display:none;" id="sendEmailsForPanel">
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
@@ -370,12 +382,6 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div data-original-title="If the student has not joined the course yet, an email containing the link to join the course will automatically be sent on session opening time." class="col-sm-2" title="" data-toggle="tooltip" data-placement="top">
-                                <div class="checkbox">
-                                    <label for="sendreminderemail_join">Join
-                                        reminder</label> <input checked="checked" id="sendreminderemail_join" disabled="disabled" type="checkbox">
-                                </div>
-                            </div>
                             <div data-original-title="Select this option to automatically send an email to students to notify them when the session is open for submission." class="col-sm-3" title="" data-toggle="tooltip" data-placement="top">
                                 <div class="checkbox">
                                     <label>Session opening
@@ -397,10 +403,10 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="form-group">
                     <div class="col-md-offset-5 col-md-3">
-                        <button id="button_submit" type="submit" class="btn btn-primary">Create
-                            Feedback Session</button>
+                        <button id="button_submit" type="submit" class="btn btn-primary">Create Feedback Session</button>
                     </div>
                 </div>
                 <input name="user" value="CFeedbackUiT.nosessions" type="hidden">

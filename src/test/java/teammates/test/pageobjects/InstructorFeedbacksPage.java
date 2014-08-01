@@ -58,6 +58,9 @@ public class InstructorFeedbacksPage extends AppPage {
     @FindBy(id = "instructions")
     private WebElement instructionsTextBox;
     
+    @FindBy(id = "editUncommonSettingsButton")
+    private WebElement uncommonSettingsButton;
+    
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_custom")
     private WebElement customSessionVisibleTimeButton;
     
@@ -148,6 +151,10 @@ public class InstructorFeedbacksPage extends AppPage {
     public void clickSubmitButton(){
         submitButton.click();
         waitForPageToLoad();
+    }
+    
+    public void clickEditUncommonSettingsButton(){
+        uncommonSettingsButton.click();
     }
     
     public void clickCustomVisibleTimeButton(){
@@ -395,7 +402,7 @@ public class InstructorFeedbacksPage extends AppPage {
     
     public void verifyResponseValue(String responseRate, String courseId, String sessionName){
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
-        WebDriverWait wait = new WebDriverWait(browser.driver, 3000);
+        WebDriverWait wait = new WebDriverWait(browser.driver, 10);
         try {
             wait.until(ExpectedConditions.textToBePresentInElement(browser.driver.findElement(By.xpath("//tbody/tr["+(int)(sessionRowId+1)+"]/td[contains(@class,'session-response-for-test')]")), responseRate));
         } catch (TimeoutException e){

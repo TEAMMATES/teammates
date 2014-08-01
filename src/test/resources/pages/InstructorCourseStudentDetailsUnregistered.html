@@ -10,7 +10,7 @@
 
 
     <div id="statusMessage" class="alert alert-warning">
-        This student has not joined the course yet or you are not supposed to view his/her profile
+        Normally, we would show the student’s profile here. However, this student has not created a profile yet
     </div>
     <script type="text/javascript">
         document.getElementById( 'statusMessage' ).scrollIntoView();
@@ -43,13 +43,6 @@
                         Address:</label>
                     <div class="col-sm-11" id="studentemail">
                         <p class="form-control-static">benny.c.tmms@gmail.com</p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-1 control-label">Join
-                        Link:</label>
-                    <div class="col-sm-11">
-                        <input id="regkey" value="{$app.url}/page/studentCourseJoinAuthentication?regkey={*}&amp;studentemail=benny.c.tmms%40gmail.com&amp;courseid=CCSDetailsUiT.CS2104" class="form-control" readonly="readonly">
                     </div>
                 </div>
                 <div class="form-group">

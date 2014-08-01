@@ -28,41 +28,49 @@ $(document).ready(function(){
                 console.log('Error');
             },
             success : function(data) {
+            	console.log(data);
                 if(numPanels == 0){
                     numPanels +=  $('.panel-collapse').length;
                 }
 
-                var appendedSection = $(data).find('#sectionBody-0').html();
-                $(data).remove();
-                if(typeof appendedSection != 'undefined'){
-                    $(panelBody[0]).html(appendedSection);
+                if(typeof data == 'undefined'){
+                    $(panelBody[0]).html('The results is too large to be viewed. Please choose to view the results by questions or download the results.');
                 } else {
-                    $(panelBody[0]).html("There are no responses for this feedback session yet or you do not have access to the responses collected so far.");
-                }
+                    var appendedSection = $(data).find('#sectionBody-0').html();
+                    $(data).remove();
+                    if(typeof appendedSection != 'undefined'){
+                        $(panelBody[0]).html(appendedSection);
+                    } else {
+                        $(panelBody[0]).html("There are no responses for this feedback session yet or you do not have access to the responses collected so far.");
+                    }
+                } 
                 
                 $(panelHeading).removeClass('ajax_submit');
                 $(panelHeading).off('click');
                 displayIcon.html('<span class="glyphicon glyphicon-chevron-down"></span>');
                 var childrenPanels = $(panelBody[0]).find("div.panel");
                 numPanels = bindCollapseEvents(childrenPanels, numPanels);
-
                 $(panelBody[0]).find("form[class*='responseCommentAddForm'] > div > a").click(addCommentHandler);
     
                 $(panelBody[0]).find("form[class*='responseCommentEditForm'] > div > a").click(editCommentHandler);
     
                 $(panelBody[0]).find("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
-
                 $("a[id^='collapse-panels-button-section-'],a[id^='collapse-panels-button-team-']").off('click');
                 $("a[id^='collapse-panels-button-section-']").on('click', function(){
-                    var panels = $(this).closest('.panel-success').children('.panel-collapse').find('div.panel.panel-warning').children('.panel-collapse');
+                    var isGroupByTeam = $('#frgroupbyteam').prop('checked');
+                    var childPanelType;
+                    if(isGroupByTeam){
+                        childPanelType = 'div.panel.panel-warning';
+                    } else {
+                        childPanelType = 'div.panel.panel-primary';
+                    }
+                    var panels = $(this).closest('.panel-success').children('.panel-collapse').find(childPanelType).children('.panel-collapse');
                     toggleCollapse(this, panels);
                 });
-
                 $("a[id^='collapse-panels-button-team-']").on('click', function(){
                     var panels = $(this).closest('.panel-warning').children('.panel-collapse').find('div.panel.panel-primary').children('.panel-collapse');
                     toggleCollapse(this, panels);
                 });
-
                 $(panelHeading).click(toggleSingleCollapse);
                 $(panelHeading).trigger('click');
                 showHideStats();

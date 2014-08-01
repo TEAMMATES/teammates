@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,7 +30,22 @@ import teammates.storage.entity.Instructor;
 public class InstructorsDb extends EntitiesDb{
     
     private static final Logger log = Utils.getLogger();
+    
+    public void createInstructors(Collection<InstructorAttributes> instructorsToAdd) throws InvalidParametersException{
         
+        List<EntityAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
+        for(EntityAttributes entity : instructorsToUpdate){
+            InstructorAttributes instructor = (InstructorAttributes) entity;
+            try {
+                updateInstructorByEmail(instructor);
+            } catch (EntityDoesNotExistException e) {
+             // This situation is not tested as replicating such a situation is 
+             // difficult during testing
+                Assumption.fail("Entity found be already existing and not existing simultaneously");
+            }
+        }
+    }
+
     /**
      * @return null if no matching objects. 
      */
@@ -237,6 +253,11 @@ public class InstructorsDb extends EntitiesDb{
         getPM().close();
     }
     
+    /**
+     * delete the instructor specified by courseId and email
+     * @param courseId
+     * @param email
+     */
     public void deleteInstructor(String courseId, String email) {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
@@ -270,6 +291,20 @@ public class InstructorsDb extends EntitiesDb{
         //TODO: reuse the method in the parent class instead
     }
     
+    public void deleteInstructorsForCourses(List<String> courseIds){
+        
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+        
+        List<Instructor> instructorsToDelete = getInstructorEntitiesForCourses(courseIds);
+        
+        getPM().deletePersistentAll(instructorsToDelete);
+        getPM().flush();
+    }
+    
+    /**
+     * delete all instructors with the given googleId
+     * @param googleId
+     */
     public void deleteInstructorsForGoogleId(String googleId) {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
@@ -280,6 +315,10 @@ public class InstructorsDb extends EntitiesDb{
         getPM().flush();
     }
     
+    /**
+     * delete all instructors for the course specified by courseId
+     * @param courseId
+     */
     public void deleteInstructorsForCourse(String courseId) {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -322,6 +361,16 @@ public class InstructorsDb extends EntitiesDb{
         }
 
         return instructorList.get(0);
+    }
+    
+    private List<Instructor> getInstructorEntitiesForCourses(List<String> courseIds){
+        Query q = getPM().newQuery(Instructor.class);
+        q.setFilter(":p.contains(courseId)");
+        
+        @SuppressWarnings("unchecked")
+        List<Instructor> instructorList = (List<Instructor>) q.execute(courseIds);
+        
+        return instructorList;
     }
     
     private Instructor getInstructorEntityForRegistrationKey(String key) {

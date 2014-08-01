@@ -61,8 +61,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        removeTypicalDataInDatastore();
-		restoreTypicalDataInDatastore();
+		removeAndRestoreTypicalDataInDatastore();
 		addUnregStudentToCourse1();
     }
     
@@ -1179,41 +1178,38 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     @Test
     public void StudentCourseJoinLegacyLink() throws Exception {
         uri = Const.ActionURIs.STUDENT_COURSE_JOIN;
-        StudentAttributes unregStudent1 = dataBundle.students.get("student1InUnregisteredCourse");
+        StudentAttributes unregStudent1 = dataBundle.students.get("student2InUnregisteredCourse");
         String key = StudentsLogic.inst().getStudentForEmail(unregStudent1.course, unregStudent1.email).key;
         String[] submissionParams = new String[] {
                 Const.ParamsNames.REGKEY, StringHelper.encrypt(key)
         };
         
-        verifyUnaccessibleWithoutLogin(submissionParams);
-        
-        unregStudent1.googleId = "";
-        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
+        verifyAccessibleWithoutLogin(submissionParams);
         verifyAccessibleForUnregisteredUsers(submissionParams);
-        
-        unregStudent1.googleId = "";
-        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
         verifyAccessibleForStudents(submissionParams);
-        
-        unregStudent1.googleId = "";
-        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
         verifyAccessibleForInstructorsOfOtherCourses(submissionParams);
-        
-        unregStudent1.googleId = "";
-        StudentsLogic.inst().updateStudentCascade(unregStudent1.email, unregStudent1);
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
 
     @Test
     public void StudentCourseJoin() throws Exception {
         uri = Const.ActionURIs.STUDENT_COURSE_JOIN_NEW;
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, dataBundle.courses.get("typicalCourse1").id
+        };
+        verifyAccessibleWithoutLogin(submissionParams);
+        
         StudentAttributes unregStudent1 = dataBundle.students.get("student1InUnregisteredCourse");
         String key = StudentsLogic.inst().getStudentForEmail(unregStudent1.course, unregStudent1.email).key;
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.REGKEY, StringHelper.encrypt(key)
+        submissionParams = new String[] {
+                Const.ParamsNames.REGKEY, StringHelper.encrypt(key),
+                Const.ParamsNames.COURSE_ID, unregStudent1.course,
+                Const.ParamsNames.STUDENT_EMAIL, unregStudent1.email
         };
-        
-        verifyUnaccessibleWithoutLogin(submissionParams);
+        verifyAccessibleForUnregisteredUsers(submissionParams);
+        verifyAccessibleForStudents(submissionParams);
+        verifyAccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
 
     @Test
@@ -1465,9 +1461,6 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriodSession");
         fs.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
         dataBundle.feedbackSessions.put("gracePeriodSession", fs);
-        
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
-        backDoorLogic.persistDataBundle(dataBundle);
         
         assertFalse(fs.isOpened());
         assertTrue(fs.isInGracePeriod());

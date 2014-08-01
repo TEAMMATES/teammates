@@ -244,15 +244,17 @@ ul #nav {
                 <div id="contentLinks" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li class="">
-                            <a href="" data-link="studentHome" id="studentHomeLink">Home</a>
+                            <a data-unreg="true" href="{$app.url}/page/studentCourseJoinAuthentication?key={*}&amp;studentemail={$test.student1}%40gmail.com&amp;courseid=SCJConfirmationUiT.CS2103&amp;next=%2Fpage%2FstudentHomePage%3Fuser%3D{$test.student1}" id="studentHomeNavLink" class="navLinks">
+                                Home
+                            </a>
                         </li>
                         <li class="">
-                            <a href="" data-link="studentProfilePage" id="studentProfileLink">
+                            <a data-unreg="true" href="{$app.url}/page/studentCourseJoinAuthentication?key={*}&amp;studentemail={$test.student1}%40gmail.com&amp;courseid=SCJConfirmationUiT.CS2103&amp;next=%2Fpage%2FstudentProfilePage%3Fuser%3D{$test.student1}" id="studentProfileNavLink" class="navLinks">
                                 Profile
                             </a>
                         </li>
                         <li class="">
-                            <a href="" data-link="studentCommentsPage" id="studentCommentsLink">
+                            <a data-unreg="true" href="{$app.url}/page/studentCourseJoinAuthentication?key={*}&amp;studentemail={$test.student1}%40gmail.com&amp;courseid=SCJConfirmationUiT.CS2103&amp;next=%2Fpage%2FstudentCommentsPage%3Fuser%3D{$test.student1}" id="studentCommentsNavLink" class="navLinks">
                                 Comments
                             </a>
                         </li>
@@ -291,13 +293,13 @@ ul #nav {
             <div class="panel-body">
                 <p>
                     You are currently logged in as <span><strong>{$test.student1}</strong></span>. 
-                    <br />If this is not you please <a href="/_ah/logout?continue=%2Fpage%2FstudentCourseJoinAuthenticated%3Fregkey%3D{*}%26next%3D%2Fpage%2FstudentHomePage">log out</a> and re-login using your own Google account.
+                    <br />If this is not you please <a href="/_ah/logout?continue=%2Fpage%2FstudentCourseJoinAuthenticated%3Fkey%3D{*}%26next%3D%2Fpage%2FstudentHomePage">log out</a> and re-login using your own Google account.
                     <br />If this is you, please confirm below to complete your registration.
                     <br />
                 </p>
                 <div class="align-center">
-                    <a id="button_confirm" class="btn btn-success" href="/page/studentCourseJoinAuthenticated?regkey={*}&amp;next=/page/studentHomePage">Yes, this is my account</a>
-                    <a id="button_cancel" class="btn btn-danger" href="/_ah/logout?continue=%2Fpage%2FstudentCourseJoinAuthenticated%3Fregkey%3D{*}%26next%3D%2Fpage%2FstudentHomePage">No, this is not my account</a>
+                    <a id="button_confirm" class="btn btn-success" href="/page/studentCourseJoinAuthenticated?key={*}&amp;next=/page/studentHomePage">Yes, this is my account</a>
+                    <a id="button_cancel" class="btn btn-danger" href="/_ah/logout?continue=%2Fpage%2FstudentCourseJoinAuthenticated%3Fkey%3D{*}%26next%3D%2Fpage%2FstudentHomePage">No, this is not my account</a>
                 </div>
                 
             </div>

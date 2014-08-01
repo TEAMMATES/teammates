@@ -3,6 +3,7 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
 <%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
@@ -12,6 +13,7 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData) request.getAttribute("data");
+    FieldValidator validator = new FieldValidator();
     boolean showAll = data.bundle.isComplete;
     boolean shouldCollapsed = data.bundle.responses.size() > 500;
     boolean groupByTeamEnabled = (data.groupByTeam == null || !data.groupByTeam.equals("on")) ? false : true;
@@ -73,7 +75,7 @@
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="pull-right">
-                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%= groupByTeamEnabled == true ? "team" : "student" %> panels. You can also click on the panel heading to toggle each one individually.'>
+                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%= groupByTeamEnabled == true ? "team" : "student" %> panels. You can also click on the panel heading to toggle each one individually.' style="display:none;">
                                                     Expand
                                                     <%= groupByTeamEnabled == true ? " Teams" : " Students" %>
                                                 </a>
@@ -114,7 +116,7 @@
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="pull-right">
-                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%= groupByTeamEnabled == true ? "team" : "student" %> panels. You can also click on the panel heading to toggle each one individually.'>
+                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%= groupByTeamEnabled == true ? "team" : "student" %> panels. You can also click on the panel heading to toggle each one individually.' style="display:none;">
                                                     Expand
                                                     <%= groupByTeamEnabled == true ? " Teams" : " Students" %>
                                                 </a>
@@ -262,8 +264,16 @@
 
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    From: <strong><%=responsesFromGiver.getKey()%></strong>
-                        <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
+                    From: 
+                    <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) { %>
+                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
+                            <strong><%=responsesFromGiver.getKey()%></strong>
+                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                            <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
+                        </div>
+                    <% } else {%>
+                        <strong><%=responsesFromGiver.getKey()%></strong>
+                    <% } %>
 			 <span class='glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right'></span>
                </div>
                 <div class='panel-collapse collapse <%= shouldCollapsed ? "" : "in"%>'>
@@ -272,11 +282,32 @@
                     int recipientIndex = 0;
                     for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesFromGiverToRecipient : responsesFromGiver.getValue().entrySet()) {
                         recipientIndex++;
+                        String recipientEmail = responsesFromGiverToRecipient.getValue().get(0).recipientEmail;
                 %>
                     <div class="row <%=recipientIndex == 1? "": "border-top-gray"%>">
                             <div class="col-md-2">
-                                <div class="col-md-12"><strong>To: <%=responsesFromGiverToRecipient.getKey()%></strong></div>
-                                <div class="col-md-12 text-muted small"><span><br>From: <%=responsesFromGiver.getKey()%></span></div>
+                                <div class="col-md-12">
+                                    To:
+                                    <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, recipientEmail).isEmpty()) { %>
+                                        <div class="middlealign profile-pic-icon-hover inline-block" data-link="<%=data.getProfilePictureLink(recipientEmail)%>">
+                                            <%=responsesFromGiverToRecipient.getKey()%>
+                                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                        </div>
+                                    <% } else {%>
+                                        <%=responsesFromGiverToRecipient.getKey()%>
+                                    <% } %> 
+                                </div>
+                                <div class="col-md-12 text-muted small"><br>
+                                    From:
+                                    <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) { %>
+                                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
+                                            <%=responsesFromGiver.getKey()%>
+                                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                        </div>
+                                    <% } else {%>
+                                            <%=responsesFromGiver.getKey()%>
+                                    <% } %>
+                                </div>
                             </div>
                             <div class="col-md-10">
                     <%
