@@ -50,7 +50,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
             .withUserId(testData.accounts.get("instructorWithoutCourses").googleId);
 
         commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
-
+        
         commentsPage.verifyHtml("/instructorCommentsPageForEmptyCourse.html");
         
         ______TS("content: course with no comment");
