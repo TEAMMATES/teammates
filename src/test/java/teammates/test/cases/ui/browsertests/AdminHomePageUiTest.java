@@ -258,8 +258,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         StudentHomePage studentHomePage = HomePage.getNewInstance(browser).clickStudentLogin()
                                                                           .loginAsStudent(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
                                                                                           TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
-       
-        studentHomePage.verifyContains("Student Home");
+        
         studentHomePage.verifyContains(demoCourseId);
         studentHomePage.clickViewTeam();
         
