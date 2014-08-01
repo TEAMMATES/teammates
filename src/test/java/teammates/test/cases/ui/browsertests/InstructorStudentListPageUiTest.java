@@ -61,12 +61,12 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
     public void testAll() throws Exception {
         
         testContent();
-        testShowPhoto();
         testLinks();
         testSearch();
         testDeleteAction();
         testSearchScript();
         testDisplayArchive();
+        testShowPhoto();
     }
     
     private void testSearch() {
@@ -170,10 +170,17 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         StudentAttributes student2 = testData.students.get("Student3Course3");
         
         viewPage.clickShowPhoto(student2.course, student2.name);
+
         viewPage.verifyHtmlMainContent("/instructorStudentListPageWithPicture.html");
     }
     
     public void testLinks() throws Exception{
+
+        String instructorId = testData.instructors.get("instructorOfCourse2").googleId;
+        Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)
+                    .withUserId(instructorId);
+            
+        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
         
         ______TS("link: enroll");
         String courseId = testData.courses.get("course2").id;
@@ -201,10 +208,6 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         studentEditPage.verifyIsCorrectPage(student2.email);
         studentEditPage.submitButtonClicked();
         
-        InstructorAttributes instructorWith2Courses = testData.instructors.get("instructorOfCourse2");
-        String instructorId = instructorWith2Courses.googleId;
-        Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)
-            .withUserId(instructorId);
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
         
         ______TS("link: view records");
