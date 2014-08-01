@@ -286,6 +286,7 @@ public abstract class AppPage {
 
     public void reloadPage() {
         browser.driver.get(browser.driver.getCurrentUrl());
+        waitForPageToLoad();
     }
 
     /** Equivalent to pressing the 'back' button of the browser. <br>
