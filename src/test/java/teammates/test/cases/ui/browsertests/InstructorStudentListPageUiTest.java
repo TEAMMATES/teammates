@@ -58,8 +58,8 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
     @Test
     public void testAll() throws Exception {
         
-        testShowPhoto();
         testContent();
+        testShowPhoto();
         testLinks();
         testSearch();
         testDeleteAction();
