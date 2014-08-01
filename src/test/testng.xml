@@ -106,6 +106,7 @@
             <class name="teammates.test.cases.ui.browsertests.InstructorStudentRecordsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorSubmissionAdjustmentUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.InstructorSearchPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentCourseDetailsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentEvalEditSubmissionPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentEvalResultsPageUiTest" />

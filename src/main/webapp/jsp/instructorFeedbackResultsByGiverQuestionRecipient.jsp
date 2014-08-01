@@ -333,15 +333,15 @@
                                     <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                         <tr>
                                             <th>Photo</th>
-                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                            <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
                                                 Recipient
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,2)" style="width: 15%;">
+                                            <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,3)" style="width: 15%;">
                                                 Team
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
-                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,3)">
+                                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,4)">
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>

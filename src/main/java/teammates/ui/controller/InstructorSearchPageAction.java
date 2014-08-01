@@ -132,9 +132,10 @@ public class InstructorSearchPageAction extends Action {
         Iterator<Entry<String, List<CommentAttributes>>> iter = commentSearchResults.giverCommentTable.entrySet().iterator();
         while (iter.hasNext()) {
             List<CommentAttributes> commentList = iter.next().getValue();
-            if (!commentList.isEmpty() && !isInstructorAllowedToViewComment(commentList.get(0), instructorEmails, instructors)) {
+            if (!commentList.isEmpty() 
+                    && !isInstructorAllowedToViewComment(commentList.get(0), instructorEmails, instructors)) {
                 iter.remove();
-                totalResultsSize--;
+                totalResultsSize -= commentList.size();
             }
         }
         return totalResultsSize;

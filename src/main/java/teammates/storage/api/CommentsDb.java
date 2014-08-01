@@ -34,6 +34,11 @@ public class CommentsDb extends EntitiesDb{
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Comment: ";
     private static final Logger log = Utils.getLogger();
     
+    /**
+     * This method is for testing only
+     * @param commentsToAdd
+     * @throws InvalidParametersException
+     */
     public void createComments(Collection<CommentAttributes> commentsToAdd) throws InvalidParametersException{
         List<EntityAttributes> commentsToUpdate = createEntities(commentsToAdd);
         for(EntityAttributes entity : commentsToUpdate){

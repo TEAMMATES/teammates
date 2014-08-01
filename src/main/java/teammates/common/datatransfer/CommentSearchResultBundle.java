@@ -73,6 +73,11 @@ public class CommentSearchResultBundle extends SearchResultBundle {
             recipientTable.put(comment.getCommentId().toString(), recipientName);
             numberOfResults++;
         }
+        
+        for (List<CommentAttributes> comments : this.giverCommentTable.values()) {
+            CommentAttributes.sortCommentsByCreationTime(comments);
+        }
+        
         return this;
     }
 
