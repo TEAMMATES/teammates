@@ -26,7 +26,7 @@ import teammates.test.util.Priority;
  * Tests 'Feedback Results' view of instructors.
  * SUT: {@link InstructorFeedbackResultsPage}.
  */
-@Priority(1)
+@Priority(-1)
 public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     protected static Logger log = Utils.getLogger();
     

@@ -28,10 +28,12 @@ import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.test.pageobjects.InstructorStudentListPage;
 import teammates.test.pageobjects.InstructorStudentRecordsPage;
+import teammates.test.util.Priority;
 
 /**
  * Covers the 'student list' view for instructors.
  */
+@Priority(-1)
 public class InstructorStudentListPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorStudentListPage viewPage;
