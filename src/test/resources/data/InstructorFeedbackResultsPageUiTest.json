@@ -517,6 +517,89 @@
             ]
             
         },
+        "qn14InSession1": {
+            "feedbackSessionName": "First Session",
+            "courseId": "CFResultsUiT.CS2104",
+            "creatorEmail": "CFResultsUiT.instr@gmail.com",
+            "questionMetaData":{
+                  "value":"{\"questionText\":\"How important are the following factors to you? Give points accordingly.\",
+                            \"questionType\":\"CONSTSUM\", \"numOfConstSumOptions\" : 2,
+                            \"constSumOptions\" : [\"Grades\", \"Fun\"],\"distributeToRecipients\" : false,
+                            \"pointsPerOption\" : false, \"points\" : 100}"
+            },
+            "questionNumber": 14,
+            "questionType": "CONSTSUM",
+            "giverType": "STUDENTS",
+            "recipientType": "SELF",
+            "numberOfEntitiesToGiveFeedbackTo": 1,
+            "showResponsesTo":[
+                "RECEIVER",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo": [
+                "RECEIVER",
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER",
+                "INSTRUCTORS"
+            ]
+        },
+        "qn15InSession1": {
+            "feedbackSessionName": "First Session",
+            "courseId": "CFResultsUiT.CS2104",
+            "creatorEmail": "CFResultsUiT.instr@gmail.com",
+            "questionMetaData":{
+                  "value":"{\"questionText\":\"Split points among the your team members and yourself, according to how much you think each member has contributed.\",
+                            \"questionType\":\"CONSTSUM\", \"numOfConstSumOptions\" : 0,
+                            \"constSumOptions\" : [],\"distributeToRecipients\" : true,
+                            \"pointsPerOption\" : true, \"points\" : 100}"
+            },
+            "questionNumber": 15,
+            "questionType": "CONSTSUM",
+            "giverType": "STUDENTS",
+            "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+            "numberOfEntitiesToGiveFeedbackTo": -100,
+            "showResponsesTo":[
+                "RECEIVER",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo": [
+                "RECEIVER",
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER",
+                "INSTRUCTORS"
+            ]
+        },
+        "qn16InSession1": {
+            "feedbackSessionName": "First Session",
+            "courseId": "CFResultsUiT.CS2104",
+            "creatorEmail": "CFResultsUiT.instr@gmail.com",
+            "questionMetaData":{
+                  "value":"{\"questionText\":\"Rate the contribution of yourself and your team members towards the latest project.\",
+                            \"questionType\":\"CONTRIB\"}"
+            },
+            "questionNumber": 16,
+            "questionType": "CONTRIB",
+            "giverType": "STUDENTS",
+            "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+            "numberOfEntitiesToGiveFeedbackTo": -100,
+            "showResponsesTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "RECEIVER_TEAM_MEMBERS",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo": [
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER",
+                "INSTRUCTORS"
+            ]
+        },
         "qn1InSession2":{
             "feedbackSessionName":"Second Session",
             "courseId":"CFResultsUiT.CS2104",
@@ -608,7 +691,7 @@
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
             "giverEmail":"drop.out@gmail.com",
-            "recipientEmail":"CFResultsUiT.danny.e@gmail.com@gmail.com",
+            "recipientEmail":"CFResultsUiT.danny.e@gmail.com",
             "responseMetaData":{
                 "value":"Response to Danny from Dropout."
             }
@@ -791,6 +874,97 @@
             "recipientEmail":"Team 2",
             "responseMetaData":{
                 "value":"Response from team 1 (by alice) to team 2."
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
+        },
+        "response15":{
+            "feedbackSessionName":"First Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"14",
+            "feedbackQuestionType":"CONSTSUM",
+            "giverEmail":"CFResultsUiT.alice.b@gmail.com",
+            "recipientEmail":"CFResultsUiT.alice.b@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [45, 55]}"
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
+        },
+        "response16.1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"15",
+            "feedbackQuestionType":"CONSTSUM",
+            "giverEmail":"CFResultsUiT.alice.b@gmail.com",
+            "recipientEmail":"CFResultsUiT.alice.b@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [110]}"
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
+        },
+        "response16.2":{
+            "feedbackSessionName":"First Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"15",
+            "feedbackQuestionType":"CONSTSUM",
+            "giverEmail":"CFResultsUiT.alice.b@gmail.com",
+            "recipientEmail":"CFResultsUiT.benny.c@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [90]}"
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
+        },
+        "response16.3":{
+            "feedbackSessionName":"First Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"15",
+            "feedbackQuestionType":"CONSTSUM",
+            "giverEmail":"CFResultsUiT.alice.b@gmail.com",
+            "recipientEmail":"CFResultsUiT.charlie.d@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [50]}"
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
+        },
+        "response16.4":{
+            "feedbackSessionName":"First Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"15",
+            "feedbackQuestionType":"CONSTSUM",
+            "giverEmail":"CFResultsUiT.alice.b@gmail.com",
+            "recipientEmail":"CFResultsUiT.danny.e@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [150]}"
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
+        },
+        "FS.Q1.Alice.1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"16",
+            "feedbackQuestionType":"CONTRIB",
+            "giverEmail":"CFResultsUiT.alice.b@gmail.com",
+            "recipientEmail":"CFResultsUiT.alice.b@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
+        },
+        "FS.Q1.Alice.2":{
+            "feedbackSessionName":"First Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"16",
+            "feedbackQuestionType":"CONTRIB",
+            "giverEmail":"CFResultsUiT.alice.b@gmail.com",
+            "recipientEmail":"CFResultsUiT.benny.c@gmail.com",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
             },
             "giverSection":"Section A",
             "recipientSection":"Section A"

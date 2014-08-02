@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
@@ -47,12 +48,19 @@ public class StudentProfilePictureAction extends Action {
         }
         
         StudentAttributes student = logic.getStudentForEmail(courseId, email);
+        String blobKey = "";
         if (student == null) {
             throw new EntityDoesNotExistException("student with " +
                     courseId + "/" + email);
+        } else if (student.googleId == null 
+                || student.googleId.isEmpty()) {
+            // unregistered student, so ignore the picture request
+        } else {
+            StudentProfileAttributes profile = logic.getStudentProfile(student.googleId);
+            if (profile != null) {
+                blobKey = profile.pictureKey;
+            }
         }
-        // googleId == null is handled at logic level
-        String blobKey = logic.getStudentProfile(student.googleId).pictureKey;
         return createImageResult(blobKey);
     }
 

@@ -51,7 +51,7 @@ import teammates.test.pageobjects.StudentHomePage;
  * Covers the home page for admins.
  * SUT: {@link AdminHomePage}
  */
-@Priority(-2)
+@Priority(6)
 public class AdminHomePageUiTest extends BaseUiTestCase{
     private static Browser browser;
     private static AdminHomePage homePage;
@@ -61,7 +61,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();      
-        browser = BrowserPool.getBrowser(true);
+        browser = BrowserPool.getBrowser();
         browser.driver.manage().deleteAllCookies();
     }
     

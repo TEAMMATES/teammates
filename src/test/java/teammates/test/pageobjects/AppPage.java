@@ -249,7 +249,7 @@ public abstract class AppPage {
      * Waits for element to be invisible or not present, or timeout.
      */
     public void waitForElementToDisappear(By by){
-        WebDriverWait wait = new WebDriverWait(browser.driver, 30);
+        WebDriverWait wait = new WebDriverWait(browser.driver, 10);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
     }
     
@@ -286,6 +286,7 @@ public abstract class AppPage {
 
     public void reloadPage() {
         browser.driver.get(browser.driver.getCurrentUrl());
+        waitForPageToLoad();
     }
 
     /** Equivalent to pressing the 'back' button of the browser. <br>
@@ -760,12 +761,16 @@ public abstract class AppPage {
                 .replace(Config.APP_URL, "{$app.url}")
                 .replaceAll("V[0-9]\\.[0-9]+", "V{\\$version}")
                 // photo from instructor
-                .replaceAll("courseid=([a-zA-Z0-9]){1,}\\&amp;studentemail=([a-zA-Z0-9]){1,}", 
-                            "courseid={*}\\&amp;studentemail={*}")
-                .replaceAll("studentemail=([a-zA-Z0-9]){1,}\\&amp;courseid=([a-zA-Z0-9]){1,}", 
-                            "studentemail={*}\\&amp;courseid={*}")
-                .replaceAll("key=([a-zA-Z0-9]){1,}\\&amp;", "key={*}\\&amp;")
-                .replaceAll("key%3D([a-zA-Z0-9]){1,}\\%", "key%3D{*}\\%")
+                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&amp;"
+                        + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}", 
+                        Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL 
+                        + "={*}\\&amp;" + Const.ParamsNames.COURSE_ID + "={*}")
+                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}\\&amp;"
+                        + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}", 
+                        Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID 
+                        + "={*}\\&amp;" + Const.ParamsNames.STUDENT_EMAIL + "={*}")
+                .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9]){1,}\\&amp;", Const.ParamsNames.REGKEY + "={*}\\&amp;")
+                .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){1,}\\%", Const.ParamsNames.REGKEY + "%3D{*}\\%")
                 //responseid
                 .replaceAll("([a-zA-Z0-9-_]){30,}%"
                         + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+%"
@@ -870,7 +875,7 @@ public abstract class AppPage {
      * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
      * @return The page (for chaining method calls).
      */
-    public AppPage verifyHtmlAjax(String filePath) {
+    public AppPage verifyHtmlAjax(String filePath) throws Exception {
         int maxRetryCount = 5;
         int waitDuration = 1000;
         
@@ -884,27 +889,18 @@ public abstract class AppPage {
         
         String expectedString = "";
         
-        try {
-            expectedString = extractHtmlPartFromFile(By.id("frameBodyWrapper"), filePath);
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        expectedString = extractHtmlPartFromFile(By.id("frameBodyWrapper"), filePath);
         
         for(int i =0; i < maxRetryCount; i++) {
-            ThreadHelper.waitFor(waitDuration);    
             try {
                 String actual = browser.driver.findElement(By.id("frameBodyWrapper")).getAttribute("outerHTML");
                 if(HtmlHelper.areSameHtml(actual, expectedString)) {
                     break;
                 }
-                
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+            ThreadHelper.waitFor(waitDuration);   
         }
         
         

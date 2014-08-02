@@ -33,13 +33,17 @@ $(document).ready(function(){
                     numPanels +=  $('.panel-collapse').length;
                 }
 
-                var appendedSection = $(data).find('#sectionBody-0').html();
-                $(data).remove();
-                if(typeof appendedSection != 'undefined'){
-                    $(panelBody[0]).html(appendedSection);
+                if(typeof data == 'undefined'){
+                    $(panelBody[0]).html('The results is too large to be viewed. Please choose to view the results by questions or download the results.');
                 } else {
-                    $(panelBody[0]).html("There are no responses for this feedback session yet or you do not have access to the responses collected so far.");
-                }
+                    var appendedSection = $(data).find('#sectionBody-0').html();
+                    $(data).remove();
+                    if(typeof appendedSection != 'undefined'){
+                        $(panelBody[0]).html(appendedSection);
+                    } else {
+                        $(panelBody[0]).html("There are no responses for this feedback session yet or you do not have access to the responses collected so far.");
+                    }
+                } 
                 
                 $(panelHeading).removeClass('ajax_submit');
                 $(panelHeading).off('click');
