@@ -126,6 +126,7 @@ public abstract class Action {
     protected String getRegkeyFromRequest() {
         String regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
         if (regkey == null) {
+            //TODO: remove this branch on October 15th 2014.
             return getRequestParamValue(Const.ParamsNames.REGKEY_LEGACY);
         } else {
             return regkey;
