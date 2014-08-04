@@ -106,6 +106,22 @@ public class AccountAttributesTest extends BaseTestCase {
         expectedAccount.studentProfile.sanitizeForSaving();
         assertEquals(expectedAccount.studentProfile.toString(), actualAccount.studentProfile.toString());
     }
+    
+    @Test
+    public void testLegacyAccountEntityToAttributes() {
+        Account a = new Account("test.googleId", "name", true, "email@e.com", "institute");
+        a.setStudentProfile(null);
+        
+        AccountAttributes attr = new AccountAttributes(a);
+        
+        assertEquals(a.getGoogleId(), attr.googleId);
+        assertEquals(a.getEmail(), attr.email);
+        assertEquals(a.getInstitute(), attr.institute);
+        assertEquals(a.getName(), attr.name);
+        assertEquals(null, a.getStudentProfile());
+        assertEquals(null, attr.studentProfile);
+        
+    }
 
     private AccountAttributes createInvalidAccountAttributesObject() {
         
