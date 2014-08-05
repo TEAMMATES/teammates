@@ -23,6 +23,9 @@ import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.logic.api.GateKeeper;
 
+/**
+ * Action: Create a new {@link CommentAttributes}
+ */
 public class InstructorStudentCommentAddAction extends Action {
 
     @Override

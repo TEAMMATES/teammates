@@ -16,6 +16,9 @@ import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * Action: Edit {@link FeedbackResponseCommentAttributes}
+ */
 public class InstructorFeedbackResponseCommentEditAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -40,6 +43,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         InstructorFeedbackResponseCommentAjaxPageData data = 
                 new InstructorFeedbackResponseCommentAjaxPageData(account);
         
+        //Edit comment text
         String commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT);
         Assumption.assertNotNull("null comment text", commentText);
         if (commentText.trim().isEmpty()) {
@@ -53,6 +57,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
                 new Text(commentText), response.giverSection, response.recipientSection);
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
         
+        //Edit visibility settings
         String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
         String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO);
         feedbackResponseComment.showCommentTo = new ArrayList<FeedbackParticipantType>();
@@ -69,7 +74,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
                 feedbackResponseComment.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
             }
         }
-        
+        //Edit sending state
         if(isResponseCommentPublicToRecipient(feedbackResponseComment)){
             feedbackResponseComment.sendingState = CommentSendingState.PENDING;
         }

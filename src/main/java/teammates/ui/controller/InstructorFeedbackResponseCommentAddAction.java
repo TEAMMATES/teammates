@@ -17,6 +17,9 @@ import teammates.logic.api.GateKeeper;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * Action: Create a new {@link FeedbackResponseCommentAttributes}
+ */
 public class InstructorFeedbackResponseCommentAddAction extends Action {
 
     @Override
@@ -46,6 +49,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         InstructorFeedbackResponseCommentAjaxPageData data = 
                 new InstructorFeedbackResponseCommentAjaxPageData(account);
         
+        //Set up comment text
         String commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT);
         Assumption.assertNotNull("null comment text", commentText);
         if (commentText.trim().isEmpty()) {
@@ -58,6 +62,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
             feedbackSessionName, feedbackQuestionId, instructor.email, feedbackResponseId, new Date(),
             new Text(commentText), response.giverSection, response.recipientSection);
         
+        //Set up visibility settings
         String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
         String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO);
         feedbackResponseComment.showCommentTo = new ArrayList<FeedbackParticipantType>();
@@ -75,6 +80,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
             }
         }
         
+        //Set up sending state
         if(isResponseCommentPublicToRecipient(feedbackResponseComment)){
             feedbackResponseComment.sendingState = CommentSendingState.PENDING;
         }

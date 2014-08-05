@@ -9,6 +9,9 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
+/**
+ * Action: Delete {@link FeedbackResponseCommentAttributes}
+ */
 public class InstructorFeedbackResponseCommentDeleteAction extends Action {
 
     @Override
