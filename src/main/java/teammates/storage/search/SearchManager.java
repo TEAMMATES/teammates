@@ -29,6 +29,9 @@ public class SearchManager {
     private static final Logger log = Utils.getLogger();
     private static final ThreadLocal<Map<String, Index>> PER_THREAD_INDICES_TABLE = new ThreadLocal<Map<String,Index>>();
     
+    /*
+     * Create or update the search document for the given document and index
+     */
     public static void putDocument(String indexName, Document document){
         int elapsedTime = 0;
         boolean isSuccessful = tryPutDocument(indexName, document);
@@ -64,18 +67,30 @@ public class SearchManager {
         return true;
     }
     
+    /*
+     * Get document for index and the documentId
+     */
     public static Document getDocument(String indexName, String documentId){
         return getIndex(indexName).get(documentId);
     }
     
+    /*
+     * Search document by query
+     */
     public static Results<ScoredDocument> searchDocuments(String indexName, Query query){
         return getIndex(indexName).search(query);
     }
     
+    /*
+     * Delete document by documentId
+     */
     public static void deleteDocument(String indexName, String documentId){
         getIndex(indexName).deleteAsync(documentId);
     }
     
+    /*
+     * Delete documents by documentIds
+     */
     public static void deleteDocuments(String indexName, String[] documentIds){
         getIndex(indexName).deleteAsync(documentIds);
     }

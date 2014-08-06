@@ -7,6 +7,9 @@ import teammates.logic.api.Logic;
 
 import com.google.appengine.api.search.Document;
 
+/**
+ * The SearchDocument object that defines how we store {@link Document}
+ */
 public abstract class SearchDocument {
     
     protected static Logger log = Utils.getLogger();

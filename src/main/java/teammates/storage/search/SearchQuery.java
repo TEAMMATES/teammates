@@ -7,9 +7,13 @@ import java.util.logging.Logger;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 
+import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Query;
 import com.google.appengine.api.search.QueryOptions;
 
+/**
+ * The SearchQuery object that defines how we query {@link Document}
+ */
 public abstract class SearchQuery {
 
     protected static Logger log = Utils.getLogger();
@@ -28,6 +32,9 @@ public abstract class SearchQuery {
         this.options = options;
     }
     
+    /*
+     * Return how many query strings a SearchQuery object has
+     */
     public int getFilterSize(){
         return textQueryStrings.size() + dateQueryStrings.size();
     }
@@ -87,6 +94,9 @@ public abstract class SearchQuery {
         return this;
     }
     
+    /*
+     * Build the {@link Query} object
+     */
     public Query toQuery(){
         String queryString = buildQueryString();
         return Query.newBuilder()

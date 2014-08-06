@@ -28,10 +28,19 @@ import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.search.FeedbackResponseCommentSearchDocument;
 import teammates.storage.search.FeedbackResponseCommentSearchQuery;
 
+/**
+ * Handles CRUD Operations for {@link FeedbackResponseComment}.
+ * The API uses data transfer classes (i.e. *Attributes) instead of persistable classes.
+ */
 public class FeedbackResponseCommentsDb extends EntitiesDb {
 
     private static final Logger log = Utils.getLogger();
     
+    /**
+     * This method is for testing only
+     * @param commentsToAdd
+     * @throws InvalidParametersException
+     */
     public void createFeedbackResponseComments(Collection<FeedbackResponseCommentAttributes> commentsToAdd) throws InvalidParametersException{
         List<EntityAttributes> commentsToUpdate = createEntities(commentsToAdd);
         for(EntityAttributes entity : commentsToUpdate){
@@ -46,6 +55,10 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         }
     }
     
+    /**
+     * Preconditions: 
+     * <br> * {@code entityToAdd} is not null and has valid data.
+     */
     @Override
     public FeedbackResponseCommentAttributes createEntity(EntityAttributes entityToAdd) 
             throws InvalidParametersException, EntityAlreadyExistsException{
@@ -59,6 +72,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         }
     }
     
+    /*
+     * Remove search document for the given comment
+     */
     public void deleteDocument(FeedbackResponseCommentAttributes commentToDelete){
         if(commentToDelete.getId() == null){
             FeedbackResponseComment commentEntity = (FeedbackResponseComment) getEntity(commentToDelete);
@@ -112,6 +128,11 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         return new FeedbackResponseCommentAttributes(frc);    
     }
     
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null. 
+     * @return Null if not found.
+     */
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(String courseId, Date createdAt, String giverEmail) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
@@ -155,6 +176,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         return resultList;    
     }
     
+    /*
+     * Get response comments for the response Id
+     */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponse(String feedbackResponseId){
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackResponseId);
         
@@ -169,6 +193,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         return resultList; 
     }
     
+    /*
+     * Remove response comments for the response Id
+     */
     public void deleteFeedbackResponseCommentsForResponse(String responseId) {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, responseId);
@@ -180,6 +207,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         getPM().flush();
     }
     
+    /*
+     * Remove response comments for the course Ids
+     */
     public void deleteFeedbackResponseCommentsForCourses(List<String> courseIds){
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
         
@@ -189,6 +219,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         getPM().flush();
     }
     
+    /*
+     * Get response comments for the course Ids
+     */
     public List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForCourses(List<String> courseIds) {
         Query q = getPM().newQuery(FeedbackResponseComment.class);
         q.setFilter(":p.contains(courseId)");
@@ -274,6 +307,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         return updatedComment;
     }
     
+    /*
+     * Update giver email (normally an instructor email) with the new one
+     */
     public void updateGiverEmailOfFeedbackResponseComments(String courseId, String oldEmail, String updatedEmail) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, oldEmail);
@@ -293,6 +329,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         getPM().close();
     }
     
+    /*
+     * Get response comments for a sending state (SENT|SENDING|PENDING)
+     */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(String courseId, String sessionName,
             CommentSendingState state){
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -308,6 +347,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         return resultList;  
     }
     
+    /*
+     * Update response comments from old state to new state
+     */
     public void updateFeedbackResponseComments(String courseId, String feedbackSessionName,
             CommentSendingState oldState, CommentSendingState newState) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
@@ -321,10 +363,17 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         getPM().close();
     }
     
+    /*
+     * Create or update search document for the given comment
+     */
     public void putDocument(FeedbackResponseCommentAttributes comment){
         putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, new FeedbackResponseCommentSearchDocument(comment));
     }
     
+    /**
+     * Search for response comments
+     * @return {@link FeedbackResponseCommentSearchResultBundle}
+     */
     public FeedbackResponseCommentSearchResultBundle search(String queryString, String googleId, String cursorString){
         if(queryString.trim().isEmpty())
             return new FeedbackResponseCommentSearchResultBundle();
@@ -335,6 +384,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         return new FeedbackResponseCommentSearchResultBundle().fromResults(results, googleId);
     }
     
+    /**
+     * @deprecated Not scalable. Don't use unless in admin features.
+     */
     @Deprecated
     public List<FeedbackResponseCommentAttributes> getAllFeedbackResponseComments() {
         
