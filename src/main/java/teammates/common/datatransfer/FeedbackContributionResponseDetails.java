@@ -23,6 +23,10 @@ public class FeedbackContributionResponseDetails extends FeedbackAbstractRespons
         this.answer = answer;
     }
 
+    /**
+     * Get answer in integer form
+     * @return
+     */
     public int getAnswer() {
         return answer;
     }
