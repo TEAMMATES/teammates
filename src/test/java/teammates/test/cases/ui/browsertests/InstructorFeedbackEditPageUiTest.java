@@ -35,7 +35,7 @@ import com.google.appengine.api.datastore.Text;
  * Covers the 'Edit Feedback Session' page for instructors.
  * SUT is {@link InstructorFeedbackEditPage}.
  */
-@Priority(4)
+@Priority(-1)
 public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorFeedbackEditPage feedbackEditPage;

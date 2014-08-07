@@ -19,6 +19,9 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
+/**
+ * Action: Showing the StudentCommentsPage for a student
+ */
 public class StudentCommentsPageAction extends Action {
     
     private StudentCommentsPageData data;
@@ -57,6 +60,7 @@ public class StudentCommentsPageAction extends Action {
                     logic.getStudentsForCourse(courseId),
                     logic.getInstructorsForCourse(courseId));
 
+            //Prepare comments data
             StudentAttributes student = roster.getStudentForEmail(studentEmail);
             comments = logic.getCommentsForStudent(student);
             feedbackResultBundles = getFeedbackResultBundles(roster);

@@ -21,6 +21,9 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
+/**
+ * Action: Edit or delete the {@link CommentAttributes} based on the given editType (edit|delete)
+ */
 public class InstructorStudentCommentEditAction extends Action {
 
     @Override

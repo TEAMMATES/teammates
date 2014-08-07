@@ -14,6 +14,9 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.google.gson.Gson;
 
+/**
+ * The search result bundle for {@link CommentAttributes}. 
+ */
 public class CommentSearchResultBundle extends SearchResultBundle {
     
     public Map<String, List<CommentAttributes>> giverCommentTable = new HashMap<String, List<CommentAttributes>>();
@@ -25,6 +28,9 @@ public class CommentSearchResultBundle extends SearchResultBundle {
     
     public CommentSearchResultBundle(){}
     
+    /**
+     * Produce a CommentSearchResultBundle from the Results<ScoredDocument> collection
+     */
     public CommentSearchResultBundle fromResults(Results<ScoredDocument> results, String googleId){
         if(results == null) return this;
         
