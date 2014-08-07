@@ -106,6 +106,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testCustomizeNumScaleOptions();
         testAddNumScaleQuestionAction();
         testEditNumScaleQuestionAction();
+        testEditNumScaleQuestionNumberAction();
         testDeleteNumScaleQuestionAction();        
         
         testNewConstSumOptionQuestionFrame();
@@ -704,6 +705,25 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertEquals("[Based on the above settings, acceptable responses are: 3, 3.2, 3.4, 3.6, 3.8, 4]",
                 feedbackEditPage.getNumScalePossibleValuesString(2));
         feedbackEditPage.clickSaveExistingQuestionButton(2);
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
+
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackNumScaleQuestionEditSuccess.html");
+    }
+    
+    private void testEditNumScaleQuestionNumberAction() {
+        ______TS("NUMSCALE: edit question number success");
+
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
+        feedbackEditPage.selectQuestionNumber(2, 1);        
+        feedbackEditPage.clickSaveExistingQuestionButton(2);
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
+
+
+        ______TS("NUMSCALE: edit question number success - change back to question 2");
+        
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.selectQuestionNumber(1, 2);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackNumScaleQuestionEditSuccess.html");
