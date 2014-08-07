@@ -84,7 +84,7 @@ function checkFeedbackQuestion(form) {
             setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID,true);
             return false;
         }
-        var qnNum = ($(form).attr('name')=='form_addquestions') ? -1 : parseInt($(form).find('[name='+FEEDBACK_QUESTION_NUMBER+']').val());
+        var qnNum = ($(form).attr('name')=='form_addquestions') ? -1 : parseInt($(form).attr('id').substring("form_editquestion-".length),$(form).attr('id').length);
         if(updateNumScalePossibleValues(qnNum)){
             return true;
         } else {

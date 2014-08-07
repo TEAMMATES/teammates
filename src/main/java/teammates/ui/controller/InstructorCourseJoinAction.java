@@ -23,24 +23,23 @@ public class InstructorCourseJoinAction extends Action {
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
         
-        String key = getRequestParamValue(Const.ParamsNames.REGKEY);
         String institute = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
         
-        Assumption.assertNotNull(key);
+        Assumption.assertNotNull(regkey);
 
         new GateKeeper().verifyLoggedInUserPrivileges();
         
         /* Process confirmation for instructor if needed and setup status to be shown to admin */
         statusToAdmin = "Action Instructor Clicked Join Link"
                         + "<br/>Google ID: " + account.googleId
-                        + "<br/>Key: " + key;
+                        + "<br/>Key: " + regkey;
         
-        InstructorAttributes instructor = logic.getInstructorForRegistrationKey(key);
+        InstructorAttributes instructor = logic.getInstructorForRegistrationKey(regkey);
 
         if (instructor != null && instructor.isRegistered()) {
             // Bypass confirmation if instructor is already registered
             String redirectUrl = Url.addParamToUrl(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED,
-                                                   Const.ParamsNames.REGKEY, key);
+                                                   Const.ParamsNames.REGKEY, regkey);
             
             //for the link of instructor added by admin, an additional parameter institute is needed  
             //so it must be passed to instructorCourseJoinAuthenticated action
@@ -51,7 +50,7 @@ public class InstructorCourseJoinAction extends Action {
             return createRedirectResult(redirectUrl);
         } 
         pageData = new InstructorCourseJoinConfirmationPageData(account);
-        pageData.regkey = key;
+        pageData.regkey = regkey;
         
         
         //1.For instructors added by admin, institute is passed from the join link and should be passed
