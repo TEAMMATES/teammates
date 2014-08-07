@@ -22,7 +22,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.params.ClientPNames;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.params.HttpParams;
 import org.cyberneko.html.parsers.DOMParser;
 import org.openqa.selenium.Alert;
@@ -976,7 +976,7 @@ public abstract class AppPage {
             downloadedFile.setWritable(true);
         }
         
-        CloseableHttpClient client = new DefaultHttpClient();
+        CloseableHttpClient client = HttpClientBuilder.create().build();
         
         HttpGet httpget = new HttpGet(fileToDownload.toURI());
         HttpParams httpRequestParameters = httpget.getParams();
