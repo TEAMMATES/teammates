@@ -375,6 +375,11 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
     
+    public void selectQuestionNumber(int qnNumber, int newQnNumber){
+        WebElement qnNumSelect = browser.driver.findElement(By.id("questionnum-" + qnNumber));
+        selectDropdownByVisibleValue(qnNumSelect, String.valueOf(newQnNumber));
+    }
+    
     /**
      * 
      * @return {@code True} if all elements expected to be enabled
