@@ -71,6 +71,21 @@ public class FeedbackQuestionsLogic {
         fqDb.createEntityWithoutExistenceCheck(fqa);
     }
     
+    /**
+     * Used for creating initial questions for template sessions only.
+     * Does not check if feedback session exists.
+     * Does not check if question number supplied is valid(does not check for clashes, or make adjustments)
+     * @param fqa
+     * @param questionNumber
+     * @throws InvalidParametersException
+     */
+    public void createFeedbackQuestionForTemplate(FeedbackQuestionAttributes fqa, int questionNumber)
+            throws InvalidParametersException {
+        fqa.questionNumber = questionNumber;
+        fqa.removeIrrelevantVisibilityOptions();
+        fqDb.createEntityWithoutExistenceCheck(fqa);
+    }
+    
     public FeedbackQuestionAttributes copyFeedbackQuestion(String feedbackQuestionId,
             String feedbackSessionName, String courseId, String instructorEmail)
             throws InvalidParametersException {
