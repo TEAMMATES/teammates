@@ -392,8 +392,7 @@
                                                                     Recipient(s)</div>
                                                             </td>
                                                             <td><input
-                                                                class="visibilityCheckbox answerCheckbox centered"
-                                                                name="receiverLeaderCheckbox"
+                                                                class="visibilityCheckbox answerCheckbox"
                                                                 type="checkbox" value="<%=CommentRecipientType.PERSON%>"
                                                                 <%=comment.showCommentTo.contains(CommentRecipientType.PERSON)?"checked=\"checked\"":""%>>
                                                             </td>

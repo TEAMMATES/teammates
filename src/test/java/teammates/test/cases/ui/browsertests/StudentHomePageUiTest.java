@@ -65,6 +65,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         AppPage.logout(browser);
         studentHome = HomePage.getNewInstance(browser).clickStudentLogin()
                                                       .loginAsStudent(unregUserId, unregPassword);
+        System.setProperty("godmode", "true");
         // this test uses the accounts from test.properties
         studentHome.verifyHtmlMainContent("/StudentHomeHTMLEmpty.html");
         
