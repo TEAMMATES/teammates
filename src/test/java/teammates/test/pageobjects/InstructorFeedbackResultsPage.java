@@ -115,7 +115,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
     
     public void clickCollapseExpand() {
         collapseExpandButton.click();
-        waitForPageToLoad();
     }
     
     public void clickShowStats() {
@@ -234,6 +233,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     
     public void verifyRowMissing(String rowIdSuffix) {
         try {
+            waitForElementToDisappear(By.cssSelector("img[src='/images/ajax-loader.gif']"));
             browser.driver.findElement(By.id("responseCommentRow" + rowIdSuffix));
             fail("Row expected to be missing found.");
         } catch (NoSuchElementException e) {
@@ -244,7 +244,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void clickAjaxPanel(int index){
         List<WebElement> ajaxPanels = browser.driver.findElements(By.cssSelector(".ajax_submit"));
         ajaxPanels.get(index).click();
-        ThreadHelper.waitFor(500);
     }
 
     public void clickCollapseSectionButton(int index){

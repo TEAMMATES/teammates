@@ -6,6 +6,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -248,7 +249,7 @@ public abstract class AppPage {
      * Waits for element to be invisible or not present, or timeout.
      */
     public void waitForElementToDisappear(By by){
-        WebDriverWait wait = new WebDriverWait(browser.driver, 30);
+        WebDriverWait wait = new WebDriverWait(browser.driver, 10);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
     }
     
@@ -285,6 +286,7 @@ public abstract class AppPage {
 
     public void reloadPage() {
         browser.driver.get(browser.driver.getCurrentUrl());
+        waitForPageToLoad();
     }
 
     /** Equivalent to pressing the 'back' button of the browser. <br>
@@ -895,10 +897,10 @@ public abstract class AppPage {
                 if(HtmlHelper.areSameHtml(actual, expectedString)) {
                     break;
                 }
-                ThreadHelper.waitFor(waitDuration);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+            ThreadHelper.waitFor(waitDuration);   
         }
         
         

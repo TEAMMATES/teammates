@@ -290,11 +290,11 @@
                                     To:
                                     <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, recipientEmail).isEmpty()) { %>
                                         <div class="middlealign profile-pic-icon-hover inline-block" data-link="<%=data.getProfilePictureLink(recipientEmail)%>">
-                                            <%=responsesFromGiverToRecipient.getKey()%>
+                                            <strong><%=responsesFromGiverToRecipient.getKey()%></strong>
                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                         </div>
                                     <% } else {%>
-                                        <%=responsesFromGiverToRecipient.getKey()%>
+                                        <strong><%=responsesFromGiverToRecipient.getKey()%></strong>
                                     <% } %> 
                                 </div>
                                 <div class="col-md-12 text-muted small"><br>

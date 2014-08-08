@@ -22,7 +22,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/InstructorSearchPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
         putDocuments(testData);
-        browser = BrowserPool.getBrowser(true);
+        browser = BrowserPool.getBrowser();
     }
     
     @Test 

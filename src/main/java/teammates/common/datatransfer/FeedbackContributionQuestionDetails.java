@@ -110,8 +110,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         }
     }
     
-
-    public String getQuestionResultStatisticsHtmlStudentView(List<FeedbackResponseAttributes> responses,
+    private String getQuestionResultStatisticsHtmlStudentView(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             AccountAttributes currentUser,
             FeedbackSessionResultsBundle bundle) {
@@ -146,44 +145,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         
         String html = "";
         
-        //For testing
-        /*
-        for(Map.Entry<String, List<String>> entry : teamMembersEmail.entrySet()){
-            if(entry.getKey().equals(currentUserTeam)){
-                
-                html += entry.getKey() + " size: " +  teamMembersEmail.get(entry.getKey()).size() +"<br>";
-                html += entry.getValue().toString() + "<br>";
-                
-                html += "Claimed:<br>";
-                for(int i=0 ; i<teamResults.get(entry.getKey()).claimed.length ; i++)
-                    html += Arrays.toString(teamResults.get(entry.getKey()).claimed[i]) + "<br>";
-                
-                html += "Denormalized Average Percived:<br>";
-                for(int i=0 ; i<teamResults.get(entry.getKey()).denormalizedAveragePerceived.length ; i++)
-                    html += Arrays.toString(teamResults.get(entry.getKey()).denormalizedAveragePerceived[i]) + "<br>";
-                
-                
-                html += "Submission Array:<br>";
-                for(int i=0 ; i<teamSubmissionArray.get(entry.getKey()).length ; i++)
-                    html += Arrays.toString(teamSubmissionArray.get(entry.getKey())[i]) + "<br>";
-            
-                html += "<br><br>";
-                
-                html +=  "<pre>" + teamResults.get(entry.getKey()).toString() + "</pre>";//.replace(Const.EOL, "<br>");
-                
-                html += "<br><br>";
-                
-                for(Map.Entry<String, StudentResultSummary> entry2 : studentResults.entrySet()){
-                    html += entry2.getKey() + " "
-                         + entry2.getValue().claimedFromStudent + " "
-                         + entry2.getValue().claimedToInstructor + " "
-                         + entry2.getValue().perceivedToInstructor + " "
-                         + entry2.getValue().perceivedToStudent + "<br>";
-                }
-                
-            }
-        }*/
-        
         TeamEvalResult currentUserTeamResults = teamResults.get(currentUserTeam);
         if(currentUserTeamResults == null){
             return "";
@@ -212,7 +173,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         return html;
     }
     
-    public String getQuestionResultsStatisticsHtmlQuestionView(List<FeedbackResponseAttributes> responses,
+    private String getQuestionResultsStatisticsHtmlQuestionView(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
     
@@ -421,6 +382,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         return csv;
     }
     
+    /**
+     * @return A Map with student email as key and StudentResultSummary as value for the specified question.
+     */
     public Map<String, StudentResultSummary> getStudentResults(FeedbackSessionResultsBundle bundle, FeedbackQuestionAttributes question){
         List<FeedbackResponseAttributes> responses = getActualResponses(question, bundle);
 
@@ -558,7 +522,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         return responses;
     }
     
-    public static String getNormalizedPointsListColorizedDescending(int[] subs, int index){
+    private static String getNormalizedPointsListColorizedDescending(int[] subs, int index){
         List<String> result = new ArrayList<String>();
         for(int i=0 ; i<subs.length ; i++){
             if(i==index){
@@ -578,7 +542,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         return resultString;
     }
     
-    public static String getNormalizedPointsListDescending(int[] subs, int index){
+    private static String getNormalizedPointsListDescending(int[] subs, int index){
         List<String> result = new ArrayList<String>();
         for(int i=0 ; i<subs.length ; i++){
             if(i==index){
@@ -598,7 +562,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         return resultString;
     }
     
-    public static String getPointsAsColorizedHtml(int points){
+    private static String getPointsAsColorizedHtml(int points){
         return PageData.getPointsAsColorizedHtml(points);
     }
     
@@ -667,6 +631,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         return result;
     }
     
+    /**
+     * Converts points in integer to String.
+     * @param i
+     * @return points in text form "Equal Share..."
+     */
     public static String convertToEqualShareFormat(int i) {
         if (i > 100)
             return "Equal share + " + (i - 100) + "%"; // Do more
@@ -681,7 +650,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         else
             return "";
     }
-    
+   
+    /**
+     * Converts points in integer to String for HTML display.
+     * @param i
+     * @return points in text form "Equal Share..." with html formatting for colors.
+     */
     public static String convertToEqualShareFormatHtml(int i) {
         if(i==Const.POINTS_NOT_SUBMITTED || i==Const.INT_UNINITIALIZED)
             return "<span class=\"color-negative\"\">N/A</span>";

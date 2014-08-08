@@ -14,6 +14,9 @@ import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
 import com.google.gson.Gson;
 
+/**
+ * The SearchDocument object that defines how we store {@link Document} for student comments
+ */
 public class CommentSearchDocument extends SearchDocument {
     
     private CommentAttributes comment;

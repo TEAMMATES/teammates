@@ -30,7 +30,6 @@ import teammates.test.pageobjects.InstructorEvalResultsPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
 import teammates.test.pageobjects.InstructorHelpPage;
 import teammates.test.pageobjects.InstructorHomePage;
-import teammates.test.util.Priority;
 
 /**
  * Tests Home page and login page for instructors. 
@@ -38,7 +37,6 @@ import teammates.test.util.Priority;
  * Uses a real account.
  * 
  */
-@Priority(4)
 public class InstructorHomePageUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;
@@ -61,7 +59,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/InstructorHomePageUiTest1.json");
         removeTestDataOnServer(loadDataBundle("/InstructorHomePageUiTest3.json"));
         restoreTestDataOnServer(testData);
-        browser = BrowserPool.getBrowser(true);
+        browser = BrowserPool.getBrowser();
     }
     
     private static void loadFinalHomePageTestData() throws Exception {
