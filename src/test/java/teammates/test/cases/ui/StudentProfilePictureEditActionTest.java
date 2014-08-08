@@ -25,7 +25,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         String[] submissionParams = createValidParamsForProfilePictureEdit();
-        AccountAttributes student = dataBundle.accounts.get("student2InCourse1");        
+        AccountAttributes student = dataBundle.accounts.get("student2InCourse1");
         gaeSimulation.loginAsStudent(student.googleId);
         StudentProfilePictureEditAction a;
         RedirectResult r;
