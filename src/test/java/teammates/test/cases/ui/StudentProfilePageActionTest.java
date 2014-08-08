@@ -56,7 +56,8 @@ public class StudentProfilePageActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin(adminUserId);
         
         submissionParams = new String[]{
-                Const.ParamsNames.STUDENT_PROFILE_PHOTOEDIT, "false"
+                Const.ParamsNames.STUDENT_PROFILE_PHOTOEDIT, "false",
+                Const.ParamsNames.USER_ID, student.googleId
         };
         
         a = getAction(addUserIdToParams(student.googleId, submissionParams));

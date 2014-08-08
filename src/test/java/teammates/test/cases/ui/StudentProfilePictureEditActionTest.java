@@ -3,7 +3,6 @@ package teammates.test.cases.ui;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -26,7 +25,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         String[] submissionParams = createValidParamsForProfilePictureEdit();
-        AccountAttributes student = dataBundle.accounts.get("student1InCourse1");
+        AccountAttributes student = dataBundle.accounts.get("student2InCourse1");        
         gaeSimulation.loginAsStudent(student.googleId);
         StudentProfilePictureEditAction a;
         RedirectResult r;
@@ -37,7 +36,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         r = (RedirectResult) a.executeAndPostProcess();
         
         String expectedLogMessage = "TEAMMATESLOG|||studentProfilePictureEdit|||"
-                + "studentProfilePictureEdit|||true|||Student|||Student 1 in course 1|||" 
+                + "studentProfilePictureEdit|||true|||Student|||Student in two courses|||" 
                 + student.googleId + "|||" + student.email + "|||"
                 + "Servlet Action Failure : One or more of the given coords were empty."
                 + "|||" + Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
@@ -100,8 +99,8 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         r = (RedirectResult) a.executeAndPostProcess();
         
         expectedLogMessage = "TEAMMATESLOG|||studentProfilePictureEdit|||"
-                + "studentProfilePictureEdit|||true|||Student|||Student 1 in course 1|||"
-                + student.googleId + "|||student1InCourse1@gmail.com|||"
+                + "studentProfilePictureEdit|||true|||Student|||Student in two courses|||"
+                + student.googleId + "|||student2InCourse1@gmail.com|||"
                 + "Servlet Action Failure : Reading and transforming image failed.Could not read blob."
                 + "|||" + Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
         
