@@ -6,6 +6,7 @@ function isInCommentsPage(){
 
 var addCommentHandler = function(e) {
     var submitButton = $(this);
+    var cancelButton = $(this).next("input[value='Cancel']");
     var formObject = $(this).parent().parent();
     var addFormRow = $(this).parent().parent().parent();
     var formData = formObject.serialize();
@@ -18,9 +19,13 @@ var addCommentHandler = function(e) {
         beforeSend : function() {
             formObject.find("textarea").prop("disabled", true);
             submitButton.html("<img src='/images/ajax-loader.gif'/>");
+            submitButton.prop("disabled", true);
+            cancelButton.prop("disabled", true);
         },
         error : function() {
             formObject.find("textarea").prop("disabled", false);
+            submitButton.prop("disabled", false);
+            cancelButton.prop("disabled", false);
             setFormErrorMessage(submitButton, "Failed to save comment. Please try again.");
             submitButton.text("Add");
         },
@@ -44,6 +49,8 @@ var addCommentHandler = function(e) {
                     formObject.find("textarea").prop("disabled", false);
                     formObject.find("textarea").val("");
                     submitButton.text("Add");
+                    submitButton.prop("disabled", false);
+                    cancelButton.prop("disabled", false);
                     removeFormErrorMessage(submitButton);
                     addFormRow.prev().find("div[id^=plainCommentText]").css("margin-left","15px");
                     addFormRow.prev().show();
@@ -52,6 +59,8 @@ var addCommentHandler = function(e) {
                     formObject.find("textarea").prop("disabled", false);
                     setFormErrorMessage(submitButton, data.errorMessage);
                     submitButton.text("Add");
+                    submitButton.prop("disabled", false);
+                    cancelButton.prop("disabled", false);
                 }
             },500);
         }
@@ -60,6 +69,7 @@ var addCommentHandler = function(e) {
 
 var editCommentHandler = function(e) {
     var submitButton = $(this);
+    var cancelButton = $(this).next("input[value='Cancel']");
     var formObject = $(this).parent().parent();
     var displayedText = $(this).parent().parent().prev();
     var commentBar = displayedText.parent().find("div[id^=commentBar]");
@@ -73,11 +83,15 @@ var editCommentHandler = function(e) {
         beforeSend : function() {
             formObject.find("textarea").prop("disabled", true);
             submitButton.html("<img src='/images/ajax-loader.gif'/>");
+            submitButton.prop("disabled", true);
+            cancelButton.prop("disabled", true);
         },
         error : function() {
             formObject.find("textarea").prop("disabled", false);
             setFormErrorMessage(submitButton, "Failed to save changes. Please try again.");
             submitButton.text("Save");
+            submitButton.prop("disabled", false);
+            cancelButton.prop("disabled", false);
         },
         success : function(data) {
             setTimeout(function(){
@@ -94,6 +108,8 @@ var editCommentHandler = function(e) {
                     formObject.find("textarea").prop("disabled", false);
                     formObject.find("textarea").val(data.comment.commentText.value);
                     submitButton.text("Save");
+                    submitButton.prop("disabled", false);
+                    cancelButton.prop("disabled", false);
                     removeFormErrorMessage(submitButton);
                     formObject.hide();
                     displayedText.show();
@@ -101,6 +117,8 @@ var editCommentHandler = function(e) {
                     formObject.find("textarea").prop("disabled", false);
                     setFormErrorMessage(submitButton, data.errorMessage);
                     submitButton.text("Save");
+                    submitButton.prop("disabled", false);
+                    cancelButton.prop("disabled", false);
                 }
             },500);
         }

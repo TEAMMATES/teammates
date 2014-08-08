@@ -738,9 +738,8 @@
                         <div class="helpSectionContent">
                             After pressing 'edit' link of the course, you can go to course edit page, where you can add new instructors and edit existing 
                             instructors in the course. However, depending on your privilege setting, you may or may not perform certain actions.<br>
-                            For example, edit/delete instructors, add instructor links will be disabled for those who do not have the privilege.<br>
-                            <div>
-                                <br>
+                            For example, edit/delete instructors, add instructor links will be disabled for those who do not have the privilege.<br><br>
+                            <div class="bs-example">
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">
                                         <strong>Instructor 3:</strong>
@@ -803,7 +802,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="align-center">
-                                                        <input id="btnSaveInstructor3" type="submit" class="btn btn-primary" style="display:none;" value="Save changes" tabindex="6">
+                                                        <input id="btnSaveInstructor3" type="button" onclick="return false" class="btn btn-primary" style="display:none;" value="Save changes" tabindex="6">
                                                     </div>
                                                 </div>
                                             </div>
@@ -814,20 +813,18 @@
                                 <div class="align-center">
                                     <input id="btnShowNewInstructorForm" class="btn btn-primary" value="Add New Instructor" disabled="disabled">
                                 </div>
-                                <br><br>
-                            </div>
+                            </div><br><br>
                             If the links are not disabled for you, you can press the 'Add New Instructor' link, a form will show up, containing 
                             all the necessary information 
-                            that you need to provide.<br>
-                            <div>
-                                <br>
+                            that you need to provide.<br><br>
+                            <div class="bs-example">
                                 <div class="panel panel-primary" id="panelAddInstructor" style="">
                                     <div class="panel-heading">
                                         <strong>Instructors 2:</strong>
                                     </div>
 
                                     <div class="panel-body fill-plain">
-                                        <form method="post" action="#" name="formAddInstructor" class="form form-horizontal" id="formAddInstructor">
+                                        <form class="form form-horizontal">
                                             <input type="hidden" name="courseid" value="testCourse2">
                                             <input type="hidden" name="user" value="sampleInstr">
                                             
@@ -875,15 +872,14 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="align-center">
-                                                        <input id="btnAddInstructor" type="submit" class="btn btn-primary" value="Add Instructor" tabindex="10">
+                                                        <input id="btnAddInstructor" type="button" onclick="return false" class="btn btn-primary" value="Add Instructor" tabindex="10">
                                                     </div>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
-                                <br><br>
-                            </div>
+                            </div><br><br>
                             Fill in the form with the information of the instructor you want to add and press 'Add Instructor' button to add the instructor. 
                             If you are not clear about certain input field, you can simply hover the input field and see the tooltip for explanation of the field.<br><br><br>
                         </div>
@@ -917,10 +913,9 @@
                     <li>
                         <b><a name="editCourseSetCustom" id="question">How do I set custom privileges for an instructor?</a></b>
                         <div class="helpSectionContent">
-                            When setting the access level for an instructor as 'Custom', detailed privilege settings will be available for you.
-                            <div>
-                            <br>
-                            <div class="panel panel-primary">
+                            When setting the access level for an instructor as 'Custom', detailed privilege settings will be available for you.<br><br>
+                            <div class="bs-example">
+                                <div class="panel panel-primary">
                                     <div class="panel-heading">
                                         <strong>Instructor 1:</strong>
                                         <div class="pull-right">
@@ -933,7 +928,7 @@
                                     </div>
 
                                     <div class="panel-body">
-                                        <form method="post" action="#" id="formEditInstructor1>" name="formEditInstructors" class="form form-horizontal">
+                                        <form class="form form-horizontal">
                                             <input type="hidden" name="courseid" value="testCourse2">
                                             
                                             <input type="hidden" name="instructorid" value="sampleInstr">
@@ -1126,15 +1121,14 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="align-center">
-                                                        <input id="btnSaveInstructor1" type="submit" class="btn btn-primary" style="" value="Save changes" tabindex="6">
+                                                        <input id="btnSaveInstructor1" type="button" onclick="return false" class="btn btn-primary" style="" value="Save changes" tabindex="6">
                                                     </div>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
-                            <br><br>
-                            </div>
+                            </div><br><br>
                             If a course does have sections, the link 'Give different permissions for a specific section' will be shown for customization
                             for different sections. In the panel for section-level privilege settings, you can choose more than one section to apply 
                             the same set of settings. You can also set settings for different sessions for student in that section by click the link 
