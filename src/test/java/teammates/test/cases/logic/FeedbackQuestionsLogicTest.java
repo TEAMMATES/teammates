@@ -58,6 +58,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         testCopyQuestion();
         testUpdateQuestion();
         testDeleteQuestion();
+        testAddQuestionForTemplate();
     }
     
     public void testGetRecipientsForQuestion() throws Exception {
@@ -579,6 +580,30 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     public void testGetFeedbackQuestionBundle() throws Exception {
         testGetFeedbackQuestionBundleForInstructor();
         testGetFeedbackQuestionBundleForStudent();
+    }
+    
+
+    public void testAddQuestionForTemplate() throws InvalidParametersException, EntityDoesNotExistException {
+        
+        ______TS("Add questions sequentially - test for initial template question");
+        FeedbackQuestionAttributes q1 = getQuestionFromDatastore("qn1InSession1InCourse1");
+        q1.questionNumber = 1;
+        
+        int initialNumQuestions = fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId).size();
+
+        //Appends a question to the back of the current question list
+        FeedbackQuestionAttributes newQuestion = getQuestionFromDatastore("qn1InSession1InCourse1");
+        newQuestion.questionNumber = initialNumQuestions + 1;
+        newQuestion.setId(null); //new question should not have an ID.
+        fqLogic.createFeedbackQuestionForTemplate(newQuestion, newQuestion.questionNumber);
+        
+        List<FeedbackQuestionAttributes> actualList = fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId);
+        
+        assertEquals(actualList.size(), initialNumQuestions + 1);
+        
+        //The list starts from 0, so no need to + 1 here.
+        assertEquals(actualList.get(initialNumQuestions), newQuestion);
+        
     }
     
     private void testGetFeedbackQuestionBundleForInstructor() throws Exception{
