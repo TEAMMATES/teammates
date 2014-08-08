@@ -152,6 +152,7 @@
                                 <li><a href="#viewComments">View comments</a></li>
                                 <li><a href="#editDeleteComments">Edit and delete comments</a></li>
                                 <li><a href="#searchComments">Search for comments</a></li>
+                                <li><a href="#notifyComments">Notify students of comments</a></li>
                             </ul>
                         </div>
                     </li>
@@ -6320,6 +6321,152 @@
                                         </ul>
                                     </div>
                                     </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="text-bold">
+                            <a name="notifyComments">
+                                <h3>6. Notify students of comments</h3>
+                            </a>
+                        </span>
+                        <div class="row">
+                            <br>
+                            <div class="bs-example">
+                                <div class="well well-plain">
+                                    <div class="row">
+                                        <h4 class="col-sm-9 text-color-primary">
+                                            <strong> demo-course : Demo Course
+                                            </strong>
+                                        </h4>
+                                        <div class="btn-group pull-right" style="">
+                                          <a type="button" class="btn btn-sm btn-info" data-toggle="tooltip" style="margin-right: 17px;" href="/page/instructorStudentCommentClearPending?courseid=comments.idOfTypicalCourse1&amp;user=comments.idOfInstructor1OfCourse1" title="" data-original-title="Send email notification to 1 recipient(s) of comments pending notification">
+                                            <span class="badge" style="margin-right: 5px">1</span>
+                                            <span class="glyphicon glyphicon-comment"></span>
+                                            <span class="glyphicon glyphicon-arrow-right"></span>
+                                            <span class="glyphicon glyphicon-envelope"></span>
+                                          </a>
+                                        </div>
+                                    </div>
+                                    <div id="no-comment-panel" style="display:none;">
+                                        <br>
+                                        <div class="panel">
+                                            <div class="panel-body">
+                                                You don't have any comment in this course.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="panel_display-1">
+                                    <br>
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <strong>Comments for students</strong>
+                                        </div>
+                                        <div class="panel-body">
+                                            
+                                            
+                                            <div class="panel panel-info student-record-comments giver_display-by-you">
+                                                <div class="panel-heading">
+                                                    From <b>You</b>
+                                                </div>
+                                                <ul class="list-group comments">
+                                                    
+                                                    <li id="4691616115720192" class="list-group-item list-group-item-warning status_display-public">
+                                                        <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-1">
+                                                            <div id="commentBar-1">
+                                                                
+                                                                <span class="text-muted">To <b>All students in this course</b> on
+                                                                    01 Jun 2012, 19:20</span>
+                                                                
+                                                                <a type="button" id="commentdelete-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
+                                                                    <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                                                                </a> <a type="button" id="commentedit-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
+                                                                    <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                                                                </a>
+                                                                
+                                                                
+                                                                <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;" data-placement="top" title="" data-original-title="This comment is visible to the whole class"></span>
+                                                                
+                                                                
+                                                                <span class="glyphicon glyphicon-bell" data-toggle="tooltip" data-placement="top" title="" data-original-title="This comment is pending notification. i.e., you have not sent a notification about this comment yet"></span>
+                                                                
+                                                            </div>
+                                                            <div id="plainCommentText1" style="margin-left: 15px;">Hi all!</div>
+                                                            
+                                                            <div id="commentTextEdit1" style="display: none;">
+                                                               <div class="form-group form-inline">
+                                                                    <div class="form-group text-muted">
+                                                                        You may change comment's visibility using the visibility options on the right hand side.
+                                                                    </div>
+                                                                    <a id="visibility-options-trigger1" class="btn btn-sm btn-info pull-right">
+                                                                        <span class="glyphicon glyphicon-eye-close"></span>
+                                                                        Show Visibility Options
+                                                                    </a>
+                                                                </div>
+                                                                <div id="visibility-options1" class="panel panel-default" style="display: none;">
+                                                                    <div class="panel-heading">Visibility Options</div>
+                                                                    <table class="table text-center text-color-black">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <th class="text-center">User/Group</th>
+                                                                                <th class="text-center">Can see
+                                                                                    your comment</th>
+                                                                                <th class="text-center">Can see
+                                                                                    giver's name</th>
+                                                                                <th class="text-center">Can see
+                                                                                    recipient's name</th>
+                                                                            </tr>
+                                                                            
+                                                                            
+                                                                            
+                                                                            <tr id="recipient-course1">
+                                                                                <td class="text-left">
+                                                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students in this course can view">
+                                                                                        Students in this course</div>
+                                                                                </td>
+                                                                                <td><input class="visibilityCheckbox answerCheckbox" type="checkbox" value="COURSE" checked="checked">
+                                                                                </td>
+                                                                                <td><input class="visibilityCheckbox giverCheckbox" type="checkbox" value="COURSE" checked="checked">
+                                                                                </td>
+                                                                                <td><input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="COURSE" disabled="disabled">
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="text-left">
+                                                                                    <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
+                                                                                        Instructors</div>
+                                                                            </td>
+                                                                            <td><input class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTOR">
+                                                                            </td>
+                                                                            <td><input class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTOR">
+                                                                            </td>
+                                                                                <td><input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="INSTRUCTOR">
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText1">Hi all!</textarea>
+                                                                </div>
+                                                                <div class="col-sm-offset-5">
+                                                                    <input id="commentsave-1" title="Save comment" onclick="return submitCommentForm('1');" type="submit" class="btn btn-primary" value="Save">
+                                                                    <input type="button" class="btn btn-default" value="Cancel" onclick="return disableComment('1');">
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </li>
+                                                    
+                                                </ul>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    </div>
+                                    
+                                    
+                                </div>
                             </div>
                         </div>
                     </li>
