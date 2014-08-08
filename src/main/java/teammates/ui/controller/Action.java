@@ -107,7 +107,7 @@ public abstract class Action {
         
         AccountAttributes loggedInUser = null;
         
-        regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
+        regkey = getRegkeyFromRequest();
         String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         
@@ -121,6 +121,16 @@ public abstract class Action {
             }
         }
         return loggedInUser;
+    }
+
+    protected String getRegkeyFromRequest() {
+        String regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
+        if (regkey == null) {
+            //TODO: remove this branch on October 15th 2014.
+            return getRequestParamValue(Const.ParamsNames.REGKEY_LEGACY);
+        } else {
+            return regkey;
+        }
     }
 
     protected AccountAttributes createDummyAccountIfUserIsUnregistered(UserType currentUser,
@@ -189,7 +199,7 @@ public abstract class Action {
     private boolean doesUserNeedToLogin(UserType currentUser) {
         boolean userNeedsGoogleAccountForPage = !Const.SystemParams.PAGES_ACCESSIBLE_WITHOUT_GOOGLE_LOGIN.contains(request.getRequestURI());
         boolean userIsNotLoggedIn = currentUser == null;
-        boolean noRegkeyGiven = getRequestParamValue(Const.ParamsNames.REGKEY) == null;
+        boolean noRegkeyGiven = getRegkeyFromRequest() == null;
         
         if (userIsNotLoggedIn && (userNeedsGoogleAccountForPage || noRegkeyGiven)) {
             setRedirectPage(Logic.getLoginUrl(requestUrl));
@@ -230,7 +240,7 @@ public abstract class Action {
             //Allowing admin to masquerade as another user
             account = logic.getAccount(paramRequestedUserId);
             if(account==null){ //Unregistered user
-                regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
+                regkey = getRegkeyFromRequest();
                 if (regkey == null) {
                     // since admin is masquerading, fabricate a regkey
                     regkey = "any-non-null-value";

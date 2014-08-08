@@ -19,9 +19,7 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        
-        String key = getRequestParamValue(Const.ParamsNames.REGKEY);
-        Assumption.assertNotNull(key);
+        Assumption.assertNotNull(regkey);
         
         String institute = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
       
@@ -32,9 +30,9 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         try {       
           
             if (institute != null) {
-                logic.joinCourseForInstructor(key, account.googleId, institute);
+                logic.joinCourseForInstructor(regkey, account.googleId, institute);
             } else {
-                logic.joinCourseForInstructor(key, account.googleId);
+                logic.joinCourseForInstructor(regkey, account.googleId);
             }
            
         } catch (JoinCourseException | InvalidParametersException e) {
@@ -46,7 +44,7 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         /* Set status to be shown to admin */
         final String joinedCourseMsg = "Action Instructor Joins Course"
                 + "<br/>Google ID: " + account.googleId
-                + "<br/>Key : " + StringHelper.decrypt(key);
+                + "<br/>Key : " + StringHelper.decrypt(regkey);
         if(statusToAdmin != null) {
             statusToAdmin += "<br/><br/>" + joinedCourseMsg;
         } else {
@@ -55,7 +53,7 @@ public class InstructorCourseJoinAuthenticatedAction extends Action {
         
         /* Create redirection to instructor's homepage */
         RedirectResult response = createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
-        InstructorAttributes instructor  = logic.getInstructorForRegistrationKey(key);
+        InstructorAttributes instructor  = logic.getInstructorForRegistrationKey(regkey);
         if(instructor != null) {
             response.addResponseParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, instructor.courseId);    
         }
