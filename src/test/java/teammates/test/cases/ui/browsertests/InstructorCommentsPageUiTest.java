@@ -158,6 +158,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.fillTextareaToEditResponseComment(1, 1, 1, "added response comment");
         commentsPage.addResponseComment(1, 1, 1);
         commentsPage.reloadPage();
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageAddFrc.html");
         
         ______TS("action: edit feedback response comment");
         commentsPage.clickResponseCommentEdit(1, 1, 1, 1);
@@ -168,11 +169,13 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyCommentFormErrorMessage("1-1-1-1", "Comment cannot be empty");
         commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "edited response comment\na new line");
         commentsPage.saveResponseComment(1, 1, 1, 1);
+        commentsPage.reloadPage();
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageEditFrc.html");
         
         ______TS("action: delete feedback response comment");
         commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
         commentsPage.clickCommentsPageLinkInHeader();
-        commentsPage.verifyHtmlMainContent("/instructorCommentsPageAfterTestScript.html");
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageDeleteFrc.html");
     }
     
     private void testSearch() {
@@ -183,6 +186,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         
         ______TS("search: typical successful case");
         //prepare search document
+        // TODO: remove this and use backdoor to put  document
         commentsPage.clickStudentCommentEditForRow(1);
         commentsPage.saveEditStudentCommentForRow(1);
         commentsPage.clickStudentCommentEditForRow(2);
