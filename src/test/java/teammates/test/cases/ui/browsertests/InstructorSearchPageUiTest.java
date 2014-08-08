@@ -40,6 +40,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         String instructorId = testData.accounts.get("instructor1OfCourse1").googleId;
         searchPage = getInstructorSearchPage(instructorId);
         searchPage.verifyHtml("/InstructorSearchPageDefault.html");
+        
     }
     
     private void testSearch() {
@@ -49,12 +50,14 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         String instructorId = testData.accounts.get("instructor1OfCourse1").googleId;
         String searchContent = "comment";
         searchPage.inputSearchContent(searchContent);
+        searchPage.clickStudentCheckBox();
         searchPage.clickSearchButton();
         searchPage.verifyHtmlMainContent("/InstructorSearchPageSearchNone.html");
         
         ______TS("search for student comments");
         
         searchPage.clickStudentCommentCheckBox();
+        searchPage.clickStudentCheckBox();
         searchPage.clickSearchButton();
         searchPage.verifyHtmlMainContent("/InstructorSearchPageSearchStudentComments.html");
         
@@ -77,6 +80,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchPage = getInstructorSearchPage(instructorHelperId);
         searchPage.clickStudentCommentCheckBox();
         searchPage.clickFeedbackResponseCommentCheckBox();
+        searchPage.clickStudentCheckBox();
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
         searchPage.verifyHtmlMainContent("/InstructorSearchPageSearchCommentsAsHelper.html");
@@ -86,7 +90,6 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         
         ______TS("search for students");
         
-        searchPage.clickStudentCheckBox();
         searchPage.clearSearchBox();
         searchContent = "student1";
         searchPage.inputSearchContent(searchContent);

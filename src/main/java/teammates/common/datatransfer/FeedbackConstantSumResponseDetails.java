@@ -21,6 +21,9 @@ public class FeedbackConstantSumResponseDetails extends
         }
     }
     
+    /**
+     * @return List of answers (for constant sum to recipients, there will only be one answer.)
+     */
     public List<Integer> getAnswerList() {
         return answers;
     }
