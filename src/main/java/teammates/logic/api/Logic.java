@@ -1872,7 +1872,7 @@ public class Logic {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestion);
         Assumption.assertTrue(questionNumber > 0);
-        feedbackQuestionsLogic.createFeedbackQuestionForTemplate(feedbackQuestion, questionNumber);
+        feedbackQuestionsLogic.createFeedbackQuestionNoIntegrityCheck(feedbackQuestion, questionNumber);
     }
     
     /**

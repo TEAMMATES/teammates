@@ -67,8 +67,7 @@ public class FeedbackQuestionsLogic {
             fqa.questionNumber = questions.size() + 1;
         }
         adjustQuestionNumbers(questions.size()+1, fqa.questionNumber, questions);
-        fqa.removeIrrelevantVisibilityOptions();
-        fqDb.createEntityWithoutExistenceCheck(fqa);
+        createFeedbackQuestionNoIntegrityCheck(fqa, fqa.questionNumber);
     }
     
     /**
@@ -79,7 +78,7 @@ public class FeedbackQuestionsLogic {
      * @param questionNumber
      * @throws InvalidParametersException
      */
-    public void createFeedbackQuestionForTemplate(FeedbackQuestionAttributes fqa, int questionNumber)
+    public void createFeedbackQuestionNoIntegrityCheck(FeedbackQuestionAttributes fqa, int questionNumber)
             throws InvalidParametersException {
         fqa.questionNumber = questionNumber;
         fqa.removeIrrelevantVisibilityOptions();

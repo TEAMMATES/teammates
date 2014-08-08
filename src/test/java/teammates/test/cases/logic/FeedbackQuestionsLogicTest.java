@@ -58,7 +58,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         testCopyQuestion();
         testUpdateQuestion();
         testDeleteQuestion();
-        testAddQuestionForTemplate();
+        testAddQuestionNoIntegrityCheck();
     }
     
     public void testGetRecipientsForQuestion() throws Exception {
@@ -583,7 +583,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
     }
     
 
-    public void testAddQuestionForTemplate() throws InvalidParametersException, EntityDoesNotExistException {
+    public void testAddQuestionNoIntegrityCheck() throws InvalidParametersException, EntityDoesNotExistException {
         
         ______TS("Add questions sequentially - test for initial template question");
         FeedbackQuestionAttributes q1 = getQuestionFromDatastore("qn1InSession1InCourse1");
@@ -595,7 +595,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         FeedbackQuestionAttributes newQuestion = getQuestionFromDatastore("qn1InSession1InCourse1");
         newQuestion.questionNumber = initialNumQuestions + 1;
         newQuestion.setId(null); //new question should not have an ID.
-        fqLogic.createFeedbackQuestionForTemplate(newQuestion, newQuestion.questionNumber);
+        fqLogic.createFeedbackQuestionNoIntegrityCheck(newQuestion, newQuestion.questionNumber);
         
         List<FeedbackQuestionAttributes> actualList = fqLogic.getFeedbackQuestionsForSession(q1.feedbackSessionName, q1.courseId);
         
