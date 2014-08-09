@@ -234,6 +234,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     
     public void verifyRowMissing(String rowIdSuffix) {
         try {
+            waitForElementToDisappear(By.cssSelector("img[src='/images/ajax-loader.gif']"));
             browser.driver.findElement(By.id("responseCommentRow" + rowIdSuffix));
             fail("Row expected to be missing found.");
         } catch (NoSuchElementException e) {

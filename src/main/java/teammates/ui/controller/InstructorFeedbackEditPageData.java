@@ -21,8 +21,8 @@ public class InstructorFeedbackEditPageData extends PageData {
     public List<FeedbackQuestionAttributes> copiableQuestions;
     public Map<String, Boolean> questionHasResponses;
     public List<StudentAttributes> studentList;
-    public Map<String, InstructorAttributes> instructors;
     public List<InstructorAttributes> instructorList;
+    public InstructorAttributes instructor;
 
     public InstructorFeedbackEditPageData(AccountAttributes account) {
         super(account);
