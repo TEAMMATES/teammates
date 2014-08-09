@@ -139,7 +139,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("no questions");
 
         feedbackEditPage = getFeedbackEditPage();
-        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditEmpty.html");
+        //Verify Html instead of main content to verify copy panel and preview panel
+        feedbackEditPage.verifyHtml("/instructorFeedbackEditEmpty.html");
     }
 
     private void testEditSessionLink(){
