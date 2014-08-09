@@ -101,9 +101,11 @@ public class InstructorStudentRecordsPageAction extends Action {
                 }
             }
             
-            if (data.student.googleId == "" || !data.currentInstructor.isAllowedForPrivilege(data.student.section, 
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
+            if (data.student.googleId == "") {
                 statusToUser.add(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS);
+            } else if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, 
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
+                statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR);
             } else {
                 data.studentProfile = logic.getStudentProfile(data.student.googleId);
                 Assumption.assertNotNull(data.studentProfile);
