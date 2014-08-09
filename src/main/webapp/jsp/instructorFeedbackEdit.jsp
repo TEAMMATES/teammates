@@ -1115,9 +1115,10 @@
                                 </th>
                             </thead>
 
-                            <% for (FeedbackQuestionAttributes question : data.copiableQuestions) {
-                                    if(data.instructors.get(question.courseId).isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)){
-                                    FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+                            <% 
+                                if(data.instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)){
+                                    for (FeedbackQuestionAttributes question : data.copiableQuestions) {
+                                        FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                             %>
                                 <tr style="cursor:pointer;">
                                     <td><input type="checkbox"></td>
@@ -1128,7 +1129,7 @@
                                     <input type="hidden" value="<%= question.getId() %>">
                                 </tr>
                             <%      }
-                                } 
+                                }
                             %>
                         </table>
                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
