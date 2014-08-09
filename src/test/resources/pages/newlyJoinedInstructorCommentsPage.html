@@ -69,11 +69,6 @@
                                     </div>
                                     
                                     
-                                    <div class="checkbox">
-                                        <input id="panel_check-2" checked="checked" type="checkbox"> <label for="panel_check-2">
-                                            Session: First feedback session </label>
-                                    </div>
-                                    
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="text-color-primary">
@@ -123,23 +118,19 @@
                     href="/page/instructorCommentsPage?user={$test.instructor}">Drafts</a></li>-->
                 
                 <li class="active">
-                    <a href="/page/instructorCommentsPage?user={$test.instructor}&amp;courseid=idOfTypicalCourse1.access">idOfTypicalCourse1.access</a>
-                </li>
-                
-                <li class="">
                     <a href="/page/instructorCommentsPage?user={$test.instructor}&amp;courseid=AHPUiT.instr1.gma-demo">AHPUiT.instr1.gma-demo</a>
                 </li>
                 
-                <li><a href="/page/instructorCommentsPage?user={$test.instructor}&amp;courseid=AHPUiT.instr1.gma-demo">»</a></li>
+                <li><a href="javascript:;">»</a></li>
             </ul>
             <div class="well well-plain">
                 <div class="row">
                     <h4 class="col-sm-9 text-color-primary">
-                        <strong> idOfTypicalCourse1.access : Typical Course 1 with 2 Evals
+                        <strong> AHPUiT.instr1.gma-demo : Sample Course 101
                         </strong>
                     </h4>
                     <div class="btn-group pull-right" style="display:none">
-                      <a data-original-title="Send email notification to 0 recipient(s) of comments pending notification" type="button" class="btn btn-sm btn-info" data-toggle="tooltip" style="margin-right: 17px;" href="/page/instructorStudentCommentClearPending?courseid=idOfTypicalCourse1.access&amp;user={$test.instructor}" title="">
+                      <a data-original-title="Send email notification to 0 recipient(s) of comments pending notification" type="button" class="btn btn-sm btn-info" data-toggle="tooltip" style="margin-right: 17px;" href="/page/instructorStudentCommentClearPending?courseid=AHPUiT.instr1.gma-demo&amp;user={$test.instructor}" title="">
                         <span class="badge" style="margin-right: 5px">0</span>
                         <span class="glyphicon glyphicon-comment"></span>
                         <span class="glyphicon glyphicon-arrow-right"></span>
@@ -175,8 +166,8 @@
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-1">
                                         <div id="commentBar-1">
                                             
-                                            <span class="text-muted">To <b>student1 In Course1</b> (Team 1.1, <a href="mailto:student1InCourse1.access@gmail.com">student1InCourse1.access@gmail.com</a>) on
-                                                01 May 2012, 08:51</span>
+                                            <span class="text-muted">To <b>Benny Charles</b> (Team 1, <a href="mailto:benny.c.tmms@gmail.com">benny.c.tmms@gmail.com</a>) on
+                                                02 Apr 2016, 23:59</span>
                                             
                                             <a type="button" id="commentdelete-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
                                                 <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
@@ -185,11 +176,11 @@
                                             </a>
                                             
                                             
-                                            <span data-original-title="This comment is visible to recipient" class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;" data-placement="top" title=""></span>
+                                            <span data-original-title="This comment is visible to recipient's team" class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;" data-placement="top" title=""></span>
                                             
                                             
                                         </div>
-                                        <div style="margin-left: 15px;" id="plainCommentText1">Comment 2 from Instructor 1 to Student 1 in course 1</div>
+                                        <div style="margin-left: 15px;" id="plainCommentText1">Benny, Thanks for helping Alice in her project work. Keep up the good work!</div>
                                         
                                         <div id="commentTextEdit1" style="display: none;">
                                            <div class="form-group form-inline">
@@ -220,7 +211,7 @@
                                                                 <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what comment recipient(s) can view">
                                                                     Recipient(s)</div>
                                                             </td>
-                                                            <td><input class="visibilityCheckbox answerCheckbox" value="PERSON" checked="checked" type="checkbox">
+                                                            <td><input class="visibilityCheckbox answerCheckbox" value="PERSON" type="checkbox">
                                                             </td>
                                                             <td><input class="visibilityCheckbox giverCheckbox" value="PERSON" type="checkbox">
                                                             </td>
@@ -233,11 +224,11 @@
                                                                 <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of comment recipients can view">
                                                                     Recipient's Team</div>
                                                             </td>
-                                                            <td><input class="visibilityCheckbox answerCheckbox" value="TEAM" type="checkbox">
+                                                            <td><input class="visibilityCheckbox answerCheckbox" value="TEAM" checked="checked" type="checkbox">
                                                             </td>
-                                                            <td><input class="visibilityCheckbox giverCheckbox" value="TEAM" type="checkbox">
+                                                            <td><input class="visibilityCheckbox giverCheckbox" value="TEAM" checked="checked" type="checkbox">
                                                             </td>
-                                                            <td><input class="visibilityCheckbox recipientCheckbox" value="TEAM" type="checkbox">
+                                                            <td><input class="visibilityCheckbox recipientCheckbox" value="TEAM" checked="checked" type="checkbox">
                                                             </td>
                                                         </tr>
                                                         
@@ -283,7 +274,7 @@
                                                 </table>
                                             </div>
                                             <div class="form-group">
-                                                <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText1">Comment 2 from Instructor 1 to Student 1 in course 1</textarea>
+                                                <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText1">Benny, Thanks for helping Alice in her project work. Keep up the good work!</textarea>
                                             </div>
                                             <div class="col-sm-offset-5">
                                                 <input id="commentsave-1" title="Save comment" onclick="return submitCommentForm('1');" class="btn btn-primary" value="Save" type="submit">
@@ -292,22 +283,22 @@
                                         </div>
                                         <input name="commentedittype" id="commentedittype-1" value="edit" type="hidden">
                                         <input name="commentid" value="{*}" type="hidden">
-                                        <input name="courseid" value="idOfTypicalCourse1.access" type="hidden">
+                                        <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
                                         <input name="commentpage" value="true" type="hidden"> 
-                                        <input name="showcommentsto" value="PERSON" type="hidden">
-                                        <input name="showgiverto" value="" type="hidden">
-                                        <input name="showrecipientto" value="" type="hidden">
+                                        <input name="showcommentsto" value="TEAM" type="hidden">
+                                        <input name="showgiverto" value="TEAM" type="hidden">
+                                        <input name="showrecipientto" value="TEAM" type="hidden">
                                         <input name="user" value="{$test.instructor}" type="hidden">
                                         
                                     </form>
                                 </li>
                                 
-                                <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
+                                <li id="{*}" class="list-group-item list-group-item-warning status_display-private">
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-2">
                                         <div id="commentBar-2">
                                             
-                                            <span class="text-muted">To <b>student1 In Course1</b> (Team 1.1, <a href="mailto:student1InCourse1.access@gmail.com">student1InCourse1.access@gmail.com</a>) on
-                                                01 Apr 2012, 23:59</span>
+                                            <span class="text-muted">To <b>Alice Betsy</b> (Team 1, <a href="mailto:alice.b.tmms@gmail.com">alice.b.tmms@gmail.com</a>) on
+                                                01 Apr 2016, 23:59</span>
                                             
                                             <a type="button" id="commentdelete-2" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('2');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
                                                 <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
@@ -316,11 +307,9 @@
                                             </a>
                                             
                                             
-                                            <span data-original-title="This comment is visible to recipient" class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;" data-placement="top" title=""></span>
-                                            
                                             
                                         </div>
-                                        <div style="margin-left: 15px;" id="plainCommentText2">Comment 1 from Instructor 1 to Student 1 in course 1</div>
+                                        <div style="margin-left: 15px;" id="plainCommentText2">Alice wanted me to help her catch up with project work</div>
                                         
                                         <div id="commentTextEdit2" style="display: none;">
                                            <div class="form-group form-inline">
@@ -351,9 +340,9 @@
                                                                 <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what comment recipient(s) can view">
                                                                     Recipient(s)</div>
                                                             </td>
-                                                            <td><input class="visibilityCheckbox answerCheckbox" value="PERSON" checked="checked" type="checkbox">
+                                                            <td><input class="visibilityCheckbox answerCheckbox" value="PERSON" type="checkbox">
                                                             </td>
-                                                            <td><input class="visibilityCheckbox giverCheckbox" value="PERSON" checked="checked" type="checkbox">
+                                                            <td><input class="visibilityCheckbox giverCheckbox" value="PERSON" type="checkbox">
                                                             </td>
                                                             <td><input class="visibilityCheckbox recipientCheckbox" name="receiverFollowerCheckbox" value="PERSON" disabled="disabled" type="checkbox"></td>
                                                         </tr>
@@ -414,7 +403,7 @@
                                                 </table>
                                             </div>
                                             <div class="form-group">
-                                                <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText2">Comment 1 from Instructor 1 to Student 1 in course 1</textarea>
+                                                <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText2">Alice wanted me to help her catch up with project work</textarea>
                                             </div>
                                             <div class="col-sm-offset-5">
                                                 <input id="commentsave-2" title="Save comment" onclick="return submitCommentForm('2');" class="btn btn-primary" value="Save" type="submit">
@@ -423,10 +412,10 @@
                                         </div>
                                         <input name="commentedittype" id="commentedittype-2" value="edit" type="hidden">
                                         <input name="commentid" value="{*}" type="hidden">
-                                        <input name="courseid" value="idOfTypicalCourse1.access" type="hidden">
+                                        <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
                                         <input name="commentpage" value="true" type="hidden"> 
-                                        <input name="showcommentsto" value="PERSON" type="hidden">
-                                        <input name="showgiverto" value="PERSON" type="hidden">
+                                        <input name="showcommentsto" value="" type="hidden">
+                                        <input name="showgiverto" value="" type="hidden">
                                         <input name="showrecipientto" value="" type="hidden">
                                         <input name="user" value="{$test.instructor}" type="hidden">
                                         
@@ -441,440 +430,6 @@
                 </div>
                 
                 
-                <div id="panel_display-2">
-                <br>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <strong>Comments in session: First feedback session</strong>
-                    </div>
-                    <div class="panel-body">
-                        
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <b>Question 1</b>:
-                                What is the best selling point of your product?
-                                
-                            </div>
-                            <table class="table">
-                                <tbody>
-                                    
-                                    <tr>
-                                        <td><b>From:</b> student1 In Course1 (Team 1.1)
-                                            <b>To:</b> student1 In Course1 (Team 1.1)
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Response:
-                                        </strong>Student 1 self feedback.
-                                        </td>
-                                    </tr>
-                                    <tr class="active">
-                                        <td>Comment(s):
-                                            <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment-1-1-1" onclick="showResponseCommentAddForm(1,1,1)" data-toggle="tooltip" data-placement="top" title="">
-                                                <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            
-                                            <ul class="list-group comments" id="responseCommentTable-1-1-1" style="">
-                                                
-                                                <li id="{*}" class="list-group-item list-group-item-warning giver_display-by-you status_display-private">
-                                                    <div id="commentBar-1-1-1-1">
-                                                        <span class="text-muted">From:
-                                                            <b>you</b>
-                                                            [Tue Mar 01 23:59:00 UTC 2016]
-                                                        </span>
-                                                        
-                                                        
-                                                        
-                                                        <form class="responseCommentDeleteForm pull-right">
-                                                            <a data-original-title="Delete this comment" href="/page/instructorFeedbackResponseCommentDelete" type="button" id="commentdelete-1-1-1-1" class="btn btn-default btn-xs icon-button" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
-                                                                <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                                            </a>
-                                                            <input name="responseid" value="{*}" type="hidden">
-                                                            <input name="responsecommentid" value="{*}" type="hidden">
-                                                            <input name="courseid" value="idOfTypicalCourse1.access" type="hidden">
-                                                            <input name="fsname" value="First feedback session" type="hidden">
-                                                            <input name="user" value="{$test.instructor}" type="hidden">
-                                                        </form>
-                                                        <a data-original-title="Edit this comment" type="button" id="commentedit-1-1-1-1" class="btn btn-default btn-xs icon-button pull-right" onclick="showResponseCommentEditForm(1,1,1,1)" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
-                                                            <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-                                                        </a>
-                                                        
-                                                    </div> <!-- frComment Content -->
-                                                    <div style="margin-left: 15px;" id="plainCommentText-1-1-1-1">Instructor 1 comment to student 1 self feedback</div>
-                                                    <!-- frComment Edit Form -->
-                                                    <form style="display: none;" id="responseCommentEditForm-1-1-1-1" class="responseCommentEditForm">
-                                                        <div class="form-group">
-                                                            <div class="form-group form-inline">
-                                                                <div class="form-group text-muted">
-                                                                    You may change comment's visibility using the visibility options on the right hand side.
-                                                                </div>
-                                                                <a id="frComment-visibility-options-trigger-1-1-1-1" class="btn btn-sm btn-info pull-right" onclick="toggleVisibilityEditForm(1,1,1,1)">
-                                                                    <span class="glyphicon glyphicon-eye-close"></span>
-                                                                    Show Visibility Options
-                                                                </a>
-                                                            </div>
-                                                            <div id="visibility-options-1-1-1-1" class="panel panel-default" style="display: none;">
-                                                                <div class="panel-heading">Visibility Options</div>
-                                                                <table class="table text-center" style="color:#000;">
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <th class="text-center">User/Group</th>
-                                                                            <th class="text-center">Can see
-                                                                                your comment</th>
-                                                                            <th class="text-center">Can see
-                                                                                your name</th>
-                                                                        </tr>
-                                                                        <tr id="response-giver-1-1-1-1">
-                                                                            <td class="text-left">
-                                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what response giver can view">
-                                                                                    Response Giver</div>
-                                                                            </td>
-                                                                            <td><input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="GIVER" type="checkbox">
-                                                                            </td>
-                                                                            <td><input class="visibilityCheckbox giverCheckbox" value="GIVER" type="checkbox">
-                                                                            </td>
-                                                                        </tr>
-                                                                        
-                                                                        
-                                                                        
-                                                                        
-                                                                        
-                                                                        <tr id="response-instructors-1-1-1-1">
-                                                                            <td class="text-left">
-                                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
-                                                                                    Instructors</div>
-                                                                            </td>
-                                                                            <td><input class="visibilityCheckbox answerCheckbox" value="INSTRUCTORS" type="checkbox">
-                                                                            </td>
-                                                                            <td><input class="visibilityCheckbox giverCheckbox" value="INSTRUCTORS" type="checkbox">
-                                                                            </td>
-                                                                        </tr>
-                                                                        
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                            <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responsecommenttext-1-1-1-1">Instructor 1 comment to student 1 self feedback</textarea>
-                                                        </div>
-                                                        <div class="col-sm-offset-5">
-                                                            <a href="/page/instructorFeedbackResponseCommentEdit" class="btn btn-primary" id="button_save_comment_for_edit-1-1-1-1">
-                                                                Save </a> <input class="btn btn-default" value="Cancel" onclick="return hideResponseCommentEditForm(1,1,1,1);" type="button">
-                                                        </div>
-                                                        <input name="responseid" value="{*}" type="hidden">
-                                                        <input name="responsecommentid" value="{*}" type="hidden">
-                                                        <input name="courseid" value="idOfTypicalCourse1.access" type="hidden">
-                                                        <input name="fsname" value="First feedback session" type="hidden">
-                                                        <input name="user" value="{$test.instructor}" type="hidden">
-                                                        <input name="showresponsecommentsto" value="" type="hidden">
-                                                        <input name="showresponsegiverto" value="" type="hidden">
-                                                    </form>
-                                                </li>
-                                                
-                                                <!-- frComment Add form -->
-                                                <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-1-1" style="display: none;">
-                                                    <form class="responseCommentAddForm">
-                                                        <div class="form-group">
-                                                            <div class="form-group form-inline">
-                                                                <div class="form-group text-muted">
-                                                                    You may change comment's visibility using the visibility options on the right hand side.
-                                                                </div>
-                                                                <a id="frComment-visibility-options-trigger-1-1-1" class="btn btn-sm btn-info pull-right" onclick="toggleVisibilityEditForm(1,1,1)">
-                                                                    <span class="glyphicon glyphicon-eye-close"></span>
-                                                                    Show Visibility Options
-                                                                </a>
-                                                            </div>
-                                                            <div id="visibility-options-1-1-1" class="panel panel-default" style="display: none;">
-                                                                <div class="panel-heading">Visibility Options</div>
-                                                                <table class="table text-center" style="color:#000;">
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <th class="text-center">User/Group</th>
-                                                                            <th class="text-center">Can see
-                                                                                your comment</th>
-                                                                            <th class="text-center">Can see
-                                                                                your name</th>
-                                                                        </tr>
-                                                                        <tr id="response-giver-1-1-1">
-                                                                            <td class="text-left">
-                                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what response giver can view">
-                                                                                    Response Giver</div>
-                                                                            </td>
-                                                                            <td><input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="GIVER" checked="checked" type="checkbox">
-                                                                            </td>
-                                                                            <td><input class="visibilityCheckbox giverCheckbox" value="GIVER" checked="checked" type="checkbox">
-                                                                            </td>
-                                                                        </tr>
-                                                                        
-                                                                        
-                                                                        
-                                                                        
-                                                                        
-                                                                        <tr id="response-instructors-1-1-1">
-                                                                            <td class="text-left">
-                                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
-                                                                                    Instructors</div>
-                                                                            </td>
-                                                                            <td><input class="visibilityCheckbox answerCheckbox" value="INSTRUCTORS" checked="checked" type="checkbox">
-                                                                            </td>
-                                                                            <td><input class="visibilityCheckbox giverCheckbox" value="INSTRUCTORS" checked="checked" type="checkbox">
-                                                                            </td>
-                                                                        </tr>
-                                                                        
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                            <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responseCommentAddForm-1-1-1"></textarea>
-                                                        </div>
-                                                        <div class="col-sm-offset-5">
-                                                            <a href="/page/instructorFeedbackResponseCommentAdd" class="btn btn-primary" id="button_save_comment_for_add-1-1-1">Save</a>
-                                                            <input class="btn btn-default" value="Cancel" onclick="hideResponseCommentAddForm(1,1,1)" type="button">
-                                                            <input name="courseid" value="idOfTypicalCourse1.access" type="hidden">
-                                                            <input name="fsname" value="First feedback session" type="hidden">
-                                                            <input name="questionid" value="{*}" type="hidden">
-                                                            <input name="responseid" value="{*}" type="hidden">
-                                                            <input name="user" value="{$test.instructor}" type="hidden">
-                                                            <input name="showresponsecommentsto" value="GIVER,INSTRUCTORS" type="hidden">
-                                                            <input name="showresponsegiverto" value="GIVER,INSTRUCTORS" type="hidden">
-                                                        </div>
-                                                    </form>
-                                                </li>
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <b>Question 2</b>:
-                                Rate 1 other student's product
-                                
-                            </div>
-                            <table class="table">
-                                <tbody>
-                                    
-                                    <tr>
-                                        <td><b>From:</b> student2 In Course1 (Team 1.1)
-                                            <b>To:</b> student1 In Course1 (Team 1.1)
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Response:
-                                        </strong>Response from student 2 to student 1.
-                                        </td>
-                                    </tr>
-                                    <tr class="active">
-                                        <td>Comment(s):
-                                            <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment-1-2-1" onclick="showResponseCommentAddForm(1,2,1)" data-toggle="tooltip" data-placement="top" title="">
-                                                <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            
-                                            <ul class="list-group comments" id="responseCommentTable-1-2-1" style="">
-                                                
-                                                <li id="{*}" class="list-group-item list-group-item-warning giver_display-by-you status_display-private">
-                                                    <div id="commentBar-1-2-1-1">
-                                                        <span class="text-muted">From:
-                                                            <b>you</b>
-                                                            [Mon Feb 01 23:59:00 UTC 2016]
-                                                        </span>
-                                                        
-                                                        
-                                                        
-                                                        <form class="responseCommentDeleteForm pull-right">
-                                                            <a data-original-title="Delete this comment" href="/page/instructorFeedbackResponseCommentDelete" type="button" id="commentdelete-1-2-1-1" class="btn btn-default btn-xs icon-button" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
-                                                                <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                                            </a>
-                                                            <input name="responseid" value="{*}" type="hidden">
-                                                            <input name="responsecommentid" value="{*}" type="hidden">
-                                                            <input name="courseid" value="idOfTypicalCourse1.access" type="hidden">
-                                                            <input name="fsname" value="First feedback session" type="hidden">
-                                                            <input name="user" value="{$test.instructor}" type="hidden">
-                                                        </form>
-                                                        <a data-original-title="Edit this comment" type="button" id="commentedit-1-2-1-1" class="btn btn-default btn-xs icon-button pull-right" onclick="showResponseCommentEditForm(1,2,1,1)" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
-                                                            <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-                                                        </a>
-                                                        
-                                                    </div> <!-- frComment Content -->
-                                                    <div style="margin-left: 15px;" id="plainCommentText-1-2-1-1">Instructor 1 comment to student 1 self feedback Question 2</div>
-                                                    <!-- frComment Edit Form -->
-                                                    <form style="display: none;" id="responseCommentEditForm-1-2-1-1" class="responseCommentEditForm">
-                                                        <div class="form-group">
-                                                            <div class="form-group form-inline">
-                                                                <div class="form-group text-muted">
-                                                                    You may change comment's visibility using the visibility options on the right hand side.
-                                                                </div>
-                                                                <a id="frComment-visibility-options-trigger-1-2-1-1" class="btn btn-sm btn-info pull-right" onclick="toggleVisibilityEditForm(1,2,1,1)">
-                                                                    <span class="glyphicon glyphicon-eye-close"></span>
-                                                                    Show Visibility Options
-                                                                </a>
-                                                            </div>
-                                                            <div id="visibility-options-1-2-1-1" class="panel panel-default" style="display: none;">
-                                                                <div class="panel-heading">Visibility Options</div>
-                                                                <table class="table text-center" style="color:#000;">
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <th class="text-center">User/Group</th>
-                                                                            <th class="text-center">Can see
-                                                                                your comment</th>
-                                                                            <th class="text-center">Can see
-                                                                                your name</th>
-                                                                        </tr>
-                                                                        <tr id="response-giver-1-2-1-1">
-                                                                            <td class="text-left">
-                                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what response giver can view">
-                                                                                    Response Giver</div>
-                                                                            </td>
-                                                                            <td><input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="GIVER" type="checkbox">
-                                                                            </td>
-                                                                            <td><input class="visibilityCheckbox giverCheckbox" value="GIVER" type="checkbox">
-                                                                            </td>
-                                                                        </tr>
-                                                                        
-                                                                        <tr id="response-recipient-1-2-1-1">
-                                                                            <td class="text-left">
-                                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what response recipient(s) can view">
-                                                                                    Response Recipient(s)</div>
-                                                                            </td>
-                                                                            <td><input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="RECEIVER" type="checkbox">
-                                                                            </td>
-                                                                            <td><input class="visibilityCheckbox giverCheckbox" value="RECEIVER" type="checkbox">
-                                                                            </td>
-                                                                        </tr>
-                                                                        
-                                                                        
-                                                                        
-                                                                        
-                                                                        
-                                                                        <tr id="response-instructors-1-2-1-1">
-                                                                            <td class="text-left">
-                                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
-                                                                                    Instructors</div>
-                                                                            </td>
-                                                                            <td><input class="visibilityCheckbox answerCheckbox" value="INSTRUCTORS" type="checkbox">
-                                                                            </td>
-                                                                            <td><input class="visibilityCheckbox giverCheckbox" value="INSTRUCTORS" type="checkbox">
-                                                                            </td>
-                                                                        </tr>
-                                                                        
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                            <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responsecommenttext-1-2-1-1">Instructor 1 comment to student 1 self feedback Question 2</textarea>
-                                                        </div>
-                                                        <div class="col-sm-offset-5">
-                                                            <a href="/page/instructorFeedbackResponseCommentEdit" class="btn btn-primary" id="button_save_comment_for_edit-1-2-1-1">
-                                                                Save </a> <input class="btn btn-default" value="Cancel" onclick="return hideResponseCommentEditForm(1,2,1,1);" type="button">
-                                                        </div>
-                                                        <input name="responseid" value="{*}" type="hidden">
-                                                        <input name="responsecommentid" value="{*}" type="hidden">
-                                                        <input name="courseid" value="idOfTypicalCourse1.access" type="hidden">
-                                                        <input name="fsname" value="First feedback session" type="hidden">
-                                                        <input name="user" value="{$test.instructor}" type="hidden">
-                                                        <input name="showresponsecommentsto" value="" type="hidden">
-                                                        <input name="showresponsegiverto" value="" type="hidden">
-                                                    </form>
-                                                </li>
-                                                
-                                                <!-- frComment Add form -->
-                                                <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-2-1" style="display: none;">
-                                                    <form class="responseCommentAddForm">
-                                                        <div class="form-group">
-                                                            <div class="form-group form-inline">
-                                                                <div class="form-group text-muted">
-                                                                    You may change comment's visibility using the visibility options on the right hand side.
-                                                                </div>
-                                                                <a id="frComment-visibility-options-trigger-1-2-1" class="btn btn-sm btn-info pull-right" onclick="toggleVisibilityEditForm(1,2,1)">
-                                                                    <span class="glyphicon glyphicon-eye-close"></span>
-                                                                    Show Visibility Options
-                                                                </a>
-                                                            </div>
-                                                            <div id="visibility-options-1-2-1" class="panel panel-default" style="display: none;">
-                                                                <div class="panel-heading">Visibility Options</div>
-                                                                <table class="table text-center" style="color:#000;">
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <th class="text-center">User/Group</th>
-                                                                            <th class="text-center">Can see
-                                                                                your comment</th>
-                                                                            <th class="text-center">Can see
-                                                                                your name</th>
-                                                                        </tr>
-                                                                        <tr id="response-giver-1-2-1">
-                                                                            <td class="text-left">
-                                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what response giver can view">
-                                                                                    Response Giver</div>
-                                                                            </td>
-                                                                            <td><input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="GIVER" checked="checked" type="checkbox">
-                                                                            </td>
-                                                                            <td><input class="visibilityCheckbox giverCheckbox" value="GIVER" checked="checked" type="checkbox">
-                                                                            </td>
-                                                                        </tr>
-                                                                        
-                                                                        <tr id="response-recipient-1-2-1">
-                                                                            <td class="text-left">
-                                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what response recipient(s) can view">
-                                                                                    Response Recipient(s)</div>
-                                                                            </td>
-                                                                            <td><input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="RECEIVER" checked="checked" type="checkbox">
-                                                                            </td>
-                                                                            <td><input class="visibilityCheckbox giverCheckbox" value="RECEIVER" checked="checked" type="checkbox">
-                                                                            </td>
-                                                                        </tr>
-                                                                        
-                                                                        
-                                                                        
-                                                                        
-                                                                        
-                                                                        <tr id="response-instructors-1-2-1">
-                                                                            <td class="text-left">
-                                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
-                                                                                    Instructors</div>
-                                                                            </td>
-                                                                            <td><input class="visibilityCheckbox answerCheckbox" value="INSTRUCTORS" checked="checked" type="checkbox">
-                                                                            </td>
-                                                                            <td><input class="visibilityCheckbox giverCheckbox" value="INSTRUCTORS" checked="checked" type="checkbox">
-                                                                            </td>
-                                                                        </tr>
-                                                                        
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                            <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responseCommentAddForm-1-2-1"></textarea>
-                                                        </div>
-                                                        <div class="col-sm-offset-5">
-                                                            <a href="/page/instructorFeedbackResponseCommentAdd" class="btn btn-primary" id="button_save_comment_for_add-1-2-1">Save</a>
-                                                            <input class="btn btn-default" value="Cancel" onclick="hideResponseCommentAddForm(1,2,1)" type="button">
-                                                            <input name="courseid" value="idOfTypicalCourse1.access" type="hidden">
-                                                            <input name="fsname" value="First feedback session" type="hidden">
-                                                            <input name="questionid" value="{*}" type="hidden">
-                                                            <input name="responseid" value="{*}" type="hidden">
-                                                            <input name="user" value="{$test.instructor}" type="hidden">
-                                                            <input name="showresponsecommentsto" value="GIVER,INSTRUCTORS, RECEIVER" type="hidden">
-                                                            <input name="showresponsegiverto" value="GIVER,INSTRUCTORS, RECEIVER" type="hidden">
-                                                        </div>
-                                                    </form>
-                                                </li>
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                    </div>
-                </div>
-                </div>
-                
             </div>
             <ul class="pagination">
                 <li><a href="javascript:;">«</a></li>
@@ -882,14 +437,10 @@
                     href="/page/instructorCommentsPage?user={$test.instructor}">Drafts</a></li>-->
                 
                 <li class="active">
-                    <a href="/page/instructorCommentsPage?user={$test.instructor}&amp;courseid=idOfTypicalCourse1.access">idOfTypicalCourse1.access</a>
-                </li>
-                
-                <li class="">
                     <a href="/page/instructorCommentsPage?user={$test.instructor}&amp;courseid=AHPUiT.instr1.gma-demo">AHPUiT.instr1.gma-demo</a>
                 </li>
                 
-                <li><a href="/page/instructorCommentsPage?user={$test.instructor}&amp;courseid=AHPUiT.instr1.gma-demo">»</a></li>
+                <li><a href="javascript:;">»</a></li>
             </ul>
             
         </div>
