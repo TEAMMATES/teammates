@@ -65,14 +65,18 @@ public class StudentProfilePictureEditAction extends Action {
             
             String newPictureKey = BlobstoreServiceFactory.getBlobstoreService()
                     .createGsBlobKey("/gs/"+Config.GCS_BUCKETNAME + "/" + account.googleId).getKeyString();
-            logic.updateStudentProfilePicture(account.googleId, newPictureKey);
             
             if (!isError) {
+                // this branch cannot be covered as the makeImageFromBlob()
+                // function in transformImage() cannot be tested without the
+                // the server up.
                 GcsOutputChannel outputChannel =
                         gcsService.createOrReplace(fileName, new GcsFileOptions.Builder().mimeType("image/png").build());
                 
                 outputChannel.write(ByteBuffer.wrap(transformedImage));
                 outputChannel.close();
+                
+                logic.updateStudentProfilePicture(account.googleId, newPictureKey);
             }
         } catch (IOException e) {
             // this branch is difficult to reproduce during testing 
@@ -102,6 +106,9 @@ public class StudentProfilePictureEditAction extends Action {
         Image oldImage;
         
         try {
+            // This branch is covered in UiTests as the following method 
+            // does not behave the same in dev as in staging
+            // TODO: find a way to cover it in Action Tests
             oldImage = ImagesServiceFactory.makeImageFromBlob(blobKey);
             
             Transform crop = ImagesServiceFactory.makeCrop(leftX, topY, rightX, bottomY);

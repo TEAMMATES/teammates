@@ -10,6 +10,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.google.appengine.api.blobstore.BlobKey;
+
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -21,6 +23,7 @@ import teammates.common.exception.JoinCourseException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.core.AccountsLogic;
@@ -90,14 +93,48 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         expectedSpa.modifiedDate = actualSpa.modifiedDate;        
         assertEquals(expectedSpa.toString(), actualSpa.toString());
         
-        ______TS("delete picture");
-        
+        // remove the account that was created
         accountsLogic.deleteAccountCascade("id");
     }
     
     @Test
-    public void testDeleteProfilePicture() {
-        // not tested here (will be tested in UiTests
+    public void testUpdateAndDeleteProfilePicture() throws Exception {
+        StudentProfileAttributes expectedSpa = new StudentProfileAttributes("id", "shortName", "personal@email.com", 
+                "institute", "countryName", "female", "moreInfo", "");
+        AccountAttributes accountWithStudentProfile = new AccountAttributes("id", "name",
+                true, "test@email.com", "dev", expectedSpa);
+        
+        accountsLogic.createAccount(accountWithStudentProfile);
+        
+        ______TS("update picture");
+        
+        expectedSpa.pictureKey = GoogleCloudStorageHelper
+                .writeFileToGcs(expectedSpa.googleId, "src/test/resources/images/profile_pic.png", "");
+        accountsLogic.updateStudentProfilePicture(expectedSpa.googleId, expectedSpa.pictureKey);
+        StudentProfileAttributes actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
+        expectedSpa.modifiedDate = actualSpa.modifiedDate;
+        assertEquals(expectedSpa.toString(), actualSpa.toString());
+        
+        ______TS("delete profile picture");
+        
+        accountsLogic.deleteStudentProfilePicture(expectedSpa.googleId);
+        assertFalse(GoogleCloudStorageHelper.doesFileExistInGcs(new BlobKey(expectedSpa.pictureKey)));
+        
+        actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
+        expectedSpa.modifiedDate = actualSpa.modifiedDate;
+        expectedSpa.pictureKey = "";
+        assertEquals(expectedSpa.toString(), actualSpa.toString());
+        
+        // remove the account that was created
+        accountsLogic.deleteAccountCascade("id");
+    }
+    
+    @Test
+    public void testDeletePicture() throws Exception {
+        String keyString = GoogleCloudStorageHelper.writeFileToGcs("accountsLogicTestid", "src/test/resources/images/profile_pic.png", "");
+        BlobKey key = new BlobKey(keyString);
+        accountsLogic.deletePicture(key);
+        assertFalse(GoogleCloudStorageHelper.doesFileExistInGcs(key));
     }
 
     @Test

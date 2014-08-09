@@ -107,8 +107,10 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             case "TEAMEVALUATION":
                 List<FeedbackQuestionAttributes> questions =
                         FeedbackSessionTemplates.getFeedbackSessionTemplateQuestions(FeedbackSessionTemplates.FEEDBACK_SESSION_TEAMEVALUATION, courseId, feedbackSessionName, creatorEmail);
+                int questionNumber = 1;
                 for(FeedbackQuestionAttributes fqa : questions){
-                    logic.createFeedbackQuestion(fqa);
+                    logic.createFeedbackQuestionForTemplate(fqa, questionNumber);
+                    questionNumber++;
                 }
                 break;
             default:

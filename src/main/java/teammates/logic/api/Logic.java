@@ -1860,6 +1860,22 @@ public class Logic {
     }
     
     /**
+     * Used for creating initial questions for template sessions only.
+     * Does not check if feedback session exists.
+     * Does not check if question number supplied is valid(does not check for clashes, or make adjustments)
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * * questionNumber is > 0
+     */
+    public void createFeedbackQuestionForTemplate(
+            FeedbackQuestionAttributes feedbackQuestion, int questionNumber) throws InvalidParametersException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestion);
+        Assumption.assertTrue(questionNumber > 0);
+        feedbackQuestionsLogic.createFeedbackQuestionNoIntegrityCheck(feedbackQuestion, questionNumber);
+    }
+    
+    /**
      * Preconditions: <br>
      * * All parameters are non-null.
      */
@@ -2587,4 +2603,5 @@ public class Logic {
     @SuppressWarnings("unused")
     private void ____helper_methods________________________________________() {
     }
+
 }
