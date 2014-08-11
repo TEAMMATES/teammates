@@ -3,7 +3,7 @@
 ##Roles
 * `Dev` - Issue owner who fixes the issue. Can be a Committer or a Contributor.
 * `Reviewer` - Assigned per issue. Usually, a core team member.
-* `Team lead` - Responsible for keeping all tests green, merging pull requests.
+* `Area lead` - Responsible for keeping all tests green, merging pull requests.
 * `PM` (Project Manager) - General project coordination and deploying to the live server
 
 ##Workflow
@@ -39,6 +39,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    ```
    git pull upstream
    ```
+4. Change the issue status to `status.Ongoing`
 
 5. Start a new branch named `Issue{IssueNumber}`. 
    If you are already working in a branch, remember to switch to the `master` 
@@ -86,29 +87,77 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    * Push your branch to the committer repo (push to the fork if you do not 
      have push permission to the committer repo), if you haven't done that already.
    
-   * Create a pull request. For the pull request name, copy paste the relevant
+   * Create a pull request (PR). For the pull request name, copy paste the relevant
      issue name.<br>
      e.g. ` Incorrect error message when adding an existing instructor #1760`<br>
      In the comment, mention the issue number. Doing so will create an 
      automatic reference from the issue to the pull request.<br>
      e.g. ` For #1760`  
+     
+   * Change the PR status to `status.PendingReview`
+   * Wait for the reviewer to change the PR status. If you did not get a review
+     within 2-3 days, it is OK to request for a review by posting a comment in 
+     the PR.  
    
    
 
 ###Reviewing a fix
 Role: reviewer
 
-TBD
+  * This is a code quality review. No need to run tests.
+  * Ensure the following:
+    * The solution uses the best alternative solution to the problem.
+    * Tests have been updated to reflect changes to the functional code. Almost 
+    all code changes should have changes to both functional code and test code.
+    * User documentation has been updated, if required. e.g. help pages.
+    * Developer documentation has been updated, if required. e.g. `devman.html`
+    * The changeset does not contain changes unrelated to the issue. 
+    e.g. unnecessary formatting changes.
+    * The code is synced with upstream. GitHub should show it as 'can merge'
+  * If any of the above are not OK, 
+    * Add comments to suggest changes.
+    * Change pull request status to `status.Ongoing`
+    * Optionally, add a comment to inform the author to refine the code.
+  * If the code is OK on all aspects,
+    * Change issue status to `status.ReadyToMerge`
 
 ###Applying a fix
-Role: team lead
+Role: committer
 
-TBD
-
+  * Do not merge online. Always merge locally and push to the repo. If you 
+  merge online, the commit message will not be in the format we want.
+  * Format of the commit message: `[Issue number] Issue title as given in the original issue`<br>
+    e.g. `[2287] Add more tests for newly joined Instructor accessing sample course`
+  * Fetch code from upstream: <br>
+    `git fetch origin`<br>
+  * Checkout the branch and update with latest master<br>
+    `git checkout -b Issue1234 origin/Issue1234`<br>
+    `git merge master` <br>
+  * Test the code. 
+  * If green, 
+    * Merge to master and push.<br>
+      `git checkout master` <br>
+      `git merge --no-ff Issue1234` <br>
+      `git push origin master` <br>
+    * Remove any status labels from the pull request.
+    * Remove any status labels from the corresponding issue and close it.
+  * If not green,
+    * Delete the merge commit, if any.
+    * Change the pull request status to `status.ongoing`
+    * Add a comment to mention the test failure.
+  
+    
 ###Deploying fixes
 Role: PM
 
-TBD
+  * Pull the latest master.
+  * Get dev green.
+  * Deploy.
+  * Get live green.
+  * Make the version default.
+  * Tag the version. Format `V{major}.{minor}.{build}` e.g. `V5.01.02`.
+  * Push to master.
+  * Update milestone.
    
 
 ### Issue Lifecycle
@@ -120,18 +169,18 @@ Colors indicate which roles are involved in which states/transitions.
 ####Issue Labels
 
 **Status**
+
 * Open issues
     * No status: New issue. 
     * `s.Accepted`: Accepted as a valid issue.
-    * `s.Fixing` : The issue is being worked on.
+    * `s.Ongoing` : The issue is being worked on.
+* Open PR  
     * `s.PendingReview`: Waiting for the review
+    * `s.Ongoing` : The PR is being worked on.
     * `s.ReadyToMerge`: Reviewer accepted the changes. Ready to be merged.
-    * `s.Merging`: Someone is trying to merge 
-      (use this label if there's a risk of multiple persons trying to merge at the same time) 
-* Closed issues
-    * `s.WontFix`: The issue is valid, but we have decided not to fix it.
-    * `s.Duplicate`, `s.Invalid`: Self explanatory.
-  
+* Closed issue/PR
+    * No status label
+
 **Urgency**
 
 * `p.Urgent`(short for `Priority-Urgent`): Would like to handle in the very next release.
@@ -142,10 +191,10 @@ Colors indicate which roles are involved in which states/transitions.
 
 **Difficulty**
 
-* `d.Low`: Minor change. No need to modify tests.
-* `d.Medium`: Small, mostly-localized change. Usually requires changes to tests.
-* `d.High`: Requires multiple, possibly non-localized changes. Requires changes to tests and possibly new tests.
-* `d.VeryHigh`: Requires wide ranging tests, new tests and possibly, changes to the data schema.
+* `d.Easy`: Minor change. No need to modify tests.
+* `d.Moderate`: Small, mostly-localized change. Usually requires changes to tests.
+* `d.Difficult`: Requires multiple, possibly non-localized changes. Requires changes to tests and possibly new tests.
+* `d.VeryDifficult`: Requires wide ranging tests, new tests and possibly, changes to the data schema.
 
 **Aspect**
 
@@ -155,11 +204,16 @@ Colors indicate which roles are involved in which states/transitions.
 **Type**
 
 * `t.Bug`
-* `t.Enhancement`
 * `t.Task`: Other work items such as updating documentation.
-* `t.Question`: A question asked by someone. 
+* `t.Enhancement`: An enhancement to an existing functionality (not big enough 
+   consider as a stroy).
+* `t.Story`: A user story.
+* `t.Epic`: A feature that is worth many user stories.
 
-**Under the feature of ..**
+**Other**
 
-* `u.easierEnroll`, `u.MCQ` etc.: Used for grouping issues under a bigger feature.
+* `forFirstTimers` : To do as the first issue for new developers. One developer
+  should not do more than one of these.
+* `forContributors` : More suitable for contributors.
+
 
