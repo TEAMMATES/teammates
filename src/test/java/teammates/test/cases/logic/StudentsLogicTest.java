@@ -30,6 +30,7 @@ import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -668,14 +669,14 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         fsLogic.createFeedbackSession(fsAttr);
         
         
-        ______TS("all valid students, but contains blank lines");
+        ______TS("all valid students, but contains blank lines and trailing spaces");
         
         String headerLine = "team | name | email | comment";
-        String line0 = "t1|n1|e1@g|c1";
+        String line0 = "t1   |  n1   |   e1@g  |   c1";
         String line1 = " t2|  n2|  e2@g|  c2";
-        String line2 = "t3|n3|e3@g|c3  ";
+        String line2 = "t3  |n3|  e3@g|c3  ";
         String line3 = "t4|n4|  e4@g|c4";
-        String line4 = "t5|n5|e5@g  |c5";
+        String line4 = "t5|  n5|e5@g  |c5";
         String lines = headerLine + EOL + line0 + EOL + line1 + EOL + line2 + EOL
                     + "  \t \t \t \t           " + EOL + line3 + EOL + EOL + line4
                     + EOL + "    " + EOL + EOL;
@@ -684,6 +685,8 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         StudentAttributesFactory saf = new StudentAttributesFactory(headerLine);
         assertEquals(5, enrollResults.size());
         assertEquals(5, studentsLogic.getStudentsForCourse(courseIdForEnrollTest).size());
+        // Test enroll result
+        line0 = "t1|n1|e1@g|c1";
         TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line0, courseIdForEnrollTest), 
                 enrollResults.get(0), StudentAttributes.UpdateStatus.NEW);
         TestHelper.verifyEnrollmentResultForStudent(saf.makeStudent(line1, courseIdForEnrollTest),
