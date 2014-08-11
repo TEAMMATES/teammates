@@ -1,0 +1,14 @@
+{
+  "nonInheritedLabels": [
+    "status.",
+    "t."
+  ],
+  "openStatusLabels": [
+    "status.Accepted",
+    "status.Ongoing",
+    "status.PendingReview",
+    "status.ReadyToMerge",
+  ],
+  "closedStatusLabels": [
+  ]
+}
