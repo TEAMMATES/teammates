@@ -496,7 +496,7 @@ function isNameValid(name) {
     if (name == "") {
         return false;
     }
-    if (name.match(/[^\/\\,.'\-\(\)0-9#[^\p{L}\s-]#u \t]/i)) {
+    if (name.match(/[^\/\\,.'\-\(\)0-9a-zA-Z \t]/)) {
         // Returns true if a character NOT belonging to the following set
         // appears in the name: slash(/), backslash(\), fullstop(.), comma(,),
         // apostrophe('), hyphen(-), round brackets(()), alpha numeric
