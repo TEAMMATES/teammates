@@ -160,7 +160,7 @@ Role: PM
   * Update milestone.
    
 
-### Issue Lifecycle
+### Issue/PR Lifecycle
 <img src='../src/main/webapp/dev/images/IssueLifecycle.png' width='600'>
 
 Given above is an illustration of the issue lifecycle. 
@@ -172,12 +172,12 @@ Colors indicate which roles are involved in which states/transitions.
 
 * Open issues
     * No status: New issue. 
-    * `s.Accepted`: Accepted as a valid issue.
-    * `s.Ongoing` : The issue is being worked on.
+    * `status.Accepted`: Accepted as a valid issue.
+    * `status.Ongoing` : The issue is being worked on.
 * Open PR  
-    * `s.PendingReview`: Waiting for the review
-    * `s.Ongoing` : The PR is being worked on.
-    * `s.ReadyToMerge`: Reviewer accepted the changes. Ready to be merged.
+    * `status.PendingReview`: Waiting for the review
+    * `status.Ongoing` : The PR is being worked on.
+    * `status.ReadyToMerge`: Reviewer accepted the changes. Ready to be merged.
 * Closed issue/PR
     * No status label
 
