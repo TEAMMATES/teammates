@@ -171,6 +171,8 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         
         viewPage.clickShowPhoto(student2.course, student2.name);
 
+        // in this page, the 'top' and 'left' attributes of div with class 'popover' 
+        // must be set to {*}
         viewPage.verifyHtmlMainContent("/instructorStudentListPageWithPicture.html");
     }
     
