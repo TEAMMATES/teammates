@@ -11,6 +11,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
     private static final String ALL_SECTION_OPTION = "All";
     private static final int DEFAULT_QUERY_RANGE = 1000;
+    private static final int DEFAULT_SECTION_QUERY_RANGE = 2500;
     private static final int QUERY_RANGE_FOR_AJAX_TESTING = 5;
     
     @Override
@@ -81,15 +82,15 @@ public class InstructorFeedbackResultsPageAction extends Action {
         } else if (data.sortType.equals("giver-question-recipient")
                 || data.sortType.equals("giver-recipient-question")) {
             data.bundle = logic
-                    .getFeedbackSessionResultsForInstructorFromSection(
+                    .getFeedbackSessionResultsForInstructorFromSectionWithinRange(
                             feedbackSessionName, courseId,
-                            data.instructor.email, data.selectedSection);
+                            data.instructor.email, data.selectedSection, DEFAULT_SECTION_QUERY_RANGE);
         } else if (data.sortType.equals("recipient-question-giver")
                 || data.sortType.equals("recipient-giver-question")) {
             data.bundle = logic
-                    .getFeedbackSessionResultsForInstructorToSection(
+                    .getFeedbackSessionResultsForInstructorToSectionWithinRange(
                             feedbackSessionName, courseId,
-                            data.instructor.email, data.selectedSection);
+                            data.instructor.email, data.selectedSection, DEFAULT_SECTION_QUERY_RANGE);
         }
 
         if (data.bundle == null) {

@@ -12,8 +12,8 @@
 <%@ page import="teammates.common.util.Sanitizer"%>
 
 <%
-	AdminSearchPageData data = (AdminSearchPageData) request
-			.getAttribute("data");
+    AdminSearchPageData data = (AdminSearchPageData) request
+            .getAttribute("data");
 %>
 
 <html>
@@ -96,9 +96,9 @@
                     </form>
                 </div>
                 <%
-                	List<StudentAttributes> studentResultList = data.studentResultBundle.studentList;
+                    List<StudentAttributes> studentResultList = data.studentResultBundle.studentList;
 
-                	if (!studentResultList.isEmpty()) {
+                    if (!studentResultList.isEmpty()) {
                 %>
 
                 <div class="panel panel-primary">
@@ -121,7 +121,7 @@
 
                             <thead>
                                 <tr>
-                                    <th>Course [Section]</th>
+                                    <th>Institute [Course] (Section)</th>
                                     <th>Team</th>
                                     <th>Name</th>
                                     <th>Google ID[Email]</th>
@@ -134,21 +134,21 @@
                             <tbody>
 
                                 <%
-                                	for (StudentAttributes student : studentResultList) {
+                                    for (StudentAttributes student : studentResultList) {
 
-                                			String id = Sanitizer.sanitizeForSearch(student
-                                					.getIdentificationString());
-                                			id = id.replace(" ", "").replace("@", "");
+                                            String id = Sanitizer.sanitizeForSearch(student
+                                                    .getIdentificationString());
+                                            id = id.replace(" ", "").replace("@", "");
                                 %>
 
                                 <tr id="<%=id%>" class="studentRow">
-                                    <td><%=student.course%>&nbsp;[<%=student.section%>]
+                                    <td><%=data.studentInstituteMap.get(student.getIdentificationString())%>&nbsp;[<%=student.course%>]&nbsp;(<%=student.section%>)
                                     </td>
                                     <td><%=student.team%></td>
                                     <td><%=student.name%></td>
                                     <td><a
                                         href="<%=data.studentIdToHomePageLinkMap
-                                        		     .get(student.googleId)%>"
+                                                     .get(student.googleId)%>"
                                         target="blank"
                                         class="homePageLink"><%=student.googleId%></a></td>
                                     <td><%=student.comments%></td>
@@ -160,6 +160,20 @@
                                     style="display: none;">
                                     <td colspan="5">
                                         <ul class="list-group">
+                                            
+                                            <%if(student.email != null && !student.email.trim().isEmpty()){                                                                                  
+                                            %>                                            
+                                             <li
+                                                class="list-group-item list-group-item-success has-success">
+                                                <strong>Email</strong> <input
+                                                value="<%=student.email%>"
+                                                readonly="readonly"
+                                                class="form-control" />
+                                            </li>                                            
+                                            <%                                           
+                                            }
+                                            %>
+                                        
                                             <li
                                                 class="list-group-item list-group-item-info">
                                                 <strong>Course
@@ -170,17 +184,16 @@
                                             </li>
 
                                             <%
-                                            	if (data.studentfeedbackSessionLinksMap.get(student
-                                            					.getIdentificationString()) == null) {
-                                            				continue;
-                                            			}
+                                                if (data.studentOpenFeedbackSessionLinksMap.get(student
+                                                                .getIdentificationString()) != null) {
+                                                       
                                             %>
 
 
 
                                             <%
-                                            	for (String link : data.studentfeedbackSessionLinksMap
-                                            					.get(student.getIdentificationString())) {
+                                                for (String link : data.studentOpenFeedbackSessionLinksMap
+                                                                .get(student.getIdentificationString())) {
                                             %>
 
 
@@ -196,16 +209,49 @@
 
 
                                             <%
-                                            	}
+                                                 }
+                                              }
                                             %>
+                                            
+                                            
+                                             <%
+                                                if (data.studentUnOpenedFeedbackSessionLinksMap.get(student
+                                                                .getIdentificationString()) != null) {
+                                                       
+                                            %>
+
+
+
+                                            <%
+                                                for (String link : data.studentUnOpenedFeedbackSessionLinksMap
+                                                                .get(student.getIdentificationString())) {
+                                            %>
+
+
+
+                                            <li
+                                                class="list-group-item list-group-item-danger">
+                                                <strong> <%=data.feedbackSeesionLinkToNameMap.get(link)%>
+                                            </strong> <input value=<%=link%>
+                                                readonly="readonly"
+                                                class="form-control"/ >
+                                            </li>
+
+
+
+                                            <%
+                                                 }
+                                              }
+                                            %>
+                                            
                                         </ul>
                                     </td>
 
                                 </tr>
                                 <%
-                                	}
+                                    }
 
-                                	}
+                                    }
                                 %>
                             </tbody>
                         </table>
