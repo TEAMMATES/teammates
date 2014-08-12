@@ -107,8 +107,7 @@
                     <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
                     <br>
                     <div class="align-center">
-                        <input type="submit" class="btn btn-primary" id="button_submit" name="submit" value="Save Changes"
-                            onclick="return isStudentInputValid(this.form.<%=Const.ParamsNames.STUDENT_NAME%>.value,this.form.<%=Const.ParamsNames.TEAM_NAME%>.value,this.form.<%=Const.ParamsNames.NEW_STUDENT_EMAIL%>.value)">
+                        <input type="submit" class="btn btn-primary" id="button_submit" name="submit" value="Save Changes">
                     </div>
                     <br>
                     <br>
