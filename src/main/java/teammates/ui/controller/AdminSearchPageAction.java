@@ -116,18 +116,33 @@ public class AdminSearchPageAction extends Action {
                                                         Const.ParamsNames.COURSE_ID, 
                                                         student.course);
             curLink = Url.addParamToUrl(curLink, Const.ParamsNames.STUDENT_EMAIL, student.email);
-            InstructorAttributes instructor = logic.getInstructorsForCourse(student.course).get(0);
-            if(instructor.googleId == null){
-                continue;
+            String availableGoogleId = findAvailableInstructorGoogleIdForCourse(student.course);
+            
+            if (availableGoogleId != null && !availableGoogleId.isEmpty()) {
+                
+                curLink = Url.addParamToUrl(curLink, Const.ParamsNames.USER_ID, availableGoogleId);
+                data.studentDetailsPageLinkMap.put(student.getIdentificationString(), curLink);
             }
-            curLink = Url.addParamToUrl(curLink, Const.ParamsNames.USER_ID, instructor.googleId);
-            data.studentDetailsPageLinkMap.put(student.getIdentificationString(), curLink);
         }
         
         return data;
     }
     
     
+    private String findAvailableInstructorGoogleIdForCourse(String CourseId){
+        
+        String googleId = "";
+        
+        for(InstructorAttributes instructor : logic.getInstructorsForCourse(CourseId)){
+          
+            if(instructor.googleId != null){
+                googleId = instructor.googleId;
+                break;
+            }            
+        }
+        
+        return googleId; 
+    }
 
     private AdminSearchPageData putFeedbackSessionLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
         
