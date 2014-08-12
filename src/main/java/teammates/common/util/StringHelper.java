@@ -202,12 +202,28 @@ public class StringHelper {
             return null;
         }
         
-        String lastName = fullName.substring(fullName.lastIndexOf(" ")+1).trim();
-        String firstName = fullName.replace(lastName, "").trim();
+        fullName = fullName.replace("(", "{").replace(")", "}");   
+        String lastName;
+        String firstName;
+        
+        if(fullName.contains("{") && fullName.contains("}")){
+            int startIndex = fullName.indexOf("{");
+            int endIndex = fullName.indexOf("}");
+            lastName = fullName.substring(startIndex + 1, endIndex);
+            firstName = fullName.replace("{", "")
+                                .replace("}", "")
+                                .replace(lastName, "")
+                                .trim();           
+            
+        } else {         
+            lastName = fullName.substring(fullName.lastIndexOf(" ")+1).trim();
+            firstName = fullName.replace(lastName, "").trim();
+        }
         
         String[] splitNames = {firstName, lastName};       
         return splitNames;
     }
+    
     
     
     /**
