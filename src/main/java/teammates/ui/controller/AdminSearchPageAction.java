@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Config;
@@ -45,6 +47,7 @@ public class AdminSearchPageAction extends Action {
         
         data = putFeedbackSessionLinkIntoMap(data.studentResultBundle.studentList, data);
         data = putHomePageLinkIntoMap(data.studentResultBundle.studentList, data);
+        data = putInsitituteIntoMap(data.studentResultBundle.studentList, data);
            
         int numOfResults = data.studentResultBundle.getResultSize();
         if(numOfResults > 0){
@@ -57,6 +60,28 @@ public class AdminSearchPageAction extends Action {
               
         
         return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
+    }
+    
+    private AdminSearchPageData putInsitituteIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
+        Logic logic = new Logic();
+        for(StudentAttributes student : students){
+            
+            InstructorAttributes instructor = logic.getInstructorsForCourse(student.course).get(0); 
+            if(instructor.googleId == null){
+                continue;
+            }
+            
+            AccountAttributes account = logic.getAccount(instructor.googleId);           
+            if(account == null){
+                continue;
+            }
+            
+            String institute = account.institute.trim().isEmpty() ? "None" : account.institute;
+            
+            data.studentInstituteMap.put(student.getIdentificationString(), institute);
+        }
+        
+        return data;
     }
     
     
