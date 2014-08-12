@@ -83,20 +83,20 @@ public class StudentAttributesFactory {
             throw new EnrollException(ERROR_ENROLL_LINE_TOOFEWPARTS);
         }
         
-        String paramTeam = columns[teamColumnIndex];
-        String paramName = columns[nameColumnIndex];
-        String paramEmail = columns[emailColumnIndex];
+        String paramTeam = columns[teamColumnIndex].trim();
+        String paramName = columns[nameColumnIndex].trim();
+        String paramEmail = columns[emailColumnIndex].trim();
         
         String paramComment;
         if (hasComment && columns.length > commentColumnIndex) {
-            paramComment = columns[commentColumnIndex];
+            paramComment = columns[commentColumnIndex].trim();
         } else {
             paramComment = "";
         }
 
         String paramSection;
         if(hasSection && columns.length > sectionColumnIndex){
-            paramSection = columns[sectionColumnIndex];
+            paramSection = columns[sectionColumnIndex].trim();
         } else {
             paramSection = Const.DEFAULT_SECTION;
         }
