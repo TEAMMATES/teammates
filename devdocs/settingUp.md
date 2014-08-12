@@ -71,9 +71,9 @@ Important: When a version is specified, please install that version instead of t
       Name: `John Dorian` <br>
       Email: `teammates.instructor@university.edu` <br>
       Institute: `National University of Singapore` 
-7. On the `dev server`, emails which contains the join link will not be sent to the added instructor.
-   Instead, you can use the join link given after adding an intructor, to complete the joining process.
-   Remember to change the URL of the link if necessary.
+7. On the `dev server`, emails which contains the join link will not be sent to the added instructor.<br>
+   Instead, you can use the join link given after adding an intructor, to complete the joining process.<br>
+   Remember to change the URL of the link if necessary.<br>
    e.g. Change `http://teammates-john.appspot.com/page/instructorCourseJoin?...` to `http://localhost:8888/page/instructorCourseJoin?...`
       
 ##Running the test suite
