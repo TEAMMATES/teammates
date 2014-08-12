@@ -1,5 +1,6 @@
 package teammates.test.cases.logic;
 
+import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
@@ -41,12 +42,17 @@ public class FeedbackSessionEmailTaskQueueTest extends
     public static class FeedbackSessionsEmailTaskQueueCallback extends BaseTaskQueueCallback {
         
         @Override
-        public int execute(URLFetchRequest request) {
+        public int execute(URLFetchRequest request) {            
             HashMap<String, String> paramMap = HttpRequestHelper.getParamMap(request);
             
-            assertTrue(paramMap.containsKey(ParamsNames.EMAIL_SUBJECT) || paramMap.containsKey(ParamsNames.EMAIL_FEEDBACK));
-             
+            assertTrue(paramMap.containsKey(ParamsNames.SUBMISSION_FEEDBACK));
+            assertNotNull(paramMap.get(ParamsNames.SUBMISSION_FEEDBACK));
+
+            assertTrue(paramMap.containsKey(ParamsNames.SUBMISSION_COURSE));
+            assertNotNull(paramMap.get(ParamsNames.SUBMISSION_COURSE));
+            
             FeedbackSessionsEmailTaskQueueCallback.taskCount++;
+             
             return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;
         }
     }
