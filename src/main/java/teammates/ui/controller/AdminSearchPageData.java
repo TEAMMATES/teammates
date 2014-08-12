@@ -14,6 +14,7 @@ public class AdminSearchPageData extends PageData {
     public HashMap<String, List<String>> studentfeedbackSessionLinksMap = new HashMap<String, List<String>>();
     public HashMap<String, String> feedbackSeesionLinkToNameMap = new HashMap<String, String>();
     public HashMap<String, String> studentIdToHomePageLinkMap = new HashMap<String, String>();
+    public HashMap<String, String> studentDetailsPageLinkMap = new HashMap<String, String>();
     public HashMap<String, String> studentInstituteMap = new HashMap<String, String>();
     
     public AdminSearchPageData(AccountAttributes account) {

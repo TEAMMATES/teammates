@@ -47,6 +47,7 @@ public class AdminSearchPageAction extends Action {
         
         data = putFeedbackSessionLinkIntoMap(data.studentResultBundle.studentList, data);
         data = putHomePageLinkIntoMap(data.studentResultBundle.studentList, data);
+        data = putStudentDetailsPageLinkIntoMap(data.studentResultBundle.studentList, data);
         data = putInsitituteIntoMap(data.studentResultBundle.studentList, data);
            
         int numOfResults = data.studentResultBundle.getResultSize();
@@ -98,6 +99,29 @@ public class AdminSearchPageAction extends Action {
                                                         student.googleId);
             
             data.studentIdToHomePageLinkMap.put(student.googleId, curLink);
+        }
+        
+        return data;
+    }
+    
+    private AdminSearchPageData putStudentDetailsPageLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
+        
+        for(StudentAttributes student : students){
+            
+            if(student.course == null ||student.email == null){
+                continue;
+            }
+            
+            String curLink = Url.addParamToUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE,
+                                                        Const.ParamsNames.COURSE_ID, 
+                                                        student.course);
+            curLink = Url.addParamToUrl(curLink, Const.ParamsNames.STUDENT_EMAIL, student.email);
+            InstructorAttributes instructor = logic.getInstructorsForCourse(student.course).get(0);
+            if(instructor.googleId == null){
+                continue;
+            }
+            curLink = Url.addParamToUrl(curLink, Const.ParamsNames.USER_ID, instructor.googleId);
+            data.studentDetailsPageLinkMap.put(student.getIdentificationString(), curLink);
         }
         
         return data;
