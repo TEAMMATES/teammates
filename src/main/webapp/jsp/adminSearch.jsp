@@ -12,8 +12,8 @@
 <%@ page import="teammates.common.util.Sanitizer"%>
 
 <%
-	AdminSearchPageData data = (AdminSearchPageData) request
-			.getAttribute("data");
+    AdminSearchPageData data = (AdminSearchPageData) request
+            .getAttribute("data");
 %>
 
 <html>
@@ -96,9 +96,9 @@
                     </form>
                 </div>
                 <%
-                	List<StudentAttributes> studentResultList = data.studentResultBundle.studentList;
+                    List<StudentAttributes> studentResultList = data.studentResultBundle.studentList;
 
-                	if (!studentResultList.isEmpty()) {
+                    if (!studentResultList.isEmpty()) {
                 %>
 
                 <div class="panel panel-primary">
@@ -121,7 +121,7 @@
 
                             <thead>
                                 <tr>
-                                    <th>Course [Section]</th>
+                                    <th>Institute [Course] (Section)</th>
                                     <th>Team</th>
                                     <th>Name</th>
                                     <th>Google ID[Email]</th>
@@ -134,21 +134,21 @@
                             <tbody>
 
                                 <%
-                                	for (StudentAttributes student : studentResultList) {
+                                    for (StudentAttributes student : studentResultList) {
 
-                                			String id = Sanitizer.sanitizeForSearch(student
-                                					.getIdentificationString());
-                                			id = id.replace(" ", "").replace("@", "");
+                                            String id = Sanitizer.sanitizeForSearch(student
+                                                    .getIdentificationString());
+                                            id = id.replace(" ", "").replace("@", "");
                                 %>
 
                                 <tr id="<%=id%>" class="studentRow">
-                                    <td><%=student.course%>&nbsp;[<%=student.section%>]
+                                    <td><%=data.studentInstituteMap.get(student.getIdentificationString())%>&nbsp;[<%=student.course%>]&nbsp;(<%=student.section%>)
                                     </td>
                                     <td><%=student.team%></td>
                                     <td><%=student.name%></td>
                                     <td><a
                                         href="<%=data.studentIdToHomePageLinkMap
-                                        		     .get(student.googleId)%>"
+                                                     .get(student.googleId)%>"
                                         target="blank"
                                         class="homePageLink"><%=student.googleId%></a></td>
                                     <td><%=student.comments%></td>
@@ -184,17 +184,17 @@
                                             </li>
 
                                             <%
-                                            	if (data.studentfeedbackSessionLinksMap.get(student
-                                            					.getIdentificationString()) == null) {
-                                            				continue;
-                                            			}
+                                                if (data.studentfeedbackSessionLinksMap.get(student
+                                                                .getIdentificationString()) == null) {
+                                                            continue;
+                                                        }
                                             %>
 
 
 
                                             <%
-                                            	for (String link : data.studentfeedbackSessionLinksMap
-                                            					.get(student.getIdentificationString())) {
+                                                for (String link : data.studentfeedbackSessionLinksMap
+                                                                .get(student.getIdentificationString())) {
                                             %>
 
 
@@ -210,16 +210,16 @@
 
 
                                             <%
-                                            	}
+                                                }
                                             %>
                                         </ul>
                                     </td>
 
                                 </tr>
                                 <%
-                                	}
+                                    }
 
-                                	}
+                                    }
                                 %>
                             </tbody>
                         </table>
