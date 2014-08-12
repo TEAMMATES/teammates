@@ -215,7 +215,7 @@
                                             
                                             
                                              <%
-                                                if (data.studentNoneOpenFeedbackSessionLinksMap.get(student
+                                                if (data.studentUnOpenedFeedbackSessionLinksMap.get(student
                                                                 .getIdentificationString()) != null) {
                                                        
                                             %>
@@ -223,7 +223,7 @@
 
 
                                             <%
-                                                for (String link : data.studentNoneOpenFeedbackSessionLinksMap
+                                                for (String link : data.studentUnOpenedFeedbackSessionLinksMap
                                                                 .get(student.getIdentificationString())) {
                                             %>
 

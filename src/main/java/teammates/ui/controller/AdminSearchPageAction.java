@@ -134,12 +134,12 @@ public class AdminSearchPageAction extends Action {
          
          if(fsa.isOpened() == false){
              
-             if (data.studentNoneOpenFeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
+             if (data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
                  List<String> submitUrlList = new ArrayList<String>();
                  submitUrlList.add(submitUrl);   
-                 data.studentNoneOpenFeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
+                 data.studentUnOpenedFeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
              } else {
-                 data.studentNoneOpenFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
+                 data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
              }
              
              data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName + " (Currently Not Open)");   
