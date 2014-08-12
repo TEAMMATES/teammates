@@ -118,7 +118,7 @@ public class AdminSearchPageAction extends Action {
             curLink = Url.addParamToUrl(curLink, Const.ParamsNames.STUDENT_EMAIL, student.email);
             String availableGoogleId = findAvailableInstructorGoogleIdForCourse(student.course);
             
-            if (availableGoogleId != null && !availableGoogleId.isEmpty()) {
+            if (!availableGoogleId.isEmpty()) {
                 
                 curLink = Url.addParamToUrl(curLink, Const.ParamsNames.USER_ID, availableGoogleId);
                 data.studentDetailsPageLinkMap.put(student.getIdentificationString(), curLink);
@@ -129,11 +129,21 @@ public class AdminSearchPageAction extends Action {
     }
     
     
-    private String findAvailableInstructorGoogleIdForCourse(String CourseId){
+    /**
+     * This method loops through all instructors for the given course until a registered Instructor is found.
+     * It returns the google id of the found instructor.
+     * @param CourseId
+     * @return empty string if no available instructor google id is found
+     */
+    private String findAvailableInstructorGoogleIdForCourse(String courseId){
         
         String googleId = "";
         
-        for(InstructorAttributes instructor : logic.getInstructorsForCourse(CourseId)){
+        if(logic.getInstructorsForCourse(courseId) == null){
+            return googleId;
+        }
+        
+        for(InstructorAttributes instructor : logic.getInstructorsForCourse(courseId)){
           
             if(instructor.googleId != null){
                 googleId = instructor.googleId;
