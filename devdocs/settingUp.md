@@ -90,7 +90,7 @@ Important: When a version is specified, please install that version instead of t
    After that, you need to specify which version of the Firefox
    should be used for testing, by modifying the `test.firefox.path` property 
    (note the double slashes).<br>
-   e.g. `test.firefox.path=C:\\Program Files\\Mozilla Firefox 12\\firefox.exe`
+   e.g. `test.firefox.path=C:\\Program Files\\Mozilla Firefox 21\\firefox.exe`
    
 2. Before running the test suite, both the server and the test environment 
    should be using the UTC time zone. Here is the procedure.
