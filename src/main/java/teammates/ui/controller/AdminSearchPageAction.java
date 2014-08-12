@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Config;
@@ -45,6 +47,7 @@ public class AdminSearchPageAction extends Action {
         
         data = putFeedbackSessionLinkIntoMap(data.studentResultBundle.studentList, data);
         data = putHomePageLinkIntoMap(data.studentResultBundle.studentList, data);
+        data = putInsitituteIntoMap(data.studentResultBundle.studentList, data);
            
         int numOfResults = data.studentResultBundle.getResultSize();
         if(numOfResults > 0){
@@ -57,6 +60,28 @@ public class AdminSearchPageAction extends Action {
               
         
         return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
+    }
+    
+    private AdminSearchPageData putInsitituteIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
+        Logic logic = new Logic();
+        for(StudentAttributes student : students){
+            
+            InstructorAttributes instructor = logic.getInstructorsForCourse(student.course).get(0); 
+            if(instructor.googleId == null){
+                continue;
+            }
+            
+            AccountAttributes account = logic.getAccount(instructor.googleId);           
+            if(account == null){
+                continue;
+            }
+            
+            String institute = account.institute.trim().isEmpty() ? "None" : account.institute;
+            
+            data.studentInstituteMap.put(student.getIdentificationString(), institute);
+        }
+        
+        return data;
     }
     
     
@@ -99,10 +124,6 @@ public class AdminSearchPageAction extends Action {
     private AdminSearchPageData extractDataFromFeedbackSeesion(FeedbackSessionAttributes fsa, 
                                                                AdminSearchPageData data, 
                                                                StudentAttributes student){
-        
-        if(!fsa.isOpened()){
-            return data;
-         }
          
          String submitUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                 .withCourseId(student.course)
@@ -111,18 +132,32 @@ public class AdminSearchPageAction extends Action {
                                 .withStudentEmail(student.email)
                                 .toString();
          
-         if (data.studentfeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
-              List<String> submitUrlList = new ArrayList<String>();
-              submitUrlList.add(submitUrl);   
-              data.studentfeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
-         } else {
-             data.studentfeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
-         }       
+         if(fsa.isOpened() == false){
+             
+             if (data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
+                 List<String> submitUrlList = new ArrayList<String>();
+                 submitUrlList.add(submitUrl);   
+                 data.studentUnOpenedFeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
+             } else {
+                 data.studentUnOpenedFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
+             }
+             
+             data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName + " (Currently Not Open)");   
+             
+         } else {                 
+             if (data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
+                  List<String> submitUrlList = new ArrayList<String>();
+                  submitUrlList.add(submitUrl);   
+                  data.studentOpenFeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
+             } else {
+                  data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
+             }
+             
+             data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);  
+         }
          
-         data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);    
-         
+           
          return data;
     }
-    
     
 }

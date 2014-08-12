@@ -64,6 +64,7 @@
             <br>
 
             <% if(!showAll) {
+                    if(data.selectedSection.equals("All")){
                     int sectionIndex = 0; 
                     for(String section: data.sections){
             %>
@@ -143,6 +144,29 @@
                             </div>
                     </div>
             <%
+                    } else {
+
+            %>
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    <strong><%=data.selectedSection%></strong>                   
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="pull-right">
+                                        <span class="glyphicon glyphicon-chevron-up"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-collapse collapse in">
+                            <div class="panel-body" id="sectionBody-0">
+                                <%=InstructorFeedbackResultsPageData.EXCEEDING_RESPONSES_ERROR_MESSAGE%>
+                            </div>
+                        </div>
+                    </div>
+            <%      }
                 } else {
             %>
 
