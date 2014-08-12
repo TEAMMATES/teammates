@@ -62,7 +62,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
         String instructorId = "AAMgtUiT.instr1";
         AdminAccountDetailsPage detailsPage = accountsPage.clickViewInstructorDetails(instructorId);
         detailsPage.verifyIsCorrectPage(instructorId);
-        detailsPage.goToPreviousPage(AdminAccountManagementPage.class);
+        detailsPage.closeCurrentWindowAndSwitchToParentWindow();
     }
     
     public void testViewRecentActionsLink() {

@@ -123,6 +123,7 @@
                             <td><a
                                 id="<%=acc.googleId + "_details"%>"
                                 href="<%=data.getAdminViewAccountDetailsLink(acc.googleId)%>"
+                                target="blank"
                                 class="btn  btn-link btn-xs"> <span
                                     class="glyphicon glyphicon-info-sign"></span>
                                     View Details
@@ -142,9 +143,9 @@
                                     Delete Entire Account
                             </a>
 
-                                <form method="post"
+                                <form method="post" target="blank"
                                     action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
-                                    <button type="submit"
+                                    <button type="submit" 
                                         id="<%=acc.googleId + "_recentActions"%>"
                                         class="btn btn-link btn-xs">
                                         <span
