@@ -124,10 +124,6 @@ public class AdminSearchPageAction extends Action {
     private AdminSearchPageData extractDataFromFeedbackSeesion(FeedbackSessionAttributes fsa, 
                                                                AdminSearchPageData data, 
                                                                StudentAttributes student){
-        
-        if(!fsa.isOpened()){
-            return data;
-         }
          
          String submitUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
                                 .withCourseId(student.course)
@@ -136,18 +132,32 @@ public class AdminSearchPageAction extends Action {
                                 .withStudentEmail(student.email)
                                 .toString();
          
-         if (data.studentfeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
-              List<String> submitUrlList = new ArrayList<String>();
-              submitUrlList.add(submitUrl);   
-              data.studentfeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
-         } else {
-             data.studentfeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
-         }       
+         if(fsa.isOpened() == false){
+             
+             if (data.studentNoneOpenFeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
+                 List<String> submitUrlList = new ArrayList<String>();
+                 submitUrlList.add(submitUrl);   
+                 data.studentNoneOpenFeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
+             } else {
+                 data.studentNoneOpenFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
+             }
+             
+             data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName + " (Currently Not Open)");   
+             
+         } else {                 
+             if (data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
+                  List<String> submitUrlList = new ArrayList<String>();
+                  submitUrlList.add(submitUrl);   
+                  data.studentOpenFeedbackSessionLinksMap.put(student.getIdentificationString(), submitUrlList);
+             } else {
+                  data.studentOpenFeedbackSessionLinksMap.get(student.getIdentificationString()).add(submitUrl);
+             }
+             
+             data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);  
+         }
          
-         data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);    
-         
+           
          return data;
     }
-    
     
 }
