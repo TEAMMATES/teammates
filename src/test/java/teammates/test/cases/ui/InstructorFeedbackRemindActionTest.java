@@ -20,6 +20,7 @@ public class InstructorFeedbackRemindActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        //TODO: implement this
+        // This test case was omitted as the action is executed in the background task queue so we cannot determine its result
+        // The logic under the action is covered with test case to ensure the action works.
     }
 }
