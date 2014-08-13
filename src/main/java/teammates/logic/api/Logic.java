@@ -1172,13 +1172,13 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null. <br>
      */
-    public List<MimeMessage> sendReminderForFeedbackSession(String courseId,
+    public void sendReminderForFeedbackSession(String courseId,
             String feedbackSessionName) throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         
-        return feedbackSessionsLogic.sendReminderForFeedbackSession(courseId, feedbackSessionName);
+        feedbackSessionsLogic.scheduleFeedbackRemindEmails(courseId, feedbackSessionName);
     }
 
     /**

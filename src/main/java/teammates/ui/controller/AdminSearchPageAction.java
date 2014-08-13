@@ -47,6 +47,7 @@ public class AdminSearchPageAction extends Action {
         
         data = putFeedbackSessionLinkIntoMap(data.studentResultBundle.studentList, data);
         data = putHomePageLinkIntoMap(data.studentResultBundle.studentList, data);
+        data = putStudentDetailsPageLinkIntoMap(data.studentResultBundle.studentList, data);
         data = putInsitituteIntoMap(data.studentResultBundle.studentList, data);
            
         int numOfResults = data.studentResultBundle.getResultSize();
@@ -103,7 +104,55 @@ public class AdminSearchPageAction extends Action {
         return data;
     }
     
+    private AdminSearchPageData putStudentDetailsPageLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
+        
+        for(StudentAttributes student : students){
+            
+            if(student.course == null ||student.email == null){
+                continue;
+            }
+            
+            String curLink = Url.addParamToUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE,
+                                                        Const.ParamsNames.COURSE_ID, 
+                                                        student.course);
+            curLink = Url.addParamToUrl(curLink, Const.ParamsNames.STUDENT_EMAIL, student.email);
+            String availableGoogleId = findAvailableInstructorGoogleIdForCourse(student.course);
+            
+            if (!availableGoogleId.isEmpty()) {
+                
+                curLink = Url.addParamToUrl(curLink, Const.ParamsNames.USER_ID, availableGoogleId);
+                data.studentDetailsPageLinkMap.put(student.getIdentificationString(), curLink);
+            }
+        }
+        
+        return data;
+    }
     
+    
+    /**
+     * This method loops through all instructors for the given course until a registered Instructor is found.
+     * It returns the google id of the found instructor.
+     * @param CourseId
+     * @return empty string if no available instructor google id is found
+     */
+    private String findAvailableInstructorGoogleIdForCourse(String courseId){
+        
+        String googleId = "";
+        
+        if(logic.getInstructorsForCourse(courseId) == null){
+            return googleId;
+        }
+        
+        for(InstructorAttributes instructor : logic.getInstructorsForCourse(courseId)){
+          
+            if(instructor.googleId != null){
+                googleId = instructor.googleId;
+                break;
+            }            
+        }
+        
+        return googleId; 
+    }
 
     private AdminSearchPageData putFeedbackSessionLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
         
