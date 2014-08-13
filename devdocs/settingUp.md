@@ -15,8 +15,8 @@ Important: When a version is specified, please install that version instead of t
    Instructions are at https://developers.google.com/eclipse/docs/install-eclipse-4.3 <br>
    Note: Sometimes the update site for the GAE plug-in does not work. In which case, 
    follow the instructions at https://developers.google.com/eclipse/docs/install-from-zip.
-7. Install Google App Engine SDK version 1.9.4 (this may not the be the latest one)<br>
-   Download link to the SDK is https://commondatastorage.googleapis.com/appengine-sdks/featured/appengine-java-sdk-1.9.4.zip.<br>
+7. Install Google App Engine SDK version 1.9.4 (this is not the latest version)<br>
+   Download link to the SDK is https://console.developers.google.com/m/cloudstorage/b/appengine-sdks/o/deprecated/194/appengine-java-sdk-1.9.4.zip.<br>
    Instructions for installing are at https://developers.google.com/eclipse/docs/using_sdks.
 8. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/eclipse.html).
 
@@ -71,6 +71,10 @@ Important: When a version is specified, please install that version instead of t
       Name: `John Dorian` <br>
       Email: `teammates.instructor@university.edu` <br>
       Institute: `National University of Singapore` 
+7. On the `dev server`, emails which contains the join link will not be sent to the added instructor.<br>
+   Instead, you can use the join link given after adding an intructor, to complete the joining process.<br>
+   Remember to change the URL of the link if necessary.<br>
+   e.g. Change `http://teammates-john.appspot.com/page/instructorCourseJoin?...` to `http://localhost:8888/page/instructorCourseJoin?...`
       
 ##Running the test suite
 
@@ -90,7 +94,7 @@ Important: When a version is specified, please install that version instead of t
    After that, you need to specify which version of the Firefox
    should be used for testing, by modifying the `test.firefox.path` property 
    (note the double slashes).<br>
-   e.g. `test.firefox.path=C:\\Program Files\\Mozilla Firefox 12\\firefox.exe`
+   e.g. `test.firefox.path=C:\\Program Files\\Mozilla Firefox 21\\firefox.exe`
    
 2. Before running the test suite, both the server and the test environment 
    should be using the UTC time zone. Here is the procedure.

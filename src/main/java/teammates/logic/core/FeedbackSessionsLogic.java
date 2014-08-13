@@ -39,6 +39,7 @@ import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
@@ -912,6 +913,17 @@ public class FeedbackSessionsLogic {
         }
 
         return emails;
+    }
+
+    public void scheduleFeedbackRemindEmails(String courseId, String feedbackSessionName) {
+        
+        HashMap<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, feedbackSessionName);
+        paramMap.put(ParamsNames.SUBMISSION_COURSE, courseId);
+        
+        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        taskQueueLogic.createAndAddTask(SystemParams.FEEDBACK_REMIND_EMAIL_TASK_QUEUE,
+                Const.ActionURIs.FEEDBACK_REMIND_EMAIL_WORKER, paramMap);
     }
 
     public void scheduleFeedbackSessionOpeningEmails() {

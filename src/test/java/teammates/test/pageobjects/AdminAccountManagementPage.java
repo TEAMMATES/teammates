@@ -28,6 +28,7 @@ public class AdminAccountManagementPage extends AppPage {
             String instructorId) {
         browser.driver.findElement(By.id(instructorId + "_details")).click();
         waitForPageToLoad();
+        switchToNewWindow();
         return changePageType(AdminAccountDetailsPage.class);
     }
     

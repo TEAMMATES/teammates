@@ -25,6 +25,10 @@ $(document).ready(function() {
 		e.stopPropagation();
 	});
 	
+	$(".detailsPageLink").click(function(e){		
+		e.stopPropagation();
+	});
+	
 	$('input').click(function() {
 		 this.select();
 	});
