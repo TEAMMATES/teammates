@@ -45,6 +45,7 @@ public class Const {
         
         public static final String EVAL_PUBLISH_EMAIL_TASK_QUEUE = "evaluation-publish-email-queue";
         public static final String EVAL_REMIND_EMAIL_TASK_QUEUE = "evaluation-remind-email-queue";
+        public static final String FEEDBACK_REMIND_EMAIL_TASK_QUEUE = "feedback-remind-email-queue";
         public static final String SEND_EMAIL_TASK_QUEUE = "send-email-queue";
         
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
@@ -482,6 +483,7 @@ public class Const {
         //Submission parameters for Task Queue
         public static final String SUBMISSION_COURSE = "course";
         public static final String SUBMISSION_EVAL = "evaluation";
+        public static final String SUBMISSION_FEEDBACK = "feedback";
         
         public static final String ENROLLMENT_DETAILS = "enrollmentdetails";
         
@@ -672,6 +674,7 @@ public class Const {
                                     "/feedbackSubmissionAdjustmentWorker";
         public static final String EVAL_PUBLISH_EMAIL_WORKER = "/evalPublishEmailWorker";
         public static final String EVAL_REMIND_EMAIL_WORKER = "/evalRemindEmailWorker";
+        public static final String FEEDBACK_REMIND_EMAIL_WORKER = "/feedbackRemindEmailWorker";
         public static final String SEND_EMAIL_WORKER = "/sendEmailWorker";
     }
 
