@@ -20,8 +20,7 @@ import com.google.appengine.api.datastore.Text;
  * --> [comments about] --> Receiver.
  * Both giver and receiver must be in the same course.
  * Currently giver is restricted only to Instructor, and
- * receiver is restricted to Student. Comments are only visible by
- * the Giver.
+ * receiver is restricted to Student.
  */
 @PersistenceCapable
 public class Comment {

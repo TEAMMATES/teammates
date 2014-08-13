@@ -1,6 +1,7 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -19,6 +20,9 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.google.gson.Gson;
 
+/**
+ * The search result bundle for {@link FeedbackResponseCommentAttributes}. 
+ */
 public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundle {
     private int numberOfCommentFound = 0;
     public Map<String, List<FeedbackResponseCommentAttributes>> comments = new HashMap<String, List<FeedbackResponseCommentAttributes>>();
@@ -43,6 +47,9 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     
     public FeedbackResponseCommentSearchResultBundle(){}
 
+    /**
+     * Produce a FeedbackResponseCommentSearchResultBundle from the Results<ScoredDocument> collection
+     */
     public FeedbackResponseCommentSearchResultBundle fromResults(Results<ScoredDocument> results, String googleId){
         if(results == null) return this;
         
@@ -57,6 +64,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         
         cursor = results.getCursor();
         for(ScoredDocument doc:results){
+            //get FeedbackResponseComment from results
             FeedbackResponseCommentAttributes comment = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE).getText(), 
                     FeedbackResponseCommentAttributes.class);
@@ -72,6 +80,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             }
             commentList.add(comment);
             
+            //get related response from results
             FeedbackResponseAttributes response = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE).getText(), 
                     FeedbackResponseAttributes.class);
@@ -89,6 +98,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
                 responseList.add(response);
             }
             
+            //get related question from results
             FeedbackQuestionAttributes question = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE).getText(), 
                     FeedbackQuestionAttributes.class);
@@ -106,6 +116,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
                 questionList.add(question);
             }
             
+            //get related session from results
             FeedbackSessionAttributes session = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE).getText(), 
                     FeedbackSessionAttributes.class);
@@ -118,6 +129,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
                 sessions.put(session.getSessionName(), session);
             }
             
+            //get giver and recipient names
             String responseGiverName = extractContentFromQuotedString(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_GIVER_NAME).getText());
             responseGiverTable.put(response.getId(), getFilteredGiverName(response, responseGiverName));
@@ -131,6 +143,19 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             commentGiverTable.put(comment.getId().toString(), getFilteredCommentGiverName(response, comment, commentGiverName));
             numberOfCommentFound++;
         }
+        
+        for (List<FeedbackQuestionAttributes> questions : this.questions.values()) {
+            Collections.sort(questions);
+        }
+        
+        for (List<FeedbackResponseAttributes> responses : this.responses.values()) {
+            FeedbackResponseAttributes.sortFeedbackResponses(responses);
+        }
+        
+        for (List<FeedbackResponseCommentAttributes> responseComments : this.comments.values()) {
+            FeedbackResponseCommentAttributes.sortFeedbackResponseCommentsByCreationTime(responseComments);
+        }
+        
         return this;
     }
     

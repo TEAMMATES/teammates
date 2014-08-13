@@ -21,6 +21,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
+/**
+ * Action: Showing the InstructorCommentsPage for an instructor
+ */
 public class InstructorCommentsPageAction extends Action {
 
     public static final String COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION = "comments_page_displayarchive";
@@ -73,6 +76,7 @@ public class InstructorCommentsPageAction extends Action {
                     logic.getStudentsForCourse(courseId),
                     logic.getInstructorsForCourse(courseId));
 
+            //Prepare comments data
             giverEmailToCommentsMap = getGiverEmailToCommentsMap();
             feedbackResultBundles = getFeedbackResultBundles(roster);
         }

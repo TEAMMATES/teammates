@@ -13,10 +13,7 @@ import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.blobstore.BlobKey;
-
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -25,7 +22,6 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
-import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.ProfilesDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;

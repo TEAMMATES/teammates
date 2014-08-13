@@ -17,7 +17,9 @@ import teammates.logic.api.GateKeeper;
  *         that was just uploaded.
  */
 public class StudentProfilePictureUploadAction extends Action {
-    
+    // This class is not tested in ActionTests as it is difficult to 
+    // reproduce the upload action done by Google Blobstore API without 
+    // the server running. This class is covered in UiTests
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         new GateKeeper().verifyLoggedInUserPrivileges();
@@ -32,10 +34,6 @@ public class StudentProfilePictureUploadAction extends Action {
                 r.addResponseParam(Const.ParamsNames.STUDENT_PROFILE_PHOTOEDIT, "true");
             }
         } catch (BlobstoreFailureException bfe) {
-            // This branch is not tested as recreating such a scenario is difficult in the 
-            // dev server for testing purposes.
-            // TODO: find a way to cover this branch
-            // delete the newly uploaded picture
             deletePicture(new BlobKey(pictureKey));
             statusToAdmin += Const.ACTION_RESULT_FAILURE 
                     + " : Could not delete profile picture for account ("
@@ -61,12 +59,6 @@ public class StudentProfilePictureUploadAction extends Action {
             Map<String, List<BlobInfo>> blobsMap = BlobstoreServiceFactory.getBlobstoreService().getBlobInfos(request);
             List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.STUDENT_PROFILE_PHOTO);
             
-            /*USED FOR TESTING PURPOSES
-                Map<String, List<FileInfo>> filesMap = BlobstoreServiceFactory.getBlobstoreService().getFileInfos(request);
-                List<FileInfo> files = filesMap.get(Const.ParamsNames.STUDENT_PROFILE_PIC);
-                
-                log.info(files.get(0).toString());
-            */
             if(blobs != null && blobs.size() > 0) {
                 BlobInfo profilePic = blobs.get(0);
                 return validateProfilePicture(profilePic);
@@ -104,10 +96,6 @@ public class StudentProfilePictureUploadAction extends Action {
         try {
             logic.deletePicture(blobKey);
         } catch (BlobstoreFailureException bfe) {
-            // This branch is not tested as recreating such a scenario is difficult in the 
-            // dev server for testing purposes.
-            // TODO: find a way to cover this branch
-            
             statusToAdmin = Const.ACTION_RESULT_FAILURE 
                     + " : Unable to delete profile picture (possible unused picture with key: "
                     + blobKey.getKeyString()

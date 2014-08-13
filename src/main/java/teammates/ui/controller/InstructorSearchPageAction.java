@@ -18,6 +18,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
+/**
+ * Action: Showing the InstructorSearchPage for an instructor
+ */
 public class InstructorSearchPageAction extends Action {
 
     @Override
@@ -51,6 +54,7 @@ public class InstructorSearchPageAction extends Action {
         int totalResultsSize = 0;
         
         if(!searchKey.isEmpty() && numberOfSearchOptions != 0){
+            //Start searching
             if(isSearchCommentForStudents){
                 commentSearchResults = logic.searchComment(searchKey, account.googleId, "");
             }
@@ -116,6 +120,7 @@ public class InstructorSearchPageAction extends Action {
                             response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)))) {
                     int sizeOfCommentList = frCommentSearchResults.comments.get(response.getId()).size();
                     totalResultsSize -= sizeOfCommentList;
+                    //TODO: also need to decrease the size for commentSearchResults|frCommentSearchResults|studentSearchResults
                     frCommentSearchResults.comments.remove(response.getId());
                     fr.remove();
                 }
@@ -132,9 +137,10 @@ public class InstructorSearchPageAction extends Action {
         Iterator<Entry<String, List<CommentAttributes>>> iter = commentSearchResults.giverCommentTable.entrySet().iterator();
         while (iter.hasNext()) {
             List<CommentAttributes> commentList = iter.next().getValue();
-            if (!commentList.isEmpty() && !isInstructorAllowedToViewComment(commentList.get(0), instructorEmails, instructors)) {
+            if (!commentList.isEmpty() 
+                    && !isInstructorAllowedToViewComment(commentList.get(0), instructorEmails, instructors)) {
                 iter.remove();
-                totalResultsSize--;
+                totalResultsSize -= commentList.size();
             }
         }
         return totalResultsSize;
