@@ -1,6 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.Assert.fail;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.ArrayList;
@@ -122,11 +121,8 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         gaeSimulation.loginAsInstructor(instructor4Id);  // re-login as another instructor for new test
         String courseIdWithNoSession = "idOfCourseNoEvals";
         StudentAttributes testStudent = new StudentAttributes();
-        try {
-            testStudent = createStudentInTypicalDataBundleForCourseWithNoSession();
-        } catch(Exception e) {
-            fail("Unexpected exception during test");
-        }
+        
+        testStudent = createStudentInTypicalDataBundleForCourseWithNoSession();
         
         String[] submissionParamsWithNoSession = new String[] {
                 Const.ParamsNames.COURSE_ID, courseIdWithNoSession,

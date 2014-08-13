@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.PageData;
@@ -55,6 +54,11 @@ public class StudentProfilePageActionTest extends BaseActionTest {
         ______TS("masquerade mode");
         String adminUserId = "admin.user";
         gaeSimulation.loginAsAdmin(adminUserId);
+        
+        submissionParams = new String[]{
+                Const.ParamsNames.STUDENT_PROFILE_PHOTOEDIT, "false",
+                Const.ParamsNames.USER_ID, student.googleId
+        };
         
         a = getAction(addUserIdToParams(student.googleId, submissionParams));
         r = (ShowPageResult) a.executeAndPostProcess();

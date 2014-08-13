@@ -169,8 +169,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         instructorHomePage.clickArchiveCourseLink(demoCourseId);
         instructorHomePage.verifyHtmlMainContent("/NJIHomePageSampleCourseArchived.html");
         
-        
-        
         ______TS("new instructor can unarchive sample course");
         String url = Url.addParamToUrl(TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, 
                                        Const.ParamsNames.USER_ID, 

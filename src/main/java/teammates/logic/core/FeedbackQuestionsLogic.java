@@ -67,6 +67,20 @@ public class FeedbackQuestionsLogic {
             fqa.questionNumber = questions.size() + 1;
         }
         adjustQuestionNumbers(questions.size()+1, fqa.questionNumber, questions);
+        createFeedbackQuestionNoIntegrityCheck(fqa, fqa.questionNumber);
+    }
+    
+    /**
+     * Used for creating initial questions for template sessions only.
+     * Does not check if feedback session exists.
+     * Does not check if question number supplied is valid(does not check for clashes, or make adjustments)
+     * @param fqa
+     * @param questionNumber
+     * @throws InvalidParametersException
+     */
+    public void createFeedbackQuestionNoIntegrityCheck(FeedbackQuestionAttributes fqa, int questionNumber)
+            throws InvalidParametersException {
+        fqa.questionNumber = questionNumber;
         fqa.removeIrrelevantVisibilityOptions();
         fqDb.createEntityWithoutExistenceCheck(fqa);
     }
