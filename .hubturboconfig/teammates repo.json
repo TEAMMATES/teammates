@@ -10,5 +10,6 @@
     "status.ReadyToMerge",
   ],
   "closedStatusLabels": [
+    "status.Done"
   ]
 }
