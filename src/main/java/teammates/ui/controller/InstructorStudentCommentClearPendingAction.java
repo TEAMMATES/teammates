@@ -1,5 +1,7 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
@@ -10,6 +12,10 @@ import teammates.logic.api.GateKeeper;
 import teammates.logic.core.Emails;
 import teammates.logic.core.Emails.EmailType;
 
+/**
+ * Action: Clear pending {@link CommentAttributes} and {@link FeedbackResponseCommentAttributes},
+ * and set up notification emails in the EmailsQueue
+ */
 public class InstructorStudentCommentClearPendingAction extends Action {
 
     @Override
@@ -41,6 +47,7 @@ public class InstructorStudentCommentClearPendingAction extends Action {
                 isError = true;
                 log.severe("Operation did not persist in time: update comments from state PENDING to SENDING");
             } else {
+                //Set up emails notification
                 Emails emails = new Emails();
                 emails.addCommentReminderToEmailsQueue(courseId, EmailType.PENDING_COMMENT_CLEARED);
             }

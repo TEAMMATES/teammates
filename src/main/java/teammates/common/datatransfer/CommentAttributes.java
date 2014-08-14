@@ -16,6 +16,9 @@ import teammates.storage.entity.Comment;
 
 import com.google.appengine.api.datastore.Text;
 
+/**
+ * A data transfer object for {@link Comment} entities.
+ */
 public class CommentAttributes extends EntityAttributes 
     implements Comparable<CommentAttributes>{
 
@@ -26,6 +29,7 @@ public class CommentAttributes extends EntityAttributes
     public Set<String> recipients;
     public CommentStatus status = CommentStatus.FINAL;
     public CommentSendingState sendingState = CommentSendingState.SENT;
+    //TODO: rename CommentRecipientType to CommentParticipantType
     public List<CommentRecipientType> showCommentTo;
     public List<CommentRecipientType> showGiverNameTo;
     public List<CommentRecipientType> showRecipientNameTo;
@@ -182,6 +186,7 @@ public class CommentAttributes extends EntityAttributes
         }
         
         if (commentText != null) {
+            //replacing "\n" with "\n<br>" here is to make comment text support displaying breakline
             String sanitizedText = Sanitizer.sanitizeForHtml(commentText.getValue()).replace("\n", "\n<br>");
             this.commentText = new Text(sanitizedText);
         }

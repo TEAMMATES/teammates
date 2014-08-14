@@ -1,6 +1,8 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -163,6 +165,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.giverEmail = Sanitizer.sanitizeForHtml(giverEmail);
         this.feedbackResponseId = Sanitizer.sanitizeForHtml(feedbackResponseId);
         if(commentText != null){
+            //replacing "\n" with "\n<br>" here is to make comment text support displaying breakline
             String sanitizedText = Sanitizer.sanitizeForHtml(commentText.getValue()).replace("\n", "\n<br>");
             this.commentText = new Text(sanitizedText);
         }
@@ -180,5 +183,13 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
                 + ", feedbackResponseId = " + feedbackResponseId
                 + ", commentText = " + commentText.getValue() 
                 + ", createdAt = " + createdAt + "]";
+    }
+    
+    public static void sortFeedbackResponseCommentsByCreationTime(List<FeedbackResponseCommentAttributes> frcs) {
+        Collections.sort(frcs, new Comparator<FeedbackResponseCommentAttributes>() {
+           public int compare(FeedbackResponseCommentAttributes frc1, FeedbackResponseCommentAttributes frc2) {
+               return frc1.createdAt.compareTo(frc2.createdAt);
+           }
+        });
     }
 }

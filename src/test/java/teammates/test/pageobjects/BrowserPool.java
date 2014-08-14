@@ -66,6 +66,14 @@ public class BrowserPool {
     }
 
     private Browser requestInstance(boolean sequentialUiTest) {
+        
+        if(sequentialUiTest){
+            //Set priority of the sequential ui tests thread to max priority.
+            Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+        } else {
+            Thread.currentThread().setPriority(Thread.NORM_PRIORITY);
+        }
+        
         while (true) {
             //synchronized to ensure thread-safety
             synchronized (this) {

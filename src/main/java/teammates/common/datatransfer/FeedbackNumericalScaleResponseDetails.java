@@ -6,6 +6,9 @@ public class FeedbackNumericalScaleResponseDetails extends
         FeedbackAbstractResponseDetails {
     private double answer;
     
+    /**
+     * @return answer in double form
+     */
     public double getAnswer() {
         return answer;
     }

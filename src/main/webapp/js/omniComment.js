@@ -69,9 +69,9 @@ $(document).ready(function(){
 		filterPanel();
 	});
 	
-	//Binding for changes in the panel checkboxes.
+	//Binding for changes in the panel check boxes
     $("input[id^=panel_check]").change(function(){
-    	//based on the selected panel_check checkboxes, check/uncheck panel_all checkbox
+    	//based on the selected panel_check check boxes, check/uncheck panel_all check box
     	if($("input[id^='panel_check']:checked").length == $("input[id^='panel_check']").length){
         	$("#panel_all").prop("checked", true);
     	} else{
@@ -85,9 +85,14 @@ $(document).ready(function(){
 		//if no panel_check checkboxes are checked, show the no-comment box to user
 		if($("input[id^='panel_check']:checked").length == 0){
     		$('#no-comment-panel').show();
-    		//if nothing to display, also hide giverCheckboxes column
-    		$('#giver_all').parent().parent().hide();
-    		$('#status_all').parent().parent().hide();
+    		//if all is checked, show giver and status for better user experience
+    		if (!$('#panel_all').prop("checked")) {
+     		   $('#giver_all').parent().parent().hide();
+     		   $('#status_all').parent().parent().hide();
+ 			} else {
+ 				$('#giver_all').parent().parent().show();
+     		    $('#status_all').parent().parent().show();
+ 			}
     	} else {
     		$('#no-comment-panel').hide();
     		$('#giver_all').parent().parent().show();
@@ -351,10 +356,21 @@ $(document).ready(function(){
 		}
 	});
     
-    $("input[type=checkbox]").click(function(){
+    $("input[type=checkbox]").click(function(e){
     	var table = $(this).parent().parent().parent().parent();
     	var form = table.parent().parent().parent();
     	var visibilityOptions = [];
+    	var _target = $(e.target);
+    	
+    	if (_target.prop("class").contains("answerCheckbox") && !_target.prop("checked")) {
+    		_target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
+    		_target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
+    	}
+    	if ((_target.prop("class").contains("giverCheckbox") || 
+    			_target.prop("class").contains("recipientCheckbox")) && _target.prop("checked")) {
+    		_target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
+    	}
+    	
     	table.find('.answerCheckbox:checked').each(function () {
 			visibilityOptions.push($(this).val());
 	    });

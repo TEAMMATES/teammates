@@ -98,9 +98,11 @@ public class StudentAttributes extends EntityAttributes {
         this.name = student.getName();
         this.comments = Sanitizer.sanitizeTextField(student.getComments());
         this.team = Sanitizer.sanitizeTitle(student.getTeamName());
-        this.section = ((student.getSectionName() == null) ? Const.DEFAULT_SECTION : Sanitizer.sanitizeTitle(student.getSectionName()));
+        this.section = ((student.getSectionName() == null) ? Const.DEFAULT_SECTION 
+                : Sanitizer.sanitizeTitle(student.getSectionName()));
         // TODO: Is this supposed to be null or "" ?? Find out and standardize.
-        this.googleId = ((student.getGoogleId() == null) ? "" : student.getGoogleId());
+        this.googleId = ((student.getGoogleId() == null) ? "" 
+                : student.getGoogleId());
         Long keyAsLong = student.getRegistrationKey();
         this.key = (keyAsLong == null ? null : Student
                 .getStringKeyForLongKey(keyAsLong));

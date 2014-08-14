@@ -75,6 +75,18 @@ public class BackDoor {
     }
     
     /**
+     * This create documents for entities through back door
+     * @param dataBundleJson
+     * @return
+     */
+    public static String putDocumentsInBackDoor(String dataBundleJson) {
+        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_PUT_DOCUMENTS);
+        params.put(BackDoorServlet.PARAMETER_DATABUNDLE_JSON, dataBundleJson);
+        String status = makePOSTRequest(params);
+        return status;
+    }
+    
+    /**
      * Removes given data. If given entities have already been deleted,
      * they are ignored
      * 
@@ -134,6 +146,11 @@ public class BackDoor {
     public static String restoreDataBundle(DataBundle dataBundle) {
         String json = Utils.getTeammatesGson().toJson(dataBundle);
         return persistNewDataBundle(json);
+    }
+    
+    public static String putDocuments(DataBundle dataBundle) {
+        String json = Utils.getTeammatesGson().toJson(dataBundle);;
+        return putDocumentsInBackDoor(json);
     }
 
     /**

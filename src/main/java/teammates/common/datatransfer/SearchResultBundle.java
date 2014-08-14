@@ -1,5 +1,8 @@
 package teammates.common.datatransfer;
 
+/**
+ * The search result bundle object. 
+ */
 public abstract class SearchResultBundle {
     protected String extractContentFromQuotedString(String quotedString){
         if(quotedString.matches("^\".*\"$")){
