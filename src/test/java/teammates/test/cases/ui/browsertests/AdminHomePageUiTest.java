@@ -51,7 +51,7 @@ import teammates.test.pageobjects.StudentHomePage;
  * Covers the home page for admins.
  * SUT: {@link AdminHomePage}
  */
-@Priority(-2)
+@Priority(6)
 public class AdminHomePageUiTest extends BaseUiTestCase{
     private static Browser browser;
     private static AdminHomePage homePage;
@@ -61,7 +61,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();      
-        browser = BrowserPool.getBrowser(true);
+        browser = BrowserPool.getBrowser();
         browser.driver.manage().deleteAllCookies();
     }
     
@@ -169,8 +169,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         instructorHomePage.clickArchiveCourseLink(demoCourseId);
         instructorHomePage.verifyHtmlMainContent("/NJIHomePageSampleCourseArchived.html");
         
-        
-        
         ______TS("new instructor can unarchive sample course");
         String url = Url.addParamToUrl(TestProperties.inst().TEAMMATES_URL + Const.ActionURIs.INSTRUCTOR_COURSES_PAGE, 
                                        Const.ParamsNames.USER_ID, 
@@ -258,8 +256,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         StudentHomePage studentHomePage = HomePage.getNewInstance(browser).clickStudentLogin()
                                                                           .loginAsStudent(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, 
                                                                                           TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
-       
-        studentHomePage.verifyContains("Student Home");
+        
         studentHomePage.verifyContains(demoCourseId);
         studentHomePage.clickViewTeam();
         

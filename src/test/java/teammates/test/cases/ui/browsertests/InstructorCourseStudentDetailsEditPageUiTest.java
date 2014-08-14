@@ -34,7 +34,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseStudentDetailsEditPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
-        browser = BrowserPool.getBrowser(true);
+        browser = BrowserPool.getBrowser();
     }
     
     

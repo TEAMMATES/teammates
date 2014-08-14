@@ -38,7 +38,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseEditPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
-        browser = BrowserPool.getBrowser(true);
+        browser = BrowserPool.getBrowser();
         
         instructorId = testData.instructors.get("InsCrsEdit.test").googleId;
         courseId = testData.courses.get("InsCrsEdit.CS2104").id;

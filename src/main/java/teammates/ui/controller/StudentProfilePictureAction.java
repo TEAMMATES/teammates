@@ -20,9 +20,11 @@ public class StudentProfilePictureAction extends Action {
         if (getRequestParamValue(Const.ParamsNames.BLOB_KEY) != null) {
             log.info("blob-key given");
             result = handleRequestWithBlobKey();
+            statusToAdmin = "Requested Profile Picture by student directly";
         } else if (getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL) != null) {
             log.info("email and course given");
             result = handleRequestWithEmailAndCourse();
+            statusToAdmin = "Requested Profile Picture by instructor/other students";
         } else {
             Assumption.fail("expected blob-key, or student email with courseId");
         }
@@ -48,15 +50,21 @@ public class StudentProfilePictureAction extends Action {
         }
         
         StudentAttributes student = logic.getStudentForEmail(courseId, email);
+        String blobKey = "";
         if (student == null) {
             throw new EntityDoesNotExistException("student with " +
                     courseId + "/" + email);
-        }
-        // googleId == null is handled at logic level
-        StudentProfileAttributes profile = logic.getStudentProfile(student.googleId);
-        String blobKey = "";
-        if (profile != null) {
-            blobKey = profile.pictureKey;
+        } else if (student.googleId == null 
+                || student.googleId.isEmpty()) {
+            // unregistered student, so ignore the picture request
+        } else {
+            StudentProfileAttributes profile = logic.getStudentProfile(student.googleId);
+            // handle legacy code
+            if (profile != null) {
+                // this branch is not tested as it is difficult to reproduce in testing
+                // as all the code has been changed to ensure existence of a profile
+                blobKey = profile.pictureKey;
+            }
         }
         return createImageResult(blobKey);
     }

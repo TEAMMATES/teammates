@@ -2328,7 +2328,7 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @throws EntityDoesNotExistException 
+     * @throws EntityDoesNotExistException when the course with given courseId doesn't exist
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(String courseId, CommentSendingState state) 
             throws EntityDoesNotExistException {
@@ -2336,14 +2336,29 @@ public class Logic {
         return feedbackResponseCommentsLogic.getFeedbackResponseCommentsForSendingState(courseId, state);
     }
     
+    /**
+     * Create or update document for the given FeedbackResponseComment
+     * @param comment to be put into documents
+     */
     public void putDocument(FeedbackResponseCommentAttributes comment){
         feedbackResponseCommentsLogic.putDocument(comment);
     }
     
+    /**
+     * Remove document for the given FeedbackResponseComment
+     * @param comment to be removed from documents
+     */
     public void deleteDocument(FeedbackResponseCommentAttributes comment){
         feedbackResponseCommentsLogic.deleteDocument(comment);
     }
     
+    /**
+     * Search for FeedbackResponseComment
+     * @param queryString
+     * @param googleId
+     * @param cursorString, used to support the pagination
+     * @return
+     */
     public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(String queryString, String googleId, String cursorString){
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
@@ -2415,14 +2430,29 @@ public class Logic {
         return commentsLogic.getComment(commentId);
     }
     
+    /**
+     * Create or update document for the given Comment
+     * @param comment to be put into documents
+     */
     public void putDocument(CommentAttributes comment){
         commentsLogic.putDocument(comment);
     }
     
+    /**
+     * Remove document for the given Comment
+     * @param comment to be removed from the documents
+     */
     public void deleteDocument(CommentAttributes comment){
         commentsLogic.deleteDocument(comment);
     }
     
+    /**
+     * Search for comment
+     * @param queryString
+     * @param googleId
+     * @param cursorString, used to support the pagination
+     * @return
+     */
     public CommentSearchResultBundle searchComment(String queryString, String googleId, String cursorString) {
         Assumption.assertNotNull(queryString);
         Assumption.assertNotNull(googleId);
@@ -2477,7 +2507,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      * @return a list of comments from the giver.
-     * @throws EntityDoesNotExistException
+     * @throws EntityDoesNotExistException when the course with given courseId doesn't exist
      */
     public List<CommentAttributes> getCommentsForGiver(String courseId, String giverEmail) throws EntityDoesNotExistException{
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -2489,7 +2519,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      * @return a list of comments from the giver.
-     * @throws EntityDoesNotExistException
+     * @throws EntityDoesNotExistException when the student's course doesn't exist
      */
     public List<CommentAttributes> getCommentsForStudent(StudentAttributes student) throws EntityDoesNotExistException{
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
@@ -2501,7 +2531,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      * @return a list of comments from the giver that have the specified comment status.
-     * @throws EntityDoesNotExistException
+     * @throws EntityDoesNotExistException when the instructor doesn't exist
      */
     public List<CommentAttributes> getCommentsForInstructor(InstructorAttributes instructor) throws EntityDoesNotExistException{
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
@@ -2525,7 +2555,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      * @return a list of comments for the receiver.
-     * @throws EntityDoesNotExistException
+     * @throws EntityDoesNotExistException when the course with given courseId doesn't exist
      */
     public List<CommentAttributes> getCommentsForReceiver(String courseId,
             CommentRecipientType recipientType, String receiver) throws EntityDoesNotExistException{
@@ -2540,7 +2570,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      * @return a list of comments for the receiver.
-     * @throws EntityDoesNotExistException
+     * @throws EntityDoesNotExistException when the course with given courseId doesn't exist
      */
     public List<CommentAttributes> getCommentsForReceiver(String courseId, String giverEmail,
             CommentRecipientType recipientType, String receiver) throws EntityDoesNotExistException{
@@ -2555,7 +2585,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      * @return a list of comments from the giver.
-     * @throws EntityDoesNotExistException
+     * @throws EntityDoesNotExistException when the course with given courseId doesn't exist
      */
     public List<CommentAttributes> getCommentsForSendingState(String courseId, CommentSendingState sendingState) throws EntityDoesNotExistException{
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
