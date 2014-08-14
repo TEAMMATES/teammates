@@ -140,6 +140,7 @@ public class StudentAttributes extends EntityAttributes {
         return new Url(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
                     .withStudentEmail(StringHelper.encrypt(email))
                     .withCourseId(StringHelper.encrypt(course))
+                    .withUserId(googleId)
                     .toString();
     }
 
