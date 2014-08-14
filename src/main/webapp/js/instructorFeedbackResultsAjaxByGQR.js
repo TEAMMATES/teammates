@@ -42,7 +42,13 @@ $(document).ready(function(){
                     } else {
                         $(panelBody[0]).html("There are no responses for this feedback session yet or you do not have access to the responses collected so far.");
                     }
-                }   
+                }
+
+                bindErrorImages($(panelBody[0]).find(".profile-pic-icon-hover, .profile-pic-icon-click"));
+                // bind the show picture onclick events
+                bindStudentPhotoLink($(panelBody[0]).find(".profile-pic-icon-click > .student-profile-pic-view-link"));
+                // bind the show picture onhover events
+                bindStudentPhotoHoverLink($(panelBody[0]).find(".profile-pic-icon-hover"));   
                 
                 $(panelHeading).removeClass('ajax_submit');
                 $(panelHeading).off('click');
