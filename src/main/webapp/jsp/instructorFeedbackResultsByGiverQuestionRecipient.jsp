@@ -386,15 +386,25 @@
                                         <%
                                             String recipientName = data.bundle.getRecipientNameForResponse(question, responseEntry);
                                             String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
+                                            if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, responseEntry.recipientEmail).isEmpty()) { 
                                         %>
-                                            <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(responseEntry.recipientEmail)%>">
-                                                    <a class="student-profile-pic-view-link btn-link">
-                                                        View Photo
-                                                    </a>
-                                                    <img src="" alt="No Image Given" class="hidden">
-                                                </div>
-                                            </td>
+                                                <td class="middlealign">
+                                                    <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(responseEntry.recipientEmail)%>">
+                                                        <a class="student-profile-pic-view-link btn-link">
+                                                            View Photo
+                                                        </a>
+                                                        <img src="" alt="No Image Given" class="hidden">
+                                                    </div>
+                                                </td>
+                                        <% } else { %>
+                                                <td class="middlealign">
+                                                    <div class="align-center" data-link="">
+                                                        <a class="student-profile-pic-view-link btn-link">
+                                                            No Photo
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                        <% } %>
                                             <td class="middlealign"><%=recipientName%></td>
                                             <td class="middlealign"><%=recipientTeamName%></td>
                                             <td class="multiline"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
