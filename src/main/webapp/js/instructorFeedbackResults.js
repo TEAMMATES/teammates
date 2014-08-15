@@ -118,6 +118,7 @@ function bindCollapseEvents(panels, numPanels){
                 $(heading[0]).click(toggleSingleCollapse);
             }
             $(heading[0]).attr("data-target","#panelBodyCollapse-"+numPanels);
+            $(heading[0]).attr("id","panelHeading-"+numPanels);
             $(heading[0]).css("cursor", "pointer");
             $(bodyCollapse[0]).attr('id', "panelBodyCollapse-"+numPanels);
         }

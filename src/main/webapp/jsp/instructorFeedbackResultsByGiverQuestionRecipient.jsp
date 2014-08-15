@@ -335,11 +335,12 @@
                         <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(giverEmail)%>">
                             <strong><%=responsesFromGiver.getKey()%></strong>
                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                            <a class="link-in-dark-bg" href="mailTo:<%= giverEmail%> " <%=mailtoStyleAttr%>>[<%=giverEmail%>]</a>
                         </div>
                     <% } else {%>
                         <strong><%=responsesFromGiver.getKey()%></strong>
-                    <% } %>
                         <a class="link-in-dark-bg" href="mailTo:<%= giverEmail%> " <%=mailtoStyleAttr%>>[<%=giverEmail%>]</a>
+                    <% } %>
                     <span class='glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right'></span>                </div>
                 <div class='panel-collapse collapse <%= shouldCollapsed ? "" : "in"%>'>
                 <div class="panel-body">

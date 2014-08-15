@@ -323,7 +323,7 @@
                                 <div class="col-md-12 text-muted small"><br>
                                     From:
                                     <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) { %>
-                                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
+                                        <div class="middlealign profile-pic-icon-hover inline-block" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
                                             <%=responsesFromGiver.getKey()%>
                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                         </div>

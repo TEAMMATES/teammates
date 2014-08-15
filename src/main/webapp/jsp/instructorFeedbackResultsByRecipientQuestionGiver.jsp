@@ -393,7 +393,7 @@
                                         %>
                                                 <td class="middlealign">
                                                     <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(responseEntry.giverEmail)%>">
-                                                        <a class="btn-link">
+                                                        <a class="student-profile-pic-view-link btn-link">
                                                             View Photo
                                                         </a>
                                                         <img src="" alt="No Image Given" class="hidden">
