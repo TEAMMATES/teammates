@@ -7,8 +7,12 @@ import teammates.common.util.Const;
 import teammates.logic.core.InstructorsLogic;
 
 import com.google.appengine.api.search.Cursor;
+import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.QueryOptions;
 
+/**
+ * The SearchQuery object that defines how we query {@link Document} for student comments
+ */
 public class CommentSearchQuery extends SearchQuery {
     public CommentSearchQuery(String googleId, String queryString, String cursorString) {
         Cursor cursor = cursorString.isEmpty()

@@ -4,7 +4,7 @@ import teammates.common.datatransfer.AccountAttributes;
 
 public class StudentProfileCreateFormUrlAjaxPageData extends PageData {
 
-    String formUrl;
+    public String formUrl;
     boolean isError;
     
     public StudentProfileCreateFormUrlAjaxPageData(AccountAttributes account,

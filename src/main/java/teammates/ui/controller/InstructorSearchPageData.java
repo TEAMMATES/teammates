@@ -8,6 +8,9 @@ import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
 
+/**
+ * PageData: the data to be used in the InstructorSearchPage
+ */
 public class InstructorSearchPageData extends PageData {
 
     public CommentSearchResultBundle commentSearchResultBundle = new CommentSearchResultBundle();

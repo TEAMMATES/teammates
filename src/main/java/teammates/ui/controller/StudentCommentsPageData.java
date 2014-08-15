@@ -9,8 +9,10 @@ import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.util.Const;
 
+/**
+ * PageData: the data used in the StudentCommentsPage
+ */
 public class StudentCommentsPageData extends PageData {
 
     public String courseId;

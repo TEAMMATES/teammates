@@ -15,6 +15,9 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.logic.api.Logic;
 
+/**
+ * PageData: the data to be used in the InstructorCommentsPage
+ */
 public class InstructorCommentsPageData extends PageData {
     public static final String COMMENT_GIVER_NAME_THAT_COMES_FIRST = "0you";
     

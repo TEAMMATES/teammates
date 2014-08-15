@@ -28,10 +28,12 @@ import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.test.pageobjects.InstructorStudentListPage;
 import teammates.test.pageobjects.InstructorStudentRecordsPage;
+import teammates.test.util.Priority;
 
 /**
  * Covers the 'student list' view for instructors.
  */
+@Priority(-1)
 public class InstructorStudentListPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorStudentListPage viewPage;
@@ -44,19 +46,27 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         removeAndRestoreTestDataOnServer(testData);
         
         BackDoor.putDocumentsForStudents(Utils.getTeammatesGson().toJson(testData));
+        
+        // upload a profile picture for one of the students
+        StudentAttributes student = testData.students.get("Student3Course3");
+        File picture = new File("src/test/resources/images/profile_pic_updated.png");
+        String pictureData = Utils.getTeammatesGson().toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
+        assertEquals("Unable to upload profile picture", "[BACKDOOR_STATUS_SUCCESS]", 
+                BackDoor.uploadAndUpdateStudentProfilePicture(student.googleId, pictureData));
+        
         browser = BrowserPool.getBrowser();
     }
     
     @Test
-    public void testAll() throws Exception{
+    public void testAll() throws Exception {
         
         testContent();
-        testShowPhoto();
         testLinks();
         testSearch();
         testDeleteAction();
         testSearchScript();
         testDisplayArchive();
+        testShowPhoto();
     }
     
     private void testSearch() {
@@ -86,7 +96,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         
     }
 
-    private void testContent() {
+    private void testContent() throws Exception {
         String instructorId;
         
         ______TS("content: 2 course with students");
@@ -159,18 +169,20 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         
         StudentAttributes student2 = testData.students.get("Student3Course3");
         
-        File picture = new File("src/test/resources/images/profile_pic_updated.png");
-        String pictureData = Utils.getTeammatesGson().toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
-         
-        assertEquals("[BACKDOOR_STATUS_SUCCESS]", BackDoor.uploadAndUpdateStudentProfilePicture(student2.googleId, pictureData));
-        
         viewPage.clickShowPhoto(student2.course, student2.name);
+
+        // in this page, the 'top' and 'left' attributes of div with class 'popover' 
+        // must be set to {*}
         viewPage.verifyHtmlMainContent("/instructorStudentListPageWithPicture.html");
-        viewPage.verifyPopoverPicture(student2.course, student2.name, 
-                TestProperties.inst().TEAMMATES_URL + "/page/studentProfilePic?studentemail=");
     }
     
     public void testLinks() throws Exception{
+
+        String instructorId = testData.instructors.get("instructorOfCourse2").googleId;
+        Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)
+                    .withUserId(instructorId);
+            
+        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
         
         ______TS("link: enroll");
         String courseId = testData.courses.get("course2").id;
@@ -198,10 +210,6 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         studentEditPage.verifyIsCorrectPage(student2.email);
         studentEditPage.submitButtonClicked();
         
-        InstructorAttributes instructorWith2Courses = testData.instructors.get("instructorOfCourse2");
-        String instructorId = instructorWith2Courses.googleId;
-        Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)
-            .withUserId(instructorId);
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
         
         ______TS("link: view records");
@@ -244,7 +252,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         // already covered under testContent() ______TS("content: search active")
     }
     
-    private void testDisplayArchive() {
+    private void testDisplayArchive() throws Exception {
         String instructorId = testData.instructors.get("instructorOfCourse4").googleId;
         Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE)
                 .withUserId(instructorId);

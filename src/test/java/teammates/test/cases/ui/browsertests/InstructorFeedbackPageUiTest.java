@@ -41,7 +41,7 @@ import com.google.appengine.api.datastore.Text;
  * Covers the 'Feedback Session' page for instructors. 
  * SUT is {@link InstructorFeedbacksPage}.
  */
-@Priority(1)
+@Priority(-1)
 public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorFeedbacksPage feedbackPage;
@@ -458,7 +458,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
     }
     
-    public void testPublishAction(){        
+    public void testPublishAction() throws Exception {        
         // refresh page
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
@@ -491,7 +491,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
     }
     
-    public void testUnpublishAction(){
+    public void testUnpublishAction() throws Exception {
         // refresh page
         
         String courseId = testData.feedbackSessions.get("publishedSession").courseId;
