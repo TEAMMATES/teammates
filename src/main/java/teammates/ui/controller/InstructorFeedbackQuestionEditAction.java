@@ -92,10 +92,8 @@ public class InstructorFeedbackQuestionEditAction extends Action {
     private void validateContribQnGiverRecipient(
             FeedbackQuestionAttributes updatedQuestion) {
         if(updatedQuestion.questionType == FeedbackQuestionType.CONTRIB){
-            Assumption.assertEquals("Contrib qn giver type invalid: " + updatedQuestion.giverType.toString(),
-                    updatedQuestion.giverType, FeedbackParticipantType.STUDENTS);
-            Assumption.assertEquals("Contrib qn recipient type invalid: " + updatedQuestion.recipientType.toString(),
-                    updatedQuestion.recipientType, FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+            Assumption.assertEquals(FeedbackParticipantType.STUDENTS, updatedQuestion.giverType);
+            Assumption.assertEquals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, updatedQuestion.recipientType);
             Assumption.assertTrue("Contrib Qn Invalid visibility options",
                     (updatedQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
                     == updatedQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) &&
