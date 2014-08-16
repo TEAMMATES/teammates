@@ -900,13 +900,9 @@ public class Emails {
         
     }
 
-    public void sendEmail(MimeMessage message) {
-        try {
-            log.info(getEmailInfo(message));
-            Transport.send(message);
-        } catch (MessagingException e) {
-            log.severe("Email sending failed " + e.getMessage());
-        }
+    public void sendEmail(MimeMessage message) throws MessagingException {
+         log.info(getEmailInfo(message));
+         Transport.send(message);
     }
     
     public MimeMessage sendErrorReport(String path, String params, Throwable error) {
