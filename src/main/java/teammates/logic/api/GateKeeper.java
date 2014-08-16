@@ -14,6 +14,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.core.AccountsLogic;
+import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.StudentsDb;
 
@@ -454,6 +455,22 @@ public class GateKeeper {
         User user = userService.getCurrentUser();
         Assumption.assertNotNull(user);
         return studentsDb.getStudentsForGoogleId(user.getNickname()).size()!=0;
+    }
+
+    public void verifyAccessibleForCurrentUserAsInstructor(AccountAttributes account, 
+            String courseId, String section) {
+
+        InstructorAttributes instructor = 
+                InstructorsLogic.inst().getInstructorForGoogleId(courseId, account.googleId);
+        
+        if(instructor == null) {
+            throw new UnauthorizedAccessException(
+                    "User is not instructor of the course that student belongs to");
+        } else if (! instructor.isAllowedForPrivilege(section, 
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
+            throw new UnauthorizedAccessException(
+                    "User does not have enough privileges to view the photo");
+        }
     }
     
 
