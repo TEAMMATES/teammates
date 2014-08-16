@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.StudentProfileCreateFormUrlAction;
@@ -28,50 +29,53 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
     public void testExecuteAndPostProcess() throws Exception {
         AccountAttributes student = dataBundle.accounts.get("student1InCourse1");
         
-        String[] submissionParams = new String[]{};
+        testGenerateUploadUrlSuccessTypical(student);
+        testGenerateUploadUrlSuccessMasqueradeMode(student);
         
+    }
+
+    private void testGenerateUploadUrlSuccessTypical(AccountAttributes student)
+            throws Exception, EntityDoesNotExistException {
         ______TS("typical success");
         
+        String[] submissionParams = new String[]{};        
         gaeSimulation.loginAsStudent(student.googleId);
-        StudentProfileCreateFormUrlAction a = getAction(submissionParams);
-        AjaxResult r = (AjaxResult) a.executeAndPostProcess();
+        StudentProfileCreateFormUrlAction action = getAction(submissionParams);
+        AjaxResult result = (AjaxResult) action.executeAndPostProcess();
         
-        assertFalse(r.isError);
-        assertEquals("", r.getStatusMessage());
-        
-        StudentProfileCreateFormUrlAjaxPageData data = (StudentProfileCreateFormUrlAjaxPageData) r.data;
-        
-        
-        String expectedLogMessage = "TEAMMATESLOG|||studentProfileCreateFormUrl|||studentProfileCreateFormUrl" +
-                "|||true|||Student|||"+ student.name +"|||" + student.googleId + "|||" + student.email +
-                "|||Created Url successfully: " + data.formUrl + "|||/page/studentProfileCreateFormUrl";
-        
-        assertEquals(expectedLogMessage, a.getLogMessage());
-        
+        assertFalse(result.isError);
+        assertEquals("", result.getStatusMessage());        
+        verifyLogMessage(student, action, result, false);
+    }
+
+    private void testGenerateUploadUrlSuccessMasqueradeMode(
+            AccountAttributes student) throws Exception,
+            EntityDoesNotExistException {
         ______TS("masquerade mode");
-        String adminUserId = "admin.user";
-        gaeSimulation.loginAsAdmin(adminUserId);
         
-        submissionParams = new String[]{
+        gaeSimulation.loginAsAdmin("admin.user");
+        
+        String[] submissionParams = new String[]{
                 Const.ParamsNames.USER_ID, student.googleId
         };
         
-        a = getAction(addUserIdToParams(student.googleId, submissionParams));
-        r = (AjaxResult) a.executeAndPostProcess();
+        StudentProfileCreateFormUrlAction action = getAction(addUserIdToParams(student.googleId, submissionParams));
+        AjaxResult result = (AjaxResult) action.executeAndPostProcess();
         
-        assertFalse(r.isError);
-        assertEquals("", r.getStatusMessage());
+        assertFalse(result.isError);
+        assertEquals("", result.getStatusMessage());
+        verifyLogMessage(student, action, result, true);
+    }
+
+    private void verifyLogMessage(AccountAttributes student,
+            StudentProfileCreateFormUrlAction action, AjaxResult result, boolean isMasquerade) {
+        StudentProfileCreateFormUrlAjaxPageData data = (StudentProfileCreateFormUrlAjaxPageData) result.data;
         
-        data = (StudentProfileCreateFormUrlAjaxPageData) r.data;
-        
-        assertFalse(r.isError);
-        
-        expectedLogMessage = "TEAMMATESLOG|||studentProfileCreateFormUrl|||studentProfileCreateFormUrl" +
-                "|||true|||Student(M)|||"+ student.name +"|||" + student.googleId + "|||" + student.email +
+        String expectedLogMessage = "TEAMMATESLOG|||studentProfileCreateFormUrl|||studentProfileCreateFormUrl" +
+                "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||"+ student.name +"|||" + student.googleId + "|||" + student.email +
                 "|||Created Url successfully: " + data.formUrl + "|||/page/studentProfileCreateFormUrl";
         
-        assertEquals(expectedLogMessage, a.getLogMessage());
-        
+        assertEquals(expectedLogMessage, action.getLogMessage());
     }
 
     private StudentProfileCreateFormUrlAction getAction(String... params) throws Exception{
