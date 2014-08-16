@@ -50,7 +50,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public String getProfilePictureLink(String studentEmail) {
         
         return Const.ActionURIs.STUDENT_PROFILE_PICTURE 
-                + "?" + Const.ParamsNames.COURSE_ID + "=" + StringHelper.encrypt(instructor.courseId)
-                + "&" + Const.ParamsNames.STUDENT_EMAIL + "=" + StringHelper.encrypt(studentEmail);
+                + "?" + Const.ParamsNames.STUDENT_EMAIL + "=" + StringHelper.encrypt(studentEmail)
+                + "&" + Const.ParamsNames.COURSE_ID + "=" + StringHelper.encrypt(instructor.courseId)
+                + "&" + Const.ParamsNames.USER_ID + "=" + account.googleId;
     }
 }
