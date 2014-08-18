@@ -62,6 +62,7 @@ public class StudentAttributes extends EntityAttributes {
     //Note: be careful when changing these variables as their names are used in *.json files.
     public String googleId;
     public String name;
+    public String lastName;
     public String email;
     public String course = null;
     public String comments = null;
@@ -96,6 +97,7 @@ public class StudentAttributes extends EntityAttributes {
         this.email = student.getEmail();
         this.course = student.getCourseId();
         this.name = student.getName();
+        this.lastName = student.getLastName();
         this.comments = Sanitizer.sanitizeTextField(student.getComments());
         this.team = Sanitizer.sanitizeTitle(student.getTeamName());
         this.section = ((student.getSectionName() == null) ? Const.DEFAULT_SECTION : Sanitizer.sanitizeTitle(student.getSectionName()));
