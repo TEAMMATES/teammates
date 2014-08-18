@@ -18,31 +18,18 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorEvalsPageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_EVALS_PAGE;
     }
 
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-
-    @Test
-    public void testAccessControl() throws Exception {
-
-        String[] submissionParams = new String[] {};
-        verifyOnlyInstructorsCanAccess(submissionParams);
-
-    }
-
-    @Test
+    //@Test
+    //This test is deprecated along with creating evaluations.
     public void testExecuteAndPostProcess() throws Exception {
-        //TODO: find a way to test status message from session
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors
                 .get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;

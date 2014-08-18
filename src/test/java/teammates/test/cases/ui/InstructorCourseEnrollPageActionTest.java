@@ -16,28 +16,13 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
     
     @Test
@@ -64,7 +49,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         
         InstructorCourseEnrollPageData pageData = (InstructorCourseEnrollPageData) pageResult.data;
         assertEquals(courseId, pageData.courseId);
-        assertEquals("", pageData.enrollStudents);
+        assertEquals(null, pageData.enrollStudents);
         
         String expectedLogSegment = "instructorCourseEnroll Page Load<br>"
                 + "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>"; 
@@ -87,7 +72,7 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         
         pageData = (InstructorCourseEnrollPageData) pageResult.data;
         assertEquals(courseId, pageData.courseId);
-        assertEquals("", pageData.enrollStudents);
+        assertEquals(null, pageData.enrollStudents);
         
         expectedLogSegment = "instructorCourseEnroll Page Load<br>"
                 + "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>"; 

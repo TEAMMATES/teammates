@@ -28,7 +28,7 @@ public class InstructorEvalSubmissionViewPageUiTest extends BaseUiTestCase{
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorEvalSubmissionViewPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
     }
     
@@ -48,7 +48,7 @@ public class InstructorEvalSubmissionViewPageUiTest extends BaseUiTestCase{
             .withEvalName(eval.name);
         InstructorEvalResultsPage resultsPage = loginAdminToPage(browser, resultsUrl, InstructorEvalResultsPage.class);
         viewPage = resultsPage.clickViewLinkForStudent("Charlie");
-        viewPage.verifyHtml("/instructorEvalSubmissionViewP2pDisabled.html");
+        viewPage.verifyHtmlMainContent("/instructorEvalSubmissionViewP2pDisabled.html");
         
         viewPage.closeCurrentWindowAndSwitchToParentWindow();
         
@@ -62,7 +62,7 @@ public class InstructorEvalSubmissionViewPageUiTest extends BaseUiTestCase{
             .withEvalName(eval.name);
         resultsPage = loginAdminToPage(browser, resultsUrl, InstructorEvalResultsPage.class);
         viewPage = resultsPage.clickViewLinkForStudent("Charlie");
-        viewPage.verifyHtml("/instructorEvalSubmissionView.html");
+        viewPage.verifyHtmlMainContent("/instructorEvalSubmissionView.html");
         
         ______TS("link: edit");
         

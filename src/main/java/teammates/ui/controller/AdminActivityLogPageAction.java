@@ -21,7 +21,10 @@ public class AdminActivityLogPageAction extends Action {
     private boolean includeAppLogs = true;
     private static final int LOGS_PER_PAGE = 50;
     private static final int MAX_LOGSEARCH_LIMIT = 15000;
-
+    
+    
+    
+    
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException{
         
@@ -32,6 +35,20 @@ public class AdminActivityLogPageAction extends Action {
         data.offset = getRequestParamValue("offset");
         data.pageChange = getRequestParamValue("pageChange");
         data.filterQuery = getRequestParamValue("filterQuery");
+        
+        
+//      This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" in AdminActivityLogPageData
+//      should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
+//      logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
+//      or simply reloaded with this parameter omitted.
+        String ifShowAllAsString = getRequestParamValue("all");
+        if(ifShowAllAsString == null){
+            data.ifShowAll = false;
+        }else{           
+            data.ifShowAll = Boolean.parseBoolean(ifShowAllAsString);
+        }
+        
+        
         
         if(data.pageChange != null && !data.pageChange.equals("true")){
             //Reset the offset because we are performing a new search, so we start from the beginning of the logs
@@ -44,32 +61,90 @@ public class AdminActivityLogPageAction extends Action {
         data.generateQueryParameters(data.filterQuery);
         
         
-        LogQuery query = buildQuery(data.offset, includeAppLogs);
+        LogQuery query = buildQuery(data.offset, includeAppLogs, data.versions);
         data.logs = getAppLogs(query, data);
         
-        return createShowPageResult(Const.ViewURIs.ADMIN_ACTIVITY_LOG, data);
+        if(data.offset == null){
+            return createShowPageResult(Const.ViewURIs.ADMIN_ACTIVITY_LOG, data);
+        }
         
+        return createAjaxResult(Const.ViewURIs.ADMIN_ACTIVITY_LOG, data);
     }
     
-    private LogQuery buildQuery(String offset, boolean includeAppLogs) {
+    private LogQuery buildQuery(String offset, boolean includeAppLogs, List<String> versions) {
         LogQuery query = LogQuery.Builder.withDefaults();
-        
-        String currentVersion = Config.inst().getAppVersion().replace(".", "-");
-        String[] tokens = currentVersion.split("-");
-        List<String> appVersions = new ArrayList<String>();
-        appVersions.add(currentVersion);
-        appVersions.add(tokens[0] + "-" + (Integer.parseInt(tokens[1]) - 1));
-        appVersions.add(tokens[0] + "-" + (Integer.parseInt(tokens[1]) - 2));
-        appVersions.add(tokens[0] + "-" + (Integer.parseInt(tokens[1]) - 3));
-        query.majorVersionIds(appVersions);
         
         query.includeAppLogs(includeAppLogs);
         query.batchSize(1000);
+        
+        try {
+            query.majorVersionIds(getVersionIdsForQuery(versions));
+        } catch (Exception e) {
+            isError = true;
+            statusToUser.add(e.getMessage());
+        }
         
         if (offset != null && !offset.equals("null")) {
             query.offset(offset);
         }
         return query;
+    }
+    
+    private List<String> getVersionIdsForQuery(List<String> versions){
+        
+        boolean isVersionSpecifiedInRequest = (versions != null && !versions.isEmpty());
+        if(isVersionSpecifiedInRequest){   
+            return versions;        
+        }       
+        return getDefaultVersionIdsForQuery();
+    }
+    
+    private List<String> getDefaultVersionIdsForQuery(){
+    
+        String currentVersion = Config.inst().getAppVersion();
+        List<String> defaultVersions = new ArrayList<String>();
+        
+        //Check whether version Id contains alphabet 
+        //Eg. 5.05rc
+        if (currentVersion.matches(".*[A-z.*]")) {
+            //if current version contains alphatet,
+            //by default just prepare current version as a single element for the query
+            defaultVersions.add(currentVersion.replace(".", "-"));
+            
+        } else {
+            //current version does not contain alphabet
+            //by default prepare current version with preceding 3 versions
+            defaultVersions = getRecentVersionIdsWithDigitOnly(currentVersion);
+        }
+        
+        return defaultVersions;        
+    }
+    
+    private List<String> getRecentVersionIdsWithDigitOnly(String currentVersion){
+        
+        List<String> recentVersions = new ArrayList<String>();
+        
+        double curVersionAsDouble = Double.parseDouble(currentVersion);
+        recentVersions.add(currentVersion.replace(".", "-"));
+        
+        //preceding versions
+        String[] preVer = { null, null, null };
+        
+        //go back for three preceding versions
+        //subtract from double form of current version id
+        //Eg. current version is 4.01 --> 4.00, 3.99, 3.98  --> 4-00, 3-99, 3-98
+        for (int i = 1; i < 4; i++) {
+
+            double preVersionAsDouble = curVersionAsDouble - 0.01 * i;
+            if (preVersionAsDouble > 0) {
+                String preVersion = String.format("%.2f", preVersionAsDouble)
+                                          .replace(".", "-");
+                
+                recentVersions.add(preVersion);
+            }
+        }
+        
+        return recentVersions;
     }
     
     private List<ActivityLogEntry> getAppLogs(LogQuery query, AdminActivityLogPageData data) {
@@ -111,14 +186,21 @@ public class AdminActivityLogPageAction extends Action {
             }    
         }
         
-        statusToUser.add("Total logs searched: " + totalLogsSearched + "<br>");
+        String status="&nbsp;&nbsp;Total Logs gone through in last search: " + totalLogsSearched + "<br>";
         //link for Next button, will fetch older logs
         if (totalLogsSearched >= MAX_LOGSEARCH_LIMIT){
-            statusToUser.add("<br><span class=\"red\">Maximum amount of logs searched.</span><br>");
+            status += "<br><span class=\"red\">&nbsp;&nbsp;Maximum amount of logs per requst have been searched.</span><br>";
+            status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "','" + data.ifShowAll + "');\">Search More</button>";           
         }
-        if (currentLogsInPage >= LOGS_PER_PAGE) {            
-            statusToUser.add("<a href=\"#\" onclick=\"submitForm('" + lastOffset + "');\">Older</a>");
+        
+        if (currentLogsInPage >= LOGS_PER_PAGE) {   
+            status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "','" + data.ifShowAll + "');\">Older Logs </button>";              
         }
+        
+        status += "<input id=\"ifShowAll\" type=\"hidden\" value=\""+ data.ifShowAll +"\"/>";
+        
+        data.statusForAjax = status;
+        statusToUser.add(status);
         
         return appLogs;
     }

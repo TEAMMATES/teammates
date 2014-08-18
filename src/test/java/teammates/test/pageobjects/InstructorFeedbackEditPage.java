@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -43,6 +44,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     @FindBy(id = "instructions")
     private WebElement instructionsTextBox;
+    
+    @FindBy(id = "editUncommonSettingsButton")
+    private WebElement uncommonSettingsButton;
     
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_custom")
     private WebElement customSessionVisibleTimeButton;
@@ -119,6 +123,12 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(xpath = "//input[@name='numofrecipientstype' and @value='custom']")
     private WebElement customNumOfRecipients;
     
+    @FindBy(id = "button_copy")
+    private WebElement copyButton;
+    
+    @FindBy(id = "button_copy_submit")
+    private WebElement copySubmitButton;
+    
     @FindBy(id = "button_preview_student")
     private WebElement previewAsStudentButton;
     
@@ -185,6 +195,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
         WebElement maxScaleBox = browser.driver.findElement(By.id("maxScaleBox" + idSuffix));
         fillTextBox(maxScaleBox, Integer.toString(maxScale));
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("$(arguments[0]).change();", maxScaleBox);
     }
     
     public void fillMinNumScaleBox(String minScale, int qnNumber) {
@@ -203,6 +215,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
         WebElement maxScaleBox = browser.driver.findElement(By.id("maxScaleBox" + idSuffix));
         fillTextBox(maxScaleBox, maxScale);
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("$(arguments[0]).change();", maxScaleBox);
     }
     
     public String getMaxNumScaleBox(int qnNumber) {
@@ -221,6 +235,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
         WebElement stepBox = browser.driver.findElement(By.id("stepBox" + idSuffix));
         fillTextBox(stepBox, StringHelper.toDecimalFormatString(step));
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("$(arguments[0]).change();", stepBox);
     }
     
     public void fillStepNumScaleBox(String step, int qnNumber) {
@@ -241,6 +257,26 @@ public class InstructorFeedbackEditPage extends AppPage {
         return possibleValuesSpan.getText();
     }
     
+    public void fillConstSumPointsBox(String points, int qnNumber) {
+        String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+        if(qnNumber == -1){
+            idSuffix = "--1";
+        }
+        WebElement pointsBox = browser.driver.findElement(By.id("constSumPoints" + idSuffix));
+        fillTextBox(pointsBox, Keys.BACK_SPACE+points); //backspace to clear the extra 1 when box is cleared.
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("$(arguments[0]).change();", pointsBox);
+    }
+    
+    public String getConstSumPointsBox(int qnNumber) {
+        String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+        if(qnNumber == -1){
+            idSuffix = "--1";
+        }
+        WebElement constSumPointsBox = browser.driver.findElement(By.id("constSumPoints" + idSuffix));
+        return constSumPointsBox.getAttribute("value");
+    }
+    
     public void clickQuestionEditForQuestion1() {
         questionEditForQuestion1.click();
     }
@@ -251,6 +287,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void clickCustomNumberOfRecipientsButton() {
         customNumOfRecipients.click();
+    }
+    
+    public void clickEditUncommonSettingsButton(){
+        uncommonSettingsButton.click();
     }
     
     public void clickCustomVisibleTimeButton(){
@@ -271,6 +311,14 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void clickManualPublishTimeButton(){
         manualResultsVisibleTimeButton.click();
+    }
+    
+    public void clickCopyButton(){
+        copyButton.click();
+    }
+    
+    public void clickCopySubmitButton(){
+        copySubmitButton.click();
     }
     
     public WebElement getDeleteSessionLink(){
@@ -295,8 +343,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForPageToLoad();
     }
     
+    public void clickVisibilityPreviewForQuestion1(){
+        browser.driver.findElement(By.className("visibilityMessageButton")).click();
+    }
+    
     public void clickVisibilityOptionsForQuestion1(){
-        browser.driver.findElement(By.className("visibilityOptionsLabel")).click();;
+        browser.driver.findElement(By.className("visibilityOptionsLabel")).click();
+    }
+    
+    public void clickVisibilityOptionsForQuestion2(){
+        browser.driver.findElements(By.className("visibilityOptionsLabel")).get(1).click();
     }
     
     public void clickAddQuestionButton(){
@@ -317,6 +373,11 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement qnSaveLink = browser.driver.findElement(By.id("button_question_submit-" + qnNumber));
         qnSaveLink.click();
         waitForPageToLoad();
+    }
+    
+    public void selectQuestionNumber(int qnNumber, int newQnNumber){
+        WebElement qnNumSelect = browser.driver.findElement(By.id("questionnum-" + qnNumber));
+        selectDropdownByVisibleValue(qnNumSelect, String.valueOf(newQnNumber));
     }
     
     /**
@@ -368,6 +429,15 @@ public class InstructorFeedbackEditPage extends AppPage {
         return mcqForm.isDisplayed() && addNewQuestionButton.isDisplayed();
     }
     
+    public boolean verifyNewConstSumQuestionFormIsDisplayed() {
+        WebElement constSumForm = browser.driver.findElement(By.id("constSumForm"));
+        return constSumForm.isDisplayed() && addNewQuestionButton.isDisplayed();
+    }
+    
+    public boolean verifyNewContributionQuestionFormIsDisplayed() {
+        return addNewQuestionButton.isDisplayed();
+    }
+    
     public void selectNewQuestionType(String questionType){
         selectDropdownByVisibleValue(browser.driver.findElement(By.id("questionTypeChoice")), questionType);
     }
@@ -378,6 +448,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void selectMsqGenerateOptionsFor(String generateFor, int questionNumber){
         selectDropdownByVisibleValue(browser.driver.findElement(By.id("msqGenerateForSelect-" + questionNumber)), generateFor);
+    }
+    
+    public void selectConstSumPointsOptions(String pointsOption, int questionNumber){
+        selectDropdownByVisibleValue(browser.driver.findElement(By.id("constSumPointsPerOptionSelect-" + questionNumber)), pointsOption);
     }
     
     public void selectGiverTypeForQuestion1(String giverType){
@@ -473,7 +547,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public InstructorFeedbacksPage clickDoneEditingLink() {
-        WebElement doneEditingLink = browser.driver.findElement(By.id("addNewQuestionTable")).findElement(By.tagName("a"));
+        WebElement doneEditingLink = browser.driver.findElement(By.id("addNewQuestionTable")).findElements(By.tagName("a")).get(3);
         doneEditingLink.click();
         waitForPageToLoad();
         return changePageType(InstructorFeedbacksPage.class);
@@ -531,6 +605,27 @@ public class InstructorFeedbackEditPage extends AppPage {
         removeOptionLink.click();
     }
     
+    public void fillConstSumOption(int optionIndex, String optionText){
+        WebElement optionBox = browser.driver.findElement(By.id("constSumOption-" + optionIndex + "--1"));
+        fillTextBox(optionBox, optionText);
+    }
+    
+    public void clickAddMoreConstSumOptionLink(){
+        WebElement addMoreOptionLink = browser.driver.findElement(By.id("constSumAddOptionLink"));
+        addMoreOptionLink.click();
+    }
+    
+    public void clickRemoveConstSumOptionLink(int optionIndex, int qnIndex) {
+        String idSuffix = qnIndex > 0 ? "-" + qnIndex : "";
+        if(qnIndex == -1){
+            idSuffix = "--1";
+        }
+        
+        WebElement msqOptionRow = browser.driver.findElement(By.id("constSumOptionRow-" + optionIndex + idSuffix));
+        WebElement removeOptionLink = msqOptionRow.findElement(By.id("constSumRemoveOptionLink"));
+        removeOptionLink.click();
+    }
+    
     public FeedbackSubmitPage clickPreviewAsStudentButton() {
         previewAsStudentButton.click();
         waitForPageToLoad();
@@ -548,5 +643,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void clickGetLinkButton() {
         getLinkButton.click();
+    }
+    
+    public void clickCopyTableAtRow(int rowIndex) {
+        WebElement row = browser.driver.findElement(By.id("copyTableModal")).findElements(By.tagName("tr")).get(rowIndex + 1);
+        row.click();
     }
 }

@@ -17,6 +17,7 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorEvalResultsPage;
 import teammates.test.pageobjects.InstructorEvalSubmissionEditPage;
 import teammates.test.pageobjects.InstructorEvalsPage;
+import teammates.test.pageobjects.InstructorFeedbacksPage;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -35,7 +36,7 @@ public class InstructorEvalSubmissionEditPageUiTest extends BaseUiTestCase{
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorEvalSubmissionEditPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
         eval = testData.evaluations.get("First Eval");
     }
@@ -62,7 +63,7 @@ public class InstructorEvalSubmissionEditPageUiTest extends BaseUiTestCase{
             .withEvalName(p2pDisabledEval.name)
             .withStudentEmail(testData.students.get("Charlie").email);
         editPage = loginAdminToPage(browser, editUrl, InstructorEvalSubmissionEditPage.class);
-        editPage.verifyHtml("/instructorEvalSubmissionP2PDisabled.html");
+        editPage.verifyHtmlMainContent("/instructorEvalSubmissionP2PDisabled.html");
         
         
         ______TS("content: typical edit page, reached via resulst page");
@@ -73,7 +74,7 @@ public class InstructorEvalSubmissionEditPageUiTest extends BaseUiTestCase{
             .withEvalName(eval.name);
         InstructorEvalResultsPage resultsPage = loginAdminToPage(browser, resultsUrl, InstructorEvalResultsPage.class);
         editPage = resultsPage.clickEditLinkForStudent("Charlie");
-        editPage.verifyHtml("/instructorEvalSubmissionEdit.html");
+        editPage.verifyHtmlMainContent("/instructorEvalSubmissionEdit.html");
         
     }
 
@@ -95,7 +96,7 @@ public class InstructorEvalSubmissionEditPageUiTest extends BaseUiTestCase{
         editPage.setValuesForSubmission(1, subs[1]);
         editPage.setValuesForSubmission(2, subs[2]);
         
-        InstructorEvalsPage resultsPage = editPage.submit();
+        InstructorFeedbacksPage resultsPage = editPage.submit();
         String expectedStatus = String.format(
                 Const.StatusMessages.INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED,
                 testData.students.get("Charlie").name,

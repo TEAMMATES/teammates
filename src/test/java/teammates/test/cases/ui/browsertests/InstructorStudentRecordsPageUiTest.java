@@ -21,7 +21,11 @@ import teammates.test.pageobjects.InstructorStudentRecordsPage;
 public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorStudentRecordsPage viewPage;
-    private static DataBundle testDataNormal, testDataQuestionType, testDataLinks;    
+    private static DataBundle testDataNormal, testDataQuestionType, testDataLinks;
+    
+    private static String instructorId;
+    private static String courseId;
+    private static String studentEmail;
 
     @BeforeClass
     public static void classSetup() throws Exception {
@@ -36,7 +40,6 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     
     @Test
     public void testAll() throws Exception{
-
         testContent();
         testLinks();
         testScript();
@@ -50,101 +53,107 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         
         ______TS("content: typical case, normal student records with comments");
         
-        restoreTestDataOnServer(testDataNormal);
+        removeAndRestoreTestDataOnServer(testDataNormal);
                 
         instructor = testDataNormal.instructors.get("teammates.test.CS2104");
         student = testDataNormal.students.get("benny.c.tmms@ISR.CS2104");
         
-        Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
-            .withUserId(instructor.googleId)
-            .withCourseId(instructor.courseId)
-            .withStudentEmail(student.email);
+        instructorId = instructor.googleId;
+        courseId = instructor.courseId;
+        studentEmail = student.email;
         
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentRecordsPage.class);
-        viewPage.verifyHtml("/instructorStudentRecordsPage.html");
+        viewPage = getStudentRecordsPage();
+        viewPage.verifyHtml("/instructorStudentRecords.html");
         
+        ______TS("content: typical case, normal student records with comments, helper view");
+        
+        instructor = testDataNormal.instructors.get("teammates.test.CS2104.Helper");
+        
+        instructorId = instructor.googleId;
+        courseId = instructor.courseId;
+        studentEmail = student.email;
+            
+        viewPage = getStudentRecordsPage();
+        viewPage.verifyHtmlMainContent("/instructorStudentRecordsWithHelperView.html");
         
         ______TS("content: normal student records with private feedback session");
-        
-        restoreTestDataOnServer(testDataNormal);
                 
         instructor = testDataNormal.instructors.get("teammates.test.CS1101");
         student = testDataNormal.students.get("teammates.test@ISR.CS1101");
         
-        viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
-            .withUserId(instructor.googleId)
-            .withCourseId(instructor.courseId)
-            .withStudentEmail(student.email);
+        instructorId = instructor.googleId;
+        courseId = instructor.courseId;
+        studentEmail = student.email;
         
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentRecordsPage.class);
-        viewPage.verifyHtml("/instructorStudentRecordsPageWithPrivateFeedback.html");
+        viewPage = getStudentRecordsPage();
+        viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageWithPrivateFeedback.html");
         
         
-        ______TS("content: no student records");
+        ______TS("content: no student records, no profiles");
         
         instructor = testDataNormal.instructors.get("teammates.noeval");
         student = testDataNormal.students.get("alice.b.tmms@ISR.NoEval");
         
-        viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
-            .withUserId(instructor.googleId)
-            .withCourseId(instructor.courseId)
-            .withStudentEmail(student.email);
+        instructorId = instructor.googleId;
+        courseId = instructor.courseId;
+        studentEmail = student.email;
         
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentRecordsPage.class);
-        viewPage.verifyHtml("/instructorStudentRecordsPageNoRecords.html");
+        viewPage = getStudentRecordsPage();
+        viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageNoRecords.html");
         
         ______TS("content: multiple feedback session type student record");
         
-        restoreTestDataOnServer(testDataQuestionType);
+        removeAndRestoreTestDataOnServer(testDataQuestionType);
                 
         instructor = testDataQuestionType.instructors.get("instructor1OfCourse1");
         student = testDataQuestionType.students.get("student1InCourse1");
         
-        viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
-            .withUserId(instructor.googleId)
-            .withCourseId(instructor.courseId)
-            .withStudentEmail(student.email);
+        instructorId = instructor.googleId;
+        courseId = instructor.courseId;
+        studentEmail = student.email;
         
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentRecordsPage.class);
-        viewPage.verifyHtml("/instructorStudentRecordsPageMixedQuestionType.html");
+        viewPage = getStudentRecordsPage();
+        viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageMixedQuestionType.html");
 
     }
     
     private void testLinks() throws Exception{
-        InstructorAttributes instructor;
-        StudentAttributes student;
-        restoreTestDataOnServer(testDataLinks);
-        instructor = testDataLinks.instructors.get("CESubEditUiT.instructor");
-        student = testDataLinks.students.get("Charlie");
+        InstructorAttributes instructor = testDataLinks.instructors.get("CESubEditUiT.instructor");
+        StudentAttributes student = testDataLinks.students.get("Charlie");
+        removeAndRestoreTestDataOnServer(testDataLinks);
         
-        Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
-            .withUserId(instructor.googleId)
-            .withCourseId(instructor.courseId)
-            .withStudentEmail(student.email);
+        instructorId = instructor.googleId;
+        courseId = instructor.courseId;
+        studentEmail = student.email;
         
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentRecordsPage.class);
+        viewPage = getStudentRecordsPage();
         viewPage.clickEvalEditLink("First Eval");
         assertTrue(browser.driver.getCurrentUrl().toString().contains(Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT));
     }
     
+    private void testScript() throws Exception{
+        InstructorAttributes instructor = testDataNormal.instructors.get("teammates.test.CS2104");
+        StudentAttributes student = testDataNormal.students.get("benny.c.tmms@ISR.CS2104");
+        
+        instructorId = instructor.googleId;
+        courseId = instructor.courseId;
+        studentEmail = student.email;
+        
+        viewPage = getStudentRecordsPage();
+        
+        ______TS("add comment button");
+        viewPage.verifyAddCommentButtonClick();
+        
+        ______TS("edit comment button");
+        viewPage.verifyEditCommentButtonClick(0);
+    }
+    
     private void testAction() throws Exception{
-        InstructorAttributes instructor;
-        StudentAttributes student;
-        
-        instructor = testDataNormal.instructors.get("teammates.test.CS2104");
-        student = testDataNormal.students.get("benny.c.tmms@ISR.CS2104");
-        
-        Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
-            .withUserId(instructor.googleId)
-            .withCourseId(instructor.courseId)
-            .withStudentEmail(student.email);
-        
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentRecordsPage.class);
         
         ______TS("add comment: success");
 
         viewPage.addComment("New comment from teammates.test for Benny C")
-                .verifyStatus("New comment has been added for this student");
+                .verifyStatus("New comment has been added");
         
         ______TS("delete comment: cancel");
         
@@ -164,25 +173,13 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         viewPage.editComment(0, "Comment 2 from ISR.CS2104 teammates.test Instructor to Benny");
     }
     
-    private void testScript() throws Exception{
-        InstructorAttributes instructor;
-        StudentAttributes student;
-        
-        instructor = testDataNormal.instructors.get("teammates.test.CS2104");
-        student = testDataNormal.students.get("benny.c.tmms@ISR.CS2104");
-        
+    private InstructorStudentRecordsPage getStudentRecordsPage() {
         Url viewPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
-            .withUserId(instructor.googleId)
-            .withCourseId(instructor.courseId)
-            .withStudentEmail(student.email);
+            .withUserId(instructorId)
+            .withCourseId(courseId)
+            .withStudentEmail(studentEmail);
         
-        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentRecordsPage.class);
-        
-        ______TS("add comment button");
-        viewPage.verifyAddCommentButtonClick();
-        
-        ______TS("edit comment button");
-        viewPage.verifyEditCommentButtonClick(0);
+        return loginAdminToPage(browser, viewPageUrl, InstructorStudentRecordsPage.class);
     }
     
     @AfterClass

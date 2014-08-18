@@ -4,50 +4,38 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.storage.api.AccountsDb;
 import teammates.storage.api.StudentsDb;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentCourseJoinAction;
+import teammates.ui.controller.StudentCourseJoinConfirmationPageData;
 
 public class StudentCourseJoinActionTest extends BaseActionTest {
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        uri = Const.ActionURIs.STUDENT_COURSE_JOIN;
-    }
-
-    @BeforeMethod
-    public void methodSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-
-    @Test
-    public void testAccessControl() throws Exception {
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.REGKEY, "sample-key"
-        };
-
-        verifyOnlyLoggedInUsersCanAccess(submissionParams);
+		removeAndRestoreTypicalDataInDatastore();
+        uri = Const.ActionURIs.STUDENT_COURSE_JOIN_NEW;
     }
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
+        
+        StudentCourseJoinAction joinAction;
+        RedirectResult redirectResult;
+        String[] submissionParams;
+        
         StudentAttributes student1InCourse1 = dataBundle.students
                 .get("student1InCourse1");
         StudentsDb studentsDb = new StudentsDb();
-        AccountsDb accountsDb = new AccountsDb();
         student1InCourse1 = studentsDb.getStudentForGoogleId(
                 student1InCourse1.course, student1InCourse1.googleId);
 
@@ -57,54 +45,20 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
 
         verifyAssumptionFailure();
 
-        ______TS("invalid key");
-
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.REGKEY, "invalid key"
-        };
-        StudentCourseJoinAction joinAction = getAction(submissionParams);
-        ShowPageResult pageResult = getShowPageResult(joinAction);
-
-        assertEquals(Const.ViewURIs.STUDENT_COURSE_JOIN_CONFIRMATION
-                + "?error=false&user=" + student1InCourse1.googleId,
-                pageResult.getDestinationWithParams());
-        assertFalse(pageResult.isError);
-        assertEquals("", pageResult.getStatusMessage());
-
-        ______TS("already registered student");
-
-        submissionParams = new String[] {
-                Const.ParamsNames.REGKEY,
-                StringHelper.encrypt(student1InCourse1.key)
-        };
-
-        joinAction = getAction(submissionParams);
-        RedirectResult redirectResult = getRedirectResult(joinAction);
-
-        assertEquals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED
-                + "?regkey=" + StringHelper.encrypt(student1InCourse1.key)
-                + "&error=false&user=" + student1InCourse1.googleId,
-                redirectResult.getDestinationWithParams());
-        assertFalse(redirectResult.isError);
-
         ______TS("typical case");
-
-        AccountAttributes accountToAdd = new AccountAttributes(
-                "idOfNewStudnet", "nameOfNewStudent", false,
-                "newStudent@gmail.com", "NUS");
         
-        accountsDb.createAccount(accountToAdd);
-        
+        String idOfNewStudent = "idOfNewStudent";
         StudentAttributes newStudentData = new StudentAttributes(
+                student1InCourse1.section,
                 student1InCourse1.team,
                 "nameOfNewStudent", "newStudent@course1.com",
                 "This is a new student", student1InCourse1.course);
         studentsDb.createEntity(newStudentData);
 
-        gaeSimulation.loginUser("idOfNewStudent");
+        gaeSimulation.loginUser(idOfNewStudent);
 
-        StudentAttributes newStudent = studentsDb.getStudentForEmail(
-                newStudentData.course, newStudentData.email);
+        String newStudentKey = StringHelper.encrypt(studentsDb.getStudentForEmail(
+                newStudentData.course, newStudentData.email).key);
         /*
          * Reason why get student attributes for student just added again from
          * StudentsDb:below test needs the student's key, which is auto
@@ -112,17 +66,47 @@ public class StudentCourseJoinActionTest extends BaseActionTest {
          * be obtained by calling the getter from logic to retrieve again
          */
         submissionParams = new String[] {
-                Const.ParamsNames.REGKEY, StringHelper.encrypt(newStudent.key)
+                Const.ParamsNames.REGKEY, newStudentKey,
+                Const.ParamsNames.NEXT_URL, Const.ActionURIs.STUDENT_PROFILE_PAGE
         };
 
         joinAction = getAction(submissionParams);
-        pageResult = getShowPageResult(joinAction);
+        ShowPageResult pageResult = getShowPageResult(joinAction);
 
         assertEquals(Const.ViewURIs.STUDENT_COURSE_JOIN_CONFIRMATION
-                + "?error=false&user=idOfNewStudent",
+                + "?" + Const.ParamsNames.ERROR + "=false"
+                + "&" + Const.ParamsNames.USER_ID + "=" + idOfNewStudent,
                 pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
+        assertEquals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED 
+                + "?" + Const.ParamsNames.REGKEY + "=" + newStudentKey
+                + "&" + Const.ParamsNames.NEXT_URL + "=" + Const.ActionURIs.STUDENT_PROFILE_PAGE, 
+                ((StudentCourseJoinConfirmationPageData) pageResult.data).confirmUrl);
         assertEquals("", pageResult.getStatusMessage());
+        
+        ______TS("skip confirmation");
+        
+        gaeSimulation.logoutUser();
+        
+        submissionParams = new String[] {
+                Const.ParamsNames.REGKEY, newStudentKey,
+                Const.ParamsNames.NEXT_URL, Const.ActionURIs.STUDENT_PROFILE_PAGE,
+                Const.ParamsNames.STUDENT_EMAIL, newStudentData.email,
+                Const.ParamsNames.COURSE_ID, newStudentData.course
+        };
+        
+        joinAction = getAction(submissionParams);
+        redirectResult = getRedirectResult(joinAction);
+
+        assertEquals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED
+                + "?" + Const.ParamsNames.REGKEY + "=" + newStudentKey
+                + "&" + Const.ParamsNames.NEXT_URL + "=" + Const.ActionURIs.STUDENT_PROFILE_PAGE.replace("/", "%2F")
+                + "&" + Const.ParamsNames.ERROR + "=false",
+                redirectResult.getDestinationWithParams());
+        assertFalse(redirectResult.isError);
+        
+        // delete the new student
+        studentsDb.deleteStudentWithoutDocument(newStudentData.course, newStudentData.email);
 
     }
 

@@ -157,7 +157,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
             if(participant == FeedbackParticipantType.RECEIVER && 
                     recipientType == FeedbackParticipantType.SELF) {
                 message.add("You can see your own feedback in the results page later on.");
-                break;
+                continue;
             }
             
             // Front fragment: e.g. Other students in the course..., The receiving.., etc.
@@ -165,17 +165,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes
             
             // Recipient fragment: e.g. student, instructor, etc.
             if(participant == FeedbackParticipantType.RECEIVER) {
-                if (recipientType == FeedbackParticipantType.OWN_TEAM ||
-                        recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS ||
-                        recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
-                    line = recipientType.toVisibilityString() + " ";
-                } else {
-                    line += (recipientType.toSingularFormString());
-                    if(numberOfEntitiesToGiveFeedbackTo > 1) {
-                        line += "s";
-                    }
-                    line += " ";
+                line += (recipientType.toSingularFormString());
+                if(numberOfEntitiesToGiveFeedbackTo > 1) {
+                    line += "s";
                 }
+                line += " ";
             }
             
             line += "can see your response";
@@ -186,7 +180,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
                     line += ", and your name";
                 } 
                 if(recipientType != FeedbackParticipantType.NONE) {
-                    line += ", but <span class=\"bold color_red\">not</span> the name of the recipient";
+                    line += ", but not the name of the recipient";
                 }
                 if(showGiverNameTo.contains(participant) == false) {
                     line += ", or your name";
@@ -199,7 +193,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
                 if(showGiverNameTo.contains(participant)) {
                     line += ", and your name";
                 } else {
-                    line += ", but <span class=\"bold color_red\">not</span> your name";
+                    line += ", but not your name";
                 }
             }
             line += ".";
@@ -437,7 +431,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 
     @Override
     public void sanitizeForSaving() {
-        // TODO implement this
+        this.feedbackQuestionId = Sanitizer.sanitizeTitle(feedbackQuestionId);
+        this.feedbackSessionName = Sanitizer.sanitizeForHtml(feedbackSessionName);
+        this.courseId = Sanitizer.sanitizeTitle(courseId);
+        this.creatorEmail = Sanitizer.sanitizeEmail(creatorEmail);
     }
     
     /** This method converts the given Feedback*QuestionDetails object to JSON for storing
@@ -487,6 +484,12 @@ public class FeedbackQuestionAttributes extends EntityAttributes
             break;
         case NUMSCALE:
             questionDetailsClass = FeedbackNumericalScaleQuestionDetails.class;
+            break;
+        case CONSTSUM:
+            questionDetailsClass = FeedbackConstantSumQuestionDetails.class;
+            break;
+        case CONTRIB:
+            questionDetailsClass = FeedbackContributionQuestionDetails.class;
             break;
         default:
             Assumption.fail("FeedbackQuestionType " + questionType + " unsupported by FeedbackQuestionAttributes");

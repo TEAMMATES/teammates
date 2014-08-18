@@ -35,6 +35,10 @@ function readyFeedbackEditPage(){
         }
     });
     
+    // Copy Binding
+    bindCopyButton();
+    bindCopyEvents();
+
     // Additional formatting & bindings.
     disableEditFS();
     formatSessionVisibilityGroup();
@@ -90,18 +94,23 @@ function getCustomDateTimeFields(){
  * @param elem is the anchor link being clicked on.
  */
 function toggleVisibilityOptions(elem){
-    $elementParent = $(elem).parent().parent();
-    $options = $elementParent.next('.visibilityOptions');
+    $elementParent = $(elem).closest('form');
+    $options = $elementParent.find('.visibilityOptions');
+    $visibilityMessage = $elementParent.find('.visibilityMessage');
+
+    //enable edit
+    $elementParent.find('[id*="questionedittext"]').click();
+
     if($options.is(':hidden')) {
-        $giverType = $elementParent.prev().find("select[name=givertype]");
-        $recipientType = $elementParent.prev().find("select[name=recipienttype]");
+        giverType = $elementParent.find("select[name='givertype']");
+        recipientType = $elementParent.find("select[name='recipienttype']");
         $options.show();
-        feedbackGiverUpdateVisibilityOptions($giverType);
-        feedbackRecipientUpdateVisibilityOptions($recipientType);
-        $(elem).html("<span class=\"glyphicon glyphicon-eye-close\"></span> Hide Visibility Options");
+        $visibilityMessage.hide();
+        feedbackGiverUpdateVisibilityOptions(giverType);
+        feedbackRecipientUpdateVisibilityOptions(recipientType);
     } else {
         $options.hide();
-        $(elem).html("<span class=\"glyphicon glyphicon-eye-open\"></span> Show Visibility Options");
+        $visibilityMessage.show();
     }
 }
 
@@ -147,7 +156,20 @@ function enableQuestion(number){
         $("#msqChoiceTable-"+number).show();
         $("#mcqGenerateForSelect-"+number).prop("disabled", true);
         $("#msqGenerateForSelect-"+number).prop("disabled", true);
-    }		
+    }
+
+    if($("#constSumToRecipients-"+number).val() == "true"){
+        $("#constSumOptionTable-"+number).hide();
+        $("#constSumOption_Option-"+number).hide();
+    } else {
+        $("#constSumOptionTable-"+number).show();
+        $("#constSumOption_Recipient-"+number).hide();
+    }
+
+    if($('#questionTable'+number).parent().find('input[name="questiontype"]').val()=='CONTRIB'){
+        fixContribQnGiverRecipient(number);
+        setContribQnVisibilityFormat(number);
+    }
     
     $('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).hide();
     $('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).show();
@@ -231,6 +253,7 @@ function formatNumberBoxes(){
     disallowNonNumericEntries($('input.minScaleBox'), false, true);
     disallowNonNumericEntries($('input.maxScaleBox'), false, true);
     disallowNonNumericEntries($('input.stepBox'), true, false);
+    disallowNonNumericEntries($('input.pointsBox'), false, false);
     
     // Binds onChange of recipientType to modify numEntityBox visibility
     $("select[name="+FEEDBACK_QUESTION_RECIPIENTTYPE+"]").each(function(){
@@ -295,13 +318,15 @@ function tallyCheckboxes(qnNumber){
  * Shows the new question div frame and scrolls to it
  */
 function showNewQuestionFrame(type){
+    copyOptions();
     prepareQuestionForm(type);
     $('#questionTableNew').show();
     enableNewQuestion();
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide();
     $('html, body').animate({scrollTop: $('#frameBodyWrapper')[0].scrollHeight}, 1000);
-    copyOptions();
+    $('#questionTableNew').find('.visibilityOptions').hide();
+    getVisibilityMessage($('#questionTableNew').find('.visibilityMessageButton'));
 }
 
 function prepareQuestionForm(type) {
@@ -311,20 +336,23 @@ function prepareQuestionForm(type) {
         $('#mcqForm').hide();
         $('#msqForm').hide();
         $('#numScaleForm').hide();
+        $('#constSumForm').hide();
         break;
     case "MCQ":
-        $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED).val(2);
+        $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+"--1").val(2);
         $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_MCQ);
         $('#mcqForm').show();
         $('#msqForm').hide();
         $('#numScaleForm').hide();
+        $('#constSumForm').hide();
         break;
     case "MSQ":
-        $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED).val(2);
+        $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+"--1").val(2);
         $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_MSQ);
         $('#mcqForm').hide();
         $('#msqForm').show();
         $('#numScaleForm').hide();
+        $('#constSumForm').hide();
         break;
     case "NUMSCALE":
         $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_NUMSCALE);
@@ -332,8 +360,137 @@ function prepareQuestionForm(type) {
         $('#msqForm').hide();
         $('#numScaleForm').show();
         $('#'+FEEDBACK_QUESTION_TEXT).attr("placeholder","e.g. Rate the class from 1 (very bad) to 5 (excellent)");
+        $('#constSumForm').hide();
+        break;
+    case "CONSTSUM_OPTION":
+        $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+"--1").val(2);
+        $("#"+FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS+"--1").val("false");
+        $("#constSumOption_Recipient"+"--1").hide();
+        $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
+        $('#mcqForm').hide();
+        $('#msqForm').hide();
+        $('#numScaleForm').hide();
+        $('#constSumForm').show();
+        $('#questionTypeChoice').val('CONSTSUM');
+        break;
+    case "CONSTSUM_RECIPIENT":
+        $("#"+FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS+"--1").val("true");
+        $("#constSumOption_Option"+"--1").hide();
+        hideConstSumOptionTable(-1);
+        $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
+        $('#mcqForm').hide();
+        $('#msqForm').hide();
+        $('#numScaleForm').hide();
+        $('#constSumForm').show();
+        $('#questionTypeChoice').val('CONSTSUM');
+        break;
+    case "CONTRIB":
+        $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_CONTRIB);
+        $('#mcqForm').hide();
+        $('#msqForm').hide();
+        $('#numScaleForm').hide();
+        $('#constSumForm').hide();
+        fixContribQnGiverRecipient();
+        setDefaultContribQnVisibility();
+        setContribQnVisibilityFormat();
         break;
     }
+}
+
+function setDefaultContribQnVisibility(questionNumber){
+    var idSuffix = questionNumber ? (questionNumber) : "New";
+    var idSuffix2 = questionNumber ? questionNumber : "";
+
+    $('#questionTable'+idSuffix).find('input.visibilityCheckbox').prop('checked', false);
+    //All except STUDENTS can see answer
+    $('#questionTable'+idSuffix).find('input.visibilityCheckbox')
+                                .filter('[class*="answerCheckbox'+idSuffix2+'"]')
+                                .not('[value="STUDENTS"]').prop('checked', true);
+    //Only instructor can see giver
+    $('#questionTable'+idSuffix).find('input.visibilityCheckbox')
+                                .filter('[class*="giverCheckbox'+idSuffix2+'"]')
+                                .filter('[value="INSTRUCTORS"]').prop('checked', true);
+    //Recipient and instructor can see recipient
+    $('#questionTable'+idSuffix).find('input.visibilityCheckbox')
+                                .filter('[class*="recipientCheckbox'+idSuffix2+'"]')
+                                .filter('[value="INSTRUCTORS"],[value="RECEIVER"]').prop('checked', true);
+
+}
+
+function setContribQnVisibilityFormat(questionNumber){
+
+    var idSuffix = questionNumber ? (questionNumber) : "New";
+    var idSuffix2 = questionNumber ? questionNumber : "";
+
+    //Format checkboxes 'Can See Answer' for recipient/giver's team members/recipient's team members must be the same.
+
+    $('#questionTable'+idSuffix).find('input.visibilityCheckbox').off('change');
+    
+    $('#questionTable'+idSuffix).find('input.visibilityCheckbox').filter("[class*='answerCheckbox']").change(function() {
+        if ($(this).prop('checked') == false) {
+            if($(this).val() == 'RECEIVER' || $(this).val() == 'OWN_TEAM_MEMBERS' || $(this).val() == 'RECEIVER_TEAM_MEMBERS'){
+                $('#questionTable'+idSuffix).find('input.visibilityCheckbox')
+                                            .filter("input[class*='giverCheckbox'],input[class*='recipientCheckbox']")
+                                            .filter("[value='RECEIVER'],[value='OWN_TEAM_MEMBERS'],[value='RECEIVER_TEAM_MEMBERS']")
+                                            .prop('checked', false);
+            } else {
+                $(this).parent().parent().find("input[class*='giverCheckbox']").prop('checked',false);
+                $(this).parent().parent().find("input[class*='recipientCheckbox']").prop('checked',false);
+            }
+            
+        }
+        
+        if($(this).val() == 'RECEIVER' || $(this).val() == 'OWN_TEAM_MEMBERS' || $(this).val() == 'RECEIVER_TEAM_MEMBERS'){
+            $('#questionTable'+idSuffix).find('input.visibilityCheckbox')
+                                        .filter("input[name=receiverFollowerCheckbox]")
+                                        .prop('checked', $(this).prop('checked'));
+        }
+
+        if($(this).val() == "RECEIVER" || $(this).val() == "OWN_TEAM_MEMBERS" || $(this).val() == "RECEIVER_TEAM_MEMBERS"){
+            $('#questionTable'+idSuffix).find('input.visibilityCheckbox')
+                                        .filter("[class*='answerCheckbox']")
+                                        .filter("[value='RECEIVER'],[value='OWN_TEAM_MEMBERS'],[value='RECEIVER_TEAM_MEMBERS']")
+                                        .prop('checked',$(this).prop('checked'));
+        }
+    });
+    $('#questionTable'+idSuffix).find('input.visibilityCheckbox').filter("[class*='giverCheckbox']").change(function() {
+        if ($(this).is(':checked')) {
+            $query = $(this).parent().parent().find("input[class*='answerCheckbox']");
+            $query.prop('checked',true);
+            $query.trigger('change');
+        }
+    });
+    $('#questionTable'+idSuffix).find('input.visibilityCheckbox').filter("[class*='recipientCheckbox']").change(function() {
+        if ($(this).is(':checked')) {
+            $query = $(this).parent().parent().find("input[class*='answerCheckbox']");
+            $query.prop('checked',true);
+            $query.trigger('change');
+        }
+    });
+    $('#questionTable'+idSuffix).find('input.visibilityCheckbox').filter("[name=receiverLeaderCheckbox]").change(function (){
+        $(this).parent().parent().find("input[name=receiverFollowerCheckbox]").
+                                prop('checked', $(this).prop('checked'));
+    });
+
+}
+
+function fixContribQnGiverRecipient(questionNumber){
+    var idSuffix;
+    idSuffix = questionNumber ? ("-" + questionNumber) : "";
+
+    //Fix giver->recipient to be STUDENT->OWN_TEAM_MEMBERS_INCLUDING_SELF
+    $('#givertype'+idSuffix).find('option').not('[value="STUDENTS"]').hide();
+    $('#recipienttype'+idSuffix).find('option').not('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').hide();
+    $('#givertype'+idSuffix).find('option').filter('[value="STUDENTS"]').attr('selected','selected');
+    $('#recipienttype'+idSuffix).find('option').filter('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').attr('selected','selected');
+}
+
+function hideConstSumOptionTable(questionNumber){
+    var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+    $("#"+FEEDBACK_QUESTION_CONSTSUMOPTIONTABLE+idSuffix).hide();
 }
 
 function addMcqOption(questionNumber) {
@@ -353,7 +510,7 @@ function addMcqOption(questionNumber) {
         +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
         +               "id=\""+FEEDBACK_QUESTION_MCQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control mcqOptionTextBox\">"
         +       "<span class=\"input-group-btn\">"
-        +           "<button class=\"btn btn-default removeOptionLink\" id=\"mcqRemoveOptionLink\" "
+        +           "<button type=\"button\" class=\"btn btn-default removeOptionLink\" id=\"mcqRemoveOptionLink\" "
         +                   "onclick=\"removeMcqOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
         +               "<span class=\"glyphicon glyphicon-remove\"></span>"
         +           "</button>"
@@ -386,7 +543,7 @@ function addMsqOption(questionNumber) {
         +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+"\" "
         +               "id=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control msqOptionTextBox\">"
         +       "<span class=\"input-group-btn\">"
-        +           "<button class=\"btn btn-default removeOptionLink\" id=\"msqRemoveOptionLink\" "
+        +           "<button type=\"button\" class=\"btn btn-default removeOptionLink\" id=\"msqRemoveOptionLink\" "
         +                   "onclick=\"removeMcqOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
         +               "<span class=\"glyphicon glyphicon-remove\"></span>"
         +           "</button>"
@@ -394,6 +551,36 @@ function addMsqOption(questionNumber) {
         +   "</div>"
         + "</div>"
     ).insertBefore($("#msqAddOptionRow" + idSuffix));
+
+    $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val(curNumberOfChoiceCreated+1);
+    
+    if($(idOfQuestion).attr('editStatus') == "hasResponses") {
+        $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+    }
+}
+
+function addConstSumOption(questionNumber) {
+    idOfQuestion = '#form_editquestion-' + questionNumber;
+    idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+    
+    var curNumberOfChoiceCreated = parseInt($("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val());
+        
+    $(    "<div id=\"constSumOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
+        +   "<div class=\"input-group\">"
+        +       "<input type=\"text\" name=\""+FEEDBACK_QUESTION_CONSTSUMOPTION+"-"+curNumberOfChoiceCreated+"\" "
+        +               "id=\""+FEEDBACK_QUESTION_CONSTSUMOPTION+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control constSumOptionTextBox\">"
+        +       "<span class=\"input-group-btn\">"
+        +           "<button class=\"btn btn-default removeOptionLink\" id=\"constSumRemoveOptionLink\" "
+        +                   "onclick=\"removeConstSumOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
+        +               "<span class=\"glyphicon glyphicon-remove\"></span>"
+        +           "</button>"
+        +       "</span>"
+        +   "</div>"
+        + "</div>"
+    ).insertBefore($("#constSumAddOptionRow" + idSuffix));
 
     $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val(curNumberOfChoiceCreated+1);
     
@@ -424,6 +611,20 @@ function removeMsqOption(index, questionNumber) {
     }
 
     $("#msqOptionRow-"+index+idSuffix).remove();
+    
+    if($(idOfQuestion).attr('editStatus') == "hasResponses") {
+        $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+    }
+}
+
+function removeConstSumOption(index, questionNumber) {
+    idOfQuestion = '#form_editquestion-' + questionNumber;
+    idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
+    $("#constSumOptionRow-"+index+idSuffix).remove();
     
     if($(idOfQuestion).attr('editStatus') == "hasResponses") {
         $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
@@ -523,6 +724,11 @@ function updateNumScalePossibleValues(questionNumber) {
     if (Math.round(largestValueInRange*1000)/1000 != max) {
         $("#numScalePossibleValues"+idSuffix).css("color","red");
         possibleValuesString = "[The interval " + min.toString() + " - " + max.toString() + " is not divisible by the specified increment.]";
+
+        if(min.toString() == "NaN" || max.toString() == "NaN" || step.toString() == "NaN"){
+            possibleValuesString = "[Please enter valid numbers for all the options.]"
+        }
+
         $("#numScalePossibleValues"+idSuffix).text(possibleValuesString);
         return false;
     } else {
@@ -546,6 +752,16 @@ function updateNumScalePossibleValues(questionNumber) {
         possibleValuesString += "]";
         $("#numScalePossibleValues"+idSuffix).text(possibleValuesString);
         return true;
+    }
+}
+
+function updateConstSumPointsValue(questionNumber){
+    var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+    if($("#"+FEEDBACK_QUESTION_CONSTSUMPOINTS+idSuffix).val() < 1){
+        $("#"+FEEDBACK_QUESTION_CONSTSUMPOINTS+idSuffix).val(1);
     }
 }
 
@@ -587,24 +803,24 @@ function formatCheckBoxes() {
  */
 function copyOptions() {
     //There's no need to previous question to copy options from.
-    if($("table[class*='questionTable']").size() < 2){
+    if($("div[class*='questionTable']").size() < 2){
         return;
     }
     
     //FEEDBACK GIVER SETUP
     var $prevGiver = $("select[name='givertype']").eq(-2);
-    var $currGiver = $("select[name='givertype']").last();
+    var currGiver = $("select[name='givertype']").last();
     
-    $currGiver.val($prevGiver.val());
+    $(currGiver).val($prevGiver.val());
     
     //FEEDBACK RECIPIENT SETUP
     var $prevRecipient = $("select[name='recipienttype']").eq(-2);
-    var $currRecipient = $("select[name='recipienttype']").last();
+    var currRecipient = $("select[name='recipienttype']").last();
     
-    $currRecipient.val($prevRecipient.val());
+    $(currRecipient).val($prevRecipient.val());
     
     //NUMBER OF RECIPIENT SETUP
-    formatNumberBox($currRecipient.val(), '');
+    formatNumberBox($(currRecipient).val(), '');
     var $prevRadioButtons = $("table[class*='questionTable']").eq(-2).find("input[name='numofrecipientstype']");
     var $currRadioButtons = $("table[class*='questionTable']").last().find("input[name='numofrecipientstype']");
     
@@ -624,29 +840,31 @@ function copyOptions() {
     $currTable.each(function (index) {
         $(this).prop('checked', $prevTable.eq(index).prop('checked'));
     });
-    feedbackGiverUpdateVisibilityOptions($currGiver);
-    feedbackRecipientUpdateVisibilityOptions($currRecipient);
+    feedbackGiverUpdateVisibilityOptions(currGiver);
+    feedbackRecipientUpdateVisibilityOptions(currRecipient);
 }
 
 function enableRow(el,row){
-    var visibilityOptions = ($(el).parent().parent().next().next());
-    var table = visibilityOptions.children().children();
+    var visibilityOptions = ($(el).closest('form').find('.visibilityOptions'));
+    var table = visibilityOptions.find('table');
     var tdElements = $($(table).children().children()[row]).children();
     if($(tdElements).parent().prop("tagName") == "tr"){
-        return; 
+        return;
     }
     $(tdElements).unwrap().wrapAll("<tr>");
+
 }
 
 function disableRow(el,row){
-    var visibilityOptions = ($(el).parent().parent().next().next());
-    var table = visibilityOptions.children().children();
+    var visibilityOptions = ($(el).closest('form').find('.visibilityOptions'));
+    var table = visibilityOptions.find('table');
     var tdElements = $($(table).children().children()[row]).children();
     if($(tdElements).parent().prop("tagName") == "hide"){
         return; 
     }
     $(tdElements).unwrap().wrapAll("<hide>");
     $(tdElements).parent().hide();
+
 }
 
 function feedbackRecipientUpdateVisibilityOptions(el){
@@ -711,4 +929,131 @@ function getQuestionLink(qnNumber) {
 
 function toParameterFormat(str) {
     return str.replace(/\s/g,"+");
+}
+
+function bindCopyButton() {
+    $('#button_copy').on('click', function(e){
+        e.preventDefault();
+        
+        var questionRows = $("#copyTableModal >tbody>tr");
+        if(questionRows.length == 0){
+            setStatusMessage(FEEDBACK_QUESTION_COPY_INVALID, true);
+        } else {
+            setStatusMessage("", false);
+            $('#copyModal').modal('show');
+        }
+       
+        return false;
+    });
+
+    $('#button_copy_submit').on('click', function(e){
+        e.preventDefault();
+
+        var index = 0;
+        var hasRowSelected = false;
+
+        $('#copyTableModal >tbody>tr').each(function(){
+            var input = $(this).children('input:first');
+            if(typeof input == 'undefined'){
+                return true;
+            }
+            if($(this).hasClass('row-selected')){
+                $(input).attr('name', 'questionid-' + index++);
+                hasRowSelected = true;
+            }
+        });
+
+        if(!hasRowSelected){
+            setStatusMessage('No questions are selected to be copied', true);
+            $('#copyModal').modal('hide');
+        } else {
+            $('#copyModalForm').submit();
+        }
+
+
+        return false;
+    });
+}
+
+var numRowsSelected = 0;
+
+function bindCopyEvents() {
+
+    $('#copyTableModal >tbody>tr').on('click', function(e){
+        e.preventDefault();
+        
+        if($(this).hasClass('row-selected')){
+            $(this).removeClass('row-selected');
+            $(this).children('td:first').html('<input type="checkbox">');
+            numRowsSelected--;
+        } else {
+            $(this).addClass('row-selected');
+            $(this).children('td:first').html('<input type="checkbox" checked="checked">');
+            numRowsSelected++;
+        }
+
+        if(numRowsSelected <= 0){
+            $('#button_copy_submit').prop('disabled', true);
+        } else {
+            $('#button_copy_submit').prop('disabled', false);
+        }
+
+        return false;
+    });
+}
+
+function toggleVisibilityMessage(elem){
+    $elementParent = $(elem).closest('form');
+    $options = $elementParent.find('.visibilityOptions');
+    $visibilityMessage = $elementParent.find('.visibilityMessage');
+
+    giverType = $elementParent.find("select[name='givertype']");
+    recipientType = $elementParent.find("select[name='recipienttype']");
+
+    $options.hide();
+    $visibilityMessage.html("");
+    $disabledInputs = $elementParent.find('input:disabled, select:disabled');
+    $disabledInputs.prop('disabled', false);
+
+    feedbackGiverUpdateVisibilityOptions(giverType);
+    feedbackRecipientUpdateVisibilityOptions(recipientType);
+
+    getVisibilityMessage(elem);
+    $disabledInputs.prop('disabled', true);
+}
+
+function getVisibilityMessage(buttonElem){
+    var form = $(buttonElem).closest("form");
+    var url = "/page/instructorFeedbackQuestionvisibilityMessage";
+
+    eval($(form).attr('onsubmit'));
+
+    var data = $(form[0]).serialize();
+
+    $.ajax({
+            type: "POST",
+            url: url,
+            data: $(form[0]).serialize(),
+            success: function(data)
+            {
+                $(form).find('.visibilityMessage').html(formatVisibilityMessageHtml(data.visibilityMessage));
+                $(form).find('.visibilityOptions').hide();
+                $(form).find('.visibilityMessage').show();
+            },
+            error: function(jqXHR, textStatus, errorThrown) 
+            {
+                console.log('AJAX request failed');
+            }
+        });
+
+}
+
+function formatVisibilityMessageHtml(visibilityMessage){
+    var htmlString = "This is the visibility as seen by the feedback giver.";
+    htmlString += "<ul class='background-color-warning'>";
+    for(var i=0 ; i<visibilityMessage.length ; i++){
+        htmlString += "<li>" + visibilityMessage[i] + "</li>";
+    }
+    htmlString += "</ul>";
+    return htmlString;
 }

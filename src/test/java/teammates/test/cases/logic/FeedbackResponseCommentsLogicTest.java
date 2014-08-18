@@ -6,6 +6,7 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
@@ -35,7 +36,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
     public void setupClass() throws Exception {
         printTestClassHeader();
         turnLoggingUp(FeedbackResponseCommentsLogic.class);
-        restoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
     }
     
     @Test
@@ -88,9 +89,6 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         TestHelper.verifyPresentInDatastore(frComment);
         
         ______TS("typical successful case: frComment already exists");
-        
-        frComment.commentText = new Text("Already existed FeedbackResponseComment from instructor2 in course 1");
-        
         frcLogic.createFeedbackResponseComment(frComment);
         List<FeedbackResponseCommentAttributes> actualFrComments = 
                 frcLogic.getFeedbackResponseCommentForSession(

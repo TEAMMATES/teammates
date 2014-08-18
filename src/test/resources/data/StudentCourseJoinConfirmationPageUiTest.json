@@ -22,6 +22,11 @@
       "name": "Programming Language Concepts",
       "isArchived": false
     },
+    "SCJConfirmationUiT.CS2103": {
+      "id": "SCJConfirmationUiT.CS2103",
+      "name": "Software Engineering",
+      "isArchived": false
+    },
     "SCJConfirmationUiT.CS1101": {
       "id": "SCJConfirmationUiT.CS1101",
       "name": "Programming Methodology",
@@ -34,13 +39,19 @@
       "googleId": "SCJConfirmationUiT.instr",
       "courseId": "SCJConfirmationUiT.CS2104",
       "name": "Teammates Test",
-      "email": "SCJConfirmationUiT.instr@gmail.com"
+      "email": "SCJConfirmationUiT.instr@gmail.com",
+      "role":"Co-owner",
+      "displayedName":"Co-owner",
+      "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
     },
     "SCJConfirmationUiT.instr.CS1101": {
       "googleId": "SCJConfirmationUiT.instr",
       "courseId": "SCJConfirmationUiT.CS1101",
       "name": "Teammates Test",
-      "email": "SCJConfirmationUiT.instr@gmail.com"
+      "email": "SCJConfirmationUiT.instr@gmail.com",
+      "role":"Co-owner",
+      "displayedName":"Co-owner",
+      "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
     }
   },
   
@@ -48,6 +59,13 @@
     "alice.tmms@SCJConfirmationUiT.CS2104": {
       "email": "{$test.student1}@gmail.com",
       "course": "SCJConfirmationUiT.CS2104",
+      "name": "Amy Betsy",
+      "comments": "This student's name is Amy Betsy",
+      "team": "Team 1"
+    },
+    "alice.tmms@SCJConfirmationUiT.CS2103": {
+      "email": "{$test.student1}@gmail.com",
+      "course": "SCJConfirmationUiT.CS2103",
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",
       "team": "Team 1"

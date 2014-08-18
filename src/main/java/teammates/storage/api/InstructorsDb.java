@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,10 +30,23 @@ import teammates.storage.entity.Instructor;
 public class InstructorsDb extends EntitiesDb{
     
     private static final Logger log = Utils.getLogger();
+    
+    public void createInstructors(Collection<InstructorAttributes> instructorsToAdd) throws InvalidParametersException{
         
+        List<EntityAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
+        for(EntityAttributes entity : instructorsToUpdate){
+            InstructorAttributes instructor = (InstructorAttributes) entity;
+            try {
+                updateInstructorByEmail(instructor);
+            } catch (EntityDoesNotExistException e) {
+             // This situation is not tested as replicating such a situation is 
+             // difficult during testing
+                Assumption.fail("Entity found be already existing and not existing simultaneously");
+            }
+        }
+    }
+
     /**
-     * Preconditions: <br>
-     *  * All parameters are non-null.
      * @return null if no matching objects. 
      */
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
@@ -52,8 +66,6 @@ public class InstructorsDb extends EntitiesDb{
 
     
     /**
-     * Preconditions: <br>
-     *  * All parameters are non-null.
      * @return null if no matching objects. 
      */
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
@@ -72,8 +84,6 @@ public class InstructorsDb extends EntitiesDb{
     }
     
     /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
      * @return null if no matching instructor.
      */
     public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey){
@@ -174,8 +184,6 @@ public class InstructorsDb extends EntitiesDb{
 
     /**
      * Updates the instructor. Cannot modify Course ID or google id.
-     * Updates only name and email.<br>
-     * Does not follow the 'keep existing' policy <br> 
      * @throws InvalidParametersException 
      * @throws EntityDoesNotExistException 
      */
@@ -199,8 +207,12 @@ public class InstructorsDb extends EntitiesDb{
 
         instructorToUpdate.setName(instructorAttributesToUpdate.name);
         instructorToUpdate.setEmail(instructorAttributesToUpdate.email);
+        instructorToUpdate.setIsArchived(instructorAttributesToUpdate.isArchived);
+        instructorToUpdate.setRole(instructorAttributesToUpdate.role);
+        instructorToUpdate.setIsDisplayedToStudents(instructorAttributesToUpdate.isDisplayedToStudents);
+        instructorToUpdate.setDisplayedName(instructorAttributesToUpdate.displayedName);
+        instructorToUpdate.setInstructorPrivilegeAsText(instructorAttributesToUpdate.instructorPrivilegesAsText);
         
-        //TODO: update institute name
         //TODO: make courseId+email the non-modifiable values
         
         getPM().close();
@@ -208,11 +220,11 @@ public class InstructorsDb extends EntitiesDb{
     
     /**
      * Updates the instructor. Cannot modify Course ID or email.
-     * Updates only Google ID and name.<br>
-     * Does not follow the 'keep existing' policy <br> 
      * @throws InvalidParametersException 
+     * @throws EntityDoesNotExistException
      */
-    public void updateInstructorByEmail(InstructorAttributes instructorAttributesToUpdate) throws InvalidParametersException, EntityDoesNotExistException {
+    public void updateInstructorByEmail(InstructorAttributes instructorAttributesToUpdate) 
+            throws InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, instructorAttributesToUpdate);
         
@@ -232,17 +244,19 @@ public class InstructorsDb extends EntitiesDb{
         
         instructorToUpdate.setGoogleId(instructorAttributesToUpdate.googleId);
         instructorToUpdate.setName(instructorAttributesToUpdate.name);
+        instructorToUpdate.setRole(instructorAttributesToUpdate.role);
+        instructorToUpdate.setDisplayedName(instructorAttributesToUpdate.displayedName);
+        instructorToUpdate.setInstructorPrivilegeAsText(instructorAttributesToUpdate.instructorPrivilegesAsText);
         
-        //TODO: update institute name
         //TODO: make courseId+email the non-modifiable values
         
         getPM().close();
     }
     
     /**
-     * Fails silently if no such instructor. <br>
-     * Preconditions: <br>
-     *  * All parameters are non-null.
+     * delete the instructor specified by courseId and email
+     * @param courseId
+     * @param email
      */
     public void deleteInstructor(String courseId, String email) {
 
@@ -259,26 +273,37 @@ public class InstructorsDb extends EntitiesDb{
         getPM().flush();
 
         // Check delete operation persisted
-        int elapsedTime = 0;
-        Instructor instructorCheck = getInstructorEntityForEmail(courseId, email);
-        while ((instructorCheck != null)
-                && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
-            ThreadHelper.waitBriefly();
-            instructorCheck = getInstructorEntityForEmail(courseId, email);
-            elapsedTime += ThreadHelper.WAIT_DURATION;
-        }
-        if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
-            log.severe("Operation did not persist in time: deleteInstructor->"
-                    + email);
+        if(Config.PERSISTENCE_CHECK_DURATION > 0){
+            int elapsedTime = 0;
+            Instructor instructorCheck = getInstructorEntityForEmail(courseId, email);
+            while ((instructorCheck != null)
+                    && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+                ThreadHelper.waitBriefly();
+                instructorCheck = getInstructorEntityForEmail(courseId, email);
+                elapsedTime += ThreadHelper.WAIT_DURATION;
+            }
+            if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
+                log.severe("Operation did not persist in time: deleteInstructor->"
+                        + email);
+            }
         }
 
         //TODO: reuse the method in the parent class instead
     }
     
+    public void deleteInstructorsForCourses(List<String> courseIds){
+        
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+        
+        List<Instructor> instructorsToDelete = getInstructorEntitiesForCourses(courseIds);
+        
+        getPM().deletePersistentAll(instructorsToDelete);
+        getPM().flush();
+    }
+    
     /**
-     * Fails silently if no such instructor. <br>
-     * Preconditions: <br>
-     *  * All parameters are non-null.
+     * delete all instructors with the given googleId
+     * @param googleId
      */
     public void deleteInstructorsForGoogleId(String googleId) {
         
@@ -291,9 +316,8 @@ public class InstructorsDb extends EntitiesDb{
     }
     
     /**
-     * Fails silently if no such instructor. <br>
-     * Preconditions: <br>
-     *  * All parameters are non-null.
+     * delete all instructors for the course specified by courseId
+     * @param courseId
      */
     public void deleteInstructorsForCourse(String courseId) {
         
@@ -337,6 +361,16 @@ public class InstructorsDb extends EntitiesDb{
         }
 
         return instructorList.get(0);
+    }
+    
+    private List<Instructor> getInstructorEntitiesForCourses(List<String> courseIds){
+        Query q = getPM().newQuery(Instructor.class);
+        q.setFilter(":p.contains(courseId)");
+        
+        @SuppressWarnings("unchecked")
+        List<Instructor> instructorList = (List<Instructor>) q.execute(courseIds);
+        
+        return instructorList;
     }
     
     private Instructor getInstructorEntityForRegistrationKey(String key) {

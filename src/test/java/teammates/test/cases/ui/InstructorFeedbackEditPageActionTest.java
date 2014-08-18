@@ -16,32 +16,13 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
     
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
         
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        
     }
     
     @Test
@@ -73,6 +54,8 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
                 + "&user="
                 + instructor1OfCourse1.googleId,
                 showPageResult.getDestinationWithParams());
+        
+        assertEquals("", showPageResult.getStatusMessage());
         
         expectedLogMessage = 
                 "TEAMMATESLOG|||instructorFeedbackEditPage|||instructorFeedbackEditPage|||true|||" +

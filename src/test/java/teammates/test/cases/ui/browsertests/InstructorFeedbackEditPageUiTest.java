@@ -6,7 +6,7 @@ import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import org.openqa.selenium.By;
-
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -15,6 +15,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.AssertHelper;
@@ -26,6 +27,7 @@ import teammates.test.pageobjects.FeedbackQuestionSubmitPage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
+import teammates.test.util.Priority;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -33,6 +35,7 @@ import com.google.appengine.api.datastore.Text;
  * Covers the 'Edit Feedback Session' page for instructors.
  * SUT is {@link InstructorFeedbackEditPage}.
  */
+@Priority(-1)
 public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorFeedbackEditPage feedbackEditPage;
@@ -47,7 +50,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorFeedbackEditPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
 
         editedSession = testData.feedbackSessions.get("openSession");
         editedSession.gracePeriod = 30;
@@ -61,20 +64,19 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
 
         browser = BrowserPool.getBrowser();
-
     }
 
     @Test
     public void allTests() throws Exception{
         testContent();
-
+        
         testEditSessionLink();
         testEditSessionAction();
 
         testNewQuestionLink();
         testInputValidationForQuestion();
         testAddQuestionAction();
-        
+
         testEditQuestionLink();
         testEditQuestionAction();
         
@@ -104,8 +106,27 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testCustomizeNumScaleOptions();
         testAddNumScaleQuestionAction();
         testEditNumScaleQuestionAction();
-        testDeleteNumScaleQuestionAction();
+        testEditNumScaleQuestionNumberAction();
+        testDeleteNumScaleQuestionAction();        
         
+        testNewConstSumOptionQuestionFrame();
+        testInputValidationForConstSumOptionQuestion();
+        testCustomizeConstSumOptionOptions();
+        testAddConstSumOptionQuestionAction();
+        testEditConstSumOptionQuestionAction();
+        testDeleteConstSumOptionQuestionAction();
+    
+        testNewConstSumRecipientQuestionFrame();
+        testInputValidationForConstSumRecipientQuestion();
+        testCustomizeConstSumRecipientOptions();
+        testAddConstSumRecipientQuestionAction();
+        testEditConstSumRecipientQuestionAction();
+        testDeleteConstSumRecipientQuestionAction();
+        
+        //Contribution questions tests moved to own test class.
+        
+        testCopyQuestion();
+      
         testPreviewSessionAction();
 
         testDoneEditingLink();
@@ -118,6 +139,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("no questions");
 
         feedbackEditPage = getFeedbackEditPage();
+        //Verify Html instead of main content to verify copy panel and preview panel
         feedbackEditPage.verifyHtml("/instructorFeedbackEditEmpty.html");
     }
 
@@ -141,7 +163,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         FeedbackSessionAttributes savedSession =
                 BackDoor.getFeedbackSession(editedSession.courseId, editedSession.feedbackSessionName);
         assertEquals(editedSession.toString(), savedSession.toString());
-        feedbackEditPage.verifyHtml("/instructorFeedbackEditSuccess.html");
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditSuccess.html");
 
 
         ______TS("test edit page after manual publish");
@@ -153,9 +175,12 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage = getFeedbackEditPage();
         feedbackEditPage.isElementSelected(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_atvisible");
-        //feedbackEditPage.verifyHtml("/instructorFeedbackEditPublished.html");
+        //feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditPublished.html");
         // Restore defaults
         feedbackEditPage.clickEditSessionButton();
+        
+
+        feedbackEditPage.clickEditUncommonSettingsButton();
         feedbackEditPage.clickDefaultPublishTimeButton();
         feedbackEditPage.clickSaveSessionButton();
     }
@@ -193,7 +218,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
-        feedbackEditPage.verifyHtml("/instructorFeedbackQuestionAddSuccess.html");
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionAddSuccess.html");
     }
 
     private void testEditQuestionLink() {
@@ -210,17 +235,23 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
         feedbackEditPage.selectGiverTypeForQuestion1("Teams in this course");
         feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
-        feedbackEditPage.verifyHtml("/instructorFeedbackQuestionEditToTeamToTeam.html");
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionEditToTeamToTeam.html");
 
         ______TS("test visibility options of question 1");
         feedbackEditPage.clickquestionSaveForQuestion1();
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
         //TODO: use simple element checks instead of html checks after adding names to the checkboxes 
         //      in the edit page (follow todo in instructorsFeedbackEdit.js)
-        feedbackEditPage.verifyHtml("/instructorFeedbackQuestionVisibilityOptions.html");
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionVisibilityOptions.html");
+        
+        ______TS("test visibility preview of question 1");
+        feedbackEditPage.clickVisibilityPreviewForQuestion1();
+        WebElement visibilityMessage = browser.driver.findElement(By.className("visibilityMessageButton"));
+        feedbackEditPage.waitForElementVisible(visibilityMessage);
 
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionVisibilityPreview.html");
+        
         //change back
-        feedbackEditPage.clickQuestionEditForQuestion1();
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
         feedbackEditPage.selectGiverTypeForQuestion1("Me (Session creator)");
         feedbackEditPage.selectRecipientTypeForQuestion1("Other students in the course");
@@ -269,12 +300,16 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
     }
+    
+    @SuppressWarnings("unused")
+    private void ____MCQ_methods___________________________________() {
+    }
 
     private void testNewMcqQuestionFrame() {
 
         ______TS("MCQ: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer)");
+        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
         feedbackEditPage.clickNewQuestionButton();
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
     }
@@ -290,13 +325,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.fillQuestionBox("Test question text");
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals("Too little choices for Multiple-choice (single answer). Minimum number of options is: 2.", feedbackEditPage.getStatus());
+        assertEquals("Too little choices for Multiple-choice (single answer) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
         
     }
 
     private void testCustomizeMcqOptions() {
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer)");
+        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
         feedbackEditPage.clickNewQuestionButton();
         
         feedbackEditPage.fillMcqOption(0, "Choice 1");
@@ -332,7 +367,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
-        feedbackEditPage.verifyHtml("/instructorFeedbackMcqQuestionAddSuccess.html");
+        
+        //NOTE: Tests feedback giver/recipient and visibility options are copied from previous question.
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMcqQuestionAddSuccess.html");
     }
 
     private void testEditMcqQuestionAction() {
@@ -347,7 +384,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickSaveExistingQuestionButton(2);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
 
-        feedbackEditPage.verifyHtml("/instructorFeedbackMcqQuestionEditSuccess.html");
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMcqQuestionEditSuccess.html");
 
         ______TS("MCQ: edit to generated options");
 
@@ -407,12 +444,16 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
     }
+    
+    @SuppressWarnings("unused")
+    private void ____MSQ_methods___________________________________() {
+    }
 
     private void testNewMsqQuestionFrame() {
 
         ______TS("MSQ: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers)");
+        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers) question");
         feedbackEditPage.clickNewQuestionButton();
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
     }
@@ -428,13 +469,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.fillQuestionBox("Test question text");
         feedbackEditPage.clickAddQuestionButton();
-        assertEquals("Too little choices for Multiple-choice (multiple answers). Minimum number of options is: 2.", feedbackEditPage.getStatus());
+        assertEquals("Too little choices for Multiple-choice (multiple answers) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
         
     }
 
     private void testCustomizeMsqOptions() {
 
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers)");
+        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers) question");
         feedbackEditPage.clickNewQuestionButton();
         
         feedbackEditPage.fillMsqOption(0, "Choice 1");
@@ -471,7 +512,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
-        feedbackEditPage.verifyHtml("/instructorFeedbackMsqQuestionAddSuccess.html");
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMsqQuestionAddSuccess.html");
     }
 
     private void testEditMsqQuestionAction() {
@@ -486,7 +527,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickSaveExistingQuestionButton(2);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
 
-        feedbackEditPage.verifyHtml("/instructorFeedbackMsqQuestionEditSuccess.html");
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMsqQuestionEditSuccess.html");
 
         ______TS("MSQ: edit to generated options");
 
@@ -546,6 +587,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
     }
+    
+    @SuppressWarnings("unused")
+    private void ____NUMSCALE_methods___________________________________() {
+    }
 
     private void testNewNumScaleQuestionFrame() {
         ______TS("NUMSCALE: new question (frame) link");
@@ -556,7 +601,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     }
 
     private void testInputValidationForNumScaleQuestion() {
-        //TODO: Validate that NumScale can only be added/saved when min/max step parameters are filled and correct.
         
         ______TS("empty options");
         
@@ -565,7 +609,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.fillStepNumScaleBox("", -1);
         feedbackEditPage.fillMaxNumScaleBox("", -1);
         
-        assertEquals("[The interval NaN - NaN is not divisible by the specified increment.]",
+        assertEquals("[Please enter valid numbers for all the options.]",
                 feedbackEditPage.getNumScalePossibleValuesString(-1));
         
         feedbackEditPage.clickAddQuestionButton();
@@ -578,6 +622,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.fillQuestionBox("NumScale qn");
         feedbackEditPage.fillMinNumScaleBox("1", -1);
         feedbackEditPage.fillStepNumScaleBox("0.3", -1);
+        feedbackEditPage.fillMaxNumScaleBox("", -1);
         feedbackEditPage.fillMaxNumScaleBox("5", -1);
         
         assertEquals("[The interval 1 - 5 is not divisible by the specified increment.]",
@@ -647,7 +692,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
-        feedbackEditPage.verifyHtml("/instructorFeedbackNumScaleQuestionAddSuccess.html");
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackNumScaleQuestionAddSuccess.html");
     }
 
     private void testEditNumScaleQuestionAction() {
@@ -663,7 +708,26 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickSaveExistingQuestionButton(2);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
 
-        feedbackEditPage.verifyHtml("/instructorFeedbackNumScaleQuestionEditSuccess.html");
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackNumScaleQuestionEditSuccess.html");
+    }
+    
+    private void testEditNumScaleQuestionNumberAction() {
+        ______TS("NUMSCALE: edit question number success");
+
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
+        feedbackEditPage.selectQuestionNumber(2, 1);        
+        feedbackEditPage.clickSaveExistingQuestionButton(2);
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
+
+
+        ______TS("NUMSCALE: edit question number success - change back to question 2");
+        
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.selectQuestionNumber(1, 2);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
+
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackNumScaleQuestionEditSuccess.html");
     }
 
     private void testDeleteNumScaleQuestionAction() {
@@ -678,7 +742,183 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
     }
+    
+    @SuppressWarnings("unused")
+    private void ____CONSTSUM_OPTION_methods___________________________________() {
+    }
+    
+    private void testNewConstSumOptionQuestionFrame() {
+        ______TS("CONSTSUM-option: new question (frame) link");
 
+        feedbackEditPage.selectNewQuestionType("Distribute points (among options) question");
+        feedbackEditPage.clickNewQuestionButton();
+        assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
+    }
+    
+    private void testInputValidationForConstSumOptionQuestion() {
+        
+        ______TS("empty options");
+        
+        feedbackEditPage.fillQuestionBox("ConstSum-option qn");
+        feedbackEditPage.fillConstSumPointsBox("", -1);
+        
+        assertEquals("1", feedbackEditPage.getConstSumPointsBox(-1));
+        
+        feedbackEditPage.clickAddQuestionButton();
+        
+        assertEquals("Too little options for Distribute points (among options) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
+ 
+    }
+    
+    private void testCustomizeConstSumOptionOptions() {
+        feedbackEditPage.selectNewQuestionType("Distribute points (among options) question");
+        feedbackEditPage.clickNewQuestionButton();
+        
+        feedbackEditPage.fillConstSumOption(0, "Option 1");
+        feedbackEditPage.fillConstSumOption(1, "Option 2");
+        
+        ______TS("CONST SUM: add option");
+
+        assertEquals(false, feedbackEditPage.isElementPresent("constSumOptionRow-2--1"));
+        feedbackEditPage.clickAddMoreConstSumOptionLink();
+        assertEquals(true, feedbackEditPage.isElementPresent("constSumOptionRow-2--1"));
+
+        ______TS("CONST SUM: remove option");
+
+        feedbackEditPage.fillConstSumOption(2, "Option 3");
+        assertEquals(true, feedbackEditPage.isElementPresent("constSumOptionRow-1--1"));
+        feedbackEditPage.clickRemoveConstSumOptionLink(1, -1);
+        assertEquals(false, feedbackEditPage.isElementPresent("constSumOptionRow-1--1"));
+
+        ______TS("CONST SUM: add option after remove");
+
+        feedbackEditPage.clickAddMoreConstSumOptionLink();
+        assertEquals(true, feedbackEditPage.isElementPresent("constSumOptionRow-3--1"));
+        feedbackEditPage.clickAddMoreConstSumOptionLink();
+        feedbackEditPage.fillConstSumOption(4, "Option 5");
+        assertEquals(true, feedbackEditPage.isElementPresent("constSumOptionRow-4--1"));
+    }
+
+    private void testAddConstSumOptionQuestionAction() {
+        ______TS("CONST SUM: add question action success");
+        
+        feedbackEditPage.fillQuestionBox("const sum qn");
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        feedbackEditPage.clickAddQuestionButton();
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumOptionQuestionAddSuccess.html");
+    }
+
+    private void testEditConstSumOptionQuestionAction() {
+        ______TS("CONST SUM: edit question success");
+
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
+        feedbackEditPage.fillEditQuestionBox("edited const sum qn text", 2);
+        feedbackEditPage.fillConstSumPointsBox("200", 2);
+        feedbackEditPage.selectConstSumPointsOptions("per recipient:", 2);
+        
+        feedbackEditPage.clickSaveExistingQuestionButton(2);
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
+
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumOptionQuestionEditSuccess.html");
+    }
+    
+    private void testDeleteConstSumOptionQuestionAction(){
+        ______TS("CONSTSUM: qn delete then cancel");
+
+        feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(2));
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+
+        ______TS("CONSTSUM: qn delete then accept");
+
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));    
+    }
+    
+    @SuppressWarnings("unused")
+    private void ____CONST_SUM_RECIPIENTS_methods___________________________________() {
+    }
+    
+    private void testNewConstSumRecipientQuestionFrame() {
+        ______TS("CONSTSUM-recipient: new question (frame) link");
+
+        feedbackEditPage.selectNewQuestionType("Distribute points (among recipients) question");
+        feedbackEditPage.clickNewQuestionButton();
+        assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
+    }
+    
+    private void testInputValidationForConstSumRecipientQuestion() {
+        
+        ______TS("CONST SUM:input validation");
+        
+        feedbackEditPage.fillQuestionBox("ConstSum-recipient qn");
+        feedbackEditPage.fillConstSumPointsBox("", -1);
+        
+        assertEquals("1", feedbackEditPage.getConstSumPointsBox(-1));
+        assertEquals(false, feedbackEditPage.isElementVisible("constSumOptionTable--1"));
+        
+        feedbackEditPage.getDeleteQuestionLink(-1).click();
+        assertEquals("", feedbackEditPage.getStatus());
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        
+    }
+    
+
+    private void testCustomizeConstSumRecipientOptions() {
+        feedbackEditPage.selectNewQuestionType("Distribute points (among recipients) question");
+        feedbackEditPage.clickNewQuestionButton();
+        
+        ______TS("CONST SUM: set points options");
+
+        feedbackEditPage.selectConstSumPointsOptions("per recipient:", -1);
+        feedbackEditPage.fillConstSumPointsBox("100", -1);
+        
+    }
+
+    private void testAddConstSumRecipientQuestionAction() {
+        ______TS("CONST SUM: add question action success");
+        
+        feedbackEditPage.fillQuestionBox("const sum qn");
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        feedbackEditPage.clickAddQuestionButton();
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumRecipientQuestionAddSuccess.html");
+    }
+
+    private void testEditConstSumRecipientQuestionAction() {
+        ______TS("CONST SUM: edit question success");
+
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
+        feedbackEditPage.fillEditQuestionBox("edited const sum qn text", 2);
+        feedbackEditPage.fillConstSumPointsBox("200", 2);
+        feedbackEditPage.selectConstSumPointsOptions("in total:", 2);
+        
+        feedbackEditPage.clickSaveExistingQuestionButton(2);
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
+
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumRecipientQuestionEditSuccess.html");
+    }
+    
+    private void testDeleteConstSumRecipientQuestionAction(){
+        ______TS("CONSTSUM: qn delete then cancel");
+
+        feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(2));
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+
+        ______TS("CONSTSUM: qn delete then accept");
+
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));    
+    }
+    
+    @SuppressWarnings("unused")
+    private void ____other_methods___________________________________() {
+    }
+    
     private void testPreviewSessionAction() {
 
         // add questions for previewing
@@ -703,14 +943,14 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         FeedbackSubmitPage previewPage;
         previewPage = feedbackEditPage.clickPreviewAsStudentButton();
-        previewPage.verifyHtml("/studentFeedbackSubmitPagePreview.html");
+        previewPage.verifyHtmlMainContent("/studentFeedbackSubmitPagePreview.html");
         previewPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("preview as instructor");
         
         previewPage.waitForElementPresence(By.id("button_preview_instructor"), 15);
         previewPage = feedbackEditPage.clickPreviewAsInstructorButton();
-        previewPage.verifyHtml("/instructorFeedbackSubmitPagePreview.html");
+        previewPage.verifyHtmlMainContent("/instructorFeedbackSubmitPagePreview.html");
         previewPage.closeCurrentWindowAndSwitchToParentWindow();
     }
 
@@ -739,6 +979,18 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         InstructorFeedbacksPage feedbackPage = feedbackEditPage.deleteSession();
         AssertHelper.assertContains(Const.StatusMessages.FEEDBACK_SESSION_DELETED, feedbackPage.getStatus());
         assertNull(BackDoor.getFeedbackSession(courseId, feedbackSessionName));
+    }
+    
+    private void testCopyQuestion() {
+        
+        ______TS("Success case: copy questions successfully");
+        
+        ThreadHelper.waitFor(1000);
+        feedbackEditPage.clickCopyButton();
+        ThreadHelper.waitFor(1000);
+        feedbackEditPage.clickCopyTableAtRow(0);
+        feedbackEditPage.clickCopySubmitButton();
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackCopyQuestionSuccess.html");
     }
     
     @AfterClass

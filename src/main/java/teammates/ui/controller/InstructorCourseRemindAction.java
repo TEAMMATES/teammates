@@ -8,10 +8,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.logging.Logger;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -34,9 +35,20 @@ public class InstructorCourseRemindAction extends Action {
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         
-        new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getCourse(courseId));
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        CourseAttributes course = logic.getCourse(courseId);
+        if (studentEmail != null) {
+            new GateKeeper().verifyAccessible(
+                    instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
+        } else if (instructorEmail != null) {
+            new GateKeeper().verifyAccessible(
+                    instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+        } else {
+            // this is sending registration emails to all students in the course and we will check if the instructor
+            // canmodifystudent for course level since for modifystudent privilege there is only course level setting for now
+            new GateKeeper().verifyAccessible(
+                    instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
+        }
         
         /* Process sending emails and setup status to be shown to user and admin */
         List<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
@@ -120,8 +132,11 @@ public class InstructorCourseRemindAction extends Action {
     }
     
     private String extractRegistrationKey(String emailContent) {
-        int startIndex = emailContent.indexOf("regkey=") + "regkey=".length();
+        int startIndex = emailContent.indexOf("key=") + "key=".length();
         int endIndex = emailContent.indexOf("\">http://");
+        if (endIndex < 0) {
+            endIndex = emailContent.indexOf("\">https://");
+        }
         return emailContent.substring(startIndex, endIndex);
     }
     

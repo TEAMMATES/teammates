@@ -1,9 +1,9 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -11,6 +11,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.FieldValidator.FieldType;
+import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.Action;
@@ -18,39 +19,18 @@ import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
-    InstructorsLogic instructorsLogic;
+    private final DataBundle dataBundle = getTypicalDataBundle();
+    InstructorsLogic instructorsLogic = InstructorsLogic.inst();;
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-        instructorsLogic = InstructorsLogic.inst();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.INSTRUCTOR_ID, instructor.googleId,
-                Const.ParamsNames.INSTRUCTOR_NAME, instructor.name,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, "newEmail@email.com"
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
     
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        //TODO: find a way to test status message from session
         InstructorAttributes instructorToEdit = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructorToEdit.googleId;
         String courseId = instructorToEdit.courseId;    
@@ -68,7 +48,9 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail
+                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
         };
         Action saveAction = getAction(submissionParams);
         RedirectResult redirectResult = (RedirectResult) saveAction.executeAndPostProcess();
@@ -82,11 +64,16 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         InstructorAttributes editedInstructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorId);
         assertEquals(newInstructorName, editedInstructor.name);
         assertEquals(newInstructorEmail, editedInstructor.email);
+        assertTrue(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+        assertTrue(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
+        assertTrue(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
+        assertTrue(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
         
         String expectedLogSegment = "Instructor <span class=\"bold\"> " + newInstructorName + "</span>"
                 + " for Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"
                 + "New Name: " + newInstructorName + "<br>New Email: " + newInstructorEmail;
         AssertHelper.assertContains(expectedLogSegment, saveAction.getLogMessage());
+       
         
         ______TS("Failure case: edit failed due to invalid parameters");
         
@@ -96,7 +83,13 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.INSTRUCTOR_NAME, instructorToEdit.name,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail
+                Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail,
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
         };
         
         saveAction = getAction(submissionParams);
@@ -122,7 +115,13 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail
+                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
         };
         
         saveAction = getAction(addUserIdToParams(instructorId, submissionParams));
@@ -142,6 +141,9 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
                 + " for Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"
                 + "New Name: " + newInstructorName + "<br>New Email: " + newInstructorEmail;
         AssertHelper.assertContains(expectedLogSegment, saveAction.getLogMessage());
+        
+        //remove the new instructor entity that was created
+        CoursesLogic.inst().deleteCourseCascade("icieat.courseId");
         
     }
     

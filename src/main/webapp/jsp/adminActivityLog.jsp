@@ -5,37 +5,37 @@
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.ActivityLogEntry"%>
 <%@ page import="teammates.ui.controller.AdminActivityLogPageData"%>
-
+<%@ page import="teammates.common.util.TimeHelper"%>
 <%
-    AdminActivityLogPageData data = (AdminActivityLogPageData) request
-            .getAttribute("data");
+    AdminActivityLogPageData data = (AdminActivityLogPageData) request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
 
 <head>
-<link rel="shortcut icon" href="/favicon.png" />
-<meta http-equiv="X-UA-Compatible" content="IE=8" />
-<title>TEAMMATES - Administrator</title>
-
-
-<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
-<link href="/stylesheets/teammatesCommon.css" rel="stylesheet">
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-              <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-              <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-              <![endif]-->
-
-<script type="text/javascript" src="/js/googleAnalytics.js"></script>
-<script type="text/javascript" src="/js/jquery-minified.js"></script>
-<script type="text/javascript" src="/js/common.js"></script>
-<script type="text/javascript" src="/js/administrator.js"></script>
-<script type="text/javascript" src="/js/adminActivityLog.js"></script>
-<script type="text/javascript"
-    src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="shortcut icon" href="/favicon.png" />
+    <meta http-equiv="X-UA-Compatible" content="IE=8" />
+    <title>TEAMMATES - Administrator</title>
+    
+    
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="/stylesheets/teammatesCommon.css" rel="stylesheet">
+    <link href="/stylesheets/adminCommon.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+                  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+                  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+                  <![endif]-->
+    
+    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
+    <script type="text/javascript" src="/js/jquery-minified.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/administrator.js"></script>
+    <script type="text/javascript" src="/js/adminActivityLog.js"></script>
+    <script type="text/javascript"
+        src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -92,6 +92,24 @@
                                 <div class="form-group">
 
                                     <div class="col-md-12">
+                                        <h4 class="text-center">
+                                            <span
+                                                class="label label-primary">Append
+                                                "?all=true" to URL to show all
+                                                logs, omit to exclude following requests.
+                                                
+                                            </span> </h4>                                          
+                                            <div class="text-center">                                          
+                                            <ul class="list-group">
+                                                <li class="list-group-item">
+                                                    instructorEvalStatsPage
+                                                </li>
+                                            </ul>
+                                            </div>
+                                        
+                                        
+                                        
+                                        
                                         <div class="alert alert-success">
                                             <p class="text-center">
                                                 <span
@@ -104,6 +122,7 @@
                                                     value2, value3....]</strong><br>
                                             </p>
                                         </div>
+
 
                                         <p class="text-center">
                                             <span
@@ -158,7 +177,8 @@
                                                 <strong>
                                                     Possible Labels:</strong>&nbsp;from,
                                                 to, person, role,
-                                                request, response<br>
+                                                request, response,
+                                                version,time<br>
                                                 <ul>
 
                                                     <li>E.g. from:
@@ -184,6 +204,19 @@
                                                         Pageload, System
                                                         Error Report,
                                                         Delete Course</li>
+
+                                                    <li>E.g.
+                                                        version: 4.15,
+                                                        4.16</li>
+
+                                                    <li>E.g.
+                                                        version: 4-15,
+                                                        4.16 (both "."
+                                                        and "-" are
+                                                        acceptable)</li>
+                                                     
+                                                     <li>E.g. time: 1000 (means 1000ms) </li>                                                                                         
+                                                     
                                                 </ul>
                                             </div>
                                         </div>
@@ -215,297 +248,7 @@
                                                 class="table-responsive">
                                                 <table
                                                     class="table table-condensed">
-                                                    <tr>
-                                                        <td>
-                                                            <ul
-                                                                class="list-group">
-
-                                                                <li
-                                                                    class="list-group-item">instructorHomePage</li>
-                                                                <li
-                                                                    class="list-group-item">instructorCoursesPage</li>
-
-                                                                <li
-                                                                    class="list-group-item">instructorCourseAdd</li>
-
-                                                                <li
-                                                                    class="list-group-item">instructorCourseDelete</li>
-
-                                                                <li
-                                                                    class="list-group-item">instructorCourseArchive
-                                                                </li>
-
-                                                                <li
-                                                                    class="list-group-item">instructorCourseDetailsPage</li>
-
-                                                                <li
-                                                                    class="list-group-item">instructorCourseEditPage</li>
-
-                                                                <li
-                                                                    class="list-group-item">instructorCourseEditSave</li>
-
-                                                                <li
-                                                                    class="list-group-item">instructorCourseStudentDetailsPage</li>
-                                                                <li
-                                                                    class="list-group-item">instructorCourseStudentDetailsEdit</li>
-
-
-                                                            </ul>
-
-                                                        </td>
-
-                                                        <td>
-                                                            <ul
-                                                                class="list-group">
-
-                                                                <li
-                                                                    class="list-group-item">instructorCourseStudentDetailsEditSave</li>
-                                                                <li
-                                                                    class="list-group-item">instructorCourseStudentDelete</li>
-                                                                <li
-                                                                    class="list-group-item">instructorCourseStudentListDownload</li>
-
-                                                                <li
-                                                                    class="list-group-item">instructorCourseEnrollPage</li>
-                                                                <li
-                                                                    class="list-group-item">instructorCourseEnrollSave</li>
-                                                                <li
-                                                                    class="list-group-item">instructorCourseRemind</li>
-
-
-                                                                <li
-                                                                    class="list-group-item">instructorCourseInstructorAdd</li>
-                                                                <li
-                                                                    class="list-group-item">instructorCourseInstructorEditSave</li>
-                                                                <li
-                                                                    class="list-group-item">instructorCourseInstructorDelete</li>
-                                                                <li
-                                                                    class="list-group-item">instructorCourseJoin</li>
-
-                                                            </ul>
-
-                                                        </td>
-
-                                                        <td>
-                                                            <ul
-                                                                class="list-group">
-
-                                                                <li
-                                                                    class="list-group-item">instructorCourseJoinAuthenticated</li>
-                                                                <li
-                                                                    class="list-group-item">instructorEvalsPage</li>
-                                                                <li
-                                                                    class="list-group-item">instructorEvalAdd</li>
-                                                                <li
-                                                                    class="list-group-item">instructorEvalDelete</li>
-                                                                <li
-                                                                    class="list-group-item">instructorEvalEditPage</li>
-                                                                <li
-                                                                    class="list-group-item">instructorEvalEditSave</li>
-                                                                <li
-                                                                    class="list-group-item">instructorEvalPreview</li>
-
-                                                                <li
-                                                                    class="list-group-item">instructorEvalResultsPage</li>
-                                                                <li
-                                                                    class="list-group-item">instructorEvalStatsPage</li>
-                                                                <li
-                                                                    class="list-group-item">instructorEvalSubmissionPage</li>
-
-                                                            </ul>
-
-                                                        </td>
-
-                                                    </tr>
-
-                                                    <tr>
-
-                                                        <td>
-                                                            <ul
-                                                                class="list-group">
-
-
-                                                                <li
-                                                                    class="list-group-item">instructorEvalSubmissionEdit</li>
-                                                                <li
-                                                                    class="list-group-item">instructorEvalSubmissionEditSave</li>
-                                                                <li
-                                                                    class="list-group-item">instructorEvalRemind</li>
-                                                                <li
-                                                                    class="list-group-item">instructorEvalPublish</li>
-                                                                <li
-                                                                    class="list-group-item">instructorEvalUnpublish</li>
-                                                                <li
-                                                                    class="list-group-item">instructorEvalResultsDownload</li>
-                                                                <li
-                                                                    class="list-group-item">instructorStudentListPage</li>
-                                                                <li
-                                                                    class="list-group-item">instructorStudentRecordsPage</li>
-                                                                <li
-                                                                    class="list-group-item">instructorStudentCommentAdd</li>
-                                                                <li
-                                                                    class="list-group-item">instructorStudentCommentEdit</li>
-                                                                <li
-                                                                    class="list-group-item">instructorFeedbacksPage</li>
-
-
-
-
-                                                            </ul>
-
-                                                        </td>
-
-                                                        <td>
-                                                            <ul
-                                                                class="list-group">
-
-                                                                <li
-                                                                    class="list-group-item">instructorFeedbackAdd</li>
-                                                                <li
-                                                                    class="list-group-item">instructorFeedbackDelete</li>
-                                                                <li
-                                                                    class="list-group-item">instructorFeedbackRemind</li>
-                                                                <li
-                                                                    class="list-group-item">instructorFeedbackPublish</li>
-                                                                <li
-                                                                    class="list-group-item">instructorFeedbackUnpublish</li>
-                                                                <li
-                                                                    class="list-group-item">instructorFeedbackEditPage</li>
-                                                                <li
-                                                                    class="list-group-item">instructorFeedbackEditSave</li>
-                                                                <li
-                                                                    class="list-group-item">instructorFeedbackResultsPage</li>
-                                                                <li
-                                                                    class="list-group-item">instructorFeedbackResultsDownload</li>
-                                                                <li
-                                                                    class="list-group-item">instructorFeedbackPreviewAsStudent</li>
-                                                                <li
-                                                                    class="list-group-item">instructorFeedbackPreviewAsInstructor</li>
-
-                                                            </ul>
-
-                                                        </td>
-
-                                                        <td>
-                                                            <ul
-                                                                class="list-group">
-                                                                <li
-                                                                    class="list-group-item">instructorFeedbackQuestionAdd</li>
-                                                                <li
-                                                                    class="list-group-item">instructorFeedbackQuestionEdit</li>
-                                                                <li
-                                                                    class="list-group-item">instructorFeedbackResponseCommentAdd</li>
-                                                                <li
-                                                                    class="list-group-item">instructorFeedbackResponseCommentEdit</li>
-                                                                <li
-                                                                    class="list-group-item">instructorFeedbackResponseCommentDelete</li>
-                                                                <li
-                                                                    class="list-group-item">feedbackSessionStatsPage</li>
-                                                                <li
-                                                                    class="list-group-item">instructorFeedbackSubmissionEditPage</li>
-                                                                <li
-                                                                    class="list-group-item">instructorFeedbackSubmissionEditSave</li>
-                                                                <li
-                                                                    class="list-group-item">instructorFeedbackQuestionSubmissionEditPage</li>
-                                                                <li
-                                                                    class="list-group-item">instructorFeedbackQuestionSubmissionEditSave</li>
-
-
-                                                            </ul>
-                                                        </td>
-
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>
-                                                            <ul
-                                                                class="list-group">
-                                                                <li
-                                                                    class="list-group-item list-group-item-success">studentHomePage</li>
-
-                                                                <li
-                                                                    class="list-group-item list-group-item-success">studentCourseJoin</li>
-
-                                                                <li
-                                                                    class="list-group-item list-group-item-success">studentCourseJoinAuthenticated</li>
-
-                                                                <li
-                                                                    class="list-group-item list-group-item-success">studentCourseDetailsPage</li>
-
-                                                                <li
-                                                                    class="list-group-item list-group-item-success">studentEvalSubmissionEditPage</li>
-
-                                                                <li
-                                                                    class="list-group-item list-group-item-success">studentEvalSubmissionEditSave</li>
-                                                                <li
-                                                                    class="list-group-item list-group-item-success">studentEvalResultsPage</li>
-
-                                                                <li
-                                                                    class="list-group-item list-group-item-success">studentFeedbackSubmissionEditPage</li>
-
-                                                                <li
-                                                                    class="list-group-item list-group-item-success">studentFeedbackSubmissionEditSave</li>
-
-                                                                <li
-                                                                    class="list-group-item list-group-item-success">studentFeedbackQuestionSubmissionEditPage</li>
-
-                                                                <li
-                                                                    class="list-group-item list-group-item-success">studentFeedbackQuestionSubmissionEditSave</li>
-
-                                                                <li
-                                                                    class="list-group-item list-group-item-success">studentFeedbackResultsPage</li>
-
-
-
-                                                            </ul>
-                                                        </td>
-
-                                                        <td>
-                                                            <ul
-                                                                class="list-group">
-                                                                <li
-                                                                    class="list-group-item list-group-item-warning">adminHomePage</li>
-                                                                <li
-                                                                    class="list-group-item list-group-item-warning">adminInstructorAccountAdd</li>
-                                                                <li
-                                                                    class="list-group-item list-group-item-warning">adminAccountManagementPage</li>
-                                                                <li
-                                                                    class="list-group-item list-group-item-warning">adminAccountDetailsPage</li>
-                                                                <li
-                                                                    class="list-group-item list-group-item-warning">adminAccountDelete</li>
-                                                                <li
-                                                                    class="list-group-item list-group-item-warning">adminExceptionTest</li>
-                                                                <li
-                                                                    class="list-group-item list-group-item-warning">adminActivityLogPage</li>
-                                                                <li
-                                                                    class="list-group-item list-group-item-warning">adminSearchPage</li>
-
-                                                            </ul>
-                                                        </td>
-
-                                                        <td>
-
-                                                            <ul
-                                                                class="list-group">
-                                                                <li
-                                                                    class="list-group-item list-group-item-danger">evaluationopeningreminders</li>
-                                                                <li
-                                                                    class="list-group-item list-group-item-danger">evaluationclosingreminders</li>
-                                                                <li
-                                                                    class="list-group-item list-group-item-danger">feedbackSessionOpeningReminders</li>
-                                                                <li
-                                                                    class="list-group-item list-group-item-danger">feedbackSessionClosingReminders</li>
-                                                                <li
-                                                                    class="list-group-item list-group-item-danger">feedbackSessionPublishedReminders</li>
-                                                                <li
-                                                                    class="list-group-item list-group-item-danger">compileLogs</li>
-
-
-                                                            </ul>
-
-                                                        </td>
-                                                    </tr>
-
+                                                    <%=data.getActionListAsHtml()%>
                                                 </table>
                                             </div>
                                             </p>
@@ -661,7 +404,16 @@
 
                         </div>
 
+                        <input type="hidden" name="offset" value="<%=data.offset%>">
+                        <input type="hidden" name="pageChange"  value="false">
+                        
+                        <!-- This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" 
+                        in AdminActivityLogPageData should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
+                        logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
+                        or simply reloaded with this parameter omitted. -->
+                        <input type="hidden" name="all" value="<%=data.ifShowAll%>">
                     </form>
+
 
 
                 </div>
@@ -681,32 +433,31 @@
 
 
 
-                <input type="hidden" name="offset"
-                    value="<%=data.offset%>"> <input
-                    type="hidden" name="pageChange" value="false">
+               
 
 
             </div>
 
 
             <br> <br>
-
-
+           
             <%
                 List<ActivityLogEntry> appLogs = data.logs;
                 if (appLogs != null) {
             %>
+            
+                 
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <strong>Activity Log <span>
                             Instructor </strong>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-condensed"dataTable">
+                    <table class="table table-condensed dataTable" id="logsTable">
 
                         <thead>
                             <tr>
-                                <th width="10%">Date</th>
+                                <th width="10%">Date [Timing]</th>
                                 <th>[Role][Action][Google
                                     ID][Name][Email]</th>
                             </tr>
@@ -725,50 +476,9 @@
                                         int index = 0;
                                         for (ActivityLogEntry log : appLogs) {
                             %>
-                            <tr>
-
-                                <td style="vertical-align: middle;"><%=log.getDateInfo()%></td>
-
-                                <td>
-
-                                    <form method="post"
-                                        action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
-
-
-                                        <h4
-                                            class="list-group-item-heading">
-                                            <%=log.getIconRoleForShow()%>
-                                            <%=log.getActionInfo()%>
-                                            <small> <span
-                                                id="personInfo_<%=index%>"><%=log.getPersonInfo()%></span>
-
-                                                <button
-                                                    id="actionButton_<%=index%>"
-                                                    type="submit"
-                                                    class="btn <%=log.getLogEntryActionsButtonClass()%> btn-xs">
-                                                    <span
-                                                        class="glyphicon glyphicon-zoom-in"></span>
-
-                                                </button> <input type="hidden"
-                                                name="filterQuery"
-                                                value="person:<%=log.getId()%>">
-
-                                            </small>
-
-                                        </h4>
-
-                                        <div>
-                                            <%=log.getMessageInfo()%>
-
-                                        </div>
-
-
-
-
-                                    </form>
-                                </td>
-
-                            </tr>
+                            
+                            <%=log.getLogInfoForTableRowAsHtml()%>
+                            
                             <%
                                 index++;
                                         }
@@ -783,16 +493,21 @@
             <%
                 }
             %>
-
+            
+            
             <jsp:include
                 page="<%=Const.ViewURIs.STATUS_MESSAGE_WITHOUT_FOCUS%>" />
+                
             <br>
 
-            <div>
-                <a href="#frameBodyWrapper" class="btn  btn-primary"><span
-                    class="glyphicon glyphicon-arrow-up"></span> Back To
-                    Top</a>
-            </div>
+
+            <a href="#" class="back-to-top-left"><span
+            class="glyphicon glyphicon-arrow-up"></span>&nbsp;Top</a> 
+            
+            <a
+            href="#" class="back-to-top-right">Top&nbsp;<span
+            class="glyphicon glyphicon-arrow-up"></span></a>
+            
             <br> <br>
         </div>
     </div>

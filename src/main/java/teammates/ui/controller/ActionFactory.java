@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+import teammates.common.exception.PageNotFoundException;
 import teammates.common.util.Utils;
 
 /**
@@ -25,6 +26,7 @@ public class ActionFactory {
         map(ADMIN_ACCOUNT_MANAGEMENT_PAGE, AdminAccountManagementPageAction.class);
         map(ADMIN_EXCEPTION_TEST, AdminExceptionTestAction.class);
         map(ADMIN_INSTRUCTORACCOUNT_ADD, AdminInstructorAccountAddAction.class);
+        map(ADMIN_SESSIONS_PAGE,AdminSessionsPageAction.class);
         map(ADMIN_SEARCH_PAGE, AdminSearchPageAction.class);
         
         map(INSTRUCTOR_COURSES_PAGE, InstructorCoursesPageAction.class);
@@ -63,6 +65,7 @@ public class ActionFactory {
         map(INSTRUCTOR_EVAL_UNPUBLISH, InstructorEvalUnpublishAction.class);
         map(INSTRUCTOR_FEEDBACKS_PAGE, InstructorFeedbacksPageAction.class);
         map(INSTRUCTOR_FEEDBACK_ADD, InstructorFeedbackAddAction.class);
+        map(INSTRUCTOR_FEEDBACK_COPY, InstructorFeedbackCopyAction.class);
         map(INSTRUCTOR_FEEDBACK_DELETE, InstructorFeedbackDeleteAction.class);
         map(INSTRUCTOR_FEEDBACK_REMIND, InstructorFeedbackRemindAction.class);
         map(INSTRUCTOR_FEEDBACK_PUBLISH, InstructorFeedbackPublishAction.class);
@@ -70,8 +73,11 @@ public class ActionFactory {
         map(INSTRUCTOR_FEEDBACK_EDIT_PAGE, InstructorFeedbackEditPageAction.class);
         map(INSTRUCTOR_FEEDBACK_EDIT_SAVE, InstructorFeedbackEditSaveAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_ADD, InstructorFeedbackQuestionAddAction.class);
+        map(INSTRUCTOR_FEEDBACK_QUESTION_COPY, InstructorFeedbackQuestionCopyAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_EDIT, InstructorFeedbackQuestionEditAction.class);
+        map(INSTRUCTOR_FEEDBACK_QUESTION_VISIBILITY_MESSAGE, InstructorFeedbackQuestionVisibilityMessageAction.class);
         map(INSTRUCTOR_FEEDBACK_RESULTS_PAGE, InstructorFeedbackResultsPageAction.class);
+        map(INSTRUCTOR_FEEDBACK_RESULTS_AJAX_RESPONSE_RATE, InstructorFeedbackResultsResponseRatePageAction.class);
         map(INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD, InstructorFeedbackResultsDownloadAction.class);
         map(INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD, InstructorFeedbackResponseCommentAddAction.class);
         map(INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT, InstructorFeedbackResponseCommentEditAction.class);
@@ -84,14 +90,20 @@ public class ActionFactory {
         map(INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, InstructorFeedbackQuestionSubmissionEditPageAction.class);
         map(INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE, InstructorFeedbackQuestionSubmissionEditSaveAction.class);
         map(INSTRUCTOR_HOME_PAGE, InstructorHomePageAction.class);
+        map(INSTRUCTOR_SEARCH_PAGE, InstructorSearchPageAction.class);
         map(INSTRUCTOR_STUDENT_LIST_PAGE, InstructorStudentListPageAction.class);
+        map(INSTRUCTOR_STUDENT_LIST_AJAX_PAGE, InstructorStudentListAjaxPageAction.class);
         map(INSTRUCTOR_STUDENT_RECORDS_PAGE, InstructorStudentRecordsPageAction.class);
         
         map(INSTRUCTOR_STUDENT_COMMENT_ADD, InstructorStudentCommentAddAction.class);
         map(INSTRUCTOR_STUDENT_COMMENT_EDIT, InstructorStudentCommentEditAction.class);
+        map(INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING, InstructorStudentCommentClearPendingAction.class);
+        map(INSTRUCTOR_COMMENTS_PAGE, InstructorCommentsPageAction.class);
 
+        map(STUDENT_COMMENTS_PAGE, StudentCommentsPageAction.class);
         map(STUDENT_COURSE_DETAILS_PAGE, StudentCourseDetailsPageAction.class);
         map(STUDENT_COURSE_JOIN, StudentCourseJoinAction.class);
+        map(STUDENT_COURSE_JOIN_NEW, StudentCourseJoinAction.class);
         map(STUDENT_COURSE_JOIN_AUTHENTICATED, StudentCourseJoinAuthenticatedAction.class);
         map(STUDENT_EVAL_SUBMISSION_EDIT_PAGE, StudentEvalSubmissionEditPageAction.class);
         map(STUDENT_EVAL_RESULTS_PAGE, StudentEvalResultsPageAction.class);
@@ -101,6 +113,12 @@ public class ActionFactory {
         map(STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE, StudentFeedbackSubmissionEditSaveAction.class);
         map(STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, StudentFeedbackQuestionSubmissionEditPageAction.class);
         map(STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE, StudentFeedbackQuestionSubmissionEditSaveAction.class);
+        map(STUDENT_PROFILE_PAGE, StudentProfilePageAction.class);
+        map(STUDENT_PROFILE_PICTURE, StudentProfilePictureAction.class);
+        map(STUDENT_PROFILE_PICTURE_UPLOAD, StudentProfilePictureUploadAction.class);
+        map(STUDENT_PROFILE_PICTURE_EDIT, StudentProfilePictureEditAction.class);
+        map(STUDENT_PROFILE_CREATEUPLOADFORMURL, StudentProfileCreateFormUrlAction.class);
+        map(STUDENT_PROFILE_EDIT_SAVE, StudentProfileEditSaveAction.class);
         map(STUDENT_HOME_PAGE, StudentHomePageAction.class);
     }
 
@@ -116,6 +134,9 @@ public class ActionFactory {
         log.info("URL received :" + url);
         
         String uri = req.getRequestURI();
+        if (uri.contains(";")) {
+            uri = uri.split(";")[0];
+        }
         Action c = getAction(uri);
         c.init(req);
         return c;
@@ -126,7 +147,7 @@ public class ActionFactory {
         Class<? extends Action> controllerClass = actionMappings.get(uri);
         
         if(controllerClass == null){
-            return new NonExistentAction();
+            throw new PageNotFoundException(uri);
         }
         
         try {
@@ -136,8 +157,6 @@ public class ActionFactory {
         }
         
     }
-
-
 
     private static void map(String actionUri, Class<? extends Action> actionClass) {
         actionMappings.put(actionUri, actionClass);

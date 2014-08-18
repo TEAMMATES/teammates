@@ -13,8 +13,9 @@
     import="teammates.common.datatransfer.FeedbackSessionDetailsBundle"%>
 <%@ page import="teammates.ui.controller.InstructorFeedbacksPageData"%>
 <%
-	InstructorFeedbacksPageData data = (InstructorFeedbacksPageData) request
-			.getAttribute("data");
+    InstructorFeedbacksPageData data = (InstructorFeedbacksPageData) request
+            .getAttribute("data");
+
 %>
 <!DOCTYPE html>
 <html>
@@ -55,30 +56,39 @@
         <h1>Add New Feedback Session</h1>
 
         <div class="well well-plain">
-            <div class="row"
-                title="Select a different type of session here."
-                data-toggle="tooltip" 
-                data-placement="top">
-                <h4 class="label-control col-md-2 text-md">Session
-                    Type</h4>
-                <div class="col-md-10">
-                    <select class="form-control"
-                        name="feedbackchangetype"
-                        id="feedbackchangetype">
-                        <option
-                            value="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>"
-                            selected="selected">Feedback
-                            Session with customizable questions</option>
-                        <option
-                            value="<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>">Standard
-                            Team Peer Evaluation with fixed questions</option>
-                    </select>
-                </div>
-            </div>
-            <br>
             <form class="form-group" method="post"
                 action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD%>"
                 name="form_addfeedbacksession">
+                <div class="row">
+                    <h4 class="label-control col-md-2 text-md">Create new </h4>
+                    <div class="col-md-5">
+                        <div class="col-md-10"
+                        title="Select a session type here."
+                        data-toggle="tooltip"
+                        data-placement="top">
+                            <select class="form-control"
+                                name="<%=Const.ParamsNames.FEEDBACK_SESSION_TYPE%>"
+                                id="<%=Const.ParamsNames.FEEDBACK_SESSION_TYPE%>">
+                                <option value="STANDARD">
+                                    Session with your own questions
+                                </option>
+                                <option value="TEAMEVALUATION" selected="selected">
+                                    Team peer evaluation session
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                            <h5><a href="/instructorHelp.html#fbSetupSession" target="_blank"><span class="glyphicon glyphicon-info-sign"></span></a></h5>
+                        </div>
+                    </div>
+                    <h4 class="label-control col-md-1 text-md">Or: </h4>
+                    <div class="col-md-3">
+                        <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy
+                            from previous feedback sessions</a>
+                    </div>
+                </div>
+                <br>
+            
                 <div class="panel panel-primary">
                     <div class="panel-body">
                         <div class="row">
@@ -96,8 +106,8 @@
                                             name="<%=Const.ParamsNames.COURSE_ID%>"
                                             id="<%=Const.ParamsNames.COURSE_ID%>">
                                             <%
-                                            	for (String opt : data.getCourseIdOptions())
-                                            		out.println(opt);
+                                                for (String opt : data.getCourseIdOptions())
+                                                    out.println(opt);
                                             %>
                                         </select>
 
@@ -118,8 +128,8 @@
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>">
                                             <%
-                                            	for (String opt : data.getTimeZoneOptionsAsHtml())
-                                            		out.println(opt);
+                                                for (String opt : data.getTimeZoneOptionsAsHtml())
+                                                    out.println(opt);
                                             %>
                                         </select>
                                     </div>
@@ -145,7 +155,7 @@
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
                                             maxlength=<%=FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH%>
                                             value="<%if (data.newFeedbackSession != null)
-                                            		   out.print(InstructorFeedbacksPageData.sanitizeForHtml(data.newFeedbackSession.feedbackSessionName));%>"
+                                                       out.print(InstructorFeedbacksPageData.sanitizeForHtml(data.newFeedbackSession.feedbackSessionName));%>"
                                             placeholder="e.g. Feedback for Project Presentation 1">
                                     </div>
                                 </div>
@@ -170,13 +180,13 @@
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>"
                                             placeholder="e.g. Please answer all the given questions."
                                             ><%
-                                            	if (data.newFeedbackSession == null) {
-                                            		out.print("Please answer all the given questions.");
-                                            	} else {
-                                            		out.print(InstructorFeedbacksPageData
-                                            				.sanitizeForHtml(data.newFeedbackSession.instructions
-                                            						.getValue()));
-                                            	}
+                                                if (data.newFeedbackSession == null) {
+                                                    out.print("Please answer all the given questions.");
+                                                } else {
+                                                    out.print(InstructorFeedbacksPageData
+                                                            .sanitizeForHtml(data.newFeedbackSession.instructions
+                                                                    .getValue()));
+                                                }
                                         %></textarea>
                                     </div>
                                 </div>
@@ -206,7 +216,7 @@
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTDATE%>"
                                             value="<%=(data.newFeedbackSession == null ? TimeHelper.formatDate(TimeHelper.getNextHour()) : 
-                                            		   TimeHelper.formatDate(data.newFeedbackSession.startTime))%>"
+                                                       TimeHelper.formatDate(data.newFeedbackSession.startTime))%>"
                                             placeholder="Date">
                                     </div>
                                     <div class="col-md-6">
@@ -214,11 +224,11 @@
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTTIME%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTTIME%>">
                                             <%
-                                            	Date date;
-                                            	date = (data.newFeedbackSession == null ? null
-                                            			: data.newFeedbackSession.startTime);
-                                            	for (String opt : data.getTimeOptionsAsHtml(date))
-                                            		out.println(opt);
+                                                Date date;
+                                                date = (data.newFeedbackSession == null ? null
+                                                        : data.newFeedbackSession.startTime);
+                                                for (String opt : data.getTimeOptionsAsHtml(date))
+                                                    out.println(opt);
                                             %>
                                         </select>
                                     </div>
@@ -250,10 +260,10 @@
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDTIME%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDTIME%>">
                                             <%
-                                            	date = (data.newFeedbackSession == null ? null
-                                            			: data.newFeedbackSession.endTime);
-                                            	for (String opt : data.getTimeOptionsAsHtml(date))
-                                            		out.println(opt);
+                                                date = (data.newFeedbackSession == null ? null
+                                                        : data.newFeedbackSession.endTime);
+                                                for (String opt : data.getTimeOptionsAsHtml(date))
+                                                    out.println(opt);
                                             %>
                                         </select>
                                     </div>
@@ -276,8 +286,8 @@
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD%>">
                                             <%
-                                            	for (String opt : data.getGracePeriodOptionsAsHtml())
-                                            		out.println(opt);
+                                                for (String opt : data.getGracePeriodOptionsAsHtml())
+                                                    out.println(opt);
                                             %>
                                         </select>
                                     </div>
@@ -287,7 +297,15 @@
                     </div>
 
                 </div>
-                <div class="panel panel-primary">
+                <div class="row" id="uncommonSettingsInfo">
+                    <div class="col-md-12 text-muted">
+                        <span id="uncommonSettingsInfoText">
+                        </span>
+                        <a id="editUncommonSettingsButton" data-edit="[Edit]" data-done="[Done]">[Edit]</a>
+                        <br><br>
+                    </div>
+                </div>
+                <div class="panel panel-primary" style="display:none;" id="sessionResponsesVisiblePanel">
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-6">
@@ -320,30 +338,25 @@
                                             type="text"
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE%>"
-                                            value="<%=((data.newFeedbackSession == null || TimeHelper
-					.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime)) ? ""
-					: TimeHelper
-							.formatDate(data.newFeedbackSession.sessionVisibleFromTime))%>"
-                                            <%if (data.newFeedbackSession == null
-					|| TimeHelper
-							.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime))
-				out.print("disabled=\"disabled\"");%>>
+                                            value="<%=((data.newFeedbackSession == null || TimeHelper.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime)) ? "": TimeHelper.formatDate(data.newFeedbackSession.sessionVisibleFromTime))%>"
+                                            <%if (data.newFeedbackSession == null || TimeHelper.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime))
+                                                    out.print("disabled=\"disabled\"");
+                                            %>>
                                     </div>
                                     <div class="col-md-4">
                                         <select class="form-control"
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME%>"
-                                            <%if (data.newFeedbackSession == null
-					|| TimeHelper
-							.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime))
-				out.print("disabled=\"disabled\"");%>>
+                                            <%if (data.newFeedbackSession == null || TimeHelper.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime))
+                                                    out.print("disabled=\"disabled\"");
+                                            %>>
 
                                             <%
-                                            	date = ((data.newFeedbackSession == null || TimeHelper
-                                            			.isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime)) ? null
-                                            			: data.newFeedbackSession.sessionVisibleFromTime);
-                                            	for (String opt : data.getTimeOptionsAsHtml(date))
-                                            		out.println(opt);
+                                                date = ((data.newFeedbackSession == null || TimeHelper
+                                                        .isSpecialTime(data.newFeedbackSession.sessionVisibleFromTime)) ? null
+                                                        : data.newFeedbackSession.sessionVisibleFromTime);
+                                                for (String opt : data.getTimeOptionsAsHtml(date))
+                                                    out.println(opt);
                                             %>
                                         </select>
                                     </div>
@@ -360,10 +373,9 @@
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_atopen"
                                             value="<%=Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN%>"
-                                            <%if (data.newFeedbackSession == null
-					|| Const.TIME_REPRESENTS_FOLLOW_OPENING
-							.equals(data.newFeedbackSession.sessionVisibleFromTime))
-				out.print("checked=\"checked\"");%>>
+                                            <%if (data.newFeedbackSession == null || Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(data.newFeedbackSession.sessionVisibleFromTime))
+                                                    out.print("checked=\"checked\"");
+                                            %>>
                                     </div>
                                 </div>
                                 <div class="row radio">
@@ -378,10 +390,9 @@
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON%>_never"
                                             value="never"
-                                            <%if (data.newFeedbackSession != null
-					&& Const.TIME_REPRESENTS_NEVER
-							.equals(data.newFeedbackSession.sessionVisibleFromTime))
-				out.print("checked=\"checked\"");%>>
+                                            <%if (data.newFeedbackSession != null && Const.TIME_REPRESENTS_NEVER.equals(data.newFeedbackSession.sessionVisibleFromTime))
+                                                    out.print("checked=\"checked\"");
+                                            %>>
                                     </div>
                                 </div>
                             </div>
@@ -408,10 +419,9 @@
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_custom"
                                             value="<%=Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM%>"
-                                            <%if (data.newFeedbackSession != null
-					&& !TimeHelper
-							.isSpecialTime(data.newFeedbackSession.resultsVisibleFromTime))
-				out.print("checked=\"checked\"");%>>
+                                            <%if (data.newFeedbackSession != null && !TimeHelper.isSpecialTime(data.newFeedbackSession.resultsVisibleFromTime))
+                                                out.print("checked=\"checked\"");
+                                            %>>
                                     </div>
                                     <div class="col-md-5">
                                         <input class="form-control"
@@ -419,7 +429,7 @@
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE%>"
                                             value="<%=((data.newFeedbackSession == null || TimeHelper.isSpecialTime(data.newFeedbackSession.resultsVisibleFromTime)) ? "" : 
-                                            	    TimeHelper.formatDate(data.newFeedbackSession.resultsVisibleFromTime))%>"
+                                                    TimeHelper.formatDate(data.newFeedbackSession.resultsVisibleFromTime))%>"
                                             <%if (data.newFeedbackSession == null || TimeHelper.isSpecialTime(data.newFeedbackSession.resultsVisibleFromTime))
                                                 out.print("disabled=\"disabled\"");%>>
                                     </div>
@@ -433,11 +443,11 @@
                                             <%if (data.newFeedbackSession == null || TimeHelper.isSpecialTime(data.newFeedbackSession.resultsVisibleFromTime))
                                                 out.print("disabled=\"disabled\"");%>>
                                             <%
-                                            	date = (data.newFeedbackSession == null || TimeHelper
-                                            			.isSpecialTime(data.newFeedbackSession.resultsVisibleFromTime)) ? null
-                                            			: data.newFeedbackSession.resultsVisibleFromTime;
-                                            	for (String opt : data.getTimeOptionsAsHtml(date))
-                                            		out.println(opt);
+                                                date = (data.newFeedbackSession == null || TimeHelper
+                                                        .isSpecialTime(data.newFeedbackSession.resultsVisibleFromTime)) ? null
+                                                        : data.newFeedbackSession.resultsVisibleFromTime;
+                                                for (String opt : data.getTimeOptionsAsHtml(date))
+                                                    out.println(opt);
                                             %>
 
                                         </select>
@@ -454,10 +464,9 @@
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_atvisible"
                                             value="<%=Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE%>"
-                                            <%if (data.newFeedbackSession != null
-					&& Const.TIME_REPRESENTS_FOLLOW_VISIBLE
-							.equals(data.newFeedbackSession.resultsVisibleFromTime))
-				out.print("checked=\"checked\"");%>>
+                                            <%if (data.newFeedbackSession != null && Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(data.newFeedbackSession.resultsVisibleFromTime))
+                                                    out.print("checked=\"checked\"");
+                                            %>>
                                     </div>
                                 </div>
                                 <div class="row radio">
@@ -471,12 +480,9 @@
                                             name="resultsVisibleFromButton"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_later"
                                             value="<%=Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER%>"
-                                            <%if (data.newFeedbackSession == null
-					|| Const.TIME_REPRESENTS_LATER
-							.equals(data.newFeedbackSession.resultsVisibleFromTime)
-					|| Const.TIME_REPRESENTS_NOW
-							.equals(data.newFeedbackSession.resultsVisibleFromTime))
-				out.print("checked=\"checked\"");%>>
+                                            <%if (data.newFeedbackSession == null || Const.TIME_REPRESENTS_LATER.equals(data.newFeedbackSession.resultsVisibleFromTime) || Const.TIME_REPRESENTS_NOW.equals(data.newFeedbackSession.resultsVisibleFromTime))
+                                                    out.print("checked=\"checked\"");
+                                            %>>
                                     </div>
                                 </div>
                                 <div class="row radio">
@@ -490,17 +496,16 @@
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON%>_never"
                                             value="<%=Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER%>"
-                                            <%if (data.newFeedbackSession != null
-					&& Const.TIME_REPRESENTS_NEVER
-							.equals(data.newFeedbackSession.resultsVisibleFromTime))
-				out.print("checked=\"checked\"");%>>
+                                            <%if (data.newFeedbackSession != null && Const.TIME_REPRESENTS_NEVER.equals(data.newFeedbackSession.resultsVisibleFromTime))
+                                                    out.print("checked=\"checked\"");
+                                            %>>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-primary">
+                <div class="panel panel-primary" style="display:none;" id="sendEmailsForPanel">
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
@@ -509,19 +514,6 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-2"
-                                title="<%=Const.Tooltips.FEEDBACK_SESSION_SENDJOINEMAIL%>"
-                                data-toggle="tooltip"
-                                data-placement="top">
-                                <div class="checkbox">
-                                    <label
-                                        for="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>_join">Join
-                                        reminder</label> <input type="checkbox"
-                                        checked="checked"
-                                        id="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>_join"
-                                        disabled="disabled">
-                                </div>
-                            </div>
                             <div class="col-sm-3"
                                 title="<%=Const.Tooltips.FEEDBACK_SESSION_SENDOPENEMAIL%>"
                                 data-toggle="tooltip"
@@ -568,10 +560,10 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="form-group">
-                    <div class="col-md-12">
-                        <button id="button_submit" type="submit" class="btn btn-primary center-block">Create
-                            Feedback Session</button>
+                    <div class="col-md-offset-5 col-md-3">
+                        <button id="button_submit" type="submit" class="btn btn-primary">Create Feedback Session</button>
                     </div>
                 </div>
                 <input type="hidden"
@@ -605,16 +597,16 @@
             </tr>
             </thead>
             <%
-            	int sessionIdx = -1;
-            	if (data.existingFeedbackSessions.size() > 0
-            			|| data.existingEvalSessions.size() > 0) {
-            		for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {
-            			sessionIdx++;
+                int sessionIdx = -1;
+                if (data.existingFeedbackSessions.size() > 0
+                        || data.existingEvalSessions.size() > 0) {
+                    for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {
+                        sessionIdx++;
             %>
             <tr class="sessionsRow" id="session<%=sessionIdx%>">
                 <td><%=fdb.courseId%></td>
                 <td><%=InstructorFeedbacksPageData
-							.sanitizeForHtml(fdb.feedbackSessionName)%></td>
+                            .sanitizeForHtml(fdb.feedbackSessionName)%></td>
                 <td><span title="<%=InstructorFeedbacksPageData.getInstructorHoverMessageForFeedbackSession(fdb)%>" 
                         data-toggle="tooltip" data-placement="top">
                         <%=InstructorFeedbacksPageData.getInstructorStatusForFeedbackSession(fdb)%>
@@ -622,24 +614,23 @@
                 </td>
                 <td
                     class="session-response-for-test<%if (!TimeHelper.isOlderThanAYear(fdb.createdTime)) {
-						out.print(" recent");
-					}%>">
+                        out.print(" recent");
+                    }%>">
                     <a oncontextmenu="return false;"
                     href="<%=data.getFeedbackSessionStatsLink(fdb.courseId,
-							fdb.feedbackSessionName)%>">Show</a>
+                            fdb.feedbackSessionName)%>">Show</a>
                 </td>
-                <td class="no-print"><%=data.getInstructorFeedbackSessionActions(fdb,
-							false)%></td>
+                <td class="no-print"><%=data.getInstructorFeedbackSessionActions(fdb, false, data.instructors.get(fdb.courseId))%></td>
             </tr>
             <%
-            	}
-            		for (EvaluationAttributes edd : data.existingEvalSessions) {
-            			sessionIdx++;
+                }
+                    for (EvaluationAttributes edd : data.existingEvalSessions) {
+                        sessionIdx++;
             %>
             <tr class="sessionsRow" id="evaluation<%=sessionIdx%>">
                 <td><%=edd.courseId%></td>
                 <td><%=InstructorFeedbacksPageData
-							.sanitizeForHtml(edd.name)%></td>
+                            .sanitizeForHtml(edd.name)%></td>
                 <td><span title="<%=InstructorFeedbacksPageData.getInstructorHoverMessageForEval(edd)%>"
                         data-toggle="tooltip" data-placement="top">
                         <%=InstructorFeedbacksPageData.getInstructorStatusForEval(edd)%>
@@ -647,17 +638,17 @@
                 </td>
                 <td
                     class="session-response-for-test<%if (!TimeHelper.isOlderThanAYear(edd.endTime)) {
-						out.print(" recent");
-					}%>">
+                        out.print(" recent");
+                    }%>">
                     <a oncontextmenu="return false;"
                     href="<%=data.getEvaluationStatsLink(edd.courseId,
-							edd.name)%>">Show</a>
+                            edd.name)%>">Show</a>
                 </td>
-                <td class="no-print"><%=data.getInstructorEvaluationActions(edd, false)%></td>
+                <td class="no-print"><%=data.getInstructorEvaluationActions(edd, false, data.instructors.get(edd.courseId))%></td>
             </tr>
             <%
-            	}
-            	} else {
+                }
+                } else {
             %>
             <tr>
                 <td></td>
@@ -667,17 +658,90 @@
                 <td></td>
             </tr>
             <%
-            	}
+                }
             %>
         </table>
+        <!-- Modal -->
+        <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalTitle" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="copyModalTitle">Creating a new session by copying a previous session</h4>
+              </div>
+              <div class="modal-body">
+                    <form class="form" id="copyModalForm" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_COPY%>">
+                    <!-- Course -->
+                    <div class="form-group">
+                        <label for="modalCopiedCourseId"
+                                class="control-label">Create in course</label>
+                        <select class="form-control"
+                            name="<%=Const.ParamsNames.COPIED_COURSE_ID%>"
+                            id="modalCopiedCourseId">
+                            <%
+                                for (String opt : data.getCourseIdOptions())
+                                    out.println(opt);
+                            %>
+                        </select>
+                    </div>
+                    <!-- Session Name -->
+                    <div class="form-group">
+                        <label for="modalCopiedSessionName"
+                            class="control-label">Name for new session</label>
+                        <input class="form-control"
+                            type="text"
+                            name="<%=Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME%>"
+                            id="modalCopiedSessionName"
+                            maxlength=<%=FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH%>
+                            value="<%if (data.newFeedbackSession != null)
+                                       out.print(InstructorFeedbacksPageData.sanitizeForHtml(data.newFeedbackSession.feedbackSessionName));%>"
+                            placeholder="e.g. Feedback for Project Presentation 1">
+                    </div>
+                    <!-- Previous Session -->
+                    <label>Copy sessions/questions from</label>
+                    <table class="table-responsive table table-bordered table-hover margin-0" id="copyTableModal">
+                        <thead class="fill-primary">
+                            <th style="width:20px;">&nbsp;</th>
+                            <th> Course ID </th>
+                            <th> Feedback Session Name </th>
+                        </thead>
+
+                        <% for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {
+                            if(data.instructors.get(fdb.courseId).isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)){ %>
+                            <tr style="cursor:pointer;">
+                                <td><input type="radio"></td>
+                                <td><%=fdb.courseId%></td>
+                                <td>
+                                    <%=InstructorFeedbacksPageData.sanitizeForHtml(fdb.feedbackSessionName)%>
+                                </td>
+                            </tr>
+                        <%      }
+                            } 
+                        %>
+                    </table>
+                            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
+                                    value="" id="modalSessionName">
+                            <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>"
+                                    value="" id="modalCourseId">
+                            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>"
+                                    value="<%=data.account.googleId%>">
+                    </form>
+              </div>
+              <div class="modal-footer margin-0">
+                <button type="button" class="btn btn-primary" id="button_copy_submit" disabled="disabled">Copy</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
         <br> <br> <br>
         <%
-        	if (sessionIdx == -1) {
+            if (sessionIdx == -1) {
         %>
         <div class="align-center">No records found.</div>
         <br> <br> <br>
         <%
-        	}
+            }
         %>
     </div>
 

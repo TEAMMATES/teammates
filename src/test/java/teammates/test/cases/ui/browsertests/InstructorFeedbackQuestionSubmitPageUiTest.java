@@ -4,6 +4,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -26,9 +27,9 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorFeedbackQuestionSubmitPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
 
-        browser = BrowserPool.getBrowser();        
+        browser = BrowserPool.getBrowser();
     }
     
     @Test
@@ -44,31 +45,31 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         
         fq = BackDoor.getFeedbackQuestion("IFQSubmitUiT.CS2104", "Awaiting Session", 1);
         submitPage = loginToInstructorFeedbackQuestionSubmitPage("IFQSubmitUiT.instr", "Awaiting Session", fq.getId());
-        submitPage.verifyHtml("/instructorFeedbackQuestionSubmitPageAwaiting.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackQuestionSubmitPageAwaiting.html");
         
         ______TS("Open session");
         
         fq = BackDoor.getFeedbackQuestion("IFQSubmitUiT.CS2104", "Open Session", 1);
         submitPage = loginToInstructorFeedbackQuestionSubmitPage("IFQSubmitUiT.instr", "Open Session", fq.getId());
-        submitPage.verifyHtml("/instructorFeedbackQuestionSubmitPageOpen.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackQuestionSubmitPageOpen.html");
         
         ______TS("Grace period session");
         
         fq = BackDoor.getFeedbackQuestion("IFQSubmitUiT.CS2104", "Grace Period Session", 1);
         submitPage = loginToInstructorFeedbackQuestionSubmitPage("IFQSubmitUiT.instr", "Grace Period Session", fq.getId());
-        submitPage.verifyHtml("/instructorFeedbackQuestionSubmitPageGracePeriod.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackQuestionSubmitPageGracePeriod.html");
         
         ______TS("Closed) session");
         
         fq = BackDoor.getFeedbackQuestion("IFQSubmitUiT.CS2104", "Closed Session", 1);
         submitPage = loginToInstructorFeedbackQuestionSubmitPage("IFQSubmitUiT.instr", "Closed Session", fq.getId());
-        submitPage.verifyHtml("/instructorFeedbackQuestionSubmitPageClosed.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackQuestionSubmitPageClosed.html");
         
         ______TS("Private session");
         
         fq = BackDoor.getFeedbackQuestion("IFQSubmitUiT.CS2104", "Private Session", 1);
         submitPage = loginToInstructorFeedbackQuestionSubmitPage("IFQSubmitUiT.instr", "Private Session", fq.getId());
-        submitPage.verifyHtml("/instructorFeedbackQuestionSubmitPagePrivate.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackQuestionSubmitPagePrivate.html");
     
     }
     
@@ -125,5 +126,10 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
                 .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
                 .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
         return loginAdminToPage(browser, editUrl, FeedbackQuestionSubmitPage.class);
+    }
+    
+    @AfterClass
+    public static void classTearDown() throws Exception {
+        BrowserPool.release(browser);
     }
 }

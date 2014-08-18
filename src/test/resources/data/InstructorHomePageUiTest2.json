@@ -1,10 +1,10 @@
 {
     "accounts":{
         "newInstructorWithSampleCourse":{
-            "googleId":"{$test.instructor}",
+            "googleId":"CHomeUiT.instructor.tmms",
             "name":"Teammates Test New Instructor With Sample",
             "isInstructor":true,
-            "email":"{$test.instructor}@gmail.com",
+            "email":"CHomeUiT.instructor.tmms@gmail.com",
             "institute":"National University of Singapore"
         }
     },
@@ -17,10 +17,13 @@
     },
     "instructors":{
         "CHomeUiT.instr.Sample":{
-            "googleId":"{$test.instructor}",
+            "googleId":"CHomeUiT.instructor.tmms",
             "courseId":"newIns.wit-demo",
             "name":"Teammates Test New Instructor With Sample",
-            "email":"{$test.instructor}@gmail.com"
+            "email":"CHomeUiT.instructor.tmms@gmail.com",
+            "role":"Co-owner",
+            "displayedName":"Co-owner",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         }
     }
 }

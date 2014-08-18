@@ -1,13 +1,16 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
@@ -18,25 +21,28 @@ public class InstructorEvalsPageAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
+
+        new GateKeeper().verifyInstructorPrivileges(account);
         
+        return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+        /*
         //This can be null. Non-null value indicates the page is being loaded 
         //   to add an evaluation to the specified course
         String courseIdForNewEvaluation = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         
-        new GateKeeper().verifyInstructorPrivileges(account);
-        
-        if(courseIdForNewEvaluation!=null){
+        if (courseIdForNewEvaluation!=null) {
             new GateKeeper().verifyAccessible(
                     logic.getInstructorForGoogleId(courseIdForNewEvaluation, account.googleId), 
-                    logic.getCourse(courseIdForNewEvaluation));
+                    logic.getCourse(courseIdForNewEvaluation), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         }
 
         InstructorEvalPageData data = new InstructorEvalPageData(account);
         data.courseIdForNewEvaluation = courseIdForNewEvaluation;
         // This indicates that an empty form to be shown (except possibly the course value filled in)
-        data.newEvaluationToBeCreated = null; 
-
-        data.courses = loadCoursesList(account.googleId);
+        data.newEvaluationToBeCreated = null;
+        
+        data.instructors = new HashMap<String, InstructorAttributes>();
+        data.courses = loadCoursesListAndInstructors(account.googleId, data.instructors);
         if (data.courses.size() == 0) {
             statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_EVALUATION.replace("${user}", "?user="+account.googleId));
             data.existingEvalSessions = new ArrayList<EvaluationAttributes>();
@@ -55,6 +61,7 @@ public class InstructorEvalsPageAction extends Action {
         statusToAdmin = "Number of evaluations :"+data.existingEvalSessions.size();
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_EVALS, data);
+        */
     }
 
     protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(
@@ -74,14 +81,26 @@ public class InstructorEvalsPageAction extends Action {
         return evaluations;
     }
     
-    protected List<CourseDetailsBundle> loadCoursesList(String userId)
+    protected List<CourseAttributes> loadCoursesListAndInstructors(String userId,
+            HashMap<String, InstructorAttributes> instructors)
             throws EntityDoesNotExistException {
-        HashMap<String, CourseDetailsBundle> summary = 
-                logic.getCourseSummariesForInstructor(userId);
-        List<CourseDetailsBundle>courses = new ArrayList<CourseDetailsBundle>(summary.values());
-        CourseDetailsBundle.sortDetailedCoursesByCourseId(courses);
-        
-        return courses;
+       
+        List<CourseAttributes> allCourses = logic.getCoursesForInstructor(userId);
+        List<CourseAttributes> allowedCourses = new ArrayList<CourseAttributes>();
+        for (CourseAttributes course : allCourses) {
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(course.id, account.googleId);
+            instructors.put(course.id, instructor);
+            if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
+                allowedCourses.add(course);
+            }
+        }
+        Collections.sort(allowedCourses, new Comparator<CourseAttributes>() {
+            @Override
+            public int compare(CourseAttributes c1, CourseAttributes c2){
+                return c1.id.compareTo(c2.id);
+            }
+        });      
+        return allowedCourses;
     }
 
 }

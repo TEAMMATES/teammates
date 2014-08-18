@@ -21,28 +21,14 @@ import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCourseJoinActionTest extends BaseActionTest {
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
-    }
-
-    @BeforeMethod
-    public void methodSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.REGKEY, invalidEncryptedKey
-        };
-        
-        verifyOnlyLoggedInUsersCanAccess(submissionParams);
     }
     
     @Test
@@ -64,7 +50,8 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         ShowPageResult pageResult = (ShowPageResult) confirmAction.executeAndPostProcess();
 
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION 
-                        + "?error=false&user=" + instructor.googleId, pageResult.getDestinationWithParams());
+                + "?error=false&user=idOfInstructor1OfCourse1" 
+                + "&key=" + invalidEncryptedKey, pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
@@ -83,8 +70,8 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         RedirectResult redirectResult = (RedirectResult) confirmAction.executeAndPostProcess();
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED 
-                        + "?regkey=" + StringHelper.encrypt(instructor.key)
-                        + "&error=false&user=" + instructor.googleId, redirectResult.getDestinationWithParams());
+                        + "?key=" + StringHelper.encrypt(instructor.key)
+                        + "&error=false&user=idOfInstructor1OfCourse1", redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals("", redirectResult.getStatusMessage());
         
@@ -95,8 +82,9 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         
         ______TS("Typical case: unregistered instructor, redirect to confirmation page");
         
-        instructor = new InstructorAttributes("ICJAT.instr", instructor.courseId, "New Instructor", "ICJAT.instr@email.com");
-        InstructorsLogic.inst().addInstructor(instructor.courseId, instructor.name, instructor.email);
+        instructor = new InstructorAttributes(null, instructor.courseId, "New Instructor", "ICJAT.instr@email.com");
+        InstructorsLogic.inst().createInstructor(instructor);
+        instructor.googleId = "ICJAT.instr";
         
         AccountAttributes newInstructorAccount = new AccountAttributes(
                 instructor.googleId, instructor.name, false,
@@ -114,7 +102,9 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         confirmAction = getAction(submissionParams);
         pageResult = (ShowPageResult) confirmAction.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION + "?error=false&user=ICJAT.instr",
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION + 
+                "?error=false&user=ICJAT.instr" + 
+                "&key=" + StringHelper.encrypt(newInstructor.key),
                         pageResult.getDestinationWithParams());
         assertFalse(pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());

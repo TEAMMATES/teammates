@@ -3,6 +3,7 @@ package teammates.logic.core;
 import static teammates.common.util.Const.EOL;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -17,8 +18,10 @@ import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -61,6 +64,7 @@ public class CoursesLogic {
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
     private static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
+    private static final CommentsLogic commentsLogic = CommentsLogic.inst();
 
     
     public static CoursesLogic inst() {
@@ -93,11 +97,10 @@ public class CoursesLogic {
         createCourse(courseId, courseName);
         
         /* Create the initial instructor for the course */
-        InstructorAttributes instructor = new InstructorAttributes();
-        instructor.googleId = instructorGoogleId;
-        instructor.courseId = courseId;
-        instructor.email = courseCreator.email;
-        instructor.name = courseCreator.name;
+        InstructorPrivileges privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        InstructorAttributes instructor = new InstructorAttributes(instructorGoogleId, courseId, courseCreator.name, courseCreator.email, 
+                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, true, InstructorAttributes.DEFAULT_DISPLAY_NAME,
+                privileges);
         
         try {
             instructorsLogic.createInstructor(instructor);
@@ -193,6 +196,182 @@ public class CoursesLogic {
         return courseDetailsList;
     }
 
+    public List<String> getSectionsNameForCourse(String courseId) 
+            throws EntityDoesNotExistException {
+
+        verifyCourseIsPresent(courseId);
+        
+        List<StudentAttributes> studentDataList = 
+                studentsLogic.getStudentsForCourse(courseId);
+
+        List<String> sectionNameList = new ArrayList<String>();
+
+        for(StudentAttributes sd: studentDataList) {
+            if (!sd.section.equals(Const.DEFAULT_SECTION) && !sectionNameList.contains(sd.section)) {
+                sectionNameList.add(sd.section);
+            }
+        }
+
+        Collections.sort(sectionNameList);
+
+        return sectionNameList;
+    }
+
+    public SectionDetailsBundle getSectionForCourse(String section, String courseId)
+            throws EntityDoesNotExistException {
+
+        verifyCourseIsPresent(courseId);
+        
+        List<StudentAttributes> students = studentsLogic.getStudentsForSection(section, courseId);
+        StudentAttributes.sortByTeamName(students);
+
+        SectionDetailsBundle sectionDetails = new SectionDetailsBundle();
+        TeamDetailsBundle team = null;
+        sectionDetails.name = section;
+        for(int i = 0; i < students.size(); i++){
+            StudentAttributes s = students.get(i);
+    
+            // first student of first team
+            if (team == null) {
+                team = new TeamDetailsBundle();
+                team.name = s.team;
+                team.students.add(s);
+            } 
+            // student in the same team as the previous student
+            else if (s.team.equals(team.name)) {
+                team.students.add(s);
+            } 
+            // first student of subsequent teams (not the first team)
+            else {
+                sectionDetails.teams.add(team);
+                team = new TeamDetailsBundle();
+                team.name = s.team;
+                team.students.add(s);
+            }
+    
+            // if last iteration
+            if (i == (students.size() - 1)) {
+                sectionDetails.teams.add(team);
+            }
+        }
+        return sectionDetails;
+    }
+
+    public List<SectionDetailsBundle> getSectionsForCourse(String courseId, CourseDetailsBundle cdd) 
+            throws EntityDoesNotExistException {
+        
+        verifyCourseIsPresent(courseId);
+        
+        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
+        StudentAttributes.sortBySectionName(students);
+        
+        List<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
+        
+        SectionDetailsBundle section = null;
+        int teamIndexWithinSection = 0;
+        
+        for(int i = 0; i < students.size(); i++) {
+            
+            StudentAttributes s = students.get(i);
+            cdd.stats.studentsTotal++;
+            if(!s.isRegistered()){
+                cdd.stats.unregisteredTotal++;
+            }
+            
+            if(section == null) {   // First student of first section
+                section = new SectionDetailsBundle();
+                section.name = s.section;
+                section.teams.add(new TeamDetailsBundle());
+                cdd.stats.teamsTotal++;
+                section.teams.get(teamIndexWithinSection).name = s.team;
+                section.teams.get(teamIndexWithinSection).students.add(s);
+            } else if(s.section.equals(section.name)){
+                if(s.team.equals(section.teams.get(teamIndexWithinSection).name)){
+                    section.teams.get(teamIndexWithinSection).students.add(s);
+                } else {
+                    teamIndexWithinSection++;
+                    section.teams.add(new TeamDetailsBundle());
+                    cdd.stats.teamsTotal++;
+                    section.teams.get(teamIndexWithinSection).name = s.team;
+                    section.teams.get(teamIndexWithinSection).students.add(s);
+                }
+            } else { // first student of subsequent section
+                sections.add(section);
+                if(!section.name.equals(Const.DEFAULT_SECTION)){
+                    cdd.stats.sectionsTotal++;
+                }
+                teamIndexWithinSection = 0;
+                section = new SectionDetailsBundle();
+                section.name = s.section;
+                section.teams.add(new TeamDetailsBundle());
+                cdd.stats.teamsTotal++;
+                section.teams.get(teamIndexWithinSection).name = s.team;
+                section.teams.get(teamIndexWithinSection).students.add(s);
+            }
+            
+            boolean isLastStudent = i == (students.size() -1);
+            if(isLastStudent){
+                sections.add(section);
+                if(!section.name.equals(Const.DEFAULT_SECTION)){
+                    cdd.stats.sectionsTotal++;
+                }
+            }
+        }
+        
+        return sections;
+    }
+    
+    public List<SectionDetailsBundle> getSectionsForCourseWithoutStats(String courseId) 
+            throws EntityDoesNotExistException {
+        
+        verifyCourseIsPresent(courseId);
+        
+        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
+        StudentAttributes.sortBySectionName(students);
+        
+        List<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
+        
+        SectionDetailsBundle section = null;
+        int teamIndexWithinSection = 0;
+        
+        for(int i = 0; i < students.size(); i++) {
+            
+            StudentAttributes s = students.get(i);
+            
+            if(section == null) {   // First student of first section
+                section = new SectionDetailsBundle();
+                section.name = s.section;
+                section.teams.add(new TeamDetailsBundle());
+                section.teams.get(teamIndexWithinSection).name = s.team;
+                section.teams.get(teamIndexWithinSection).students.add(s);
+            } else if(s.section.equals(section.name)){
+                if(s.team.equals(section.teams.get(teamIndexWithinSection).name)){
+                    section.teams.get(teamIndexWithinSection).students.add(s);
+                } else {
+                    teamIndexWithinSection++;
+                    section.teams.add(new TeamDetailsBundle());
+                    section.teams.get(teamIndexWithinSection).name = s.team;
+                    section.teams.get(teamIndexWithinSection).students.add(s);
+                }
+            } else { // first student of subsequent section
+                sections.add(section);
+                teamIndexWithinSection = 0;
+                section = new SectionDetailsBundle();
+                section.name = s.section;
+                section.teams.add(new TeamDetailsBundle());
+                section.teams.get(teamIndexWithinSection).name = s.team;
+                section.teams.get(teamIndexWithinSection).students.add(s);
+            }
+            
+            boolean isLastStudent = i == (students.size() -1);
+            if(isLastStudent){
+                sections.add(section);
+            }
+        }
+        
+        return sections;
+    }
+
     /**
      * Returns Teams for a particular courseId.<br> 
      * <b>Note:</b><br>
@@ -245,6 +424,13 @@ public class CoursesLogic {
         return teams;
     }
 
+    public int getNumberOfSections(String courseID) throws EntityDoesNotExistException {
+
+        List<String> sectionNameList = getSectionsNameForCourse(courseID);
+
+        return sectionNameList.size();
+    }
+
     public int getNumberOfTeams(String courseID) throws EntityDoesNotExistException {
 
         verifyCourseIsPresent(courseID);
@@ -282,10 +468,8 @@ public class CoursesLogic {
         }
 
         CourseDetailsBundle cdd = new CourseDetailsBundle(cd);
-        cdd.teams= (ArrayList<TeamDetailsBundle>) getTeamsForCourse(courseId);
-        cdd.stats.teamsTotal = getNumberOfTeams(cd.id);
-        cdd.stats.studentsTotal = getTotalEnrolledInCourse(cd.id);
-        cdd.stats.unregisteredTotal = getTotalUnregisteredInCourse(cd.id);
+        cdd.sections= (ArrayList<SectionDetailsBundle>) getSectionsForCourse(courseId, cdd);
+        
         return cdd;
     }
 
@@ -457,6 +641,7 @@ public class CoursesLogic {
         evaluationsLogic.deleteEvaluationsForCourse(courseId);
         studentsLogic.deleteStudentsForCourse(courseId);
         instructorsLogic.deleteInstructorsForCourse(courseId);
+        commentsLogic.deleteCommentsForCourse(courseId);
         feedbackSessionsLogic.deleteFeedbackSessionsForCourse(courseId);
         coursesDb.deleteCourse(courseId);
     }
@@ -487,33 +672,54 @@ public class CoursesLogic {
 
         HashMap<String, CourseDetailsBundle> courses = getCourseSummariesForInstructor(googleId);
         CourseDetailsBundle course = courses.get(courseId);
+        boolean hasSection = hasIndicatedSections(courseId);
         
-        if(course == null){
-            throw new EntityDoesNotExistException("The required course does not exist in the list of instructor's courses");
-        }
-
         String export = "";
         export += "Course ID" + "," + Sanitizer.sanitizeForCsv(courseId) + Const.EOL + 
-                "Course Name" + "," + Sanitizer.sanitizeForCsv(course.course.name) + Const.EOL + 
-                Const.EOL + Const.EOL +
-                "Team" + "," + "Student Name" + "," + "Status" + "," + "Email" + Const.EOL;
+                  "Course Name" + "," + Sanitizer.sanitizeForCsv(course.course.name) + Const.EOL + 
+                  Const.EOL + Const.EOL;
+        if(hasSection){
+            export += "Section" + ",";
+        }
+        export  += "Team,First Name,Last Name,Status,Email" + Const.EOL;
         
-        for (TeamDetailsBundle team : course.teams) {
-            for(StudentAttributes student : team.students){
-                String studentStatus = null;
-                if(student.googleId == null || student.googleId.equals("")){
-                    studentStatus = Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
-                } else {
-                    studentStatus = Const.STUDENT_COURSE_STATUS_JOINED;
+        for (SectionDetailsBundle section : course.sections) {
+            for (TeamDetailsBundle team  :   section.teams) {
+                for(StudentAttributes student : team.students){
+                    String studentStatus = null;
+                    if(student.googleId == null || student.googleId.equals("")){
+                        studentStatus = Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
+                    } else {
+                        studentStatus = Const.STUDENT_COURSE_STATUS_JOINED;
+                    }
+                    
+                    if(hasSection){
+                        export += Sanitizer.sanitizeForCsv(section.name) + ",";
+                    }
+                                        
+                    String[] splitName = StringHelper.splitName(StringHelper.removeExtraSpace(student.name));
+
+                    export += Sanitizer.sanitizeForCsv(StringHelper.recoverFromSanitizedText(team.name)) + "," + 
+                        Sanitizer.sanitizeForCsv(StringHelper.recoverFromSanitizedText(splitName[0])) + "," +
+                        Sanitizer.sanitizeForCsv(StringHelper.recoverFromSanitizedText(splitName[1])) + "," +
+                        Sanitizer.sanitizeForCsv(studentStatus) + "," +
+                        Sanitizer.sanitizeForCsv(student.email) + Const.EOL;
                 }
-                
-                export += Sanitizer.sanitizeForCsv(team.name) + "," + 
-                    Sanitizer.sanitizeForCsv(student.name) + "," +
-                    Sanitizer.sanitizeForCsv(studentStatus) + "," +
-                    Sanitizer.sanitizeForCsv(student.email) + Const.EOL;
             }
         }
         return export;
     }
 
+    public boolean hasIndicatedSections(String courseId) throws EntityDoesNotExistException{
+
+        verifyCourseIsPresent(courseId);
+        
+        List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(courseId);
+        for(StudentAttributes student : studentList) {
+            if(!student.section.equals(Const.DEFAULT_SECTION)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

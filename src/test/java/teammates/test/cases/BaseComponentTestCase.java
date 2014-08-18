@@ -1,6 +1,7 @@
 package teammates.test.cases;
 
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 
 import teammates.test.driver.GaeSimulation;
@@ -10,14 +11,14 @@ import teammates.test.driver.GaeSimulation;
  */
 public class BaseComponentTestCase extends BaseTestCase {
 
-    protected static GaeSimulation gaeSimulation;
+    protected static GaeSimulation gaeSimulation = GaeSimulation.inst();
     
     @BeforeTest
     public void testSetUp() throws Exception {
         gaeSimulation = GaeSimulation.inst();
         gaeSimulation.setup();
+        
     }
-
     
     @AfterTest
     public void testTearDown() throws Exception {

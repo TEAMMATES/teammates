@@ -5,7 +5,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -14,6 +13,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseEnrollPageData;
 import teammates.ui.controller.InstructorCourseEnrollResultPageData;
@@ -22,35 +22,17 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_SAVE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId,
-                Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, ""
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        
     }
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        //TODO: find a way to test status message from session
         String enrollString = "";
         String[] submissionParams = new String[]{};
         
@@ -60,13 +42,15 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         
         gaeSimulation.loginAsInstructor(instructorId);
 
-        ______TS("Typical case: add and edit students for non-empty course, without header row");        
+        ______TS("Typical case: add and edit students for non-empty course");        
+        
+        enrollString = "Section | Team | Name | Email | Comment";
         // A new student
-        enrollString = "Team 1\tJean Wong\tjean@email.com\tExchange student";
+        enrollString += Const.EOL + "Section 3 \t Team 1\tJean Wong\tjean@email.com\tExchange student";
         // A student to be modified
-        enrollString += Const.EOL + "Team 1.1\tstudent1 In Course1\tstudent1InCourse1@gmail.com\tNew comment added";
+        enrollString += Const.EOL + "Section 2 \t Team 1.3\tstudent1 In Course1\tstudent1InCourse1@gmail.com\tNew comment added";
         // An existing student with no modification
-        enrollString += Const.EOL + "Team 1.1\tstudent2 In Course1\tstudent2InCourse1@gmail.com\t";
+        enrollString += Const.EOL + "Section 1 \t Team 1.1\tstudent2 In Course1\tstudent2InCourse1@gmail.com\t";
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
@@ -83,12 +67,14 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         InstructorCourseEnrollResultPageData pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
         assertEquals(courseId, pageData.courseId);
         
-        StudentAttributes newStudent = new StudentAttributes("jean", "jean@email.com", "Jean Wong", "Exchange student", courseId, "Team 1");
+        StudentAttributes newStudent = new StudentAttributes("jean", "jean@email.com", "Jean Wong", "Exchange student", courseId, "Team 1", "Section 3");
         newStudent.updateStatus = StudentAttributes.UpdateStatus.NEW;
         verifyStudentEnrollmentStatus(newStudent, pageData.students);
         
         StudentAttributes modifiedStudent = dataBundle.students.get("student1InCourse1");
         modifiedStudent.comments = "New comment added";
+        modifiedStudent.section  = "Section 2";
+        modifiedStudent.team = "Team 1.3";
         modifiedStudent.updateStatus = StudentAttributes.UpdateStatus.MODIFIED;
         verifyStudentEnrollmentStatus(modifiedStudent, pageData.students);
         
@@ -100,7 +86,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
                 + courseId + "]:</span><br>" + enrollString.replace("\n", "<br>"); 
         AssertHelper.assertContains(expectedLogSegment, enrollAction.getLogMessage());
         
-        ______TS("Masquerade mode, enrollment into empty course, with header row");
+        ______TS("Masquerade mode, enrollment into empty course");
         
         if (CoursesLogic.inst().isCoursePresent("new-course")){
             CoursesLogic.inst().deleteCourseCascade("new-course");
@@ -132,11 +118,11 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
         assertEquals(courseId, pageData.courseId);
 
-        StudentAttributes student1 = new StudentAttributes("jean", "jean@email.com", "Jean Wong", "Exchange student", courseId, "Team 1");
+        StudentAttributes student1 = new StudentAttributes("jean", "jean@email.com", "Jean Wong", "Exchange student", courseId, "Team 1","None");
         student1.updateStatus = StudentAttributes.UpdateStatus.NEW;
         verifyStudentEnrollmentStatus(student1, pageData.students);
         
-        StudentAttributes student2 = new StudentAttributes("james", "james@email.com", "James Tan", "", courseId, "Team 2");
+        StudentAttributes student2 = new StudentAttributes("james", "james@email.com", "James Tan", "", courseId, "Team 2","None");
         student2.updateStatus = StudentAttributes.UpdateStatus.NEW;
         verifyStudentEnrollmentStatus(student2, pageData.students);
         
@@ -150,7 +136,8 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         
         String studentWithoutEnoughParam = "Team 1\tStudentWithNoEmailInput";
         String studentWithInvalidEmail = "Team 2\tBenjamin Tan\tinvalid.email.com";
-        enrollString = studentWithoutEnoughParam + Const.EOL + studentWithInvalidEmail;
+        enrollString = "Team | Name | Email" + Const.EOL;
+        enrollString += studentWithoutEnoughParam + Const.EOL + studentWithInvalidEmail;
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
@@ -199,6 +186,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         AssertHelper.assertContains(Const.StatusMessages.ENROLL_LINE_EMPTY, enrollAction.getLogMessage());
             
         CoursesLogic.inst().deleteCourseCascade("new-course");
+        StudentsLogic.inst().deleteStudentsForCourseWithoutDocument(instructor1OfCourse1.courseId);
     }
     
     /**

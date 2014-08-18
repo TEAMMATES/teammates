@@ -6,6 +6,7 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -22,11 +23,13 @@ import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
+import teammates.test.util.Priority;
 import teammates.test.util.TestHelper;
 
 /**
  * Covers Ui aspect of submission adjustment for evaluations and feedbacks
  */
+@Priority(1)
 public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     private static DataBundle testData;
     private static Browser browser;
@@ -39,9 +42,14 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorSubmissionAdjustmentUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         
         browser = BrowserPool.getBrowser();
+    }
+    
+    @AfterClass
+    public static void classTearDown() throws Exception {
+        BrowserPool.release(browser);
     }
     
     @Test
@@ -53,13 +61,15 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         ______TS("typical case: enroll new student to existing course");
         String evaluationName = "evaluation1 In Course1";
         StudentAttributes newStudent = new StudentAttributes();
+        newStudent.section = "None";
         newStudent.team = "Team 1.1";
         newStudent.course = "idOfTypicalCourse1";
         newStudent.email = "random@g";
         newStudent.name = "someName";
         newStudent.comments = "comments";
         
-        enrollString = newStudent.toEnrollmentString();
+        enrollString =  "Section | Team | Name | Email | Comment" + Const.EOL;
+        enrollString += newStudent.toEnrollmentString();
         
         /*
          * Old number of submissions = 2 * (4 * 4 + 1 * 1) = 34
@@ -97,8 +107,9 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         
         String newTeam = "Team 1.2";
         student.team = newTeam;
-
-        enrollString = student.toEnrollmentString();
+        
+        enrollString =  "Section | Team | Name | Email | Comment" + Const.EOL;
+        enrollString += student.toEnrollmentString();
         enrollPage.enroll(enrollString);
         
         TestHelper.verifySubmissionsExistForCurrentTeamStructureInEvaluation(evaluationName, 

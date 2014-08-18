@@ -4,14 +4,12 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackConstantSumQuestionDetails;
+import teammates.common.datatransfer.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.FeedbackNumericalScaleQuestionDetails;
@@ -19,47 +17,28 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.FeedbackQuestionsLogic;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.api.FeedbackResponsesDb;
-import teammates.ui.controller.Action;
 import teammates.ui.controller.InstructorFeedbackQuestionEditAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        FeedbackQuestionAttributes fq = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
-        
-        String[] submissionParams = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
-        
-        submissionParams = addQuestionIdToParams(fq.getId(), submissionParams);
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        
     }
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        //TODO: find a way to test status message from session
         gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse1").googleId);
         
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
@@ -283,8 +262,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcessMcq() throws Exception{
-        dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
         
         InstructorAttributes instructor1ofCourse1 =    dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -411,8 +390,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcessMsq() throws Exception{
-        dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
         
         InstructorAttributes instructor1ofCourse1 =    dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -538,8 +517,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcessNumScale() throws Exception{
-        dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        restoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
         
         InstructorAttributes instructor1ofCourse1 =    dataBundle.instructors.get("instructor1OfCourse1");
 
@@ -552,7 +531,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         
         ______TS("Edit text");
         
-        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); // There is already responses for this question
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); // There are already responses for this question
         
         String[] editTextParams = {
                 Const.ParamsNames.COURSE_ID, fs.courseId,
@@ -621,17 +600,239 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertTrue(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); 
     }
     
-    private InstructorFeedbackQuestionEditAction getAction(String... submissionParams){
-        return (InstructorFeedbackQuestionEditAction) gaeSimulation.getActionObject(uri, submissionParams);
+    @Test
+    public void testExecuteAndPostProcessConstSumOption() throws Exception{
+        DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        
+        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+
+        gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
+        
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("constSumSession");
+        FeedbackQuestionAttributes fq = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        
+        ______TS("Edit text");
+        
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); // There are already responses for this question
+        
+        String[] editTextParams = {
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONSTSUM",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Split points among the options.(edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS, "100",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION, "false",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "3",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-0", "Grades",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-1", "Fun",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS, "false",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+        
+        InstructorFeedbackQuestionEditAction a = getAction(editTextParams);
+        RedirectResult r = (RedirectResult) a.executeAndPostProcess();
+        
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
+                + "&fsname=CONSTSUM+Session&user=FSQTT.idOfInstructor1OfCourse1"
+                + "&error=false", 
+                r.getDestinationWithParams());
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
+        assertFalse(r.isError);
+        
+        // All existing responses should remain
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); 
+        
+        ______TS("Edit points");
+        
+        String[] editPointsParams = {
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONSTSUM",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Split points among the options.(edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS, "1000",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION, "false",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "3",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-0", "Grades",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-1", "Fun",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS, "false",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+        
+        a = getAction(editPointsParams);
+        r = (RedirectResult) a.executeAndPostProcess();
+        
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
+                + "&fsname=CONSTSUM+Session&user=FSQTT.idOfInstructor1OfCourse1"
+                + "&error=false", 
+                r.getDestinationWithParams());
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
+        assertFalse(r.isError);
+        
+        // All existing responses should be deleted as the options are edited
+        assertTrue(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); 
     }
     
-    private String[] addQuestionIdToParams(String questionId, String[] params) {
-        List<String> list = new ArrayList<String>();
-        list.add(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        list.add(questionId);
-        for (String s : params) {
-            list.add(s);
-        }
-        return list.toArray(new String[list.size()]);
+    @Test
+    public void testExecuteAndPostProcessConstSumRecipient() throws Exception{
+        DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        
+        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+
+        gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
+        
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("constSumSession");
+        FeedbackQuestionAttributes fq = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 2);
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        FeedbackConstantSumQuestionDetails fqd = (FeedbackConstantSumQuestionDetails) fq.getQuestionDetails();
+        
+        ______TS("Edit text");
+        
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); // There are already responses for this question
+        
+        String[] editTextParams = {
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONSTSUM",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, fqd.questionText + "(edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS, Integer.toString(fqd.points),
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION, String.valueOf(fqd.pointsPerOption),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, Integer.toString(fqd.numOfConstSumOptions),
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS, String.valueOf(fqd.distributeToRecipients),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+        
+        InstructorFeedbackQuestionEditAction a = getAction(editTextParams);
+        RedirectResult r = (RedirectResult) a.executeAndPostProcess();
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
+                + "&fsname=CONSTSUM+Session&user=FSQTT.idOfInstructor1OfCourse1"
+                + "&error=false", 
+                r.getDestinationWithParams());
+        assertFalse(r.isError);
+        
+        // All existing responses should remain
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); 
+        
+        ______TS("Edit points per option");
+        
+        String[] editPointsParams = {
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONSTSUM",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, fqd.questionText + "(edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS, Integer.toString(fqd.points),
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION, String.valueOf(!fqd.pointsPerOption),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, Integer.toString(fqd.numOfConstSumOptions),
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS, String.valueOf(fqd.distributeToRecipients),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+        
+        a = getAction(editPointsParams);
+        r = (RedirectResult) a.executeAndPostProcess();
+        
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
+                + "&fsname=CONSTSUM+Session&user=FSQTT.idOfInstructor1OfCourse1"
+                + "&error=false", 
+                r.getDestinationWithParams());
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
+        assertFalse(r.isError);
+        
+        // All existing responses should be deleted as the options are edited
+        assertTrue(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); 
+    }
+    
+    @Test
+    public void testExecuteAndPostProcessContributionQuestion() throws Exception{
+        DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        
+        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+
+        gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
+        
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("contribSession");
+        FeedbackQuestionAttributes fq = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        FeedbackContributionQuestionDetails fqd = (FeedbackContributionQuestionDetails) fq.getQuestionDetails();
+        
+        ______TS("Edit text");
+        
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); // There are already responses for this question
+        
+        String[] editTextParams = {
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONTRIB",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, fqd.questionText + "(edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+        
+        InstructorFeedbackQuestionEditAction a = getAction(editTextParams);
+        RedirectResult r = (RedirectResult) a.executeAndPostProcess();
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
+                + "&fsname=CONTRIB+Session&user=FSQTT.idOfInstructor1OfCourse1"
+                + "&error=false", 
+                r.getDestinationWithParams());
+        assertFalse(r.isError);
+        
+        // All existing responses should remain
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); 
+        
+        // delete session to clean database
+        FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);
+        
+    }
+    
+    private InstructorFeedbackQuestionEditAction getAction(String... submissionParams){
+        return (InstructorFeedbackQuestionEditAction) gaeSimulation.getActionObject(uri, submissionParams);
     }
 }

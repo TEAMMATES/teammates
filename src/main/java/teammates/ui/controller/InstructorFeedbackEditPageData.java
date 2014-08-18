@@ -18,10 +18,12 @@ public class InstructorFeedbackEditPageData extends PageData {
     public FeedbackSessionAttributes session;
     public FeedbackQuestionAttributes newQuestion;
     public List<FeedbackQuestionAttributes> questions;
+    public List<FeedbackQuestionAttributes> copiableQuestions;
     public Map<String, Boolean> questionHasResponses;
     public List<StudentAttributes> studentList;
     public List<InstructorAttributes> instructorList;
-    
+    public InstructorAttributes instructor;
+
     public InstructorFeedbackEditPageData(AccountAttributes account) {
         super(account);
         questionHasResponses = new HashMap<String, Boolean>();

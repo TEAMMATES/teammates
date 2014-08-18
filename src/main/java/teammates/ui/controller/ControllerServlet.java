@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.NullPostParameterException;
+import teammates.common.exception.PageNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
@@ -46,17 +47,29 @@ public class ControllerServlet extends HttpServlet {
              * Concrete details of the processing steps are to be implemented by child
              * classes, based on request-specific needs.
              */
+            long startTime = System.currentTimeMillis();
+            
             log.info("Request received : " + req.getRequestURL().toString()
                     + ":" + HttpRequestHelper.printRequestParameters(req));
             log.info("User agent : " + req.getHeader("User-Agent"));
             
             Action c = new ActionFactory().getAction(req);
-            ActionResult actionResult = c.executeAndPostProcess();
-            actionResult.send(req, resp);
+            if (c.isValidUser()) {
+                ActionResult actionResult = c.executeAndPostProcess();
+                actionResult.send(req, resp);
+            } else {
+                resp.sendRedirect(c.getAuthenticationRedirectUrl());
+            }
             
+            long timeTaken = System.currentTimeMillis() - startTime;
             // This is the log message that is used to generate the 'activity log' for the admin.
-            log.info(c.getLogMessage());
             
+            log.info(c.getLogMessage() + "|||"+ timeTaken);
+            
+        } catch (PageNotFoundException e) {
+            log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
+            cleanUpStatusMessageInSession(req);
+            resp.sendRedirect(Const.ViewURIs.ACTION_NOT_FOUND_PAGE);
         } catch (EntityDoesNotExistException e) {
             log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
             cleanUpStatusMessageInSession(req);

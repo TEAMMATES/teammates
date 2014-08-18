@@ -13,27 +13,14 @@ import teammates.ui.controller.ShowPageResult;
 
 public class AdminHomePageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
-    
+    // private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         uri = Const.ActionURIs.ADMIN_HOME_PAGE;
+        // removeAndRestoreTypicalDataInDatastore();
     }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        String[] submissionParams = new String[]{};
-        verifyOnlyAdminsCanAccess(submissionParams);
-    }
-
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
@@ -47,9 +34,10 @@ public class AdminHomePageActionTest extends BaseActionTest {
         assertEquals( Const.ViewURIs.ADMIN_HOME, result.destination);
         final AdminHomePageData startingPageData = (AdminHomePageData) result.data;
         assertEquals("", startingPageData.instructorEmail);
-        assertEquals("", startingPageData.instructorId);
+        assertEquals("", startingPageData.instructorShortName);
         assertEquals("", startingPageData.instructorInstitution);
         assertEquals("", startingPageData.instructorName);
+        assertEquals("", result.getStatusMessage());
         
     }
     

@@ -1,6 +1,8 @@
 package teammates.common.datatransfer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import teammates.common.util.Assumption;
 
@@ -19,7 +21,7 @@ public abstract class FeedbackAbstractResponseDetails {
     
     public abstract String getAnswerString();
     
-    public abstract String getAnswerHtml();
+    public abstract String getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails);
     
     public abstract String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails);
     
@@ -46,6 +48,26 @@ public abstract class FeedbackAbstractResponseDetails {
                 double numscaleAnswer = Double.parseDouble(answer[0]);
                 
                 responseDetails = new FeedbackNumericalScaleResponseDetails(numscaleAnswer);
+            } catch (NumberFormatException e) {
+                responseDetails = null;
+            }
+            break;
+        case CONSTSUM:
+            List<Integer> constSumAnswer = new ArrayList<Integer>();
+            for(int i=0 ; i<answer.length ; i++){
+                try{
+                    constSumAnswer.add(Integer.parseInt(answer[i]));
+                } catch (NumberFormatException e) {
+                    constSumAnswer.add(0);
+                }
+            }
+            FeedbackConstantSumQuestionDetails constSumQd = (FeedbackConstantSumQuestionDetails) questionDetails;
+            responseDetails = new FeedbackConstantSumResponseDetails(constSumAnswer, constSumQd.constSumOptions, constSumQd.distributeToRecipients);
+            break;
+        case CONTRIB:
+            try {
+                int contribAnswer = Integer.parseInt(answer[0]);
+                responseDetails = new FeedbackContributionResponseDetails(contribAnswer);
             } catch (NumberFormatException e) {
                 responseDetails = null;
             }

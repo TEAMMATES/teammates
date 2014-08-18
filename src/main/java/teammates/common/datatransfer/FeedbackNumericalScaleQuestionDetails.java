@@ -1,5 +1,7 @@
 package teammates.common.datatransfer;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,11 +102,94 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
+                "${more}", "[more]",
+                "${less}", "[less]",
                 "${questionNumber}", Integer.toString(questionNumber),
                 "${additionalInfoId}", additionalInfoId,
                 "${questionAdditionalInfo}", additionalInfo);
     }
 
+    @Override
+    public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
+            FeedbackQuestionAttributes question,
+            AccountAttributes currentUser,
+            FeedbackSessionResultsBundle bundle,
+            String view) {
+        
+        if(view.equals("student")){
+            return "";
+        }
+        
+        String html = "";
+        double average = 0;
+        double min = Integer.MAX_VALUE;
+        double max = Integer.MIN_VALUE;
+        int numResponses = 0;
+        double total = 0;
+        
+        for(FeedbackResponseAttributes response : responses){
+            numResponses++;
+            double answer = ((FeedbackNumericalScaleResponseDetails)response.getResponseDetails()).getAnswer();
+            min = (answer < min) ? answer : min;
+            max = (answer > max) ? answer : max;
+            total += answer;
+        }
+        
+        average = total/numResponses;
+        
+        DecimalFormat df = new DecimalFormat();
+        df.setMinimumFractionDigits(0);
+        df.setMaximumFractionDigits(5);
+        df.setRoundingMode(RoundingMode.DOWN);
+        
+        html = FeedbackQuestionFormTemplates.populateTemplate(
+                        FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS,
+                        "${average}", df.format(average),
+                        "${min}", (min == Integer.MAX_VALUE)? "-" : df.format(min),
+                        "${max}", (max == Integer.MIN_VALUE)? "-" : df.format(max));
+        
+        return html;
+    }
+
+    @Override
+    public String getQuestionResultStatisticsCsv(
+            List<FeedbackResponseAttributes> responses,
+            FeedbackQuestionAttributes question,
+            FeedbackSessionResultsBundle bundle) {
+        if(responses.size() == 0){
+            return "";
+        }
+        String csv = "";
+        double average = 0;
+        double min = Integer.MAX_VALUE;
+        double max = Integer.MIN_VALUE;
+        int numResponses = 0;
+        double total = 0;
+        
+        for(FeedbackResponseAttributes response : responses){
+            numResponses++;
+            double answer = ((FeedbackNumericalScaleResponseDetails)response.getResponseDetails()).getAnswer();
+            min = (answer < min) ? answer : min;
+            max = (answer > max) ? answer : max;
+            total += answer;
+        }
+        
+        average = total/numResponses;
+        
+        DecimalFormat df = new DecimalFormat();
+        df.setMinimumFractionDigits(0);
+        df.setMaximumFractionDigits(5);
+        df.setRoundingMode(RoundingMode.DOWN);
+        
+        csv += "Average, Minimum, Maximum" + Const.EOL;
+        
+        csv += df.format(average) + ","
+            + ((min == Integer.MAX_VALUE)? "-" : df.format(min)) + ","
+            + ((max == Integer.MIN_VALUE)? "-" : df.format(max)) + Const.EOL;
+        
+        return csv;
+    }
+    
     @Override
     public boolean isChangesRequiresResponseDeletion(
             FeedbackAbstractQuestionDetails newDetails) {
@@ -180,7 +265,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
     
     @Override
     public List<String> validateResponseAttributes(
-            List<FeedbackResponseAttributes> responses) {
+            List<FeedbackResponseAttributes> responses,
+            int numRecipients) {
         List<String> errors = new ArrayList<String>();
         for(FeedbackResponseAttributes response : responses){
             FeedbackNumericalScaleResponseDetails frd = (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();

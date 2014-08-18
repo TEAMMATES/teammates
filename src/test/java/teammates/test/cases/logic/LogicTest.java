@@ -14,10 +14,7 @@ import static teammates.logic.core.TeamEvalResult.NSB;
 import static teammates.logic.core.TeamEvalResult.NSU;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
@@ -27,6 +24,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -35,6 +33,7 @@ import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.EvaluationResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
@@ -69,6 +68,7 @@ public class LogicTest extends BaseComponentTestCase {
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         turnLoggingUp(Logic.class);
+        removeAndRestoreTypicalDataInDatastore();
     }
 
     @BeforeMethod
@@ -99,46 +99,22 @@ public class LogicTest extends BaseComponentTestCase {
     @Test
     public void testGetCurrentUser() throws Exception {
 
-        restoreTypicalDataInDatastore();
-
         ______TS("admin+instructor+student");
 
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
-        String course2Id = dataBundle.courses.get("typicalCourse2").id;
+        CourseAttributes course = dataBundle.courses.get("typicalCourse2");
         gaeSimulation.loginAsAdmin(instructor.googleId);
         // also make this user a student of another course
         StudentAttributes instructorAsStudent = new StudentAttributes(
-                "Team 1", "Instructor As Student", "instructorasstudent@yahoo.com", "", course2Id);
+                "Section 1", "Team 1", "Instructor As Student", "instructorasstudent@yahoo.com", "", course.id);
         instructorAsStudent.googleId = instructor.googleId;
-        logic.createStudent(instructorAsStudent);
+        logic.createStudentWithoutDocument(instructorAsStudent);
 
         UserType user = logic.getCurrentUser();
         assertEquals(instructor.googleId, user.id);
         assertEquals(true, user.isAdmin);
         assertEquals(true, user.isInstructor);
         assertEquals(true, user.isStudent);
-
-        ______TS("admin+instructor only");
-
-        // this user is no longer a student
-        logic.deleteStudent(instructorAsStudent.course, instructorAsStudent.email);
-
-        user = logic.getCurrentUser();
-        assertEquals(instructor.googleId, user.id);
-        assertEquals(true, user.isAdmin);
-        assertEquals(true, user.isInstructor);
-        assertEquals(false, user.isStudent);
-
-        ______TS("instructor only");
-        
-        // this user is no longer an admin
-        gaeSimulation.loginAsInstructor(instructor.googleId);
-        
-        user = logic.getCurrentUser();
-        assertEquals(instructor.googleId, user.id);
-        assertEquals(false, user.isAdmin);
-        assertEquals(true, user.isInstructor);
-        assertEquals(false, user.isStudent);
 
         ______TS("unregistered");
 
@@ -147,27 +123,6 @@ public class LogicTest extends BaseComponentTestCase {
         user = logic.getCurrentUser();
         assertEquals("unknown", user.id);
         assertEquals(false, user.isAdmin);
-        assertEquals(false, user.isInstructor);
-        assertEquals(false, user.isStudent);
-
-        ______TS("student only");
-
-        StudentAttributes student = dataBundle.students.get("student1InCourse1");
-        gaeSimulation.loginAsStudent(student.googleId);
-
-        user = logic.getCurrentUser();
-        assertEquals(student.googleId, user.id);
-        assertEquals(false, user.isAdmin);
-        assertEquals(false, user.isInstructor);
-        assertEquals(true, user.isStudent);
-
-        ______TS("admin only");
-
-        gaeSimulation.loginAsAdmin("any.user");
-
-        user = logic.getCurrentUser();
-        assertEquals("any.user", user.id);
-        assertEquals(true, user.isAdmin);
         assertEquals(false, user.isInstructor);
         assertEquals(false, user.isStudent);
 
@@ -190,22 +145,16 @@ public class LogicTest extends BaseComponentTestCase {
 
     @Test
     public void testGetSubmissionsForEvaluationFromStudent() throws Exception {
-    
-        restoreTypicalDataInDatastore();
-    
-        ______TS("typical case");
-    
-        restoreTypicalDataInDatastore();
-    
         
-    
+        ______TS("typical case");
+
         EvaluationAttributes evaluation = dataBundle.evaluations
                 .get("evaluation1InCourse1");
         // reuse this evaluation data to create a new one
         evaluation.name = "new evaluation";
         logic.createEvaluationWithoutSubmissionQueue(evaluation);
         // this is the student we are going to check
-        StudentAttributes student = dataBundle.students.get("student1InCourse1");
+        StudentAttributes student = dataBundle.students.get("student3InCourse1");
     
         List<SubmissionAttributes> submissions = logic.getSubmissionsForEvaluationFromStudent(
                 evaluation.courseId, evaluation.name, student.email);
@@ -225,7 +174,7 @@ public class LogicTest extends BaseComponentTestCase {
     
         //Move student to a new team
         student.team = "Team 1.3";
-        logic.updateStudent(student.email, student);
+        logic.updateStudentWithoutDocument(student.email, student);
         
         submissions = logic.getSubmissionsForEvaluationFromStudent(
                 evaluation.courseId, evaluation.name, student.email);
@@ -235,9 +184,9 @@ public class LogicTest extends BaseComponentTestCase {
                 
         // Move the student out and move in again
         student.team = "Team 1.4";
-        logic.updateStudent(student.email, student);
+        logic.updateStudentWithoutDocument(student.email, student);
         student.team = "Team 1.3";
-        logic.updateStudent(student.email, student);
+        logic.updateStudentWithoutDocument(student.email, student);
         submissions = logic.getSubmissionsForEvaluationFromStudent(evaluation.courseId,
                 evaluation.name, student.email);
         assertEquals(1, submissions.size());
@@ -271,12 +220,8 @@ public class LogicTest extends BaseComponentTestCase {
                 .get("evaluation1InCourse1");
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
     
-        restoreTypicalDataInDatastore();
-    
         ______TS("student has submitted");
-    
-        
-    
+
         assertEquals(true, logic.hasStudentSubmittedEvaluation(
                 evaluation.courseId, evaluation.name, student.email));
     
@@ -311,10 +256,7 @@ public class LogicTest extends BaseComponentTestCase {
     @Test
     public void testUpdateSubmissions() throws Exception {
 
-        ______TS("typical cases");
-
-        restoreTypicalDataInDatastore();
-        
+        ______TS("typical cases");        
 
         ArrayList<SubmissionAttributes> submissionContainer = new ArrayList<SubmissionAttributes>();
 

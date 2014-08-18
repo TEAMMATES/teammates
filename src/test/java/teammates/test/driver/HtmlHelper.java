@@ -16,6 +16,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import teammates.common.util.Config;
+
 public class HtmlHelper {
 
     /**
@@ -82,6 +84,8 @@ public class HtmlHelper {
             String initialIndentation = "";
             convertToStandardHtmlRecursively(currentNode, initialIndentation, currentHtml, isHtmlPartPassedIn);
             return currentHtml.toString()
+                    .replace("%20", " ")
+                    .replace("%27", "'")
                     .replace("<#document", "")
                     .replace("   <html   </html>", "")
                     .replace("</#document>", ""); //remove two unnecessary tags added by DOM parser.
@@ -109,6 +113,9 @@ public class HtmlHelper {
         htmlString = htmlString.replace("{$test.student2}", TestProperties.inst().TEST_STUDENT2_ACCOUNT);
         htmlString = htmlString.replace("{$test.instructor}", TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT);
         htmlString = htmlString.replace("{$test.unreg}", TestProperties.inst().TEST_UNREG_ACCOUNT);
+        htmlString = htmlString.replace("{$test.admin}", TestProperties.inst().TEST_ADMIN_ACCOUNT);
+        htmlString = htmlString.replace("{$support.email}", Config.SUPPORT_EMAIL);
+        htmlString = htmlString.replace("{$app.url}", Config.APP_URL);
         htmlString = htmlString.replaceFirst("<html xmlns=\"http://www.w3.org/1999/xhtml\">", "<html>");    
         htmlString = htmlString.replaceAll("(?s)<noscript>.*</noscript>", "");
         htmlString = htmlString.replaceAll("src=\"https://ssl.google-analytics.com/ga.js\"", "async=\"\" src=\"https://ssl.google-analytics.com/ga.js\"");
@@ -122,7 +129,7 @@ public class HtmlHelper {
         return parser.getDocument();
     }
 
-    private static void convertToStandardHtmlRecursively(Node currentNode, String indentation,
+    public static void convertToStandardHtmlRecursively(Node currentNode, String indentation,
         StringBuilder currentHtmlText, boolean isHtmlPartPassedIn){
         
         if(currentNode.getNodeType() == Node.TEXT_NODE){
@@ -134,7 +141,7 @@ public class HtmlHelper {
         } else if(isToolTip(currentNode)){
             String tooltip = currentNode.getTextContent();
             if(!tooltip.trim().isEmpty()){
-                System.out.println("ignoring tool tip: "+ tooltip);
+                //ignore tool tip
             }
             return;
         }
@@ -184,7 +191,8 @@ public class HtmlHelper {
     private static boolean shouldIncludeCurrentNode(boolean isHtmlPartPassedIn, String currentNodeName) {
         boolean shouldIncludeCurrentNode = !(isHtmlPartPassedIn && (currentNodeName.equals("html")
                                                                          || currentNodeName.equals("head")
-                                                                         || currentNodeName.equals("body")));
+                                                                         || currentNodeName.equals("body")
+                                                                         || currentNodeName.equals("#comment")));
         return shouldIncludeCurrentNode;
     }
 

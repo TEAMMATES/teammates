@@ -1,6 +1,7 @@
 package teammates.test.pageobjects;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 import teammates.common.util.Const;
@@ -40,12 +41,31 @@ public class FeedbackSubmitPage extends AppPage {
                 By.name(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         element.click();
         fillTextBox(element, text);
+        //Fire the change event using javascript since firefox with selenium
+        //might be buggy and fail to trigger.
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("$(arguments[0]).change();", element);
+    }
+    
+    public void fillResponseTextBox(int qnNumber, int responseNumber, int responseSubNumber, String text) {
+        WebElement element = browser.driver.findElement(
+                By.id(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber + "-" + responseSubNumber));
+        element.click();
+        fillTextBox(element, text);
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("$(arguments[0]).change();", element);
     }
     
     public String getResponseTextBoxValue(int qnNumber, int responseNumber) {
         WebElement element = browser.driver.findElement(
                 By.name(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         return element.getAttribute("value");
+    }
+    
+    public String getConstSumMessage(int qnNumber, int responseNumber) {
+        WebElement element = browser.driver.findElement(
+                By.id("constSumMessage-" + qnNumber + "-" + responseNumber));
+        return element.getText();
     }
     
     public void chooseMcqOption(int qnNumber, int responseNumber, String choiceName){
@@ -60,9 +80,31 @@ public class FeedbackSubmitPage extends AppPage {
         element.click();
     }
     
+    public void chooseContribOption(int qnNumber, int responseNumber, String choiceName){
+        String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
+        selectDropdownByVisibleValue(browser.driver.findElement(By.xpath("//select[@name='" + name + "']")), choiceName);
+    }
+    
     public void clickSubmitButton() {
         WebElement button = browser.driver.findElement(By.id("response_submit_button"));
         button.click();
+    }
+
+    public void linkOnHomeLink() {
+        studentHomeTab.click();
+        AppPage.getNewPageInstance(browser, StudentHomePage.class);
+    }
+
+    public void linkOnProfileLink() {
+        studentProfileTab.click();
+        AppPage.getNewPageInstance(browser, StudentProfilePage.class);
+        
+    }
+
+    public void linkOnCommentsLink() {
+        studentCommentsTab.click();
+        AppPage.getNewPageInstance(browser, StudentCommentsPage.class);
+        
     }
 
 }

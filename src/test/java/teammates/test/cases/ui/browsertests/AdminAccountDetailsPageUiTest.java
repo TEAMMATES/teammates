@@ -13,11 +13,13 @@ import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AdminAccountDetailsPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.util.Priority;
 
 /**
  * Covers the 'accounts management' view for admins.
  * SUT: {@link AdminAccountDetailsPage}
  */
+@Priority(1)
 public class AdminAccountDetailsPageUiTest extends BaseUiTestCase{
     private static Browser browser;
     private static AdminAccountDetailsPage detailsPage;
@@ -27,7 +29,7 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase{
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/AdminAccountDetailsPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
     }
     

@@ -14,7 +14,6 @@ public class InstructorCourseEnrollPageData extends PageData {
 
     public String courseId;
     
-    //Note: Must not be null as it will be accessed by instructorCourseEnroll.jsp
     public String enrollStudents;
 
 }

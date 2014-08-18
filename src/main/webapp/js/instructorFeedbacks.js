@@ -1,5 +1,7 @@
 //TODO: Move constants from Common.js into appropriate files if not shared.
 
+var modalSelectedRow;
+
 function isFeedbackSessionNameValid(name) {
     if (name.indexOf("\\") >= 0 || name.indexOf("'") >= 0
             || name.indexOf("\"") >= 0) {
@@ -82,7 +84,7 @@ function checkFeedbackQuestion(form) {
             setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID,true);
             return false;
         }
-        var qnNum = ($(form).attr('name')=='form_addquestions') ? -1 : parseInt($(form).find('[name='+FEEDBACK_QUESTION_NUMBER+']').val());
+        var qnNum = ($(form).attr('name')=='form_addquestions') ? -1 : parseInt($(form).attr('id').substring("form_editquestion-".length),$(form).attr('id').length);
         if(updateNumScalePossibleValues(qnNum)){
             return true;
         } else {
@@ -110,7 +112,7 @@ function checkAddFeedbackSession(form){
     var gracePeriod = form.graceperiod.value;
     var publishtime = form.publishtime.value;
     var instructions = form.instructions.value;
-    
+
     if (fsname == "" || courseID == "" || timezone == "" || startdate ==""
         || starttime == "" ||instructions == null || gracePeriod == "" || publishtime == "") {
         setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
@@ -194,12 +196,175 @@ function convertDateToHHMM(date) {
     return formatDigit(date.getHours()) + formatDigit(date.getMinutes());
 }
 
-function readyFeedbackPage (){
+function bindCopyButton() {
+    $('#button_copy').on('click', function(e){
+        e.preventDefault();
+        var selectedCourseId = $("#" + COURSE_ID + " option:selected").text();
+        var newFeedbackSessionName = $("#" + FEEDBACK_SESSION_NAME).val();
+        
+        var isExistingSession = false;
+
+        var sessionsList = $("tr[id^='session']");
+        if(sessionsList.length == 0){
+            setStatusMessage(FEEDBACK_SESSION_COPY_INVALID, true);
+            return false;
+        } 
+
+        $(sessionsList).each(function(){
+            var cells = $(this).find("td");
+            var courseId = $(cells[0]).text();
+            var feedbackSessionName = $(cells[1]).text();
+            if(selectedCourseId == courseId && newFeedbackSessionName == feedbackSessionName){
+                isExistingSession = true;
+                return false;
+            }
+        });
+
+        if(isExistingSession){
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE, true);
+        } else {
+            setStatusMessage("", false);
+
+            var firstSession = $(sessionsList[0]).find("td");
+            var firstSessionCourseId = $(firstSession[0]).text();
+            var firstSessionName = $(firstSession[1]).text();
+
+            $('#copyModal').modal('show');
+            $('#modalCopiedSessionName').val(newFeedbackSessionName.trim());
+            $('#modalCopiedCourseId').val(selectedCourseId.trim());
+            if($('#modalCourseId').val().trim() == ""){
+                $('#modalCourseId').val(firstSessionCourseId);
+            }
+            if($('#modalSessionName').val().trim() == ""){
+                $('#modalSessionName').val(firstSessionName);
+            }
+        }
+
+        return false;
+    });
+
+    $('#button_copy_submit').on('click', function(e){
+        e.preventDefault();
+
+        var newFeedbackSessionName = $('#modalCopiedSessionName').val();
+
+        if(newFeedbackSessionName.trim() == ""){
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_EMPTY, true);
+            $('#copyModal').modal('hide');
+            return false;
+        } else if (!isFeedbackSessionNameValid(newFeedbackSessionName)) {
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAMEINVALID, true);
+            $('#copyModal').modal('hide');
+            return false;
+        } else if (!isFeedbackSessionNameLengthValid(newFeedbackSessionName)) {
+            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_LENGTHINVALID, true);
+            $('#copyModal').modal('hide');
+            return false;
+        }
+
+        $('#copyModalForm').submit();
+
+        return false;
+    });
+}
+
+var numRowsSelected = 0;
+
+function bindCopyEvents() {
+
+    $('#copyTableModal >tbody>tr').on('click', function(e){
+        e.preventDefault();
+        var cells = $(this).find("td");
+        var courseId = $(cells[1]).text();
+        var feedbackSessionName = $(cells[2]).text();
+        $('#modalSessionName').val(feedbackSessionName.trim());
+        $('#modalCourseId').val(courseId.trim());
+
+        if(typeof modalSelectedRow != 'undefined'){
+            $(modalSelectedRow).removeClass('row-selected');
+            $($(modalSelectedRow).find("td")[0]).html('<input type="radio">');
+            numRowsSelected--;
+        }
+
+        modalSelectedRow = this;
+        $(modalSelectedRow).addClass('row-selected');
+        $($(modalSelectedRow).find("td")[0]).html('<input type="radio" checked="checked">');
+        numRowsSelected++;
+
+        if(numRowsSelected > 0){
+            $('#button_copy_submit').prop('disabled', false);
+        } else {
+            $('#button_copy_submit').prop('disabled', true);
+        }
+
+        return false;
+    });
+}
+
+function readyFeedbackPage() {
     formatSessionVisibilityGroup();
     formatResponsesVisibilityGroup();
     collapseIfPrivateSession();
-    
+    bindCopyButton();
+    bindCopyEvents();
+
     window.doPageSpecificOnload = selectDefaultTimeOptions();
+
+    bindUncommonSettingsEvents();
+    updateUncommonSettingsInfo();
+    hideUncommonPanels();
+}
+
+function bindUncommonSettingsEvents(){
+    $('#editUncommonSettingsButton').click(uncommonSettingsButtonClick);
+}
+
+function updateUncommonSettingsInfo(){
+    var info = "Session is visible at submission opening time, responses are only visible when you publish the results.<br>" +
+                "Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.";
+
+    $('#uncommonSettingsInfoText').html(info);
+}
+
+function uncommonSettingsButtonClick(){
+    var button = $('#editUncommonSettingsButton');
+    var button_edit = $(button).attr('data-edit');
+    if($(button).text() == button_edit){
+        showUncommonPanels();
+        $('#uncommonSettingsInfo').hide();
+    }
+}
+
+function isDefaultSetting(){
+    if ($('#sessionVisibleFromButton_atopen').prop('checked') &&
+        $('#resultsVisibleFromButton_later').prop('checked') &&
+        $('#sendreminderemail_open').prop('checked') &&
+        $('#sendreminderemail_closing').prop('checked') &&
+        $('#sendreminderemail_published').prop('checked')){
+        return true;
+    } else {
+        return false;   
+    }
+}
+
+function showUncommonPanels(){
+    //Hide panels only if they do not match the default values.
+    if(isDefaultSetting()){
+        $('#sessionResponsesVisiblePanel').show();
+        $('#sendEmailsForPanel').show();
+    } else {
+        $('#uncommonSettingsInfo').hide();
+    }
+}
+
+function hideUncommonPanels(){
+    //Hide panels only if they do not match the default values.
+    if(isDefaultSetting()){
+        $('#sessionResponsesVisiblePanel').hide();
+        $('#sendEmailsForPanel').hide();
+    } else {
+        $('#uncommonSettingsInfo').hide();
+    }
 }
 
 /**

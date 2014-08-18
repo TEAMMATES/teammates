@@ -1,0 +1,58 @@
+<div id="frameBodyWrapper" class="container">
+            <div>
+                <h1>Search</h1>
+            </div>
+            <br>
+            <div>
+                <form method="get" action="/page/instructorSearchPage?user=searchUI.idOfInstructor1OfCourse1" name="search_form">
+                    <div class="well well-plain">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input name="searchkey" value="comment" title="Search for comment" placeholder="Your search keyword" class="form-control" id="searchBox" type="text">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="submit" value="Search" id="buttonSearch">Search</button>
+                            </span>
+                        </div>
+                        <input name="user" value="searchUI.idOfInstructor1OfCourse1" type="hidden">
+                    </div>
+                    <div class="form-group">
+                        <ul class="list-inline">
+                            <li>
+                                <span data-original-title="Tick the checkboxes to limit your search to certain categories" data-toggle="tooltip" title="" class="glyphicon glyphicon-info-sign"></span>
+                            </li>
+                            <li>
+                                <input id="comments-for-student-check" name="searchcommentforstudents" value="true" type="checkbox">
+                                <label for="comments-for-student-check">Comments for students</label>
+                            </li>
+                            <li>
+                                <input id="comments-for-responses-check" name="searchcommentforresponses" value="true" type="checkbox">
+                                <label for="comments-for-responses-check">Comments for responses</label>
+                            </li>
+                            <li>
+                                <input id="students-check" name="searchstudents" value="true" checked="" type="checkbox">
+                                <label for="students-check">Students</label>
+                            </li>
+                        </ul>
+                    </div>
+                    </div>
+                </form>
+            </div>
+            <br>
+            
+
+
+
+
+    <div id="statusMessage" class="alert alert-warning">
+        Search Tips:<br><ul><li>Put more keywords to search for more precise results.</li><li>Put quotation marks around words <b>"[any word]"</b> to search for an exact phrase in an exact order.</li></ul>
+    </div>
+    <script type="text/javascript">
+        document.getElementById( 'statusMessage' ).scrollIntoView();
+    </script>
+
+            
+
+            
+
+            
+        </div>

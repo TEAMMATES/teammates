@@ -3,7 +3,6 @@
 /*////////////////////////////////////////////////////////////
 /////////////////// Atomic Classes //////////////////////////
 //////////////////////////////////////////////////////////*/
-
 body {
     padding: 60px 0 30px;
 }
@@ -12,8 +11,24 @@ body {
     text-align: center;
 }
 
+.align-left {
+    text-align: left;
+}
+
+.align-justify {
+    text-align: justify;
+}
+
 .background-color-white {
     background-color: white;
+}
+
+.background-color-medium-gray {
+    background-color: #e5e5e6;
+}
+
+.background-color-warning {
+    background-color: #fcf8e3;
 }
 
 .border-gray {
@@ -33,12 +48,32 @@ body {
     padding-top: 10px;
 }
 
-.color-positive { 
+.color-white {
+    color: white;
+}
+
+.color-positive {
     color: #108627;
 }
 
-.color-negative { 
+.color-negative {
     color: #e74c3c;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+    cursor: hand;
+}
+
+.row-selected {
+    background-color: #f5f5f5;
+}
+
+/*
+Apply to thead to make headers not bold.
+*/
+.font-weight-normal,.font-weight-normal>tr>th {
+    font-weight: normal;
 }
 
 .fill-plain {
@@ -67,24 +102,98 @@ body {
     color: red;
 }
 
+.glyphicon-gold {
+    color: #ffd700;
+}
+
+.height-fixed-md {
+    min-height: 150px;
+    max-height: 250px;
+    overflow: auto;
+}
+
 .highlight-white {
     color: white;
 }
 
-.inline {
+.inline,input.inline {
     display: inline;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.margin-0 {
+    margin: 0;
+}
+
+.min-height-0.checkbox,.min-height-0 {
+    min-height: 0;
+}
+
+.margin-top-0 {
+    margin-top: 0;
+}
+
+.padding-0 {
+    padding: 0;
+}
+
+.margin-0 {
+    margin: 0;
+}
+
+.narrow-slight {
+    width: 90%;
+}
+
+.padding-top-0.checkbox,.padding-top-0 {
+    padding-top: 0;
 }
 
 .text-bold {
     font-weight: bold;
 }
 
+.text-color-blue {
+    color: blue;
+}
+
+.text-color-black {
+    color: #000;
+}
+
 .text-color-primary {
     color: #428bca;
 }
 
+.text-color-gray {
+    color: gray;
+}
+
+.text-color-green {
+    color: green;
+}
+
+.text-color-red {
+    color: red;
+}
+
 .text-color-white {
     color: white;
+}
+
+.text-preserve-space {
+    white-space: pre-wrap;
+}
+
+.text-strike {
+    text-decoration: line-through;
+}
+
+.form-control.width-100-pc,.width-100-pc {
+    width: 100%;
 }
 
 @media print {
@@ -96,34 +205,31 @@ body {
     }
 }
 
-
-
-
-
-
-
-
 /*////////////////////////////////////////////////////////////
 ///////////////////////// NavBar ////////////////////////////
 //////////////////////////////////////////////////////////*/
-
-
-.comment-list{
+.comment-list {
     padding-top: 15px;
 }
- 
-.well-default {    
+
+.well-default {
     background-color: #d9edf7;
     background-image: none;
     border: 0px;
     -webkit-box-shadow: 0 0 0 0;
-       -moz-box-shadow: 0 0 0 0;
-            box-shadow: 0 0 0 0;
+    -moz-box-shadow: 0 0 0 0;
+    box-shadow: 0 0 0 0;
 }
- 
+
 .well-narrow {
     margin: 0 auto;
     width: 60%;
+}
+
+@media ( max-width : 767px) {
+    .well-sm-wide {
+        width: 100%;
+    }
 }
 
 .well-plain {
@@ -131,123 +237,162 @@ body {
     background-image: none;
     border: 0px;
     -webkit-box-shadow: 0 0 0 0;
-       -moz-box-shadow: 0 0 0 0;
-            box-shadow: 0 0 0 0;
+    -moz-box-shadow: 0 0 0 0;
+    box-shadow: 0 0 0 0;
 }
- 
+
 .panel-narrow {
     margin: 0 auto;
     width: 60%;
 }
 
 .link-in-dark-bg:link {
-	color: #f2fcac;
-}
-        
-        .link-in-dark-bg:active {
-            color: yellow;
-        }
-        
-        .link-in-dark-bg:hover {
-            color: yellow;
-        }
-
-        .link-in-dark-bg:visited {
-        	color: white;
-        }
-
-.icon-button{
-	background: transparent;
-	border: 0;	
+    color: #f2fcac;
 }
 
+.link-in-dark-bg:active {
+    color: yellow;
+}
 
+.link-in-dark-bg:hover {
+    color: yellow;
+}
 
+.link-in-dark-bg:visited {
+    color: white;
+}
 
-
-
+.icon-button {
+    background: transparent;
+    border: 0;
+}
 
 /*////////////////////////////////////////////////////////////
 ///////////////////////// Header ////////////////////////////
 //////////////////////////////////////////////////////////*/
-
 .instructor-header-bar {
     /* TODO: find a stable solution to vertical middle align the columns */
     margin-top: 20px;
 }
 
+/*////////////////////////////////////////////////////////////
+///////////////////////// Affix /////////////////////////////
+//////////////////////////////////////////////////////////*/
+.affix {
+    position: fixed;
+    top: 100px;
+}
 
+.affix>li>a {
+    color: gray;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
 
+.affix>li.active>a {
+    color: #31708f;
+    font-weight: 700;
+    border-left: 2px solid #31708f;
+}
 
+.affix>li>.nav {
+    font-size: 12px;
+}
+
+.affix>li>.nav>li>a {
+    color: gray;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 30px;
+}
+
+.affix>li.active>.nav {
+    display: block;
+    width: 100%;
+}
+
+.affix>li>.nav>li.active>a {
+    color: #31708f;
+    font-weight: 700;
+    border-left: 2px solid #31708f;
+}
+
+.affix>li:not (.active ) >.nav {
+    display: none;
+}
+
+.affix-top {
+    position: relative;
+}
+
+.affix-bottom {
+    position: absolute;
+}
 
 /*////////////////////////////////////////////////////////////
 /////////////////////// Main Content ////////////////////////
 //////////////////////////////////////////////////////////*/
-
 .bs-example {
     background-color: #fafafa;
     border-color: #e5e5e5 #eee #eee;
     border-style: solid;
     border-width: 1px 0;
     -webkit-box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
-       -moz-box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
-            box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
+    -moz-box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
     margin: 0 -15px 15px;
     padding: 45px 15px 15px;
     position: relative;
 }
 
-        .bs-example:after {
-            color: #bbb;
-            content: "Example";
-            font-size: 12px;
-            font-weight: 700;
-            left: 15px;
-            letter-spacing: 1px;
-            position: absolute;
-            text-transform: uppercase;
-            top: 15px;
-        }
-    
-        .bs-example .container {
-            width: auto
-        }
-    
-        .bs-example+.highlight {
-            margin: -15px -15px 15px;
-            border-radius: 0;
-            border-width: 0 0 1px
-        }
-    
-        @media (min-width:768px){
-            .bs-example {
-                background-color: #fff;
-                border: 1px solid #ddd;
-                -webkit-border-radius: 4px 4px 0 0;
-                   -moz-border-radius: 4px 4px 0 0;
-                        border-radius: 4px 4px 0 0;
-                -webkit-box-shadow: none;
-                   -moz-box-shadow: none;
-                        box-shadow: none;
-                margin-left: 0;
-                margin-right: 0;
-            }
-        
-            .bs-example+.highlight {
-                border-width: 1px;
-                -webkit-border-bottom-left-radius: 4px;
-                   -moz-border-radius-bottomleft: 4px;
-                        border-bottom-left-radius: 4px;
-                -webkit-border-bottom-right-radius: 4px;
-                   -moz-border-radius-bottomright: 4px;
-                        border-bottom-right-radius: 4px;                
-                margin-left: 0;
-                margin-right: 0;
-                margin-top: -16px;
-            }
-        }
+.bs-example:after {
+    color: #bbb;
+    content: "Example";
+    font-size: 12px;
+    font-weight: 700;
+    left: 15px;
+    letter-spacing: 1px;
+    position: absolute;
+    text-transform: uppercase;
+    top: 15px;
+}
 
+.bs-example .container {
+    width: auto
+}
 
+.bs-example+.highlight {
+    margin: -15px -15px 15px;
+    border-radius: 0;
+    border-width: 0 0 1px
+}
+
+@media ( min-width :768px) {
+    .bs-example {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        -webkit-border-radius: 4px 4px 0 0;
+        -moz-border-radius: 4px 4px 0 0;
+        border-radius: 4px 4px 0 0;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .bs-example+.highlight {
+        border-width: 1px;
+        -webkit-border-bottom-left-radius: 4px;
+        -moz-border-radius-bottomleft: 4px;
+        border-bottom-left-radius: 4px;
+        -webkit-border-bottom-right-radius: 4px;
+        -moz-border-radius-bottomright: 4px;
+        border-bottom-right-radius: 4px;
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: -16px;
+    }
+}
 
 .icon-sort {
     display: block;
@@ -255,6 +400,44 @@ body {
     height: 17px;
     margin-top: 1px;
     width: 12px;
+}
+
+.profile-pic {
+    width: 130px;
+    height: 130px;
+}
+
+.profile-pic-edit {
+    max-height: 400px;
+    width: 100%;
+}
+
+.profile-pic-edit>img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.profile-pic-edit-col {
+    display: table-cell;
+    float: none;
+    vertical-align: middle;
+}
+
+/* used on the div/td that contains the img */
+.profile-pic-icon-hover,
+.profile-pic-icon-click {
+    overflow: hidden;
+        cursor: default;
+}
+        .profile-pic-icon-hover > img,
+        .profile-pic-icon-click > img {
+    width: 40px;
+    height: 40px;
+}
+
+
+.profile-pic-icon-hidden {
+    display: none;
 }
 
 .unsorted {
@@ -269,24 +452,34 @@ body {
     background: url(../images/sortDownButton.png);
 }
 
-.button-sort-ascending:hover, 
-.button-sort-none:hover, 
-.button-sort-descending:hover {
+.button-sort-ascending:hover,.button-sort-none:hover,.button-sort-descending:hover
+    {
     cursor: pointer;
 }
 
+.link-disabled {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.5;
+}
 
+.link-disabled:hover {
+    text-decoration: none;
+}
 
+.cursor-default {
+    cursor: default;
+}
 
-
-
+.student-profile-pic-view-link {
+    text-align: center;
+}
 /*////////////////////////////////////////////////////////////
 ////////////////////////// Footer ///////////////////////////
 //////////////////////////////////////////////////////////*/
-
 #footerComponent {
     background-color: black;
-    background-image: linear-gradient(to bottom,#3c3c3c 0,#222 100%);
+    background-image: linear-gradient(to bottom, #3c3c3c 0, #222 100%);
     bottom: 0px;
     color: grey;
     height: 20px;
@@ -294,4 +487,40 @@ body {
     position: fixed;
     text-align: center;
     width: 100%;
+    z-index: 999;
+}
+
+/*////////////////////////////////////////////////////////////
+////////////////////////// Back To Top ///////////////////////////
+//////////////////////////////////////////////////////////*/
+.back-to-top-left {
+    position: fixed;
+    bottom: 8em;
+    left: 0px;
+    text-decoration: none;
+    color: #000000;
+    background-color: rgba(235, 235, 235, 0.80);
+    font-size: 12px;
+    padding: 0.8em;
+    display: none;
+}
+
+.back-to-top-right {
+    position: fixed;
+    bottom: 8em;
+    right: 0px;
+    text-decoration: none;
+    color: #000000;
+    background-color: rgba(235, 235, 235, 0.80);
+    font-size: 12px;
+    padding: 0.8em;
+    display: none;
+}
+
+.back-to-top-left:hover {
+    background-color: rgba(135, 135, 135, 0.50);
+}
+
+.back-to-top-right:hover {
+    background-color: rgba(135, 135, 135, 0.50);
 }

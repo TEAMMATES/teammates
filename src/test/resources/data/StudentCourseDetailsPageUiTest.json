@@ -48,13 +48,21 @@
       "googleId": "SCDetailsUiT.instr",
       "courseId": "SCDetailsUiT.CS2104",
       "name": "Teammates Test",
-      "email": "SCDetailsUiT.instr@gmail.com"
+      "email": "SCDetailsUiT.instr@gmail.com",
+      "role":"Co-owner",
+      "isDisplayedToStudents":true,
+      "displayedName":"Instructor",
+      "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
     },
     "SCDetailsUiT.coord": {
       "googleId": "SCDetailsUiT.coord",
       "courseId": "SCDetailsUiT.CS2104",
       "name": "Teammates Coord",
-      "email": "SCDetailsUiT.coord@gmail.com"
+      "email": "SCDetailsUiT.coord@gmail.com",
+      "role":"Co-owner",
+      "isDisplayedToStudents":false,
+      "displayedName":"Instructor",
+      "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
     }
   },
   

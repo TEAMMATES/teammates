@@ -1,0 +1,38 @@
+<div class="panel-body">
+    <div class="row">
+        <div class="col-sm-4 text-color-gray">
+            <strong>
+                Response Summary
+            </strong>
+        </div>
+        <div class="col-sm-3 pull-right">
+            [<a href="/instructorHelp.html#faq7a" target="_blank" id="interpret_help_link">How do I interpret/use these values?</a>]
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-bordered table-responsive margin-0">
+                <thead>
+                <tr>
+                    <td class="button-sort-ascending" id="button_sortteamname" onclick="toggleSort(this,1);">Team 
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortname" onclick="toggleSort(this,2)">Student
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,3,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title='${Const.Tooltips.CLAIMED}'>
+                        <abbr title="Claimed Contribution">CC</abbr>
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortperceived" onclick="toggleSort(this,4,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title='${Const.Tooltips.PERCEIVED}'>
+                        <abbr title="Percived Contribution">PC</abbr>
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortdiff" onclick="toggleSort(this,5,sortByDiff)"
+                        data-toggle="tooltip" data-placement="top" data-container="body" title='${Const.Tooltips.EVALUATION_DIFF}'>Diff
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="align-center" data-toggle="tooltip" data-placement="top" data-container="body"
+                        title='${Const.Tooltips.EVALUATION_POINTS_RECEIVED}'>Ratings Received</td>
+                </tr>
+                </thead>
+                ${contribFragments}
+            </table>
+        </div>
+    </div>
+</div>

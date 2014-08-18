@@ -12,6 +12,7 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.logic.api.Logic;
+import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorHomePageAction;
 import teammates.ui.controller.InstructorHomePageData;
@@ -19,31 +20,17 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorHomePageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
-    }
-
-    @BeforeMethod
-    public void methodSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        String[] submissionParams = new String[]{};
-        verifyOnlyInstructorsCanAccess(submissionParams);
-        
     }
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        //TODO: find a way to test status message from session
         String[] submissionParams = new String[]{};
         
         ______TS("instructor with no courses");
@@ -148,6 +135,8 @@ public class InstructorHomePageActionTest extends BaseActionTest {
             assertNotNull(e);
         }
         
+        // delete the new course
+        CoursesLogic.inst().deleteCourseCascade(newCourseIdForSorting);
     }
     
     private InstructorHomePageAction getAction(String... params) throws Exception{

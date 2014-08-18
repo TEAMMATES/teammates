@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
+<%@page import="teammates.common.datatransfer.CommentRecipientType"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
@@ -28,6 +28,7 @@
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorCourseDetails.js"></script>
+    <script type="text/javascript" src="/js/contextualcomments.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>   
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -35,6 +36,9 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]--> 
+<script type="text/javascript">
+    var isShowCommentBox = false;
+</script>
 </head>
 
 <body>
@@ -49,7 +53,16 @@
         <br>
         
         
-        <div class="well well-plain well-narrow" id="courseInformationHeader">
+        <div class="well well-plain" id="courseInformationHeader">
+            <button type="button" class="btn btn-default btn-xs icon-button pull-right"
+                id="button_add_comment" data-toggle="tooltip"
+                data-placement="top" title="" data-original-title="Give a comment about all students in the course"
+                <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS)) { %>
+                disabled="disabled"
+                <% } %>
+                >
+                <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+            </button>
             <div class="form form-horizontal">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Course ID:</label>
@@ -61,6 +74,12 @@
                     <label class="col-sm-3 control-label">Course name:</label>
                     <div class="col-sm-6" id="coursename">
                         <p class="form-control-static"><%=sanitizeForHtml(data.courseDetails.course.name)%></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Sections:</label>
+                    <div class="col-sm-6" id="total_sections">
+                        <p class="form-control-static"><%=data.courseDetails.stats.sectionsTotal%></p>
                     </div>
                 </div>
                 <div class="form-group">
@@ -82,7 +101,8 @@
                     <%
                         for (int i = 0; i < data.instructors.size(); i++){
                             InstructorAttributes instructor = data.instructors.get(i);
-                            String instructorInfo = instructor.name + " (" + instructor.email + ")";
+                            String instructorRole = instructor.role == null ? Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER : instructor.role;
+                            String instructorInfo = instructorRole + ": " + instructor.name + " (" + instructor.email + ")";
                     %>
                         <%=sanitizeForHtml(instructorInfo)%><br><br>
                     <%
@@ -100,7 +120,11 @@
                                  id="button_remind"
                                  data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_REMIND%>"
                                  onclick="if(toggleSendRegistrationKeysConfirmation('<%=data.courseDetails.course.id%>')) window.location.href='<%=data.getInstructorCourseRemindLink()%>';"
-                                 value="Remind Students to Join" tabindex="1">
+                                 value="Remind Students to Join" tabindex="1"
+                                 <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
+                                 disabled="disabled"
+                                 <% } %>
+                                 >
                          <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD%>" style="display:inline;">
                             <input id="button_download" type="submit" class="btn btn-primary"
                                 name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
@@ -115,7 +139,98 @@
                  %>
             </div>
         </div>
-            
+        <div id="commentArea" class="well well-plain" style="display: none;">
+            <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD%>" name="form_commentadd">
+                <div class="form-group form-inline">
+                    <label style="margin-right: 24px;">Recipient:
+                    </label> 
+                    <select id="comment_recipient_select" class="form-control" disabled="disabled">
+                        <option value="<%=CommentRecipientType.COURSE%>" selected>The whole class</option>
+                    </select>
+                    <a id="visibility-options-trigger"
+                        class="btn btn-sm btn-info pull-right"><span
+                        class="glyphicon glyphicon-eye-close"></span>
+                        Show Visibility Options</a>
+                </div>
+                <p class="form-group text-muted">
+                    The default visibility for your comment is private. You may change it using the ‘show visibility options’ button above.
+                </p>
+                <div id="visibility-options" class="panel panel-default"
+                    style="display: none;">
+                    <div class="panel-heading">Visibility Options</div>
+                    <table class="table text-center"
+                        style="background: #fff;">
+                        <tbody>
+                            <tr>
+                                <th class="text-center">User/Group</th>
+                                <th class="text-center">Can see
+                                    your comment</th>
+                                <th class="text-center">Can see
+                                    giver's name</th>
+                                <th class="text-center">Can see
+                                    recipient's name</th>
+                            </tr>
+                            <tr id="recipient-course">
+                                <td class="text-left">
+                                    <div data-toggle="tooltip"
+                                        data-placement="top" title=""
+                                        data-original-title="Control what students in this course can view">
+                                        Students in this course</div>
+                                </td>
+                                <td><input
+                                    class="visibilityCheckbox answerCheckbox"
+                                    type="checkbox" value="<%=CommentRecipientType.COURSE%>">
+                                </td>
+                                <td><input
+                                    class="visibilityCheckbox giverCheckbox"
+                                    type="checkbox" value="<%=CommentRecipientType.COURSE%>">
+                                </td>
+                                <td><input
+                                    class="visibilityCheckbox recipientCheckbox"
+                                    type="checkbox" value="<%=CommentRecipientType.COURSE%>" disabled="disabled">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-left">
+                                    <div data-toggle="tooltip"
+                                        data-placement="top" title=""
+                                        data-original-title="Control what instructors can view">
+                                        Instructors</div>
+                                </td>
+                                <td><input
+                                    class="visibilityCheckbox answerCheckbox"
+                                    type="checkbox" value="<%=CommentRecipientType.INSTRUCTOR%>">
+                                </td>
+                                <td><input
+                                    class="visibilityCheckbox giverCheckbox"
+                                    type="checkbox" value="<%=CommentRecipientType.INSTRUCTOR%>">
+                                </td>
+                                <td><input
+                                    class="visibilityCheckbox recipientCheckbox"
+                                    type="checkbox" value="<%=CommentRecipientType.INSTRUCTOR%>">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <textarea class="form-control" rows="6" placeholder="Enter your comment here ..." style="margin-bottom: 15px;"
+                 name=<%=Const.ParamsNames.COMMENT_TEXT%> id="commentText"></textarea>
+                <div style="text-align: center;">
+                    <input type="submit" class="btn btn-primary"
+                        id="button_save_comment" value="Save"> 
+                    <input type="button" class="btn btn-default"
+                        id="button_cancel_comment" value="Cancel">
+                    <input type="hidden" name=<%=Const.ParamsNames.COURSE_ID%> value="<%=data.courseDetails.course.id%>">
+                    <input type="hidden" name=<%=Const.ParamsNames.RECIPIENT_TYPE%> value="<%=CommentRecipientType.COURSE%>">
+                    <input type="hidden" name=<%=Const.ParamsNames.RECIPIENTS%> value="<%=data.courseDetails.course.id%>">
+                    <input type="hidden" name=<%=Const.ParamsNames.COMMENTS_SHOWCOMMENTSTO%> value="">
+                    <input type="hidden" name=<%=Const.ParamsNames.COMMENTS_SHOWGIVERTO%> value="">
+                    <input type="hidden" name=<%=Const.ParamsNames.COMMENTS_SHOWRECIPIENTTO%> value="">
+                    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                    <input type="hidden" name="<%=Const.ParamsNames.FROM_COURSE_DETAILS_PAGE%>" value="true">
+                </div>
+            </form>
+        </div>
         <br>
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         <br>
@@ -123,13 +238,20 @@
         <table class="table table-bordered table-striped">
             <thead class="fill-primary">
                 <tr>
-                    <th onclick="toggleSort(this,1);" id="button_sortstudentteam" class="button-sort-none">
+                    <%  int sortIdx = 1;
+                        boolean hasSection = data.courseDetails.stats.sectionsTotal != 0;
+                        if(hasSection) { %>
+                        <th onclick="toggleSort(this, <%=sortIdx++%>);" id="button_sortstudentsection" class="button-sort-none">
+                        Section<span class="icon-sort unsorted"></span>
+                        </th>
+                    <% } %>
+                    <th onclick="toggleSort(this, <%=sortIdx++%>);" id="button_sortstudentteam" class="button-sort-none">
                         Team<span class="icon-sort unsorted"></span>
                     </th>
-                    <th onclick="toggleSort(this,2);" id="button_sortstudentname" class="button-sort-none">
+                    <th onclick="toggleSort(this, <%=sortIdx++%>);" id="button_sortstudentname" class="button-sort-none">
                         Student Name<span class="icon-sort unsorted"></span>
                     </th>
-                    <th onclick="toggleSort(this,3);" id="button_sortstudentstatus" class="button-sort-none">
+                    <th onclick="toggleSort(this, <%=sortIdx++%>);" id="button_sortstudentstatus" class="button-sort-none">
                         Status<span class="icon-sort unsorted"></span>
                     </th>
                     <th class="align-center no-print">
@@ -142,35 +264,78 @@
                                                             for(StudentAttributes student: data.students){ idx++;
             %>
                     <tr class="student_row" id="student<%=idx%>">
+                        <% if(hasSection) { %>
+                            <td id="<%=Const.ParamsNames.SECTION_NAME%>"><%=sanitizeForHtml(student.section)%></td>
+                        <% } %>
                         <td id="<%=Const.ParamsNames.TEAM_NAME%>"><%=sanitizeForHtml(student.team)%></td>
                         <td id="<%=Const.ParamsNames.STUDENT_NAME%>"><%=sanitizeForHtml(student.name)%></td>
                         <td class="align-center"><%=data.getStudentStatus(student)%></td>
                         <td class="align-center no-print">
-                            <a class="btn btn-default btn-xs t_student_details<%=idx%>"
-                                    href="<%=data.getCourseStudentDetailsLink(student)%>"
-                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>">
-                                    View</a>
-                            <a class="btn btn-default btn-xs t_student_edit<%=idx%>" href="<%=data.getCourseStudentEditLink(student)%>"
-                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_EDIT%>">
-                                    Edit</a>
+                            <a class="btn btn-default btn-xs"
+                                href="<%=data.getCourseStudentDetailsLink(student)%>"
+                                data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>" 
+                                <% if (!data.currentInstructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) { %>
+                                disabled="disabled"
+                                <% } %>
+                                > View</a>
+                            <a class="btn btn-default btn-xs" href="<%=data.getCourseStudentEditLink(student)%>"
+                                data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_EDIT%>"
+                                <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
+                                disabled="disabled"
+                                <% } %>
+                                > Edit</a>
                             <%
                                 if(data.getStudentStatus(student).equals(Const.STUDENT_COURSE_STATUS_YET_TO_JOIN)){
                             %>
-                                <a class="btn btn-default btn-xs t_student_resend<%=idx%>" href="<%=data.getCourseStudentRemindLink(student)%>"
-                                        onclick="return toggleSendRegistrationKey()"
-                                        data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_REMIND%>">
-                                        Send Invite</a>
+                            <a class="btn btn-default btn-xs" href="<%=data.getCourseStudentRemindLink(student)%>"
+                                onclick="return toggleSendRegistrationKey()"
+                                data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_REMIND%>"
+                                <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
+                                disabled="disabled"
+                                <% } %>
+                                > Send Invite</a>
                             <%
                                 }
                             %>
-                            <a class="btn btn-default btn-xs t_student_delete<%=idx%>" href="<%=data.getCourseStudentDeleteLink(student)%>"
-                                    onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(student.name)%>')"
-                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_DELETE%>">
-                                    Delete</a>
-                            <a class="btn btn-default btn-xs t_student_records-c<%=data.courseDetails.course.id %>.<%=idx%>"
-                                    href="<%=data.getStudentRecordsLinkWithAddComment(data.courseDetails.course.id, student)%>"
-                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_RECORDS%>"> 
-                                    Add Comment</a>
+                            <a class="btn btn-default btn-xs" href="<%=data.getCourseStudentDeleteLink(student)%>"
+                                onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(student.name)%>')"
+                                data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_DELETE%>"
+                                <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
+                                disabled="disabled"
+                                <% } %>
+                                > Delete</a>
+                            <a class="btn btn-default btn-xs" href="<%=data.getStudentRecordsLink(student)%>"
+                                data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_RECORDS%>"
+                                > All Records</a>
+                            <div class="btn-group">
+                                <a class="btn btn-default btn-xs cursor-default" href="javascript:;"
+                                    data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_COMMENT%>"
+                                    <% if (!data.currentInstructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS)) { %>
+                                    disabled="disabled"
+                                    <% } %>
+                                    > Add Comment</a>
+                                <a href="javascript:;" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown"
+                                    <% if (!data.currentInstructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS)) { %>
+                                    disabled="disabled"
+                                    <% } %>
+                                    ><span class="caret"></span><span class="sr-only">Add comments</span></a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
+                                    <li role="presentation"><a class="t_student_details_tostudent-c<%=data.courseDetails.course.id %>.<%=idx%>" 
+                                        role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student)
+                                        +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=student"%>">
+                                        To student: <%=sanitizeForHtml(student.name)%></a></li>
+                                    <li role="presentation"><a class="t_student_details_toteam-c<%=data.courseDetails.course.id %>.<%=idx%>"
+                                        role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student)
+                                        +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=team"%>">
+                                        To team: <%=sanitizeForHtml(student.team)%></a></li>
+                                    <% if (student.section != null && !student.section.equals("None")) { %>
+                                    <li role="presentation"><a class="t_student_details_tosection-c<%=data.courseDetails.course.id %>.<%=idx%>"
+                                        role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student)
+                                        +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=section"%>">
+                                        To section: <%=sanitizeForHtml(student.section)%></a></li>
+                                    <% } %>
+                                </ul>
+                            </div>
                         </td>
                      </tr>
                  <%

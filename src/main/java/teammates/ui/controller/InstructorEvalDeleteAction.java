@@ -11,17 +11,20 @@ public class InstructorEvalDeleteAction extends InstructorEvalsPageAction {
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String evalName = getRequestParamValue(Const.ParamsNames.EVALUATION_NAME);
+        String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId), 
-                logic.getEvaluation(courseId, evalName));
+                logic.getEvaluation(courseId, evalName), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         logic.deleteEvaluation(courseId,evalName);
         statusToUser.add(Const.StatusMessages.EVALUATION_DELETED);
         statusToAdmin = "Evaluation <span class=\"bold\">" + evalName + 
                 "</span> in Course <span class=\"bold\"[" + courseId + "]/span> deleted";
         
-        return createRedirectResult(Const.ActionURIs.INSTRUCTOR_EVALS_PAGE);
+        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_EVALS_PAGE : nextUrl;
+
+        return createRedirectResult(nextUrl);
     }
     
 }

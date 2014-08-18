@@ -2,6 +2,7 @@
 
 <%@page import="teammates.ui.controller.InstructorFeedbacksPageData"%>
 <%@ page import="java.util.Date"%>
+<%@ page import="java.util.List"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
@@ -11,6 +12,7 @@
 <%@ page import="teammates.common.datatransfer.FeedbackMcqQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackMsqQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackNumericalScaleQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackConstantSumQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page import="teammates.common.datatransfer.InstructorAttributes"%>
 <%@ page import="teammates.logic.core.Emails.EmailType"%>
@@ -48,7 +50,10 @@
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
-<body onload="readyFeedbackEditPage();">
+<body onload="readyFeedbackEditPage();
+    bindUncommonSettingsEvents();
+    updateUncommonSettingsInfo();
+    hideUncommonPanels();">
     <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
     <div id="frameBodyWrapper" class="container">
@@ -264,7 +269,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-primary">
+                    <div class="row" id="uncommonSettingsInfo">
+                        <div class="col-md-12 text-muted">
+                            <span id="uncommonSettingsInfoText">
+                            </span>
+                            <a id="editUncommonSettingsButton" data-edit="[Edit]" data-done="[Done]" onclick="enableEditFS()">[Edit]</a>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary" id="sessionResponsesVisiblePanel">
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-6">
@@ -456,7 +468,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-primary">
+                    <div class="panel panel-primary" id="sendEmailsForPanel">
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -466,20 +478,6 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-2"
-                                    title="<%=Const.Tooltips.FEEDBACK_SESSION_SENDJOINEMAIL%>"
-                                    data-toggle="tooltip"
-                                    data-placement="top">
-                                    <div class="checkbox">
-                                        <label for="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>_join">
-                                            Join reminder
-                                        </label>
-                                        <input type="checkbox"
-                                            <%=data.session.isOpeningEmailEnabled ? "checked=\"checked\"" : ""%>
-                                            id="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>_join"
-                                            disabled="disabled">
-                                    </div>
-                                </div>
                                 <div class="col-sm-3"
                                     title="<%=Const.Tooltips.FEEDBACK_SESSION_SENDOPENEMAIL%>"
                                     data-toggle="tooltip"
@@ -626,7 +624,7 @@
                         </label>
                         <div class="col-sm-8">
                             <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>-<%=question.questionNumber%>"
-                                disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
+                                disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
                                 <%
                                     for(String opt: data.getParticipantOptions(question, false)) out.println(opt);
                                 %>
@@ -635,12 +633,18 @@
                     </div>
                 </div>
                 <div class="row">
-                    <br>
-                    <div class="col-sm-6">
-                        <a class="visibilityOptionsLabel btn btn-xs  btn-info" onclick="toggleVisibilityOptions(this)">
-                            <span class="glyphicon glyphicon-eye-open">
-                            </span> Show Visibility Options
-                        </a>
+                    <br><br>
+                    <div class="col-sm-6 btn-group" data-toggle="buttons">
+                        <label class="btn btn-xs btn-info visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
+                            <input type="radio">
+                                <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
+                            </input>
+                        </label>
+                        <label class="btn btn-xs btn-info active visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+                            <input type="radio">
+                                <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
+                            </input>
+                        </label>
                     </div>
                     <div class="col-sm-6 numberOfEntitiesElements<%=question.questionNumber%>">
                         <label id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-<%=question.questionNumber%>" class="control-label col-sm-4 small">
@@ -656,6 +660,21 @@
                                 <span class="">Unlimited</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 text-muted visibilityMessage">
+                        This is the visibility as seen by the feedback giver.
+                        <ul class="background-color-warning">
+                        <%
+                            List<String> visibilityMessage = question.getVisibilityMessage();
+                            for(String message : visibilityMessage){
+                        %>
+                                <li><%=message%></li>
+                        <%
+                            }
+                        %>
+                        </ul>
                     </div>
                 </div>
                 <div class="visibilityOptions">
@@ -794,7 +813,7 @@
             <div class="well well-plain inputTable" id="addNewQuestionTable">
                 <div class="row">
                     <div class="col-sm-6">
-                        <label for="questionTypeChoice" class="control-label col-sm-4">
+                        <label for="questionTypeChoice" class="control-label col-sm-3">
                             Question Type
                         </label>
                         <div class="col-sm-8">
@@ -805,15 +824,26 @@
                                 <option value = "MCQ"><%=Const.FeedbackQuestionTypeNames.MCQ%></option>
                                 <option value = "MSQ"><%=Const.FeedbackQuestionTypeNames.MSQ%></option>
                                 <option value = "NUMSCALE"><%=Const.FeedbackQuestionTypeNames.NUMSCALE%></option>
+                                <option value = "CONSTSUM_OPTION"><%=Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION%></option>
+                                <option value = "CONSTSUM_RECIPIENT"><%=Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT%></option>
+                                <option value = "CONSTSUM" style="display:none"></option>
+                                <option value = "CONTRIB"><%=Const.FeedbackQuestionTypeNames.CONTRIB%></option>
                             </select>
                         </div>
+                        <div class="col-sm-1">
+                            <h5><a href="/instructorHelp.html#fbQuestionTypes" target="_blank"><span class="glyphicon glyphicon-info-sign"></span></a></h5>
+                        </div>
                     </div>
-                    <div class="col-sm-3">
-                        <input id="button_openframe" class="btn btn-primary" value="Add New Question"
-                            onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)">
+                    <div class="col-sm-2">
+                        <a id="button_openframe" class="btn btn-primary" value="Add New Question"
+                            onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)">&nbsp;&nbsp;&nbsp;Add New Question&nbsp;&nbsp;&nbsp;</a>
+
                     </div>
-                    <div class="col-sm-3">
-                        <a class="btn btn-primary" href="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + "?" + Const.ParamsNames.USER_ID + "=" + data.account.googleId + "&" + Const.ParamsNames.COURSE_ID + "=" + data.session.courseId%>" class="button">Done Editing</a>
+                    <div class="col-sm-2">
+                        <a id="button_copy" class="btn btn-primary" value="Copy Question">&nbsp;&nbsp;&nbsp;Copy Question&nbsp;&nbsp;&nbsp;</a>
+                    </div>
+                    <div class="col-sm-2">
+                        <a class="btn btn-primary" href="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + "?" + Const.ParamsNames.USER_ID + "=" + data.account.googleId + "&" + Const.ParamsNames.COURSE_ID + "=" + data.session.courseId%>" class="button">&nbsp;&nbsp;&nbsp;Done Editing&nbsp;&nbsp;&nbsp;</a>
                     </div>
                 </div>
             </div>
@@ -872,9 +902,18 @@
                         %>
                         <%=fNumQd.getQuestionSpecificEditFormHtml(-1)%>
                     </div>
+                    <div id="constSumForm">
+                        <%
+                            FeedbackConstantSumQuestionDetails fConstSumQd = new FeedbackConstantSumQuestionDetails();
+                            fConstSumQd.numOfConstSumOptions = 2;
+                            fConstSumQd.constSumOptions.add("");
+                            fConstSumQd.constSumOptions.add("");
+                        %>
+                        <%=fConstSumQd.getQuestionSpecificEditFormHtml(-1)%>
+                    </div>
                     <br>
                     <div>
-                        <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>')">  
+                        <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>">
                             <label class="col-sm-4 control-label">
                                 Feedback Giver:
                             </label>
@@ -891,7 +930,7 @@
                                 Feedback Recipient:
                             </label>
                             <div class="col-sm-8">
-                                <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" onchange="feedbackRecipientUpdateVisibilityOptions(this)">
+                                <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
                                     <%
                                         for(String opt: data.getParticipantOptions(null, false)) out.println(opt);
                                     %>
@@ -900,12 +939,18 @@
                         </div>
                     </div>
                     <div class="row">
-                        <br>
-                        <div class="col-sm-6">
-                            <a class="visibilityOptionsLabel btn btn-xs  btn-info" onclick="toggleVisibilityOptions(this)">
-                                <span class="glyphicon glyphicon-eye-open">
-                                </span> Show Visibility Options
-                            </a>
+                        <br><br>
+                        <div class="col-sm-6 btn-group" data-toggle="buttons">
+                            <label class="btn btn-xs btn-info visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
+                                <input type="radio">
+                                    <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
+                                </input>
+                            </label>
+                            <label class="btn btn-xs btn-info active visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+                                <input type="radio">
+                                    <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
+                                </input>
+                            </label>
                         </div>
                         <div class="col-sm-6 numberOfEntitiesElements">
                             <label id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-" class="control-label col-sm-4 small">
@@ -921,6 +966,11 @@
                                     <span class="">Unlimited</span>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 text-muted visibilityMessage">
+
                         </div>
                     </div>
                     <div class="visibilityOptions">
@@ -1036,6 +1086,65 @@
                 name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS%>"
                 value="<%=FeedbackParticipantType.NONE.toString()%>">
         </form>
+
+        <!-- Modal -->
+        <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="copyModalTitle">Copy Questions</h4>
+                    </div>
+                <div class="modal-body padding-0">
+                    <form class="form" id="copyModalForm" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_COPY%>">
+                        <!-- Previous Questions -->
+                        <table class="table-responsive table table-hover table-bordered margin-0" id="copyTableModal">
+                            <thead class="fill-primary">
+                                <th style="width:30px;">&nbsp;</th>
+                                <th onclick="toggleSort(this,2);" id="button_sortid" class="button-sort-ascending"> 
+                                    Course ID <span class="icon-sort sorted-ascending"></span>
+                                </th>
+                                <th onclick="toggleSort(this,3);" id="button_sortfsname" class="button-sort-none" style="width:17%;">
+                                    Session Name <span class="icon-sort unsorted"></span>
+                                </th>
+                                <th onclick="toggleSort(this,4);" id="button_sortfqtype" class="button-sort-none"> 
+                                    Question Type <span class="icon-sort unsorted"></span>
+                                </th>
+                                <th onclick="toggleSort(this,5);" id="button_sortfqtext" class="button-sort-none"> 
+                                    Question Text <span class="icon-sort unsorted"></span>
+                                </th>
+                            </thead>
+
+                            <% 
+                                if(data.instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)){
+                                    for (FeedbackQuestionAttributes question : data.copiableQuestions) {
+                                        FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+                            %>
+                                <tr style="cursor:pointer;">
+                                    <td><input type="checkbox"></td>
+                                    <td><%=question.courseId%></td>
+                                    <td><%=InstructorFeedbacksPageData.sanitizeForHtml(question.feedbackSessionName)%></td>
+                                    <td><%= questionDetails.getQuestionTypeDisplayName() %></td>
+                                    <td><%= questionDetails.questionText %></td>
+                                    <input type="hidden" value="<%= question.getId() %>">
+                                </tr>
+                            <%      }
+                                }
+                            %>
+                        </table>
+                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.session.feedbackSessionName%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.session.courseId%>">
+                    </form>
+                </div>
+                <div class="modal-footer margin-0">
+                    <button type="button" class="btn btn-primary" id="button_copy_submit" disabled="disabled">Copy</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+          </div>
+        </div>
+
         <br><br>
         <div class="container">
             <div class="well well-plain inputTable" id="questionPreviewTable">

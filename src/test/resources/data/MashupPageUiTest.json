@@ -18,14 +18,34 @@
             "name":"Alice Betsy",
             "isInstructor":false,
             "email":"alice.b.tmms@gmail.com",
-            "institute":"National University of Singapore"
+            "institute":"National University of Singapore",
+            "studentProfile":{
+                "googleId":"alice.b.tmms",
+                "shortName":"Alice",
+                "email":"",
+                "institute":"SIT",
+                "country":"USA",
+                "gender":"female",
+                "moreInfo":"Some info",
+                "pictureKey":""
+            }
         },
         "benny.c.tmms":{
             "googleId":"benny.c.tmms",
             "name":"Benny Charles",
             "isInstructor":false,
             "email":"benny.c.tmms@gmail.com",
-            "institute":"National University of Singapore"
+            "institute":"National University of Singapore",
+            "studentProfile":{
+                "googleId":"benny.c.tmms",
+                "shortName":"Benny",
+                "email":"",
+                "institute":"SIM",
+                "country":"Singapore",
+                "gender":"male",
+                "moreInfo":"This is a lot more info so that the instructor can see the extent of info that can be given",
+                "pictureKey":""
+            }
         },
         "charlie.d.tmms":{
             "googleId":"charlie.d.tmms",
@@ -63,31 +83,46 @@
             "googleId":"teammates.test",
             "courseId":"CS2104",
             "name":"Teammates Test",
-            "email":"teammates.test@gmail.com"
+            "email":"teammates.test@gmail.com",
+            "role":"Co-owner",
+            "displayedName":"Co-owner",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "teammates.test.CS1101":{
             "googleId":"teammates.test",
             "courseId":"CS1101",
             "name":"Teammates Test",
-            "email":"teammates.test@gmail.com"
+            "email":"teammates.test@gmail.com",
+            "role":"Co-owner",
+            "displayedName":"Co-owner",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "teammates.instr.CS2104":{
             "googleId":"teammates.instr",
             "courseId":"CS2104",
             "name":"Teammates Coord",
-            "email":"teammates.instr@gmail.com"
+            "email":"teammates.instr@gmail.com",
+            "role":"Co-owner",
+            "displayedName":"Co-owner",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "teammates.instr.CS1101":{
             "googleId":"teammates.instr",
             "courseId":"CS1101",
             "name":"Teammates Coord",
-            "email":"teammates.instr@gmail.com"
+            "email":"teammates.instr@gmail.com",
+            "role":"Co-owner",
+            "displayedName":"Co-owner",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "teammates.test.CS4215":{
             "googleId":"teammates.test",
             "courseId":"CS4215",
             "name":"Teammates Test",
-            "email":"teammates.test@gmail.com"
+            "email":"teammates.test@gmail.com",
+            "role":"Co-owner",
+            "displayedName":"Co-owner",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         }
     },
     "students":{
@@ -97,7 +132,8 @@
             "course":"CS2104",
             "name":"Teammates Test",
             "comments":"This student's name is Teammates Test",
-            "team":"Team 1"
+            "team":"Team 1",
+            "section":"Section A"
         },
         "benny.c.tmms@CS2104":{
             "googleId":"benny.c.tmms",
@@ -105,7 +141,8 @@
             "course":"CS2104",
             "name":"Benny Charles",
             "comments":"This student's name is Benny Charles",
-            "team":"Team 1"
+            "team":"Team 1",
+            "section":"Section A"
         },
         "charlie.d.tmms@CS2104":{
             "googleId":"charlie.d.tmms",
@@ -113,7 +150,8 @@
             "course":"CS2104",
             "name":"Charlie Davis",
             "comments":"This student's name is Charlie Davis",
-            "team":"Team 1"
+            "team":"Team 1",
+            "section":"Section A"
         },
         "alice.b.tmms@CS2104":{
             "googleId":"alice.b.tmms",
@@ -121,7 +159,8 @@
             "course":"CS2104",
             "name":"Alice Betsy",
             "comments":"This student's name is Alice Betsy",
-            "team":"Team 2"
+            "team":"Team 2",
+            "section":"Section B"
         },
         "danny.e.tmms@CS2104":{
             "googleId":"danny.e.tmms",
@@ -129,7 +168,8 @@
             "course":"CS2104",
             "name":"Danny Engrid",
             "comments":"This student's name is Danny Engrid",
-            "team":"Team 2"
+            "team":"Team 2",
+            "section":"Section B"
         },
         "teammates.test@CS1101":{
             "googleId":"teammates.test",
@@ -879,7 +919,9 @@
             "recipientEmail":"alice.b.tmms@gmail.com",
             "responseMetaData":{
                 "value":"My product is light."
-            }
+            },
+            "giverSection":"Section B",
+            "recipientSection":"Section B"
         },
         "response2":{
             "feedbackSessionName":"First feedback session",
@@ -890,7 +932,9 @@
             "recipientEmail":"benny.c.tmms@gmail.com",
             "responseMetaData":{
                 "value":"Benny is a good student."
-            }
+            },
+            "giverSection":"Section B",
+            "recipientSection":"Section A"
         },
         "response3":{
             "feedbackSessionName":"First feedback session",
@@ -901,7 +945,9 @@
             "recipientEmail":"danny.e.tmms@gmail.com",
             "responseMetaData":{
                 "value":"Danny starts with D."
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section B"
         },
         "response4":{
             "feedbackSessionName":"First feedback session",
@@ -912,7 +958,9 @@
             "recipientEmail":"alice.b.tmms@gmail.com",
             "responseMetaData":{
                 "value":"Alice is a good girl coder."
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section B"
         },
         "response5":{
             "feedbackSessionName":"First feedback session",
@@ -923,7 +971,9 @@
             "recipientEmail":"charlie.d.tmms@gmail.com",
             "responseMetaData":{
                 "value":"Charlie did alot of work."
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         },
         "response6":{
             "feedbackSessionName":"First feedback session",
@@ -934,7 +984,9 @@
             "recipientEmail":"teammates.test@gmail.com",
             "responseMetaData":{
                 "value":"It's awesome!."
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         },
         "response7":{
             "feedbackSessionName":"First feedback session",
@@ -945,7 +997,9 @@
             "recipientEmail":"teammates.test@gmail.com",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"It's good\", \"otherFieldContent\" : \"\"}"
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         },
         "response8":{
             "feedbackSessionName":"First feedback session",
@@ -956,7 +1010,9 @@
             "recipientEmail":"teammates.test@gmail.com",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Alice Betsy (Team 2)\", \"otherFieldContent\" : \"\"}"
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         },
         "response9":{
             "feedbackSessionName":"First feedback session",
@@ -967,7 +1023,9 @@
             "recipientEmail":"teammates.test@gmail.com",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"It's good\", \"It's perfect\"]}"
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         },
         "response10":{
             "feedbackSessionName":"First feedback session",
@@ -978,7 +1036,9 @@
             "recipientEmail":"teammates.test@gmail.com",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Team 1\", \"Team 2\"]}"
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         },
         "response11":{
             "feedbackSessionName":"First feedback session",
@@ -989,7 +1049,9 @@
             "recipientEmail":"teammates.test@gmail.com",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 3.5}"
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         }
     },
     "feedbackResponseComments":{
@@ -1002,7 +1064,9 @@
             "createdAt":"2016-03-01 11:59 PM UTC",
             "commentText":{
                 "value":"This instructor's comment to student self feedback"	
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         },
         "comment2ToResponse6": {
             "courseId":"CS2104",
@@ -1013,7 +1077,44 @@
             "createdAt":"2016-03-02 11:59 PM UTC",
             "commentText":{
                 "value":"Other instructor's comment to student self feedback"	
-            }
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         }
+    },
+    "comments":{
+        "comment1FromI1C1toS1C1":{
+            "courseId":"CS2104",
+            "giverEmail":"teammates.test@gmail.com",
+            "recipientType":"PERSON",
+            "recipients":["alice.b.tmms@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": [PERSON],
+            "showGiverNameTo": [PERSON],
+            "showRecipientNameTo": [],
+            "receiverEmail":"alice.b.tmms@gmail.com",
+            "createdAt":"2016-04-01 11:59 PM UTC",
+            "commentText":{
+                "value":"Comment 1 from Instructor to Alice in course CS2104"
+            }
+            
+        },
+        "comment2FromI1C1toS1C1":{
+            "courseId":"CS2104",
+            "giverEmail":"teammates.test@gmail.com",
+            "recipientType":"PERSON",
+            "recipients":["benny.c.tmms@gmail.com"],
+            "status": "FINAL",
+            "showCommentTo": [COURSE],
+            "showGiverNameTo": [COURSE],
+            "showRecipientNameTo": [],
+            "receiverEmail":"benny.c.tmms@gmail.com",
+            "createdAt":"2016-05-01 08:51 AM UTC",
+            "commentText":{
+                "value":"Comment 2 from Instructor to Benny in course CS2104"
+            }
+            
+        }
+        
     }
 }

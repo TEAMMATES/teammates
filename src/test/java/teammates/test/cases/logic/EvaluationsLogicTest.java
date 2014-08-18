@@ -15,7 +15,6 @@ import javax.mail.internet.MimeMessage;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
@@ -54,7 +53,7 @@ import static teammates.logic.core.TeamEvalResult.NSU;
 
 public class EvaluationsLogicTest extends BaseComponentTestCase{
     
-    DataBundle dataBundle;
+    DataBundle dataBundle = getTypicalDataBundle();
 
     private static final EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
@@ -68,15 +67,45 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         printTestClassHeader();
         gaeSimulation.resetDatastore();
         turnLoggingUp(EvaluationsLogic.class);
-    }
-    
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
     }
     
     @Test
+    public void testAll() throws Exception{
+        
+        testSendReminderForEvaluation();
+        
+        testIsEvaluationCompletedByStudent();
+        testIsEvaluationExists();
+        testGetEvaluation();
+        testGetEvaluationsForCourse();
+        testGetEvaluationsClosingWithinTimeLimit();
+        testGetEvaluationsDetailsForInstructor();
+        testGetEvaluationsListForInstructor();
+        testGetEvaluationsDetailsForCourse();
+        testGetEvaluationsDetailsForCourseAndEval();
+        testGetEvaluationResultSummaryAsCsv();
+        testGetEvaluationResultForStudent();
+        testGetEvaluationResult();
+        
+        testPublishAndUnpublishEvaluation();
+        testSendEvaluationPublishedEmails();
+        testSetEvaluationActivationStatus();
+        
+        testAdjustSubmissionsForNewStudentInEvaluation();
+        testGetReadyEvaluations();
+        
+        
+        testCalculateTeamResult();
+        
+        testCreateEvaluationCascadeWithSubmissionQueue();
+        testCreateSubmissionsForEvaluation();
+        testUpdateEvaluation();
+        testDeleteEvaluationCascade();
+        
+        
+    }
+
     public void testCreateEvaluationCascadeWithSubmissionQueue() throws Exception{
     
         ______TS("Typical case : create a valid evaluation");
@@ -95,7 +124,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         
         ______TS("Failure case: create a duplicate evaluation");
 
-        EvaluationAttributes duplicateEval = dataBundle.evaluations.get("evaluation1InCourse1");
+        EvaluationAttributes duplicateEval = dataBundle.evaluations.get("evaluation2InCourse1");
         try {
             evaluationsLogic.createEvaluationCascade(duplicateEval);   
             signalFailureToDetectException();
@@ -129,7 +158,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test
     public void testCreateSubmissionsForEvaluation() throws Exception {
         
         EvaluationAttributes createdEval = new EvaluationAttributes();
@@ -168,13 +196,12 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
     }
 
 
-    @Test
     public void testGetEvaluation() throws Exception {
 
         ______TS("Typical case");
 
         EvaluationAttributes expected = dataBundle.evaluations
-                .get("evaluation1InCourse1");
+                .get("evaluation2InCourse1");
         EvaluationAttributes actual = evaluationsLogic.getEvaluation(expected.courseId,
                 expected.name);
         TestHelper.verifySameEvaluationData(expected, actual);
@@ -195,7 +222,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 
     }
 
-    @Test 
     public void testGetEvaluationsForCourse() throws Exception {
 
         ______TS("Typical case");
@@ -224,14 +250,12 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
     }
-
-    
-    @Test
+   
     public void testGetEvaluationsClosingWithinTimeLimit() throws Exception {
         
         ______TS("Typical case : no evaluations closing within a certain period");
         
-        EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse1");
+        EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse2");
         int numberOfHoursToTimeLimit = 2; //arbitrary number of hours
         
         eval.timeZone = 0;
@@ -251,7 +275,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         
     }
     
-    @Test
     public void testGetEvaluationsDetailsForInstructor() throws Exception {
     
         ______TS("Typical case: instructor has 3 evaluations");
@@ -269,28 +292,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
                 TestHelper.verifySameEvaluationData(edd.evaluation, evaluation);
                 assertEquals(5,edd.stats.expectedTotal);
                 assertEquals(3,edd.stats.submittedTotal);
-            }
-        }
-        
-        ______TS("Typical case: check immunity from orphaned submissions");
-        
-        //move a student from Team 1.1 to Team 1.2
-        StudentAttributes student = dataBundle.students.get("student4InCourse1");
-        student.team = "Team 1.2";
-        studentsLogic.updateStudentCascade(student.email, student);
-        
-        evalList = evaluationsLogic.getEvaluationsDetailsForInstructor(instructor.googleId);
-        assertEquals(3, evalList.size());
-        
-        for (EvaluationDetailsBundle edd : evalList) {
-            if(edd.evaluation.name.equals(evaluation.name)){
-                //Now we have, 3 students in Team 1.1 and 2 student in Team 1.2
-                //Only 2 (1 less than before) have submitted 
-                //   because we just moved a student to a new team and that
-                //   student's previous submissions are now orphaned.
-                TestHelper.verifySameEvaluationData(edd.evaluation, evaluation);
-                assertEquals(5,edd.stats.expectedTotal);
-                assertEquals(2,edd.stats.submittedTotal);
             }
         }
     
@@ -325,7 +326,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 
     }
 
-    @Test 
     public void testGetEvaluationsListForInstructor() throws Exception {
         
         ______TS("Typical case: instructor has 3 evaluations");
@@ -376,7 +376,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 
     }
 
-    @Test
     public void testGetEvaluationsDetailsForCourse() throws Exception {
 
         ______TS("Typical case");
@@ -391,28 +390,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
                 TestHelper.verifySameEvaluationData(edd.evaluation, expectedEvaluation);
                 assertEquals(5, edd.stats.expectedTotal);
                 assertEquals(3, edd.stats.submittedTotal);
-            }
-        }
-     
-        ______TS("Typical case: check immunity from orphaned submissions");
-        
-        //move a student from Team 1.1 to Team 1.2
-        StudentAttributes student = dataBundle.students.get("student4InCourse1");
-        student.team = "Team 1.2";
-        studentsLogic.updateStudentCascade(student.email, student);
-        
-        evaluationsList = evaluationsLogic.getEvaluationsDetailsForCourse(expectedEvaluation.courseId);
-        assertEquals(2, evaluationsList.size());
-        
-        for (EvaluationDetailsBundle edd : evaluationsList) {
-            if(edd.evaluation.name.equals(expectedEvaluation)){
-                //Now we have, 3 students in Team 1.1 and 2 student in Team 1.2
-                //Only 2 (1 less than before) have submitted 
-                //   because we just moved a student to a new team and that
-                //   student's previous submissions are now orphaned.
-                TestHelper.verifySameEvaluationData(edd.evaluation, expectedEvaluation);
-                assertEquals(5,edd.stats.expectedTotal);
-                assertEquals(2,edd.stats.submittedTotal);
             }
         }
         
@@ -435,7 +412,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test
     public void testGetEvaluationsDetailsForCourseAndEval() throws Exception {
 
         EvaluationAttributes expectedEvaluation = new EvaluationAttributes();
@@ -475,7 +451,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
     }
 
     @SuppressWarnings("deprecation")
-    @Test
     public void testGetReadyEvaluations() throws Exception {
         
         ______TS("No evaluations activated");
@@ -557,7 +532,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         // Evaluation level
     }
     
-    @Test
     public void testGetEvaluationResult() throws Exception {
     
         ______TS("Typical case");
@@ -738,13 +712,11 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         */
     }
 
-    @Test
     public void testGetEvaluationResultForStudent() throws Exception {
     
-        CourseAttributes course = dataBundle.courses.get("typicalCourse1");
-        EvaluationAttributes evaluation = dataBundle.evaluations
-                .get("evaluation1InCourse1");
-        String student1email = "student1InCourse1@gmail.com";
+        CourseAttributes course;
+        EvaluationAttributes evaluation;
+        String student1email;
     
         ______TS("Typical case");
     
@@ -869,14 +841,14 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
     
     }
 
-    @Test
     public void testGetEvaluationResultSummaryAsCsv() throws Exception {
     
         ______TS("Typical case");
     
         EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse1");
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         
-        String export = evaluationsLogic.getEvaluationResultSummaryAsCsv(eval.courseId, eval.name);
+        String export = evaluationsLogic.getEvaluationResultSummaryAsCsv(eval.courseId, instructor.email, eval.name);
         
         // This is what export should look like:
         // ==================================
@@ -904,14 +876,14 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         ______TS("Failure case: non-existent Course/Eval");
         
         try {
-            evaluationsLogic.getEvaluationResultSummaryAsCsv("non-existent-course", eval.name);
+            evaluationsLogic.getEvaluationResultSummaryAsCsv("non-existent-course", instructor.email, eval.name);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist", e.getMessage());
         }
 
         try {
-            evaluationsLogic.getEvaluationResultSummaryAsCsv(eval.courseId, "non-existent-eval");
+            evaluationsLogic.getEvaluationResultSummaryAsCsv(eval.courseId, instructor.email, "non-existent-eval");
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist", e.getMessage());
@@ -920,21 +892,20 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         ______TS("Failure case: null parameters");
         
         try {
-            evaluationsLogic.getEvaluationResultSummaryAsCsv(null, eval.name);
+            evaluationsLogic.getEvaluationResultSummaryAsCsv(null, instructor.email, eval.name);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
         
         try {
-            evaluationsLogic.getEvaluationResultSummaryAsCsv(eval.courseId, null);
+            evaluationsLogic.getEvaluationResultSummaryAsCsv(eval.courseId, instructor.email, null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
         }
     }
 
-    @Test 
     public void testIsEvaluationCompletedByStudent() throws Exception {
 
         ______TS("Typical case");
@@ -960,7 +931,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test 
     public void testIsEvaluationExists() throws Exception {
 
         ______TS("Typical case");
@@ -985,7 +955,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 
     }
 
-    @Test
     public void testUpdateEvaluation() throws Exception {
         
         ______TS("Typical case");
@@ -998,6 +967,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
         eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
         eval.timeZone = 0;
+        eval.activated = true;
         evaluationsLogic.updateEvaluation(eval);
 
         TestHelper.verifyPresentInDatastore(eval);
@@ -1053,13 +1023,15 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             assertEquals("The end time for this evaluation cannot be earlier than the start time.", e.getMessage());
+            // set the values back
+            eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
         }
 
         // Checking for other type of invalid parameter situations
         // is done in EvaluationDataTest
+        
     }
 
-    @Test
     public void testPublishAndUnpublishEvaluation() throws Exception {
 
         ______TS("Typical cases");
@@ -1069,6 +1041,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         assertEquals(false,
                 evaluationsLogic.getEvaluation(eval1.courseId, eval1.name).published);
         // ensure CLOSED
+        eval1.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
         eval1.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
         assertEquals(EvalStatus.CLOSED, eval1.getStatus());
         
@@ -1169,16 +1142,21 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 
     }
 
-    @Test
     public void testDeleteEvaluationCascade() throws Exception {
     
         ______TS("Typical cases");
     
-        EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse1");
-        TestHelper.verifyPresentInDatastore(eval);
+        EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse2");
+        try {
+            evaluationsLogic.createEvaluationCascade(eval);
+        } catch (EntityAlreadyExistsException e) {
+            // if its already there, no problem
+            ignoreExpectedException();
+            evaluationsLogic.updateEvaluation(eval);
+        }
         // verify there are submissions under this evaluation
         SubmissionAttributes submission = dataBundle.submissions
-                .get("submissionFromS1C1ToS1C1");
+                .get("submissionFromS1C2ToS2C2");
         TestHelper.verifyPresentInDatastore(submission);
     
         evaluationsLogic.deleteEvaluationCascade(eval.courseId, eval.name);
@@ -1207,7 +1185,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test
     public void testAdjustSubmissionsForNewStudentInEvaluation() throws Exception {
 
         ______TS("Typical case");
@@ -1278,7 +1255,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
     
-    @Test
     public void testSendEvaluationPublishedEmails() throws Exception {
         
         ______TS("Typical case");
@@ -1288,7 +1264,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 
         List<MimeMessage> emailsSent = evaluationsLogic.sendEvaluationPublishedEmails(
                 eval.courseId, eval.name);
-        assertEquals(8, emailsSent.size());
+        assertEquals(9, emailsSent.size());
 
         List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(eval.courseId);
         
@@ -1327,7 +1303,6 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test
     public void testSendReminderForEvaluation() throws Exception {
        
         ______TS("Typical case");
@@ -1337,7 +1312,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 
         List<MimeMessage> emailsSent = evaluationsLogic.sendReminderForEvaluation(
                 eval.courseId, eval.name);
-        assertEquals(7, emailsSent.size());
+        assertEquals(8, emailsSent.size());
 
         List<StudentAttributes> studentList = studentsLogic.getStudentsForCourse(eval.courseId);
         
@@ -1380,15 +1355,13 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
     
-    @Test
     public void testSetEvaluationActivationStatus() throws Exception {
-
-        ______TS("Typical cases");
-
+        
         EvaluationAttributes eval1 = dataBundle.evaluations.get("evaluation1InCourse1");
-        // ensure not published yet
-        assertEquals(true,
-                evaluationsLogic.getEvaluation(eval1.courseId, eval1.name).activated);
+        // set activation status to true
+        evaluationsLogic.setEvaluationActivationStatus(eval1.courseId, eval1.name, true);
+        
+        ______TS("Typical cases");
         
         evaluationsLogic.setEvaluationActivationStatus(eval1.courseId, eval1.name, false);
         assertEquals(false,
@@ -1447,15 +1420,14 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         }
     }
 
-    @Test
     public void testCalculateTeamResult() throws Exception {
 
         TeamDetailsBundle teamDetails = new TeamDetailsBundle();
-        StudentAttributes s1 = new StudentAttributes("t1", "s1", "e1@c", "", "course1");
+        StudentAttributes s1 = new StudentAttributes("sect1", "t1", "s1", "e1@c", "", "course1");
         teamDetails.students.add(s1);
-        StudentAttributes s2 = new StudentAttributes("t1", "s2", "e2@c", "", "course1");
+        StudentAttributes s2 = new StudentAttributes("sect1", "t1", "s2", "e2@c", "", "course1");
         teamDetails.students.add(s2);
-        StudentAttributes s3 = new StudentAttributes("t1", "s3", "e3@c", "", "course1");
+        StudentAttributes s3 = new StudentAttributes("sect1", "t1", "s3", "e3@c", "", "course1");
         teamDetails.students.add(s3);
         
         TeamResultBundle teamEvalResultBundle = new TeamResultBundle(

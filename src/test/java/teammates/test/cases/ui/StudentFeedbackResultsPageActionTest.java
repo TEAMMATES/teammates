@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import teammates.common.datatransfer.FeedbackSessionType;
 
@@ -30,86 +29,14 @@ import teammates.ui.controller.StudentFeedbackResultsPageData;
 
 public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     EvaluationsDb evaluationsDb = new EvaluationsDb();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
-    }
-
-    @BeforeMethod
-    public void methodSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-
-    /*
-     * This parent's method is overridden to check the returned result for
-     * verification purpose because only redirect result will be returned
-     * without any exception. StudentCourseDetailsPageAction has the same
-     * issue,check with this file for detailed reason
-     */
-
-    @Override
-    protected void verifyCannotAccess(String... params) throws Exception {
-        try {
-            Action c = gaeSimulation.getActionObject(uri, params);
-
-            ActionResult result = c.executeAndPostProcess();
-
-            String classNameOfRedirectResult = RedirectResult.class.getName();
-            assertEquals(classNameOfRedirectResult, result.getClass().getName());
-
-        } catch (Exception e) {
-            ignoreExpectedException();
-        }
-
-    }
-
-    @Test
-    public void testAccessControl() throws Exception {
-
-        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
-                .get("session1InCourse1");
-        FeedbackSessionsLogic.inst().publishFeedbackSession(
-                session1InCourse1.getSessionName(), session1InCourse1.courseId);
-
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.feedbackSessionName
-        };
-
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors
-                .get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.googleId;
-        StudentAttributes student2InCourse1 = dataBundle.students
-                .get("student2InCourse1");
-        String studentId = student2InCourse1.googleId;
-
-        verifyUnaccessibleWithoutLogin(submissionParams);
-
-        // if the user is not a student of the course, we redirect to home page.
-        gaeSimulation.loginUser("unreg.user");
-        verifyRedirectTo(Const.ActionURIs.STUDENT_HOME_PAGE, submissionParams);
-        verifyCannotMasquerade(addUserIdToParams(studentId, submissionParams));
-
-        verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
-        verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);
-
-        // if the user is not a student of the course, we redirect to home page.
-        gaeSimulation.loginAsInstructor(instructorId);
-        verifyRedirectTo(Const.ActionURIs.STUDENT_HOME_PAGE, submissionParams);
-        verifyCannotMasquerade(addUserIdToParams(studentId, submissionParams));
-
-        verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
-
-        restoreTypicalDataInDatastore();
-
-        // TODO: test no questions -> redirect after moving detection logic to
-        // proper access control level.
     }
 
     @Test
@@ -268,7 +195,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
         ______TS("typical case");
 
-        restoreTypicalDataInDatastore();
+        		removeAndRestoreTypicalDataInDatastore();
 
         FeedbackSessionsLogic.inst().publishFeedbackSession(
                 session1InCourse1.getSessionName(), session1InCourse1.courseId);

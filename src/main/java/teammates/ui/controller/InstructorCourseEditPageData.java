@@ -5,7 +5,9 @@ import java.util.List;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 
 
@@ -17,6 +19,10 @@ public class InstructorCourseEditPageData extends PageData {
     
     public CourseAttributes course;
     public List<InstructorAttributes> instructorList;
+    public InstructorAttributes currentInstructor;
+    public List<String> sectionNames;
+    public List<String> evalNames;
+    public List<String> feedbackNames;
 
     public String getInstructorCourseInstructorEditLink(String courseId, String instructorId) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE;
@@ -42,3 +48,4 @@ public class InstructorCourseEditPageData extends PageData {
         return link;
     }
 }
+

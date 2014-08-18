@@ -251,8 +251,7 @@ public class TestHelper extends BaseComponentTestCase{
     }
     
     public static void verifyAbsentInDatastore(CommentAttributes comment) {
-        assertNull(commentsDb.getComment(comment.courseId,
-                comment.giverEmail, comment.receiverEmail, comment.commentText, comment.createdAt));
+        assertNull(commentsDb.getComment(comment));
     }
     
     public static void verifyAbsentInDatastore(FeedbackResponseCommentAttributes frComment) {
@@ -260,6 +259,10 @@ public class TestHelper extends BaseComponentTestCase{
                 frComment.giverEmail, frComment.createdAt));
     }
     
+    /**
+     * Only checks if the entity exists
+     * @param expectedAccount
+     */
     public static void verifyPresentInDatastore(AccountAttributes expectedAccount) {
         AccountAttributes actualAccount = logic.getAccount(expectedAccount.googleId);
         // Account when created by createInstructor may take up different values in NAME and EMAIL
@@ -322,7 +325,7 @@ public class TestHelper extends BaseComponentTestCase{
         FeedbackQuestionAttributes actual = fqDb.getFeedbackQuestion(
                 expected.feedbackSessionName, expected.courseId, expected.questionNumber);
         if(wildcardId){
-            actual.setId("*");
+            expected.setId(actual.getId());
         }
         assertEquals(gson.toJson(expected), gson.toJson(actual));
     }
@@ -337,21 +340,22 @@ public class TestHelper extends BaseComponentTestCase{
         FeedbackResponseAttributes actual = frDb.getFeedbackResponse(
                 expected.feedbackQuestionId, expected.giverEmail, expected.recipientEmail);
         if(wildcardId){
-            actual.setId("*");
+            expected.setId(actual.getId());
         }
         assertEquals(gson.toJson(expected), gson.toJson(actual));
     }
     
     public static void verifyPresentInDatastore(CommentAttributes expected){
-        CommentAttributes actual = commentsDb.getComment(expected.courseId, expected.giverEmail, expected.receiverEmail, expected.commentText, expected.createdAt);
+        CommentAttributes actual = commentsDb.getComment(expected);
         assertEquals(expected.courseId, actual.courseId);
         assertEquals(expected.giverEmail, actual.giverEmail);
-        assertEquals(expected.receiverEmail, actual.receiverEmail);
+        assertEquals(expected.recipients, actual.recipients);
         assertEquals(expected.commentText, actual.commentText);
     }
     
     public static void verifyPresentInDatastore(FeedbackResponseCommentAttributes expected){
-        FeedbackResponseCommentAttributes actual = frcDb.getFeedbackResponseComment(expected.feedbackResponseId, expected.giverEmail, expected.createdAt);
+        FeedbackResponseCommentAttributes actual = frcDb.getFeedbackResponseComment(expected.courseId, expected.createdAt,
+                expected.giverEmail);
         assertEquals(expected.courseId, actual.courseId);
         assertEquals(expected.giverEmail, actual.giverEmail);
         assertEquals(expected.feedbackSessionName, actual.feedbackSessionName);
@@ -410,13 +414,16 @@ public class TestHelper extends BaseComponentTestCase{
         }
     }
     
-    public static void equalizeIrrelevantData(
-            InstructorAttributes expectedInstructor,
+    public static void equalizeIrrelevantData(InstructorAttributes expectedInstructor,
             InstructorAttributes actualInstructor) {
         
         // pretend keys match because the key is generated only before storing into database
         if ((actualInstructor.key != null)) {
             expectedInstructor.key = actualInstructor.key;
+        }
+        if (!expectedInstructor.instructorPrivilegesAsText.equals(actualInstructor.instructorPrivilegesAsText)
+                && expectedInstructor.privileges.equals(actualInstructor.privileges)) {
+            actualInstructor.instructorPrivilegesAsText = expectedInstructor.getTextFromInstructorPrivileges();
         }
     }
 
@@ -469,7 +476,7 @@ public class TestHelper extends BaseComponentTestCase{
             student.course = courseId;
             student.comments = "";
             student.googleId="";
-            logic.createStudent(student);
+            studentsDb.createStudentWithoutDocument(student);
         }
         // create evaluation
         EvaluationAttributes e = new EvaluationAttributes();

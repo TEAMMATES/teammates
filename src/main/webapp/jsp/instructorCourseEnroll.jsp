@@ -55,8 +55,7 @@
         <div class="panel panel-primary">
           <div class="panel-body fill-plain">
             <div class="text-muted">
-              <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary"></span> Recommended
-              maximum class size : <strong>250</strong> students
+              <span class="glyphicon glyphicon-exclamation-sign glyphicon-primary"></span> If you want to enroll more then <strong>100</strong> students into one course, divide students into sections containing no more than <strong>100</strong> students.
             </div>
             <br>
             <form action="<%=data.getInstructorCourseEnrollSaveLink(data.courseId)%>" method="post" class="form-horizontal" role="form">
@@ -64,7 +63,7 @@
                 <div class="form-group">
                   <label for="instructions" class="col-sm-1 control-label">Student data:</label>
                   <div class="col-sm-11">
-                    <textarea class="form-control" id="enrollstudents" name="enrollstudents" rows="6" cols="120" style="max-width:100%;" placeholder="Paste student data here ..."></textarea>
+                    <textarea class="form-control" id="enrollstudents" name="enrollstudents" rows="6" cols="120" style="max-width:100%;" placeholder="Paste student data here ..."><% if(data.enrollStudents != null) %><%=data.enrollStudents %></textarea>
                     <br>
                     <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
                     <button type="submit" title="Enroll" id="button_enroll" name="button_enroll" class="btn btn-primary btn-md">
@@ -95,12 +94,20 @@
                         Column headings are <u>not</u> case sensitive. e.g. Team, TEAM, team are all acceptable.
                     </div>
                 </li>
-                <li><span class="moreInfoPointTitle">Columns</span>
+                <li><span class="moreInfoPointTitle">Columns to include</span>
                     <div class="moreInfoPointDetails">
                         <ul>
-                            <li class="moreInfoColumnInfo">Team [Compulsory]: team name/ID</li>
-                            <li class="moreInfoColumnInfo">Name [Compulsory]: Student name</li>
-                            <li class="moreInfoColumnInfo">Email [Compulsory]: The email address used to contact the student.<br>
+                            <li class="moreInfoColumnInfo"><samp>Section</samp> [Compulsory for courses having more than 100 students]: Section name/ID</li> 
+                            <li class="moreInfoColumnInfo"><samp>Team</samp> [Compulsory]: Team name/ID
+                                <div class="moreInfoPointDetails">
+                                    <ul>
+                                        <li class="moreInfoEmailDetails">Team must be unique within a course. A team cannot be in 2 different sections.</li>
+                                        <li class="moreInfoEmailDetails">If you do not have teams in your course, use “N/A” as the team name for all students.</li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="moreInfoColumnInfo"><samp>Name</samp> [Compulsory]: Student name</li>
+                            <li class="moreInfoColumnInfo"><samp>Email</samp> [Compulsory]: The email address used to contact the student.<br>
                                 <div class="moreInfoPointDetails">
                                     <ul>
                                         <li class="moreInfoEmailDetails">This need not be a Gmail address.</li>
@@ -109,7 +116,7 @@
                                     </ul>
                                 </div>
                             </li>
-                            <li class="moreInfoColumnInfo">Comments [Optional]: Any other information you want to record about a student.</li>
+                            <li class="moreInfoColumnInfo"><samp>Comments</samp> [Optional]: Any other information you want to record about a student.</li>
                         </ul>
                     </div>
                 </li>
@@ -125,13 +132,17 @@
                 <li><span class="moreInfoPointTitle">Enrolling without spreadsheets</span>
                     <div class="moreInfoPointDetails">
                         The alternative is to type student data in the text box, using the pipe symbol (also called the vertical bar, 
-                        not to be confused with upper case i or lower case L).
-                        <br>Here is an example.
+                        not to be confused with upper case i or lower case L) to separate values.
+                        <br> Here is an example.
                         <br><br>
                         <div id="moreInfoEnrollWOSpreadSheetEg">
-                            <span class="enrollLines">Team   |   Name   |   Email   |   Comments</span>
-                            <br><span class="enrollLines">Team 1   |   Tom Jacobs  |  tom@email.com</span>
-                            <br><span class="enrollLines">Team 1  |   Jean Wong   |   jean@email.com   |   Exchange Student</span>
+                            <samp>
+                            <span class="enrollLines"><b>Section   |   Team   |   Name   |   Email   |   Comments</b></span>
+                            <br><span class="enrollLines">Tut Group 1   |   Team 1   |   Tom Jacobs  |  tom@email.com</span>
+                            <br><span class="enrollLines">Tut Group 1   |   Team 1  |   Jean Wong   |   jean@email.com   |   Exchange Student</span>
+                            <br><span class="enrollLines">Tut Group 1   |   Team 2   |   Jack Wayne  |  jack@email.com</span>
+                            <br><span class="enrollLines">Tut Group 2   |   Team 3   |   Thora Parker  |  thora@email.com</span>
+                            </samp>
                         </div>
                     </div>
                 </li>

@@ -1,5 +1,7 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.fail;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -11,17 +13,23 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+
+import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
-import teammates.common.util.TimeHelper;
-
 public class InstructorFeedbacksPage extends AppPage {
+    
+
+    @FindBy(id = "fstype")
+    private WebElement fsType;
     
     @FindBy(id = "courseid")
     private WebElement courseIdDropdown;
@@ -49,6 +57,9 @@ public class InstructorFeedbacksPage extends AppPage {
     
     @FindBy(id = "instructions")
     private WebElement instructionsTextBox;
+    
+    @FindBy(id = "editUncommonSettingsButton")
+    private WebElement uncommonSettingsButton;
     
     @FindBy(id = Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON + "_custom")
     private WebElement customSessionVisibleTimeButton;
@@ -82,7 +93,19 @@ public class InstructorFeedbacksPage extends AppPage {
     
     @FindBy(id = "button_submit")
     private WebElement submitButton;
-        
+    
+    @FindBy(id = "button_copy")
+    private WebElement copyButton;
+    
+    @FindBy(id = "button_copy_submit")
+    private WebElement copySubmitButton;
+    
+    @FindBy(id = "modalCopiedCourseId")
+    private WebElement copiedCourseIdDropdown;
+    
+    @FindBy(id = "modalCopiedSessionName")
+    private WebElement copiedFsNameTextBox;
+    
     @FindBy(id = "button_sortname")
     private WebElement sortByNameIcon;
     
@@ -97,6 +120,10 @@ public class InstructorFeedbacksPage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("<h1>Add New Feedback Session</h1>");
+    }
+    
+    public void selectSessionType(String visibleText){
+        selectDropdownByVisibleValue(fsType, visibleText);
     }
     
     public AppPage sortByDeadline() {
@@ -126,6 +153,10 @@ public class InstructorFeedbacksPage extends AppPage {
         waitForPageToLoad();
     }
     
+    public void clickEditUncommonSettingsButton(){
+        uncommonSettingsButton.click();
+    }
+    
     public void clickCustomVisibleTimeButton(){
         customSessionVisibleTimeButton.click();
     }
@@ -153,6 +184,16 @@ public class InstructorFeedbacksPage extends AppPage {
     public void clickDefaultPublishTimeButton(){
         defaultResultsVisibleTimeButton.click();
     }
+    
+    public void clickCopyButton(){
+        copyButton.click();
+    }
+    
+    public void clickCopySubmitButton(){
+        copySubmitButton.click();
+        browser.selenium.waitForPageToLoad("15000");
+    }
+    
     
     public void clickViewResponseLink(String courseId, String sessionName) {
         getViewResponseLink(courseId,sessionName).click();
@@ -184,7 +225,15 @@ public class InstructorFeedbacksPage extends AppPage {
         
         fillTextBox(fsNameTextBox, feedbackSessionName);
         
-        selectDropdownByVisibleValue(timezoneDropdown, StringHelper.toUtcFormat(timeZone));
+        String timeZoneString = "" + timeZone;      
+
+        double fractionalPart = timeZone % 1;
+        
+        if(fractionalPart == 0.0){
+            timeZoneString = "" + (int)timeZone;
+        }
+        
+        selectDropdownByActualValue(timezoneDropdown, timeZoneString);
         
         selectDropdownByVisibleValue(courseIdDropdown, courseId);
         
@@ -205,7 +254,26 @@ public class InstructorFeedbacksPage extends AppPage {
         }
     
         clickSubmitButton();
+    }
+    
+    public void copyFeedbackSession(String feedbackSessionName, String courseId) {
         
+        clickCopyButton();
+        
+        this.waitForElementVisible(copiedFsNameTextBox);
+        
+        fillTextBox(copiedFsNameTextBox, feedbackSessionName);
+        
+        selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
+        
+        clickCopyTableAtRow(0);
+        
+        clickCopySubmitButton();
+    }
+    
+    public void clickCopyTableAtRow(int rowIndex) {
+        WebElement row = browser.driver.findElement(By.id("copyTableModal")).findElements(By.tagName("tr")).get(rowIndex + 1);
+        row.click();
     }
     
     public void fillStartTime (Date startTime) {
@@ -330,6 +398,16 @@ public class InstructorFeedbacksPage extends AppPage {
     public String getResponseValue(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         return browser.driver.findElement(By.xpath("//tbody/tr["+(int)(sessionRowId+1)+"]/td[contains(@class,'session-response-for-test')]")).getText();
+    }
+    
+    public void verifyResponseValue(String responseRate, String courseId, String sessionName){
+        int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
+        WebDriverWait wait = new WebDriverWait(browser.driver, 10);
+        try {
+            wait.until(ExpectedConditions.textToBePresentInElement(browser.driver.findElement(By.xpath("//tbody/tr["+(int)(sessionRowId+1)+"]/td[contains(@class,'session-response-for-test')]")), responseRate));
+        } catch (TimeoutException e){
+            fail("Not expected message");
+        }
     }
     
     public WebElement getViewResultsLink(String courseId, String sessionName) {

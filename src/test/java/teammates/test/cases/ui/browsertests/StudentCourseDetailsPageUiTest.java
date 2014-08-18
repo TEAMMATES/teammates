@@ -23,7 +23,7 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/StudentCourseDetailsPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
     }
     
@@ -33,7 +33,6 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
         ______TS("content");
         
         //with teammates"
-        
         verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.alice", "/studentCourseDetailsWithTeammatesHTML.html");
 
         //without teammates 
@@ -53,7 +52,7 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
             .withCourseId(testData.courses.get(courseObjectId).id);
         
         loginAdminToPage(browser, detailsPageUrl, StudentCourseDetailsPage.class)
-            .verifyHtml(filePath);
+            .verifyHtmlMainContent(filePath);
     }
 
     @AfterClass

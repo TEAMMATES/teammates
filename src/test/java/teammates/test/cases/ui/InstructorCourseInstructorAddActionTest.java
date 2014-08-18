@@ -18,37 +18,18 @@ import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
-    InstructorsLogic instructorsLogic;
+    private final DataBundle dataBundle = getTypicalDataBundle();
+    InstructorsLogic instructorsLogic = InstructorsLogic.inst();;
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-        instructorsLogic = InstructorsLogic.inst();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception {
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
-                Const.ParamsNames.INSTRUCTOR_ID, "ICIAAT.instructorId",
-                Const.ParamsNames.INSTRUCTOR_NAME, "Instructor Name",
-                Const.ParamsNames.INSTRUCTOR_EMAIL, "instructor@email.com"};
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
     
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        //TODO: find a way to test status message from session
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;
@@ -64,7 +45,14 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail};
+                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
+                };
         
         Action addAction = getAction(submissionParams);
         RedirectResult redirectResult = (RedirectResult) addAction.executeAndPostProcess();
@@ -97,7 +85,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
 
         expectedLogSegment = "TEAMMATESLOG|||instructorCourseInstructorAdd|||instructorCourseInstructorAdd"
                 + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1"
-                + "|||instr1@course1.com|||Servlet Action Failure : Trying to create a Instructor that exists: ICIAAT.newInstructor@email.com, idOfTypicalCourse1"
+                + "|||instr1@course1.com|||Servlet Action Failure : Trying to create a Instructor that exists: idOfTypicalCourse1/ICIAAT.newInstructor@email.com"
                 + "|||/page/instructorCourseInstructorAdd";
         assertEquals(expectedLogSegment, addAction.getLogMessage());
         
@@ -106,7 +94,9 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, newInvalidInstructorEmail};
+                Const.ParamsNames.INSTRUCTOR_EMAIL, newInvalidInstructorEmail,
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER
+                };
         
         addAction = getAction(submissionParams);
         redirectResult = (RedirectResult) addAction.executeAndPostProcess();
@@ -125,13 +115,20 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         
         ______TS("Masquerade mode: add an instructor");
         
-        instructorsLogic.deleteInstructor(courseId, newInstructorEmail);
+        instructorsLogic.deleteInstructorCascade(courseId, newInstructorEmail);
 
         gaeSimulation.loginAsAdmin(adminUserId);
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail};
+                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
+                };
         addAction = getAction(addUserIdToParams(instructorId, submissionParams));
         redirectResult = (RedirectResult) addAction.executeAndPostProcess();
         

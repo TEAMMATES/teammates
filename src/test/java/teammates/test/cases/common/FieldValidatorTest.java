@@ -7,6 +7,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.FieldValidator.FieldType;
@@ -138,6 +139,8 @@ public class FieldValidatorTest extends BaseTestCase{
     @Test
     public void testGetValidityInfoForAllowedName() {
         
+        ______TS("null value");
+        
         String typicalFieldName = "name field";
         int typicalLength = 25;
         
@@ -148,6 +151,8 @@ public class FieldValidatorTest extends BaseTestCase{
             ignoreExpectedException(); 
         }
         
+        ______TS("typical success case");
+        
         int maxLength = 50;
         assertEquals("valid: typical length with valid characters", 
                 "",
@@ -155,6 +160,8 @@ public class FieldValidatorTest extends BaseTestCase{
                         typicalFieldName, 
                         maxLength, 
                         "Ýàn-B. s/o O'br, &2\t\n(~!@#$^*+_={}[]\\:;\"<>?)"));
+        
+        ______TS("failure: invalid characters");
         
         String nameContainInvalidChars = "Dr. Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters", 
@@ -166,6 +173,8 @@ public class FieldValidatorTest extends BaseTestCase{
                         maxLength, 
                         nameContainInvalidChars));
         
+        ______TS("failure: starts with non-alphanumeric character");
+        
         String nameStartedWithNonAlphaNumChar = "!Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length started with non-alphanumeric character", 
                 String.format(
@@ -176,12 +185,16 @@ public class FieldValidatorTest extends BaseTestCase{
                         maxLength, 
                         nameStartedWithNonAlphaNumChar));
         
+        ______TS("success: max length");
+        
         assertEquals("valid: max length", 
                 "",
                 validator.getValidityInfoForAllowedName(
                         typicalFieldName, 
                         maxLength, 
                         StringHelper.generateStringOfLength(maxLength)));
+        
+        ______TS("failure: too long");
         
         String tooLongName = StringHelper.generateStringOfLength(maxLength+1);
         assertEquals("invalid: too long", 
@@ -193,6 +206,8 @@ public class FieldValidatorTest extends BaseTestCase{
                         maxLength, 
                         tooLongName));
         
+        ______TS("failure: empty string");
+        
         String emptyValue = "";
         assertEquals("invalid: empty", 
                 String.format(
@@ -202,6 +217,8 @@ public class FieldValidatorTest extends BaseTestCase{
                         typicalFieldName, 
                         maxLength, 
                         emptyValue));
+        
+        ______TS("failure: untrimmed value");
         
         String untrimmedValue = " abc ";
         assertEquals("invalid: untrimmed", 
@@ -282,6 +299,39 @@ public class FieldValidatorTest extends BaseTestCase{
                 STUDENT_ROLE_COMMENTS_ERROR_MESSAGE, 
                 true);
     }
+    
+    @Test
+    public void testGetValidityInfo_COUNTRY() {
+        runGenericTestCasesForCappedSizeStringTypeField(
+                FieldType.NATIONALITY,
+                NATIONALITY_MAX_LENGTH,
+                NATIONALITY_ERROR_MESSAGE,
+                false);
+    }
+    
+    @Test
+    public void testGetValidityInfo_GENDER() {
+        verifyAssertError("null value", FieldType.GENDER, null);
+        
+        String validInput = "male";
+        String invalidInput = "random_value";
+        String emptyInput = "";
+        
+        testOnce("valid: accepted gender value",
+                FieldType.GENDER,
+                validInput,
+                "");
+        
+        testOnce("invalid: randomn gender value",
+                FieldType.GENDER,
+                invalidInput,
+                String.format(FieldValidator.GENDER_ERROR_MESSAGE, invalidInput));
+        
+        testOnce("invalid: empty string",
+                FieldType.GENDER,
+                emptyInput,
+                String.format(FieldValidator.GENDER_ERROR_MESSAGE, emptyInput));
+    }
 
 
     @Test
@@ -352,6 +402,23 @@ public class FieldValidatorTest extends BaseTestCase{
                 valueWithDisallowedChar, 
                 String.format(GOOGLE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
         
+    }
+    
+    @Test
+    public void TestGetValidityInfo_INSTRUCTOR_ROLE() {
+        
+        verifyAssertError("not null", FieldType.INTRUCTOR_ROLE, null);
+        
+        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, "");
+        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER, "");
+        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR, "");
+        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER, "");
+        testOnce("typical case", FieldType.INTRUCTOR_ROLE, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, "");
+        String emptyValue = "";
+        testOnce("empty value", FieldType.INTRUCTOR_ROLE, emptyValue, String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, emptyValue, REASON_EMPTY));
+        String invalidValue = "invalid value";
+        testOnce(invalidValue, FieldType.INTRUCTOR_ROLE, invalidValue, String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE,
+                invalidValue, INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING));
     }
     
     @Test

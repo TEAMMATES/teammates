@@ -3,9 +3,14 @@ package teammates.ui.controller;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 
+import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -17,6 +22,7 @@ import teammates.common.util.Utils;
 import teammates.common.util.FieldValidator;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.backdoor.BackDoorLogic;
+
 import com.google.gson.Gson;
 
 public class AdminInstructorAccountAddAction extends Action {
@@ -28,60 +34,52 @@ public class AdminInstructorAccountAddAction extends Action {
 
         AdminHomePageData data = new AdminHomePageData(account);
 
-        data.instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
-        Assumption.assertNotNull(data.instructorId);
+        data.instructorShortName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_SHORT_NAME);
+        Assumption.assertNotNull(data.instructorShortName);
         data.instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
         Assumption.assertNotNull(data.instructorName);
         data.instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         Assumption.assertNotNull(data.instructorEmail);
         data.instructorInstitution = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
         Assumption.assertNotNull(data.instructorInstitution);
-
-        String importSampleData = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_IMPORT_SAMPLE);
-
-        data.instructorId = data.instructorId.trim();
+        
+        data.instructorShortName = data.instructorShortName.trim();
         data.instructorName = data.instructorName.trim();
         data.instructorEmail = data.instructorEmail.trim();
-        data.instructorInstitution = data.instructorInstitution.trim();
-
-        if (!data.instructorId.isEmpty() && logic.isInstructor(data.instructorId)) {
-            isError = true;
-            String errorMessage = "The Google ID " + data.instructorId
-                    + " is already registered as an instructor";
-            statusToUser.add(errorMessage);
-            statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + errorMessage;
-            return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
-        }
-
+        data.instructorInstitution = data.instructorInstitution.trim();        
+        
+        String joinLink = "";
+        
         try {
-            logic.createAccount(data.instructorId,
-                    data.instructorName, true,
-                    data.instructorEmail,
-                    data.instructorInstitution);
-
-            if (importSampleData != null) {
-                importDemoData(data);
-            }
-
+                       
+            logic.verifyInputForAdminHomePage(data.instructorShortName, data.instructorName, data.instructorInstitution, data.instructorEmail);
+            
+            BackDoorLogic backDoor = new BackDoorLogic();
+            String CourseId = importDemoData(data);              
+            InstructorAttributes instructor = backDoor.getInstructorsForCourse(CourseId).get(0);   
+            
+            joinLink = logic.sendJoinLinkToNewInstructor(instructor, data.instructorShortName, data.instructorInstitution);
+            
         } catch (Exception e) {
             setStatusForException(e);
             return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
         }
 
         statusToUser.add("Instructor " + data.instructorName
-                + " has been successfully created");
+                + " has been successfully created with join link:<br>" + joinLink);
         statusToAdmin = "A New Instructor <span class=\"bold\">"
                 + data.instructorName + "</span> has been created.<br>"
-                + "<span class=\"bold\">Id: </span>" + data.instructorId
+                + "<span class=\"bold\">Id: </span>" + "ID will be assigned when the verification link was clicked and confirmed"
                 + "<br>"
                 + "<span class=\"bold\">Email: </span>" + data.instructorEmail
                 + "<span class=\"bold\">Institution: </span>"
                 + data.instructorInstitution;
-
+ 
+        
         return createRedirectResult(Const.ActionURIs.ADMIN_HOME_PAGE);
     }
 
-    private void importDemoData(AdminHomePageData helper)
+    private String importDemoData(AdminHomePageData helper)
             throws EntityAlreadyExistsException,
             InvalidParametersException, EntityDoesNotExistException {
 
@@ -89,7 +87,7 @@ public class AdminInstructorAccountAddAction extends Action {
         String courseId = generateDemoCourseId(helper.instructorEmail); 
 
         jsonString = FileHelper.readStream(Config.class.getClassLoader()
-                .getResourceAsStream("InstructorSampleData.json"));
+                    .getResourceAsStream("InstructorSampleData.json"));
 
         // replace email
         jsonString = jsonString.replaceAll(
@@ -98,12 +96,8 @@ public class AdminInstructorAccountAddAction extends Action {
         // replace name
         jsonString = jsonString.replaceAll("Demo_Instructor",
                 helper.instructorName);
-        // replace id
-        jsonString = jsonString.replaceAll("teammates.demo.instructor",
-                helper.instructorId);
         // replace course
         jsonString = jsonString.replaceAll("demo.course", courseId);
-
         // update evaluation time
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         c.set(Calendar.AM_PM, Calendar.PM);
@@ -117,8 +111,26 @@ public class AdminInstructorAccountAddAction extends Action {
 
         Gson gson = Utils.getTeammatesGson();
         DataBundle data = gson.fromJson(jsonString, DataBundle.class);
-
-        new BackDoorLogic().persistDataBundle(data);
+        
+        BackDoorLogic backdoor = new BackDoorLogic();
+        backdoor.persistDataBundle(data);        
+        
+        //produce searchable documents
+        List<CommentAttributes> comments = backdoor.getCommentsForGiver(courseId, helper.instructorEmail);
+        List<FeedbackResponseCommentAttributes> frComments = backdoor.getFeedbackResponseCommentForGiver(courseId, helper.instructorEmail);
+        List<StudentAttributes> students = backdoor.getStudentsForCourse(courseId);
+        
+        for(CommentAttributes comment:comments){
+            backdoor.putDocument(comment);
+        }
+        for(FeedbackResponseCommentAttributes comment:frComments){
+            backdoor.putDocument(comment);
+        }
+        for(StudentAttributes student:students){
+            backdoor.putDocument(student);
+        }
+        
+        return courseId;
 
     }
 

@@ -11,7 +11,7 @@ import teammates.common.util.Const;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Represents an evaluation/feedback submission from one student to
+ * Represents an evaluation submission from one student to
  * another student.
  */
 @PersistenceCapable

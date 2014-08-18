@@ -15,8 +15,10 @@ import teammates.test.driver.TestProperties;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.GenericAppPage;
+import teammates.test.util.Priority;
 
 /** This is considered a UI test case because it uses a Browser */
+@Priority(5)
 public class AutomatedSessionRemindersTest extends BaseUiTestCase {
     
     private static Browser browser;
@@ -44,7 +46,7 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
         
         //Published time for one feedback session already set to some time in the past.
         
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
     }
     

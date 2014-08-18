@@ -1,10 +1,10 @@
 {
     "accounts":{
         "account":{
-            "googleId":"{$test.instructor}",
+            "googleId":"CHomeUiT.instructor.tmms",
             "name":"Teammates Test",
             "isInstructor":true,
-            "email":"{$test.instructor}@gmail.com",
+            "email":"CHomeUiT.instructor.tmms@gmail.com",
             "institute":"National University of Singapore"
         },
         "newInstructorWithSampleCourse":{
@@ -41,22 +41,34 @@
     },
     "instructors":{
         "CHomeUiT.instr.CS2104":{
-            "googleId":"{$test.instructor}",
+            "googleId":"CHomeUiT.instructor.tmms",
             "courseId":"CHomeUiT.CS2104",
             "name":"Teammates Test",
-            "email":"{$test.instructor}@gmail.com"
+            "email":"CHomeUiT.instructor.tmms@gmail.com",
+            "role":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "CHomeUiT.instr.CS1101":{
-            "googleId":"{$test.instructor}",
+            "googleId":"CHomeUiT.instructor.tmms",
             "courseId":"CHomeUiT.CS1101",
             "name":"Teammates Test",
-            "email":"{$test.instructor}@gmail.com"
+            "email":"CHomeUiT.instructor.tmms@gmail.com",
+            "role":"Helper",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "CHomeUiT.instr.Sample":{
             "googleId":"newIns.withSample",
             "courseId":"newIns.wit-demo",
             "name":"Teammates Test New Instructor With Sample",
-            "email":"newIns.withSample@gmail.com"
+            "email":"newIns.withSample@gmail.com",
+            "role":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         }
     },
     "students":{
@@ -200,7 +212,7 @@
         "First Feedback Session":{
             "feedbackSessionName":"First Feedback Session",
             "courseId":"CHomeUiT.CS2104",
-            "creatorEmail":"{$test.instructor}@gmail.com",
+            "creatorEmail":"CHomeUiT.instructor.tmms@gmail.com",
             "instructions":{
                 "value":"Please please fill in the following questions."
             },
@@ -218,7 +230,7 @@
         "Second Feedback Session":{
             "feedbackSessionName":"Second Feedback Session",
             "courseId":"CHomeUiT.CS2104",
-            "creatorEmail":"{$test.instructor}@gmail.com",
+            "creatorEmail":"CHomeUiT.instructor.tmms@gmail.com",
             "instructions":{
                 "value":"Please please fill in the following questions."
             },
@@ -236,7 +248,7 @@
         "Third Feedback Session":{
             "feedbackSessionName":"Third Feedback Session",
             "courseId":"CHomeUiT.CS2104",
-            "creatorEmail":"{$test.instructor}@gmail.com",
+            "creatorEmail":"CHomeUiT.instructor.tmms@gmail.com",
             "instructions":{
                 "value":"Please please fill in the following questions."
             },
@@ -254,7 +266,7 @@
         "Fourth Feedback Session":{
             "feedbackSessionName":"Fourth Feedback Session",
             "courseId":"CHomeUiT.CS2104",
-            "creatorEmail":"{$test.instructor}@gmail.com",
+            "creatorEmail":"CHomeUiT.instructor.tmms@gmail.com",
             "instructions":{
                 "value":"Please please fill in the following questions."
             },
@@ -430,7 +442,7 @@
         "CHomeUiT.CS2104:First Feedback Session:Q1":{
             "feedbackSessionName":"First Feedback Session",
             "courseId":"CHomeUiT.CS2104",
-            "creatorEmail":"{$test.instructor}@gmail.com",
+            "creatorEmail":"CHomeUiT.instructor.tmms@gmail.com",
             "questionMetaData":{
                 "value":"Rate 5 other students' products"
             },

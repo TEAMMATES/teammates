@@ -1,0 +1,70 @@
+{
+  "accounts": {
+    "SHomeUiT.instr": {
+      "googleId": "SHomeUiT.instr",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "SHomeUiT.instr@gmail.com",
+      "institute": "National University of Singapore"
+    },
+      "studentWithExistingProfile": {
+        "googleId": "{$test.student2}",
+        "name": "Benny C",
+        "isInstructor": false,
+        "email": "{$test.student2}@gmail.com",
+        "institute": "NTU",
+        "studentProfile":{
+            "googleId":"{$test.student2}",
+            "shortName":"Ben",
+            "email":"i.m.benny@gmail.com",
+            "institute":"SIM",
+            "nationality":"Singapore",
+            "gender":"male",
+            "moreInfo":"I am just another student :P"
+        }
+      },
+      "studentWithEmptyProfile": {
+       "googleId": "SHomeUiT.benny.c",
+       "name": "Benny Charles",
+       "isIntructor":false,
+       "email": "SHomeUiT.benny.c@gmail.com",
+       "institute": "National University of Singapore"          
+      }  
+  },
+
+  "courses": {
+    "SHomeUiT.CS2104": {
+      "id": "SHomeUiT.CS2104",
+      "name": "Programming Language Concepts",
+      "isArchived": false
+    }
+  },
+  
+  "instructors": {
+    "SHomeUiT.instr.CS2104": {
+      "googleId": "SHomeUiT.instr",
+      "courseId": "SHomeUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "SHomeUiT.instr@gmail.com"
+    }
+  },
+  
+  "students": {
+    "studentWithExistingProfile": {
+      "googleId": "{$test.student2}",
+      "email": "{$test.student2}@gmail.com",
+      "course": "SHomeUiT.CS2104",
+      "name": "Benny C",
+      "comments": "This student's name is BC",
+      "team": "Team 1"
+    },
+    "SHomeUiT.benny.c@SHomeUiT.CS2104": {
+      "googleId": "SHomeUiT.benny.c",
+      "email": "SHomeUiT.benny.c@gmail.com",
+      "course": "SHomeUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1"
+    }
+  } 
+}

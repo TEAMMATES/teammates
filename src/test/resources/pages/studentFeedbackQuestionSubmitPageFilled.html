@@ -1,10 +1,19 @@
-
-        <div id="frameBodyWrapper">
+<div id="frameBodyWrapper">
             <div id="topOfPage"></div>
             <h1>Submit Feedback Question</h1>
             <br>
             
             <form method="post" action="/page/studentFeedbackQuestionSubmissionEditSave" name="form_submit_response">
+                
+                
+
+
+
+
+
+
+
+
     
     <input name="fsname" value="Open Session" type="hidden">
     <input name="courseid" value="SFQSubmitUiT.CS2104" type="hidden">
@@ -71,13 +80,19 @@
     <div class="form-horizontal">
         <div class="panel panel-primary">
             <div class="panel-heading">Question 1:<br>
-                What is the best selling point of your product?
+                <span class="text-preserve-space">What is the best selling point of your product?</span>
             </div>
             <div class="panel-body">
                 <p class="text-muted">Only the following persons can see your responses: </p>
                 <ul class="text-muted">
                 
                         <li class="unordered">You can see your own feedback in the results page later on.</li>
+                
+                        <li class="unordered">Your team members can see your response, but not the name of the recipient, or your name.</li>
+                
+                        <li class="unordered">Other students in the course can see your response, but not the name of the recipient, or your name.</li>
+                
+                        <li class="unordered">Instructors in this course can see your response, the name of the recipient, and your name.</li>
                 
                 </ul>
     
@@ -93,7 +108,7 @@
                     </div>
                     <div class="col-sm-12">
                         <textarea rows="4" cols="100%" class="form-control" name="responsetext-1-0">Edited self feedback.</textarea>
-                        <input name="responseid-1-0" value="{*}%SFQSubmitUiT.alice.b@gmail.com%SFQSubmitUiT.alice.b@gmail.com" type="hidden">
+                        <input name="responseid-1-0" value="{*}" type="hidden">
                     </div>
                 </div>
     
@@ -108,5 +123,3 @@
             
         </div></form>
     </div>
-
-

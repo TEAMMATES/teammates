@@ -1,13 +1,16 @@
 package teammates.test.cases.storage;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import org.testng.Assert;
@@ -19,6 +22,8 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -30,8 +35,13 @@ import teammates.test.util.TestHelper;
 
 public class CommentsDbTest extends BaseComponentTestCase {
     
+    private String courseId = "CDT.courseId";
+    private String giverEmail = "CDT.giver@mail.com";
+    private String recipient = "CDT.receiver@mail.com";
+    private String commentText = "comment text";
+    private CommentRecipientType recipientType = CommentRecipientType.PERSON;
+    
     private CommentsDb commentsDb = new CommentsDb();
-    private enum GetCommentsType { FOR_GIVER, FOR_RECEIVER, FOR_GIVER_AND_RECEIVER };
     
     @BeforeClass
     public static void setupClass() throws Exception {
@@ -42,17 +52,16 @@ public class CommentsDbTest extends BaseComponentTestCase {
     @Test
     public void testCreateComment() throws EntityAlreadyExistsException, InvalidParametersException {
         
-        CommentAttributes c = new CommentAttributes();
-        c.courseId = "course-id";
-        c.giverEmail = "giver@mail.com";
-        c.receiverEmail = "receiver@mail.com";
-        c.createdAt = new Date();
-        c.commentText = new Text("The receiver has performed well on this project");
+        CommentAttributes c = createNewComment();
 
         ______TS("fail : invalid params"); 
-        c.courseId = "invalid id space";
-        verifyExceptionThrownFromCreateEntity(c, 
-                String.format(COURSE_ID_ERROR_MESSAGE, c.courseId, REASON_INCORRECT_FORMAT));
+        c.courseId = "invalid id with space";
+        try{
+            commentsDb.createEntity(c);
+        } catch (InvalidParametersException e){
+            assertEquals(String.format(COURSE_ID_ERROR_MESSAGE, c.courseId, REASON_INCORRECT_FORMAT), 
+                    e.getLocalizedMessage());
+        }
 
         TestHelper.verifyAbsentInDatastore(c);
 
@@ -61,12 +70,14 @@ public class CommentsDbTest extends BaseComponentTestCase {
         c.courseId = "course-id";
         commentsDb.createEntity(c);
         TestHelper.verifyPresentInDatastore(c);
+        commentsDb.deleteEntity(c);
         
         ______TS("success: another comment with different text");
         
-        c.commentText = new Text("Another comment");
+        c.createdAt = new Date();
         commentsDb.createEntity(c);
         TestHelper.verifyPresentInDatastore(c);
+        commentsDb.deleteEntity(c);
         
         ______TS("null params check");
         verifyExceptionThrownFromCreateEntity(null,
@@ -74,23 +85,54 @@ public class CommentsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testGetComment() throws InvalidParametersException, EntityDoesNotExistException {
+    public void testGetComment() throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
         CommentAttributes c = createNewComment();
+        commentsDb.createEntity(c);
         
         ______TS("typical success case: existent");
         CommentAttributes retrievedComment = commentsDb.getCommentsForGiver(c.courseId, c.giverEmail).get(0);
         assertNotNull(retrievedComment);
         assertNotNull(commentsDb.getCommentsForReceiver(
-                retrievedComment.courseId, retrievedComment.receiverEmail));
-        assertNotNull(commentsDb.getCommentsForGiverAndReceiver(
-                retrievedComment.courseId, retrievedComment.giverEmail, retrievedComment.receiverEmail));
+                c.courseId, c.recipientType, recipient));
         
         CommentAttributes anotherRetrievedComment = commentsDb.getComment(retrievedComment.getCommentId());
-        assertEquals(retrievedComment.commentText, anotherRetrievedComment.commentText);
-        assertEquals(retrievedComment.giverEmail, anotherRetrievedComment.giverEmail);
-        assertEquals(retrievedComment.receiverEmail, anotherRetrievedComment.receiverEmail);
-        assertEquals(retrievedComment.courseId, anotherRetrievedComment.courseId);
+        compareComments(retrievedComment, anotherRetrievedComment);
+        
+        anotherRetrievedComment = commentsDb.getComment(retrievedComment);
+        compareComments(retrievedComment, anotherRetrievedComment);
+        
+        anotherRetrievedComment = commentsDb.
+                getCommentsForGiverAndStatus(retrievedComment.courseId, retrievedComment.giverEmail, retrievedComment.status).get(0);
+        compareComments(retrievedComment, anotherRetrievedComment);
+        
+        retrievedComment.status = CommentStatus.DRAFT;
+        retrievedComment.showCommentTo = new ArrayList<CommentRecipientType>();
+        retrievedComment.showCommentTo.add(CommentRecipientType.PERSON);
+        retrievedComment.showCommentTo.add(CommentRecipientType.TEAM);
+        retrievedComment.showCommentTo.add(CommentRecipientType.SECTION);
+        retrievedComment.showCommentTo.add(CommentRecipientType.COURSE);
+        commentsDb.updateComment(retrievedComment);
+        
+        anotherRetrievedComment = commentsDb.
+                getCommentDrafts(retrievedComment.giverEmail).get(0);
+        compareComments(retrievedComment, anotherRetrievedComment);
+        
+        anotherRetrievedComment = commentsDb.
+                getCommentsForCommentViewer(retrievedComment.courseId, CommentRecipientType.PERSON).get(0);
+        compareComments(retrievedComment, anotherRetrievedComment);
+        
+        anotherRetrievedComment = commentsDb.
+                getCommentsForCommentViewer(retrievedComment.courseId, CommentRecipientType.TEAM).get(0);
+        compareComments(retrievedComment, anotherRetrievedComment);
+        
+        anotherRetrievedComment = commentsDb.
+                getCommentsForCommentViewer(retrievedComment.courseId, CommentRecipientType.SECTION).get(0);
+        compareComments(retrievedComment, anotherRetrievedComment);
+        
+        anotherRetrievedComment = commentsDb.
+                getCommentsForCommentViewer(retrievedComment.courseId, CommentRecipientType.COURSE).get(0);
+        compareComments(retrievedComment, anotherRetrievedComment);
         
         ______TS("non existant comment case");
         List<CommentAttributes> retrievedList = commentsDb.getCommentsForGiver("any-course-id", "non-existent@email.com");
@@ -102,40 +144,62 @@ public class CommentsDbTest extends BaseComponentTestCase {
         
         ______TS("null params case");
         retrievedComment.courseId = null;
-        verifyExceptionThrownFromGetComments(retrievedComment, GetCommentsType.FOR_GIVER,
-                Const.StatusCodes.DBLEVEL_NULL_INPUT);
+        try{
+            commentsDb.getCommentsForGiver(retrievedComment.courseId, retrievedComment.giverEmail);
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
 
         retrievedComment.courseId = "any-course-id";
         retrievedComment.giverEmail = null;
-        retrievedComment.receiverEmail = null;
-        verifyExceptionThrownFromGetComments(retrievedComment, GetCommentsType.FOR_RECEIVER,
-                Const.StatusCodes.DBLEVEL_NULL_INPUT);
+        retrievedComment.recipients = null;
+        try{
+            commentsDb.getCommentsForReceiver(retrievedComment.courseId, retrievedComment.recipientType, retrievedComment.giverEmail);
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+    }
 
-        verifyExceptionThrownFromGetComments(retrievedComment, GetCommentsType.FOR_GIVER_AND_RECEIVER,
-                Const.StatusCodes.DBLEVEL_NULL_INPUT);
+    private void compareComments(CommentAttributes retrievedComment,
+            CommentAttributes anotherRetrievedComment) {
+        assertEquals(retrievedComment.commentText, anotherRetrievedComment.commentText);
+        assertEquals(retrievedComment.giverEmail, anotherRetrievedComment.giverEmail);
+        assertEquals(retrievedComment.recipients, anotherRetrievedComment.recipients);
+        assertEquals(retrievedComment.courseId, anotherRetrievedComment.courseId);
     }
 
     @Test
-    public void testUpdateComment() throws InvalidParametersException, EntityDoesNotExistException {
-        
-        CommentAttributes c = new CommentAttributes();
-        c.courseId = "course-id";
-        c.giverEmail = "giver@mail.com";
-        c.receiverEmail = "receiver@mail.com";
-        c.commentText = new Text("The receiver has performed well on this project");
-        verifyExceptionThrownFromUpdateComment(null,
-                Const.StatusCodes.DBLEVEL_NULL_INPUT);
+    public void testUpdateComment() throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+
+        CommentAttributes c = createNewComment();
+        commentsDb.createEntity(c);
         
         ______TS("invalid comment attributes");
-        c.receiverEmail = "invalid receiver email";
-        verifyExceptionThrownFromUpdateComment(c, 
-                String.format(EMAIL_ERROR_MESSAGE, c.receiverEmail, REASON_INCORRECT_FORMAT));
+        try{
+            commentsDb.updateComment(null);
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        ______TS("invalid comment attributes");
+        c.recipients = new HashSet<String>();
+        c.recipients.add("invalid receiver email");
+        try{
+            commentsDb.updateComment(c);
+        } catch(InvalidParametersException e) {
+            assertEquals(String.format(EMAIL_ERROR_MESSAGE, "invalid receiver email", REASON_INCORRECT_FORMAT), 
+                    e.getLocalizedMessage());
+        }
         
         ______TS("comment not exist");
-        c.receiverEmail = "receiver@mail.com";
-        c.setCommentId((long)-1); //non-existant comment
-        verifyExceptionThrownFromUpdateComment(c, 
-                CommentsDb.ERROR_UPDATE_NON_EXISTENT);
+        c.recipients = new HashSet<String>();
+        c.recipients.add("receiver@mail.com");
+        c.setCommentId((long)-1); //non-existent comment
+        try{
+            commentsDb.updateComment(c);
+        } catch(EntityDoesNotExistException e) {
+            assertTrue(e.getLocalizedMessage().contains(CommentsDb.ERROR_UPDATE_NON_EXISTENT));
+        }
         
         ______TS("standard success case");
         CommentAttributes existing = commentsDb.getCommentsForGiver(c.courseId, c.giverEmail).get(0);
@@ -147,13 +211,116 @@ public class CommentsDbTest extends BaseComponentTestCase {
     }
     
     @Test
-    public void testDeleteComment() throws InvalidParametersException, EntityDoesNotExistException {
-        CommentAttributes c = new CommentAttributes();
-        c.courseId = "course-id";
-        c.giverEmail = "giver@mail.com";
-        c.receiverEmail = "receiver@mail.com";
-        c.createdAt = new Date();
-        c.commentText = new Text("The receiver has performed well on this project");
+    public void testUpdateInstructorEmailAndStudentEmail() 
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        
+        String courseId1 = "CDT.upd.courseId1";
+        String courseId2 = "CDT.upd.courseId2";
+        String giverEmail1 = "CDT.upd.giverInstr1@mail.com";
+        String giverEmail2 = "CDT.upd.giverInstr2@mail.com";
+        String giverEmailNew = "CDT.upd.giverInstrNew@mail.com";
+        String recipientEmail1 = "CDT.upd.receiverStudent1@mail.com";
+        String recipientEmail2 = "CDT.upd.receiverStudent2@mail.com";
+        String recipientEmailNew = "CDT.upd.receiverStudentNew@mail.com";
+        
+        courseId = courseId1;
+        giverEmail = giverEmail1;
+        CommentAttributes c = createNewComment();
+        commentsDb.createEntity(c);
+        recipient = recipientEmailNew;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        courseId = courseId2;
+        giverEmail = giverEmail1;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        
+        giverEmail = "CDT.giver@mail.com";
+        courseId = courseId1;
+        recipient = recipientEmail1;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        giverEmail = giverEmailNew;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        courseId = courseId2;
+        recipient = recipientEmail1;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        
+        ______TS("success: update instructor email");
+        
+        // before update: 2 comments for this giver email
+        assertEquals(2, commentsDb.getCommentsForGiver(courseId1, giverEmail1).size());
+        commentsDb.updateInstructorEmail(courseId1, giverEmail1, giverEmail2);
+        // after update: 2 comments for new giver email and others are not affected
+        assertEquals(0, commentsDb.getCommentsForGiver(courseId1, giverEmail1).size());
+        assertEquals(2, commentsDb.getCommentsForGiver(courseId1, giverEmail2).size());
+        assertEquals(1, commentsDb.getCommentsForGiver(courseId2, giverEmail1).size());
+        
+        ______TS("success: update student email");
+        
+        // before update: 2 comments for this recipient email
+        assertEquals(2, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.PERSON, recipientEmail1).size());
+        commentsDb.updateStudentEmail(courseId1, recipientEmail1, recipientEmail2);
+        // after update: 2 comments for new giver email and others are not affected
+        assertEquals(0, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.PERSON, recipientEmail1).size());
+        assertEquals(2, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.PERSON, recipientEmail2).size());
+        assertEquals(1, commentsDb.getCommentsForReceiver(courseId2, CommentRecipientType.PERSON, recipientEmail1).size());
+        
+        ______TS("failure: null input when updating instr email");
+        
+        try {
+            commentsDb.updateInstructorEmail(courseId1, null, giverEmail2);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        try {
+            commentsDb.updateInstructorEmail(null, giverEmail1, giverEmail2);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        try {
+            commentsDb.updateInstructorEmail(courseId1, giverEmail1, null);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
+        }
+        
+        ______TS("failure: null input when updating student email");
+        
+        try {
+            commentsDb.updateStudentEmail(courseId1, null, giverEmail2);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        try {
+            commentsDb.updateStudentEmail(null, giverEmail1, giverEmail2);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        try {
+            commentsDb.updateStudentEmail(courseId1, giverEmail1, null);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        
+        // restore variable
+        courseId = "CDT.courseId";
+        giverEmail = "CDT.giver@mail.com";
+        recipient = "CDT.receiver@mail.com";
+    }
+    
+    @Test
+    public void testDeleteComment() throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        
+        CommentAttributes c = createNewComment();
+        commentsDb.createEntity(c);
         
         ______TS("standard delete existing comment");
         CommentAttributes currentComment = commentsDb.getCommentsForGiver(c.courseId, c.giverEmail).get(0);
@@ -163,6 +330,167 @@ public class CommentsDbTest extends BaseComponentTestCase {
         
         ______TS("invalid delete non-existing comment fails silently");
         commentsDb.deleteEntity(currentComment); //currentComment doesn't exist anymore
+    }
+    
+    @Test
+    public void testDeleteComments() throws InvalidParametersException, EntityAlreadyExistsException {
+        
+        String instr1 = "CDT.del.instr1@mail.com";
+        String instr2 = "CDT.del.instr2@mail.com";
+        String courseId1 = "CDT.del.courseId1";
+        String student1 = "CDT.del.student1@mail.com";
+        String student2 = "CDT.del.student2@mail.com";
+        String courseId2 = "CDT.del.courseId2";
+        String instr3 = "CDT.del.instr3@mail.com";
+        String student3 = "CDT.del.student3@mail.com";
+        String team1 = "CDT.del.team1";
+        String team2 = "CDT.del.team2";
+        String section1 = "CDT.del.section1";
+        String section2 = "CDT.del.section2";
+        
+        // create two comments for instructor1 and 1 for instructor2 in course1
+        // also student1 2 3 will have 1 comment
+        courseId = courseId1;
+        giverEmail = instr1;
+        recipient = student1;
+        CommentAttributes c = createNewComment();
+        commentsDb.createEntity(c);
+        recipient = student2;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        giverEmail = instr2;
+        recipient = student3;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        
+        // course 1 team 1 and team2, instructor 3
+        recipientType = CommentRecipientType.TEAM;
+        recipient = team1;
+        giverEmail = instr3;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        recipient = team2;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        
+        // course 1 section 1 and section 2, instructor 3
+        recipientType = CommentRecipientType.SECTION;
+        recipient = section1;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        recipient = section2;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        
+        // course2 instr3 and student3
+        courseId = courseId2;
+        recipientType = CommentRecipientType.PERSON;
+        recipient = student3;
+        c = createNewComment();
+        commentsDb.createEntity(c);
+        
+        ______TS("success: delete instructor comments");
+        
+        commentsDb.deleteCommentsByInstructorEmail(courseId1, instr2);
+        assertEquals(2, commentsDb.getCommentsForGiver(courseId1, instr1).size());
+        assertEquals(0, commentsDb.getCommentsForGiver(courseId1, instr2).size());
+        
+        ______TS("success: delete student comments");
+        
+        commentsDb.deleteCommentsByStudentEmail(courseId1, student2);
+        List<CommentAttributes> comments = commentsDb.getCommentsForGiver(courseId1, instr1);
+        assertEquals(1, comments.size());
+        assertEquals(true, comments.get(0).recipients.contains(student1));
+        
+        ______TS("success: delete team comments");
+        
+        commentsDb.deleteCommentsForTeam(courseId1, team2);
+        assertEquals(0, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.TEAM, team2).size());
+        assertEquals(1, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.TEAM, team1).size());
+        
+        ______TS("success: delete section comments");
+        
+        commentsDb.deleteCommentsForSection(courseId1, section2);
+        assertEquals(0, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.SECTION, section2).size());
+        assertEquals(1, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.SECTION, section1).size());
+        
+        ______TS("success: delete course comments");
+        
+        assertEquals(1, commentsDb.getCommentsForGiver(courseId1, instr1).size());
+        assertEquals(0, commentsDb.getCommentsForGiver(courseId1, instr2).size());
+        assertEquals(2, commentsDb.getCommentsForGiver(courseId1, instr3).size());
+        commentsDb.deleteCommentsForCourse(courseId1);
+        assertEquals(0, commentsDb.getCommentsForGiver(courseId1, instr1).size());
+        assertEquals(0, commentsDb.getCommentsForGiver(courseId1, instr2).size());
+        assertEquals(0, commentsDb.getCommentsForGiver(courseId1, instr2).size());
+        assertEquals(1, commentsDb.getCommentsForGiver(courseId2, instr3).size());
+        
+        ______TS("failure: null input");
+        
+        try {
+            commentsDb.deleteCommentsByInstructorEmail(courseId1, null);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        try {
+            commentsDb.deleteCommentsByInstructorEmail(null, instr1);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        
+        try {
+            commentsDb.deleteCommentsByStudentEmail(courseId1, null);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        try {
+            commentsDb.deleteCommentsByStudentEmail(null, student1);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        
+        try {
+            commentsDb.deleteCommentsForTeam(courseId1, null);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        try {
+            commentsDb.deleteCommentsForTeam(null, team1);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        
+        try {
+            commentsDb.deleteCommentsForSection(courseId1, null);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        try {
+            commentsDb.deleteCommentsForSection(null, section1);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        
+        try {
+            commentsDb.deleteCommentsForCourse(null);
+            this.signalFailureToDetectException("Assertion error not detected properly");
+        } catch (AssertionError e){
+            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
+        }
+        
+        // restore variable
+        courseId = "CDT.courseId";
+        giverEmail = "CDT.giver@mail.com";
+        recipient = "CDT.receiver@mail.com";
+        recipientType = CommentRecipientType.PERSON;
     }
     
     private void verifyExceptionThrownFromCreateEntity(CommentAttributes comment, String expectedMessage)
@@ -181,56 +509,16 @@ public class CommentsDbTest extends BaseComponentTestCase {
         }
     }
     
-    private void verifyExceptionThrownFromGetComments(
-            CommentAttributes comment, GetCommentsType getCommentsType,
-            String expectedMessage) {
-        try {
-            switch(getCommentsType){
-            case FOR_GIVER:
-                commentsDb.getCommentsForGiver(comment.courseId, comment.giverEmail);
-                break;
-            case FOR_RECEIVER:
-                commentsDb.getCommentsForReceiver(comment.courseId, comment.receiverEmail);
-                break;
-            case FOR_GIVER_AND_RECEIVER:
-                commentsDb.getCommentsForGiverAndReceiver(comment.courseId, 
-                        comment.giverEmail, comment.receiverEmail);
-                break;
-            }
-            signalFailureToDetectException();
-        } catch (AssertionError e) {
-            assertEquals(expectedMessage, e.getMessage());
-        }
-    }
-    
-    private void verifyExceptionThrownFromUpdateComment(CommentAttributes comment,
-            String expectedMessage) {
-        try {
-            commentsDb.updateComment(comment);
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains(expectedMessage, e.getLocalizedMessage());
-        } catch (InvalidParametersException e) {
-            AssertHelper.assertContains(expectedMessage, e.getLocalizedMessage());
-        } catch (AssertionError e) {
-            AssertHelper.assertContains(expectedMessage, e.getLocalizedMessage());
-        }
-    }
-    
-    private CommentAttributes createNewComment() throws InvalidParametersException {
+    private CommentAttributes createNewComment() {
         CommentAttributes c = new CommentAttributes();
-        c.courseId = "course-id";
-        c.giverEmail = "giver@mail.com";
-        c.receiverEmail = "receiver@mail.com";
+        c.courseId = courseId;
+        c.giverEmail = giverEmail;
+        c.recipientType = recipientType;
+        c.recipients = new HashSet<String>();
+        c.recipients.add(recipient);
         c.createdAt = new Date();
-        c.commentText = new Text("The receiver has performed well on this project");
-        
-        try {
-            commentsDb.createEntity(c);
-        } catch (EntityAlreadyExistsException e) {
-            ignoreExpectedException();
-        }
-        
+        c.commentText = new Text(commentText);
+        c.status = CommentStatus.FINAL;
         return c;
     }
     

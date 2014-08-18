@@ -4,9 +4,16 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
+import teammates.common.datatransfer.FeedbackConstantSumQuestionDetails;
+import teammates.common.datatransfer.FeedbackConstantSumResponseDetails;
+import teammates.common.datatransfer.FeedbackContributionQuestionDetails;
+import teammates.common.datatransfer.FeedbackContributionResponseDetails;
 import teammates.common.datatransfer.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.FeedbackMcqResponseDetails;
 import teammates.common.datatransfer.FeedbackMsqQuestionDetails;
@@ -96,6 +103,43 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
                         numericalScaleQuestionDetails);
 
         assertNull(responseDetails);
+
+        ______TS("CONSTSUM Response: typical case");
+        String questionText = "question text";
+        int numOfConstSumOptions = 2;
+        List<String> constSumOptions = new ArrayList<String>();
+        constSumOptions.add("Option 1");
+        constSumOptions.add("Option 2");
+        boolean pointsPerOption = false;
+        int points = 100;
+        FeedbackConstantSumQuestionDetails constantSumQuestionDetails =
+                new FeedbackConstantSumQuestionDetails(questionText, numOfConstSumOptions, 
+                                                    constSumOptions, pointsPerOption, points);
         
+        responseDetails = 
+                FeedbackAbstractResponseDetails.createResponseDetails(
+                        new String[] { "20", "80" },
+                        FeedbackQuestionType.CONSTSUM,
+                        constantSumQuestionDetails);
+
+        assertEquals(responseDetails.questionType, FeedbackQuestionType.CONSTSUM);
+        assertTrue(responseDetails instanceof FeedbackConstantSumResponseDetails);
+        assertEquals("20, 80", responseDetails.getAnswerString());
+        
+        ______TS("CONTRIB Response: typical case");
+        questionText = "question text";
+        FeedbackContributionQuestionDetails contribQuestionDetails =
+                new FeedbackContributionQuestionDetails(questionText);
+        
+        responseDetails = 
+                FeedbackAbstractResponseDetails.createResponseDetails(
+                        new String[] { "100" },
+                        FeedbackQuestionType.CONTRIB,
+                        contribQuestionDetails);
+
+        assertEquals(responseDetails.questionType, FeedbackQuestionType.CONTRIB);
+        assertTrue(responseDetails instanceof FeedbackContributionResponseDetails);
+        assertEquals("100", responseDetails.getAnswerString());
+
     }
 }

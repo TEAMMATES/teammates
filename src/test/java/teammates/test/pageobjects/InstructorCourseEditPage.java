@@ -1,6 +1,7 @@
 package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -23,7 +24,7 @@ public class InstructorCourseEditPage extends AppPage {
     @FindBy(id = "instrDeleteLink1")
     private WebElement deleteInstructorLink;
     
-    @FindBy(id = "instrRemindLink2")
+    @FindBy(id = "instrRemindLink3")
     private WebElement inviteInstructorLink;
 
     @FindBy(id = "instructorid1")
@@ -83,8 +84,15 @@ public class InstructorCourseEditPage extends AppPage {
         
         editInstructorName(name);
         editInstructorEmail(email);
+        selectRoleForInstructor(1, "Co-owner");
         
         saveInstructorButton.click();
+        waitForPageToLoad();
+    }
+    
+    public void clickSaveInstructorButton(int instrNum) {
+        WebElement button = browser.driver.findElement(By.id("btnSaveInstructor" + instrNum));
+        button.click();
         waitForPageToLoad();
     }
     
@@ -118,9 +126,95 @@ public class InstructorCourseEditPage extends AppPage {
         return isEditable;
     }
     
-    public void clickSaveInstructorButton() {
-        saveInstructorButton.click();
-        waitForPageToLoad();
+    public WebElement displayedToStudentCheckBox(int instrNum) {
+        return browser.driver.findElement(By.cssSelector("#instructorTable" + instrNum + " > div:nth-child(4) > label:nth-child(1) > input:nth-child(1)"));
+    }
+    
+    public void clickDisplayedToStudentCheckBox(int instrNum) {
+        this.displayedToStudentCheckBox(instrNum).click();
+    }
+    
+    public void selectRoleForInstructor(int instrNum, String role) {
+        WebElement roleRadioButton = browser.driver.findElement(By.cssSelector(
+                "input[id='instructorroleforinstructor" + instrNum + "'][value='" + role + "']"));
+        roleRadioButton.click();
+    }
+    
+    public void clickViewDetailsLinkForInstructor(int instrNum, int viewLinkNum) {
+        // there is one link before view details link group
+        int cssLinkNum = viewLinkNum + 1;
+        WebElement viewLink = browser.driver.findElement(By.cssSelector("#accessControlEditDivForInstr" + instrNum +
+                " > div:nth-child(1) > div.col-sm-9 > a:nth-child(" + cssLinkNum + ")"));
+        
+        viewLink.click();
+        browser.selenium.waitForPageToLoad("500");
+    }
+    
+    public void closeModal() {
+        WebElement closeButton = browser.driver.findElement(By.className("close"));
+        
+        closeButton.click();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+        }
+    }
+    
+    public WebElement addSessionLevelPrivilegesLink(int instrNum) {
+        String idStr = "addSectionLevelForInstructor" + instrNum;
+        
+        return browser.driver.findElement(By.id(idStr));
+    }
+    
+    public void clickAddSessionLevelPrivilegesLink(int instrNum) {
+        this.addSessionLevelPrivilegesLink(instrNum).click();
+    }
+    
+    public WebElement sectionCheckBoxInSectionLevel(int instrNum, int sectionLevelNum, int sectionNum) {
+        sectionLevelNum--;
+        sectionNum--;
+        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
+                + " input[name=sectiongroup" + sectionLevelNum + "section" + sectionNum + "]";
+        return browser.driver.findElement(By.cssSelector(cssSelector));
+    }
+    
+    public void clickSectionCheckBoxInSectionLevel(int instrNum, int sectionLevelNum, int sectionNum) {
+        this.sectionCheckBoxInSectionLevel(instrNum, sectionLevelNum, sectionNum).click();
+    }
+    
+    public void clickViewStudentCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
+        // in page, sectionLevel is 0 based
+        sectionLevelNum--;
+        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
+                + " > div > div.panel-body > div.col-sm-6.border-right-gray > input[type=\"checkbox\"]:nth-child(1)";
+        browser.driver.findElement(By.cssSelector(cssSelector)).click();
+    }
+    
+    public void clickViewOthersCommentsCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
+        sectionLevelNum--;
+        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
+                + " > div > div.panel-body > div.col-sm-6.border-right-gray > input[type=\"checkbox\"]:nth-child(5)";
+        browser.driver.findElement(By.cssSelector(cssSelector)).click();
+    }
+    
+    public void clickViewSessionResultsCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
+        sectionLevelNum--;
+        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
+                + " > div > div.panel-body > div.col-sm-5.col-sm-offset-1 > input[type=\"checkbox\"]:nth-child(3)";
+        browser.driver.findElement(By.cssSelector(cssSelector)).click();
+    }
+    
+    public void clickModifySessionResultCheckBoxInSectionLevel(int instrNum, int sectionLevelNum) {
+        sectionLevelNum--;
+        String cssSelector = "#tuneSectionPermissionsDiv" + sectionLevelNum + "ForInstructor" + instrNum
+                + " > div > div.panel-body > div.col-sm-5.col-sm-offset-1 > input[type=\"checkbox\"]:nth-child(5)";
+        browser.driver.findElement(By.cssSelector(cssSelector)).click();
+    }
+    
+    public void clickSessionLevelInSectionLevel(int instrNum, int sectionLevelNum) {
+        sectionLevelNum--;
+        String linkId = "toggleSessionLevelInSection" + sectionLevelNum + "ForInstructor" + instrNum;
+        browser.driver.findElement(By.id(linkId)).click();
     }
     
     public boolean clickShowNewInstructorFormButton() {

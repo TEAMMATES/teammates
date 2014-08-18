@@ -5,7 +5,6 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -23,31 +22,13 @@ import teammates.ui.controller.InstructorFeedbackResponseCommentAjaxPageData;
 public class InstructorFeedbackResponseCommentAddActionTest extends
         BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-
-    @Test
-    public void testAccessControl() throws Exception {
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
-        };
-        verifyOnlyInstructorsCanAccess(submissionParams);
     }
     
     @Test
@@ -98,6 +79,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         InstructorFeedbackResponseCommentAjaxPageData data = 
                 (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
+        assertEquals("", result.getStatusMessage());
         
         ______TS("Unsuccessful case: empty comment text");
         
@@ -112,6 +94,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         
         action = getAction(submissionParams);
         result = (AjaxResult) action.executeAndPostProcess();
+        assertEquals("", result.getStatusMessage());
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertTrue(data.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, data.errorMessage);

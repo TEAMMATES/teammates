@@ -34,7 +34,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
 
 
     public Index getIndex() {
-        IndexSpec indexSpec = IndexSpec.newBuilder().setName("instructor_search_index").build();
+        IndexSpec indexSpec = IndexSpec.newBuilder().setName(Const.SearchIndex.STUDENT).build();
         return SearchServiceFactory.getSearchService().getIndex(indexSpec);
     }
     
@@ -55,88 +55,25 @@ public class AdminSearchTaskServlet extends HttpServlet {
      * Indexes student and instructor entries to build the table for search
      */
     private void buildNewSearchIndexes() {
-        ArrayList<Document> docs = new ArrayList<Document>();
         
         /**
-         * Retrieve all instructors
+         * Retrieve all students
          */
-        @SuppressWarnings("deprecation") //This method is deprecated to prevent unintended usage. This is an intended usage.
-        List<InstructorAttributes> instructors = InstructorsLogic.inst().getAllInstructors();
-        Iterator<InstructorAttributes> it = instructors.iterator();
-        List<StudentAttributes> students = new ArrayList<StudentAttributes>();
-        while (it.hasNext()) {
-            InstructorAttributes instructor = it.next();
-            docs.add(makeDocument(instructor.name, instructor.email, instructor.googleId, Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
-            try {
-                students.addAll(StudentsLogic.inst().getStudentsForCourse(instructor.courseId));
-            } catch (EntityDoesNotExistException e) {
-                e.printStackTrace();
-            }
+        @SuppressWarnings("deprecation") //This method is deprecated to prevent unintended usage. This is an intended usage       
+        List<StudentAttributes> students = StudentsLogic.inst().getAllStudents();
+        Iterator<StudentAttributes> it = students.iterator();
+        
+        /**
+         *  add all students into document
+         */
+        
+        while (it.hasNext()){            
+            StudentAttributes student = it.next();
+            StudentsLogic.inst().putDocument(student);
         }
         
-        /**
-         * Add all students into docs
-         */
-        Iterator<StudentAttributes> it2 = students.iterator();
-        while (it2.hasNext()) {
-            StudentAttributes stu = it2.next();
-            docs.add(makeDocument(stu.name, stu.email, stu.googleId, Const.ActionURIs.STUDENT_HOME_PAGE));
-        }
-        
-        /**
-         * Insert all students/instructors
-         */
-        addDocument(docs);
-
     }
     
-    /**
-     * Add student/instructor data to search index
-     */
-    private void addDocument(ArrayList<Document> docs) {
-        // Insert 200 documents each time
-         
-        int currentIndex = 0;
-        int finishingIndexOfCurrentBatch = 0;
-        try {
-            while(currentIndex < docs.size()){
-                finishingIndexOfCurrentBatch = currentIndex + Const.SystemParams.MAX_NUM_OF_INPUT_FOR_APP_ENGINE_BATCH;
-                if(finishingIndexOfCurrentBatch > docs.size()){
-                    finishingIndexOfCurrentBatch = docs.size();
-                } 
-                getIndex().put(docs.subList(currentIndex, finishingIndexOfCurrentBatch));
-                currentIndex = finishingIndexOfCurrentBatch;
-            }
-            
-        } catch (RuntimeException e) {
-            log.warning("Failed to adding documents ");
-        }
-    }
-    
-    /**
-     * Create a document for the inputs
-     */
-    private Document makeDocument(String name, String email, String id, String url){
-        Document.Builder docBuilder = Document
-                .newBuilder()
-                .addField(
-                        Field.newBuilder().setName("name")
-                                .setText(name))
-                .addField(
-                        Field.newBuilder().setName("email")
-                                .setText(email))
-                .addField(
-                        Field.newBuilder().setName("id")
-                                .setText(id))
-                .addField(
-                        Field.newBuilder().setName("link").setHTML(
-                            String.format("<a href=\"%s\">View</a>",url+"?"+Const.ParamsNames.USER_ID+"="+id)
-                                ))
-                ;
-
-        Document doc = docBuilder.build();
-        return doc;
-    }
 
     /**
      * Clean up existing search indexes 

@@ -1,5 +1,6 @@
 package teammates.common.util;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.util.Const;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
@@ -16,19 +18,23 @@ public class FieldValidator {
     public enum FieldType {
         COURSE_ID,  
         COURSE_NAME, 
+        NATIONALITY, 
         EMAIL, 
         EVALUATION_INSTRUCTIONS, 
         EVALUATION_NAME, 
         FEEDBACK_SESSION_NAME, 
+        GENDER, 
         /** This can be a Google username e.g. david.lo 
          * or an email address e.g. david.lo@yahoo.com
          */
         GOOGLE_ID, 
         INSTITUTE_NAME, 
         PERSON_NAME, 
+        INTRUCTOR_ROLE,
         /** Comments entered when enrolling a student in a course */
         STUDENT_ROLE_COMMENTS,
         TEAM_NAME,
+        SECTION_NAME,
         START_TIME,
         END_TIME,
         SESSION_VISIBLE_TIME,
@@ -82,6 +88,17 @@ public class FieldValidator {
     // ////////////////// Specific types //////////////////////////////////////
     // ////////////////////////////////////////////////////////////////////////
 
+    /*
+     * ======================================================================= 
+     * Field: Nationality
+     */
+    private static final String NATIONALITY_FIELD_NAME = "nationality";
+    // one more than longest official nationality name
+    public static final int NATIONALITY_MAX_LENGTH = 55;
+    public static final String NATIONALITY_ERROR_MESSAGE = 
+            "\"%s\" is not acceptable to TEAMMATES as "+NATIONALITY_FIELD_NAME+" because it %s. " +
+                    "The value of "+NATIONALITY_FIELD_NAME+" should be no longer than "+
+                    NATIONALITY_MAX_LENGTH+" characters. It should not be empty.";
     
     /*
      * =======================================================================
@@ -119,6 +136,21 @@ public class FieldValidator {
                     "A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. " +
                     "It cannot be longer than "+COURSE_ID_MAX_LENGTH+" characters. " +
                     "It cannot be empty or contain spaces.";  
+    /*
+     * =======================================================================
+     * Field instructor permission role
+     */
+    public static final String INSTRUCTOR_ROLE_ERROR_MESSAGE = 
+            "\"%s\" is not accepted to TEAMMATES as a role %s."+
+                    "Role can be one of the following: " + 
+                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER + ", " +
+                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER + ", " +
+                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER + ", " +
+                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR + ", " +
+                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM + ", ";
+    public static final String INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING = 
+            "it does not match the predifined roles";
+    
     /*
      * =======================================================================
      * Field Course Instructor Name
@@ -219,6 +251,18 @@ public class FieldValidator {
             "A Google ID must be a valid id already registered with Google. " +
             "It cannot be longer than "+GOOGLE_ID_MAX_LENGTH+" characters. " +
             "It cannot be empty.";
+    
+    /*
+     * ======================================================================= 
+     * Field: Gender
+     */
+    private static final String GENDER_FIELD_NAME = "gender";
+    private static final List<String> GENDER_ACCEPTED_VALUES = Arrays.asList(Const.GenderTypes.MALE, Const.GenderTypes.FEMALE, Const.GenderTypes.OTHER);
+    public static final String GENDER_ERROR_MESSAGE = 
+            "\"%s\" is not an accepted " + GENDER_FIELD_NAME + " to TEAMMATES. " +
+            "Values have to be one of: " + Const.GenderTypes.MALE + ", " +
+            Const.GenderTypes.FEMALE + ", " + Const.GenderTypes.OTHER + ".";
+
     /*
      * =======================================================================
      * Field: Institute name
@@ -230,7 +274,6 @@ public class FieldValidator {
             "The value of "+INSTITUTE_NAME_FIELD_NAME+" should be no longer than "+
             INSTITUTE_NAME_MAX_LENGTH+" characters. It should not be empty.";
 
-    
     /*
      * =======================================================================
      * Field: Student comment
@@ -267,6 +310,16 @@ public class FieldValidator {
                     "The value of "+TEAM_NAME_FIELD_NAME+" should be no longer than "+
                     TEAM_NAME_MAX_LENGTH+" characters. It should not be empty.";
     
+    /*
+     * =======================================================================
+     * Field: Section name
+     */
+    private static final String SECTION_NAME_FIELD_NAME = "a section name";
+    public static final int SECTION_NAME_MAX_LENGTH = 60;
+    public static final String SECTION_NAME_ERROR_MESSAGE =
+            "\"%s\" is not acceptable to TEAMMATES as "+SECTION_NAME_FIELD_NAME+" because it %s. " +
+                    "The value of "+SECTION_NAME_FIELD_NAME+" should be no longer than "+
+                    SECTION_NAME_MAX_LENGTH+" characters. It should not be empty.";
 
     // ////////////////////////////////////////////////////////////////////////
     // ///////////////////End of field type info //////////////////////////////
@@ -320,6 +373,7 @@ public class FieldValidator {
      * =======================================================================
      * Regex used for checking header column name in enroll lines
      */
+    public static final String REGEX_COLUMN_SECTION = "sections?";
     public static final String REGEX_COLUMN_TEAM = "teams?";
     public static final String REGEX_COLUMN_NAME = "names?";
     public static final String REGEX_COLUMN_EMAIL = "emails?";
@@ -390,19 +444,23 @@ public class FieldValidator {
         switch (fieldType) {
         case PERSON_NAME:
             returnValue = getValidityInfoForAllowedName(
-            PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, (String)value);
+                    PERSON_NAME_FIELD_NAME, PERSON_NAME_MAX_LENGTH, (String)value);
             break;
         case INSTITUTE_NAME:
             returnValue = getValidityInfoForAllowedName(
-            INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH, (String)value);
+                    INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH, (String)value);
+            break;
+        case NATIONALITY:
+            returnValue = getValidityInfoForAllowedName(
+                     NATIONALITY_FIELD_NAME, NATIONALITY_MAX_LENGTH, (String)value);
             break;
         case COURSE_NAME:
             returnValue = getValidityInfoForAllowedName(
-            COURSE_NAME_FIELD_NAME, COURSE_NAME_MAX_LENGTH, (String)value);
+                    COURSE_NAME_FIELD_NAME, COURSE_NAME_MAX_LENGTH, (String)value);
             break;
         case EVALUATION_NAME:
             returnValue = getValidityInfoForAllowedName(
-            EVALUATION_NAME_FIELD_NAME, EVALUATION_NAME_MAX_LENGTH, (String)value);
+                    EVALUATION_NAME_FIELD_NAME, EVALUATION_NAME_MAX_LENGTH, (String)value);
             break;
         case EVALUATION_INSTRUCTIONS:
             returnValue = getValidityInfoForNonNullField(
@@ -416,6 +474,9 @@ public class FieldValidator {
             returnValue = getValidityInfoForSizeCappedNonEmptyString(
                     FEEDBACK_QUESTION_TEXT_FIELD_NAME, FEEDBACK_QUESTION_TEXT_MAX_LENGTH, (String)value);
             break;
+        case GENDER:
+            returnValue = getValidityInfoForGender((String)value);
+            break;
         case STUDENT_ROLE_COMMENTS:
             returnValue = getValidityInfoForSizeCappedPossiblyEmptyString(
                     STUDENT_ROLE_COMMENTS_FIELD_NAME, STUDENT_ROLE_COMMENTS_MAX_LENGTH, (String)value);
@@ -423,6 +484,10 @@ public class FieldValidator {
         case TEAM_NAME:
             returnValue = getValidityInfoForAllowedName(
             TEAM_NAME_FIELD_NAME, TEAM_NAME_MAX_LENGTH, (String)value);
+            break;
+        case SECTION_NAME:
+            returnValue = getValidityInfoForAllowedName(
+            SECTION_NAME_FIELD_NAME, SECTION_NAME_MAX_LENGTH, (String)value);
             break;
         case GOOGLE_ID:
             returnValue = getInvalidInfoForGoogleId((String)value);
@@ -432,6 +497,9 @@ public class FieldValidator {
             break;
         case EMAIL:
             returnValue = getValidityInfoForEmail((String)value);
+            break;
+        case INTRUCTOR_ROLE:
+            returnValue = getValidityInfoForInstructorRole((String)value);
             break;
         default:
             throw new AssertionError("Unrecognized field type : " + fieldType);
@@ -775,6 +843,33 @@ public class FieldValidator {
         }else if(!StringHelper.isMatching(value, REGEX_EMAIL)){
             return String.format(EMAIL_ERROR_MESSAGE, value, REASON_INCORRECT_FORMAT);
         }
+        return "";
+    }
+    
+    private String getValidityInfoForGender(String value) {
+        Assumption.assertTrue("Non-null value expected", value != null);
+        
+        if (!GENDER_ACCEPTED_VALUES.contains(value)) {
+            return String.format(GENDER_ERROR_MESSAGE, value);
+        }
+        return "";
+    }
+    
+    private String getValidityInfoForInstructorRole(String value) {
+        
+        Assumption.assertTrue("Non-null value expected", value != null);
+        
+        if (value.isEmpty()) {
+            return String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, value, REASON_EMPTY);
+        }
+        if (!(value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)
+                || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER)
+                || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER)
+                || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR)
+                || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM))) {
+            return String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, value, INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING);
+        }
+        
         return "";
     }
 

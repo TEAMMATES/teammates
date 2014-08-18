@@ -4,13 +4,16 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
- * File-related helper methods used for testing. There is another FileHelper
- * on the server side.
+ * File-related helper methods used for testing. There is another FileHelper on
+ * the server side.
  */
 public class FileHelper {
-    
+
     public static void writeToFile(String fileName, String fileContent) {
         try {
 
@@ -54,5 +57,16 @@ public class FileHelper {
     public static void deleteFile(String fileName) {
        File file = new File(fileName);
        file.delete();
+    }
+
+    static String readFile(String path, Charset encoding) {
+        byte[] encoded = null;
+        try {
+            encoded = Files.readAllBytes(Paths.get(path));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return new String(encoded, encoding);
     }
 }

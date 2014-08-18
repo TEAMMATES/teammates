@@ -25,9 +25,9 @@ public class StudentCourseJoinConfirmationPage extends AppPage {
         return changePageType(StudentHomePage.class);
     }
     
-    public HomePage clickCancelButton() {
+    public String clickCancelButtonAndGetSourceOfDestination() {
         cancelButton.click();
         waitForPageToLoad();
-        return changePageType(HomePage.class);
+        return browser.driver.getPageSource();
     }
 }

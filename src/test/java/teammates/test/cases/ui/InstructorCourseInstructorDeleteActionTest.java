@@ -16,37 +16,18 @@ import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
-    InstructorsLogic instructorsLogic;
+    private final DataBundle dataBundle = getTypicalDataBundle();
+    InstructorsLogic instructorsLogic = InstructorsLogic.inst();;
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_DELETE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-        instructorsLogic = InstructorsLogic.inst();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception {
-        
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor2OfCourse1");
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.email,
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
     
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        //TODO: find a way to test status message from session
         InstructorAttributes loginInstructor = dataBundle.instructors.get("instructor1OfCourse1");
         String loginInstructorId = loginInstructor.googleId;
         String courseId = loginInstructor.courseId;    
@@ -126,7 +107,7 @@ public class InstructorCourseInstructorDeleteActionTest extends BaseActionTest {
         
         expectedLogSegment = "Instructor <span class=\"bold\"> " + instructorEmailToDelete + "</span>"
                 + " in Course <span class=\"bold\">[" + courseId + "]</span> could not be deleted "
-                + "as there is only one instructor left.<br>";
+                + "as there is only one instructor left to be able to modify instructors.<br>";
         AssertHelper.assertContains(expectedLogSegment, deleteAction.getLogMessage());
     }
     

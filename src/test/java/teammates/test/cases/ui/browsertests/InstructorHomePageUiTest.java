@@ -1,8 +1,8 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterClass;
@@ -13,22 +13,21 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
-import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
-import teammates.test.pageobjects.HomePage;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.pageobjects.InstructorEvalEditPage;
 import teammates.test.pageobjects.InstructorEvalPreview;
 import teammates.test.pageobjects.InstructorEvalResultsPage;
-import teammates.test.pageobjects.InstructorEvalsPage;
+import teammates.test.pageobjects.InstructorFeedbacksPage;
 import teammates.test.pageobjects.InstructorHelpPage;
 import teammates.test.pageobjects.InstructorHomePage;
 
@@ -52,17 +51,21 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     private static FeedbackSessionAttributes feedbackSession_CLOSED;
     private static FeedbackSessionAttributes feedbackSession_PUBLISHED;
 
+    // TODO: refactor this test. try to use admin login or create instructors and courses not using json 
+    
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorHomePageUiTest1.json");
+        removeTestDataOnServer(loadDataBundle("/InstructorHomePageUiTest3.json"));
+        restoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
     }
     
     private static void loadFinalHomePageTestData() throws Exception {
         
         testData = loadDataBundle("/InstructorHomePageUiTest3.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         
         firstEval_OPEN = testData.evaluations.get("First Eval");
         secondEval_PUBLISHED = testData.evaluations.get("Second Eval");
@@ -92,7 +95,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         testDeleteCourseAction();
     }
     
-    private void testShowFeedbackStatsLink() {
+    private void testShowFeedbackStatsLink() throws Exception {
         WebElement viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         
         String currentValidUrl = viewResponseLink.getAttribute("href");
@@ -120,7 +123,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("login");
         
         loginAsCommonInstructor();
-        assertTrue(browser.driver.getCurrentUrl().endsWith(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
+        assertTrue(browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
     }
     
     public void testContent() throws Exception{
@@ -133,21 +136,32 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("content: new instructor, with status message HINT_FOR_NEW_INSTRUCTOR");
         
         //already logged in
-        restoreTestDataOnServer(testData);
         homePage.clickHomeTab();
-        homePage.verifyHtml("/InstructorHomeNewInstructorWithoutSampleCourse.html");
+        homePage.verifyHtmlMainContent("/InstructorHomeNewInstructorWithoutSampleCourse.html");
         
         testData = loadDataBundle("/InstructorHomePageUiTest2.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         homePage.clickHomeTab();
-        homePage.verifyHtml("/InstructorHomeNewInstructorWithSampleCourse.html");
-        
+        homePage.verifyHtmlMainContent("/InstructorHomeNewInstructorWithSampleCourse.html");
         
         ______TS("content: multiple courses");
         
         loadFinalHomePageTestData();
         homePage.clickHomeTab();
+        homePage.verifyHtmlAjax("/InstructorHomeHTMLWithHelperView.html");
+        updateInstructorToCoownerPrivileges();
+        homePage.clickHomeTab();
         homePage.verifyHtmlAjax("/InstructorHomeHTML.html");
+    }
+
+    private void updateInstructorToCoownerPrivileges() {
+        // update current instructor for CS1101 to have Co-owner privileges
+        InstructorAttributes instructor = testData.instructors.get("CHomeUiT.instr.CS1101");
+        BackDoor.deleteInstructor(instructor.courseId, instructor.email);
+        instructor.privileges = instructor.getInstructorPrivilegesFromText();
+        instructor.privileges.setDefaultPrivilegesForCoowner();
+        instructor.instructorPrivilegesAsText = instructor.getTextFromInstructorPrivileges();
+        BackDoor.createInstructor(instructor);
     }
     
     public void testHelpLink() throws Exception{
@@ -193,11 +207,11 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         assertEquals(expectedEditLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
         
-        ______TS("link: course add evaluation");
-        InstructorEvalsPage evalsPage =  homePage.clickCourseAddEvaluationLink(courseId);
-        evalsPage.verifyContains("Add New Evaluation Session");
+        ______TS("link: course add session");
+        InstructorFeedbacksPage feedbacksPage =  homePage.clickCourseAddEvaluationLink(courseId);
+        feedbacksPage.verifyContains("Add New Feedback Session");
         String expectedAddSessionLinkText = TestProperties.inst().TEAMMATES_URL + 
-                Const.ActionURIs.INSTRUCTOR_EVALS_PAGE + 
+                Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + 
                 "?" + Const.ParamsNames.USER_ID + "=" + instructorId +
                 "&" + Const.ParamsNames.COURSE_ID + "=" + courseId;
         assertEquals(expectedAddSessionLinkText, browser.driver.getCurrentUrl());
@@ -343,7 +357,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         //restore
         testData = loadDataBundle("/InstructorHomePageUiTest3.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         loginAsCommonInstructor();
         homePage.clickArchiveCourseLink(courseIdForCS1101);
         homePage.clickHomeTab();
@@ -366,17 +380,12 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteCourse(courseId);
         
         homePage.clickHomeTab();
-        homePage.verifyHtml("/InstructorHomeHTMLEmpty.html");
+        homePage.verifyHtmlMainContent("/InstructorHomeHTMLEmpty.html");
         
     }
     
     public void testSearchAction() throws Exception{
-        ______TS("search student");
-        homePage.searchForStudent("Alice").verifySearchKey("Alice");
-        homePage.verifyHtml("/instructorHomeSearchStudent.html");
-        
-        //go back to previous page because 'search' redirects to the 'StudentList' page.
-        homePage.goToPreviousPage(InstructorHomePage.class);
+        // Tested in student list page
     }
     
     public void testSortAction() throws Exception{
@@ -394,17 +403,15 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
     
     private void loginAsCommonInstructor(){
-        String commonInstructor = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
+        String commonInstructor = "CHomeUiT.instructor.tmms";
         loginAsInstructor(commonInstructor);
     }
     
-    private void loginAsInstructor(String instructorEmail){
-        AppPage.logout(browser);
-        homePage = HomePage.getNewInstance(browser)
-                .clickInstructorLogin()
-                .loginAsInstructor(
-                        instructorEmail, 
-                        TestProperties.inst().TEST_INSTRUCTOR_PASSWORD);
+    private void loginAsInstructor(String googleId){
+         Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
+                    .withUserId(googleId);
+        
+        homePage = loginAdminToPage(browser, editUrl, InstructorHomePage.class);
     }
 
     @AfterClass

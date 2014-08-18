@@ -6,6 +6,9 @@ public class FeedbackNumericalScaleResponseDetails extends
         FeedbackAbstractResponseDetails {
     private double answer;
     
+    /**
+     * @return answer in double form
+     */
     public double getAnswer() {
         return answer;
     }
@@ -25,7 +28,7 @@ public class FeedbackNumericalScaleResponseDetails extends
     }
 
     @Override
-    public String getAnswerHtml() {
+    public String getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails) {
         return getAnswerString();
     }
 

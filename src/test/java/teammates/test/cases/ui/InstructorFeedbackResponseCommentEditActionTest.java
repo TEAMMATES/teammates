@@ -6,14 +6,12 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -25,32 +23,13 @@ import teammates.ui.controller.InstructorFeedbackResponseCommentEditAction;
 
 public class InstructorFeedbackResponseCommentEditActionTest extends
         BaseActionTest {
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-
-    @Test
-    public void testAccessControl() throws Exception {
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "",
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
-        };
-        verifyOnlyInstructorsCanAccess(submissionParams);
     }
     
     @Test
@@ -96,6 +75,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
@@ -107,12 +87,14 @@ public class InstructorFeedbackResponseCommentEditActionTest extends
                 (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         
         assertFalse(data.isError);
+        assertEquals("", result.getStatusMessage());
         
         ______TS("Unsuccessful case: empty comment text");
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
@@ -120,6 +102,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends
 
         action = getAction(submissionParams);
         result = (AjaxResult) action.executeAndPostProcess();
+        assertEquals("", result.getStatusMessage());
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
 
         assertTrue(data.isError);

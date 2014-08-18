@@ -6,54 +6,29 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
-import teammates.ui.controller.Action;
 import teammates.ui.controller.InstructorFeedbackQuestionSubmissionEditSaveAction;
 import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-
-    @Test
-    public void testAccessControl() throws Exception {
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        
-        FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-        FeedbackQuestionAttributes q = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 3);
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, q.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "0"
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);        
     }
 
     @Test
@@ -128,14 +103,13 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         
         ______TS("re-add response");
         
-        restoreTypicalDataInDatastore();
         instructor = dataBundle.instructors.get("instructor1OfCourse1");
         fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        fr = dataBundle.feedbackResponses.get("response1ForQ3S1C1");
+        fr.feedbackQuestionId = fq.getId();
+        frDb.createEntity(fr);
         
-        fqDb = new FeedbackQuestionsDb();
         fq = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 3);
-        
-        frDb = new FeedbackResponsesDb();
         fr = frDb.getFeedbackResponse(fq.getId(), instructor.email, "%GENERAL%");
         assertNotNull(fr);
         
@@ -167,14 +141,13 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         
         ______TS("re-add response");
         
-        restoreTypicalDataInDatastore();
         instructor = dataBundle.instructors.get("instructor1OfCourse1");
         fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        fr = dataBundle.feedbackResponses.get("response1ForQ3S1C1");
+        fr.feedbackQuestionId = fq.getId();
+        frDb.createEntity(fr);
         
-        fqDb = new FeedbackQuestionsDb();
         fq = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 3);
-        
-        frDb = new FeedbackResponsesDb();
         fr = frDb.getFeedbackResponse(fq.getId(), instructor.email, "%GENERAL%");
         assertNotNull(fr);
         
@@ -400,7 +373,6 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         fs = dataBundle.feedbackSessions.get("session1InCourse2");
         
         fq = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
-        
         fr = frDb.getFeedbackResponse(fq.getId(), instructor.email, "student1InCourse2@gmail.com");
         assertNotNull(fr);
         

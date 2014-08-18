@@ -1,51 +1,39 @@
 package teammates.test.cases.ui;
 
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.Assert.fail;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.api.Logic;
+import teammates.logic.core.StudentsLogic;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorStudentRecordsPageAction;
 import teammates.ui.controller.InstructorStudentRecordsPageData;
+import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 
 public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
+    Logic logic = new Logic();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-
-    @Test
-    public void testAccessControl() throws Exception {
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email 
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
 
     @Test
@@ -82,10 +70,13 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
                 Const.ParamsNames.STUDENT_EMAIL, studentEmailOfStudent1InCourse2
         };
         
-        verifyAssumptionFailure(invalidParams);
+        RedirectResult redirect = getRedirectResult(getAction(invalidParams));
+        
+        AssertHelper.assertContains(Const.ActionURIs.INSTRUCTOR_HOME_PAGE ,redirect.getDestinationWithParams());
+        AssertHelper.assertContains(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_RECORDS, redirect.getStatusMessage());
         
 
-        ______TS("Typical case: student has some records");
+        ______TS("Typical case: student has some records and has profile");
         
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
@@ -101,32 +92,37 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         assertEquals(false, r.isError);
         assertEquals("", r.getStatusMessage());
 
-        InstructorStudentRecordsPageData pageData = (InstructorStudentRecordsPageData) r.data;
-        assertEquals(instructorId, pageData.account.googleId);
-        assertEquals(instructor.courseId, pageData.courseId);
-        assertEquals(1, pageData.comments.size());
-        assertEquals(8, pageData.sessions.size());
+        InstructorStudentRecordsPageData actualData = (InstructorStudentRecordsPageData) r.data;
+        StudentProfileAttributes expectedProfile = new StudentProfileAttributes();
+        expectedProfile.googleId = student.googleId;
+        expectedProfile.modifiedDate = actualData.studentProfile.modifiedDate;
+        expectedProfile.pictureKey = actualData.studentProfile.pictureKey;
+        
+        assertEquals(instructorId, actualData.account.googleId);
+        assertEquals(instructor.courseId, actualData.courseId);
+        assertEquals(1, actualData.comments.size());
+        assertEquals(8, actualData.sessions.size());
+        assertEquals(student.googleId, actualData.studentProfile.googleId);
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorStudentRecordsPage|||instructorStudentRecordsPage"+
                 "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"+
                 "|||instr3@course1n2.com|||instructorStudentRecords Page Load<br>" +
                 "Viewing <span class=\"bold\">" + student.email + "'s</span> records " +
                 "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>" +
-                "Number of sessions: 8" +
+                "Number of sessions: 8<br>" +
+                "Student Profile: " + expectedProfile.toString() +  
                 "|||/page/instructorStudentRecordsPage";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
         
-        ______TS("Typical case: student has no records");
+        ______TS("Typical case: student has no records, no profiles");
         
         String instructor4Id = dataBundle.instructors.get("instructor4").googleId;
         gaeSimulation.loginAsInstructor(instructor4Id);  // re-login as another instructor for new test
         String courseIdWithNoSession = "idOfCourseNoEvals";
-        try {
-            createStudentInTypicalDataBundleForCourseWithNoSession();
-        } catch(Exception e) {
-            fail("Unexpected exception during test");
-        }
+        StudentAttributes testStudent = new StudentAttributes();
+        
+        testStudent = createStudentInTypicalDataBundleForCourseWithNoSession();
         
         String[] submissionParamsWithNoSession = new String[] {
                 Const.ParamsNames.COURSE_ID, courseIdWithNoSession,
@@ -135,14 +131,30 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
         InstructorStudentRecordsPageAction aWithNoSession = getAction(submissionParamsWithNoSession);
         ShowPageResult rWithNoSession = getShowPageResult(aWithNoSession);
-        assertEquals("No records were found for this student", rWithNoSession.getStatusMessage());
+        List<String> expectedMessages = new ArrayList<String>();
+        expectedMessages.add("No records were found for this student");
+        expectedMessages.add(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS);
+        AssertHelper.assertContains(expectedMessages, rWithNoSession.getStatusMessage());
+        
+        ______TS("Typical case: student has profile but no records");
+        
+        testStudent.googleId = "valid.no.sessions";
+        StudentsLogic.inst().updateStudentCascadeWithoutDocument(testStudent.email, testStudent);
+        logic.createAccount(testStudent.googleId, testStudent.name, 
+                false, testStudent.email, "valid institute");
+        
+        a = getAction(submissionParamsWithNoSession);
+        r = getShowPageResult(a);
+        
+        AssertHelper.assertContains("No records were found for this student", r.getStatusMessage());
+        
     }
     
-    private void createStudentInTypicalDataBundleForCourseWithNoSession() throws EntityAlreadyExistsException, 
+    private StudentAttributes createStudentInTypicalDataBundleForCourseWithNoSession() throws EntityAlreadyExistsException, 
     InvalidParametersException, EntityDoesNotExistException {
-        Logic logic = new Logic();
-        StudentAttributes student = new StudentAttributes("team", "nameOfStudent", "emailTemp@gmail.com", "No comment", "idOfCourseNoEvals");
-        logic.createStudent(student);
+        StudentAttributes student = new StudentAttributes("", "emailTemp@gmail.com", "nameOfStudent", "No comment", "idOfCourseNoEvals", "team", "section");
+        logic.createStudentWithoutDocument(student);
+        return student;
     }
     
     private InstructorStudentRecordsPageAction getAction(String... params) throws Exception {

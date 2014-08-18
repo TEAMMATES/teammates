@@ -3,7 +3,6 @@ package teammates.test.cases.ui;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -17,30 +16,14 @@ import teammates.ui.controller.EvaluationStatsPageData;
 
 public class EvaluationStatsPageActionTest extends BaseActionTest {
     
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_EVAL_STATS_PAGE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        EvaluationAttributes accessableEvaluation = dataBundle.evaluations.get("evaluation1InCourse1");
-        String[] submissionParams = new String[] { Const.ParamsNames.EVALUATION_NAME, accessableEvaluation.name,
-                                          Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId};
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-
     }
     
     @Test
@@ -63,6 +46,7 @@ public class EvaluationStatsPageActionTest extends BaseActionTest {
         assertEquals(Const.ViewURIs.INSTRUCTOR_EVAL_STATS+"?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
         assertEquals(data.evaluationDetails.stats.expectedTotal,5);
         assertEquals(data.evaluationDetails.stats.submittedTotal,3);
+        assertEquals("", r.getStatusMessage());
         
         ______TS("fail: instructor accesses stats of non-existent evaluation");
         String nonexistentEvaluation = "nonexistentEvaluation";

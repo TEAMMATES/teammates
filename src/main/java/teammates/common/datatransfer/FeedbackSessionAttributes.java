@@ -77,7 +77,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
         this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
         this.courseId = Sanitizer.sanitizeTitle(courseId);
-        this.creatorEmail = Sanitizer.sanitizeGoogleId(creatorId);
+        this.creatorEmail = Sanitizer.sanitizeEmail(creatorId);
         this.instructions = Sanitizer.sanitizeTextField(instructions);
         this.createdTime = createdTime;
         this.startTime = startTime;

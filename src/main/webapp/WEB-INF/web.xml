@@ -39,7 +39,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <filter-name>DatastoreFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    <filter>
+    <!--<filter>
         <description>Filter that do the login part for each JSP page</description>
         <filter-name>LoginFilter</filter-name>
         <filter-class>teammates.ui.controller.LoginFilter</filter-class>
@@ -52,7 +52,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     <filter-mapping>
         <filter-name>LoginFilter</filter-name>
         <url-pattern>/page/*</url-pattern>
-    </filter-mapping>
+    </filter-mapping>-->
 
     <servlet>
         <servlet-name>appstats</servlet-name>
@@ -188,6 +188,16 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <url-pattern>/evalRemindEmailWorker</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>FeedbackRemindEmailWorkerServlet</servlet-name>
+        <servlet-class>teammates.logic.automated.FeedbackRemindEmailWorkerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FeedbackRemindEmailWorkerServlet</servlet-name>
+        <url-pattern>/feedbackRemindEmailWorker</url-pattern>
+    </servlet-mapping>
+
+
     <servlet>
         <servlet-name>FeedbackSessionOpeningReminders</servlet-name>
         <servlet-class>teammates.logic.automated.FeedbackSessionOpeningRemindersServlet</servlet-class>

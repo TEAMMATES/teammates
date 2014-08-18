@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import teammates.common.util.Assumption;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.storage.entity.Account;
+import teammates.storage.entity.StudentProfile;
 
 /**
  * A data transfer object for Account entities.
@@ -23,6 +25,7 @@ public class AccountAttributes extends EntityAttributes {
     public String email;
     public String institute;
     public Date createdAt;
+    public StudentProfileAttributes studentProfile;
     
     
     public AccountAttributes(Account a) {
@@ -32,9 +35,22 @@ public class AccountAttributes extends EntityAttributes {
         email = a.getEmail();
         institute = a.getInstitute();
         createdAt = a.getCreatedAt();
+        studentProfile = a.getStudentProfile() == null ? null : 
+            new StudentProfileAttributes(a.getStudentProfile());
     }
     
     public AccountAttributes() {
+    }
+    
+    public AccountAttributes(String googleId, String name, boolean isInstructor,
+                String email, String institute, StudentProfileAttributes studentProfileAttributes) {
+        this.googleId = Sanitizer.sanitizeGoogleId(googleId);
+        this.name = Sanitizer.sanitizeName(name);
+        this.isInstructor = isInstructor;
+        this.email = Sanitizer.sanitizeEmail(email);
+        this.institute = Sanitizer.sanitizeTitle(institute);
+        this.studentProfile = studentProfileAttributes;
+        this.studentProfile.sanitizeForSaving();
         
     }
     
@@ -45,6 +61,8 @@ public class AccountAttributes extends EntityAttributes {
         this.isInstructor = isInstructor;
         this.email = Sanitizer.sanitizeEmail(email);
         this.institute = Sanitizer.sanitizeTitle(institute);
+        this.studentProfile = new StudentProfileAttributes();
+        this.studentProfile.googleId = this.googleId;        
     }
     
     public List<String> getInvalidityInfo() {
@@ -65,12 +83,19 @@ public class AccountAttributes extends EntityAttributes {
         error= validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
         if(!error.isEmpty()) { errors.add(error); }
         
+        Assumption.assertTrue("Non-null value expected for studentProfile", this.studentProfile != null);
+        // only check profile if the account is proper
+        if (errors.isEmpty()) {
+            errors.addAll(this.studentProfile.getInvalidityInfo());
+        }
+        
         //No validation for isInstructor and createdAt fields.
         return errors;
     }
 
     public Account toEntity() {
-        return new Account(googleId, name, isInstructor, email, institute);
+        Assumption.assertNotNull(this.studentProfile);
+        return new Account(googleId, name, isInstructor, email, institute, (StudentProfile) studentProfile.toEntity());
     }
     
     public String toString(){
@@ -93,6 +118,7 @@ public class AccountAttributes extends EntityAttributes {
         this.name = Sanitizer.sanitizeForHtml(name);
         this.email = Sanitizer.sanitizeForHtml(email);
         this.institute = Sanitizer.sanitizeForHtml(institute);
+        this.studentProfile.sanitizeForSaving();
     }
     
 }

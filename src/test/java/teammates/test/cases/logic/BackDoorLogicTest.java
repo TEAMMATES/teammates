@@ -5,24 +5,24 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.HashMap;
 
-import javax.servlet.ServletException;
-
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorLogic;
+import teammates.storage.api.SubmissionsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.common.CourseAttributesTest;
 import teammates.test.util.TestHelper;
@@ -39,34 +39,24 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         turnLoggingUp(BackDoorLogic.class);
     }
 
-    @BeforeMethod
-    public void caseSetUp() throws ServletException {
-        dataBundle = getTypicalDataBundle();
-        gaeSimulation.resetDatastore();
-    }
-
     @Test
     public void testPersistDataBundle() throws Exception {
 
         BackDoorLogic logic = new BackDoorLogic();
         
-        DataBundle dataBundle = getTypicalDataBundle();
-        // clean up the datastore first, to avoid clashes with existing data
-        HashMap<String, InstructorAttributes> instructors = dataBundle.instructors;
-        for (InstructorAttributes instructor : instructors.values()) {
-            logic.deleteInstructor(instructor.courseId, instructor.email);
-        }
         ______TS("empty data bundle");
         String status = logic.persistDataBundle(new DataBundle());
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 
+        logic.deleteExistingData(dataBundle);
         logic.persistDataBundle(dataBundle);
         verifyPresentInDatastore(dataBundle);
 
         ______TS("try to persist while entities exist");
         
-        logic.persistDataBundle(dataBundle);
-
+        logic.persistDataBundle(loadDataBundle("/FeedbackSessionResultsTest.json"));
+        verifyPresentInDatastore(loadDataBundle("/FeedbackSessionResultsTest.json"));
+        
         ______TS("null parameter");
         DataBundle nullDataBundle = null;
         try {
@@ -92,14 +82,21 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         // should be checked at lower level methods
     }
 
-        @Test
+    @Test
     public void testGetSubmission() throws Exception {
-
-        restoreTypicalDataInDatastore();
 
         ______TS("typical case");
         SubmissionAttributes expected = dataBundle.submissions
                 .get("submissionFromS1C1ToS1C1");
+        
+        SubmissionsDb sDb = new SubmissionsDb();
+        try {
+            sDb.createEntity(expected);
+        } catch (EntityAlreadyExistsException e) {
+            // it is alright if the submission already exists
+        }
+        sDb.updateSubmission(expected);
+        
         TestHelper.verifyPresentInDatastore(expected);
 
         ______TS("null parameters");
@@ -126,6 +123,11 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
     }
     
     private void verifyPresentInDatastore(DataBundle data) throws Exception {
+        HashMap<String, AccountAttributes> accounts = data.accounts;
+        for(AccountAttributes expectedAccount : accounts.values()) {
+            TestHelper.verifyPresentInDatastore(expectedAccount);
+        }
+        
         HashMap<String, InstructorAttributes> instructors = data.instructors;
         for (InstructorAttributes expectedInstructor : instructors.values()) {
             TestHelper.verifyPresentInDatastore(expectedInstructor);

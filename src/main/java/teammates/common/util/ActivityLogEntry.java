@@ -24,7 +24,13 @@ public class ActivityLogEntry {
     private boolean toShow;
     private String message;
     private String url;
+    private Long timeTaken;
     
+    private String logInfoAsHtml;
+    
+    private static final int TIME_TAKEN_WARNING_LOWER_RANGE = 10000;
+    private static final int TIME_TAKEN_WARNING_UPPER_RANGE = 20000;
+    private static final int TIME_TAKEN_DANGER_UPPER_RANGE = 60000;
     
     /**
      * Constructor that creates a empty ActivityLog
@@ -52,7 +58,7 @@ public class ActivityLogEntry {
         time = appLog.getTimeUsec() / 1000;
         String[] tokens = appLog.getLogMessage().split("\\|\\|\\|", -1);
         
-        //TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL
+        //TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||TIME_TAKEN
         try{
             servletName = tokens[1];
             action = tokens[2];
@@ -63,6 +69,7 @@ public class ActivityLogEntry {
             email = tokens[7];
             message = tokens[8];
             url = tokens[9];
+            timeTaken = tokens.length == 11? Long.parseLong(tokens[10].trim()) : null;
         } catch (ArrayIndexOutOfBoundsException e){
             
             servletName = "Unknown";
@@ -75,7 +82,10 @@ public class ActivityLogEntry {
             message = "<span class=\"text-danger\">Error. Problem parsing log message from the server.</span><br>"
                     + "System Error: " + e.getMessage() + "<br>" + appLog.getLogMessage();
             url = "Unknown";
+            timeTaken = null;
         }
+        
+        logInfoAsHtml = getLogInfoForTableRowAsHtml();
     }
     
     
@@ -236,6 +246,38 @@ public class ActivityLogEntry {
         return message;
     }
     
+
+    public String getColorCode(Long timeTaken){
+        
+        if(timeTaken == null){
+            return "";
+        }
+        
+        String colorCode = "";
+        if (timeTaken >= TIME_TAKEN_WARNING_LOWER_RANGE && timeTaken <= TIME_TAKEN_WARNING_UPPER_RANGE){
+            colorCode = "text-warning";
+        }else if(timeTaken > TIME_TAKEN_WARNING_UPPER_RANGE && timeTaken <= TIME_TAKEN_DANGER_UPPER_RANGE){
+            colorCode = "text-danger";
+        }
+        
+        return colorCode;            
+    }
+    
+    
+    public String getTableCellColorCode(Long timeTaken){
+        
+        if(timeTaken == null){
+            return "";
+        }
+        
+        String colorCode = "";
+        if (timeTaken >= TIME_TAKEN_WARNING_LOWER_RANGE && timeTaken <= TIME_TAKEN_WARNING_UPPER_RANGE){
+            colorCode = "warning";
+        }else if(timeTaken > TIME_TAKEN_WARNING_UPPER_RANGE && timeTaken <= TIME_TAKEN_DANGER_UPPER_RANGE){
+            colorCode = "danger";
+        }    
+        return colorCode;            
+    }
     
     public String getLogEntryActionsButtonClass(){
         
@@ -296,8 +338,12 @@ public class ActivityLogEntry {
     public String getEmail(){
         return email;
     }
-
-
+    
+    public Long getTimeTaken(){
+        
+        return timeTaken;       
+    }
+    
     public static String generateServletActionFailureLogMessage(HttpServletRequest req, Exception e){
         String[] actionTaken = req.getServletPath().split("/");
         String action = req.getServletPath();
@@ -354,5 +400,28 @@ public class ActivityLogEntry {
         link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
         return link;
     }
-
+    
+    
+    public String getLogInfoForTableRowAsHtml(){
+        
+        
+        String result = "";
+        result += "<tr> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"+ getDateInfo()
+               + "<br> <p class=\"" + getColorCode(getTimeTaken()) + "\">"
+               + "<strong>" + TimeHelper.convertToStandardDuration(getTimeTaken()) + "</strong>"
+               + "</p> </td> <td class=\"" + getTableCellColorCode(timeTaken) + "\">"
+               + "<form method=\"post\" action=\"" + Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE + "\"> "
+               + "<h4 class=\"list-group-item-heading\">" 
+               + getIconRoleForShow() + "&nbsp;" + getActionInfo() + "&nbsp;"
+               + "<small>" + getPersonInfo() + "</span>" + "&nbsp;"
+               + "<button type=\"submit\" class=\"btn " + getLogEntryActionsButtonClass() +  " btn-xs\">"
+               + "<span class=\"glyphicon glyphicon-zoom-in\"></span>"
+               + "</button> <input type=\"hidden\" name=\"filterQuery\" value=\"person:" + getId() + "\">"
+               + "<input class=\"ifShowAll_button_for_person\" type=\"hidden\" name=\"all\" value=\"false\">"
+               + "</small> </h4> <div>" + getMessageInfo()
+               + "</div> </form> </td> </tr>";      
+        return result;
+        
+    }
+    
 }

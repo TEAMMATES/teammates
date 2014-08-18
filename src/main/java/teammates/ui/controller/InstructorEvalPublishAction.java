@@ -13,13 +13,14 @@ public class InstructorEvalPublishAction extends InstructorEvalsPageAction {
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String evalName = getRequestParamValue(Const.ParamsNames.EVALUATION_NAME);
-        
+        String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
+
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getEvaluation(courseId, evalName));
+                logic.getEvaluation(courseId, evalName), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         try {
-            logic.publishEvaluation(courseId,evalName);
+            logic.publishEvaluation(courseId, evalName);
         } catch (InvalidParametersException e) {
             Assumption.fail("InvalidParametersException not expected at this point");
         }
@@ -28,7 +29,9 @@ public class InstructorEvalPublishAction extends InstructorEvalsPageAction {
         statusToAdmin = "Evaluation <span class=\"bold\">(" + evalName + ")</span> " +
                 "for Course <span class=\"bold\">[" + courseId + "]</span> published.";
         
-        return createRedirectResult(Const.ActionURIs.INSTRUCTOR_EVALS_PAGE);
+        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_EVALS_PAGE : nextUrl;
+
+        return createRedirectResult(nextUrl);
     }
     
 }

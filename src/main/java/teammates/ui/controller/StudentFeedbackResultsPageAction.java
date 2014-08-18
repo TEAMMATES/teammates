@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -17,17 +18,17 @@ public class StudentFeedbackResultsPageAction extends Action {
             return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
         }
         
-        if(!isJoinedCourse(courseId, account.googleId)){
+        if(!isJoinedCourse(courseId)){
             return createPleaseJoinCourseResponse(courseId);
         }
         
         new GateKeeper().verifyAccessible(
-                logic.getStudentForGoogleId(courseId, account.googleId), 
+                getCurrentStudent(courseId), 
                 logic.getFeedbackSession(feedbackSessionName, courseId));
         
         StudentFeedbackResultsPageData data = new StudentFeedbackResultsPageData(account);
         
-        data.student = logic.getStudentForGoogleId(courseId, account.googleId);
+        data.student = getCurrentStudent(courseId);
         data.bundle = logic.getFeedbackSessionResultsForStudent(feedbackSessionName, courseId, data.student.email);
         if(data.bundle == null) {
             throw new EntityDoesNotExistException("Feedback session "+feedbackSessionName+" does not exist in "+courseId+".");
@@ -48,5 +49,19 @@ public class StudentFeedbackResultsPageAction extends Action {
                 "Session Name: " + feedbackSessionName + "<br>" + 
                 "Course ID: " + courseId;
         return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_RESULTS, data);
+    }
+    
+    // The following methods are overridden by the unregistered version of this action
+
+    protected boolean isJoinedCourse(String courseId) {
+        return isJoinedCourse(courseId, account.googleId);
+    }
+
+    protected StudentAttributes getCurrentStudent(String courseId) {
+        if (student != null) {
+            return student;
+        } else {
+            return logic.getStudentForGoogleId(courseId, account.googleId);
+        }
     }
 }

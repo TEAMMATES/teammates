@@ -3,37 +3,54 @@ package teammates.test.pageobjects;
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 import static org.testng.AssertJUnit.assertEquals;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Logger;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.params.ClientPNames;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.params.HttpParams;
+import org.cyberneko.html.parsers.DOMParser;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.remote.UselessFileDetector;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
+import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
+import teammates.common.util.Utils;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.HtmlHelper;
 import teammates.test.driver.TestProperties;
@@ -47,10 +64,14 @@ import teammates.test.driver.TestProperties;
  * https://code.google.com/p/selenium/wiki/PageObjects
  * 
  */
+@SuppressWarnings("deprecation")
 public abstract class AppPage {
-
+    protected static Logger log = Utils.getLogger();
     /**Home page of the application, as per test.properties file*/
     protected static final String HOMEPAGE = TestProperties.inst().TEAMMATES_URL;
+    
+    static final long ONE_MINUTE_IN_MILLIS=60000;
+    
     /** Browser instance the page is loaded into */
     protected Browser browser;
     
@@ -74,15 +95,24 @@ public abstract class AppPage {
     protected WebElement instructorStudentsTab;
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[5]/a")
+    protected WebElement instructorCommentsTab;
+    
+    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[7]/a")
     protected WebElement instructorHelpTab;
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[2]/li[1]/a")
     protected WebElement instructorLogoutLink;
     
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[1]/a")
+    @FindBy(id = "studentHomeNavLink")
     protected WebElement studentHomeTab;
     
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[2]/a")
+    @FindBy(id = "studentProfileNavLink")
+    protected WebElement studentProfileTab;
+    
+    @FindBy(id = "studentCommentsNavLink")
+    protected WebElement studentCommentsTab;
+    
+    @FindBy(id = "studentHelpLink")
     protected WebElement studentHelpTab;
     
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[2]/li[1]/a")
@@ -183,7 +213,54 @@ public abstract class AppPage {
     protected void waitForPageToLoad() {
         browser.selenium.waitForPageToLoad("15000");
     }
-
+    
+    protected void waitForElementToBecomeVisible(String elementId) throws Exception {
+        int timeOut = 3000;
+        while (!browser.driver.findElement(By.id(elementId)).isDisplayed()
+                && timeOut > 0) {
+            Thread.sleep(100);
+            timeOut -= 100;
+        }
+        return;
+    }
+    
+    protected void waitForElementToAppear(By by) throws Exception {
+        int timeOut = 3000;
+        while (timeOut > 0) {
+            try {
+                if (browser.driver.findElement(by).isDisplayed()) {
+                    break;
+                }
+            } catch (NoSuchElementException e) {
+                // ignore exception
+            }
+            Thread.sleep(100);
+            timeOut -= 100;
+        }
+        return;
+    }
+    
+    public void waitForElementVisible(WebElement element){
+        WebDriverWait wait = new WebDriverWait(browser.driver, 10);
+        wait.until(ExpectedConditions.visibilityOf(element));
+    }
+    
+    /**
+     * Waits for element to be invisible or not present, or timeout.
+     */
+    public void waitForElementToDisappear(By by){
+        WebDriverWait wait = new WebDriverWait(browser.driver, 10);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+    }
+    
+    /**
+     * Waits for the element to appear in the page, up to the timeout specified.
+     */
+    public void waitForElementPresence(By element, int timeOutInSeconds){
+        WebDriverWait wait = new WebDriverWait(browser.driver, timeOutInSeconds);
+        wait.until(presenceOfElementLocated(element));
+    }
+    
     /**
      * Switches to the new browser window just opened.
      */
@@ -209,6 +286,7 @@ public abstract class AppPage {
 
     public void reloadPage() {
         browser.driver.get(browser.driver.getCurrentUrl());
+        waitForPageToLoad();
     }
 
     /** Equivalent to pressing the 'back' button of the browser. <br>
@@ -230,6 +308,47 @@ public abstract class AppPage {
         waitForPageToLoad();
         return this;
     }
+    
+    /**
+     * Equivalent to clicking the 'Students' tab on the top menu of the page.
+     * @return the loaded page.
+     */
+    public AppPage loadStudentsTab() {
+        instructorStudentsTab.click();
+        waitForPageToLoad();
+        return this;
+    }
+    
+    
+    /**
+     * Equivalent to clicking the 'Home' tab on the top menu of the page.
+     * @return the loaded page.
+     */
+    public AppPage loadInstructorHomeTab() {
+        instructorHomeTab.click();
+        waitForPageToLoad();
+        return this;
+    }
+    
+    /**
+     * Equivalent to clicking the 'Help' tab on the top menu of the page.
+     * @return the loaded page.
+     */
+    public AppPage loadInstructorHelpTab() {
+        instructorHelpTab.click();
+        waitForPageToLoad();
+        return this;
+    }
+    
+    /**
+     * Equivalent to clicking the 'Comments' tab on the top menu of the page.
+     * @return the loaded page.
+     */
+    public AppPage loadInstructorCommentsTab() {
+        instructorCommentsTab.click();
+        waitForPageToLoad();
+        return this;
+    }
 
     /**
      * Equivalent to clicking the 'Evaluations' tab on the top menu of the page.
@@ -239,6 +358,36 @@ public abstract class AppPage {
         instructorEvaluationsTab.click();
         waitForPageToLoad();
         return this;
+    }
+    
+    /**
+     * Equivalent of clicking the 'Profile' tab on the top menu of the page.
+     * @return the loaded page
+     */
+    public StudentProfilePage loadProfileTab() {
+        studentProfileTab.click();
+        waitForPageToLoad();
+        return changePageType(StudentProfilePage.class);
+    }
+    
+    /**
+     * Equivalent of student clicking the 'Home' tab on the top menu of the page.
+     * @return the loaded page
+     */
+    public StudentHomePage loadStudentHomeTab() {
+        studentHomeTab.click();
+        waitForPageToLoad();
+        return changePageType(StudentHomePage.class);
+    }
+    
+    /**
+     * Equivalent of student clicking the 'Comments' tab on the top menu of the page.
+     * @return the loaded page
+     */
+    public StudentCommentsPage loadStudentCommentsTab() {
+        studentCommentsTab.click();
+        waitForPageToLoad();
+        return changePageType(StudentCommentsPage.class);
     }
 
     /**
@@ -281,17 +430,14 @@ public abstract class AppPage {
      *  {@code Common.TEST_PAGES_FOLDER} folder. In that case, the parameter
      *  value should start with "/". e.g., "/instructorHomePage.html".
      */
-    public void saveCurrentPage(String filePath) {
-        if(filePath.startsWith("/")){
-            filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
-        }
+    public void saveCurrentPage(String filePath, String content) throws Exception {
+        
         try {
-        String pageSource = getPageSource();
-        FileWriter output = new FileWriter(new File(filePath));
-        output.write(pageSource);
+            FileWriter output = new FileWriter(new File(filePath));
+            output.write(content);
             output.close();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw e;
         }
     }
 
@@ -307,7 +453,14 @@ public abstract class AppPage {
     protected void fillTextBox(WebElement textBoxElement, String value) {
         textBoxElement.click();
         textBoxElement.clear();
-        textBoxElement.sendKeys(value + Keys.TAB);
+        textBoxElement.sendKeys(value + Keys.TAB + Keys.TAB + Keys.TAB);
+    }
+    
+    protected void fillFileBox(RemoteWebElement fileBoxElement, String fileName) throws Exception {
+        if (fileName.isEmpty()) return;
+        fileBoxElement.setFileDetector(new UselessFileDetector());
+        String newFilePath = new File(fileName).getAbsolutePath();
+        fileBoxElement.sendKeys(newFilePath);
     }
 
     protected String getTextBoxValue(WebElement textBox) {
@@ -345,6 +498,23 @@ public abstract class AppPage {
         Select select = new Select(element);
         select.selectByVisibleText(value);
         String selectedVisibleValue = select.getFirstSelectedOption().getText();
+        assertEquals(value, selectedVisibleValue);
+        element.sendKeys(Keys.RETURN);
+    }
+    
+    /** 
+     * Selection is based on the actual value. 
+     * Since selecting an option by clicking on the option doesn't work sometimes
+     * in Firefox, we simulate a user typing the value to select the option
+     * instead (i.e., we use the {@code sendKeys()} method). <br>
+     * <br>
+     * The method will fail with an AssertionError if the selected value is
+     * not the one we wanted to select.
+     */
+    public void selectDropdownByActualValue(WebElement element, String value) {
+        Select select = new Select(element);
+        select.selectByValue(value);
+        String selectedVisibleValue = select.getFirstSelectedOption().getAttribute("value");
         assertEquals(value, selectedVisibleValue);
         element.sendKeys(Keys.RETURN);
     }
@@ -397,6 +567,17 @@ public abstract class AppPage {
     }
     
     /**
+     * Clicks the hidden element and clicks 'Yes' in the follow up dialog box. 
+     * Fails if there is no dialog box.
+     * @return the resulting page.
+     */
+    public AppPage clickHiddenElementAndConfirm(String elementId) {
+        respondToAlertWithRetryForHiddenElement(elementId, true);
+        waitForPageToLoad();
+        return this;
+    }
+    
+    /**
      * Clicks the element and clicks 'No' in the follow up dialog box. 
      * Fails if there is no dialog box.
      * @return the resulting page.
@@ -407,11 +588,13 @@ public abstract class AppPage {
     }
     
     /**
-     * Waits for the element to appear in the page, up to the timeout specified.
+     * Clicks the hidden element and clicks 'No' in the follow up dialog box. 
+     * Fails if there is no dialog box.
+     * @return the resulting page.
      */
-    public void waitForElementPresence(By element, int timeOutInSeconds){
-        WebDriverWait wait = new WebDriverWait(browser.driver, timeOutInSeconds);
-        wait.until(presenceOfElementLocated(element));
+    public void clickHiddenElementAndCancel(String elementId){
+        respondToAlertWithRetryForHiddenElement(elementId, false);
+        waitForPageToLoad();
     }
     
     @SuppressWarnings("unused")
@@ -533,15 +716,90 @@ public abstract class AppPage {
         if(filePath.startsWith("/")){
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
+        String actual = getPageSource();
+        
         try {
-            String actual = getPageSource();
             String expected = FileHelper.readFile(filePath);
             HtmlHelper.assertSameHtml(actual, expected);
             
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }
+        } catch (AssertionError ae) {
+            if (!testAndRunGodMode(filePath, actual)) {
+                throw ae;
+            }
+        } 
+        
         return this;
+    }
+
+    private boolean testAndRunGodMode(String filePath, String content) {        
+        
+        if (System.getProperty("godmode") != null && System.getProperty("godmode").equals("true")) {
+            assert(TestProperties.inst().isDevServer());
+            if (areTestAccountsDefaultValues()) {
+                Assumption.fail("Please change ALL the default accounts in test.properties in order to use GodMode."
+                        + "eg: change test.student1.account from alice.tmms to alice.tmms.example");
+            }
+            try {
+                String processedPageSource = processPageSourceForGodMode(content);                
+                saveCurrentPage(filePath, processedPageSource);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private String processPageSourceForGodMode(String content) {
+        Date now = new Date();
+        assertEquals(new SimpleDateFormat("dd MMM yyyy, HH:mm").format(now), TimeHelper.formatTime(now));
+        return content
+                .replaceAll("<#comment[ ]*</#comment>", "<!---->")
+                .replace(Config.APP_URL, "{$app.url}")
+                .replaceAll("V[0-9]\\.[0-9]+", "V{\\$version}")
+                // photo from instructor
+                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}\\&amp;"
+                        + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}", 
+                        Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.STUDENT_EMAIL 
+                        + "={*}\\&amp;" + Const.ParamsNames.COURSE_ID + "={*}")
+                .replaceAll(Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID + "=([a-zA-Z0-9]){1,}\\&amp;"
+                        + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}", 
+                        Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID 
+                        + "={*}\\&amp;" + Const.ParamsNames.STUDENT_EMAIL + "={*}")
+                .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9]){1,}\\&amp;", Const.ParamsNames.REGKEY + "={*}\\&amp;")
+                .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){1,}\\%", Const.ParamsNames.REGKEY + "%3D{*}\\%")
+                //responseid
+                .replaceAll("([a-zA-Z0-9-_]){30,}%"
+                        + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+%"
+                        + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+", "{*}")
+                //questionid
+                .replaceAll("([a-zA-Z0-9-_]){62,}","{*}")
+                //commentid
+                .replaceAll("\\\"([0-9]){16}\\\"", "\\\"{*}\\\"")
+                //commentid in url
+                .replaceAll("#[0-9]{16}", "#{*}")
+                // the test accounts/ email
+                .replace(TestProperties.inst().TEST_STUDENT1_ACCOUNT, "{$test.student1}")
+                .replace(TestProperties.inst().TEST_STUDENT2_ACCOUNT, "{$test.student2}")
+                .replace(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT, "{$test.instructor}")
+                .replace(TestProperties.inst().TEST_ADMIN_ACCOUNT, "{$test.admin}")
+                .replace(TestProperties.inst().TEST_UNREG_ACCOUNT, "{$test.unreg}")
+                .replace(Config.SUPPORT_EMAIL, "{$support.email}")
+                // today's date
+                .replace(TimeHelper.formatDate(now), "{*}")
+                // now (used in opening time/closing time Grace period)
+                .replaceAll(new SimpleDateFormat("dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}", "{*}");
+    }
+
+    private boolean areTestAccountsDefaultValues() {
+        return "alice.tmms".contains(TestProperties.inst().TEST_STUDENT1_ACCOUNT)
+                || "charlie.tmms".contains(TestProperties.inst().TEST_STUDENT2_ACCOUNT)  
+                || "teammates.unreg".contains(TestProperties.inst().TEST_UNREG_ACCOUNT) 
+                || "teammates.coord".contains(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT)
+                || "yourGoogleId".contains(TestProperties.inst().TEST_ADMIN_ACCOUNT);
     }
     
     /**
@@ -557,14 +815,40 @@ public abstract class AppPage {
         if(filePath.startsWith("/")){
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
+        String actual = element.getAttribute("outerHTML");
+        
         try {
-            String actual = element.getAttribute("outerHTML");
-            String expected = FileHelper.readFile(filePath);
+            String expected = extractHtmlPartFromFile(by, filePath);
             HtmlHelper.assertSameHtmlPart(actual, expected);            
+        } catch(AssertionError ae) { 
+            if(!testAndRunGodMode(filePath, actual)) {
+                throw ae;
+            }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            if(!testAndRunGodMode(filePath, actual)) {
+                throw new RuntimeException(e);
+            }
+            
         }
         return this;
+    }
+
+    private String extractHtmlPartFromFile(By by, String filePath)
+            throws SAXException, IOException {
+        String byId = by.toString().split(":")[1].trim();
+        
+        DOMParser parser = new DOMParser();
+        parser.parse(new InputSource(new BufferedReader(new FileReader(filePath))));
+        org.w3c.dom.Document htmlDoc = parser.getDocument();
+        org.w3c.dom.Element expectedElement = htmlDoc.getElementById(byId);
+        StringBuilder expectedHtml = new StringBuilder();
+        HtmlHelper.convertToStandardHtmlRecursively(expectedElement, "", expectedHtml, true);
+        
+        return expectedHtml.toString().replace("%20", " ")
+                .replace("%27", "'")
+                .replace("<#document", "")
+                .replace("   <html   </html>", "")
+                .replace("</#document>", "");
     }
     
     /**
@@ -591,9 +875,13 @@ public abstract class AppPage {
      * folder is assumed to be {@link Const.TEST_PAGES_FOLDER}. 
      * @return The page (for chaining method calls).
      */
-    public AppPage verifyHtmlAjax(String filePath) {
+    public AppPage verifyHtmlAjax(String filePath) throws Exception {
         int maxRetryCount = 5;
         int waitDuration = 1000;
+        
+        //Wait for loader gif loader to disappear.
+        waitForElementToDisappear(By.cssSelector("img[src='/images/ajax-loader.gif']"));
+        waitForElementToDisappear(By.cssSelector("img[src='/images/ajax-preload.gif']"));
         
         if(filePath.startsWith("/")){
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
@@ -601,27 +889,22 @@ public abstract class AppPage {
         
         String expectedString = "";
         
-        try {
-            expectedString = FileHelper.readFile(filePath);
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-        }
+        expectedString = extractHtmlPartFromFile(By.id("frameBodyWrapper"), filePath);
         
         for(int i =0; i < maxRetryCount; i++) {
-            ThreadHelper.waitFor(waitDuration);    
             try {
-                String actual = getPageSource();
+                String actual = browser.driver.findElement(By.id("frameBodyWrapper")).getAttribute("outerHTML");
                 if(HtmlHelper.areSameHtml(actual, expectedString)) {
                     break;
                 }
-                
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+            ThreadHelper.waitFor(waitDuration);   
         }
         
         
-        return verifyHtml(filePath);
+        return verifyHtmlMainContent(filePath);
     }
     
     /**
@@ -638,12 +921,18 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyStatus(String expectedStatus){
-        boolean isSameStatus = expectedStatus.equals(this.getStatus());
-        if(!isSameStatus){
-            //try one more time (to account for delays in displaying the status message).
-            ThreadHelper.waitFor(2000);
+        
+        try{
             assertEquals(expectedStatus, this.getStatus());
+        } catch(Exception e){
+            if(!expectedStatus.equals("")){
+                this.waitForElementPresence(By.id("statusMessage"), 15);
+                if(!statusMessage.isDisplayed()){
+                    this.waitForElementVisible(statusMessage);
+                }
+            }
         }
+        assertEquals(expectedStatus, this.getStatus());
         return this;
     }
 
@@ -685,7 +974,7 @@ public abstract class AppPage {
             downloadedFile.setWritable(true);
         }
         
-        HttpClient client = new DefaultHttpClient();
+        CloseableHttpClient client = HttpClientBuilder.create().build();
         
         HttpGet httpget = new HttpGet(fileToDownload.toURI());
         HttpParams httpRequestParameters = httpget.getParams();
@@ -701,6 +990,8 @@ public abstract class AppPage {
         
         String actualHash = DigestUtils.shaHex(new FileInputStream(downloadedFile));
         assertEquals(expectedHash.toLowerCase(), actualHash);
+        
+        client.close();
     }
     
     public void verifyFieldValue (String fieldId, String expectedValue) {
@@ -711,7 +1002,7 @@ public abstract class AppPage {
     @SuppressWarnings("unused")
     private void ____private_utility_methods________________________________() {
     }
-
+    
     private static <T extends AppPage> T createNewPage(Browser currentBrowser,    Class<T> typeOfPage) {
         Constructor<T> constructor;
         try {
@@ -727,6 +1018,21 @@ public abstract class AppPage {
 
     private void respondToAlertWithRetry(WebElement elementToClick, boolean isConfirm) {
         elementToClick.click();    
+        //This method might fail at times due to a Selenium bug
+        //  See https://code.google.com/p/selenium/issues/detail?id=3544
+        //  The delay below is a temporary workaround to minimize the failure rate.
+        ThreadHelper.waitFor(250);
+        Alert alert = browser.driver.switchTo().alert();
+        if(isConfirm){
+            alert.accept();
+        }else {
+            alert.dismiss();
+        }
+    }
+    
+    private void respondToAlertWithRetryForHiddenElement(String hiddenElementIdToClick, boolean isConfirm) {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("document.getElementById('"+hiddenElementIdToClick+"').click();");
         //This method might fail at times due to a Selenium bug
         //  See https://code.google.com/p/selenium/issues/detail?id=3544
         //  The delay below is a temporary workaround to minimize the failure rate.

@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -14,9 +15,10 @@ public class InstructorHomePageData extends PageData {
         super(account);
     }
     
-    public InstructorAttributes instructor;
+    public HashMap<String, InstructorAttributes> instructors;
     public List<CourseSummaryBundle> courses;
     public String sortCriteria;
+    public HashMap<String, Integer> numberOfPendingComments;
     public static final int MAX_CLOSED_SESSION_STATS = 3;
     
     public String getInstructorEvaluationLinkForCourse(String courseID) {

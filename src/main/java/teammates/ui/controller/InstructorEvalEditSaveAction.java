@@ -22,7 +22,7 @@ public class InstructorEvalEditSaveAction extends Action {
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getEvaluation(courseId, evalName));
+                logic.getEvaluation(courseId, evalName), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         InstructorEvalEditPageData data = new InstructorEvalEditPageData(account);
         

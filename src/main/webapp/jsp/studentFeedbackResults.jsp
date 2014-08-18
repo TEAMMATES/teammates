@@ -5,6 +5,8 @@
 <%@ page import="java.util.ListIterator"%>
 <%@ page import="teammates.common.util.Assumption"%>
 <%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.util.Url"%>
+<%@ page import="teammates.common.datatransfer.AccountAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
@@ -57,6 +59,17 @@
             <div id="topOfPage"></div>
             <h1>Feedback Results - Student</h1>
             <br />
+            <% if (data.account.googleId == null) { 
+                String joinUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+                            .withRegistrationKey(request.getParameter(Const.ParamsNames.REGKEY))
+                            .withStudentEmail(request.getParameter(Const.ParamsNames.STUDENT_EMAIL))
+                            .withCourseId(request.getParameter(Const.ParamsNames.COURSE_ID))
+                            .toString();
+            %>
+                <div id="registerMessage" class="alert alert-info">
+                    <%=String.format(Const.StatusMessages.UNREGISTERED_STUDENT, joinUrl)%>
+                </div>
+            <% } %>
             <div class="well well-plain">
                 <div class="panel-body">
                     <div class="form-horizontal">
@@ -101,12 +114,17 @@
                         .entrySet()) {
                     qnIndx++;
                     
-                    FeedbackAbstractQuestionDetails questionDetails = questionWithResponses.getKey().getQuestionDetails();
+                    FeedbackQuestionAttributes question = questionWithResponses.getKey();
+                    FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
             %>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h4>Question <%=qnIndx%>: <%=StudentFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText)%>
-                        <%=questionDetails.getQuestionAdditionalInfoHtml(qnIndx, "")%></h4>
+                        <h4>Question <%=qnIndx%>: <span class="text-preserve-space"><%=StudentFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText)%>
+                        <%=questionDetails.getQuestionAdditionalInfoHtml(qnIndx, "")%></span></h4>
+                        <%=
+                            questionDetails.getQuestionResultStatisticsHtml(questionWithResponses
+                                    .getValue(), question, data.account, data.bundle, "student")
+                        %>
                     <%
                     	ListIterator<FeedbackResponseAttributes> itr = questionWithResponses
                     				.getValue().listIterator();
@@ -168,7 +186,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="multiline"><%=singleResponse.getResponseDetails().getAnswerHtml()%></td>
+                                <td class="multiline"><%=singleResponse.getResponseDetails().getAnswerHtml(questionDetails)%></td>
                             </tr>
                         <%
                             List<FeedbackResponseCommentAttributes> responseComments = data.bundle.responseComments.get(singleResponse.getId());

@@ -1,26 +1,26 @@
 package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
+import teammates.test.driver.AssertHelper;
 
 public class InstructorStudentListPage extends AppPage {
     
     @FindBy(id = "searchbox")
     private WebElement searchBox;
     
-    @FindBy(id = "button_search")
+    @FindBy(id = "buttonSearch")
     private WebElement searchButton;
     
     @FindBy(id = "show_email")
     private WebElement showEmailLink;
-    
-    @FindBy(id = "option_check")
-    private WebElement showMoreOptions;
     
     @FindBy(id = "displayArchivedCourses_check")
     private WebElement displayArchiveOptions;
@@ -37,7 +37,7 @@ public class InstructorStudentListPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("<h1>Instructor Students List</h1>");
+        return getPageSource().contains("<h1>Find Students</h1>");
     }
     
     public InstructorCourseEnrollPage clickEnrollStudents(String courseId) {
@@ -80,6 +80,15 @@ public class InstructorStudentListPage extends AppPage {
         return this;
     }
     
+    public InstructorStudentListPage clickShowPhoto(String courseId, String studentName) {
+        String rowId = getStudentRowId(courseId, studentName);
+        WebElement photoCell = browser.driver.findElement(By.id("studentphoto-c" + rowId));
+        WebElement photoLink = photoCell.findElement(By.tagName("a"));
+        Actions actions = new Actions(browser.driver);
+        actions.click(photoLink).build().perform();
+        return this;
+    }
+    
     public void setSearchKey(String searchKey){
         searchBox.clear();
         searchBox.sendKeys(searchKey);
@@ -89,6 +98,11 @@ public class InstructorStudentListPage extends AppPage {
     public void setLiveSearchKey(String searchKey){
         searchBox.clear();
         searchBox.sendKeys(searchKey);
+    }
+    
+    public void checkCourse(int courseIdx){
+        browser.driver.findElement(By.id("course_check-" + courseIdx)).click();
+        waitForElementToDisappear(By.cssSelector("img[src='/images/ajax-preload.gif']"));
     }
     
     public void clickSelectAll() {
@@ -103,10 +117,6 @@ public class InstructorStudentListPage extends AppPage {
         showEmailLink.click();
     }
     
-    public void clickShowMoreOptions(){
-        showMoreOptions.click();
-    }
-    
     public void clickDisplayArchiveOptions() {
         displayArchiveOptions.click();
     }
@@ -118,12 +128,22 @@ public class InstructorStudentListPage extends AppPage {
     public boolean verifyIsHidden(String elementId) {
         return !browser.driver.findElement(By.id(elementId)).isDisplayed();
     }
+
+    public void verifyProfilePhotoIsDefault(String courseId, String studentName) {
+        String rowId = getStudentRowId(courseId, studentName);
+        assertTrue(
+                browser.driver.findElement(By.id("studentphoto-c"+rowId))
+                      .findElement(By.tagName("img"))
+                      .getAttribute("src")
+                      .contains(Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH)
+                  );
+    }
     
     private int getCourseNumber(String courseId) {
         int id = 0;
-        while (isElementPresent(By.id("course-" + id))) {
+        while (isElementPresent(By.id("panelHeading-" + id))) {
             if (getElementText(
-                    By.xpath("//div[@id='course-" + id + "']//h4/strong"))
+                    By.xpath("//div[@id='panelHeading-" + id + "']//strong"))
                     .startsWith("[" + courseId + "]")) {
                 return id;
             }
@@ -132,13 +152,14 @@ public class InstructorStudentListPage extends AppPage {
         return -1;
     }
 
-    private String getStudentRowId(String courseId, String studentName) {
+    public String getStudentRowId(String courseId, String studentName) {
         int courseNumber = getCourseNumber(courseId);
         int studentCount = browser.driver.findElements(By.cssSelector("tr[id^='student-c"+courseNumber+"']"))
                 .size();
         for (int i = 0; i < studentCount; i++) {
             String studentNameInRow = getStudentNameInRow(courseNumber, i);
             if (studentNameInRow.equals(studentName)) {
+                
                 return (courseNumber+"."+i);
             }
         }
@@ -152,7 +173,7 @@ public class InstructorStudentListPage extends AppPage {
     }
     
     private WebElement getEnrollLink(int courseNumber) {
-        return browser.driver.findElement(By.id("course-" + courseNumber))
+        return browser.driver.findElement(By.id("panelHeading-" + courseNumber))
                 .findElement(By.className("course-enroll-for-test"));
     }
     
@@ -182,5 +203,16 @@ public class InstructorStudentListPage extends AppPage {
             return "";
         }
         return browser.driver.findElement(locator).getText();
+    }
+
+    public void verifyPopoverPicture(String course, String name, String srcUrl) throws Exception {
+        String rowId = getStudentRowId(course, name);
+        WebElement photo = browser.driver.findElement(By.id("studentphoto-c" + rowId))
+                                         .findElement(By.cssSelector(".profile-pic-icon-click > img"));
+        Actions action = new Actions(browser.driver);
+        action.click(photo).build().perform();
+        AssertHelper.assertContainsRegex(srcUrl, browser.driver
+                                .findElement(By.cssSelector(".popover-content > .profile-pic"))
+                                .getAttribute("src"));
     }
 }

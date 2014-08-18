@@ -1,10 +1,12 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -40,6 +42,12 @@ public class InstructorCourseAddAction extends Action {
                         .values());
         data.archivedCourses = extractArchivedCourses(data.allCourses);
         CourseDetailsBundle.sortDetailedCoursesByCourseId(data.allCourses);
+        data.instructors = new HashMap<String, InstructorAttributes>();
+        
+        for (CourseDetailsBundle courseDetails : data.allCourses) {
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseDetails.course.id, account.googleId);
+            data.instructors.put(courseDetails.course.id, instructor);
+        }
         if (isError) { // there is error in adding the course
             data.courseIdToShow = data.newCourse.id;
             data.courseNameToShow = data.newCourse.name;

@@ -33,7 +33,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorCourseStudentDetailsEditPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
     }
     
@@ -59,7 +59,7 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         .withStudentEmail(testData.students.get("unregisteredStudent").email);
         
         editPage = loginAdminToPage(browser, editPageUrl, InstructorCourseStudentDetailsEditPage.class);
-        editPage.verifyHtml("/InstructorCourseStudentEditUnregisteredPage.html");
+        editPage.verifyHtmlMainContent("/InstructorCourseStudentEditUnregisteredPage.html");
         
         ______TS("content: registered student");
         
@@ -69,29 +69,35 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
             .withStudentEmail(testData.students.get("registeredStudent").email);
         
         editPage = loginAdminToPage(browser, editPageUrl, InstructorCourseStudentDetailsEditPage.class);
-        editPage.verifyHtml("/InstructorCourseStudentEditPage.html");
+        editPage.verifyHtmlMainContent("/InstructorCourseStudentEditPage.html");
     }
     
     public void testInputValidation() {
         
         ______TS("input validation");
         
-        editPage.submitUnsuccessfully(null, "", null, null)
-            .verifyStatus(Const.StatusMessages.FIELDS_EMPTY);
+        String teamNameFieldName = "a team name";
+        String personNameFieldName = "a person name";
         
-        String invalidStudentName = StringHelper.generateStringOfLength(FieldValidator.COURSE_STUDENTNAME_MAX_LENGTH + 1);
+        editPage.submitUnsuccessfully(null, "", null, null)
+            .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
+                    "", teamNameFieldName, FieldValidator.REASON_EMPTY, teamNameFieldName, FieldValidator.TEAM_NAME_MAX_LENGTH));
+        
+        String invalidStudentName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
         String newTeamName = "New teamname";
         editPage.submitUnsuccessfully(invalidStudentName, newTeamName, null, null)
-            .verifyStatus(Const.StatusMessages.COURSE_STUDENTNAME_INVALID);
+            .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
+                    invalidStudentName, personNameFieldName, FieldValidator.REASON_TOO_LONG, personNameFieldName, FieldValidator.PERSON_NAME_MAX_LENGTH));
         
         String newStudentName = "New guy";
         String invalidTeamName = StringHelper.generateStringOfLength(FieldValidator.COURSE_TEAMNAME_MAX_LENGTH + 1);
         editPage.submitUnsuccessfully(newStudentName, invalidTeamName, null, null)
-            .verifyStatus(Const.StatusMessages.COURSE_TEAMNAME_INVALID);
+            .verifyStatus(String.format(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
+                    invalidTeamName, teamNameFieldName, FieldValidator.REASON_TOO_LONG, teamNameFieldName, FieldValidator.TEAM_NAME_MAX_LENGTH));
         
         String invalidEmail = "invalidemail";
         editPage.submitUnsuccessfully(newStudentName, newTeamName, invalidEmail, null)
-            .verifyStatus(Const.StatusMessages.COURSE_EMAIL_INVALID);
+            .verifyStatus(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, invalidEmail, FieldValidator.REASON_INCORRECT_FORMAT));
     }
 
 

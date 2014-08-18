@@ -21,6 +21,13 @@
             "email":"SFSubmitUiT.instr3@gmail.com",
             "institute":"National University of Singapore"
         },
+        "SFResultsUiT.alice.b":{
+            "googleId":"SFSubmitUiT.alice.b",
+            "name":"Alice B.",
+            "isInstructor":false,
+            "email":"SFSubmitUiT.alice.b@gmail.com",
+            "institute":"National University of Singapore"
+        },
         "SFSubmitUiT.charlie.d":{
             "googleId":"SFSubmitUiT.charlie.d",
             "name":"Charlie D.",
@@ -55,19 +62,31 @@
             "googleId":"SFSubmitUiT.instr",
             "courseId":"SFSubmitUiT.CS2104",
             "name":"Teammates Test",
-            "email":"SFSubmitUiT.instr@gmail.com"
+            "email":"SFSubmitUiT.instr@gmail.com",
+            "role":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "SFSubmitUiT.instr2":{
             "googleId":"SFSubmitUiT.instr2",
             "courseId":"SFSubmitUiT.CS2104",
             "name":"Teammates Test2",
-            "email":"SFSubmitUiT.instr2@gmail.com"
+            "email":"SFSubmitUiT.instr2@gmail.com",
+            "role":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "SFSubmitUiT.instr3":{
             "googleId":"SFSubmitUiT.instr3",
             "courseId":"SFSubmitUiT.CS2104",
             "name":"Teammates Test3",
-            "email":"SFSubmitUiT.instr3@gmail.com"
+            "email":"SFSubmitUiT.instr3@gmail.com",
+            "role":"Co-owner",
+            "isDisplayedToStudents":false,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         }
     },
     "students":{
@@ -96,7 +115,7 @@
             "team":"Team 2"
         },
         "DropOut":{
-            "googleId":"drop.out",
+            "googleId":"",
             "email":"drop.out@gmail.com",
             "course":"SFSubmitUiT.CS2104",
             "name":"Drop out",
@@ -642,6 +661,82 @@
                 "RECEIVER",
                 "OWN_TEAM_MEMBERS",
                 "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
+        "qn19InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"SFSubmitUiT.CS2104",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"How important are the following factors to you? Give points accordingly.\",
+                          \"questionType\":\"CONSTSUM\", \"numOfConstSumOptions\" : 2,
+                          \"constSumOptions\" : [\"Grades\", \"Fun\"],\"distributeToRecipients\" : false,
+                           \"pointsPerOption\" : false, \"points\" : 100}"
+            },
+            "questionNumber":"19",
+            "questionType":"CONSTSUM",
+            "giverType":"STUDENTS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
+        "qn20InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"SFSubmitUiT.CS2104",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"Split points among the teams\",
+                          \"questionType\":\"CONSTSUM\", \"numOfConstSumOptions\" : 0,
+                          \"constSumOptions\" : [],\"distributeToRecipients\" : true,
+                           \"pointsPerOption\" : true, \"points\" : 100}"
+            },
+            "questionNumber":"20",
+            "questionType":"CONSTSUM",
+            "giverType":"TEAMS",
+            "recipientType":"TEAMS",
+            "numberOfEntitiesToGiveFeedbackTo":3,
+            "showResponsesTo":[
+                "RECEIVER",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
+        "qn21InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"SFSubmitUiT.CS2104",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "questionMetaData":{
+                "value":"{\"questionType\":\"CONTRIB\", \"questionText\":\"Rate the contribution of your team members and yourself.\"}"
+            },
+            "questionNumber":"21",
+            "questionType":"CONTRIB",
+            "giverType":"STUDENTS",
+            "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
                 "INSTRUCTORS"
             ],
             "showGiverNameTo":[

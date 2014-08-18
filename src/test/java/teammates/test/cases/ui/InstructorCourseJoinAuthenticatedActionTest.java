@@ -21,33 +21,18 @@ import teammates.ui.controller.InstructorCourseJoinAuthenticatedAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest {
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED;
-    }
-
-    @BeforeMethod
-    public void methodSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.REGKEY, invalidEncryptedKey
-        };
-        
-        verifyOnlyLoggedInUsersCanAccess(submissionParams);
     }
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        //TODO: find a way to test status message from session
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         InstructorsDb instrDb = new InstructorsDb();
         instructor = instrDb.getInstructorForEmail(instructor.courseId, instructor.email);
@@ -64,14 +49,15 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         RedirectResult redirectResult = (RedirectResult) joinAction.executeAndPostProcess();
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-                + "?error=true&user=" + instructor.googleId,
+                + "?error=true&user=idOfInstructor1OfCourse1" 
+                + "&key=" + invalidEncryptedKey,
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals("You have used an invalid join link: " + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN 
-            + "?regkey=" + invalidEncryptedKey, redirectResult.getStatusMessage());
+            + "?key=" + invalidEncryptedKey, redirectResult.getStatusMessage());
 
         String expectedLogSegment = "Servlet Action Failure : You have used an invalid join link: " + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN 
-                                    + "?regkey=" + invalidEncryptedKey + "<br/><br/>Action Instructor Joins Course<br/>"
+                                    + "?key=" + invalidEncryptedKey + "<br/><br/>Action Instructor Joins Course<br/>"
                                     + "Google ID: idOfInstructor1OfCourse1<br/>Key : invalidKey";
         AssertHelper.assertContains(expectedLogSegment, joinAction.getLogMessage());
         
@@ -86,7 +72,8 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                 + "?persistencecourse=" + instructor.courseId
-                + "&error=true&user=" + instructor.googleId,
+                + "&error=true&user=idOfInstructor1OfCourse1"
+                + "&" + Const.ParamsNames.REGKEY + "=" + StringHelper.encrypt(instructor.key),
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals(instructor.googleId + " has already joined this course", redirectResult.getStatusMessage());
@@ -110,7 +97,8 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                 + "?persistencecourse=" + instructor2.courseId
-                + "&error=true&user=" + instructor.googleId,
+                + "&error=true&user=idOfInstructor1OfCourse1"
+                + "&" + Const.ParamsNames.REGKEY + "=" + StringHelper.encrypt(instructor2.key),
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         AssertHelper.assertContains("The join link used belongs to a different user", redirectResult.getStatusMessage());
@@ -120,8 +108,9 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         
         ______TS("Typical case: authenticate for new instructor with corresponding key");
         
-        instructor = new InstructorAttributes("ICJAAT.instr", instructor.courseId, "New Instructor", "ICJAAT.instr@email.com");
-        InstructorsLogic.inst().addInstructor(instructor.courseId, instructor.name, instructor.email);
+        instructor = new InstructorAttributes(null, instructor.courseId, "New Instructor", "ICJAAT.instr@email.com");
+        InstructorsLogic.inst().createInstructor(instructor);
+        instructor.googleId = "ICJAAT.instr";
         
         AccountAttributes newInstructorAccount = new AccountAttributes(
                 instructor.googleId, instructor.name, false,
@@ -141,7 +130,8 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
                 + "?persistencecourse=idOfTypicalCourse1"
-                + "&error=false&user=ICJAAT.instr",
+                + "&error=false&user=ICJAAT.instr"
+                + "&" + Const.ParamsNames.REGKEY + "=" + StringHelper.encrypt(newInstructor.key),
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals("", redirectResult.getStatusMessage());
@@ -156,8 +146,9 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         ______TS("Failure case: the current unused key is not for this account ");
         
         String currentLoginId = instructor.googleId;
-        instructor = new InstructorAttributes("ICJAAT2.instr", instructor.courseId, "New Instructor 2", "ICJAAT2.instr@email.com");
-        InstructorsLogic.inst().addInstructor(instructor.courseId, instructor.name, instructor.email);
+        instructor = new InstructorAttributes(null, instructor.courseId, "New Instructor 2", "ICJAAT2.instr@email.com");
+        InstructorsLogic.inst().createInstructor(instructor);
+        instructor.googleId = "ICJAAT2.instr";
         
         newInstructorAccount = new AccountAttributes(
                 instructor.googleId, instructor.name, false,
@@ -174,8 +165,9 @@ public class InstructorCourseJoinAuthenticatedActionTest extends BaseActionTest 
         redirectResult = (RedirectResult) joinAction.executeAndPostProcess();
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE
-                + "?persistencecourse"
-                + "=idOfTypicalCourse1&error=true&user=ICJAAT.instr",
+                + "?persistencecourse=idOfTypicalCourse1"
+                + "&error=true&user=ICJAAT.instr"
+                + "&" + Const.ParamsNames.REGKEY + "=" + StringHelper.encrypt(newInstructor.key),
                 redirectResult.getDestinationWithParams());
         assertTrue(redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER, currentLoginId), 

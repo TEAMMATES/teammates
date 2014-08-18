@@ -28,6 +28,7 @@ public class EvaluationsEmailTaskQueueTest extends
     
     private static final Logic logic = new Logic();
     private static final EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
+    private static final DataBundle dataBundle = getTypicalDataBundle();
 
     @SuppressWarnings("serial")
     public static class EvaluationsEmailTaskQueueCallback extends BaseTaskQueueCallback {
@@ -53,13 +54,8 @@ public class EvaluationsEmailTaskQueueTest extends
         gaeSimulation.tearDown();
         gaeSimulation.setupWithTaskQueueCallbackClass(EvaluationsEmailTaskQueueCallback.class);
         gaeSimulation.resetDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         turnLoggingUp(EvaluationsLogic.class);
-    }
-    
-    @Test
-    public void testAll() throws Exception {
-        testEvaluationsPublishEmail();
-        testEvaluationsRemindEmail();
     }
     
     @AfterClass
@@ -68,10 +64,9 @@ public class EvaluationsEmailTaskQueueTest extends
         turnLoggingDown(EvaluationsLogic.class);
     }
     
-    private void testEvaluationsPublishEmail() throws Exception{
-        restoreTypicalDataInDatastore();
+    @Test
+    public void testEvaluationsPublishEmail() throws Exception{
         EvaluationsEmailTaskQueueCallback.resetTaskCount();
-        DataBundle dataBundle = getTypicalDataBundle();
 
         ______TS("Publish evaluation and send email");
         
@@ -110,10 +105,10 @@ public class EvaluationsEmailTaskQueueTest extends
         
     }
     
-    private void testEvaluationsRemindEmail() throws Exception {
-        restoreTypicalDataInDatastore();
+    @Test
+    public void testEvaluationsRemindEmail() throws Exception {
+        
         EvaluationsEmailTaskQueueCallback.resetTaskCount();
-        DataBundle dataBundle = getTypicalDataBundle();
 
         ______TS("Send evaluation reminder email");
         

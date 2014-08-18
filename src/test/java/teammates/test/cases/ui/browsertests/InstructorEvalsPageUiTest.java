@@ -22,6 +22,7 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorEvalResultsPage;
 import teammates.test.pageobjects.InstructorEvalsPage;
+import teammates.test.pageobjects.InstructorFeedbacksPage;
 import teammates.test.pageobjects.StudentEvalEditPage;
 
 import com.google.appengine.api.datastore.Text;
@@ -41,7 +42,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
     public static void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorEvalsPageUiTest.json");
-        restoreTestDataOnServer(testData);
+        removeAndRestoreTestDataOnServer(testData);
         
         int limitStringLengthForDatastore = 500;
         
@@ -56,11 +57,12 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
         newEval.published = false;
         newEval.activated = false;
         newEval.timeZone = 5.75;
-        browser = BrowserPool.getBrowser();
+        browser = BrowserPool.getBrowser(true);
         
     }
     
-    @Test
+    //@Test
+    //Test deprecated along with creation of evaluations.
     public void allTests() throws Exception{
         testContent();
         
@@ -80,18 +82,20 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
         
         ______TS("no courses");
         
-        evalsPage = getEvalsPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
-        evalsPage.verifyHtml("/instructorEvalEmptyAll.html");
+        InstructorFeedbacksPage feedbacksPage;
+        
+        feedbacksPage = getEvalsPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
+        feedbacksPage.verifyHtmlMainContent("/instructorEvalEmptyAll.html");
         
         ______TS("no evaluations");
         
-        evalsPage = getEvalsPageForInstructor(testData.accounts.get("instructorWithoutEvals").googleId);
-        evalsPage.verifyHtml("/instructorEvalEmptyEval.html");
+        feedbacksPage = getEvalsPageForInstructor(testData.accounts.get("instructorWithoutEvals").googleId);
+        feedbacksPage.verifyHtmlMainContent("/instructorEvalEmptyEval.html");
 
         ______TS("typical view, sort by deadline (default)");
         
-        evalsPage = getEvalsPageForInstructor(testData.accounts.get("instructorWithEvals").googleId);
-        evalsPage.verifyHtmlAjax("/instructorEvalByDeadline.html");
+        feedbacksPage = getEvalsPageForInstructor(testData.accounts.get("instructorWithEvals").googleId);
+        feedbacksPage.verifyHtmlAjax("/instructorEvalByDeadline.html");
 
         ______TS("sort by name");
         
@@ -138,7 +142,7 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
         String evalName = "First Eval";
         
         StudentEvalEditPage previewPage = evalsPage.loadPreviewLink(courseId, evalName);
-        previewPage.verifyHtml("/studentEvalEditPagePreview.html");
+        previewPage.verifyHtmlMainContent("/studentEvalEditPagePreview.html");
         previewPage.closeCurrentWindowAndSwitchToParentWindow();
     }
     
@@ -301,9 +305,9 @@ public class InstructorEvalsPageUiTest extends BaseUiTestCase {
         BrowserPool.release(browser);
     }
 
-    private InstructorEvalsPage getEvalsPageForInstructor(String instructorId) {
+    private InstructorFeedbacksPage getEvalsPageForInstructor(String instructorId) {
         Url evalPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_EVALS_PAGE).withUserId(instructorId);
-        return loginAdminToPage(browser, evalPageLink, InstructorEvalsPage.class);
+        return loginAdminToPage(browser, evalPageLink, InstructorFeedbacksPage.class);
     }
 
 }

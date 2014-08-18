@@ -3,7 +3,6 @@ package teammates.test.cases.ui;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -20,28 +19,13 @@ import teammates.ui.controller.RedirectResult;
 
 public class InstructorCourseRemindActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_REMIND;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
     
     @Test
@@ -98,12 +82,12 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
 
         ______TS("Masquerade mode: Send emails to all unregistered student to remind registering for the course");
         gaeSimulation.loginAsAdmin(adminUserId);
-        StudentAttributes unregisteredStudent1 = new StudentAttributes("Team Unregistered", "Unregistered student 1",
+        StudentAttributes unregisteredStudent1 = new StudentAttributes("Section 1", "Team Unregistered", "Unregistered student 1",
                                                                            "unregistered1@email.com", "", courseId);
-        StudentAttributes unregisteredStudent2 = new StudentAttributes("Team Unregistered", "Unregistered student 2",
+        StudentAttributes unregisteredStudent2 = new StudentAttributes("Section 1", "Team Unregistered", "Unregistered student 2",
                                                                            "unregistered2@email.com", "", courseId);
-        StudentsLogic.inst().createStudentCascade(unregisteredStudent1);
-        StudentsLogic.inst().createStudentCascade(unregisteredStudent2);
+        StudentsLogic.inst().createStudentCascadeWithoutDocument(unregisteredStudent1);
+        StudentsLogic.inst().createStudentCascadeWithoutDocument(unregisteredStudent2);
         
         /* Reassign the attributes to retrieve their keys */
         unregisteredStudent1 = StudentsLogic.inst().getStudentForEmail(courseId, unregisteredStudent1.email);
@@ -123,14 +107,16 @@ public class InstructorCourseRemindActionTest extends BaseActionTest {
                 + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br/>"
                 + unregisteredStudent1.name + "<span class=\"bold\"> (" 
                 + unregisteredStudent1.email + ")" + "</span>.<br/>"
-                + StringHelper.encrypt(unregisteredStudent1.key) + "<br/>"
+                + StringHelper.encrypt(unregisteredStudent1.key) 
+                + "&studentemail=unregistered1%40email.com&courseid=idOfTypicalCourse1<br/>"
                 + unregisteredStudent2.name + "<span class=\"bold\"> (" 
                 + unregisteredStudent2.email + ")" + "</span>.<br/>"
-                + StringHelper.encrypt(unregisteredStudent2.key) + "<br/>";
+                + StringHelper.encrypt(unregisteredStudent2.key) 
+                + "&studentemail=unregistered2%40email.com&courseid=idOfTypicalCourse1<br/>";
         AssertHelper.assertContains(expectedLogSegment, remindAction.getLogMessage());
         
-        StudentsLogic.inst().deleteStudentCascade(courseId, unregisteredStudent1.email);
-        StudentsLogic.inst().deleteStudentCascade(courseId, unregisteredStudent2.email);
+        StudentsLogic.inst().deleteStudentCascadeWithoutDocument(courseId, unregisteredStudent1.email);
+        StudentsLogic.inst().deleteStudentCascadeWithoutDocument(courseId, unregisteredStudent2.email);
 
         ______TS("Failure case: Invalid email parameter");
 

@@ -15,28 +15,13 @@ import teammates.ui.controller.ShowPageResult;
 
 public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, dataBundle.instructors.get("instructor1OfCourse1").courseId
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
     
     @Test
@@ -59,7 +44,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         assertEquals("", pageResult.getStatusMessage());
         
         InstructorCourseDetailsPageData pageData = (InstructorCourseDetailsPageData)pageResult.data;
-        assertEquals(3, pageData.instructors.size());
+        assertEquals(4, pageData.instructors.size());
 
         assertEquals("idOfTypicalCourse1", pageData.courseDetails.course.id);
         assertEquals("Typical Course 1 with 2 Evals", pageData.courseDetails.course.name);

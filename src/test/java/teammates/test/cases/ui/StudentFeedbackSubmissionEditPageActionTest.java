@@ -22,70 +22,17 @@ import teammates.ui.controller.StudentFeedbackSubmissionEditPageAction;
 
 public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-
-    /*
-     * This parent's method is overridden to check the returned result for
-     * verification purpose because only redirect result will be returned
-     * without any exception. StudentCourseDetailsPageAction has the same
-     * issue,check with this file for detailed reason
-     */
-
-    @Override
-    protected void verifyCannotAccess(String... params) throws Exception {
-        try {
-            Action c = gaeSimulation.getActionObject(uri, params);
-
-            ActionResult result = c.executeAndPostProcess();
-
-            String classNameOfRedirectResult = RedirectResult.class.getName();
-            assertEquals(classNameOfRedirectResult, result.getClass().getName());
-
-        } catch (Exception e) {
-            ignoreExpectedException();
-        }
-
-    }
-
-    @Test
-    public void testAccessControl() throws Exception {
-
-        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
-                .get("session1InCourse1");
-
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.feedbackSessionName
-        };
-
-        verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
-        verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
-        verifyAccessibleForInstructorsOfOtherCourses(submissionParams);
-        verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
-        verifyOnlyLoggedInUsersCanAccess(submissionParams);
-        verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);
-        verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
-        verifyUnaccessibleForUnregisteredUsers(submissionParams);
-        verifyUnaccessibleWithoutLogin(submissionParams);
-
     }
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        //TODO: find a way to test status message from session
         StudentAttributes student1InCourse1 = dataBundle.students
                 .get("student1InCourse1");
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
@@ -138,15 +85,14 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
 
         ______TS("typical success case");
 
-        restoreTypicalDataInDatastore();
+        		removeAndRestoreTypicalDataInDatastore();
 
         session1InCourse1 = dataBundle.feedbackSessions
                 .get("session1InCourse1");
 
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                session1InCourse1.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.feedbackSessionName,
                 Const.ParamsNames.USER_ID, student1InCourse1.googleId
         };
 
@@ -181,9 +127,9 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
 
         student1InCourse1.googleId = null;
-        new StudentsDb().updateStudent(student1InCourse1.course,
+        new StudentsDb().updateStudentWithoutDocument(student1InCourse1.course,
                 student1InCourse1.email,
-                student1InCourse1.name, student1InCourse1.team,
+                student1InCourse1.name, student1InCourse1.team, student1InCourse1.section,
                 student1InCourse1.email, student1InCourse1.googleId,
                 student1InCourse1.comments);
 

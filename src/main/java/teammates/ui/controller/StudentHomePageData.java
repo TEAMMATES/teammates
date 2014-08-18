@@ -164,7 +164,7 @@ public class StudentHomePageData extends PageData {
                             eval.name) + "\" "
                     + "data-toggle=\"tooltip\" data-placement=\"top\""
                     + "title=\"" + Const.Tooltips.EVALUATION_SUBMIT + "\">"
-                    + "Submit</a>";
+                    + "Start Submission</a>";
         }
         
         
@@ -206,10 +206,9 @@ public class StudentHomePageData extends PageData {
      * @return The list of available actions for a specific feedback session.
      */
     public String getStudentFeedbackSessionActions(FeedbackSessionAttributes fs, int idx) {
+        String keyOfMap = fs.courseId+"%"+fs.feedbackSessionName;
+        boolean hasSubmitted = sessionSubmissionStatusMap.get(keyOfMap).booleanValue();
         
-        Boolean hasSubmitted = sessionSubmissionStatusMap.get(fs.courseId+"%"+fs.feedbackSessionName);
-        
-        // @formatter:off
         String result = "<a class=\"btn btn-default btn-xs btn-tm-actions" + (fs.isPublished() ? "\"" : DISABLED) 
                 + "href=\"" + getStudentFeedbackResultsLink(fs.courseId, fs.feedbackSessionName)
                 + "\" " + "name=\"viewFeedbackResults"
@@ -230,16 +229,23 @@ public class StudentHomePageData extends PageData {
                     + "role=\"button\">"
                     + (fs.isOpened() ? "Edit" : "View") + " Submission</a>";
         } else {
+            String title = "";
+            String linkText = "";
+            if (!fs.isClosed()) {
+                title = fs.isWaitingToOpen() ? Const.Tooltips.FEEDBACK_SESSION_AWAITING : Const.Tooltips.FEEDBACK_SESSION_SUBMIT;
+                linkText = "Start Submission";
+            } else {
+                title = Const.Tooltips.FEEDBACK_SESSION_VIEW_SUBMITTED_RESPONSE;
+                linkText = (fs.isOpened() ? "Edit" : "View") + " Submission";
+            }
             result += "<a class=\"btn btn-default btn-xs btn-tm-actions" + (fs.isVisible() ? "\"" : DISABLED)
                     + "id=\"submitFeedback" + idx + "\" " + "href=\"" 
                     + getStudentFeedbackResponseEditLink(fs.courseId,
                         fs.feedbackSessionName) + "\" "
                     + "data-toggle=\"tooltip\" data-placement=\"top\""
-                    + "title=\"" + (fs.isWaitingToOpen() ? Const.Tooltips.FEEDBACK_SESSION_AWAITING :
-                        Const.Tooltips.FEEDBACK_SESSION_SUBMIT) + "\""
-                    + "role=\"button\">Submit</a>";    
+                    + "title=\"" + title + "\""
+                    + "role=\"button\">" + linkText + "</a>";    
         }
-        // @formatter:off
         
         return result;
     }

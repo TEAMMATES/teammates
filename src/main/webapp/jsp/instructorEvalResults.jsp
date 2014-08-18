@@ -217,17 +217,29 @@
                     <td><%=InstructorEvalResultsPageData.getPointsAsColorizedHtml(studentResult.summary.perceivedToInstructor)%></td>
                     <td><%=InstructorEvalResultsPageData.getPointsDiffAsHtml(studentResult)%></td>
                     <td><%=InstructorEvalResultsPageData.getNormalizedPointsListColorizedDescending(studentResult.incoming)%></td>
-                    <td class="align-center no-print"><a class="btn btn-default btn-xs"
-                        name="viewEvaluationResults<%=idx%>"
-                        id="viewEvaluationResults<%=idx%>" target="_blank"
+                    <td class="align-center no-print">
+                        <a class="btn btn-default btn-xs" name="viewEvaluationResults<%=idx%>" id="viewEvaluationResults<%=idx%>" target="_blank"
                         href="<%=data.getInstructorEvaluationSubmissionViewLink(data.evaluationResults.evaluation.courseId, data.evaluationResults.evaluation.name, student.email)%>"
                         data-toggle="tooltip" data-placement="top" data-container="body"  
-                        title="<%=Const.Tooltips.EVALUATION_SUBMISSION_VIEW_REVIEWER%>"> View</a> <a class="btn btn-default btn-xs" name="editEvaluationResults<%=idx%>"
-                        id="editEvaluationResults<%=idx%>" target="_blank"
+                        title="<%=Const.Tooltips.EVALUATION_SUBMISSION_VIEW_REVIEWER%>"
+                        <% if (!data.instructor.isAllowedForPrivilege(student.section, Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES
+                                    +data.evaluationResults.evaluation.name,
+                        		Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) { %>
+                                disabled="disabled"
+                        <% } %>
+                        > View</a>
+                        <a class="btn btn-default btn-xs" name="editEvaluationResults<%=idx%>" id="editEvaluationResults<%=idx%>" target="_blank"
                         href="<%=data.getInstructorEvaluationSubmissionEditLink(data.evaluationResults.evaluation.courseId, data.evaluationResults.evaluation.name, student.email)%>"
                         data-toggle="tooltip" data-placement="top" data-container="body"  
                         title="<%=Const.Tooltips.EVALUATION_SUBMISSION_INSTRUCTOR_EDIT%>"
-                        onclick="return openChildWindow(this.href)">Edit</a></td>
+                        onclick="return openChildWindow(this.href)"
+                        <% if (!data.instructor.isAllowedForPrivilege(student.section, Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES
+                                    +data.evaluationResults.evaluation.name,
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)) { %>
+                               disabled="disabled"
+                        <% } %>
+                        > Edit</a>
+                    </td>
                 </tr>
                 <%
                     idx++;
@@ -300,11 +312,14 @@
                                  %> 
                                 <div class="col-md-1">
                                     <div class="pull-right">
-                                <a target="_blank" class="button btn-primary btn-xs"
-                                href="<%=data.getInstructorEvaluationSubmissionEditLink(student.course, data.evaluationResults.evaluation.name, student.email)%>"
-                                onclick="return openChildWindow(this.href)"><span class="glyphicon glyphicon-pencil"></span> Edit</a> 
-                                 </div>
-                            </div>
+                                    <% if (data.instructor.isAllowedForPrivilege(student.section, data.evaluationResults.evaluation.name,
+                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)) { %>
+                                           <a target="_blank" class="button btn-primary btn-xs"
+                                            href="<%=data.getInstructorEvaluationSubmissionEditLink(student.course, data.evaluationResults.evaluation.name, student.email)%>"
+                                            onclick="return openChildWindow(this.href)"><span class="glyphicon glyphicon-pencil"></span> Edit</a> 
+                                    <% } %>
+                                    </div>
+                                </div>
                                 <%
                                   }
                                 %>

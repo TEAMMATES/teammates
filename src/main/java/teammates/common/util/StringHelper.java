@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
+
 /** Holds String-related helper functions
  */
 public class StringHelper {
@@ -58,6 +59,20 @@ public class StringHelper {
             result = inputString.substring(0,truncateLength-3)+"...";
         }
         return result;
+    }
+    
+    /**
+     * Substitutes the middle third of the given string with dots
+     * and returns the "obscured" string
+     * 
+     * @param inputString
+     * @return
+     */
+    public static String obscure(String inputString) {
+        Assumption.assertNotNull(inputString);
+        String frontPart = inputString.substring(0, inputString.length() / 3);
+        String endPart = inputString.substring(2 * inputString.length() / 3);
+        return frontPart + ".." + endPart;
     }
 
     public static String encrypt(String value) {
@@ -137,8 +152,81 @@ public class StringHelper {
         return utcFormatTimeZone;
     }
     
+    //From: http://stackoverflow.com/questions/5864159/count-words-in-a-string-method
+    public static int countWords(String s){
+        int wordCount = 0;
+        boolean word = false;
+        int endOfLine = s.length() - 1;
+        for (int i = 0; i < s.length(); i++) {
+            // if the char is a letter, word = true.
+            if (Character.isLetter(s.charAt(i)) && i != endOfLine) {
+                word = true;
+                // if char isn't a letter and there have been letters before,
+                // counter goes up.
+            } else if (!Character.isLetter(s.charAt(i)) && word) {
+                wordCount++;
+                word = false;
+                // last word of String; if it doesn't end with a non letter, it
+                // wouldn't count without this.
+            } else if (Character.isLetter(s.charAt(i)) && i == endOfLine) {
+                wordCount++;
+            }
+        }
+        return wordCount;
+    }
+    
+    
+    
+    /**
+     * split a full name string into first and last names
+     * 
+     * 1.If passed in empty string, both last and first name will be empty string
+     * 
+     * 2.If single word, this will be last name and first name will be an empty string
+     * 
+     * 3.If more than two words, the last word will be last name and 
+     * the rest will be first name.
+     * 
+     * Example: 
+     * 
+     * full name "Danny Tim Lin"
+     * first name: "Danny Tim"
+     * last name: "Lin"
+     * 
+     * @return split name array{0--> first name, 1--> last name}
+     */
+    
+    public static String[] splitName(String fullName){  
+        
+        if(fullName == null){
+            return null;
+        }
+        
+        String lastName = fullName.substring(fullName.lastIndexOf(" ")+1).trim();
+        String firstName = fullName.replace(lastName, "").trim();
+        
+        String[] splitNames = {firstName, lastName};       
+        return splitNames;
+    }
+    
+    
+    /**
+     * trims the string and reduces consecutive white spaces to only one space
+     * Example: " a   a  " --> "a a"
+     * @return processed string, returns null if parameter is null
+     */
+    public static String removeExtraSpace(String str){       
+        if(str == null){
+            return null;
+        }
+        
+        return str.trim().replaceAll("\\s+", " ");
+        
+    }
+    
+    
     private static String byteArrayToHexString(byte[] b) {
-        StringBuffer sb = new StringBuffer(b.length * 2);
+        StringBuilder sb = new StringBuilder(b.length * 2);
         for (int i = 0; i < b.length; i++) {
             int v = b[i] & 0xff;
             if (v < 16) {
@@ -158,5 +246,27 @@ public class StringHelper {
         }
         return b;
     }
-
+    
+    
+    
+    /**
+     * This recovers a html-sanitized string to original encoding for appropriate display in files such as csv file <br>
+     * It restores encoding for < > \ / ' &  <br>
+     * @param sanitized string 
+     * @return recovered string  
+     */
+    public static String recoverFromSanitizedText(String str){  
+        
+        if(str == null){
+            return null;
+        }
+        
+        return str.replace("&lt;", "<")
+                  .replace("&gt;", ">")
+                  .replace("&quot;", "\"")
+                  .replace("&#x2f;", "/")
+                  .replace("&#39;", "'")
+                  .replaceAll("&amp;", "&");
+    }
+    
 }

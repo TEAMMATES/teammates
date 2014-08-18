@@ -12,8 +12,10 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.EvaluationsLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.test.cases.common.EvaluationAttributesTest;
@@ -24,31 +26,17 @@ import teammates.ui.controller.StudentHomePageData;
 
 public class StudentHomePageActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_HOME_PAGE;
-    }
-
-    @BeforeMethod
-    public void methodSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        
-        String[] submissionParams = new String[]{};
-        verifyOnlyLoggedInUsersCanAccess(submissionParams);
-        
     }
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        //TODO: find a way to test status message from session
         String unregUserId = "unreg.user";
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         String studentId = student1InCourse1.googleId;
@@ -87,6 +75,8 @@ public class StudentHomePageActionTest extends BaseActionTest {
         studentWithoutCourses.email = "googleId.without.courses@email.com";
         studentWithoutCourses.institute = "NUS";
         studentWithoutCourses.isInstructor = false;
+        studentWithoutCourses.studentProfile = new StudentProfileAttributes();
+        studentWithoutCourses.studentProfile.googleId = studentWithoutCourses.googleId;
         AccountsDb accountsDb = new AccountsDb();
         accountsDb.createAccount(studentWithoutCourses);
         assertNotNull(accountsDb.getAccount(studentWithoutCourses.googleId));
@@ -155,7 +145,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         
         
         expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage|||true" +
-                "|||Student(M)|||Student in two courses|||student2InCourse1|||sudent2inCourse1@gmail.com" +
+                "|||Student(M)|||Student in two courses|||student2InCourse1|||student2InCourse1@gmail.com" +
                 "|||studentHome Page Load<br>Total courses: 2|||/page/studentHomePage" ;
         assertEquals(expectedLogMessage, a.getLogMessage());
         
@@ -219,6 +209,9 @@ public class StudentHomePageActionTest extends BaseActionTest {
                 "{idOfTypicalCourse1%evaluation2 In Course1=Submitted, " +
                 "idOfTypicalCourse1%evaluation1 In Course1=Submitted}",
                 data.evalSubmissionStatusMap.toString());
+        
+        // delete additional sessions that were created
+        CoursesLogic.inst().deleteCourseCascade("typicalCourse2");
         
     }
 

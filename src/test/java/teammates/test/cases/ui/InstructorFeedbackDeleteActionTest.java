@@ -19,43 +19,17 @@ import teammates.ui.controller.RedirectResult;
 
 public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
 
-    DataBundle dataBundle;
+    private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
+		removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_DELETE;
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws Exception {
-        dataBundle = getTypicalDataBundle();
-        restoreTypicalDataInDatastore();
-    }
-    
-    @Test
-    public void testAccessControl() throws Exception{
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-        };
-        
-        verifyUnaccessibleWithoutLogin(submissionParams);
-        verifyUnaccessibleForUnregisteredUsers(submissionParams);
-        verifyUnaccessibleForStudents(submissionParams);
-        verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
-        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
-        
-        //recreate the entity
-        FeedbackSessionsLogic.inst().createFeedbackSession(fs);
-        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);        
     }
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        //TODO: find a way to test status message from session
         FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
