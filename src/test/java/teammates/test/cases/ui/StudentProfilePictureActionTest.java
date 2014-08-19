@@ -72,8 +72,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         testActionWithBlobKeySuccessMasquerade();
     }
 
-    protected void testActionWithBlobKeySuccess() throws Exception,
-            EntityDoesNotExistException {
+    protected void testActionWithBlobKeySuccess() throws Exception {
         ______TS("using blobkey");
         gaeSimulation.loginAsStudent(_account.googleId);
         
@@ -89,8 +88,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         verifyLogMessageForActionWithBlobKey(false);
     }
 
-    protected void testActionWithBlobKeySuccessMasquerade() throws Exception,
-            EntityDoesNotExistException {
+    protected void testActionWithBlobKeySuccessMasquerade() throws Exception {
         ______TS("masquerade mode");
         gaeSimulation.loginAsAdmin("admin.user");
         
@@ -157,8 +155,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     }
 
     protected void testActionWithEmailAndCourseForUnregStudent()
-            throws InvalidParametersException, EntityAlreadyExistsException,
-            Exception, EntityDoesNotExistException {
+            throws Exception {
         
         InstructorAttributes unregCourseInstructor = createNewInstructorForUnregCourse();
         gaeSimulation.loginAsInstructor(unregCourseInstructor.googleId);
@@ -170,7 +167,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     }
 
     private InstructorAttributes createNewInstructorForUnregCourse() 
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws Exception {
         String course = _dataBundle.courses.get("unregisteredCourse").id;
         AccountsLogic.inst().createAccount(new AccountAttributes("unregInsId", "unregName", true, 
                 "unregIns@unregcourse.com", "unregInstitute"));
@@ -181,8 +178,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         return instructor;
     }
 
-    private void testActionForStudentWithEmptyGoogleId() throws Exception,
-            EntityDoesNotExistException {
+    private void testActionForStudentWithEmptyGoogleId() throws Exception {
         ______TS("no profile available (unreg student)");
         
         StudentAttributes student = _dataBundle.students.get("student2InUnregisteredCourse");
@@ -199,7 +195,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     }
 
     protected void testActionWithEmailAndCourseUnauthorisedInstructor()
-            throws Exception, EntityDoesNotExistException {
+            throws Exception {
         ______TS("failure: instructor not from same course");
         AccountAttributes unauthInstructor = _dataBundle.accounts.get("instructor1OfCourse2");
         gaeSimulation.loginAsInstructor(unauthInstructor.googleId);
@@ -240,7 +236,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         assertEquals(expectedLogMessage, _action.getLogMessage());
     }
 
-    private StudentProfilePictureAction getAction(String... params) throws Exception{
+    private StudentProfilePictureAction getAction(String... params) throws Exception {
             return (StudentProfilePictureAction) (gaeSimulation.getActionObject(uri, params));
     }
 

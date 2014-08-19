@@ -35,7 +35,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
     }
 
     private void testGenerateUploadUrlSuccessTypical(AccountAttributes student)
-            throws Exception, EntityDoesNotExistException {
+            throws Exception {
         ______TS("typical success");
         
         String[] submissionParams = new String[]{};        
@@ -49,8 +49,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
     }
 
     private void testGenerateUploadUrlSuccessMasqueradeMode(
-            AccountAttributes student) throws Exception,
-            EntityDoesNotExistException {
+            AccountAttributes student) throws Exception {
         ______TS("masquerade mode");
         
         gaeSimulation.loginAsAdmin("admin.user");

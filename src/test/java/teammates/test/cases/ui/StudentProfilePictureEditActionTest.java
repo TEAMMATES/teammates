@@ -41,7 +41,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
     }
 
     private void testActionForEmptyLeftX(AccountAttributes student)
-            throws Exception, EntityDoesNotExistException {
+            throws Exception {
         ______TS("empty parameter - leftx");
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
         String[] submissionParams = createValidParamsForProfilePictureEdit();
@@ -56,8 +56,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         assertEquals(expectedUrl, result.getDestinationWithParams());
     }
 
-    private void testActionForEmptyRightY(AccountAttributes student) throws Exception,
-            EntityDoesNotExistException {
+    private void testActionForEmptyRightY(AccountAttributes student) throws Exception {
         String[] submissionParams;
         ______TS("empty parameter - rightx");
         String expectedLogMessage = getExpectedLogMessageEmptyCoords(student);
@@ -73,8 +72,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         assertEquals(expectedUrl, result.getDestinationWithParams());
     }
 
-    private void testActionForEmptyTopY(AccountAttributes student) throws Exception,
-            EntityDoesNotExistException {
+    private void testActionForEmptyTopY(AccountAttributes student) throws Exception {
         ______TS("empty parameter - topy");
         String expectedLogMessage = getExpectedLogMessageEmptyCoords(student);
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
@@ -89,8 +87,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         assertEquals(expectedUrl, result.getDestinationWithParams());
     }
 
-    private void testActionForEmptyBottomY(AccountAttributes student) throws Exception,
-            EntityDoesNotExistException {
+    private void testActionForEmptyBottomY(AccountAttributes student) throws Exception {
         ______TS("empty parameter - bottomy");
         String expectedLogMessage = getExpectedLogMessageEmptyCoords(student);
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
@@ -105,8 +102,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         assertEquals(expectedUrl, result.getDestinationWithParams());
     }
 
-    private void testActionForEmptyHeight(AccountAttributes student) throws Exception,
-            EntityDoesNotExistException {
+    private void testActionForEmptyHeight(AccountAttributes student) throws Exception {
         ______TS("empty parameter - height");
         String expectedLogMessage = getExpectedLogMessageEmptyDimensions(student);
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
@@ -121,8 +117,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         assertEquals(expectedUrl, result.getDestinationWithParams());
     }
 
-    private void testActionForEmptyWidth(AccountAttributes student) throws Exception,
-            EntityDoesNotExistException {
+    private void testActionForEmptyWidth(AccountAttributes student) throws Exception {
         ______TS("empty parameter - width");
         String expectedLogMessage = getExpectedLogMessageEmptyDimensions(student);
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
@@ -138,7 +133,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
     }
 
     private void testActionForZeroHeight(AccountAttributes student)
-            throws Exception, EntityDoesNotExistException {
+            throws Exception {
         ______TS("zero height");
         String expectedLogMessage = getExpectedLogMessageZeroDimensions(student);
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
@@ -154,7 +149,7 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
     }
 
     private void testActionForZeroWidth(AccountAttributes student)
-            throws Exception, EntityDoesNotExistException {
+            throws Exception {
         ______TS("zero width");
         String expectedLogMessage = getExpectedLogMessageZeroDimensions(student);
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
