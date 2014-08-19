@@ -85,7 +85,8 @@
                                 <label for="comments-for-responses-check">Comments for responses</label>
                             </li>
                             <li>
-                                <input id="students-check" type="checkbox" name="<%=Const.ParamsNames.SEARCH_STUDENTS%>" value="true" <%=data.isSearchForStudents?"checked":""%>>
+                                <input id="students-check" type="checkbox" name="<%=Const.ParamsNames.SEARCH_STUDENTS%>" value="true" <%=data.isSearchForStudents || 
+                                (!data.isSearchCommentForStudents && !data.isSearchCommentForResponses)?"checked":""%>>
                                 <label for="students-check">Students</label>
                             </li>
                         </ul>
@@ -346,7 +347,7 @@
                 %>
                         <tr id="student-c<%=courseIdx%>.<%=studentIdx%>" style="display: table-row;">
                             <td id="studentphoto-c<%=courseIdx%>.<%=studentIdx%>">
-                                <div class="profile-pic-icon-click align-center" data-link="<%=student.getProfilePictureUrl()%>">
+                                <div class="profile-pic-icon-click align-center" data-link="<%=student.getPublicProfilePictureUrl()%>">
                                     <a class="student-profile-pic-view-link btn-link" >
                                        View Photo</a>
                                     <img src="" alt="No Image Given" class="hidden">

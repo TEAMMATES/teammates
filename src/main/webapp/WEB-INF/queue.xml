@@ -61,6 +61,17 @@
       <task-retry-limit>2</task-retry-limit>
   </retry-parameters>  
 </queue>
+<queue>
+  <name>feedback-remind-email-queue</name>
+   <!-- Configuration allows for 5 feedback reminder emails to be queued
+       when the bucket is not full
+  -->
+  <rate>5/s</rate>
+  <bucket-size>5</bucket-size> 
+  <retry-parameters>
+      <task-retry-limit>2</task-retry-limit>
+  </retry-parameters>
+</queue>  
 <queue>  
   <name>evaluation-remind-email-queue</name>  
   <!-- Configuration allows for 5 evaluation reminder emails to be queued
@@ -81,6 +92,10 @@
   <bucket-size>20</bucket-size> 
   <retry-parameters>
       <task-retry-limit>5</task-retry-limit>
+	  <task-age-limit>1d</task-age-limit>
+	  <min-backoff-seconds>30</min-backoff-seconds>
+      <max-backoff-seconds>300</max-backoff-seconds>
+	  <max-doublings>0</max-doublings>
   </retry-parameters>  
 </queue>   
 </queue-entries> 

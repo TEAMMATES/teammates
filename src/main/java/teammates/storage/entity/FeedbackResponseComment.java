@@ -18,8 +18,6 @@ import com.google.appengine.api.datastore.Text;
  * An association class that represents the association 
  * Giver --> [comments about] --> FeedbackResponse.
  * Currently giver is restricted only to Instructors.
- * Comments are visible to the receiver of the FeedbackResponse
- * and anybody who can see the FeedbackResponse
  */
 @PersistenceCapable
 public class FeedbackResponseComment {
@@ -60,6 +58,7 @@ public class FeedbackResponseComment {
     @Persistent
     private String receiverSection;
     
+    /** visibility settings **/
     @Persistent
     private List<FeedbackParticipantType> showCommentTo;
     

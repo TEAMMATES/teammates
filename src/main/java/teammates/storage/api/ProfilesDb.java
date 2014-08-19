@@ -35,7 +35,10 @@ public class ProfilesDb extends EntitiesDb {
     
     @Override
     protected Object getEntity(EntityAttributes attributes) {
-        return null;
+        // this method is not tested as it is not used anywhere 
+        // and is protected. This is definition is given purely 
+        // because its parent forces it to have one
+        return getStudentProfileEntity(((StudentProfileAttributes) attributes).googleId);
     }
 
     /**
@@ -48,7 +51,9 @@ public class ProfilesDb extends EntitiesDb {
      * @return
      */
     private StudentProfile getStudentProfileEntityForLegacyData (String googleId) {
-        
+        // this method is not tested fully as it is difficult to load 
+        // legacy like data into the datastore given the new validity
+        // checks that ensure that accounts always have a profile
         Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
         try {
             Account account = getPM().getObjectById(Account.class, key);

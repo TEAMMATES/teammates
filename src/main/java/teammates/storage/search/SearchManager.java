@@ -12,6 +12,7 @@ import com.google.appengine.api.search.Index;
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.IndexSpec;
 import com.google.appengine.api.search.PutException;
+import com.google.appengine.api.search.PutResponse;
 import com.google.appengine.api.search.Query;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
@@ -29,6 +30,9 @@ public class SearchManager {
     private static final Logger log = Utils.getLogger();
     private static final ThreadLocal<Map<String, Index>> PER_THREAD_INDICES_TABLE = new ThreadLocal<Map<String,Index>>();
     
+    /*
+     * Create or update the search document for the given document and index
+     */
     public static void putDocument(String indexName, Document document){
         int elapsedTime = 0;
         boolean isSuccessful = tryPutDocument(indexName, document);
@@ -51,31 +55,42 @@ public class SearchManager {
     private static boolean tryPutDocument(String indexName, Document document){
         Index index = getIndex(indexName);
         try {
-            index.putAsync(document);
+            PutResponse result = index.put(document);
+            return (result.getResults().get(0).getCode() == StatusCode.OK);
         } catch (PutException e) {
-            //if it's a transient error, it can be re-tried
-            if(StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())){
-                return false;
-            } else {
+            //if it's a transient error in the server, it can be re-tried
+            if(!StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())){
                 log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, document, indexName) 
                         + " e:\n" + e.getStackTrace());
             }
+            return false;
         }
-        return true;
     }
     
+    /*
+     * Get document for index and the documentId
+     */
     public static Document getDocument(String indexName, String documentId){
         return getIndex(indexName).get(documentId);
     }
     
+    /*
+     * Search document by query
+     */
     public static Results<ScoredDocument> searchDocuments(String indexName, Query query){
         return getIndex(indexName).search(query);
     }
     
+    /*
+     * Delete document by documentId
+     */
     public static void deleteDocument(String indexName, String documentId){
         getIndex(indexName).deleteAsync(documentId);
     }
     
+    /*
+     * Delete documents by documentIds
+     */
     public static void deleteDocuments(String indexName, String[] documentIds){
         getIndex(indexName).deleteAsync(documentIds);
     }

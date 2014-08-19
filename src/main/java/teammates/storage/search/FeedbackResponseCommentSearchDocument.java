@@ -19,6 +19,9 @@ import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
 import com.google.gson.Gson;
 
+/**
+ * The SearchDocument object that defines how we store {@link Document} for response comments
+ */
 public class FeedbackResponseCommentSearchDocument extends SearchDocument {
     
     private FeedbackResponseCommentAttributes comment;
@@ -54,6 +57,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         relatedInstructors = new ArrayList<InstructorAttributes>();
         relatedStudents = new ArrayList<StudentAttributes>();
         
+        //prepare the response giver name and recipient name
         Set<String> addedEmailSet = new HashSet<String>();
         if(relatedQuestion.giverType == FeedbackParticipantType.INSTRUCTORS
             || relatedQuestion.giverType == FeedbackParticipantType.SELF){
@@ -164,6 +168,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         
         Document doc = Document.newBuilder()
             //these are used to filter documents visible to certain instructor
+            //TODO: some of the following fields are not used anymore (refer to {@link FeedbackResponseCommentSearchQuery}), can remove them
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.COURSE_ID).setText(comment.courseId))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_EMAIL).setText(comment.giverEmail))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_EMAIL).setText(relatedResponse.giverEmail))

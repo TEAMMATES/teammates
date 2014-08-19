@@ -64,7 +64,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
          */
         
         /* Explanation: Gets a browser instance to be used for this class. */
-        browser = BrowserPool.getBrowser(true);
+        browser = BrowserPool.getBrowser();
     }
 
 

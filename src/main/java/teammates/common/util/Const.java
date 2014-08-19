@@ -1,7 +1,6 @@
 package teammates.common.util;
 
 import java.util.Arrays;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,6 +44,7 @@ public class Const {
         
         public static final String EVAL_PUBLISH_EMAIL_TASK_QUEUE = "evaluation-publish-email-queue";
         public static final String EVAL_REMIND_EMAIL_TASK_QUEUE = "evaluation-remind-email-queue";
+        public static final String FEEDBACK_REMIND_EMAIL_TASK_QUEUE = "feedback-remind-email-queue";
         public static final String SEND_EMAIL_TASK_QUEUE = "send-email-queue";
         
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
@@ -482,6 +482,7 @@ public class Const {
         //Submission parameters for Task Queue
         public static final String SUBMISSION_COURSE = "course";
         public static final String SUBMISSION_EVAL = "evaluation";
+        public static final String SUBMISSION_FEEDBACK = "feedback";
         
         public static final String ENROLLMENT_DETAILS = "enrollmentdetails";
         
@@ -672,6 +673,7 @@ public class Const {
                                     "/feedbackSubmissionAdjustmentWorker";
         public static final String EVAL_PUBLISH_EMAIL_WORKER = "/evalPublishEmailWorker";
         public static final String EVAL_REMIND_EMAIL_WORKER = "/evalRemindEmailWorker";
+        public static final String FEEDBACK_REMIND_EMAIL_WORKER = "/feedbackRemindEmailWorker";
         public static final String SEND_EMAIL_WORKER = "/sendEmailWorker";
     }
 
@@ -796,7 +798,8 @@ public class Const {
 
         public static final String TEAM_INVALID_SECTION_EDIT = "The team \"%s\" is in multiple sections. The team ID should be unique across the entire course and a team cannot be spread across multiple sections.<br>";
         public static final String SECTION_QUOTA_EXCEED = "You are trying enroll more than 100 students in section \"%s\". To avoid performance problems, please do not enroll more than 100 students in a single section.<br>";
-
+        public static final String QUOTA_PER_ENROLLMENT_EXCEED = "You are trying to enroll more than 100 students. To avoid performance problems, please enroll no more than 100 students at a time.";
+        
         public static final String COURSE_INSTRUCTOR_ADDED = "The instructor %s has been added successfully. "
                 + "An email containing how to 'join' this course will be sent to %s in a few minutes.";
         public static final String COURSE_INSTRUCTOR_EXISTS = "An instructor with the same email address already exists in the course.";
@@ -946,7 +949,10 @@ public class Const {
         public static final String STUDENT_NOT_FOUND_FOR_COURSE_DETAILS = "The student you tried to view details for does not exist.";
         public static final String STUDENT_PROFILE_PICTURE_EDIT_FAILED = "The photo that was edited did not belong to the user. "
                 + "Please upload another picture to begin editing";
-        public static final String STUDENT_NOT_JOINED_YET_FOR_RECORDS = "This student has not joined the course yet or you are not supposed to view his/her profile";
+        public static final String STUDENT_NOT_JOINED_YET_FOR_RECORDS = "Normally, we would show the student’s profile here. "
+                + "However, this student has not created a profile yet"; 
+        public static final String STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR = "Normally, we would show the student’s profile here. "
+                + "However, you do not have access to view this student's profile";
         
         public static final String UNREGISTERED_STUDENT = "You may submit feedback and view results without logging in. "
                 + "To access other features you need <a href='%s' class='link'>to login using a google account</a> "

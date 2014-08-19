@@ -25,6 +25,9 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 
+/**
+ * Handles the logic related to {@link FeedbackResponseCommentAttributes}.
+ */
 public class FeedbackResponseCommentsLogic {
     @SuppressWarnings("unused") //used by test
     private static final Logger log = Utils.getLogger();
@@ -102,7 +105,7 @@ public class FeedbackResponseCommentsLogic {
         frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, oldEmail, updatedEmail);
     }
     
-    // right now this method is only updating sections
+    // right now this method only updates comment's giverSection and receiverSection for a given response
     public void updateFeedbackResponseCommentsForResponse(String feedbackResponseId) throws InvalidParametersException, EntityDoesNotExistException{
         List<FeedbackResponseCommentAttributes> comments = getFeedbackResponseCommentForResponse(feedbackResponseId);
         FeedbackResponseAttributes response = frLogic.getFeedbackResponse(feedbackResponseId);
@@ -144,6 +147,10 @@ public class FeedbackResponseCommentsLogic {
         }
     }
     
+    /**
+     * Create or update document for the given comment
+     * @param comment
+     */
     public void putDocument(FeedbackResponseCommentAttributes comment){
         frcDb.putDocument(comment);
     }
@@ -166,10 +173,22 @@ public class FeedbackResponseCommentsLogic {
         frcDb.deleteEntity(feedbackResponseComment);    
     }
     
+    /**
+     * Remove document for the given comment
+     * @param commentToDelete
+     */
     public void deleteDocument(FeedbackResponseCommentAttributes commentToDelete){
         frcDb.deleteDocument(commentToDelete);
     }
     
+    /**
+     * Verify whether the comment's giver name is visible to certain user
+     * @param comment
+     * @param response
+     * @param userEmail
+     * @param roster
+     * @return true/false
+     */
     public boolean isNameVisibleTo(
             FeedbackResponseCommentAttributes comment,
             FeedbackResponseAttributes response,
@@ -222,6 +241,10 @@ public class FeedbackResponseCommentsLogic {
         return false;
     }
     
+    /**
+     * Verify whether the comment is visible to certain user
+     * @return true/false
+     */
     public boolean isResponseCommentVisibleForUser(String userEmail, String courseId,
             UserType.Role role, String section, StudentAttributes student,
             Set<String> studentsEmailInTeam,

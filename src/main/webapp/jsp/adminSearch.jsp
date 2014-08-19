@@ -124,7 +124,7 @@
                                     <th>Institute [Course] (Section)</th>
                                     <th>Team</th>
                                     <th>Name</th>
-                                    <th>Google ID[Email]</th>
+                                    <th>Google ID[Details]</th>
                                     <th>Comments</th>
 
 
@@ -142,15 +142,21 @@
                                 %>
 
                                 <tr id="<%=id%>" class="studentRow">
+                                
+                                
                                     <td><%=data.studentInstituteMap.get(student.getIdentificationString())%>&nbsp;[<%=student.course%>]&nbsp;(<%=student.section%>)
                                     </td>
                                     <td><%=student.team%></td>
-                                    <td><%=student.name%></td>
+                                    <td><a 
+                                        class="detailsPageLink"
+                                        href="<%=data.studentDetailsPageLinkMap.get(student.getIdentificationString())%>" target="blank">
+                                        <%=student.name%></a></td>
                                     <td><a
                                         href="<%=data.studentIdToHomePageLinkMap
                                                      .get(student.googleId)%>"
                                         target="blank"
-                                        class="homePageLink"><%=student.googleId%></a></td>
+                                        class="homePageLink"><%=student.googleId%></a>                                      
+                                        </td>
                                     <td><%=student.comments%></td>
 
                                 </tr>

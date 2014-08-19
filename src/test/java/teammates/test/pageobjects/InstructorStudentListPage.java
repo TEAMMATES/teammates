@@ -82,10 +82,10 @@ public class InstructorStudentListPage extends AppPage {
     
     public InstructorStudentListPage clickShowPhoto(String courseId, String studentName) {
         String rowId = getStudentRowId(courseId, studentName);
-        browser.driver.findElement(By.id("studentphoto-c"+rowId))
-                      .findElement(By.tagName("a")).click();
-        waitForElementVisible(browser.driver.findElement(By.id("studentphoto-c"+rowId))
-                      .findElement(By.tagName("img")));
+        WebElement photoCell = browser.driver.findElement(By.id("studentphoto-c" + rowId));
+        WebElement photoLink = photoCell.findElement(By.tagName("a"));
+        Actions actions = new Actions(browser.driver);
+        actions.click(photoLink).build().perform();
         return this;
     }
     

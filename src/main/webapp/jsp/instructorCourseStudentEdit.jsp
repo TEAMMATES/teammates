@@ -88,14 +88,6 @@
                                      value="<%=sanitizeForHtml(data.newEmail)%>">
                          </div>
                      </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label">Join Link:</label>
-                        <div class="col-sm-11">
-                            <input id="<%=Const.ParamsNames.REGKEY%>" value="<%=sanitizeForHtml(Config.APP_URL 
-                                    + Const.ActionURIs.STUDENT_COURSE_JOIN 
-                                    + "?key=" + data.regKey)%>" class="form-control" readonly="readonly">
-                        </div>
-                    </div>
                      <div class="form-group">
                          <label class="col-sm-1 control-label">Comments:</label>
                          <div class="col-sm-11">
@@ -107,8 +99,7 @@
                     <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
                     <br>
                     <div class="align-center">
-                        <input type="submit" class="btn btn-primary" id="button_submit" name="submit" value="Save Changes"
-                            onclick="return isStudentInputValid(this.form.<%=Const.ParamsNames.STUDENT_NAME%>.value,this.form.<%=Const.ParamsNames.TEAM_NAME%>.value,this.form.<%=Const.ParamsNames.NEW_STUDENT_EMAIL%>.value)">
+                        <input type="submit" class="btn btn-primary" id="button_submit" name="submit" value="Save Changes">
                     </div>
                     <br>
                     <br>

@@ -18,6 +18,9 @@ import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.Emails;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 
+/**
+ * The mail action that is to execute, when pending comments are cleared
+ */
 public class PendingCommentClearedMailAction extends EmailAction {
     private String courseId;
     private CommentsLogic commentsLogic = CommentsLogic.inst();

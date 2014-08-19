@@ -3,6 +3,7 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
 <%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
@@ -12,6 +13,7 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData) request.getAttribute("data");
+    FieldValidator validator = new FieldValidator();
     boolean showAll = data.bundle.isComplete;
     boolean shouldCollapsed = data.bundle.responses.size() > 500;
     boolean groupByTeamEnabled = (data.groupByTeam == null || !data.groupByTeam.equals("on")) ? false : true;
@@ -328,11 +330,17 @@
 
                 <div class="panel panel-primary">
                 <div class="panel-heading">
-                    From: <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(giverEmail)%>">
+                    From: 
+                    <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, giverEmail).isEmpty()) { %>
+                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(giverEmail)%>">
                             <strong><%=responsesFromGiver.getKey()%></strong>
                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                            <a class="link-in-dark-bg" href="mailTo:<%= giverEmail%> " <%=mailtoStyleAttr%>>[<%=giverEmail%>]</a>
                         </div>
+                    <% } else {%>
+                        <strong><%=responsesFromGiver.getKey()%></strong>
                         <a class="link-in-dark-bg" href="mailTo:<%= giverEmail%> " <%=mailtoStyleAttr%>>[<%=giverEmail%>]</a>
+                    <% } %>
                     <span class='glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right'></span>                </div>
                 <div class='panel-collapse collapse <%= shouldCollapsed ? "" : "in"%>'>
                 <div class="panel-body">
@@ -379,15 +387,25 @@
                                         <%
                                             String recipientName = data.bundle.getRecipientNameForResponse(question, responseEntry);
                                             String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
+                                            if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, responseEntry.recipientEmail).isEmpty()) { 
                                         %>
-                                            <td class="middlealign">
-                                                <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(responseEntry.recipientEmail)%>">
-                                                    <a class="student-profile-pic-view-link btn-link">
-                                                        View Photo
-                                                    </a>
-                                                    <img src="" alt="No Image Given" class="hidden">
-                                                </div>
-                                            </td>
+                                                <td class="middlealign">
+                                                    <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(responseEntry.recipientEmail)%>">
+                                                        <a class="student-profile-pic-view-link btn-link">
+                                                            View Photo
+                                                        </a>
+                                                        <img src="" alt="No Image Given" class="hidden">
+                                                    </div>
+                                                </td>
+                                        <% } else { %>
+                                                <td class="middlealign">
+                                                    <div class="align-center" data-link="">
+                                                        <a class="student-profile-pic-view-link btn-link">
+                                                            No Photo
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                        <% } %>
                                             <td class="middlealign"><%=recipientName%></td>
                                             <td class="middlealign"><%=recipientTeamName%></td>
                                             <td class="multiline"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>

@@ -4,7 +4,6 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -18,12 +17,6 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorCommentsPage commentsPage;
     private static DataBundle testData;
-    
-    @BeforeTest
-    public static void testSetup() {
-        //Set priority of the sequential ui tests thread to max priority.
-        Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
-    }
 
     @BeforeClass
     public static void classSetup() throws Exception {
@@ -39,6 +32,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         testScripts();
         testActions();
         testSearch();
+        testEmailPendingComments();
     }
 
     private void testContent() {
@@ -49,7 +43,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
             .withUserId(testData.accounts.get("instructorWithoutCourses").googleId);
 
         commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
-
+        
         commentsPage.verifyHtml("/instructorCommentsPageForEmptyCourse.html");
         
         ______TS("content: course with no comment");
@@ -76,8 +70,16 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
             .withUserId(testData.accounts.get("instructor1OfCourse1").googleId);
 
         commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
-
+        removePreExistComments();
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageForTypicalCourseWithComments.html");
+    }
+
+    private void removePreExistComments() {
+        if(commentsPage.getPageSource().contains("added response comment")
+                || commentsPage.getPageSource().contains("edited response comment")){
+            commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
+            commentsPage.clickCommentsPageLinkInHeader();
+        }
     }
     
     private void testScripts() {
@@ -88,11 +90,11 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         
         commentsPage.clickNextCourseLink();
         assertTrue("URL: " + browser.driver.getCurrentUrl() ,browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE + 
-                "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfTypicalCourse1"));
+                "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfArchivedCourse"));
         
         commentsPage.clickPreviousCourseLink();
         assertTrue("URL: " + browser.driver.getCurrentUrl(), browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE + 
-                "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfArchivedCourse"));
+                "?user=comments.idOfInstructor1OfCourse1&courseid=comments.idOfTypicalCourse1"));
         
         commentsPage.clickIsIncludeArchivedCoursesCheckbox();
         
@@ -156,6 +158,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.fillTextareaToEditResponseComment(1, 1, 1, "added response comment");
         commentsPage.addResponseComment(1, 1, 1);
         commentsPage.reloadPage();
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageAddFrc.html");
         
         ______TS("action: edit feedback response comment");
         commentsPage.clickResponseCommentEdit(1, 1, 1, 1);
@@ -166,11 +169,13 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyCommentFormErrorMessage("1-1-1-1", "Comment cannot be empty");
         commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "edited response comment\na new line");
         commentsPage.saveResponseComment(1, 1, 1, 1);
+        commentsPage.reloadPage();
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageEditFrc.html");
         
         ______TS("action: delete feedback response comment");
         commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
         commentsPage.clickCommentsPageLinkInHeader();
-        commentsPage.verifyHtmlMainContent("/instructorCommentsPageAfterTestScript.html");
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageDeleteFrc.html");
     }
     
     private void testSearch() {
@@ -181,6 +186,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         
         ______TS("search: typical successful case");
         //prepare search document
+        // TODO: remove this and use backdoor to put  document
         commentsPage.clickStudentCommentEditForRow(1);
         commentsPage.saveEditStudentCommentForRow(1);
         commentsPage.clickStudentCommentEditForRow(2);
@@ -192,6 +198,11 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.search("comments");
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageSearchNormal.html");
         commentsPage.clickCommentsPageLinkInHeader();
+    }
+    
+    private void testEmailPendingComments() {
+        commentsPage.clickSendEmailNotificationButton();
+        commentsPage.verifyStatus(Const.StatusMessages.COMMENT_CLEARED);
     }
     
     @AfterClass

@@ -276,7 +276,7 @@
                             <td><%=fs.feedbackSessionName%></td>
                             <td><%=TimeHelper.formatTime(fs.getSessionStartTime())%></td>
                             <td><%=TimeHelper.formatTime(fs.getSessionEndTime())%></td>
-                            <td><a
+                            <td><a target="blank"
                                 <%=data
                             .getInstructorHomePageViewLink(fs.creatorEmail)%>><%=fs.creatorEmail%></a></td>
                         </tr>
