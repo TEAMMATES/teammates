@@ -164,6 +164,27 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         expectedLogSegment = expectedStatusMessage + "<br>Enrollment string entered by user:<br>" + (enrollString).replace("\n", "<br>");
         AssertHelper.assertContains(expectedLogSegment, enrollAction.getLogMessage());
         
+        ______TS("Failure case: exceed size limit per enrollment");
+        
+        int largeSize = 999;
+        
+        StringBuilder enrollStringBuilder = new StringBuilder("Section\tTeam\tName\tEmail");
+        for(int i = 0; i < largeSize; i++) {
+            enrollStringBuilder
+                .append(Const.EOL)
+                .append("section" + i + "\tteam" + i + "\tname" + i + "\temail" + i + "@nonexistemail.nonexist");
+        }
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollStringBuilder.toString()
+        };
+        enrollAction = getAction(submissionParams);
+        
+        pageResult = getShowPageResult(enrollAction);
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageResult.destination);
+        assertEquals(true, pageResult.isError);
+        assertEquals(Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED, pageResult.getStatusMessage());
+        
         ______TS("Failure case: empty input");
 
         enrollString = "";
