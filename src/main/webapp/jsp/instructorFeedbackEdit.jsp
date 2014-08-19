@@ -826,7 +826,7 @@
                                 <option value = "NUMSCALE"><%=Const.FeedbackQuestionTypeNames.NUMSCALE%></option>
                                 <option value = "CONSTSUM_OPTION"><%=Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION%></option>
                                 <option value = "CONSTSUM_RECIPIENT"><%=Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT%></option>
-                                <option value = "CONSTSUM" disabled style="display:none"></option>
+                                <option value = "CONSTSUM" disabled="disabled" style="display:none"></option>
                                 <option value = "CONTRIB"><%=Const.FeedbackQuestionTypeNames.CONTRIB%></option>
                             </select>
                         </div>

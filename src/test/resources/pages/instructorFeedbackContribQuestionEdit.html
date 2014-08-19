@@ -460,10 +460,10 @@
                         </label>
                         <div class="col-sm-8">
                             <select class="form-control participantSelect" name="givertype" id="givertype-1" onchange="feedbackGiverUpdateVisibilityOptions(this)">
-                                <option style="display: none;" value="SELF">Me (Session creator)</option>
+                                <option disabled="" style="display: none;" value="SELF">Me (Session creator)</option>
 <option value="STUDENTS" selected="selected">Students in this course</option>
-<option style="display: none;" value="INSTRUCTORS">Instructors in this course</option>
-<option style="display: none;" value="TEAMS">Teams in this course</option>
+<option disabled="" style="display: none;" value="INSTRUCTORS">Instructors in this course</option>
+<option disabled="" style="display: none;" value="TEAMS">Teams in this course</option>
 
                             </select>
                         </div>
@@ -474,14 +474,14 @@
                         </label>
                         <div class="col-sm-8">
                             <select class="form-control participantSelect" name="recipienttype" id="recipienttype-1" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
-                                <option style="display: none;" value="SELF">Giver (Self feedback)</option>
-<option style="display: none;" value="STUDENTS">Other students in the course</option>
-<option style="display: none;" value="INSTRUCTORS">Instructors in the course</option>
-<option style="display: none;" value="TEAMS">Other teams in the course</option>
-<option style="display: none;" value="OWN_TEAM">Giver's team</option>
-<option style="display: none;" value="OWN_TEAM_MEMBERS">Giver's team members</option>
+                                <option disabled="" style="display: none;" value="SELF">Giver (Self feedback)</option>
+<option disabled="" style="display: none;" value="STUDENTS">Other students in the course</option>
+<option disabled="" style="display: none;" value="INSTRUCTORS">Instructors in the course</option>
+<option disabled="" style="display: none;" value="TEAMS">Other teams in the course</option>
+<option disabled="" style="display: none;" value="OWN_TEAM">Giver's team</option>
+<option disabled="" style="display: none;" value="OWN_TEAM_MEMBERS">Giver's team members</option>
 <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF" selected="selected">Giver's team members and Giver</option>
-<option style="display: none;" value="NONE">Nobody specific (For general class feedback)</option>
+<option disabled="" style="display: none;" value="NONE">Nobody specific (For general class feedback)</option>
 
                             </select>
                         </div>
@@ -660,7 +660,7 @@
                                 <option value="NUMSCALE">Numerical-scale question</option>
                                 <option value="CONSTSUM_OPTION">Distribute points (among options) question</option>
                                 <option value="CONSTSUM_RECIPIENT">Distribute points (among recipients) question</option>
-                                <option value="CONSTSUM" style="display:none"></option>
+                                <option value="CONSTSUM" disabled="disabled" style="display:none"></option>
                                 <option value="CONTRIB">Team contribution question</option>
                             </select>
                         </div>
