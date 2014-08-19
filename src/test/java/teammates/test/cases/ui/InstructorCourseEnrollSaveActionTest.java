@@ -164,22 +164,42 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         expectedLogSegment = expectedStatusMessage + "<br>Enrollment string entered by user:<br>" + (enrollString).replace("\n", "<br>");
         AssertHelper.assertContains(expectedLogSegment, enrollAction.getLogMessage());
         
-        ______TS("Failure case: exceed size limit per enrollment");
+        ______TS("Boundary test for size limit per enrollment");
         
-        int largeSize = 999;
+        //TODO: sync this var with SIZE_LIMIT_PER_ENROLLMENT defined in StudentsLogic, by putting it in config or Const class
+        int sizeLimitBoundary = 150;
         
+        //can enroll, if within the size limit
         StringBuilder enrollStringBuilder = new StringBuilder("Section\tTeam\tName\tEmail");
-        for(int i = 0; i < largeSize; i++) {
+        for(int i = 0; i < sizeLimitBoundary; i++) {
             enrollStringBuilder
                 .append(Const.EOL)
-                .append("section" + i + "\tteam" + i + "\tname" + i + "\temail" + i + "@nonexistemail.nonexist");
+                .append("section" + i 
+                        + "\tteam" + i 
+                        + "\tname" + i 
+                        + "\temail" + i + "@nonexistemail.nonexist");
         }
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollStringBuilder.toString()
         };
         enrollAction = getAction(submissionParams);
+        pageResult = getShowPageResult(enrollAction);
+        assertEquals(false, pageResult.isError);
+        assertEquals("", pageResult.getStatusMessage());
         
+        //fail to enroll, if exceed the range
+        enrollStringBuilder
+            .append(Const.EOL)
+            .append("section" + sizeLimitBoundary 
+                    + "\tteam" + sizeLimitBoundary 
+                    + "\tname" + sizeLimitBoundary 
+                    + "\temail" + sizeLimitBoundary + "@nonexistemail.nonexist");
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollStringBuilder.toString()
+        };
+        enrollAction = getAction(submissionParams);
         pageResult = getShowPageResult(enrollAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageResult.destination);
         assertEquals(true, pageResult.isError);
