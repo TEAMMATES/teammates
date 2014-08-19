@@ -30,58 +30,33 @@ import teammates.logic.api.GateKeeper;
  */
 public class StudentProfilePictureEditAction extends Action {
 
-    private GcsService gcsService;
+    private BlobKey _blobKey;
+    private String _widthString;
+    private String _heightString;
+    private String _bottomYString;
+    private String _rightXString;
+    private String _topYString;
+    private String _leftXString;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         new GateKeeper().verifyLoggedInUserPrivileges();
-
-        validatePostParameters();
-        
-        String leftXString = getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_LEFTX);
-        String topYString = getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_TOPY);
-        String rightXString = getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_RIGHTX);
-        String bottomYString = getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_BOTTOMY);
-        String height = getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_HEIGHT);
-        String width = getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_WIDTH);
-        BlobKey blobKey = new BlobKey(getRequestParamValue(Const.ParamsNames.BLOB_KEY));
-        
-        if (leftXString.isEmpty() || topYString.isEmpty()
-                || rightXString.isEmpty() || bottomYString.isEmpty()
-                || height.isEmpty() || width.isEmpty() 
-                || Double.parseDouble(width) == 0 || Double.parseDouble(height) == 0) {
-            isError=true;
-            statusToUser.add("Given crop locations were not valid. Please try again");            
-            statusToAdmin = Const.ACTION_RESULT_FAILURE + 
-                    " : One or more of the given coords were empty.";
+        readAllPostParamterValuesToFields();
+        if (! validatePostParameters()) {
             return createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);
         }
         
-        GcsFilename fileName = new GcsFilename(Config.GCS_BUCKETNAME, account.googleId);
-        gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
         try {
-            byte[] transformedImage = this.transformImage(leftXString, topYString, rightXString, 
-                    bottomYString, height, width, blobKey);
-            
-            String newPictureKey = BlobstoreServiceFactory.getBlobstoreService()
-                    .createGsBlobKey("/gs/"+Config.GCS_BUCKETNAME + "/" + account.googleId).getKeyString();
-            
+            byte[] transformedImage = this.transformImage();
             if (!isError) {
-                // this branch cannot be covered as the makeImageFromBlob()
-                // function in transformImage() cannot be tested without the
-                // the server up.
-                GcsOutputChannel outputChannel =
-                        gcsService.createOrReplace(fileName, new GcsFileOptions.Builder().mimeType("image/png").build());
-                
-                outputChannel.write(ByteBuffer.wrap(transformedImage));
-                outputChannel.close();
-                
+                // this branch is covered in UiTests 
+                // (look at todo in transformImage())
+                String newPictureKey = uploadFileToGcs(transformedImage);
                 logic.updateStudentProfilePicture(account.googleId, newPictureKey);
             }
         } catch (IOException e) {
-            // this branch is difficult to reproduce during testing 
-            // and hence is not covered
-            // TODO: find a way to cover this branch
+            // Happens when GCS Service is down
+            
             isError=true;
             statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PIC_SERVICE_DOWN);            
             statusToAdmin = Const.ACTION_RESULT_FAILURE 
@@ -91,37 +66,48 @@ public class StudentProfilePictureEditAction extends Action {
         
         return createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);
     }
+
+    /**
+     * Uploads the given image data to the cloud storage into a file
+     * with the user's googleId as the name. Returns a blobKey that can be used to 
+     * identify the file
+     * 
+     * @param fileName
+     * @param transformedImage
+     * @return BlobKey
+     * @throws IOException
+     */
+    private String uploadFileToGcs(byte[] transformedImage)
+            throws IOException {
+        
+        GcsFilename fileName = new GcsFilename(Config.GCS_BUCKETNAME, account.googleId);
+        String newPictureKey = BlobstoreServiceFactory.getBlobstoreService()
+                .createGsBlobKey("/gs/"+Config.GCS_BUCKETNAME + "/" + account.googleId).getKeyString();
+        
+        GcsService gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
+        GcsOutputChannel outputChannel =
+                gcsService.createOrReplace(fileName, new GcsFileOptions.Builder().mimeType("image/png").build());
+        
+        outputChannel.write(ByteBuffer.wrap(transformedImage));
+        outputChannel.close();
+        
+        return newPictureKey;
+    }
     
-    private byte[] transformImage(String leftXString, String topYString, String rightXString, 
-            String bottomYString, String heightString, String widthString, BlobKey blobKey) {
+    private byte[] transformImage() {
         
-        Double height = Double.parseDouble(heightString);
-        Double width = Double.parseDouble(widthString);
-        Double leftX = Double.parseDouble(leftXString)/width;
-        Double topY = Double.parseDouble(topYString)/height;
-        Double rightX = Double.parseDouble(rightXString)/width;
-        Double bottomY = Double.parseDouble(bottomYString)/height;
-        
-        ImagesService imagesService = ImagesServiceFactory.getImagesService();
-        Image oldImage;
+        Double height = Double.parseDouble(_heightString);
+        Double width = Double.parseDouble(_widthString);
+        Double leftX = Double.parseDouble(_leftXString)/width;
+        Double topY = Double.parseDouble(_topYString)/height;
+        Double rightX = Double.parseDouble(_rightXString)/width;
+        Double bottomY = Double.parseDouble(_bottomYString)/height;        
         
         try {
             // This branch is covered in UiTests as the following method 
             // does not behave the same in dev as in staging
             // TODO: find a way to cover it in Action Tests
-            oldImage = ImagesServiceFactory.makeImageFromBlob(blobKey);
-            
-            Transform crop = ImagesServiceFactory.makeCrop(leftX, topY, rightX, bottomY);
-            Transform resize = ImagesServiceFactory.makeResize(150, 150);
-            
-            CompositeTransform finalTransform = ImagesServiceFactory
-                    .makeCompositeTransform()
-                    .concatenate(crop)
-                    .concatenate(resize);
-            
-            OutputSettings settings = new OutputSettings(ImagesService.OutputEncoding.PNG);        
-            Image newImage = imagesService.applyTransform(finalTransform, oldImage, settings);
-
+            Image newImage = getTransformedImage(leftX, topY, rightX, bottomY);
             return  newImage.getImageData();
         } catch (RuntimeException re) {
             isError=true;
@@ -134,21 +120,116 @@ public class StudentProfilePictureEditAction extends Action {
         return null;
     }
 
-    private void validatePostParameters() {
-        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_LEFTX, 
-                getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_LEFTX));
-        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_TOPY, 
-                getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_TOPY));
-        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_RIGHTX, 
-                getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_RIGHTX));
-        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_BOTTOMY, 
-                getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_BOTTOMY));
-        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_WIDTH, 
-                getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_WIDTH));
-        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_HEIGHT, 
-                getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_HEIGHT));
+    private Image getTransformedImage(Double leftX, Double topY, Double rightX,
+            Double bottomY) {
+        Assumption.assertNotNull(_blobKey);
+        
+        Image oldImage = ImagesServiceFactory.makeImageFromBlob(_blobKey);
+        CompositeTransform finalTransform = getCompositeTransformToApply(leftX, topY, rightX, bottomY);
+        OutputSettings settings = new OutputSettings(ImagesService.OutputEncoding.PNG);
+        
+        return ImagesServiceFactory.getImagesService()
+                                             .applyTransform(finalTransform, oldImage, settings);
+    }
+
+    private CompositeTransform getCompositeTransformToApply(Double leftX,
+            Double topY, Double rightX, Double bottomY) {
+        Transform crop = ImagesServiceFactory.makeCrop(leftX, topY, rightX, bottomY);
+        Transform resize = ImagesServiceFactory.makeResize(150, 150);
+        CompositeTransform finalTransform = ImagesServiceFactory
+                .makeCompositeTransform()
+                .concatenate(crop)
+                .concatenate(resize);
+        
+        return finalTransform;
+    }
+
+    /**
+     * Checks that the information given
+     * via POST is valid
+     * @return
+     */
+    private boolean validatePostParameters() {
+        if (_leftXString.isEmpty() || _topYString.isEmpty()
+                || _rightXString.isEmpty() || _bottomYString.isEmpty()) {
+            isError=true;
+            statusToUser.add("Given crop locations were not valid. Please try again");            
+            statusToAdmin = Const.ACTION_RESULT_FAILURE + 
+                    " : One or more of the given coords were empty.";
+            
+            return false;
+        } else if(_heightString.isEmpty() || _widthString.isEmpty()) {
+            isError=true;
+            statusToUser.add("Given crop locations were not valid. Please try again");            
+            statusToAdmin = Const.ACTION_RESULT_FAILURE + 
+                    " : One or both of the image dimensions were empty.";
+            return false;
+        } else if (Double.parseDouble(_widthString) == 0 || Double.parseDouble(_heightString) == 0) {
+            isError=true;
+            statusToUser.add("Given crop locations were not valid. Please try again");            
+            statusToAdmin = Const.ACTION_RESULT_FAILURE + 
+                    " : One or both of the image dimensions were zero.";
+            
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Gets all the parameters from the Request and ensures
+     * that they are not null
+     */
+    private void readAllPostParamterValuesToFields() {
+        _leftXString = getLeftXString();
+        _topYString = getTopYString();
+        _rightXString = getRightXString();
+        _bottomYString = getBottomYString();
+        _heightString = getPictureHeight();
+        _widthString = getPictureWidth();
+        _blobKey = getBlobKey();
+    }
+
+    private BlobKey getBlobKey() {
         Assumption.assertPostParamNotNull(Const.ParamsNames.BLOB_KEY,
                 getRequestParamValue(Const.ParamsNames.BLOB_KEY));
+        return new BlobKey(getRequestParamValue(Const.ParamsNames.BLOB_KEY));
+    }
+
+    private String getPictureWidth() {
+        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_WIDTH, 
+                getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_WIDTH));
+        return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_WIDTH);
+    }
+
+    private String getPictureHeight() {
+        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_HEIGHT, 
+                getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_HEIGHT));
+        return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_HEIGHT);
+    }
+
+    private String getBottomYString() {
+        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_BOTTOMY, 
+                getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_BOTTOMY));
+        return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_BOTTOMY);
+    }
+
+    private String getRightXString() {
+        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_RIGHTX, 
+                getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_RIGHTX));
+        return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_RIGHTX);
+    }
+
+    private String getTopYString() {
+        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_TOPY, 
+                getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_TOPY));
+        return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_TOPY);
+    }
+
+    private String getLeftXString() {
+        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_LEFTX, 
+                getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_LEFTX));
+        return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_LEFTX);
     }
 
 }
