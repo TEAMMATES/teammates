@@ -44,6 +44,7 @@ public class StudentsLogic {
     //  comments.
     
     private static int SECTION_SIZE_LIMIT = 100;
+    private static int SIZE_LIMIT_PER_ENROLLMENT = 150;
 
     private static StudentsLogic instance = null;
     private StudentsDb studentsDb = new StudentsDb();
@@ -338,6 +339,7 @@ public class StudentsLogic {
             studentList.add(student);
         }
 
+        verifyIsWithinSizeLimitPerEnrollment(studentList);
         validateSections(studentList, courseId);
 
         // TODO: can we use a batch persist operation here?
@@ -381,6 +383,12 @@ public class StudentsLogic {
         }
 
         return returnList;
+    }
+
+    private void verifyIsWithinSizeLimitPerEnrollment(List<StudentAttributes> students) throws EnrollException {
+        if(students.size() > SIZE_LIMIT_PER_ENROLLMENT) {
+            throw new EnrollException(Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED);
+        }
     }
 
     public void validateSections(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
