@@ -138,10 +138,11 @@ public class StudentAttributes extends EntityAttributes {
                     .toString();
     }
     
-    public String getProfilePictureUrl() {
+    public String getPublicProfilePictureUrl() {
         return new Url(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
                     .withStudentEmail(StringHelper.encrypt(email))
                     .withCourseId(StringHelper.encrypt(course))
+                    .withUserId(googleId)
                     .toString();
     }
 

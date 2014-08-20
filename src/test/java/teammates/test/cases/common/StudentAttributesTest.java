@@ -288,13 +288,13 @@ public class StudentAttributesTest extends BaseTestCase {
     }
     
     @Test
-    public void testGetProfilePictureUrl() {
+    public void testGetPublicProfilePictureUrl() {
         StudentAttributes sd = new StudentAttributes("sect 1", "team 1", "name 1", "email@email.com", "comment 1", "course1");
         String profilePicUrl = new Url(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
                                 .withStudentEmail(StringHelper.encrypt("email@email.com"))
                                 .withCourseId(StringHelper.encrypt("course1"))
                                 .toString();
-        assertEquals(profilePicUrl, sd.getProfilePictureUrl());
+        assertEquals(profilePicUrl, sd.getPublicProfilePictureUrl());
     }
     
     private Student generateTypicalStudentObject() {
