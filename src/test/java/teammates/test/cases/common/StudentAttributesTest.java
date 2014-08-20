@@ -298,7 +298,7 @@ public class StudentAttributesTest extends BaseTestCase {
     }
     
     private Student generateTypicalStudentObject() {
-        Student expected = new Student("email@email.com", "name 1", "lastName",
+        Student expected = new Student("email@email.com", "name 1",
                 "googleId.1", "comment 1", "courseId1", "team 1", "sect 1");
         return expected;
     }

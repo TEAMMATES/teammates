@@ -84,11 +84,10 @@ public class Student {
      * @param courseId
      * @param teamName
      */
-    public Student(String email, String name, String lastName, String googleId, String comments,
+    public Student(String email, String name, String googleId, String comments,
             String courseId, String teamName, String sectionName) {
         this.setEmail(email);
         this.setName(name);
-        this.setLastName(lastName);
         this.setGoogleId(googleId);
         this.setComments(comments);
         this.setCourseId(courseId);
@@ -117,7 +116,10 @@ public class Student {
     }
 
     public void setName(String name) {
-        this.name = name.trim();
+        name = name.trim();
+        String processedFullName = StringHelper.splitName(name)[0] + " " + StringHelper.splitName(name)[1];
+        this.name = processedFullName.trim();
+        this.setLastName(StringHelper.splitName(name)[1]);
     }
     
     public void setLastName(String lastName){
@@ -125,6 +127,9 @@ public class Student {
     }
     
     public String getLastName(){
+        if(this.lastName == null){
+            this.lastName = StringHelper.splitName(this.name)[1];
+        }
         return lastName;
     }
     

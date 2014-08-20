@@ -260,7 +260,7 @@ public class StudentAttributes extends EntityAttributes {
     }
 
     public Student toEntity() {
-        return new Student(email, name, StringHelper.splitName(name)[1] ,googleId, comments, course, team, section);
+        return new Student(email, name, googleId, comments, course, team, section);
     }
 
     public String toString() {
