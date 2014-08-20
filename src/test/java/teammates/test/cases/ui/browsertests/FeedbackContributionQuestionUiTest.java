@@ -58,6 +58,7 @@ public class FeedbackContributionQuestionUiTest extends BaseUiTestCase{
         testAddContributionQuestionAction();
         testEditContributionQuestionAction();
         testDeleteContributionQuestionAction();
+        testAddContributionQuestionAsSecondQuestion();
     }
     
     
@@ -132,6 +133,28 @@ public class FeedbackContributionQuestionUiTest extends BaseUiTestCase{
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));    
+    }
+    
+    /**
+     * Tests the case when contribution question is added after another question that
+     * has options invalid for contribution questions. This is to prevent invalid options
+     * from being copied over to the contribution question.
+     */
+    private void testAddContributionQuestionAsSecondQuestion(){
+        ______TS("CONTRIB: add as second question");
+
+        feedbackEditPage.selectNewQuestionType("Essay question");
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.fillQuestionBox("q1, essay qn");
+        feedbackEditPage.clickAddQuestionButton();
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
+           
+        feedbackEditPage.selectNewQuestionType("Team contribution question");
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.fillQuestionBox("q2, contribution qn");
+        feedbackEditPage.clickAddQuestionButton();
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
+        
     }
     
     private InstructorFeedbackEditPage getFeedbackEditPage() {

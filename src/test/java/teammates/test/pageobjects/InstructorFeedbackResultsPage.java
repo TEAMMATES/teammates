@@ -10,6 +10,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -17,6 +18,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
+import teammates.test.driver.AssertHelper;
 
 public class InstructorFeedbackResultsPage extends AppPage {
 
@@ -250,5 +252,59 @@ public class InstructorFeedbackResultsPage extends AppPage {
         this.waitForElementPresence(By.id("collapse-panels-button-section-" + index), 10);
         WebElement collapseButton = browser.driver.findElement(By.id("collapse-panels-button-section-" + index));
         collapseButton.click();
+    }
+    
+    public void clickViewPhotoLink(int panelBodyIndex, String urlRegex) throws Exception {
+        String idOfPanelBody = "panelBodyCollapse-" + panelBodyIndex;
+        WebElement photoCell = browser.driver.findElement(By.id(idOfPanelBody))
+                                             .findElements(By.cssSelector(".profile-pic-icon-click"))
+                                             .get(0);
+        WebElement photoLink = photoCell.findElement(By.tagName("a"));
+        Actions actions = new Actions(browser.driver);
+        
+        actions.click(photoLink).build().perform();
+        waitForElementToAppear(By.cssSelector(".popover-content > img"));
+        ThreadHelper.waitFor(500);
+        
+        AssertHelper.assertContainsRegex(urlRegex, 
+                browser.driver.findElement(By.cssSelector(".popover-content > img"))
+                              .getAttribute("src"));
+    }
+
+    public void hoverClickAndViewStudentPhotoOnHeading(int panelHeadingIndex, String urlRegex) throws Exception {
+        String idOfPanelHeading = "panelHeading-" + panelHeadingIndex;
+        WebElement photoDiv = browser.driver.findElement(By.id(idOfPanelHeading))
+                                            .findElement(By.className("profile-pic-icon-hover"));
+        Actions actions = new Actions(browser.driver);
+        actions.moveToElement(photoDiv).build().perform();        
+        waitForElementToAppear(By.cssSelector(".popover-content"));
+
+        WebElement photoLink = browser.driver.findElement(By.cssSelector(".popover-content > a"));
+        actions.click(photoLink).build().perform();
+        actions.moveByOffset(100, 100).moveToElement(photoDiv).build().perform();
+        ThreadHelper.waitFor(500);
+        
+        waitForElementToAppear(By.cssSelector(".popover-content > img"));
+        
+        AssertHelper.assertContainsRegex(urlRegex, 
+                browser.driver.findElement(By.cssSelector(".popover-content > img"))
+                              .getAttribute("src"));
+    }
+
+    public void hoverAndViewStudentPhotoOnBody(int panelBodyIndex, String urlRegex) throws Exception {
+        String idOfPanelBody = "panelBodyCollapse-" + panelBodyIndex;
+        WebElement photoLink = browser.driver.findElements(By.cssSelector('#'+idOfPanelBody + "> .panel-body > .row"))
+                                             .get(0)
+                                             .findElements(By.className("profile-pic-icon-hover"))
+                                             .get(0);
+        Actions actions = new Actions(browser.driver);
+        actions.moveToElement(photoLink).build().perform();
+        
+        waitForElementToAppear(By.cssSelector(".popover-content > img"));
+        ThreadHelper.waitFor(500);
+        
+        AssertHelper.assertContainsRegex(urlRegex, 
+                browser.driver.findElement(By.cssSelector(".popover-content > img"))
+                              .getAttribute("src"));
     }
 }

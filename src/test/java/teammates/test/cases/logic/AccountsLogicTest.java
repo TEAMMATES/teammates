@@ -70,7 +70,13 @@ public class AccountsLogicTest extends BaseComponentTestCase {
     }
  
     @Test
-    public void testGetStudentAndUpdateStudentProfile() throws Exception {
+    public void testStudentProfileFunctions() throws Exception {
+        
+        // 4 functions are tested together as:
+        //      => The functions are very simple (one-liners)
+        //      => They are fundamentally related and easily tested together
+        //      => It saves time during tests
+        
         ______TS("get SP");
         StudentProfileAttributes expectedSpa = new StudentProfileAttributes("id", "shortName", "personal@email.com", 
                 "institute", "countryName", "female", "moreInfo", "");
@@ -93,25 +99,12 @@ public class AccountsLogicTest extends BaseComponentTestCase {
         expectedSpa.modifiedDate = actualSpa.modifiedDate;        
         assertEquals(expectedSpa.toString(), actualSpa.toString());
         
-        // remove the account that was created
-        accountsLogic.deleteAccountCascade("id");
-    }
-    
-    @Test
-    public void testUpdateAndDeleteProfilePicture() throws Exception {
-        StudentProfileAttributes expectedSpa = new StudentProfileAttributes("id", "shortName", "personal@email.com", 
-                "institute", "countryName", "female", "moreInfo", "");
-        AccountAttributes accountWithStudentProfile = new AccountAttributes("id", "name",
-                true, "test@email.com", "dev", expectedSpa);
-        
-        accountsLogic.createAccount(accountWithStudentProfile);
-        
         ______TS("update picture");
         
         expectedSpa.pictureKey = GoogleCloudStorageHelper
                 .writeFileToGcs(expectedSpa.googleId, "src/test/resources/images/profile_pic.png", "");
         accountsLogic.updateStudentProfilePicture(expectedSpa.googleId, expectedSpa.pictureKey);
-        StudentProfileAttributes actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
+        actualSpa = accountsLogic.getStudentProfile(accountWithStudentProfile.googleId);
         expectedSpa.modifiedDate = actualSpa.modifiedDate;
         assertEquals(expectedSpa.toString(), actualSpa.toString());
         

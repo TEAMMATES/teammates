@@ -4,6 +4,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.io.File;
 import java.util.logging.Logger;
 
 import org.openqa.selenium.By;
@@ -13,9 +14,11 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
+import teammates.common.util.FileHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
+import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
@@ -45,7 +48,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     @Test
     public void testAll() throws Exception {
         testContent();
-        testAjaxForLargeScaledSession();
+        testViewPhotoAndAjaxForLargeScaledSession();
         testSortAction();
         testFilterAction();
         testPanelsCollapseExpand();
@@ -195,6 +198,77 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "Team 1{*}Team 1");
         */
         
+    }
+    
+    public void testViewPhotoAndAjaxForLargeScaledSession() throws Exception {
+        
+        uploadPhotoForStudent(testData.students.get("Alice").googleId);
+        
+        ______TS("Ajax for view by questions");
+        
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "question");
+        
+        resultsPage.clickAjaxPanel(0);
+       
+        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestion.html");
+        
+        
+        ______TS("Ajax for view by giver > recipient > question");
+        
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "giver-recipient-question");
+        
+        resultsPage.clickAjaxPanel(0);
+        
+        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByGRQ.html");
+        
+        ______TS("test view photo for view by giver > recipient > question");
+        
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverAndViewStudentPhotoOnBody(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.click(By.id("panelHeading-5"));
+        ThreadHelper.waitFor(1000);
+        
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading(6, "profile_picture_default.png");
+        
+        ______TS("Ajax for view by giver > question > recipient");
+        
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "giver-question-recipient");
+        
+        resultsPage.clickAjaxPanel(0);
+        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByGQR.html");
+        
+        ______TS("test view photo for view by giver > question > recipient");
+        
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.clickViewPhotoLink(5, "profile_picture_default.png");
+        
+        ______TS("Ajax for view by recipient > question > giver");
+        
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "recipient-question-giver");
+        
+        resultsPage.clickAjaxPanel(0);
+        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByRQG.html");
+        
+        ______TS("test view photo for view by recipient > question > giver");
+        
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.clickViewPhotoLink(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        
+        ______TS("Ajax for view by recipient > giver > question");
+        
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "recipient-giver-question");
+        
+        resultsPage.clickAjaxPanel(0);
+        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByRGQ.html");
+        
+        ______TS("test view photo for view by recipient > giver > question");
+        
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverAndViewStudentPhotoOnBody(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.click(By.id("panelHeading-5"));
+        ThreadHelper.waitFor(1000);
+        
+        resultsPage.hoverClickAndViewStudentPhotoOnHeading(6, "profile_picture_default.png");
     }
 
     public void testFilterAction() {
@@ -355,52 +429,17 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         editPage.verifyContains("CFResultsUiT.CS2104");
         editPage.verifyContains("First Session");
     }
-    
-    public void testAjaxForLargeScaledSession() throws Exception {
-        
-        ______TS("Ajax for view by questions");
-        
-        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "question");
-        
-        resultsPage.clickAjaxPanel(0);
-       
-        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestion.html");
-        
-        
-        ______TS("Ajax for view by giver > recipient > question");
-        
-        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "giver-recipient-question");
-        
-        resultsPage.clickAjaxPanel(0);
-        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByGRQ.html");
-        
-        ______TS("Ajax for view by giver > question > recipient");
-        
-        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "giver-question-recipient");
-        
-        resultsPage.clickAjaxPanel(0);
-        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByGQR.html");
-        
-        ______TS("Ajax for view by recipient > question > giver");
-        
-        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "recipient-question-giver");
-        
-        resultsPage.clickAjaxPanel(0);
-        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByRQG.html");
-        
-        ______TS("Ajax for view by recipient > giver > question");
-        
-        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "recipient-giver-question");
-        
-        resultsPage.clickAjaxPanel(0);
-        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByRGQ.html");
-        
-    }
-
 
     @AfterClass
     public static void classTearDown() throws Exception {
         BrowserPool.release(browser);
+    }
+
+    private void uploadPhotoForStudent(String googleId) throws Exception {
+        File picture = new File("src/test/resources/images/profile_pic_updated.png");
+        String pictureData = Utils.getTeammatesGson().toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
+        assertEquals("Unable to upload profile picture", "[BACKDOOR_STATUS_SUCCESS]", 
+                BackDoor.uploadAndUpdateStudentProfilePicture(googleId, pictureData));
     }
     
     private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPage(String instructorName, String fsName) {

@@ -36,7 +36,8 @@ public class InstructorStudentListAjaxPageAction extends Action {
         
         String photoUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?" + 
                 Const.ParamsNames.STUDENT_EMAIL+"=%s&" + 
-                Const.ParamsNames.COURSE_ID + "=%s";
+                Const.ParamsNames.COURSE_ID + "=%s&" +
+                Const.ParamsNames.USER_ID + "=" + account.googleId;
         
         data.emailPhotoUrlMapping = new HashMap<String, String>();
         data.sectionPrivileges = new HashMap<>();

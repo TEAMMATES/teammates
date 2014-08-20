@@ -318,13 +318,13 @@ function tallyCheckboxes(qnNumber){
  * Shows the new question div frame and scrolls to it
  */
 function showNewQuestionFrame(type){
+    copyOptions();
     prepareQuestionForm(type);
     $('#questionTableNew').show();
     enableNewQuestion();
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide();
     $('html, body').animate({scrollTop: $('#frameBodyWrapper')[0].scrollHeight}, 1000);
-    copyOptions();
     $('#questionTableNew').find('.visibilityOptions').hide();
     getVisibilityMessage($('#questionTableNew').find('.visibilityMessageButton'));
 }
