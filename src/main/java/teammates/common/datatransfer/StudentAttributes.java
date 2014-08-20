@@ -86,6 +86,7 @@ public class StudentAttributes extends EntityAttributes {
         this();
         this.section = Sanitizer.sanitizeTitle(section);
         this.team = Sanitizer.sanitizeTitle(team);
+        this.lastName = Sanitizer.sanitizeName(StringHelper.splitName(name)[1]);
         this.name = Sanitizer.sanitizeName(name);
         this.email = Sanitizer.sanitizeEmail(email);
         this.comments = Sanitizer.sanitizeTextField(comment);
@@ -259,7 +260,7 @@ public class StudentAttributes extends EntityAttributes {
     }
 
     public Student toEntity() {
-        return new Student(email, name, googleId, comments, course, team, section);
+        return new Student(email, name, StringHelper.splitName(name)[1] ,googleId, comments, course, team, section);
     }
 
     public String toString() {

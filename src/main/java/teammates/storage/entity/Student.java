@@ -84,10 +84,11 @@ public class Student {
      * @param courseId
      * @param teamName
      */
-    public Student(String email, String name, String googleId, String comments,
+    public Student(String email, String name, String lastName, String googleId, String comments,
             String courseId, String teamName, String sectionName) {
         this.setEmail(email);
         this.setName(name);
+        this.setLastName(lastName);
         this.setGoogleId(googleId);
         this.setComments(comments);
         this.setCourseId(courseId);
@@ -117,11 +118,10 @@ public class Student {
 
     public void setName(String name) {
         this.name = name.trim();
-        this.setLastName(name);
     }
     
-    public void setLastName(String name){
-        this.lastName = StringHelper.splitName(name)[1];
+    public void setLastName(String lastName){
+        this.lastName = lastName.trim();
     }
     
     public String getLastName(){

@@ -39,6 +39,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         
         StudentAttributes s = new StudentAttributes();
         s.name = "valid student";
+        s.lastName = "student";
         s.email = "valid-fresh@email.com";
         s.team = "validTeamName";
         s.section = "validSectionName";
