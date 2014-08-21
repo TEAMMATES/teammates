@@ -867,8 +867,10 @@ public class Emails {
     }
     
     public void sendEmails(List<MimeMessage> messages) {
+        //Sets the interval between each email sent to be 5 seconds
         int numberOfEmailsSent = 0;
         int emailDelayMillis = 5000;
+     
         for (MimeMessage m : messages) {
             try {
                 long emailDelayTimer = numberOfEmailsSent * emailDelayMillis;
@@ -901,8 +903,8 @@ public class Emails {
     }
 
     public void sendEmail(MimeMessage message) throws MessagingException {
-         log.info(getEmailInfo(message));
-         Transport.send(message);
+        log.info(getEmailInfo(message));
+        Transport.send(message);
     }
     
     public MimeMessage sendErrorReport(String path, String params, Throwable error) {
