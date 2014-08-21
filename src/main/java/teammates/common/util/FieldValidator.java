@@ -472,7 +472,7 @@ public class FieldValidator {
             break;
         case FEEDBACK_SESSION_NAME:
             returnValue = getValidityInfoForAllowedName(
-                    FEEDBACK_SESSION_NAME_FIELD_NAME_NOUN, FEEDBACK_SESSION_NAME_MAX_LENGTH, (String)value);
+                    FEEDBACK_SESSION_NAME_FIELD_NAME, FEEDBACK_SESSION_NAME_MAX_LENGTH, (String)value);
             if(returnValue.equals("")){
                 returnValue = getValidityInfoForNonHtmlField(
                         FEEDBACK_SESSION_NAME_FIELD_NAME_NOUN, (String) value);
