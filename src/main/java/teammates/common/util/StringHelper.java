@@ -179,19 +179,27 @@ public class StringHelper {
     
     /**
      * split a full name string into first and last names
-     * 
+     * <br>
      * 1.If passed in empty string, both last and first name will be empty string
-     * 
+     * <br>
      * 2.If single word, this will be last name and first name will be an empty string
-     * 
+     * <br>
      * 3.If more than two words, the last word will be last name and 
      * the rest will be first name.
-     * 
+     * <br>
+     * 4.If the last name is enclosed with braces "{}" or "()" such as first {Last1 Last2},
+     * the last name will be the String inside the braces
+     * <br>
      * Example: 
+     * <br><br>
+     * full name "Danny Tim Lin"<br>
+     * first name: "Danny Tim" <br>
+     * last name: "Lin" <br>
+     * <br>
+     * full name "Danny (Tim Lin)"<br>
+     * first name: "Danny" <br>
+     * last name: "Tim Lin" <br>
      * 
-     * full name "Danny Tim Lin"
-     * first name: "Danny Tim"
-     * last name: "Lin"
      * 
      * @return split name array{0--> first name, 1--> last name}
      */
@@ -225,6 +233,41 @@ public class StringHelper {
     }
     
     
+   
+    
+   /**
+    * This method first split the name and then highlight the last name with braces
+    * <br>
+    * Example: <br>
+    * 
+    * full name: "-" which means user is nobody <br>
+    * first name: "" <br>
+    * last name: "-"  <br>
+    * <br>
+    * full name: "aa bb" <br>
+    * first name: "aa"   <br>
+    * last name: "(bb)"  <br>
+    * <br>
+    * It also detect user specified last name using {} or ()
+    * full name: "aa (bb cc)"
+    * first name: "aa"
+    * last name: "(bb cc)"
+    * 
+    * @param fullName
+    * @return split name with last name surrounded with braces
+    */
+   public static String[] splitNameWithLastNameHighlighted(String fullName){
+     
+       if(fullName.trim().contentEquals(Const.USER_NOBODY_TEXT)){
+           String[] noBody = {"" , Const.USER_NOBODY_TEXT};
+           return noBody;
+       }
+       
+       String[] splitNames = splitName(fullName);    
+       splitNames[1] = "(" + splitNames[1] + ")";
+       
+       return splitNames;
+   }
     
     /**
      * trims the string and reduces consecutive white spaces to only one space

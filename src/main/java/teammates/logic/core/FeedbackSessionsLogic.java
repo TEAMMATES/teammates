@@ -42,6 +42,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackSessionsDb;
@@ -616,14 +617,21 @@ public class FeedbackSessionsLogic {
                 exportBuilder.append(statistics + Const.EOL);
             }
             
-            exportBuilder.append("Team" + "," + "Giver" + "," + "Recipient's Team" + ","
-                    + "Recipient" + "," + questionDetails.getCsvHeader() + Const.EOL);
+            exportBuilder.append("Team" + "," + "Giver (last name)" + "," + "Recipient's Team" + ","
+                    + "Recipient (last name)" + "," + questionDetails.getCsvHeader() + Const.EOL);
 
             for (FeedbackResponseAttributes response : entry.getValue()) {
+                
+                String giverName = StringHelper.removeExtraSpace(results.getNameForEmail(response.giverEmail));
+                String recipientName = StringHelper.removeExtraSpace(results.getNameForEmail(response.recipientEmail));
+                
+                String splitGiverName[] = StringHelper.splitNameWithLastNameHighlighted(giverName);
+                String splitRecipientName[] = StringHelper.splitNameWithLastNameHighlighted(recipientName);
+            
                 exportBuilder.append(Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.giverEmail))
-                        + "," + Sanitizer.sanitizeForCsv(results.getNameForEmail(response.giverEmail))
+                        + "," + Sanitizer.sanitizeForCsv(splitGiverName[0] + " " + splitGiverName[1])
                         + "," + Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.recipientEmail))
-                        + "," + Sanitizer.sanitizeForCsv(results.getNameForEmail(response.recipientEmail))
+                        + "," + Sanitizer.sanitizeForCsv(splitRecipientName[0] + " " + splitRecipientName[1])
                         + "," + response.getResponseDetails().getAnswerCsv(questionDetails) + Const.EOL);
             }
             exportBuilder.append(Const.EOL + Const.EOL);
