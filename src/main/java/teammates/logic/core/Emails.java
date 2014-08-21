@@ -867,22 +867,22 @@ public class Emails {
     }
     
     public void sendEmails(List<MimeMessage> messages) {
+        int numberOfEmailsSent = 0;
+        int emailDelayMillis = 5000;
         for (MimeMessage m : messages) {
             try {
-                addEmailToTaskQueue(m);
+                long emailDelayTimer = numberOfEmailsSent * emailDelayMillis;
+                addEmailToTaskQueue(m, emailDelayTimer);
+                numberOfEmailsSent++;
             } catch (MessagingException e) {
-                /*
-                 * TODO: Add mechanism for handling/resending mails which 
-                 *          encountered errors
-                 *       To consider: Try sending mail till a max retry count is reached?
-                 */
+
                 log.severe("Error in sending : " + m.toString()
                             + " Cause : " + e.getMessage());
             }
         }
     }
 
-    public void addEmailToTaskQueue(MimeMessage message) throws MessagingException {
+    public void addEmailToTaskQueue(MimeMessage message, long emailDelayTimer) throws MessagingException {
         try {
             HashMap<String, String> paramMap = new HashMap<String, String>();
             paramMap.put(ParamsNames.EMAIL_SUBJECT, message.getSubject());
@@ -892,8 +892,8 @@ public class Emails {
             paramMap.put(ParamsNames.EMAIL_REPLY_TO_ADDRESS, message.getReplyTo()[0].toString());
             
             TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-            taskQueueLogic.createAndAddTask(SystemParams.SEND_EMAIL_TASK_QUEUE,
-                    Const.ActionURIs.SEND_EMAIL_WORKER, paramMap);
+            taskQueueLogic.createAndAddDeferredTask(SystemParams.SEND_EMAIL_TASK_QUEUE,
+                    Const.ActionURIs.SEND_EMAIL_WORKER, paramMap, emailDelayTimer);
         } catch (Exception e) {
             log.severe("Error when adding email to task queue: " + e.getMessage());
         } 
