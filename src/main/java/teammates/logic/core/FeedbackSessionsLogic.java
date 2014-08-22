@@ -617,30 +617,34 @@ public class FeedbackSessionsLogic {
                 exportBuilder.append(statistics + Const.EOL);
             }
             
-            exportBuilder.append("Team" + "," + "Giver (last name)" + "," + "Recipient's Team" + ","
-                    + "Recipient (last name)" + "," + questionDetails.getCsvHeader() + Const.EOL);
+            exportBuilder.append("Team" + "," + "Giver's First Name" + "," + "Giver's Last Name" + "," + "Recipient's Team" + ","
+                    + "Recipient's First Name" + "," + "Recipient's Last Name" + "," + questionDetails.getCsvHeader() + Const.EOL);
 
             for (FeedbackResponseAttributes response : entry.getValue()) {
                 
-                String giverName = results.getNameForEmail(response.giverEmail);
-                String recipientName = results.getNameForEmail(response.recipientEmail);
+                String giverFirstName = results.getNameForEmail(response.giverEmail);
+                String giverLastName = results.getNameForEmail(response.giverEmail);
+                String recipientFirstName = results.getNameForEmail(response.recipientEmail);
+                String recipientLastName = results.getNameForEmail(response.recipientEmail);
                 
                 StudentAttributes student = studentsLogic.getStudentForEmail(response.courseId, response.giverEmail);
                 if (student != null){
-                    giverName = student.name.replace(student.lastName, "").trim() + 
-                                " " + "(" + student.lastName + ")"; 
+                    giverFirstName = student.name.replace(student.lastName, "").trim();
+                    giverLastName = student.lastName;
                 }
                 
                 student = studentsLogic.getStudentForEmail(response.courseId, response.recipientEmail);
                 if (student != null){
-                    recipientName = student.name.replace(student.lastName, "").trim() + 
-                                    " " + "(" + student.lastName + ")"; 
+                    recipientFirstName = student.name.replace(student.lastName, "").trim();
+                    recipientLastName = student.lastName;
                 }
                 
                 exportBuilder.append(Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.giverEmail))
-                        + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverName))
+                        + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFirstName))
+                        + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
                         + "," + Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.recipientEmail))
-                        + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(StringHelper.removeExtraSpace(recipientName)))
+                        + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFirstName))
+                        + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
                         + "," + response.getResponseDetails().getAnswerCsv(questionDetails) + Const.EOL);
             }
             exportBuilder.append(Const.EOL + Const.EOL);

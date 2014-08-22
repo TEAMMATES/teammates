@@ -120,9 +120,9 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         
         Question 1,"What is the best selling point of your product?"
         
-        Team,Giver (last name),Recipient's Team,Recipient (last name),Feedback
-        "Team 1.1","student1 In (Course1)","Team 1.1","student1 In (Course1)","Student 1 self feedback."
-        "Team 1.1","student2 In (Course1)","Team 1.1","student2 In (Course1)","I'm cool'"
+        Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback
+        "Team 1.1","student1 In","Course1","Team 1.1","student1 In","Course1","Student 1 self feedback."
+        "Team 1.1","student2 In","Course1","Team 1.1","student2 In","Course1","I'm cool'"
         ...
         ==================================
         full testing of file content is 
@@ -142,11 +142,11 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 exportLines[4]);
         assertEquals("",
                 exportLines[5]);
-        assertEquals("Team,Giver (last name),Recipient's Team,Recipient (last name),Feedback",
+        assertEquals("Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback",
                 exportLines[6]);
-        assertEquals("\"Team 1.1\",\"student1 In (Course1)\",\"Team 1.1\",\"student1 In (Course1)\",\"Student 1 self feedback.\"",
+        assertEquals("\"Team 1.1\",\"student1 In\",\"Course1\",\"Team 1.1\",\"student1 In\",\"Course1\",\"Student 1 self feedback.\"",
                 exportLines[7]);
-        assertEquals("\"Team 1.1\",\"student2 In (Course1)\",\"Team 1.1\",\"student2 In (Course1)\",\"I'm cool'\"",
+        assertEquals("\"Team 1.1\",\"student2 In\",\"Course1\",\"Team 1.1\",\"student2 In\",\"Course1\",\"I'm cool'\"",
                 exportLines[8]);
     }
     
@@ -160,9 +160,9 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         
         Question 1,"What is the best selling point of your product?"
         
-        Team,Giver (last name),Recipient's Team,Recipient (last name),Feedback
-        "Team 1.1","new name (new last name)","Team 1.1","new name (new last name)","Student 1 self feedback."
-        "Team 1.1","student2 In (Course1)","Team 1.1","student2 In (Course1)","I'm cool'"
+        Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback
+        "Team 1.1","new name","new last name","Team 1.1","new name","new last name","Student 1 self feedback."
+        "Team 1.1","student2 In","Course1","Team 1.1","student2 In","Course1","I'm cool'"
         ...
         ==================================
         full testing of file content is 
@@ -182,11 +182,11 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 exportLines[4]);
         assertEquals("",
                 exportLines[5]);
-        assertEquals("Team,Giver (last name),Recipient's Team,Recipient (last name),Feedback",
+        assertEquals("Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback",
                 exportLines[6]);
-        assertEquals("\"Team 1.1\",\"new name (new last name)\",\"Team 1.1\",\"new name (new last name)\",\"Student 1 self feedback.\"",
+        assertEquals("\"Team 1.1\",\"new name\",\"new last name\",\"Team 1.1\",\"new name\",\"new last name\",\"Student 1 self feedback.\"",
                 exportLines[7]);
-        assertEquals("\"Team 1.1\",\"student2 In (Course1)\",\"Team 1.1\",\"student2 In (Course1)\",\"I'm cool'\"",
+        assertEquals("\"Team 1.1\",\"student2 In\",\"Course1\",\"Team 1.1\",\"student2 In\",\"Course1\",\"I'm cool'\"",
                 exportLines[8]);
     }
     
@@ -200,9 +200,9 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         
         Question 1,"What is the best selling point of your product?"
         
-        Team,Giver (last name),Recipient's Team,Recipient (last name),Feedback
-        "Team 1.1","student1 In (Course1)","Team 1.1","student1 In (Course1)","Student 1 self feedback."
-        "Team 1.1","student2 In (Course1)","Team 1.1","student2 In (Course1)","I'm cool'"
+        Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback
+        "Team 1.1","student1 In","Course1","Team 1.1","student1 In","Course1","Student 1 self feedback."
+        "Team 1.1","student2 In","Course1","Team 1.1","student2 In","Course1","I'm cool'"
         ...
         ==================================
         full testing of file content is 
@@ -224,11 +224,11 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 exportLines[5]);
         assertEquals("",
                 exportLines[6]);
-        assertEquals("Team,Giver (last name),Recipient's Team,Recipient (last name),Feedback",
+        assertEquals("Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback",
                 exportLines[7]);
-        assertEquals("\"Team 1.1\",\"student1 In (Course1)\",\"Team 1.1\",\"student1 In (Course1)\",\"Student 1 self feedback.\"",
+        assertEquals("\"Team 1.1\",\"student1 In\",\"Course1\",\"Team 1.1\",\"student1 In\",\"Course1\",\"Student 1 self feedback.\"",
                 exportLines[8]);
-        assertEquals("\"Team 1.1\",\"student2 In (Course1)\",\"Team 1.1\",\"student2 In (Course1)\",\"I'm cool'\"",
+        assertEquals("\"Team 1.1\",\"student2 In\",\"Course1\",\"Team 1.1\",\"student2 In\",\"Course1\",\"I'm cool'\"",
                 exportLines[9]);
     }
     
