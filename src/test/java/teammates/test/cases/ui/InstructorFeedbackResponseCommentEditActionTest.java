@@ -8,12 +8,14 @@ import static org.testng.AssertJUnit.assertTrue;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
@@ -70,7 +72,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends
         
         verifyAssumptionFailure(submissionParams);
         
-        ______TS("Typical successful case");
+        ______TS("Typical successful case for unpublished session");
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
@@ -78,7 +80,8 @@ public class InstructorFeedbackResponseCommentEditActionTest extends
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited)",
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
+                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS"
         };
         
         InstructorFeedbackResponseCommentEditAction action = getAction(submissionParams);
@@ -88,6 +91,29 @@ public class InstructorFeedbackResponseCommentEditActionTest extends
         
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
+        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
+        
+        ______TS("Typical successful case for published session");
+        
+        FeedbackSessionsLogic.inst()
+            .publishFeedbackSession(feedbackResponseComment.feedbackSessionName, feedbackResponseComment.courseId);
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited for published session)",
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
+                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS"
+        };
+        
+        action = getAction(submissionParams);
+        result = (AjaxResult) action.executeAndPostProcess();
+        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        
+        assertFalse(data.isError);
+        assertEquals("", result.getStatusMessage());
+        assertEquals(CommentSendingState.PENDING, data.comment.sendingState);
         
         ______TS("Unsuccessful case: empty comment text");
         
