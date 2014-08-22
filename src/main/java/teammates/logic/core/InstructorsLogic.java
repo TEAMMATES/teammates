@@ -80,8 +80,8 @@ public class InstructorsLogic {
         Assumption.assertNotNull("Supplied parameter was null", instructorToAdd);
         
         log.info("going to create instructor :\n"+instructorToAdd.toString());
-        
-        instructorsDb.createEntity(instructorToAdd);
+      
+        instructorsDb.createInstructor(instructorToAdd);
     }
     
     

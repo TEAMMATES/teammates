@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -43,14 +42,18 @@ public class AdminSearchPageAction extends Action {
         
         data.searchKey = searchKey;
        
-        data.studentResultBundle  = logic.searchStudentsInWholeSystem(searchKey, "");
+//        data.studentResultBundle  = logic.searchStudentsInWholeSystem(searchKey, "");
+//        
+//        data = putFeedbackSessionLinkIntoMap(data.studentResultBundle.studentList, data);
+//        data = putHomePageLinkIntoMap(data.studentResultBundle.studentList, data);
+//        data = putStudentDetailsPageLinkIntoMap(data.studentResultBundle.studentList, data);
+//        data = putInsitituteIntoMap(data.studentResultBundle.studentList, data);
+//           
+//        int numOfResults = data.studentResultBundle.getResultSize();
         
-        data = putFeedbackSessionLinkIntoMap(data.studentResultBundle.studentList, data);
-        data = putHomePageLinkIntoMap(data.studentResultBundle.studentList, data);
-        data = putStudentDetailsPageLinkIntoMap(data.studentResultBundle.studentList, data);
-        data = putInsitituteIntoMap(data.studentResultBundle.studentList, data);
-           
-        int numOfResults = data.studentResultBundle.getResultSize();
+        data.instructorResultBundle = logic.searchInstructorsInWholeSystem(searchKey, "");
+        int numOfResults = data.instructorResultBundle.getResultSize();
+        
         if(numOfResults > 0){
             statusToUser.add("Total results found: " + numOfResults);
             isError = false;

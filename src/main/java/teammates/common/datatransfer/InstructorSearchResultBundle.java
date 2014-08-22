@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.logic.core.InstructorsLogic;
 
 import com.google.appengine.api.search.Cursor;
@@ -39,7 +40,7 @@ public class InstructorSearchResultBundle extends SearchResultBundle {
             InstructorAttributes instructor = new Gson().fromJson(doc.getOnlyField(Const.SearchDocumentField.INSTRUCTOR_ATTRIBUTE).getText(), 
                                                                   InstructorAttributes.class);
             
-            if(instructorsLogic.getInstructorForRegistrationKey(instructor.key) == null){
+            if(instructorsLogic.getInstructorForRegistrationKey(StringHelper.encrypt(instructor.key)) == null){
                 instructorsLogic.deleteDocument(instructor);
                 continue;
             }

@@ -16,6 +16,7 @@ import com.google.appengine.api.search.ScoredDocument;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -44,15 +45,18 @@ public class InstructorsDb extends EntitiesDb{
      */
     
     public void putDocument(InstructorAttributes instructor){
+        if(instructor.key == null){
+            instructor = this.getInstructorForEmail(instructor.courseId, instructor.email);
+        }
         putDocument(Const.SearchIndex.INSTRUCTOR, new InstructorSearchDocument(instructor));
     }
     
     public void deleteDocument(InstructorAttributes instructorToDelete){
         if(instructorToDelete.key == null){
             InstructorAttributes instructor = this.getInstructorForEmail(instructorToDelete.courseId, instructorToDelete.email);
-            deleteDocument(Const.SearchIndex.STUDENT, instructor.key);
+            deleteDocument(Const.SearchIndex.INSTRUCTOR, StringHelper.encrypt(instructor.key));
         } else {
-            deleteDocument(Const.SearchIndex.STUDENT, instructorToDelete.key);
+            deleteDocument(Const.SearchIndex.INSTRUCTOR, StringHelper.encrypt(instructorToDelete.key));
         }
     }
     
@@ -96,6 +100,15 @@ public class InstructorsDb extends EntitiesDb{
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
             }
         }
+        
+        for(InstructorAttributes instructor: instructorsToAdd){
+            putDocument(instructor);
+        }
+    }
+    
+    public void createInstructor(InstructorAttributes instructorToAdd) throws InvalidParametersException, EntityAlreadyExistsException{     
+        createEntity(instructorToAdd);
+        putDocument(instructorToAdd);
     }
 
     /**
