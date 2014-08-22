@@ -1071,16 +1071,16 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         Question 1,"What is the best selling point of your product?"
         
-        Team,Giver,Recipient's Team,Recipient,Feedback
-        "Team 1.1","student1 In Course1","Team 1.1","student1 In Course1","Student 1 self feedback."
-        "Team 1.1","student2 In Course1","Team 1.1","student2 In Course1","I'm cool'"
+        Team,Giver (last name),Recipient's Team,Recipient (last name),Feedback
+        "Team 1.1","student1 In (Course1)","Team 1.1","student1 In (Course1)","Student 1 self feedback."
+        "Team 1.1","student2 In (Course1)","Team 1.1","student2 In (Course1)","I'm cool'"
         
         
         Question 2,"Rate 5 other students' products",
-        Team,Giver,Recipient's Team,Recipient,Feedback
-        "Team 1.1","student1 In Course1","Team 1.1","student1 In Course1","Response from student 1 to student 2."
-        "Team 1.1","student2 In Course1","Team 1.1","student1 In Course1","Response from student 2 to student 1."
-        "Team 1.1","student3 In Course1","Team 1.1","student2 In Course1","Response from student 3 ""to"" student 2.
+        Team,Giver (last name),Recipient's Team,Recipient (last name),Feedback
+        "Team 1.1","student1 In (Course1)","Team 1.1","student1 In (Course1)","Response from student 1 to student 2."
+        "Team 1.1","student2 In (Course1)","Team 1.1","student1 In (Course1)","Response from student 2 to student 1."
+        "Team 1.1","student3 In (Course1)","Team 1.1","student2 In (Course1)","Response from student 3 ""to"" student 2.
         Multiline test."
         
         
@@ -1144,9 +1144,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         It's good,1,50
         It's perfect,1,50
         
-        Team,Giver,Recipient's Team,Recipient,Feedback
-        "Team 1.1","student1 In Course1","Team 1.1","student1 In Course1","It's good"
-        "Team 1.1","student2 In Course1","Team 1.1","student2 In Course1","It's perfect"
+        Team,Giver (last name),Recipient's Team,Recipient (last name),Feedback
+        "Team 1.1","student1 In (Course1)","Team 1.1","student1 In (Course1)","It's good"
+        "Team 1.1","student2 In (Course1)","Team 1.1","student2 In (Course1)","It's perfect"
         
         
         Question 2,"What do you like best about the class' product?"
@@ -1156,7 +1156,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         It's good,1,50
         It's perfect,1,50
         
-        Team,Giver,Recipient's Team,Recipient,Feedback
+        Team,Giver (last name),Recipient's Team,Recipient (last name),Feedback
         "Instructors","Instructor1 Course1","Instructors","Instructor1 Course1","It's good"
         "Instructors","Instructor2 Course1","Instructors","Instructor2 Course1","It's perfect"
         */
@@ -1213,9 +1213,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         It's perfect,1,33.33
         
         
-        Team,Giver,Recipient's Team,Recipient,Feedbacks:,"It's good","It's perfect"
-        "Team 1.1","student1 In Course1","Team 1.1","student1 In Course1",,"It's good","It's perfect"
-        "Team 1.1","student2 In Course1","Team 1.1","student2 In Course1",,"It's good",
+        Team,Giver (last name),Recipient's Team,Recipient (last name),Feedbacks:,"It's good","It's perfect"
+        "Team 1.1","student1 In (Course1)","Team 1.1","student1 In (Course1)",,"It's good","It's perfect"
+        "Team 1.1","student2 In (Course1)","Team 1.1","student2 In (Course1)",,"It's good",
         
         
         Question 2,"What do you like best about the class' product?"
@@ -1226,7 +1226,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         It's perfect,2,66.67
         
         
-        Team,Giver,Recipient's Team,Recipient,Feedbacks:,"It's good","It's perfect"
+        Team,Giver (last name),Recipient's Team,Recipient (last name),Feedbacks:,"It's good","It's perfect"
         "Instructors","Instructor1 Course1","Instructors","Instructor1 Course1",,"It's good","It's perfect"
         "Instructors","Instructor2 Course1","Instructors","Instructor2 Course1",,,"It's perfect"
         */
@@ -1283,9 +1283,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         Average, Minimum, Maximum
         2.75,2,3.5
         
-        Team,Giver,Recipient's Team,Recipient,Feedback
-        "Team 1.1","student1 In Course1","Team 1.1","student1 In Course1",3.5
-        "Team 1.1","student2 In Course1","Team 1.1","student2 In Course1",2
+        Team,Giver (last name),Recipient's Team,Recipient (last name),Feedback
+        "Team 1.1","student1 In (Course1)","Team 1.1","student1 In (Course1)",3.5
+        "Team 1.1","student2 In (Course1)","Team 1.1","student2 In (Course1)",2
         
         
         Question 2,"Rate our product."
@@ -1294,7 +1294,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         Average, Minimum, Maximum
         2.75,1,4.5
         
-        Team,Giver,Recipient's Team,Recipient,Feedback
+        Team,Giver (last name),Recipient's Team,Recipient (last name),Feedback
         "Instructors","Instructor1 Course1","Instructors","Instructor1 Course1",4.5
         "Instructors","Instructor2 Course1","Instructors","Instructor2 Course1",1
         */
@@ -1350,9 +1350,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         Fun,50
         
         
-        Team,Giver,Recipient's Team,Recipient,Feedbacks:,"Grades","Fun"
-        "Team 1.1","student1 In Course1","Team 1.1","student1 In Course1",,20,80
-        "Team 1.1","student2 In Course1","Team 1.1","student2 In Course1",,80,20
+        Team,Giver (last name),Recipient's Team,Recipient (last name),Feedback:,"Grades","Fun"
+        "Team 1.1","student1 In (Course1)","Team 1.1","student1 In (Course1)",,20,80
+        "Team 1.1","student2 In (Course1)","Team 1.1","student2 In (Course1)",,80,20
         
         
         Question 2,"Split points among the teams"
@@ -1363,7 +1363,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         Team 1.2,20
         
         
-        Team,Giver,Recipient's Team,Recipient,Feedback
+        Team,Giver (last name),Recipient's Team,Recipient (last name),Feedback
         "Instructors","Instructor1 Course1","","Team 1.1",80
         "Instructors","Instructor2 Course1","","Team 1.2",20
         */
@@ -1436,11 +1436,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         "Team 1.1","student4 In Course1","Not Submitted","122","122, N/A, N/A"
         
         
-        Team,Giver,Recipient's Team,Recipient,Feedback
-        "Team 1.1","student1 In Course1","Team 1.1","student1 In Course1","Equal share"
-        "Team 1.1","student1 In Course1","Team 1.1","student2 In Course1","Equal share - 20%"
-        "Team 1.1","student1 In Course1","Team 1.1","student3 In Course1","Equal share + 10%"
-        "Team 1.1","student1 In Course1","Team 1.1","student4 In Course1","Equal share + 30%"
+        Team,Giver (last name),Recipient's Team,Recipient (last name),Feedback
+        "Team 1.1","student1 In (Course1)","Team 1.1","student1 In (Course1)","Equal share"
+        "Team 1.1","student1 In (Course1)","Team 1.1","student2 In (Course1)","Equal share - 20%"
+        "Team 1.1","student1 In (Course1)","Team 1.1","student3 In (Course1)","Equal share + 10%"
+        "Team 1.1","student1 In (Course1)","Team 1.1","student4 In (Course1)","Equal share + 30%"
         */
         
         exportLines = export.split(Const.EOL);
