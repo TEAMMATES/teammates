@@ -42,17 +42,17 @@ public class AdminSearchPageAction extends Action {
         
         data.searchKey = searchKey;
        
-//        data.studentResultBundle  = logic.searchStudentsInWholeSystem(searchKey, "");
-//        
-//        data = putFeedbackSessionLinkIntoMap(data.studentResultBundle.studentList, data);
-//        data = putHomePageLinkIntoMap(data.studentResultBundle.studentList, data);
-//        data = putStudentDetailsPageLinkIntoMap(data.studentResultBundle.studentList, data);
-//        data = putInsitituteIntoMap(data.studentResultBundle.studentList, data);
-//           
-//        int numOfResults = data.studentResultBundle.getResultSize();
+        data.studentResultBundle  = logic.searchStudentsInWholeSystem(searchKey, "");
         
+        data = putFeedbackSessionLinkIntoMap(data.studentResultBundle.studentList, data);
+        data = putHomePageLinkIntoMap(data.studentResultBundle.studentList, data);
+        data = putStudentDetailsPageLinkIntoMap(data.studentResultBundle.studentList, data);
+        data = putInsitituteIntoMap(data.studentResultBundle.studentList, data);
+                   
         data.instructorResultBundle = logic.searchInstructorsInWholeSystem(searchKey, "");
-        int numOfResults = data.instructorResultBundle.getResultSize();
+        
+        int numOfResults = data.studentResultBundle.getResultSize() 
+                           + data.instructorResultBundle.getResultSize();
         
         if(numOfResults > 0){
             statusToUser.add("Total results found: " + numOfResults);
