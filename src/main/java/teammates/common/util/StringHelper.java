@@ -233,42 +233,6 @@ public class StringHelper {
     }
     
     
-   
-    
-   /**
-    * This method first split the name and then highlight the last name with braces
-    * <br>
-    * Example: <br>
-    * 
-    * full name: "-" which means user is nobody <br>
-    * first name: "" <br>
-    * last name: "-"  <br>
-    * <br>
-    * full name: "aa bb" <br>
-    * first name: "aa"   <br>
-    * last name: "(bb)"  <br>
-    * <br>
-    * It also detect user specified last name using {} or ()
-    * full name: "aa (bb cc)"
-    * first name: "aa"
-    * last name: "(bb cc)"
-    * 
-    * @param fullName
-    * @return split name with last name surrounded with braces
-    */
-   public static String[] splitNameWithLastNameHighlighted(String fullName){
-     
-       if(fullName.trim().contentEquals(Const.USER_NOBODY_TEXT)){
-           String[] noBody = {"" , Const.USER_NOBODY_TEXT};
-           return noBody;
-       }
-       
-       String[] splitNames = splitName(fullName);    
-       splitNames[1] = "(" + splitNames[1] + ")";
-       
-       return splitNames;
-   }
-    
     /**
      * trims the string and reduces consecutive white spaces to only one space
      * Example: " a   a  " --> "a a"
