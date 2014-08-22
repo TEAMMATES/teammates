@@ -12,6 +12,7 @@ import javax.jdo.Query;
 
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -21,6 +22,7 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.storage.entity.Instructor;
+import teammates.storage.search.InstructorSearchDocument;
 
 /**
  * Handles CRUD Operations for instructor roles.
@@ -30,6 +32,26 @@ import teammates.storage.entity.Instructor;
 public class InstructorsDb extends EntitiesDb{
     
     private static final Logger log = Utils.getLogger();
+    
+    
+    /*
+     * Methods related to Google Search API
+     */
+    
+    public void putDocument(InstructorAttributes instructor){
+        putDocument(Const.SearchIndex.INSTRUCTOR, new InstructorSearchDocument(instructor));
+    }
+    
+    public void deleteDocument(InstructorAttributes instructorToDelete){
+        if(instructorToDelete.key == null){
+            InstructorAttributes instructor = this.getInstructorForEmail(instructorToDelete.courseId, instructorToDelete.email);
+            deleteDocument(Const.SearchIndex.STUDENT, instructor.key);
+        } else {
+            deleteDocument(Const.SearchIndex.STUDENT, instructorToDelete.key);
+        }
+    }
+    
+    
     
     public void createInstructors(Collection<InstructorAttributes> instructorsToAdd) throws InvalidParametersException{
         

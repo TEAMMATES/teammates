@@ -1247,7 +1247,7 @@ public class Logic {
             throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluation);
-
+        
         evaluationsLogic.createEvaluationCascade(evaluation);
     }
     

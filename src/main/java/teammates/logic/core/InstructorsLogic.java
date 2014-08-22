@@ -44,6 +44,16 @@ public class InstructorsLogic {
         return instance;
     }
     
+    /*
+     * methods related to google search API
+     * 
+     */
+    
+    public void deleteDocument(InstructorAttributes instructor){
+        instructorsDb.deleteDocument(instructor);
+    }
+    
+    
     public void createInstructor(InstructorAttributes instructorToAdd) 
             throws InvalidParametersException, EntityAlreadyExistsException {
         
