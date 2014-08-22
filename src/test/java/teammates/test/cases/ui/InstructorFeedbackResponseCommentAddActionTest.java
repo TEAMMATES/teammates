@@ -7,12 +7,14 @@ import static org.testng.AssertJUnit.assertTrue;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.AjaxResult;
@@ -63,7 +65,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         
         verifyAssumptionFailure(submissionParams);
         
-        ______TS("typical successful case");
+        ______TS("typical successful case for unpublished session");
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, session.courseId,
@@ -71,7 +73,8 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
-                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
+                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS"
         };
         
         InstructorFeedbackResponseCommentAddAction action = getAction(submissionParams);
@@ -80,6 +83,27 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
                 (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertFalse(data.isError);
         assertEquals("", result.getStatusMessage());
+        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
+        
+        ______TS("typical successful case for published session");
+        
+        FeedbackSessionsLogic.inst().publishFeedbackSession(session.feedbackSessionName, session.courseId);
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, session.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response, published session",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
+                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS"
+        };
+        
+        action = getAction(submissionParams);
+        result = (AjaxResult) action.executeAndPostProcess();
+        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        assertFalse(data.isError);
+        assertEquals("", result.getStatusMessage());
+        assertEquals(CommentSendingState.PENDING, data.comment.sendingState);
         
         ______TS("Unsuccessful case: empty comment text");
         
