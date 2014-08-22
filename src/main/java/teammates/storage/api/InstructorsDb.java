@@ -10,9 +10,12 @@ import java.util.logging.Logger;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
+
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -23,6 +26,7 @@ import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.storage.entity.Instructor;
 import teammates.storage.search.InstructorSearchDocument;
+import teammates.storage.search.InstructorSearchQuery;
 
 /**
  * Handles CRUD Operations for instructor roles.
@@ -34,8 +38,9 @@ public class InstructorsDb extends EntitiesDb{
     private static final Logger log = Utils.getLogger();
     
     
-    /*
+    /* =========================================================================
      * Methods related to Google Search API
+     * =========================================================================
      */
     
     public void putDocument(InstructorAttributes instructor){
@@ -51,6 +56,31 @@ public class InstructorsDb extends EntitiesDb{
         }
     }
     
+    /**
+     * This method should be used by admin only since the searching does not restrict the 
+     * visibility according to the logged-in user's google ID. This is used by amdin to
+     * search instructors in the whole system.
+     * @param queryString
+     * @param cursorString
+     * @return null if no result found
+     */ 
+    
+    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString, String cursorString){
+        
+        if(queryString.trim().isEmpty()){
+            return new InstructorSearchResultBundle();
+        }
+        
+        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.INSTRUCTOR, 
+                                                          new InstructorSearchQuery(queryString, cursorString));
+        
+        return new InstructorSearchResultBundle().getInstructorsfromResults(results);
+    }
+    
+    
+    /* =========================================================================
+     * =========================================================================
+     */
     
     
     public void createInstructors(Collection<InstructorAttributes> instructorsToAdd) throws InvalidParametersException{
