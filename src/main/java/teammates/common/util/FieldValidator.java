@@ -219,8 +219,7 @@ public class FieldValidator {
      * Field: Feedback session name
      */
     public static final String FEEDBACK_SESSION_NAME = "feedback session";
-    public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "a feedback session name";
-    public static final String FEEDBACK_SESSION_NAME_FIELD_NAME_NOUN = "feedback session name";
+    public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "feedback session name";
     public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
     public static final String FEEDBACK_SESSION_NAME_ERROR_MESSAGE = 
             "\"%s\" is not acceptable to TEAMMATES as "+FEEDBACK_SESSION_NAME_FIELD_NAME+" because it %s. " +
@@ -792,10 +791,10 @@ public class FieldValidator {
     public String getValidityInfoForFeedbackSessionName(Object value) {
         String returnValue;
         returnValue = getValidityInfoForAllowedName(
-                FEEDBACK_SESSION_NAME_FIELD_NAME_NOUN, FEEDBACK_SESSION_NAME_MAX_LENGTH, (String)value);
+                FEEDBACK_SESSION_NAME_FIELD_NAME, FEEDBACK_SESSION_NAME_MAX_LENGTH, (String)value);
         if(returnValue.equals("")){
             returnValue = getValidityInfoForNonHtmlField(
-                    FEEDBACK_SESSION_NAME_FIELD_NAME_NOUN, (String) value);
+                    FEEDBACK_SESSION_NAME_FIELD_NAME, (String) value);
         }
         return returnValue;
     }
