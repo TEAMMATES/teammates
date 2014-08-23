@@ -471,12 +471,7 @@ public class FieldValidator {
                     EVALUATION_INSTRUCTIONS_FIELD_NAME, value);
             break;
         case FEEDBACK_SESSION_NAME:
-            returnValue = getValidityInfoForAllowedName(
-                    FEEDBACK_SESSION_NAME_FIELD_NAME, FEEDBACK_SESSION_NAME_MAX_LENGTH, (String)value);
-            if(returnValue.equals("")){
-                returnValue = getValidityInfoForNonHtmlField(
-                        FEEDBACK_SESSION_NAME_FIELD_NAME_NOUN, (String) value);
-            }
+            returnValue = getValidityInfoForFeedbackSessionName(value);
             break;
         case FEEDBACK_QUESTION_TEXT:
             returnValue = getValidityInfoForSizeCappedNonEmptyString(
@@ -793,6 +788,17 @@ public class FieldValidator {
 
         return errors;
     }
+
+    public String getValidityInfoForFeedbackSessionName(Object value) {
+        String returnValue;
+        returnValue = getValidityInfoForAllowedName(
+                FEEDBACK_SESSION_NAME_FIELD_NAME_NOUN, FEEDBACK_SESSION_NAME_MAX_LENGTH, (String)value);
+        if(returnValue.equals("")){
+            returnValue = getValidityInfoForNonHtmlField(
+                    FEEDBACK_SESSION_NAME_FIELD_NAME_NOUN, (String) value);
+        }
+        return returnValue;
+    }
     
     public String getValidityInfoForNonHtmlField(String fieldName, String value) {
         String sanitizedValue = value;
@@ -805,7 +811,6 @@ public class FieldValidator {
             //Regex meaning: replace '&' with safe encoding, but not the one that is safe already
             .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
         //Fails if sanitized value is not same as value
-        System.out.println(sanitizedValue + " : " + value);
         return (value.equals(sanitizedValue)) ? "" : String.format(NON_HTML_FIELD_ERROR_MESSAGE, fieldName);
     }
     
