@@ -27,59 +27,68 @@ public class StudentProfilePageActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        AccountAttributes student = dataBundle.accounts.get("student1InCourse1");
-        
-        String[] submissionParams = new String[]{};
-        
-        ______TS("typical success");
-        
+        AccountAttributes student = dataBundle.accounts.get("student1InCourse1");        
+        testActionSuccessTypical(student);
+        testActionInMasquerade(student);
+    }
+
+    private void testActionSuccessTypical(AccountAttributes student) throws Exception {
         gaeSimulation.loginAsStudent(student.googleId);
-        StudentProfilePageAction a = getAction(submissionParams);
-        ShowPageResult r = (ShowPageResult) a.executeAndPostProcess();
+        ______TS("typical success");
+        String[] submissionParams = new String[]{};
+        StudentProfilePageAction action = getAction(submissionParams);
+        ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
         
-        AssertHelper.assertContains("/jsp/studentProfilePage.jsp?error=false&user="+student.googleId, r.getDestinationWithParams());
-        assertFalse(r.isError);
-        assertEquals("", r.getStatusMessage());
+        AssertHelper.assertContains("/jsp/studentProfilePage.jsp?error=false&user="+student.googleId, result.getDestinationWithParams());
+        assertFalse(result.isError);
+        assertEquals("", result.getStatusMessage());
         
-        PageData data = r.data;
-        student.studentProfile.modifiedDate = data.account.studentProfile.modifiedDate;
-        student.createdAt = data.account.createdAt;
-        assertEquals(student.toString(), data.account.toString());
-        
-        String expectedLogMessage = "TEAMMATESLOG|||studentProfilePage|||studentProfilePage" +
-                "|||true|||Student|||"+ student.name +"|||" + student.googleId + "|||" + student.email +
-                "|||studentProfile Page Load <br> Profile: " + student.studentProfile.toString() + "|||/page/studentProfilePage" ;
-        assertEquals(expectedLogMessage, a.getLogMessage());
-        
-        ______TS("masquerade mode");
-        String adminUserId = "admin.user";
-        gaeSimulation.loginAsAdmin(adminUserId);
-        
-        submissionParams = new String[]{
+        verifyAccountsAreSame(student, result);
+        verifyLogMessage(student, action, false);
+    }
+
+    private void testActionInMasquerade(AccountAttributes student)
+            throws Exception {
+        gaeSimulation.loginAsAdmin("admin.user");
+        ______TS("masquerade mode");        
+        String[] submissionParams = new String[]{
                 Const.ParamsNames.STUDENT_PROFILE_PHOTOEDIT, "false",
                 Const.ParamsNames.USER_ID, student.googleId
         };
         
-        a = getAction(addUserIdToParams(student.googleId, submissionParams));
-        r = (ShowPageResult) a.executeAndPostProcess();
+        StudentProfilePageAction action = getAction(addUserIdToParams(student.googleId, submissionParams));
+        ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
         
-        AssertHelper.assertContains(Const.ViewURIs.STUDENT_PROFILE_PAGE + "?error=false&user="+student.googleId, r.getDestinationWithParams());
-        assertFalse(r.isError);
-        assertEquals("", r.getStatusMessage());
+        AssertHelper.assertContains(Const.ViewURIs.STUDENT_PROFILE_PAGE + "?error=false&user="+student.googleId, result.getDestinationWithParams());
+        assertFalse(result.isError);
+        assertEquals("", result.getStatusMessage());
         
-        data = r.data;
+        verifyAccountsAreSame(student, result);
+        verifyLogMessage(student, action, true);
+    }
+    
+    
+    //-------------------------------------------------------------------------------------------------------
+    //-------------------------------------- Helper Functions -----------------------------------------------
+    //-------------------------------------------------------------------------------------------------------
+
+    private void verifyAccountsAreSame(AccountAttributes student,
+            ShowPageResult result) {
+        PageData data = result.data;
         student.studentProfile.modifiedDate = data.account.studentProfile.modifiedDate;
         student.createdAt = data.account.createdAt;
         assertEquals(student.toString(), data.account.toString());
-        
-        expectedLogMessage = "TEAMMATESLOG|||studentProfilePage|||studentProfilePage" +
-                "|||true|||Student(M)|||"+ student.name +"|||" + student.googleId + "|||" + student.email +
-                "|||studentProfile Page Load <br> Profile: " + student.studentProfile.toString() + "|||/page/studentProfilePage" ;
-        assertEquals(expectedLogMessage, a.getLogMessage());
-        
     }
 
-    private StudentProfilePageAction getAction(String... params) throws Exception{
+    private void verifyLogMessage(AccountAttributes student,
+            StudentProfilePageAction action, boolean isMasquerade) {
+        String expectedLogMessage = "TEAMMATESLOG|||studentProfilePage|||studentProfilePage" +
+                "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||"+ student.name +"|||" + student.googleId + "|||" + student.email +
+                "|||studentProfile Page Load <br> Profile: " + student.studentProfile.toString() + "|||/page/studentProfilePage" ;
+        assertEquals(expectedLogMessage, action.getLogMessage());
+    }
+
+    private StudentProfilePageAction getAction(String... params) throws Exception {
             return (StudentProfilePageAction) (gaeSimulation.getActionObject(uri, params));
     }
 
