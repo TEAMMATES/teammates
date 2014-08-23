@@ -1,61 +1,25 @@
 package teammates.test.cases.logic;
 
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
-import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
-import static teammates.common.util.FieldValidator.END_TIME_FIELD_NAME;
-import static teammates.common.util.FieldValidator.EVALUATION_NAME;
-import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
-import static teammates.common.util.FieldValidator.START_TIME_FIELD_NAME;
-import static teammates.common.util.FieldValidator.TIME_FRAME_ERROR_MESSAGE;
-import static teammates.logic.core.TeamEvalResult.NA;
-import static teammates.logic.core.TeamEvalResult.NSB;
-import static teammates.logic.core.TeamEvalResult.NSU;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.mail.internet.MimeMessage;
-import javax.servlet.ServletException;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
-import teammates.common.datatransfer.EvaluationDetailsBundle;
-import teammates.common.datatransfer.EvaluationResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentProfileAttributes;
-import teammates.common.datatransfer.TeamDetailsBundle;
-import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.SubmissionAttributes;
-import teammates.common.datatransfer.TeamResultBundle;
 import teammates.common.datatransfer.UserType;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
-import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
-import teammates.logic.backdoor.BackDoorLogic;
-import teammates.logic.core.AccountsLogic;
-import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.EvaluationsLogic;
 import teammates.logic.core.SubmissionsLogic;
 import teammates.test.cases.BaseComponentTestCase;
-import teammates.test.driver.AssertHelper;
 import teammates.test.util.TestHelper;
-
-import com.google.appengine.api.datastore.Text;
 
 public class LogicTest extends BaseComponentTestCase {
 
@@ -69,11 +33,6 @@ public class LogicTest extends BaseComponentTestCase {
         printTestClassHeader();
         turnLoggingUp(Logic.class);
         removeAndRestoreTypicalDataInDatastore();
-    }
-
-    @BeforeMethod
-    public void caseSetUp() throws ServletException {
-        dataBundle = getTypicalDataBundle();
     }
 
     @SuppressWarnings("unused")
@@ -149,7 +108,7 @@ public class LogicTest extends BaseComponentTestCase {
         ______TS("typical case");
 
         EvaluationAttributes evaluation = dataBundle.evaluations
-                .get("evaluation1InCourse1");
+                .get("evaluation2InCourse1");
         // reuse this evaluation data to create a new one
         evaluation.name = "new evaluation";
         logic.createEvaluationWithoutSubmissionQueue(evaluation);
@@ -215,7 +174,6 @@ public class LogicTest extends BaseComponentTestCase {
 
     @Test
     public void testHasStudentSubmittedEvaluation() throws Exception {
-    
         EvaluationAttributes evaluation = dataBundle.evaluations
                 .get("evaluation1InCourse1");
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
