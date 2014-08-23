@@ -187,7 +187,7 @@ public class StringHelper {
      * 3.If more than two words, the last word will be last name and 
      * the rest will be first name.
      * <br>
-     * 4.If the last name is enclosed with braces "{}" or "()" such as first {Last1 Last2},
+     * 4.If the last name is enclosed with braces "{}" such as first {Last1 Last2},
      * the last name will be the String inside the braces
      * <br>
      * Example: 
@@ -209,8 +209,7 @@ public class StringHelper {
         if(fullName == null){
             return null;
         }
-        
-        fullName = fullName.replace("(", "{").replace(")", "}");   
+           
         String lastName;
         String firstName;
         
