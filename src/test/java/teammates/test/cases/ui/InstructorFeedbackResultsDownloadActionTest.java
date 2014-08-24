@@ -67,7 +67,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         ______TS("Typical successful case: student last name displayed properly after being specified with braces");
         
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        student1InCourse1.name = "new name (new last name)";
+        student1InCourse1.name = "new name {new last name}";
         StudentsLogic studentsLogic = StudentsLogic.inst();
         studentsLogic.updateStudentCascade(student1InCourse1.email, student1InCourse1);
         

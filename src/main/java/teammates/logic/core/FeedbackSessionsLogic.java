@@ -635,7 +635,7 @@ public class FeedbackSessionsLogic {
                     exportBuilder.append("," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFirstName))
                                        + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName)));
                 } else {
-                    exportBuilder.append("," + giverName + "," + giverName);
+                    exportBuilder.append("," + Sanitizer.sanitizeForCsv(giverName) + "," + Sanitizer.sanitizeForCsv(giverName));
                 }
                 
                 exportBuilder.append("," + Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.recipientEmail)));
@@ -648,7 +648,7 @@ public class FeedbackSessionsLogic {
                     exportBuilder.append("," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFirstName))
                                        + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName)));
                 } else {     
-                    exportBuilder.append("," + recipientName + "," + recipientName);
+                    exportBuilder.append("," + Sanitizer.sanitizeForCsv(recipientName) + "," + Sanitizer.sanitizeForCsv(recipientName));
                 }
                 exportBuilder.append("," + response.getResponseDetails().getAnswerCsv(questionDetails) + Const.EOL);
             }

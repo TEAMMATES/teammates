@@ -64,7 +64,7 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         ______TS("Typical case: student list downloaded successfully with student last name specified within braces");
         
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        student1InCourse1.name = "new name (new last name)";
+        student1InCourse1.name = "new name {new last name}";
         StudentsLogic.inst().updateStudentCascade(student1InCourse1.email, student1InCourse1);
         
         a = getAction(submissionParams);
