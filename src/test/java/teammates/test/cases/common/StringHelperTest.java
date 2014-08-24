@@ -104,6 +104,18 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals(splitName[0],"what if four");
         assertEquals(splitName[1],"words");
         
+        fullName = "first name firstName (last Name)";
+        splitName = StringHelper.splitName(fullName);
+        
+        assertEquals(splitName[0],"first name firstName");
+        assertEquals(splitName[1],"last Name");
+        
+        fullName = "first name firstName {last Name}";
+        splitName = StringHelper.splitName(fullName);
+        
+        assertEquals(splitName[0],"first name firstName");
+        assertEquals(splitName[1],"last Name");
+        
     }
     
     @Test 
