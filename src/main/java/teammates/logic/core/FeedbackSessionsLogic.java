@@ -42,6 +42,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackSessionsDb;
@@ -616,15 +617,40 @@ public class FeedbackSessionsLogic {
                 exportBuilder.append(statistics + Const.EOL);
             }
             
-            exportBuilder.append("Team" + "," + "Giver" + "," + "Recipient's Team" + ","
-                    + "Recipient" + "," + questionDetails.getCsvHeader() + Const.EOL);
+            exportBuilder.append("Team" + "," + "Giver's First Name" + "," + "Giver's Last Name" + "," + "Recipient's Team" + ","
+                    + "Recipient's First Name" + "," + "Recipient's Last Name" + "," + questionDetails.getCsvHeader() + Const.EOL);
 
             for (FeedbackResponseAttributes response : entry.getValue()) {
-                exportBuilder.append(Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.giverEmail))
-                        + "," + Sanitizer.sanitizeForCsv(results.getNameForEmail(response.giverEmail))
-                        + "," + Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.recipientEmail))
-                        + "," + Sanitizer.sanitizeForCsv(results.getNameForEmail(response.recipientEmail))
-                        + "," + response.getResponseDetails().getAnswerCsv(questionDetails) + Const.EOL);
+                
+                String giverName = results.getNameForEmail(response.giverEmail);              
+                String recipientName = results.getNameForEmail(response.recipientEmail);
+                
+                exportBuilder.append(Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.giverEmail)));
+                
+                StudentAttributes student = studentsLogic.getStudentForEmail(response.courseId, response.giverEmail);
+                if (student != null){
+                    String giverFirstName = student.name.replace(student.lastName, "").trim();
+                    String giverLastName = student.lastName;
+                    
+                    exportBuilder.append("," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFirstName))
+                                       + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName)));
+                } else {
+                    exportBuilder.append("," + giverName + "," + giverName);
+                }
+                
+                exportBuilder.append("," + Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.recipientEmail)));
+                
+                student = studentsLogic.getStudentForEmail(response.courseId, response.recipientEmail);              
+                if (student != null){
+                    String recipientFirstName = student.name.replace(student.lastName, "").trim();
+                    String recipientLastName = student.lastName;
+                    
+                    exportBuilder.append("," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFirstName))
+                                       + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName)));
+                } else {     
+                    exportBuilder.append("," + recipientName + "," + recipientName);
+                }
+                exportBuilder.append("," + response.getResponseDetails().getAnswerCsv(questionDetails) + Const.EOL);
             }
             exportBuilder.append(Const.EOL + Const.EOL);
         }

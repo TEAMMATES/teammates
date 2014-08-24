@@ -1071,22 +1071,22 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         Question 1,"What is the best selling point of your product?"
         
-        Team,Giver,Recipient's Team,Recipient,Feedback
-        "Team 1.1","student1 In Course1","Team 1.1","student1 In Course1","Student 1 self feedback."
-        "Team 1.1","student2 In Course1","Team 1.1","student2 In Course1","I'm cool'"
+        Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback
+        "Team 1.1","student1 In","Course1","Team 1.1","student1 In","Course1","Student 1 self feedback."
+        "Team 1.1","student2 In","Course1","Team 1.1","student2 In","Course1","I'm cool'"
         
         
         Question 2,"Rate 5 other students' products",
-        Team,Giver,Recipient's Team,Recipient,Feedback
-        "Team 1.1","student1 In Course1","Team 1.1","student1 In Course1","Response from student 1 to student 2."
-        "Team 1.1","student2 In Course1","Team 1.1","student1 In Course1","Response from student 2 to student 1."
-        "Team 1.1","student3 In Course1","Team 1.1","student2 In Course1","Response from student 3 ""to"" student 2.
+        Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback
+        "Team 1.1","student1 In","Course1","Team 1.1","student1 In","Course1","Response from student 1 to student 2."
+        "Team 1.1","student2 In","Course1","Team 1.1","student1 In","Course1","Response from student 2 to student 1."
+        "Team 1.1","student3 In","Course1","Team 1.1","student2 In","Course1","Response from student 3 ""to"" student 2.
         Multiline test."
         
         
         Question 3,"My comments on the class",
-        Team,Giver,Recipient's Team,Recipient,Feedback
-        "Instructors","Instructor1 Course1","","-","Good work, keep it up!"
+        Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback
+        "Instructors","Instructor1 Course1","Instructor1 Course1","-","-","-","Good work, keep it up!"
         */
         
         String[] exportLines = export.split(Const.EOL);
@@ -1096,27 +1096,27 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[3], "");
         assertEquals(exportLines[4], "Question 1,\"What is the best selling point of your product?\"");
         assertEquals(exportLines[5], "");
-        assertEquals(exportLines[6], "Team,Giver,Recipient's Team,Recipient,Feedback");
-        assertEquals(exportLines[7], "\"Team 1.1\",\"student1 In Course1\",\"Team 1.1\",\"student1 In Course1\",\"Student 1 self feedback.\"");
+        assertEquals(exportLines[6], "Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback");
+        assertEquals(exportLines[7], "\"Team 1.1\",\"student1 In\",\"Course1\",\"Team 1.1\",\"student1 In\",\"Course1\",\"Student 1 self feedback.\"");
         // checking single quotes inside cell
-        assertEquals(exportLines[8], "\"Team 1.1\",\"student2 In Course1\",\"Team 1.1\",\"student2 In Course1\",\"I'm cool'\"");
+        assertEquals(exportLines[8], "\"Team 1.1\",\"student2 In\",\"Course1\",\"Team 1.1\",\"student2 In\",\"Course1\",\"I'm cool'\"");
         assertEquals(exportLines[9], "");
         assertEquals(exportLines[10], "");
         assertEquals(exportLines[11], "Question 2,\"Rate 1 other student's product\"");
         assertEquals(exportLines[12], "");
-        assertEquals(exportLines[13], "Team,Giver,Recipient's Team,Recipient,Feedback");
-        assertEquals(exportLines[15], "\"Team 1.1\",\"student2 In Course1\",\"Team 1.1\",\"student1 In Course1\",\"Response from student 2 to student 1.\"");
-        assertEquals(exportLines[14], "\"Team 1.1\",\"student1 In Course1\",\"Team 1.1\",\"student2 In Course1\",\"Response from student 1 to student 2.\"");
+        assertEquals(exportLines[13], "Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback");
+        assertEquals(exportLines[15], "\"Team 1.1\",\"student2 In\",\"Course1\",\"Team 1.1\",\"student1 In\",\"Course1\",\"Response from student 2 to student 1.\"");
+        assertEquals(exportLines[14], "\"Team 1.1\",\"student1 In\",\"Course1\",\"Team 1.1\",\"student2 In\",\"Course1\",\"Response from student 1 to student 2.\"");
         // checking double quotes inside cell + multiline cell
-        assertEquals(exportLines[16].trim(), "\"Team 1.1\",\"student3 In Course1\",\"Team 1.1\",\"student2 In Course1\",\"Response from student 3 \"\"to\"\" student 2.");
+        assertEquals(exportLines[16].trim(), "\"Team 1.1\",\"student3 In\",\"Course1\",\"Team 1.1\",\"student2 In\",\"Course1\",\"Response from student 3 \"\"to\"\" student 2.");
         assertEquals(exportLines[17], "Multiline test.\"");
         assertEquals(exportLines[18], "");
         assertEquals(exportLines[19], "");
         assertEquals(exportLines[20], "Question 3,\"My comments on the class\"");
         assertEquals(exportLines[21], "");
-        assertEquals(exportLines[22], "Team,Giver,Recipient's Team,Recipient,Feedback");
+        assertEquals(exportLines[22], "Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback");
         // checking comma inside cell
-        assertEquals(exportLines[23], "\"Instructors\",\"Instructor1 Course1\",\"-\",\"-\",\"Good work, keep it up!\"");
+        assertEquals(exportLines[23], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"-\",\"-\",\"-\",\"Good work, keep it up!\"");
         
         ______TS("MCQ results");
         
@@ -1144,9 +1144,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         It's good,1,50
         It's perfect,1,50
         
-        Team,Giver,Recipient's Team,Recipient,Feedback
-        "Team 1.1","student1 In Course1","Team 1.1","student1 In Course1","It's good"
-        "Team 1.1","student2 In Course1","Team 1.1","student2 In Course1","It's perfect"
+        Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback
+        "Team 1.1","student1 In","Course1","Team 1.1","student1 In","Course1","It's good"
+        "Team 1.1","student2 In","Course1","Team 1.1","student2 In","Course1","It's perfect"
         
         
         Question 2,"What do you like best about the class' product?"
@@ -1156,9 +1156,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         It's good,1,50
         It's perfect,1,50
         
-        Team,Giver,Recipient's Team,Recipient,Feedback
-        "Instructors","Instructor1 Course1","Instructors","Instructor1 Course1","It's good"
-        "Instructors","Instructor2 Course1","Instructors","Instructor2 Course1","It's perfect"
+        Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback
+        "Instructors","Instructor1 Course1","Instructor1 Course1","Instructors","Instructor1 Course1","Instructor1 Course1","It's good"
+        "Instructors","Instructor2 Course1","Instructor2 Course1","Instructors","Instructor2 Course1","Instructor2 Course1","It's perfect"
         */
         
         exportLines = export.split(Const.EOL);
@@ -1173,9 +1173,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[8], "It's good,1,50");
         assertEquals(exportLines[9], "It's perfect,1,50");
         assertEquals(exportLines[10], "");
-        assertEquals(exportLines[11], "Team,Giver,Recipient's Team,Recipient,Feedback");
-        assertEquals(exportLines[12], "\"Team 1.1\",\"student1 In Course1\",\"Team 1.1\",\"student1 In Course1\",\"It's good\"");
-        assertEquals(exportLines[13], "\"Team 1.1\",\"student2 In Course1\",\"Team 1.1\",\"student2 In Course1\",\"It's perfect\"");
+        assertEquals(exportLines[11], "Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback");
+        assertEquals(exportLines[12], "\"Team 1.1\",\"student1 In\",\"Course1\",\"Team 1.1\",\"student1 In\",\"Course1\",\"It's good\"");
+        assertEquals(exportLines[13], "\"Team 1.1\",\"student2 In\",\"Course1\",\"Team 1.1\",\"student2 In\",\"Course1\",\"It's perfect\"");
         assertEquals(exportLines[14], "");
         assertEquals(exportLines[15], "");
         assertEquals(exportLines[16], "Question 2,\"What do you like best about the class' product?\"");
@@ -1185,9 +1185,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[20], "It's good,1,50");
         assertEquals(exportLines[21], "It's perfect,1,50");
         assertEquals(exportLines[22], "");
-        assertEquals(exportLines[23], "Team,Giver,Recipient's Team,Recipient,Feedback");
-        assertEquals(exportLines[24], "\"Instructors\",\"Instructor1 Course1\",\"Instructors\",\"Instructor1 Course1\",\"It's good\"");
-        assertEquals(exportLines[25], "\"Instructors\",\"Instructor2 Course1\",\"Instructors\",\"Instructor2 Course1\",\"It's perfect\"");
+        assertEquals(exportLines[23], "Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback");
+        assertEquals(exportLines[24], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"It's good\"");
+        assertEquals(exportLines[25], "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"It's perfect\"");
         
         ______TS("MSQ results");
         
@@ -1213,9 +1213,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         It's perfect,1,33.33
         
         
-        Team,Giver,Recipient's Team,Recipient,Feedbacks:,"It's good","It's perfect"
-        "Team 1.1","student1 In Course1","Team 1.1","student1 In Course1",,"It's good","It's perfect"
-        "Team 1.1","student2 In Course1","Team 1.1","student2 In Course1",,"It's good",
+        Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedbacks:,"It's good","It's perfect"
+        "Team 1.1","student1 In","Course1","Team 1.1","student1 In","Course1",,"It's good","It's perfect"
+        "Team 1.1","student2 In","Course1","Team 1.1","student2 In","Course1",,"It's good",
         
         
         Question 2,"What do you like best about the class' product?"
@@ -1226,9 +1226,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         It's perfect,2,66.67
         
         
-        Team,Giver,Recipient's Team,Recipient,Feedbacks:,"It's good","It's perfect"
-        "Instructors","Instructor1 Course1","Instructors","Instructor1 Course1",,"It's good","It's perfect"
-        "Instructors","Instructor2 Course1","Instructors","Instructor2 Course1",,,"It's perfect"
+        Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedbacks:,"It's good","It's perfect"
+        "Instructors","Instructor1 Course1","Instructor1 Course1","Instructors","Instructor1 Course1","Instructor1 Course1",,"It's good","It's perfect"
+        "Instructors","Instructor2 Course1","Instructor2 Course1","Instructors","Instructor2 Course1","Instructor2 Course1",,,"It's perfect"
         */
         
         exportLines = export.split(Const.EOL);
@@ -1244,9 +1244,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[9], "It's perfect,1,33.33");
         assertEquals(exportLines[10], "");
         assertEquals(exportLines[11], "");
-        assertEquals(exportLines[12], "Team,Giver,Recipient's Team,Recipient,Feedbacks:,\"It's good\",\"It's perfect\"");
-        assertEquals(exportLines[13], "\"Team 1.1\",\"student1 In Course1\",\"Team 1.1\",\"student1 In Course1\",,\"It's good\",\"It's perfect\"");
-        assertEquals(exportLines[14], "\"Team 1.1\",\"student2 In Course1\",\"Team 1.1\",\"student2 In Course1\",,\"It's good\",");
+        assertEquals(exportLines[12], "Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedbacks:,\"It's good\",\"It's perfect\"");
+        assertEquals(exportLines[13], "\"Team 1.1\",\"student1 In\",\"Course1\",\"Team 1.1\",\"student1 In\",\"Course1\",,\"It's good\",\"It's perfect\"");
+        assertEquals(exportLines[14], "\"Team 1.1\",\"student2 In\",\"Course1\",\"Team 1.1\",\"student2 In\",\"Course1\",,\"It's good\",");
         assertEquals(exportLines[15], "");
         assertEquals(exportLines[16], "");
         assertEquals(exportLines[17], "Question 2,\"What do you like best about the class' product?\"");
@@ -1257,9 +1257,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[22], "It's perfect,2,66.67");
         assertEquals(exportLines[23], "");
         assertEquals(exportLines[24], "");
-        assertEquals(exportLines[25], "Team,Giver,Recipient's Team,Recipient,Feedbacks:,\"It's good\",\"It's perfect\"");
-        assertEquals(exportLines[26], "\"Instructors\",\"Instructor1 Course1\",\"Instructors\",\"Instructor1 Course1\",,\"It's good\",\"It's perfect\"");
-        assertEquals(exportLines[27], "\"Instructors\",\"Instructor2 Course1\",\"Instructors\",\"Instructor2 Course1\",,,\"It's perfect\"");
+        assertEquals(exportLines[25], "Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedbacks:,\"It's good\",\"It's perfect\"");
+        assertEquals(exportLines[26], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",,\"It's good\",\"It's perfect\"");
+        assertEquals(exportLines[27], "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",,,\"It's perfect\"");
         
         ______TS("NUMSCALE results");
         
@@ -1283,9 +1283,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         Average, Minimum, Maximum
         2.75,2,3.5
         
-        Team,Giver,Recipient's Team,Recipient,Feedback
-        "Team 1.1","student1 In Course1","Team 1.1","student1 In Course1",3.5
-        "Team 1.1","student2 In Course1","Team 1.1","student2 In Course1",2
+       Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback
+        "Team 1.1","student1 In","Course1)","Team 1.1","student1 In","Course1)",3.5
+        "Team 1.1","student2 In","Course1)","Team 1.1","student2 In","Course1)",2
         
         
         Question 2,"Rate our product."
@@ -1294,9 +1294,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         Average, Minimum, Maximum
         2.75,1,4.5
         
-        Team,Giver,Recipient's Team,Recipient,Feedback
-        "Instructors","Instructor1 Course1","Instructors","Instructor1 Course1",4.5
-        "Instructors","Instructor2 Course1","Instructors","Instructor2 Course1",1
+        Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback
+        "Instructors","Instructor1 Course1","Instructor1 Course1","Instructors","Instructor1 Course1","Instructor1 Course1",4.5
+        "Instructors","Instructor2 Course1","Instructor2 Course1","Instructors","Instructor2 Course1","Instructor2 Course1",1
         */
         
         exportLines = export.split(Const.EOL);
@@ -1310,9 +1310,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[7], "Average, Minimum, Maximum");
         assertEquals(exportLines[8], "2.75,2,3.5");
         assertEquals(exportLines[9], "");
-        assertEquals(exportLines[10], "Team,Giver,Recipient's Team,Recipient,Feedback");
-        assertEquals(exportLines[11], "\"Team 1.1\",\"student1 In Course1\",\"Team 1.1\",\"student1 In Course1\",3.5");
-        assertEquals(exportLines[12], "\"Team 1.1\",\"student2 In Course1\",\"Team 1.1\",\"student2 In Course1\",2");
+        assertEquals(exportLines[10], "Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback");
+        assertEquals(exportLines[11], "\"Team 1.1\",\"student1 In\",\"Course1\",\"Team 1.1\",\"student1 In\",\"Course1\",3.5");
+        assertEquals(exportLines[12], "\"Team 1.1\",\"student2 In\",\"Course1\",\"Team 1.1\",\"student2 In\",\"Course1\",2");
         assertEquals(exportLines[13], "");
         assertEquals(exportLines[14], "");
         assertEquals(exportLines[15], "Question 2,\"Rate our product.\"");
@@ -1321,9 +1321,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[18], "Average, Minimum, Maximum");
         assertEquals(exportLines[19], "2.75,1,4.5");
         assertEquals(exportLines[20], "");
-        assertEquals(exportLines[21], "Team,Giver,Recipient's Team,Recipient,Feedback");
-        assertEquals(exportLines[22], "\"Instructors\",\"Instructor1 Course1\",\"Instructors\",\"Instructor1 Course1\",4.5");
-        assertEquals(exportLines[23], "\"Instructors\",\"Instructor2 Course1\",\"Instructors\",\"Instructor2 Course1\",1");
+        assertEquals(exportLines[21], "Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback");
+        assertEquals(exportLines[22], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",4.5");
+        assertEquals(exportLines[23], "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",1");
         
         
         ______TS("CONSTSUM results");
@@ -1350,9 +1350,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         Fun,50
         
         
-        Team,Giver,Recipient's Team,Recipient,Feedbacks:,"Grades","Fun"
-        "Team 1.1","student1 In Course1","Team 1.1","student1 In Course1",,20,80
-        "Team 1.1","student2 In Course1","Team 1.1","student2 In Course1",,80,20
+        Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedbacks:,"Grades","Fun"
+        "Team 1.1","student1 In,"Course1","Team 1.1","student1 In,"Course1",,20,80
+        "Team 1.1","student2 In,"Course1","Team 1.1","student2 In,"Course1",,80,20
         
         
         Question 2,"Split points among the teams"
@@ -1363,9 +1363,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         Team 1.2,20
         
         
-        Team,Giver,Recipient's Team,Recipient,Feedback
-        "Instructors","Instructor1 Course1","","Team 1.1",80
-        "Instructors","Instructor2 Course1","","Team 1.2",20
+        Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback
+        "Instructors","Instructor1 Course1","Instructor1 Course1","","Team 1.1","Team 1.1",80
+        "Instructors","Instructor2 Course1","Instructor2 Course1","","Team 1.2","Team 1.2",20
         */
         
         exportLines = export.split(Const.EOL);
@@ -1381,9 +1381,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[9], "Fun,50");
         assertEquals(exportLines[10], "");
         assertEquals(exportLines[11], "");
-        assertEquals(exportLines[12], "Team,Giver,Recipient's Team,Recipient,Feedbacks:,\"Grades\",\"Fun\"");
-        assertEquals(exportLines[13], "\"Team 1.1\",\"student1 In Course1\",\"Team 1.1\",\"student1 In Course1\",,20,80");
-        assertEquals(exportLines[14], "\"Team 1.1\",\"student2 In Course1\",\"Team 1.1\",\"student2 In Course1\",,80,20");
+        assertEquals(exportLines[12], "Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedbacks:,\"Grades\",\"Fun\"");
+        assertEquals(exportLines[13], "\"Team 1.1\",\"student1 In\",\"Course1\",\"Team 1.1\",\"student1 In\",\"Course1\",,20,80");
+        assertEquals(exportLines[14], "\"Team 1.1\",\"student2 In\",\"Course1\",\"Team 1.1\",\"student2 In\",\"Course1\",,80,20");
         assertEquals(exportLines[15], "");
         assertEquals(exportLines[16], "");
         assertEquals(exportLines[17], "Question 2,\"Split points among the teams\"");
@@ -1394,9 +1394,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[22], "Team 1.2,20");
         assertEquals(exportLines[23], "");
         assertEquals(exportLines[24], "");
-        assertEquals(exportLines[25], "Team,Giver,Recipient's Team,Recipient,Feedback");
-        assertEquals(exportLines[26], "\"Instructors\",\"Instructor1 Course1\",\"\",\"Team 1.1\",80");
-        assertEquals(exportLines[27], "\"Instructors\",\"Instructor2 Course1\",\"\",\"Team 1.2\",20");
+        assertEquals(exportLines[25], "Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback");
+        assertEquals(exportLines[26], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"\",\"Team 1.1\",\"Team 1.1\",80");
+        assertEquals(exportLines[27], "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"\",\"Team 1.2\",\"Team 1.2\",20");
         
         ______TS("Instructor without privilege to view responses");
         
@@ -1436,11 +1436,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         "Team 1.1","student4 In Course1","Not Submitted","122","122, N/A, N/A"
         
         
-        Team,Giver,Recipient's Team,Recipient,Feedback
-        "Team 1.1","student1 In Course1","Team 1.1","student1 In Course1","Equal share"
-        "Team 1.1","student1 In Course1","Team 1.1","student2 In Course1","Equal share - 20%"
-        "Team 1.1","student1 In Course1","Team 1.1","student3 In Course1","Equal share + 10%"
-        "Team 1.1","student1 In Course1","Team 1.1","student4 In Course1","Equal share + 30%"
+        Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback
+        "Team 1.1","student1 In,"Course1","Team 1.1","student1 In,"Course1","Equal share"
+        "Team 1.1","student1 In,"Course1","Team 1.1","student2 In,"Course1","Equal share - 20%"
+        "Team 1.1","student1 In,"Course1","Team 1.1","student3 In,"Course1","Equal share + 10%"
+        "Team 1.1","student1 In,"Course1","Team 1.1","student4 In,"Course1","Equal share + 30%"
         */
         
         exportLines = export.split(Const.EOL);
@@ -1458,11 +1458,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[11], "\"Team 1.1\",\"student4 In Course1\",\"Not Submitted\",\"122\",\"122, N/A, N/A\"");
         assertEquals(exportLines[12], "");
         assertEquals(exportLines[13], "");
-        assertEquals(exportLines[14], "Team,Giver,Recipient's Team,Recipient,Feedback");
-        assertEquals(exportLines[15], "\"Team 1.1\",\"student1 In Course1\",\"Team 1.1\",\"student1 In Course1\",\"Equal share\"");
-        assertEquals(exportLines[16], "\"Team 1.1\",\"student1 In Course1\",\"Team 1.1\",\"student2 In Course1\",\"Equal share - 20%\"");
-        assertEquals(exportLines[17], "\"Team 1.1\",\"student1 In Course1\",\"Team 1.1\",\"student3 In Course1\",\"Equal share + 10%\"");
-        assertEquals(exportLines[18], "\"Team 1.1\",\"student1 In Course1\",\"Team 1.1\",\"student4 In Course1\",\"Equal share + 30%\"");
+        assertEquals(exportLines[14], "Team,Giver's First Name,Giver's Last Name,Recipient's Team,Recipient's First Name,Recipient's Last Name,Feedback");
+        assertEquals(exportLines[15], "\"Team 1.1\",\"student1 In\",\"Course1\",\"Team 1.1\",\"student1 In\",\"Course1\",\"Equal share\"");
+        assertEquals(exportLines[16], "\"Team 1.1\",\"student1 In\",\"Course1\",\"Team 1.1\",\"student2 In\",\"Course1\",\"Equal share - 20%\"");
+        assertEquals(exportLines[17], "\"Team 1.1\",\"student1 In\",\"Course1\",\"Team 1.1\",\"student3 In\",\"Course1\",\"Equal share + 10%\"");
+        assertEquals(exportLines[18], "\"Team 1.1\",\"student1 In\",\"Course1\",\"Team 1.1\",\"student4 In\",\"Course1\",\"Equal share + 30%\"");
 
         
         ______TS("Non-existent Course/Session");

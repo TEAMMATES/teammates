@@ -385,6 +385,7 @@ public class BackDoorTest extends BaseTestCase {
         
         String originalEmail = student.email;
         student.name = "New name";
+        student.lastName = "name";
         student.email = "new@gmail.com";
         student.comments = "new comments";
         student.team = "new team";
@@ -616,6 +617,7 @@ public class BackDoorTest extends BaseTestCase {
         StudentAttributes actualStudent = gson.fromJson(studentJsonString,
                 StudentAttributes.class);
         equalizeIrrelevantData(expectedStudent, actualStudent);
+        expectedStudent.lastName = StringHelper.splitName(expectedStudent.name)[1];
         assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
     }
 
