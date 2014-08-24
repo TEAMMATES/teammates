@@ -258,7 +258,8 @@ public class Logic {
         accountsLogic.deleteAccountCascade(googleId);
     }
     
-    public void deleteStudentProfilePicture(String googleId) throws BlobstoreFailureException {
+    public void deleteStudentProfilePicture(String googleId) 
+            throws BlobstoreFailureException, EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         
         accountsLogic.deleteStudentProfilePicture(googleId);

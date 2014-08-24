@@ -7,6 +7,13 @@
       "email": "SHomeUiT.instr@gmail.com",
       "institute": "National University of Singapore"
     },
+    "SHomeUiT.helper": {
+      "googleId": "SHomeUiT.helper",
+      "name": "Teammates Test Helper",
+      "isInstructor": true,
+      "email": "SHomeUiT.helper@gmail.com",
+      "institute": "National University of Singapore"
+    },
       "studentWithExistingProfile": {
         "googleId": "{$test.student2}",
         "name": "Benny C",
@@ -46,7 +53,15 @@
       "courseId": "SHomeUiT.CS2104",
       "name": "Teammates Test",
       "email": "SHomeUiT.instr@gmail.com"
+    },
+    "SHomeUiT.helper.CS2104": {
+      "googleId": "SHomeUiT.helper",
+      "courseId": "SHomeUiT.CS2104",
+      "name": "Teammates Test Helper",
+      "email": "SHomeUiT.helper@gmail.com",
+      "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
     }
+    
   },
   
   "students": {
