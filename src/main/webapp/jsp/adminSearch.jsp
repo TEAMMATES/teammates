@@ -11,6 +11,7 @@
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page import="teammates.common.datatransfer.InstructorAttributes"%>
 <%@ page import="teammates.common.util.Sanitizer"%>
+<%@ page import="teammates.common.util.StringHelper"%>
 
 <%
 	AdminSearchPageData data = (AdminSearchPageData) request
@@ -122,10 +123,10 @@
 
                             <thead>
                                 <tr>
-                                    <th>Institute [Course]</th>
+                                    <th>Course</th>
                                     <th>Name</th>
-                                    <th>Google ID[Details]</th>
-                                    <th>Email</th>
+                                    <th>Google ID</th>
+                                    <th>Institute</th>
     
                                 </tr>
 
@@ -133,16 +134,41 @@
                             
                             <tbody>
                                 <%
-                                  for (InstructorAttributes instructor: instructorResultList){                                                         
+                                  for (InstructorAttributes instructor: instructorResultList){
+                                	  
+                                      String id = Sanitizer.sanitizeForSearch(instructor.getIdentificationString());
+                                      id = StringHelper.removeExtraSpace(id);
+                                      id = id.replace(" ", "").replace("@", "");
+                                      id = "instructor_" + id;
                                 %>
                                 
-                                  <tr>
+                                  <tr id="<%=id%>"  class="instructorRow">
                                     <td><%=instructor.courseId%></td>
                                     <td><%=instructor.name%></td>
-                                    <td><%=instructor.googleId%></td>
-                                    <td><%=instructor.email%></td>
+                                    <td><%=instructor.googleId == null? "" : instructor.googleId%></td>
+                                    <td><%=data.intructorInstituteMap.get(instructor.getIdentificationString()) == null? 
+                                           "" : data.intructorInstituteMap.get(instructor.getIdentificationString())%></td>
                                   
                                   </tr>
+                                  
+                                  <tr
+                                    class="has-danger list-group fslink fslink<%=id%>"
+                                    style="display: none;">
+                                    <td colspan="5">
+                                        <ul class="list-group">
+                                            <li
+                                                class="list-group-item list-group-item-success has-success">
+                                                <strong>Email</strong> <input
+                                                value="<%=instructor.email%>"
+                                                readonly="readonly"
+                                                class="form-control" />
+                                            </li>
+                                        
+                                        </ul>
+                                    </td>
+                                  </tr>
+                                  
+                                  
                                 <% 
                                   }
                                
@@ -210,6 +236,7 @@
                                 			String id = Sanitizer.sanitizeForSearch(student
                                 					.getIdentificationString());
                                 			id = id.replace(" ", "").replace("@", "");
+                                            id = "student_" + id;
                                 %>
 
                                 <tr id="<%=id%>" class="studentRow">

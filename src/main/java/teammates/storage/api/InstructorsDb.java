@@ -280,6 +280,7 @@ public class InstructorsDb extends EntitiesDb{
         
         //TODO: make courseId+email the non-modifiable values
         
+        putDocument(new InstructorAttributes(instructorToUpdate));
         getPM().close();
     }
     
@@ -314,7 +315,7 @@ public class InstructorsDb extends EntitiesDb{
         instructorToUpdate.setInstructorPrivilegeAsText(instructorAttributesToUpdate.instructorPrivilegesAsText);
         
         //TODO: make courseId+email the non-modifiable values
-        
+        putDocument(new InstructorAttributes(instructorToUpdate));
         getPM().close();
     }
     
@@ -336,7 +337,9 @@ public class InstructorsDb extends EntitiesDb{
 
         getPM().deletePersistent(instructorToDelete);
         getPM().flush();
-
+        
+        deleteDocument(new InstructorAttributes(instructorToDelete));
+        
         // Check delete operation persisted
         if(Config.PERSISTENCE_CHECK_DURATION > 0){
             int elapsedTime = 0;
@@ -364,6 +367,10 @@ public class InstructorsDb extends EntitiesDb{
         
         getPM().deletePersistentAll(instructorsToDelete);
         getPM().flush();
+        
+        for(Instructor instructor : instructorsToDelete){        
+            deleteDocument(new InstructorAttributes(instructor)); 
+        }
     }
     
     /**
@@ -378,6 +385,10 @@ public class InstructorsDb extends EntitiesDb{
 
         getPM().deletePersistentAll(instructorList);
         getPM().flush();
+        
+        for(Instructor instructor : instructorList){        
+            deleteDocument(new InstructorAttributes(instructor)); 
+        } 
     }
     
     /**
@@ -392,6 +403,10 @@ public class InstructorsDb extends EntitiesDb{
 
         getPM().deletePersistentAll(instructorList);
         getPM().flush();
+        
+        for(Instructor instructor : instructorList){        
+            deleteDocument(new InstructorAttributes(instructor)); 
+        } 
     }
     
     private Instructor getInstructorEntityForGoogleId(String courseId, String googleId) {

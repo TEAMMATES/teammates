@@ -21,6 +21,18 @@ $(document).ready(function() {
 
 	});
 	
+	$(".instructorRow").click(function() {
+
+		var rawId = $(this).attr("id");
+		if($(this).attr("class") == "instructorRow active"){
+			$(this).attr("class", "instructorRow");
+		} else{
+			$(this).attr("class", "instructorRow active");
+		}
+		$(".fslink" + rawId).toggle();
+
+	});
+	
 	$(".homePageLink").click(function(e){		
 		e.stopPropagation();
 	});
@@ -39,12 +51,14 @@ function adminSearchDiscloseAll(){
 	
 	$(".fslink").slideDown();	
 	$(".studentRow").attr("class", "studentRow active");
+	$(".instructorRow").attr("class", "instructorRow active");
 	
 }
 
 function adminSearchCollapseAll(){
 	$(".fslink").hide();
 	$(".studentRow").attr("class", "studentRow");
+	$(".instructorRow").attr("class", "instructorRow");
 }
 
 onload = function() {

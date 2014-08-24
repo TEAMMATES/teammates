@@ -50,6 +50,7 @@ public class AdminSearchPageAction extends Action {
         data = putInsitituteIntoMap(data.studentResultBundle.studentList, data);
                    
         data.instructorResultBundle = logic.searchInstructorsInWholeSystem(searchKey, "");
+        data = putInstructorInsitituteIntoMap(data.instructorResultBundle.instructorList, data);
         
         int numOfResults = data.studentResultBundle.getResultSize() 
                            + data.instructorResultBundle.getResultSize();
@@ -65,6 +66,27 @@ public class AdminSearchPageAction extends Action {
         
         return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
     }
+    
+    
+    private AdminSearchPageData putInstructorInsitituteIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data){
+        Logic logic = new Logic();
+        for(InstructorAttributes instructor : instructors){
+            
+            String googleId = findAvailableInstructorGoogleIdForCourse(instructor.courseId);
+            
+            AccountAttributes account = logic.getAccount(googleId);           
+            if(account == null){
+                continue;
+            }
+            
+            String institute = account.institute.trim().isEmpty() ? "None" : account.institute;
+            data.intructorInstituteMap.put(instructor.getIdentificationString(), institute);
+        }
+        
+        return data;
+    }
+    
+    
     
     private AdminSearchPageData putInsitituteIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
         Logic logic = new Logic();
