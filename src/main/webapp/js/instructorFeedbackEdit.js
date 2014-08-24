@@ -383,6 +383,7 @@ function prepareQuestionForm(type) {
         $('#msqForm').hide();
         $('#numScaleForm').hide();
         $('#constSumForm').show();
+        $('#questionTypeChoice').find('option').prop('disabled', false);
         $('#questionTypeChoice').val('CONSTSUM');
         break;
     case "CONTRIB":
