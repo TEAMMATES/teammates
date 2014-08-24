@@ -109,11 +109,11 @@
                             class="pull-right"><button
                                 class="btn btn-primary btn-xs"
                                 type="button"
-                                onclick="adminSearchDiscloseAll()">Disclose
+                                onclick="adminSearchDiscloseAllInstructors()">Disclose
                                 All</button>
                             <button class="btn btn-primary btn-xs"
                                 type="button"
-                                onclick="adminSearchCollapseAll()">Collapse
+                                onclick="adminSearchCollapseAllInstructors()">Collapse
                                 All</button></span>
                     </div>
 
@@ -152,7 +152,7 @@
                                   </tr>
                                   
                                   <tr
-                                    class="has-danger list-group fslink fslink<%=id%>"
+                                    class="has-danger list-group fslink fslink_instructor fslink<%=id%>"
                                     style="display: none;">
                                     <td colspan="5">
                                         <ul class="list-group">
@@ -203,11 +203,11 @@
                             class="pull-right"><button
                                 class="btn btn-primary btn-xs"
                                 type="button"
-                                onclick="adminSearchDiscloseAll()">Disclose
+                                onclick="adminSearchDiscloseAllStudents()">Disclose
                                 All</button>
                             <button class="btn btn-primary btn-xs"
                                 type="button"
-                                onclick="adminSearchCollapseAll()">Collapse
+                                onclick="adminSearchCollapseAllStudents()">Collapse
                                 All</button></span>
                     </div>
 
@@ -261,7 +261,7 @@
                                 </tr>
 
                                 <tr
-                                    class="has-danger list-group fslink fslink<%=id%>"
+                                    class="has-danger list-group fslink fslink_student fslink<%=id%>"
                                     style="display: none;">
                                     <td colspan="5">
                                         <ul class="list-group">
