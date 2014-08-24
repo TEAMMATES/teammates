@@ -127,6 +127,7 @@ public class Student {
     }
     
     public String getLastName(){
+        //for legacy data
         if(this.lastName == null){
             this.lastName = StringHelper.splitName(this.name)[1];
         }
