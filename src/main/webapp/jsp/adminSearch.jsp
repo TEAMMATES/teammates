@@ -14,8 +14,8 @@
 <%@ page import="teammates.common.util.StringHelper"%>
 
 <%
-	AdminSearchPageData data = (AdminSearchPageData) request
-			.getAttribute("data");
+    AdminSearchPageData data = (AdminSearchPageData) request
+            .getAttribute("data");
 %>
 
 <html>
@@ -99,8 +99,8 @@
                 </div>
 
                 <%
-                	List<InstructorAttributes> instructorResultList = data.instructorResultBundle.instructorList;
-                	if (!instructorResultList.isEmpty()) {
+                    List<InstructorAttributes> instructorResultList = data.instructorResultBundle.instructorList;
+                    if (!instructorResultList.isEmpty()) {
                 %>
 
                 <div class="panel panel-primary">
@@ -135,7 +135,7 @@
                             <tbody>
                                 <%
                                   for (InstructorAttributes instructor: instructorResultList){
-                                	  
+                                      
                                       String id = Sanitizer.sanitizeForSearch(instructor.getIdentificationString());
                                       id = StringHelper.removeExtraSpace(id);
                                       id = id.replace(" ", "").replace("@", "");
@@ -145,9 +145,14 @@
                                   <tr id="<%=id%>"  class="instructorRow">
                                     <td><%=instructor.courseId%></td>
                                     <td><%=instructor.name%></td>
-                                    <td><%=instructor.googleId == null? "" : instructor.googleId%></td>
-                                    <td><%=data.intructorInstituteMap.get(instructor.getIdentificationString()) == null? 
-                                           "" : data.intructorInstituteMap.get(instructor.getIdentificationString())%></td>
+                                    <td> 
+                                    <a
+                                        href="<%=data.instructorHomaPageLinkMap.get(instructor.googleId)%>"
+                                        target="blank"
+                                        class="homePageLink"><%=instructor.googleId == null? "" : instructor.googleId%></a>                              
+                                    </td>
+                                    <td><%=data.instructorInstituteMap.get(instructor.getIdentificationString()) == null? 
+                                           "" : data.instructorInstituteMap.get(instructor.getIdentificationString())%></td>
                                   
                                   </tr>
                                   
@@ -186,15 +191,15 @@
 
 
                 <%
-                	}
+                    }
                 %>
 
 
 
                 <%
-                	List<StudentAttributes> studentResultList = data.studentResultBundle.studentList;
+                    List<StudentAttributes> studentResultList = data.studentResultBundle.studentList;
 
-                	if (!studentResultList.isEmpty()) {
+                    if (!studentResultList.isEmpty()) {
                 %>
 
                 <div class="panel panel-primary">
@@ -231,11 +236,11 @@
                             <tbody>
 
                                 <%
-                                	for (StudentAttributes student : studentResultList) {
+                                    for (StudentAttributes student : studentResultList) {
 
-                                			String id = Sanitizer.sanitizeForSearch(student
-                                					.getIdentificationString());
-                                			id = id.replace(" ", "").replace("@", "");
+                                            String id = Sanitizer.sanitizeForSearch(student
+                                                    .getIdentificationString());
+                                            id = id.replace(" ", "").replace("@", "");
                                             id = "student_" + id;
                                 %>
 
@@ -243,16 +248,16 @@
 
 
                                     <td><%=data.studentInstituteMap.get(student
-							.getIdentificationString())%>&nbsp;[<%=student.course%>]&nbsp;(<%=student.section%>)
+                            .getIdentificationString())%>&nbsp;[<%=student.course%>]&nbsp;(<%=student.section%>)
                                     </td>
                                     <td><%=student.team%></td>
                                     <td><a class="detailsPageLink"
                                         href="<%=data.studentDetailsPageLinkMap.get(student
-							.getIdentificationString())%>"
+                            .getIdentificationString())%>"
                                         target="blank"> <%=student.name%></a></td>
                                     <td><a
                                         href="<%=data.studentIdToHomePageLinkMap
-							.get(student.googleId)%>"
+                            .get(student.googleId)%>"
                                         target="blank"
                                         class="homePageLink"><%=student.googleId%></a>
                                     </td>
@@ -267,8 +272,8 @@
                                         <ul class="list-group">
 
                                             <%
-                                            	if (student.email != null
-                                            					&& !student.email.trim().isEmpty()) {
+                                                if (student.email != null
+                                                                && !student.email.trim().isEmpty()) {
                                             %>
                                             <li
                                                 class="list-group-item list-group-item-success has-success">
@@ -278,7 +283,7 @@
                                                 class="form-control" />
                                             </li>
                                             <%
-                                            	}
+                                                }
                                             %>
 
                                             <li
@@ -291,15 +296,15 @@
                                             </li>
 
                                             <%
-                                            	if (data.studentOpenFeedbackSessionLinksMap.get(student
-                                            					.getIdentificationString()) != null) {
+                                                if (data.studentOpenFeedbackSessionLinksMap.get(student
+                                                                .getIdentificationString()) != null) {
                                             %>
 
 
 
                                             <%
-                                            	for (String link : data.studentOpenFeedbackSessionLinksMap
-                                            						.get(student.getIdentificationString())) {
+                                                for (String link : data.studentOpenFeedbackSessionLinksMap
+                                                                    .get(student.getIdentificationString())) {
                                             %>
 
 
@@ -307,7 +312,7 @@
                                             <li
                                                 class="list-group-item list-group-item-warning">
                                                 <strong> <%=data.feedbackSeesionLinkToNameMap
-									.get(link)%>
+                                    .get(link)%>
                                             </strong> <input value=<%=link%>
                                                 readonly="readonly"
                                                 class="form-control"/ >
@@ -316,21 +321,21 @@
 
 
                                             <%
-                                            	}
-                                            			}
+                                                }
+                                                        }
                                             %>
 
 
                                             <%
-                                            	if (data.studentUnOpenedFeedbackSessionLinksMap.get(student
-                                            					.getIdentificationString()) != null) {
+                                                if (data.studentUnOpenedFeedbackSessionLinksMap.get(student
+                                                                .getIdentificationString()) != null) {
                                             %>
 
 
 
                                             <%
-                                            	for (String link : data.studentUnOpenedFeedbackSessionLinksMap
-                                            						.get(student.getIdentificationString())) {
+                                                for (String link : data.studentUnOpenedFeedbackSessionLinksMap
+                                                                    .get(student.getIdentificationString())) {
                                             %>
 
 
@@ -338,7 +343,7 @@
                                             <li
                                                 class="list-group-item list-group-item-danger">
                                                 <strong> <%=data.feedbackSeesionLinkToNameMap
-									.get(link)%>
+                                    .get(link)%>
                                             </strong> <input value=<%=link%>
                                                 readonly="readonly"
                                                 class="form-control"/ >
@@ -347,8 +352,8 @@
 
 
                                             <%
-                                            	}
-                                            			}
+                                                }
+                                                        }
                                             %>
 
                                         </ul>
@@ -356,9 +361,9 @@
 
                                 </tr>
                                 <%
-                                	}
+                                    }
 
-                                	}
+                                    }
                                 %>
                             </tbody>
                         </table>

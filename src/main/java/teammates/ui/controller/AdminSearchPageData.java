@@ -27,8 +27,8 @@ public class AdminSearchPageData extends PageData {
      * Data related to searched instructors
      */   
     public InstructorSearchResultBundle instructorResultBundle = new InstructorSearchResultBundle();
-    public HashMap<String, String> intructorInstituteMap = new HashMap<String, String>();
-    
+    public HashMap<String, String> instructorInstituteMap = new HashMap<String, String>();
+    public HashMap<String, String> instructorHomaPageLinkMap = new HashMap<String, String>();
     
     public AdminSearchPageData(AccountAttributes account) {
         super(account);

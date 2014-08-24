@@ -45,12 +45,13 @@ public class AdminSearchPageAction extends Action {
         data.studentResultBundle  = logic.searchStudentsInWholeSystem(searchKey, "");
         
         data = putFeedbackSessionLinkIntoMap(data.studentResultBundle.studentList, data);
-        data = putHomePageLinkIntoMap(data.studentResultBundle.studentList, data);
+        data = putStudentHomePageLinkIntoMap(data.studentResultBundle.studentList, data);
         data = putStudentDetailsPageLinkIntoMap(data.studentResultBundle.studentList, data);
-        data = putInsitituteIntoMap(data.studentResultBundle.studentList, data);
+        data = putStudentInsitituteIntoMap(data.studentResultBundle.studentList, data);
                    
         data.instructorResultBundle = logic.searchInstructorsInWholeSystem(searchKey, "");
         data = putInstructorInsitituteIntoMap(data.instructorResultBundle.instructorList, data);
+        data = putInstructorHomePageLinkIntoMap(data.instructorResultBundle.instructorList, data);
         
         int numOfResults = data.studentResultBundle.getResultSize() 
                            + data.instructorResultBundle.getResultSize();
@@ -80,7 +81,25 @@ public class AdminSearchPageAction extends Action {
             }
             
             String institute = account.institute.trim().isEmpty() ? "None" : account.institute;
-            data.intructorInstituteMap.put(instructor.getIdentificationString(), institute);
+            data.instructorInstituteMap.put(instructor.getIdentificationString(), institute);
+        }
+        
+        return data;
+    }
+    
+    private AdminSearchPageData putInstructorHomePageLinkIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data){
+        
+        for(InstructorAttributes instructor : instructors){
+            
+            if(instructor.googleId == null){
+                continue;
+            }
+            
+            String curLink = Url.addParamToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE,
+                                                        Const.ParamsNames.USER_ID, 
+                                                        instructor.googleId);
+            
+            data.instructorHomaPageLinkMap.put(instructor.googleId, curLink);
         }
         
         return data;
@@ -88,7 +107,7 @@ public class AdminSearchPageAction extends Action {
     
     
     
-    private AdminSearchPageData putInsitituteIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
+    private AdminSearchPageData putStudentInsitituteIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
         Logic logic = new Logic();
         for(StudentAttributes student : students){
             
@@ -111,7 +130,7 @@ public class AdminSearchPageAction extends Action {
     }
     
     
-    private AdminSearchPageData putHomePageLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
+    private AdminSearchPageData putStudentHomePageLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
         
         for(StudentAttributes student : students){
             
