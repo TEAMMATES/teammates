@@ -373,6 +373,12 @@ public class InstructorFeedbacksPage extends AppPage {
                 +"null : $('#"+timeId+"').datepicker('option', 'maxDate').toDateString();");
     }
     
+    public String getSessionType() {
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        String fstype = "fstype";
+        return (String) js.executeScript("return $('#" + fstype + "').val();");
+    }
+    
     public void addFeedbackSession(
             String feedbackSessionName,
             String courseId,

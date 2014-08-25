@@ -93,6 +93,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         testViewResultsLink();
         testEditLink();
         testSubmitLink();
+        testValidationReload();
         
         testJScripts();
     }
@@ -708,6 +709,22 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackResultsPage = feedbackPage.loadSubmitLink(fsa.courseId, fsa.feedbackSessionName);
         assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+    }
+    
+    public void testValidationReload() {
+        
+        ______TS("form fields do not change to default values on form validation failure");
+        
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+        feedbackPage.selectSessionType("Session with your own questions");
+        String templateSessionName = "!Invalid name";
+        feedbackPage.addFeedbackSession(
+                templateSessionName , newSession.courseId, 
+                newSession.startTime, newSession.endTime,
+                null, null,
+                newSession.instructions, newSession.gracePeriod );
+        
+        assertEquals("STANDARD", feedbackPage.getSessionType());
     }
 
     @AfterClass
