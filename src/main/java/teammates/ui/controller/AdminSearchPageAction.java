@@ -52,6 +52,8 @@ public class AdminSearchPageAction extends Action {
         data.instructorResultBundle = logic.searchInstructorsInWholeSystem(searchKey, "");
         data = putInstructorInsitituteIntoMap(data.instructorResultBundle.instructorList, data);
         data = putInstructorHomePageLinkIntoMap(data.instructorResultBundle.instructorList, data);
+        data = putInstructorCourseJoinLinkIntoMap(data.instructorResultBundle.instructorList, data);
+        
         
         int numOfResults = data.studentResultBundle.getResultSize() 
                            + data.instructorResultBundle.getResultSize();
@@ -68,6 +70,24 @@ public class AdminSearchPageAction extends Action {
         return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
     }
     
+    private AdminSearchPageData putInstructorCourseJoinLinkIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data){
+
+        for(InstructorAttributes instructor : instructors){
+            
+            String googleIdOfAlreadyRegisteredInstructor = findAvailableInstructorGoogleIdForCourse(instructor.courseId);
+            
+            if(!googleIdOfAlreadyRegisteredInstructor.isEmpty()){
+                String joinLinkWithoutInsititute = Url.addParamToUrl(Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN, 
+                                                                     Const.ParamsNames.REGKEY, 
+                                                                     StringHelper.encrypt(instructor.key));
+                data.instructorCourseJoinLinkMap.put(instructor.getIdentificationString(),
+                                                     joinLinkWithoutInsititute);
+            }
+            
+        }
+        
+        return data;
+    }
     
     private AdminSearchPageData putInstructorInsitituteIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data){
         Logic logic = new Logic();

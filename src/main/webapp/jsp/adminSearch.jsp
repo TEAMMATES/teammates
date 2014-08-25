@@ -168,6 +168,22 @@
                                                 readonly="readonly"
                                                 class="form-control" />
                                             </li>
+                                            
+                                            <% if(data.instructorCourseJoinLinkMap.get(instructor.getIdentificationString()) != null){
+                                            
+                                            %>
+                                            
+                                            <li
+                                                class="list-group-item list-group-item-info">
+                                                <strong>Course Join Link</strong> <input
+                                                value="<%=data.instructorCourseJoinLinkMap.get(instructor.getIdentificationString())%>"
+                                                readonly="readonly"
+                                                class="form-control" />
+                                            </li>
+                                            
+                                            <% 
+                                               }
+                                            %>
                                         
                                         </ul>
                                     </td>
