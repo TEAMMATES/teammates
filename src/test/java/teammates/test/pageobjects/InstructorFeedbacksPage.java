@@ -374,9 +374,11 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     public String getSessionType() {
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        String fstype = "fstype";
-        return (String) js.executeScript("return $('#" + fstype + "').val();");
+        return fsType.getAttribute("value");
+    }
+    
+    public String getStartTime() {
+        return startTimeDropdown.getAttribute("value");
     }
     
     public void addFeedbackSession(

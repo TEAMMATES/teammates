@@ -716,15 +716,17 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("form fields do not change to default values on form validation failure");
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+        
         feedbackPage.selectSessionType("Session with your own questions");
         String templateSessionName = "!Invalid name";
         feedbackPage.addFeedbackSession(
                 templateSessionName , newSession.courseId, 
-                newSession.startTime, newSession.endTime,
+                TimeHelper.convertToDate("2035-04-01 10:00 PM UTC"), newSession.endTime,
                 null, null,
-                newSession.instructions, newSession.gracePeriod );
+                newSession.instructions, newSession.gracePeriod );        
         
         assertEquals("STANDARD", feedbackPage.getSessionType());
+        assertEquals("22", feedbackPage.getStartTime());
     }
 
     @AfterClass
