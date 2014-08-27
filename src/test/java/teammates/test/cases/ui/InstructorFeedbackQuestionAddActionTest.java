@@ -458,7 +458,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         assertEquals(expectedLogMessage, action.getLogMessage());
         
         
-        ______TS("Invalie giver case");
+        ______TS("Invalid giver case");
 
         params = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
