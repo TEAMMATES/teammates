@@ -43,9 +43,10 @@ public class InstructorSearchDocument extends SearchDocument {
         searchableTextBuilder.append(instructor.email).append(delim);
         searchableTextBuilder.append(instructor.googleId != null ? instructor.googleId : "").append(delim);
         searchableTextBuilder.append(instructor.role).append(delim);
+        searchableTextBuilder.append(instructor.displayedName).append(delim);
         
         Document doc = Document.newBuilder()
-                       //searchableText and createdDate are used to match the query string
+                       //searchableText is used to match the query string
                        .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT).setText(searchableTextBuilder.toString()))
                        //attribute field is used to convert a doc back to attribute
                        .addField(Field.newBuilder().setName(Const.SearchDocumentField.INSTRUCTOR_ATTRIBUTE).setText(new Gson().toJson(instructor)))

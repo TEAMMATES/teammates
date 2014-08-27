@@ -90,6 +90,13 @@ public class InstructorsDb extends EntitiesDb{
     public void createInstructors(Collection<InstructorAttributes> instructorsToAdd) throws InvalidParametersException{
         
         List<EntityAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
+        
+        for(InstructorAttributes instructor: instructorsToAdd){
+            if(!instructorsToUpdate.contains(instructor)){
+                putDocument(instructor);
+            }
+        }
+        
         for(EntityAttributes entity : instructorsToUpdate){
             InstructorAttributes instructor = (InstructorAttributes) entity;
             try {
@@ -98,17 +105,14 @@ public class InstructorsDb extends EntitiesDb{
              // This situation is not tested as replicating such a situation is 
              // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
-            }
-        }
-        
-        for(InstructorAttributes instructor: instructorsToAdd){
+            }           
             putDocument(instructor);
         }
     }
     
     public void createInstructor(InstructorAttributes instructorToAdd) throws InvalidParametersException, EntityAlreadyExistsException{     
-        createEntity(instructorToAdd);
-        putDocument(instructorToAdd);
+        InstructorAttributes createdInstructor = new InstructorAttributes((Instructor)createEntity(instructorToAdd));
+        putDocument(createdInstructor);
     }
 
     /**
