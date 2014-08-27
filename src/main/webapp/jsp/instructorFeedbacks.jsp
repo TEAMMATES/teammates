@@ -69,10 +69,10 @@
                             <select class="form-control"
                                 name="<%=Const.ParamsNames.FEEDBACK_SESSION_TYPE%>"
                                 id="<%=Const.ParamsNames.FEEDBACK_SESSION_TYPE%>">
-                                <option value="STANDARD">
+                                <option value="STANDARD" <%= (data.feedbackSessionType != null && data.feedbackSessionType.equals("STANDARD")) ? "selected=\"selected\"" : "" %> >
                                     Session with your own questions
                                 </option>
-                                <option value="TEAMEVALUATION" selected="selected">
+                                <option value="TEAMEVALUATION" <%= (data.feedbackSessionType != null && data.feedbackSessionType.equals("STANDARD")) ? "" : "selected=\"selected\"" %>>
                                     Team peer evaluation session
                                 </option>
                             </select>
@@ -220,13 +220,15 @@
                                             placeholder="Date">
                                     </div>
                                     <div class="col-md-6">
+
                                         <select class="form-control"
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTTIME%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTTIME%>">
                                             <%
                                                 Date date;
                                                 date = (data.newFeedbackSession == null ? null
-                                                        : data.newFeedbackSession.startTime);
+                                                		: data.newFeedbackSession.startTime);
+                                               
                                                 for (String opt : data.getTimeOptionsAsHtml(date))
                                                     out.println(opt);
                                             %>
