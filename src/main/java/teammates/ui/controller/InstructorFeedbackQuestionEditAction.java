@@ -61,7 +61,11 @@ public class InstructorFeedbackQuestionEditAction extends Action {
     private void editQuestion(FeedbackQuestionAttributes updatedQuestion)
             throws InvalidParametersException, EntityDoesNotExistException {
         
-        validateContribQnGiverRecipient(updatedQuestion);
+        String err = validateContribQnGiverRecipient(updatedQuestion);
+        statusToUser.add(err);
+        if(!err.isEmpty()){
+            isError = true;
+        }
         
         if(updatedQuestion.questionNumber != 0){ //Question number was updated
             List<String> questionDetailsErrors = updatedQuestion.getQuestionDetails().validateQuestionDetails();
@@ -88,17 +92,39 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             }
         }
     }
+    
+    final static private String ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH = 
+            Const.FeedbackQuestionTypeNames.CONTRIB + " must have "
+            + FeedbackParticipantType.STUDENTS.toDisplayGiverName()
+            + " and " + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF.toDisplayGiverName()
+            + " as the feedback giver and recipient respectively."
+            + " These values will be used instead.";
 
-    private void validateContribQnGiverRecipient(
+    public static String validateContribQnGiverRecipient(
             FeedbackQuestionAttributes updatedQuestion) {
-        if(updatedQuestion.questionType == FeedbackQuestionType.CONTRIB){
-            Assumption.assertEquals(FeedbackParticipantType.STUDENTS, updatedQuestion.giverType);
-            Assumption.assertEquals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, updatedQuestion.recipientType);
+        if(updatedQuestion.questionType == FeedbackQuestionType.CONTRIB) {
+            String errorMsg = "";
+            
+            if(FeedbackParticipantType.STUDENTS != updatedQuestion.giverType) {
+                log.severe("Unexpected giverType for contribution question: " + updatedQuestion.giverType + " (forced to :" + FeedbackParticipantType.STUDENTS + ")");
+                updatedQuestion.giverType = FeedbackParticipantType.STUDENTS;
+                errorMsg = ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH;
+            }
+            if(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF != updatedQuestion.recipientType) {
+                log.severe("Unexpected recipientType for contribution question: " + updatedQuestion.recipientType + " (forced to :" + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF + ")");
+                updatedQuestion.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
+                errorMsg = ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH;
+            }
+            
             Assumption.assertTrue("Contrib Qn Invalid visibility options",
                     (updatedQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
                     == updatedQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) &&
                     (updatedQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
                     == updatedQuestion.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))));
+            
+            return errorMsg;
+        } else {
+            return "";
         }
     }
 

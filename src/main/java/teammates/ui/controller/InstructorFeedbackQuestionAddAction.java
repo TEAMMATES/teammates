@@ -36,8 +36,11 @@ public class InstructorFeedbackQuestionAddAction extends Action {
             statusToUser.addAll(questionDetailsErrors);
             isError = true;
         } else {
-            
-            validateContribQnGiverRecipient(feedbackQuestion);
+            String err = validateContribQnGiverRecipient(feedbackQuestion);
+            statusToUser.add(err);
+            if(!err.isEmpty()){
+                isError = true;
+            }
             
             try {
                 logic.createFeedbackQuestion(feedbackQuestion);    
@@ -57,20 +60,9 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(courseId,feedbackSessionName));
     }
 
-    private void validateContribQnGiverRecipient(
+    private String validateContribQnGiverRecipient(
             FeedbackQuestionAttributes feedbackQuestion) {
-        //Check for contrib qn giver/recipient type.
-        if(feedbackQuestion.questionType == FeedbackQuestionType.CONTRIB){
-            Assumption.assertEquals("Contrib qn giver type invalid: " + feedbackQuestion.giverType.toString(),
-                    feedbackQuestion.giverType, FeedbackParticipantType.STUDENTS);
-            Assumption.assertEquals("Contrib qn recipient type invalid: " + feedbackQuestion.recipientType.toString(),
-                    feedbackQuestion.recipientType, FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
-            Assumption.assertTrue("Contrib Qn Invalid visibility options",
-                    (feedbackQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
-                    == feedbackQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) &&
-                    (feedbackQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                    == feedbackQuestion.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))));
-        }
+        return InstructorFeedbackQuestionEditAction.validateContribQnGiverRecipient(feedbackQuestion);
     }
 
     private static FeedbackQuestionAttributes extractFeedbackQuestionData(Map<String, String[]> requestParameters, String creatorEmail) {
