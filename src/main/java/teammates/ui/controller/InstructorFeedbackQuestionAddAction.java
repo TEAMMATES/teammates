@@ -37,8 +37,8 @@ public class InstructorFeedbackQuestionAddAction extends Action {
             isError = true;
         } else {
             String err = validateContribQnGiverRecipient(feedbackQuestion);
-            statusToUser.add(err);
             if(!err.isEmpty()){
+                statusToUser.add(err);
                 isError = true;
             }
             

@@ -62,8 +62,8 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             throws InvalidParametersException, EntityDoesNotExistException {
         
         String err = validateContribQnGiverRecipient(updatedQuestion);
-        statusToUser.add(err);
         if(!err.isEmpty()){
+            statusToUser.add(err);
             isError = true;
         }
         
