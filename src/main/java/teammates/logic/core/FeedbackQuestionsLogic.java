@@ -470,7 +470,7 @@ public class FeedbackQuestionsLogic {
     }
     
     public boolean isQuestionHasResponses(String feedbackQuestionId) {
-        return (frLogic.getFeedbackResponsesForQuestion(feedbackQuestionId).isEmpty() == false);
+        return (frLogic.getFeedbackResponsesForQuestionWithinRange(feedbackQuestionId, 1).isEmpty() == false);
     }
     
     public boolean isQuestionAnsweredByUser(FeedbackQuestionAttributes question, String email) 

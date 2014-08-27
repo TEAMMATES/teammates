@@ -126,6 +126,22 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         return fraList;        
     }
+
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionWithinRange(String feedbackQuestionId, long range){
+
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
+        
+        List<FeedbackResponse> frList =
+                getFeedbackResponseEntitiesForQuestionWithinRange(feedbackQuestionId, range);
+        List<FeedbackResponseAttributes> fraList =
+                new ArrayList<FeedbackResponseAttributes>();
+        
+        for (FeedbackResponse fr : frList) {
+                fraList.add(new FeedbackResponseAttributes(fr));
+        }
+        
+        return fraList;   
+    }
     
     /**
      * Preconditions: <br>
@@ -578,6 +594,21 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.declareParameters("String feedbackQuestionIdParam");
         q.setFilter("feedbackQuestionId == feedbackQuestionIdParam ");
         
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponse> FeedbackResponseList =
+            (List<FeedbackResponse>) q.execute(feedbackQuestionId);
+        
+        return FeedbackResponseList;
+    }
+
+    private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionWithinRange(    
+                String feedbackQuestionId, long range) {
+    
+        Query q = getPM().newQuery(FeedbackResponse.class);
+        q.declareParameters("String feedbackQuestionIdParam");
+        q.setFilter("feedbackQuestionId == feedbackQuestionIdParam ");
+        q.setRange(0, range + 1);
+
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> FeedbackResponseList =
             (List<FeedbackResponse>) q.execute(feedbackQuestionId);
