@@ -93,10 +93,10 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         }
     }
     
-    final static private String ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH = 
+    final static public String ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH = 
             Const.FeedbackQuestionTypeNames.CONTRIB + " must have "
             + FeedbackParticipantType.STUDENTS.toDisplayGiverName()
-            + " and " + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF.toDisplayGiverName()
+            + " and " + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF.toDisplayRecipientName()
             + " as the feedback giver and recipient respectively."
             + " These values will be used instead.";
 

@@ -17,6 +17,7 @@ import teammates.common.util.FieldValidator;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.InstructorFeedbackQuestionAddAction;
+import teammates.ui.controller.InstructorFeedbackQuestionEditAction;
 import teammates.ui.controller.RedirectResult;
 
 public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
@@ -455,6 +456,51 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                         + " created.<br><span class=\"bold\">Team contribution question:</span> How much has each team member including yourself, contributed to the project?"
                         + "|||/page/instructorFeedbackQuestionAdd";
         assertEquals(expectedLogMessage, action.getLogMessage());
+        
+        
+        ______TS("Invalie giver case");
+
+        params = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONTRIB",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "How much has each team member including yourself, contributed to the project?",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+        };
+        
+        action = getAction(params);
+        result = (RedirectResult) action.executeAndPostProcess();
+        
+        assertEquals(
+                Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+                        + "?courseid="
+                        + instructor1ofCourse1.courseId
+                        + "&fsname=First+feedback+session"
+                        + "&user="
+                        + instructor1ofCourse1.googleId
+                        + "&error=true",
+                result.getDestinationWithParams());
+
+        expectedLogMessage =
+                "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
+                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                        + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                        + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
+                        + " created.<br><span class=\"bold\">Team contribution question:</span> How much has each team member including yourself, contributed to the project?"
+                        + "|||/page/instructorFeedbackQuestionAdd";
+        assertEquals(expectedLogMessage, action.getLogMessage());
+        
+        assertEquals( InstructorFeedbackQuestionEditAction.ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH
+                + "<br />" + Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
+
     }
     
     @Test
