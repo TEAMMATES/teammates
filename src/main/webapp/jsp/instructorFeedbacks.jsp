@@ -61,18 +61,18 @@
                 name="form_addfeedbacksession">
                 <div class="row">
                     <h4 class="label-control col-md-2 text-md">Create new </h4>
-                    <div class="col-md-5">
+                    <div class="col-md-5">                  
                         <div class="col-md-10"
                         title="Select a session type here."
                         data-toggle="tooltip"
-                        data-placement="top">
+                        data-placement="top">                        
                             <select class="form-control"
                                 name="<%=Const.ParamsNames.FEEDBACK_SESSION_TYPE%>"
                                 id="<%=Const.ParamsNames.FEEDBACK_SESSION_TYPE%>">
                                 <option value="STANDARD" <%= (data.feedbackSessionType != null && data.feedbackSessionType.equals("STANDARD")) ? "selected=\"selected\"" : "" %> >
                                     Session with your own questions
-                                </option>
-                                <option value="TEAMEVALUATION" <%= (data.feedbackSessionType != null && data.feedbackSessionType.equals("STANDARD")) ? "" : "selected=\"selected\"" %>>
+                                </option>                               
+                                <option value="TEAMEVALUATION" <%= (data.feedbackSessionType == null || data.feedbackSessionType.equals("TEAMEVALUATION")) ? "selected=\"selected\"" : "" %> >
                                     Team peer evaluation session
                                 </option>
                             </select>
@@ -220,7 +220,6 @@
                                             placeholder="Date">
                                     </div>
                                     <div class="col-md-6">
-
                                         <select class="form-control"
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTTIME%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTTIME%>">
