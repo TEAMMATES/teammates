@@ -144,6 +144,10 @@ public class AdminActivityLogPageData extends PageData {
             }
         }
         if(q.isCutoffInQuery){
+            if(logEntry.getTimeTaken() == null){
+                return false;
+            }
+            
             if(logEntry.getTimeTaken() < q.cutoffValue){
                 return false;
             }
