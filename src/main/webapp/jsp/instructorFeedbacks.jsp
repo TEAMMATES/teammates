@@ -61,11 +61,11 @@
                 name="form_addfeedbacksession">
                 <div class="row">
                     <h4 class="label-control col-md-2 text-md">Create new </h4>
-                    <div class="col-md-5">                  
+                    <div class="col-md-5">
                         <div class="col-md-10"
                         title="Select a session type here."
                         data-toggle="tooltip"
-                        data-placement="top">                        
+                        data-placement="top">
                             <select class="form-control"
                                 name="<%=Const.ParamsNames.FEEDBACK_SESSION_TYPE%>"
                                 id="<%=Const.ParamsNames.FEEDBACK_SESSION_TYPE%>">
