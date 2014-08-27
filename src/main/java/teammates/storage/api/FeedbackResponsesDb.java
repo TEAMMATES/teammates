@@ -126,8 +126,16 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         return fraList;        
     }
-
-    public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionWithinRange(String feedbackQuestionId, long range){
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.This function will find the responses for a
+     * specified question within a given range
+     * 
+     * @return An empty list if no such responses are found.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionWithinRange(
+            String feedbackQuestionId, long range) {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
         
