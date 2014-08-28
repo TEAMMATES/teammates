@@ -721,12 +721,13 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         String templateSessionName = "!Invalid name";
         feedbackPage.addFeedbackSession(
                 templateSessionName , newSession.courseId, 
-                TimeHelper.convertToDate("2035-04-01 10:00 PM UTC"), newSession.endTime,
+                TimeHelper.convertToDate("2035-04-01 10:00 PM UTC"), TimeHelper.convertToDate("2035-04-30 10:00 PM UTC"),
                 null, null,
                 newSession.instructions, newSession.gracePeriod );        
         
         assertEquals("STANDARD", feedbackPage.getSessionType());
         assertEquals("22", feedbackPage.getStartTime());
+        assertEquals("22", feedbackPage.getEndTime());
         
         
         ______TS("form fields do not reset on form validation failure when session type is TEAMEVALUATION");
@@ -737,12 +738,14 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         templateSessionName = "!Invalid name";
         feedbackPage.addFeedbackSession(
                 templateSessionName , newSession.courseId, 
-                TimeHelper.convertToDate("2035-04-01 10:00 AM UTC"), newSession.endTime,
+                TimeHelper.convertToDate("2035-04-01 10:00 AM UTC"), TimeHelper.convertToDate("2035-04-30 10:00 PM UTC"),
                 null, null,
                 newSession.instructions, newSession.gracePeriod );        
         
         assertEquals("TEAMEVALUATION", feedbackPage.getSessionType());
         assertEquals("10", feedbackPage.getStartTime());
+        assertEquals("22", feedbackPage.getEndTime());
+        
     }
 
     @AfterClass

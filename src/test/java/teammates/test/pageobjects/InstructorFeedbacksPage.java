@@ -381,6 +381,10 @@ public class InstructorFeedbacksPage extends AppPage {
         return startTimeDropdown.getAttribute("value");
     }
     
+    public String getEndTime() {
+        return endTimeDropdown.getAttribute("value");
+    }
+    
     public void addFeedbackSession(
             String feedbackSessionName,
             String courseId,
