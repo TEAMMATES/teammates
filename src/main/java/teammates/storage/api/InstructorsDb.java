@@ -338,12 +338,12 @@ public class InstructorsDb extends EntitiesDb{
         if (instructorToDelete == null) {
             return;
         }
+        
+        deleteDocument(new InstructorAttributes(instructorToDelete));
 
         getPM().deletePersistent(instructorToDelete);
         getPM().flush();
-        
-        deleteDocument(new InstructorAttributes(instructorToDelete));
-        
+  
         // Check delete operation persisted
         if(Config.PERSISTENCE_CHECK_DURATION > 0){
             int elapsedTime = 0;
@@ -357,7 +357,13 @@ public class InstructorsDb extends EntitiesDb{
             if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
                 log.severe("Operation did not persist in time: deleteInstructor->"
                         + email);
+                                
             }
+        }
+        
+        Instructor instructorCheck = getInstructorEntityForEmail(courseId, email);
+        if(instructorCheck != null){
+            putDocument(new InstructorAttributes(instructorCheck));
         }
 
         //TODO: reuse the method in the parent class instead
@@ -369,12 +375,12 @@ public class InstructorsDb extends EntitiesDb{
         
         List<Instructor> instructorsToDelete = getInstructorEntitiesForCourses(courseIds);
         
-        getPM().deletePersistentAll(instructorsToDelete);
-        getPM().flush();
-        
         for(Instructor instructor : instructorsToDelete){        
             deleteDocument(new InstructorAttributes(instructor)); 
         }
+        
+        getPM().deletePersistentAll(instructorsToDelete);
+        getPM().flush();       
     }
     
     /**
@@ -386,13 +392,14 @@ public class InstructorsDb extends EntitiesDb{
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 
         List<Instructor> instructorList = getInstructorEntitiesForGoogleId(googleId);
-
-        getPM().deletePersistentAll(instructorList);
-        getPM().flush();
         
         for(Instructor instructor : instructorList){        
             deleteDocument(new InstructorAttributes(instructor)); 
         } 
+        
+        getPM().deletePersistentAll(instructorList);
+        getPM().flush();
+      
     }
     
     /**
@@ -404,13 +411,14 @@ public class InstructorsDb extends EntitiesDb{
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         List<Instructor> instructorList = getInstructorEntitiesForCourse(courseId);
-
-        getPM().deletePersistentAll(instructorList);
-        getPM().flush();
         
         for(Instructor instructor : instructorList){        
             deleteDocument(new InstructorAttributes(instructor)); 
-        } 
+        }        
+        getPM().deletePersistentAll(instructorList);
+        getPM().flush();
+        
+        
     }
     
     private Instructor getInstructorEntityForGoogleId(String courseId, String googleId) {
