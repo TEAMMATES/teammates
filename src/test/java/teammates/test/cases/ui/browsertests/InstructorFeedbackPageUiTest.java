@@ -713,7 +713,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     
     public void testValidationReload() {
         
-        ______TS("form fields do not change to default values on form validation failure");
+        ______TS("form fields do not reset on form validation failure when session type is STANDARD");
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
@@ -727,6 +727,22 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         assertEquals("STANDARD", feedbackPage.getSessionType());
         assertEquals("22", feedbackPage.getStartTime());
+        
+        
+        ______TS("form fields do not reset on form validation failure when session type is TEAMEVALUATION");
+        
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+        
+        feedbackPage.selectSessionType("Team peer evaluation session");
+        templateSessionName = "!Invalid name";
+        feedbackPage.addFeedbackSession(
+                templateSessionName , newSession.courseId, 
+                TimeHelper.convertToDate("2035-04-01 10:00 AM UTC"), newSession.endTime,
+                null, null,
+                newSession.instructions, newSession.gracePeriod );        
+        
+        assertEquals("TEAMEVALUATION", feedbackPage.getSessionType());
+        assertEquals("10", feedbackPage.getStartTime());
     }
 
     @AfterClass

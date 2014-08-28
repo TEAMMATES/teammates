@@ -225,8 +225,8 @@
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTTIME%>">
                                             <%
                                                 Date date;
-                                                date = (data.newFeedbackSession == null ? null
-                                                		: data.newFeedbackSession.startTime);
+                                                date = data.newFeedbackSession == null ? null
+                                                		: data.newFeedbackSession.startTime;
                                                
                                                 for (String opt : data.getTimeOptionsAsHtml(date))
                                                     out.println(opt);
