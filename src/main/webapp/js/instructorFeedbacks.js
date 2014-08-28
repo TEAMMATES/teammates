@@ -163,8 +163,9 @@ function selectDefaultTimeOptions(){
     var currentTime = (parseInt(hours) + 1) % 24;
     var timeZone = -now.getTimezoneOffset() / 60;
 
-    document.getElementById(FEEDBACK_SESSION_STARTDATE).value = currentDate;
-    document.getElementById(FEEDBACK_SESSION_STARTTIME).value = currentTime;
+    if (document.getElementById(FEEDBACK_SESSION_TIMEZONE).value != timeZone.toString()) {
+        document.getElementById(FEEDBACK_SESSION_STARTTIME).value = currentTime;    
+    }
     document.getElementById(FEEDBACK_SESSION_TIMEZONE).value = ""+timeZone;
 }
 
