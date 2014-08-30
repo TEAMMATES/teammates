@@ -373,6 +373,18 @@ public class InstructorFeedbacksPage extends AppPage {
                 +"null : $('#"+timeId+"').datepicker('option', 'maxDate').toDateString();");
     }
     
+    public String getSessionType() {
+        return fsType.getAttribute("value");
+    }
+    
+    public String getStartTime() {
+        return startTimeDropdown.getAttribute("value");
+    }
+    
+    public String getEndTime() {
+        return endTimeDropdown.getAttribute("value");
+    }
+    
     public void addFeedbackSession(
             String feedbackSessionName,
             String courseId,
