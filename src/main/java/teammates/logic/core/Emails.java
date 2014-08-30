@@ -867,17 +867,19 @@ public class Emails {
     }
     
     public void sendEmails(List<MimeMessage> messages) {
-        //Sets the interval between each email sent to be 5 seconds
+        //Equally spread out the emails to be sent over 1 hour
         int numberOfEmailsSent = 0;
-        int emailDelayMillis = 5000;
+        int emailIntervalMillis = (1000 * 60 * 60) / messages.size();
+        
+        //Sets interval to a maximum of 5 seconds if the interval is too large
+        emailIntervalMillis =  emailIntervalMillis > 5000 ? 5000 : emailIntervalMillis;
      
         for (MimeMessage m : messages) {
             try {
-                long emailDelayTimer = numberOfEmailsSent * emailDelayMillis;
+                long emailDelayTimer = numberOfEmailsSent * emailIntervalMillis;
                 addEmailToTaskQueue(m, emailDelayTimer);
                 numberOfEmailsSent++;
             } catch (MessagingException e) {
-
                 log.severe("Error in sending : " + m.toString()
                             + " Cause : " + e.getMessage());
             }
