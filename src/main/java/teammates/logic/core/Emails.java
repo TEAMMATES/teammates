@@ -872,7 +872,8 @@ public class Emails {
         int emailIntervalMillis = (1000 * 60 * 60) / messages.size();
         
         //Sets interval to a maximum of 5 seconds if the interval is too large
-        emailIntervalMillis =  emailIntervalMillis > 5000 ? 5000 : emailIntervalMillis;
+        int maxIntervalMillis = 5000;
+        emailIntervalMillis =  emailIntervalMillis > maxIntervalMillis ? maxIntervalMillis : emailIntervalMillis;
      
         for (MimeMessage m : messages) {
             try {
