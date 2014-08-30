@@ -728,6 +728,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals("STANDARD", feedbackPage.getSessionType());
         assertEquals("22", feedbackPage.getStartTime());
         assertEquals("22", feedbackPage.getEndTime());
+        assertEquals("8", feedbackPage.getTimeZone());
         
         
         ______TS("form fields do not reset on form validation failure when session type is TEAMEVALUATION, timezone is changed");
@@ -745,9 +746,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals("TEAMEVALUATION", feedbackPage.getSessionType());
         assertEquals("10", feedbackPage.getStartTime());
         assertEquals("22", feedbackPage.getEndTime());
-        
-     
-        
+        assertEquals("-2", feedbackPage.getTimeZone());             
     }
 
     @AfterClass
