@@ -730,21 +730,23 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals("22", feedbackPage.getEndTime());
         
         
-        ______TS("form fields do not reset on form validation failure when session type is TEAMEVALUATION");
+        ______TS("form fields do not reset on form validation failure when session type is TEAMEVALUATION, timezone is changed");
         
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
         feedbackPage.selectSessionType("Team peer evaluation session");
         templateSessionName = "!Invalid name";
-        feedbackPage.addFeedbackSession(
+        feedbackPage.addFeedbackSessionWithTimeZone(
                 templateSessionName , newSession.courseId, 
                 TimeHelper.convertToDate("2035-04-01 10:00 AM UTC"), TimeHelper.convertToDate("2035-04-30 10:00 PM UTC"),
                 null, null,
-                newSession.instructions, newSession.gracePeriod );        
+                newSession.instructions, newSession.gracePeriod, -2.0 );        
         
         assertEquals("TEAMEVALUATION", feedbackPage.getSessionType());
         assertEquals("10", feedbackPage.getStartTime());
         assertEquals("22", feedbackPage.getEndTime());
+        
+     
         
     }
 
