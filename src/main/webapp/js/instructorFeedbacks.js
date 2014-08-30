@@ -168,12 +168,14 @@ function selectDefaultTimeOptions(){
     if (!isFormFromValidationFailure()) {
         document.getElementById(FEEDBACK_SESSION_STARTTIME).value = currentTime;
         document.getElementById(FEEDBACK_SESSION_TIMEZONE).value = ""+timeZone;
+        
+        $('#timezone > option[value=\'-9999\']').remove();
     }    
 }
 
 
 function isFormFromValidationFailure() {
-	return document.getElementById('statusMessage').innerHTML !== "";
+	return document.getElementById('timezone').value !== "-9999";
 }
 
 
