@@ -61,4 +61,8 @@ public class InstructorSearchPage extends AppPage {
         return browser.driver.findElement(By.id("students-check"));
     }
 
+    public void clickAndHoverPicture(String cellId) {
+        browser.driver.findElement(By.id(cellId)).findElement(By.tagName("a")).click();
+    }
+
 }
