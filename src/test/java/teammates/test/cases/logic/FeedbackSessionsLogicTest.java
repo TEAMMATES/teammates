@@ -39,6 +39,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
@@ -286,8 +287,26 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         FeedbackSessionAttributes fs = getNewFeedbackSession();
         fsLogic.createFeedbackSession(fs);
         TestHelper.verifyPresentInDatastore(fs);
+        
+        ______TS("test create with invalid session name");
+        fs.feedbackSessionName = "test & test";
+        try {
+            fsLogic.createFeedbackSession(fs);
+            signalFailureToDetectException();
+        } catch (Exception a) {
+            assertEquals("The provided feedback session name is not acceptable to TEAMMATES as it cannot contain the following special html characters in brackets: (&lt; &gt; \\ &#x2f; &#39; &amp;)", a.getMessage());
+        }
 
+        fs.feedbackSessionName = "test %| test";
+        try {
+            fsLogic.createFeedbackSession(fs);
+            signalFailureToDetectException();
+        } catch (Exception a) {
+            assertEquals("\"test %| test\" is not acceptable to TEAMMATES as feedback session name because it contains invalid characters. All feedback session name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).", a.getMessage());
+        }
+        
         ______TS("test delete");
+        fs = getNewFeedbackSession();
         // Create a question under the session to test for cascading during delete.
         FeedbackQuestionAttributes fq = new FeedbackQuestionAttributes();
         fq.feedbackSessionName = fs.feedbackSessionName;

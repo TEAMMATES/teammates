@@ -147,6 +147,10 @@ public class FeedbackResponsesLogic {
         return frDb.getFeedbackResponsesForQuestion(feedbackQuestionId);
     }
 
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionWithinRange(String feedbackQuestionId, long range) {
+        return frDb.getFeedbackResponsesForQuestionWithinRange(feedbackQuestionId, range);
+    }
+
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(
             String feedbackQuestionId, String section) {
         if(section == null){

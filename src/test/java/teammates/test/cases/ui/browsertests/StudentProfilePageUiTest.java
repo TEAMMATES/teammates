@@ -146,6 +146,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         
         String studentId = "studentWithExistingProfile";
         String instructorId = "SHomeUiT.instr";
+        String helperId = "SHomeUiT.helper";
         
         String studentGoogleId = testData.accounts.get("studentWithExistingProfile").googleId;
         String currentPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
@@ -154,16 +155,14 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         
         email = StringHelper.encrypt(email);
         courseId = StringHelper.encrypt(courseId);
-        String invalidEmail = StringHelper.encrypt("random-EmAIl");
-        String invalidCourse = StringHelper.encrypt("random-CouRsE");
-        
+        String invalidEmail = StringHelper.encrypt("random-EmAIl");        
         
         ______TS("success case, with blob-key");
         
         getProfilePicturePage(studentId, currentPictureKey)
             .verifyHasPicture();
         
-        ______TS("failure case, blob-key");
+        ______TS("failure case, invalid blob-key");
         
         String expectedFilename = "/studentProfilePictureNotFound.html";
         getProfilePicturePage(studentId, "random-StRing123")
@@ -174,10 +173,10 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         getProfilePicturePage(instructorId, email, courseId)
             .verifyHasPicture();
         
-        ______TS("failure case: course that the instructor does not belong in");
+        ______TS("failure case: instructor does not have privilege");
         
         expectedFilename = "/studentProfilePictureUnauthorized.html";
-        getProfilePicturePage(instructorId, email, invalidCourse)
+        getProfilePicturePage(helperId, email, courseId)
             .verifyIsUnauthorisedErrorPage(expectedFilename);
         
         ______TS("failure case: non-existent student");
