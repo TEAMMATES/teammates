@@ -154,6 +154,9 @@ function checkEditFeedbackSession(form){
 /**
  * To be run on page finish loading, this will select the input: start date,
  * start time, and timezone based on client's time.
+ * 
+ * The default values will not be set if the form was submitted previously and
+ * failed validation.
  */
 function selectDefaultTimeOptions(){
     var now = new Date();
@@ -162,11 +165,16 @@ function selectDefaultTimeOptions(){
     var hours = convertDateToHHMM(now).substring(0, 2);
     var currentTime = (parseInt(hours) + 1) % 24;
     var timeZone = -now.getTimezoneOffset() / 60;
+    
+    if (!isFormFromValidationFailure()) {
+        document.getElementById(FEEDBACK_SESSION_STARTTIME).value = currentTime;
+        document.getElementById(FEEDBACK_SESSION_TIMEZONE).value = ""+timeZone;
+    }    
+}
 
-    if (document.getElementById(FEEDBACK_SESSION_TIMEZONE).value != timeZone.toString()) {
-        document.getElementById(FEEDBACK_SESSION_STARTTIME).value = currentTime;    
-    }
-    document.getElementById(FEEDBACK_SESSION_TIMEZONE).value = ""+timeZone;
+
+function isFormFromValidationFailure() {
+	return (document.getElementById('statusMessage').innerHTML !== "");
 }
 
 
