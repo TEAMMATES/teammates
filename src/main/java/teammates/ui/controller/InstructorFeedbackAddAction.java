@@ -49,6 +49,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         data.newFeedbackSession = fs;
         
         String feedbackSessionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TYPE);
+        data.feedbackSessionType = feedbackSessionType;
         
         try {
             logic.createFeedbackSession(fs);
