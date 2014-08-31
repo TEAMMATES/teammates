@@ -385,6 +385,10 @@ public class InstructorFeedbacksPage extends AppPage {
         return endTimeDropdown.getAttribute("value");
     }
     
+    public String getTimeZone() {
+        return timezoneDropdown.getAttribute("value");
+    }
+    
     public void addFeedbackSession(
             String feedbackSessionName,
             String courseId,

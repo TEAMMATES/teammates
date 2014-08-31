@@ -1,4 +1,5 @@
 //TODO: Move constants from Common.js into appropriate files if not shared.
+var SELECT_OPTION_UNINITIALISED = -9999;
 
 var modalSelectedRow;
 
@@ -154,19 +155,30 @@ function checkEditFeedbackSession(form){
 /**
  * To be run on page finish loading, this will select the input: start date,
  * start time, and timezone based on client's time.
+ * 
+ * The default values will not be set if the form was submitted previously and
+ * failed validation.
  */
 function selectDefaultTimeOptions(){
     var now = new Date();
     
-    var currentDate = convertDateToDDMMYYYY(now);
     var hours = convertDateToHHMM(now).substring(0, 2);
     var currentTime = (parseInt(hours) + 1) % 24;
     var timeZone = -now.getTimezoneOffset() / 60;
-
-    if (document.getElementById(FEEDBACK_SESSION_TIMEZONE).value != timeZone.toString()) {
-        document.getElementById(FEEDBACK_SESSION_STARTTIME).value = currentTime;    
+    
+    if (!isTimeZoneUnintialized()) {
+        document.getElementById(FEEDBACK_SESSION_STARTTIME).value = currentTime;
+        document.getElementById(FEEDBACK_SESSION_TIMEZONE).value = ""+timeZone;        
     }
-    document.getElementById(FEEDBACK_SESSION_TIMEZONE).value = ""+timeZone;
+    
+    if ($('#timezone > option[value=\'' + SELECT_OPTION_UNINITIALISED + '\']')) {
+    	$('#timezone > option[value=\'' + SELECT_OPTION_UNINITIALISED + '\']').remove();
+    }
+}
+
+
+function isTimeZoneUnintialized() {
+	return document.getElementById('timezone').value != SELECT_OPTION_UNINITIALISED;
 }
 
 
