@@ -1,4 +1,5 @@
 //TODO: Move constants from Common.js into appropriate files if not shared.
+var SELECT_OPTION_UNINITIALISED = -9999;
 
 var modalSelectedRow;
 
@@ -165,17 +166,19 @@ function selectDefaultTimeOptions(){
     var currentTime = (parseInt(hours) + 1) % 24;
     var timeZone = -now.getTimezoneOffset() / 60;
     
-    if (!isFormFromValidationFailure()) {
+    if (!isTimeZoneUnintialized()) {
         document.getElementById(FEEDBACK_SESSION_STARTTIME).value = currentTime;
-        document.getElementById(FEEDBACK_SESSION_TIMEZONE).value = ""+timeZone;
-        
-        $('#timezone > option[value=\'-9999\']').remove();
-    }    
+        document.getElementById(FEEDBACK_SESSION_TIMEZONE).value = ""+timeZone;        
+    }
+    
+    if ($('#timezone > option[value=\'' + SELECT_OPTION_UNINITIALISED + '\']')) {
+    	$('#timezone > option[value=\'' + SELECT_OPTION_UNINITIALISED + '\']').remove();
+    }
 }
 
 
-function isFormFromValidationFailure() {
-	return document.getElementById('timezone').value !== "-9999";
+function isTimeZoneUnintialized() {
+	return document.getElementById('timezone').value != SELECT_OPTION_UNINITIALISED;
 }
 
 
