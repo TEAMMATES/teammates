@@ -33,6 +33,7 @@ import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
@@ -274,6 +275,7 @@ public class TestHelper extends BaseComponentTestCase{
         StudentAttributes actualStudent = studentsDb.getStudentForEmail(expectedStudent.course,
                 expectedStudent.email);
         expectedStudent.updateStatus = UpdateStatus.UNKNOWN;
+        expectedStudent.lastName = StringHelper.splitName(expectedStudent.name)[1];
         equalizeIrrelevantData(expectedStudent, actualStudent);
         assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
     }
