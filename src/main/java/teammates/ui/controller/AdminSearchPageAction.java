@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -46,11 +45,19 @@ public class AdminSearchPageAction extends Action {
         data.studentResultBundle  = logic.searchStudentsInWholeSystem(searchKey, "");
         
         data = putFeedbackSessionLinkIntoMap(data.studentResultBundle.studentList, data);
-        data = putHomePageLinkIntoMap(data.studentResultBundle.studentList, data);
+        data = putStudentHomePageLinkIntoMap(data.studentResultBundle.studentList, data);
         data = putStudentDetailsPageLinkIntoMap(data.studentResultBundle.studentList, data);
-        data = putInsitituteIntoMap(data.studentResultBundle.studentList, data);
-           
-        int numOfResults = data.studentResultBundle.getResultSize();
+        data = putStudentInsitituteIntoMap(data.studentResultBundle.studentList, data);
+                   
+        data.instructorResultBundle = logic.searchInstructorsInWholeSystem(searchKey, "");
+        data = putInstructorInsitituteIntoMap(data.instructorResultBundle.instructorList, data);
+        data = putInstructorHomePageLinkIntoMap(data.instructorResultBundle.instructorList, data);
+        data = putInstructorCourseJoinLinkIntoMap(data.instructorResultBundle.instructorList, data);
+        
+        
+        int numOfResults = data.studentResultBundle.getResultSize() 
+                           + data.instructorResultBundle.getResultSize();
+        
         if(numOfResults > 0){
             statusToUser.add("Total results found: " + numOfResults);
             isError = false;
@@ -63,7 +70,64 @@ public class AdminSearchPageAction extends Action {
         return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
     }
     
-    private AdminSearchPageData putInsitituteIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
+    private AdminSearchPageData putInstructorCourseJoinLinkIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data){
+
+        for(InstructorAttributes instructor : instructors){
+            
+            String googleIdOfAlreadyRegisteredInstructor = findAvailableInstructorGoogleIdForCourse(instructor.courseId);
+            
+            if(!googleIdOfAlreadyRegisteredInstructor.isEmpty()){
+                String joinLinkWithoutInsititute = Url.addParamToUrl(Config.APP_URL + Const.ActionURIs.INSTRUCTOR_COURSE_JOIN, 
+                                                                     Const.ParamsNames.REGKEY, 
+                                                                     StringHelper.encrypt(instructor.key));
+                data.instructorCourseJoinLinkMap.put(instructor.getIdentificationString(),
+                                                     joinLinkWithoutInsititute);
+            }
+            
+        }
+        
+        return data;
+    }
+    
+    private AdminSearchPageData putInstructorInsitituteIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data){
+        Logic logic = new Logic();
+        for(InstructorAttributes instructor : instructors){
+            
+            String googleId = findAvailableInstructorGoogleIdForCourse(instructor.courseId);
+            
+            AccountAttributes account = logic.getAccount(googleId);           
+            if(account == null){
+                continue;
+            }
+            
+            String institute = account.institute.trim().isEmpty() ? "None" : account.institute;
+            data.instructorInstituteMap.put(instructor.getIdentificationString(), institute);
+        }
+        
+        return data;
+    }
+    
+    private AdminSearchPageData putInstructorHomePageLinkIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data){
+        
+        for(InstructorAttributes instructor : instructors){
+            
+            if(instructor.googleId == null){
+                continue;
+            }
+            
+            String curLink = Url.addParamToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE,
+                                                        Const.ParamsNames.USER_ID, 
+                                                        instructor.googleId);
+            
+            data.instructorHomaPageLinkMap.put(instructor.googleId, curLink);
+        }
+        
+        return data;
+    }
+    
+    
+    
+    private AdminSearchPageData putStudentInsitituteIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
         Logic logic = new Logic();
         for(StudentAttributes student : students){
             
@@ -86,7 +150,7 @@ public class AdminSearchPageAction extends Action {
     }
     
     
-    private AdminSearchPageData putHomePageLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
+    private AdminSearchPageData putStudentHomePageLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
         
         for(StudentAttributes student : students){
             

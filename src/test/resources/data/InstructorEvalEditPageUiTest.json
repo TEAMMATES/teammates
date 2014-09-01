@@ -4,8 +4,8 @@
         "googleId": "CEvEditUiTest.teammates.test",
         "name": "Teammates Test",
         "isInstructor": true,
-        "email": "teammates.test@gmail.com",
-        "institute": "National University of Singapore"
+        "email": "teammates.test@gmail.tmt",
+        "institute": "TEAMMATES Test Institute 1"
       }
   },
 
@@ -22,7 +22,7 @@
       	"googleId": "CEvEditUiTest.instr",
       	"courseId": "CEvEditUiTest.CS1101",
         "name": "Teammates Demo Instr",
-        "email": "CEvEditUiTest.instr@gmail.com",
+        "email": "CEvEditUiTest.instr@gmail.tmt",
         "role":"Co-owner",
         "displayedName":"Co-owner",
         "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"

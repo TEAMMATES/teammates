@@ -72,8 +72,8 @@ public class StudentHomePageActionTest extends BaseActionTest {
         AccountAttributes studentWithoutCourses = new AccountAttributes();
         studentWithoutCourses.googleId = "googleId.without.courses";
         studentWithoutCourses.name = "Student Without Courses";
-        studentWithoutCourses.email = "googleId.without.courses@email.com";
-        studentWithoutCourses.institute = "NUS";
+        studentWithoutCourses.email = "googleId.without.courses@email.tmt";
+        studentWithoutCourses.institute = "TEAMMATES Test Institute 5";
         studentWithoutCourses.isInstructor = false;
         studentWithoutCourses.studentProfile = new StudentProfileAttributes();
         studentWithoutCourses.studentProfile.googleId = studentWithoutCourses.googleId;
@@ -94,7 +94,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         
         expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage|||true" +
                 "|||Student|||Student Without Courses|||googleId.without.courses" +
-                "|||googleId.without.courses@email.com|||Servlet Action Failure :Student with Google ID googleId.without.courses does not exist|||/page/studentHomePage" ;
+                "|||googleId.without.courses@email.tmt|||Servlet Action Failure :Student with Google ID googleId.without.courses does not exist|||/page/studentHomePage" ;
         assertEquals(expectedLogMessage, a.getLogMessage());
         
         
@@ -145,7 +145,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         
         
         expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage|||true" +
-                "|||Student(M)|||Student in two courses|||student2InCourse1|||student2InCourse1@gmail.com" +
+                "|||Student(M)|||Student in two courses|||student2InCourse1|||student2InCourse1@gmail.tmt" +
                 "|||studentHome Page Load<br>Total courses: 2|||/page/studentHomePage" ;
         assertEquals(expectedLogMessage, a.getLogMessage());
         

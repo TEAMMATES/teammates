@@ -4,29 +4,29 @@
       "googleId": "InsCrsEdit.test",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "InsCrsEdit.test@gmail.com",
-      "institute": "National University of Singapore"
+      "email": "InsCrsEdit.test@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     },
     "InsCrsEdit.coord": {
       "googleId": "InsCrsEdit.coord",
       "name": "Teammates Coord",
       "isInstructor": true,
-      "email": "InsCrsEdit.coord@gmail.com",
-      "institute": "National University of Singapore"
+      "email": "InsCrsEdit.coord@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     },
     "InsCrsEdit.instructor": {
       "googleId": "InsCrsEdit.instructor",
       "name": "Teammates Instructor",
       "isInstructor": true,
-      "email": "InsCrsEdit.instructor@gmail.com",
-      "institute": "National University of Singapore"
+      "email": "InsCrsEdit.instructor@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     },
     "InsCrsEdit.Helper": {
       "googleId": "InsCrsEdit.Helper",
       "name": "Teammates Instructor",
       "isInstructor": true,
-      "email": "InsCrsEdit.Helper@gmail.com",
-      "institute": "National University of Singapore"
+      "email": "InsCrsEdit.Helper@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     }
   },
 
@@ -43,7 +43,7 @@
       "googleId": "InsCrsEdit.test",
       "courseId": "InsCrsEdit.CS2104",
       "name": "Teammates Test",
-      "email": "InsCrsEdit.test@gmail.com",
+      "email": "InsCrsEdit.test@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -53,7 +53,7 @@
       "googleId": "InsCrsEdit.coord",
       "courseId": "InsCrsEdit.CS2104",
       "name": "Teammates Coord",
-      "email": "InsCrsEdit.coord@gmail.com",
+      "email": "InsCrsEdit.coord@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -63,8 +63,8 @@
       "googleId": null,
       "courseId": "InsCrsEdit.CS2104",
       "name": "Teammates New Instructor",
-      "email": "InsCrsEdit.newInstr@gmail.com",
-      "key": "InsCrsEdit.newInstr@gmail.com%InsCrsEdit.CS2104",
+      "email": "InsCrsEdit.newInstr@gmail.tmt",
+      "key": "InsCrsEdit.newInstr@gmail.tmt%InsCrsEdit.CS2104",
       "role":"Custom",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -74,8 +74,8 @@
       "googleId": "InsCrsEdit.Helper",
       "courseId": "InsCrsEdit.CS2104",
       "name": "Teammates New Instructor",
-      "email": "InsCrsEdit.Helper@gmail.com",
-      "key": "InsCrsEdit.Helper@gmail.com%InsCrsEdit.CS2104",
+      "email": "InsCrsEdit.Helper@gmail.tmt",
+      "key": "InsCrsEdit.Helper@gmail.tmt%InsCrsEdit.CS2104",
       "role":"Custom",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -86,7 +86,7 @@
   "students": {
     "alice.tmms@InsCrsEdit.CS2104": {
       "googleId": "InsCrsEdit.alice.tmms",
-      "email": "alice.b.tmms@gmail.com",
+      "email": "alice.b.tmms@gmail.tmt",
       "course": "InsCrsEdit.CS2104",
       "section":"Section 1",
       "name": "Alice Betsy",
@@ -95,7 +95,7 @@
     },
     "benny.tmms@InsCrsEdit.CS2104": {
       "googleId": "",
-      "email": "benny.c.tmms@gmail.com",
+      "email": "benny.c.tmms@gmail.tmt",
       "course": "InsCrsEdit.CS2104",
       "section":"Section 1",
       "name": "Benny Charles",
@@ -104,7 +104,7 @@
     },
     "charlie.tmms@InsCrsEdit.CS2104": {
       "googleId": "",
-      "email": "charlie.d.tmms@gmail.com",
+      "email": "charlie.d.tmms@gmail.tmt",
       "course": "InsCrsEdit.CS2104",
       "name": "Charlie Davis",
       "section":"Section 2",
@@ -113,7 +113,7 @@
     },
     "danny.tmms@InsCrsEdit.CS2104": {
       "googleId": "InsCrsEdit.danny.tmms",
-      "email": "danny.e.tmms@gmail.com",
+      "email": "danny.e.tmms@gmail.tmt",
       "course": "InsCrsEdit.CS2104",
       "section":"Section 3",
       "name": "Danny Engrid",
@@ -125,7 +125,7 @@
         "session1InCourse1":{
             "feedbackSessionName":"First feedback session",
             "courseId":"InsCrsEdit.CS2104",
-            "creatorEmail":"InsCrsEdit.test@gmail.com",
+            "creatorEmail":"InsCrsEdit.test@gmail.tmt",
             "instructions":{
                 "value":"Please please fill in the following questions."
             },

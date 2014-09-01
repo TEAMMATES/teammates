@@ -23,6 +23,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     public List<FeedbackResponseAttributes> responses = null;
     public Map<String, FeedbackQuestionAttributes> questions = null;
     public Map<String, String> emailNameTable = null;
+    public Map<String, String> emailLastNameTable = null;
     public Map<String, String> emailTeamNameTable = null;
     public Map<String, boolean[]> visibilityTable = null;
     public FeedbackSessionResponseStatus responseStatus = null;
@@ -47,17 +48,19 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             List<FeedbackResponseAttributes> responses,
             Map<String, FeedbackQuestionAttributes> questions,
             Map<String, String> emailNameTable,
+            Map<String, String> emailLastNameTable,
             Map<String, String> emailTeamNameTable,
             Map<String, boolean[]> visibilityTable,
             FeedbackSessionResponseStatus responseStatus,
             Map<String, List<FeedbackResponseCommentAttributes>> responseComments){
-        this(feedbackSession, responses, questions, emailNameTable, emailTeamNameTable, visibilityTable, responseStatus, responseComments, true);
+        this(feedbackSession, responses, questions, emailNameTable, emailLastNameTable, emailTeamNameTable, visibilityTable, responseStatus, responseComments, true);
     }
 
     public FeedbackSessionResultsBundle (FeedbackSessionAttributes feedbackSession,
             List<FeedbackResponseAttributes> responses,
             Map<String, FeedbackQuestionAttributes> questions,
             Map<String, String> emailNameTable,
+            Map<String, String> emailLastNameTable,
             Map<String, String> emailTeamNameTable,
             Map<String, boolean[]> visibilityTable,
             FeedbackSessionResponseStatus responseStatus,
@@ -67,6 +70,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         this.questions = questions;
         this.responses = responses;
         this.emailNameTable = emailNameTable;
+        this.emailLastNameTable = emailLastNameTable;
         this.emailTeamNameTable = emailTeamNameTable;
         this.visibilityTable = visibilityTable;
         this.responseStatus = responseStatus;
@@ -216,6 +220,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
 
     public String getNameForEmail(String email) {
         String name = emailNameTable.get(email);
+        if (name == null || name.equals(Const.USER_IS_TEAM)) {
+            return Const.USER_UNKNOWN_TEXT; //TODO: this doesn't look right
+        } else if (name.equals(Const.USER_IS_NOBODY)) {
+            return Const.USER_NOBODY_TEXT;
+        } else {
+            return PageData.sanitizeForHtml(name);
+        }
+    }
+    
+    public String getLastNameForEmail(String email) {
+        String name = emailLastNameTable.get(email);
         if (name == null || name.equals(Const.USER_IS_TEAM)) {
             return Const.USER_UNKNOWN_TEXT; //TODO: this doesn't look right
         } else if (name.equals(Const.USER_IS_NOBODY)) {

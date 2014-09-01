@@ -88,8 +88,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         String shortName = "Instrúctör";
         instructor.name =  "AHPUiT Instrúctör";
-        instructor.email = "AHPUiT.instr1@gmail.com";
-        String institute = "National University of Singapore";
+        instructor.email = "AHPUiT.instr1@gmail.tmt";
+        String institute = "TEAMMATES Test Institute 1";
         String demoCourseId = "AHPUiT.instr1.gma-demo";
     
         ______TS("action success : create instructor account and the account is created successfully after user's verification");
@@ -237,7 +237,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         Url homeUrl = createUrl(Const.ActionURIs.ADMIN_HOME_PAGE);
         homePage = loginAdminToPage(browser, homeUrl, AdminHomePage.class);
         
-        instructor.email = "AHPUiT.email.com";        
+        instructor.email = "AHPUiT.email.tmt";        
         homePage.createInstructor(shortName,instructor,institute).verifyStatus(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, instructor.email, FieldValidator.REASON_INCORRECT_FORMAT));
       
         
@@ -285,9 +285,9 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         spp.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
         spp.isElementVisible("studentPhotoUploader");
         spp.editProfilePhoto();
-        spp.editProfileThroughUi("", "short.name", "e@email.com", "inst", "Usual Nationality", 
+        spp.editProfileThroughUi("", "short.name", "e@email.tmt", "inst", "Usual Nationality", 
                 "female", "this is enough!$%&*</>");
-        spp.ensureProfileContains("short.name", "e@email.com", "inst", "Usual Nationality", 
+        spp.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality", 
                 "female", "this is enough!$%&*</>");
         spp.verifyPhotoSize(150, 150);
         String prevPictureKey = BackDoor.getStudentProfile(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT).pictureKey;

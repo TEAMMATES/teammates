@@ -35,8 +35,9 @@ public class AdminActivityLogPageData extends PageData {
      * this array stores the requests to be excluded from being shown in admin activity logs page
      */
     private static String[] excludedLogRequestURIs = {Const.ActionURIs.INSTRUCTOR_EVAL_STATS_PAGE,
-                                                      Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,
-                                                      Const.ActionURIs.AUTOMATED_COMPILE_LOGS};
+                                                      Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,                                                      
+                                                      //this servlet name is set in CompileLogsServlet
+                                                      "logCompilation"};
 
     public AdminActivityLogPageData(AccountAttributes account) {
         super(account);
@@ -143,6 +144,10 @@ public class AdminActivityLogPageData extends PageData {
             }
         }
         if(q.isCutoffInQuery){
+            if(logEntry.getTimeTaken() == null){
+                return false;
+            }
+            
             if(logEntry.getTimeTaken() < q.cutoffValue){
                 return false;
             }

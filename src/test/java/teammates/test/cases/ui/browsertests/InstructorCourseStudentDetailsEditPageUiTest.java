@@ -110,29 +110,29 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
         
         editPage  = editPage.submitUnsuccessfully("New name2", "New team2", anotherStudent.email, "New comments2");
         editPage.verifyStatus(Const.StatusMessages.STUDENT_EMAIL_CONFLIT+anotherStudent.name+"/"+anotherStudent.email); //??
-        editPage.verifyIsCorrectPage("CCSDEditUiT.jose.tmms@gmail.com");
+        editPage.verifyIsCorrectPage("CCSDEditUiT.jose.tmms@gmail.tmt");
             
         // Verify data
-        StudentAttributes student  = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").id, "CCSDEditUiT.jose.tmms@gmail.com");
+        StudentAttributes student  = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").id, "CCSDEditUiT.jose.tmms@gmail.tmt");
         assertEquals("José Gómez",student.name);
         assertEquals("Team 1",student.team);
         assertEquals(testData.students.get("registeredStudent").googleId,student.googleId);
-        assertEquals("CCSDEditUiT.jose.tmms@gmail.com",student.email);
+        assertEquals("CCSDEditUiT.jose.tmms@gmail.tmt",student.email);
         assertEquals(Sanitizer.sanitizeForHtml("This student's name is José Gómez"),student.comments);
         
         
         ______TS("edit action");
         
-        InstructorCourseDetailsPage detailsPage = editPage.submitSuccessfully("New name", "New team", "newemail@gmail.com", "New comments");
+        InstructorCourseDetailsPage detailsPage = editPage.submitSuccessfully("New name", "New team", "newemail@gmail.tmt", "New comments");
         detailsPage.verifyStatus(Const.StatusMessages.STUDENT_EDITED);
         detailsPage.verifyIsCorrectPage(testData.courses.get("CCSDEditUiT.CS2104").id);
             
         // Verify data
-        student  = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").id, "newemail@gmail.com");
+        student  = BackDoor.getStudent(testData.courses.get("CCSDEditUiT.CS2104").id, "newemail@gmail.tmt");
         assertEquals("New name",student.name);
         assertEquals("New team",student.team);
         assertEquals(testData.students.get("registeredStudent").googleId,student.googleId);
-        assertEquals("newemail@gmail.com",student.email);
+        assertEquals("newemail@gmail.tmt",student.email);
         assertEquals("New comments",student.comments);
     }
 
