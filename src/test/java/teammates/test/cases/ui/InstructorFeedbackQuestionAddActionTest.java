@@ -87,7 +87,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
-                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                         + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
                         + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
                         + " created.<br><span class=\"bold\">Multiple-choice (multiple answers) question:</span> What do you like best about the class?"
@@ -131,7 +131,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
-                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                         + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
                         + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
                         + " created.<br><span class=\"bold\">Multiple-choice (multiple answers) question:</span> Who do you like in the class?"
@@ -189,7 +189,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
-                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                         + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
                         + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
                         + " created.<br><span class=\"bold\">Multiple-choice (single answer) question:</span> What do you like best about the class?"
@@ -233,7 +233,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
-                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                         + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
                         + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
                         + " created.<br><span class=\"bold\">Multiple-choice (single answer) question:</span> Who do you like best in the class?"
@@ -287,7 +287,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
-                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                         + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
                         + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
                         + " created.<br><span class=\"bold\">Numerical-scale question:</span> Rate the class?"
@@ -345,7 +345,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
-                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                         + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
                         + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
                         + " created.<br><span class=\"bold\">Distribute points (among options) question:</span> Split points among the options."
@@ -400,7 +400,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
-                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                         + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
                         + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
                         + " created.<br><span class=\"bold\">Distribute points (among recipients) question:</span> Split points among students."
@@ -449,7 +449,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
-                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                         + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
                         + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
                         + " created.<br><span class=\"bold\">Team contribution question:</span> How much has each team member including yourself, contributed to the project?"
@@ -553,7 +553,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
-                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                         + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
                         + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
                         + " created.<br><span class=\"bold\">Essay question:</span> question|||/page/instructorFeedbackQuestionAdd";
@@ -579,7 +579,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
-                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                         + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
                         + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
                         + " created.<br><span class=\"bold\">Essay question:</span> question|||/page/instructorFeedbackQuestionAdd";
@@ -607,7 +607,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
-                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                         + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
                         + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
                         + " created.<br><span class=\"bold\">Essay question:</span> question|||/page/instructorFeedbackQuestionAdd";
@@ -634,7 +634,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
-                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                         + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
                         + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
                         + " created.<br><span class=\"bold\">Essay question:</span> question|||/page/instructorFeedbackQuestionAdd";
@@ -667,7 +667,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
-                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                         + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
                         + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
                         + " created.<br><span class=\"bold\">Essay question:</span> question|||/page/instructorFeedbackQuestionAdd";
@@ -693,7 +693,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
-                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                         + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, "NONE", FieldValidator.GIVER_TYPE_NAME) 
                         + "|||/page/instructorFeedbackQuestionAdd";
         assertEquals(expectedLogMessage, action.getLogMessage());
@@ -722,7 +722,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
-                        + "Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                        + "Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                         + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
                         + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
                         + " created.<br><span class=\"bold\">Essay question:</span> question|||/page/instructorFeedbackQuestionAdd";

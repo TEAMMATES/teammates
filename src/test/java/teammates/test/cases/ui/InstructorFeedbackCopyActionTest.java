@@ -79,7 +79,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||"
-               + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+               + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                + "New Feedback Session <span class=\"bold\">(Copied Session)</span> for Course <span class=\"bold\">"
                + "[idOfTypicalCourse1]</span> created.<br><span class=\"bold\">From:</span> Sun Apr 01 23:59:00 UTC 2012"
                + "<span class=\"bold\"> to</span> Sun Apr 30 23:59:00 UTC 2017<br><span class=\"bold\">Session visible "
@@ -106,7 +106,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||"
-                + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                 + "Trying to create a Feedback Session that exists: Second feedback session/idOfTypicalCourse1|||"
                 + "/page/instructorFeedbackCopy";
         assertEquals(expectedLogMessage, a.getLogMessage());
@@ -129,7 +129,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||Instructor|||"
-                + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                 + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as a feedback session name because it is empty."
                 + " The value of a feedback session name should be no longer than 38 characters. It should not be empty.|||"
                 + "/page/instructorFeedbackCopy";
@@ -162,7 +162,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||"
                 + "Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
-                + "instr1@course1.com|||New Feedback Session <span class=\"bold\">(Second copied feedback session)"
+                + "instr1@course1.tmt|||New Feedback Session <span class=\"bold\">(Second copied feedback session)"
                 + "</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span> created.<br><span class=\"bold\">"
                 + "From:</span> Sat Jun 01 23:59:00 UTC 2013<span class=\"bold\"> to</span> Thu Apr 28 23:59:00 UTC 2016<br>"
                 + "<span class=\"bold\">Session visible from:</span> Wed Mar 20 23:59:00 UTC 2013<br><span class=\"bold\">"

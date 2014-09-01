@@ -92,7 +92,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE
                 + "?courseid=idOfTypicalCourse1&"
-                + "studentemail=student2InCourse1%40gmail.com&"
+                + "studentemail=student2InCourse1%40gmail.tmt&"
                 + "user=idOfInstructor3&"
                 + "error=false",
                 r.getDestinationWithParams());
@@ -101,7 +101,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorStudentCommentEdit|||instructorStudentCommentEdit"+
                 "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"+
-                "|||instr3@course1n2.com|||" +
+                "|||instr3@course1n2.tmt|||" +
                 "Edited Comment for Student:<span class=\"bold\">(null)</span> " +
                 "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>" +
                 "<span class=\"bold\">Comment:</span> "  + "<Text: An edited comment text>" +
@@ -123,7 +123,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE
                 + "?courseid=idOfTypicalCourse1&"
-                + "studentemail=student2InCourse1%40gmail.com&"
+                + "studentemail=student2InCourse1%40gmail.tmt&"
                 + "user=idOfInstructor3&"
                 + "error=false",
                 r.getDestinationWithParams());

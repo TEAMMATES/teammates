@@ -37,7 +37,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         
         String instructorId = instructor1OfCourse1.googleId;
-        String newStudentEmail = "newemail@gmail.com";
+        String newStudentEmail = "newemail@gmail.tmt";
         String newStudentTeam = "new student's team";
         String newStudentComments = "this is new comment after editing";
         gaeSimulation.loginAsInstructor(instructorId);
@@ -84,7 +84,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         assertEquals(Const.StatusMessages.STUDENT_EDITED, r.getStatusMessage());
         
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" +
-                "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||" +
+                "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
                 "Student <span class=\"bold\">" + student1InCourse1.email + 
                 "'s</span> details in Course <span class=\"bold\">[idOfTypicalCourse1]</span> edited.<br>"+ 
                 "New Email: " + newStudentEmail + 
@@ -96,7 +96,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         
         ______TS("Typical case, successful edit and save student detail with spaces to be trimmed");
         
-        String newStudentEmailToBeTrimmed = "  newemail@gmail.com   ";  // after trim, this is equal to newStudentEmail
+        String newStudentEmailToBeTrimmed = "  newemail@gmail.tmt   ";  // after trim, this is equal to newStudentEmail
         String newStudentTeamToBeTrimmed = "  New team   ";
         String newStudentCommentsToBeTrimmed = "  this is new comment after editing   ";
         
@@ -121,7 +121,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         assertEquals(Const.StatusMessages.STUDENT_EDITED, rToBeTrimmed.getStatusMessage());
         
         String expectedLogMessageToBeTrimmed = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" +
-                "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||" +
+                "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
                 "Student <span class=\"bold\">" + newStudentEmail + 
                 "'s</span> details in Course <span class=\"bold\">[idOfTypicalCourse1]</span> edited.<br>"+ 
                 "New Email: " + newStudentEmailToBeTrimmed.trim() + 
@@ -133,7 +133,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         
         ______TS("Error case, invalid email parameter");
         
-        String invalidStudentEmail = "thisisaveryverylonglonglongstudentemailaccountname@gmail.com";
+        String invalidStudentEmail = "thisisaveryverylonglonglongstudentemailaccountname@gmail.tmt";
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
@@ -158,7 +158,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 result.getStatusMessage());
         
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" +
-                "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||" +
+                "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
                 "Servlet Action Failure : " + 
                 String.format(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail, FieldValidator.REASON_TOO_LONG) + 
                 "|||/page/instructorCourseStudentDetailsEditSave";
@@ -193,7 +193,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
                 result.getStatusMessage());
         
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseStudentDetailsEditSave|||instructorCourseStudentDetailsEditSave" +
-                "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||" +
+                "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
                 "Servlet Action Failure : " + 
                 String.format(FieldValidator.EMAIL_TAKEN_MESSAGE, student2InCourse1.name,  takenStudentEmail) + 
                 "|||/page/instructorCourseStudentDetailsEditSave";

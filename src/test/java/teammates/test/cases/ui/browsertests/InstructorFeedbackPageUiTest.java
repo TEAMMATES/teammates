@@ -63,7 +63,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         // start time is in future, hence the year.
         newSession.startTime = TimeHelper.convertToDate("2035-04-01 11:59 PM UTC");
         newSession.endTime = TimeHelper.convertToDate("2035-04-30 10:00 PM UTC");
-        newSession.creatorEmail = "teammates.test1@gmail.com";
+        newSession.creatorEmail = "teammates.test1@gmail.tmt";
         newSession.createdTime = Const.TIME_REPRESENTS_NEVER;
         newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_FOLLOW_OPENING;
         newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_LATER;

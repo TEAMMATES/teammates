@@ -82,8 +82,8 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         
         submitPage.fillResponseTextBox(0, "Test Self Feedback");
         assertNull(BackDoor.getFeedbackResponse(fq.getId(),
-                "IFQSubmitUiT.instr@gmail.com",
-                "IFQSubmitUiT.instr@gmail.com"));
+                "IFQSubmitUiT.instr@gmail.tmt",
+                "IFQSubmitUiT.instr@gmail.tmt"));
         
         submitPage.clickSubmitButton();
 
@@ -91,12 +91,12 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
                 submitPage.getStatus());
         
         assertNotNull(BackDoor.getFeedbackResponse(fq.getId(),
-                "IFQSubmitUiT.instr@gmail.com",
-                "IFQSubmitUiT.instr@gmail.com"));
+                "IFQSubmitUiT.instr@gmail.tmt",
+                "IFQSubmitUiT.instr@gmail.tmt"));
         assertEquals("Test Self Feedback",
                 BackDoor.getFeedbackResponse(fq.getId(),
-                    "IFQSubmitUiT.instr@gmail.com",
-                    "IFQSubmitUiT.instr@gmail.com").getResponseDetails().getAnswerString());
+                    "IFQSubmitUiT.instr@gmail.tmt",
+                    "IFQSubmitUiT.instr@gmail.tmt").getResponseDetails().getAnswerString());
         
         ______TS("edit existing response");        
         
@@ -108,12 +108,12 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
                 submitPage.getStatus());
         assertNotNull(BackDoor.getFeedbackResponse(fq.getId(),
-                "IFQSubmitUiT.instr@gmail.com",
-                "IFQSubmitUiT.instr@gmail.com"));
+                "IFQSubmitUiT.instr@gmail.tmt",
+                "IFQSubmitUiT.instr@gmail.tmt"));
         assertEquals(editedResponse,
                 BackDoor.getFeedbackResponse(fq.getId(),
-                    "IFQSubmitUiT.instr@gmail.com",
-                    "IFQSubmitUiT.instr@gmail.com").getResponseDetails().getAnswerString());
+                    "IFQSubmitUiT.instr@gmail.tmt",
+                    "IFQSubmitUiT.instr@gmail.tmt").getResponseDetails().getAnswerString());
         
         submitPage.verifyHtmlMainContent("/instructorFeedbackQuestionSubmitPageFilled.html");
     }

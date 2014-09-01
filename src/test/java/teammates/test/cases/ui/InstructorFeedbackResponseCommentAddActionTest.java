@@ -43,8 +43,8 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         FeedbackQuestionAttributes question = feedbackQuestionsDb.getFeedbackQuestion(
                 session.feedbackSessionName, session.courseId, questionNumber);
         
-        String giverEmail = "student1InCourse1@gmail.com";
-        String receiverEmail = "student1InCourse1@gmail.com";
+        String giverEmail = "student1InCourse1@gmail.tmt";
+        String receiverEmail = "student1InCourse1@gmail.tmt";
         FeedbackResponseAttributes response = feedbackResponsesDb.getFeedbackResponse(question.getId(),
                 giverEmail, receiverEmail);
         

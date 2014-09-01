@@ -112,12 +112,12 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("non-existent response");
         
-        assertNull(frDb.getFeedbackResponse(expected.feedbackQuestionId, "student1InCourse1@gmail.com","student3InCourse1@gmail.com"));
+        assertNull(frDb.getFeedbackResponse(expected.feedbackQuestionId, "student1InCourse1@gmail.tmt","student3InCourse1@gmail.tmt"));
         
         ______TS("null fqId");
         
         try {
-            frDb.getFeedbackResponse(null, "student1InCourse1@gmail.com","student1InCourse1@gmail.com");
+            frDb.getFeedbackResponse(null, "student1InCourse1@gmail.tmt","student1InCourse1@gmail.tmt");
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -126,7 +126,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ______TS("null giverEmail");
         
         try {
-            frDb.getFeedbackResponse(expected.feedbackQuestionId, null,"student1InCourse1@gmail.com");
+            frDb.getFeedbackResponse(expected.feedbackQuestionId, null,"student1InCourse1@gmail.tmt");
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -135,7 +135,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ______TS("null receiverEmail");
         
         try {
-            frDb.getFeedbackResponse(expected.feedbackQuestionId, "student1InCourse1@gmail.com",null);
+            frDb.getFeedbackResponse(expected.feedbackQuestionId, "student1InCourse1@gmail.tmt",null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -262,14 +262,14 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         List<FeedbackResponseAttributes> responses = 
                 frDb.getFeedbackResponsesForReceiverForQuestion(questionId,
-                        "student1InCourse1@gmail.com");
+                        "student1InCourse1@gmail.tmt");
         
         assertEquals(1, responses.size());
         
         ______TS("null params");
         
         try {
-            frDb.getFeedbackResponsesForReceiverForQuestion(null, "student1InCourse1@gmail.com");
+            frDb.getFeedbackResponsesForReceiverForQuestion(null, "student1InCourse1@gmail.tmt");
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -284,11 +284,11 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("non-existent feedback question");
         
-        assertTrue(frDb.getFeedbackResponsesForReceiverForQuestion("non-existent fq id", "student1InCourse1@gmail.com").isEmpty());
+        assertTrue(frDb.getFeedbackResponsesForReceiverForQuestion("non-existent fq id", "student1InCourse1@gmail.tmt").isEmpty());
         
         ______TS("non-existent receiver");
         
-        assertTrue(frDb.getFeedbackResponsesForReceiverForQuestion(questionId, "non-existentStudentInCourse1@gmail.com").isEmpty());        
+        assertTrue(frDb.getFeedbackResponsesForReceiverForQuestion(questionId, "non-existentStudentInCourse1@gmail.tmt").isEmpty());        
     }
 
     @Test
@@ -300,7 +300,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         List<FeedbackResponseAttributes> responses = 
                 frDb.getFeedbackResponsesForReceiverForQuestionInSection(questionId,
-                        "student1InCourse1@gmail.com", "Section 1");
+                        "student1InCourse1@gmail.tmt", "Section 1");
         
         assertEquals(1, responses.size());
 
@@ -308,7 +308,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         responses = 
                 frDb.getFeedbackResponsesForReceiverForQuestionInSection(questionId,
-                        "student1InCourse1@gmail.com", "Section 2");
+                        "student1InCourse1@gmail.tmt", "Section 2");
         
         assertEquals(responses.size(), 0);
         
@@ -316,7 +316,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         try {
             frDb.getFeedbackResponsesForReceiverForQuestionInSection(
-                                                null, "student1InCourse1@gmail.com", "Section 1");
+                                                null, "student1InCourse1@gmail.tmt", "Section 1");
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -331,7 +331,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         try {
             frDb.getFeedbackResponsesForReceiverForQuestionInSection(
-                                                questionId, "student1InCourse1@gmail.com", null);
+                                                questionId, "student1InCourse1@gmail.tmt", null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -340,12 +340,12 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ______TS("non-existent feedback question");
         
         assertTrue(frDb.getFeedbackResponsesForReceiverForQuestionInSection(
-                                "non-existent fq id", "student1InCourse1@gmail.com", "Section 1").isEmpty());
+                                "non-existent fq id", "student1InCourse1@gmail.tmt", "Section 1").isEmpty());
         
         ______TS("non-existent receiver");
         
         assertTrue(frDb.getFeedbackResponsesForReceiverForQuestionInSection(
-                                questionId, "non-existentStudentInCourse1@gmail.com", "Section 1").isEmpty());
+                                questionId, "non-existentStudentInCourse1@gmail.tmt", "Section 1").isEmpty());
     }
     
     @Test
@@ -357,14 +357,14 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         List<FeedbackResponseAttributes> responses = 
                 frDb.getFeedbackResponsesForReceiverForCourse(courseId,
-                        "student1InCourse1@gmail.com");
+                        "student1InCourse1@gmail.tmt");
         
         assertEquals(2, responses.size());
         
         ______TS("null params");
         
         try {
-            frDb.getFeedbackResponsesForReceiverForCourse(null, "student1InCourse1@gmail.com");
+            frDb.getFeedbackResponsesForReceiverForCourse(null, "student1InCourse1@gmail.tmt");
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -379,11 +379,11 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("non-existent courseId");
         
-        assertTrue(frDb.getFeedbackResponsesForReceiverForCourse("non-existent courseId", "student1InCourse1@gmail.com").isEmpty());
+        assertTrue(frDb.getFeedbackResponsesForReceiverForCourse("non-existent courseId", "student1InCourse1@gmail.tmt").isEmpty());
         
         ______TS("non-existent receiver");
         
-        assertTrue(frDb.getFeedbackResponsesForReceiverForCourse(courseId, "non-existentStudentInCourse1@gmail.com").isEmpty());        
+        assertTrue(frDb.getFeedbackResponsesForReceiverForCourse(courseId, "non-existentStudentInCourse1@gmail.tmt").isEmpty());        
     }
     
     @Test
@@ -395,14 +395,14 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         List<FeedbackResponseAttributes> responses = 
                 frDb.getFeedbackResponsesFromGiverForQuestion(questionId,
-                        "student1InCourse1@gmail.com");
+                        "student1InCourse1@gmail.tmt");
         
         assertEquals(responses.size(), 1);
         
         ______TS("null params");
         
         try {
-            frDb.getFeedbackResponsesFromGiverForQuestion(null, "student1InCourse1@gmail.com");
+            frDb.getFeedbackResponsesFromGiverForQuestion(null, "student1InCourse1@gmail.tmt");
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -417,11 +417,11 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("non-existent feedback question");
         
-        assertTrue(frDb.getFeedbackResponsesFromGiverForQuestion("non-existent fq id", "student1InCourse1@gmail.com").isEmpty());
+        assertTrue(frDb.getFeedbackResponsesFromGiverForQuestion("non-existent fq id", "student1InCourse1@gmail.tmt").isEmpty());
         
         ______TS("non-existent receiver");
         
-        assertTrue(frDb.getFeedbackResponsesFromGiverForQuestion(questionId, "non-existentStudentInCourse1@gmail.com").isEmpty());        
+        assertTrue(frDb.getFeedbackResponsesFromGiverForQuestion(questionId, "non-existentStudentInCourse1@gmail.tmt").isEmpty());        
     }
 
     @Test
@@ -433,7 +433,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         List<FeedbackResponseAttributes> responses = 
                 frDb.getFeedbackResponsesFromGiverForQuestionInSection(questionId,
-                        "student1InCourse1@gmail.com", "Section 1");
+                        "student1InCourse1@gmail.tmt", "Section 1");
         
         assertEquals(responses.size(), 1);
         
@@ -441,7 +441,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         responses = 
                 frDb.getFeedbackResponsesFromGiverForQuestionInSection(questionId,
-                        "student1InCourse1@gmail.com", "Section 2");
+                        "student1InCourse1@gmail.tmt", "Section 2");
         
         assertEquals(responses.size(), 0);
 
@@ -449,7 +449,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         try {
             frDb.getFeedbackResponsesFromGiverForQuestionInSection(
-                                            null, "student1InCourse1@gmail.com", "Section 1");
+                                            null, "student1InCourse1@gmail.tmt", "Section 1");
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -464,7 +464,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         try {
             frDb.getFeedbackResponsesFromGiverForQuestionInSection(
-                                            questionId, "student1InCourse1@gmail.com", null);
+                                            questionId, "student1InCourse1@gmail.tmt", null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -473,12 +473,12 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ______TS("non-existent feedback question");
         
         assertTrue(frDb.getFeedbackResponsesFromGiverForQuestionInSection(
-                            "non-existent fq id", "student1InCourse1@gmail.com", "Section 1").isEmpty());
+                            "non-existent fq id", "student1InCourse1@gmail.tmt", "Section 1").isEmpty());
         
         ______TS("non-existent receiver");
         
         assertTrue(frDb.getFeedbackResponsesFromGiverForQuestionInSection(
-                            questionId, "non-existentstudentInCourse1@gmail.com", "Section 1").isEmpty());
+                            questionId, "non-existentstudentInCourse1@gmail.tmt", "Section 1").isEmpty());
     }
 
     @Test
@@ -490,14 +490,14 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         List<FeedbackResponseAttributes> responses = 
                 frDb.getFeedbackResponsesFromGiverForCourse(courseId,
-                        "student1InCourse1@gmail.com");
+                        "student1InCourse1@gmail.tmt");
         
         assertEquals(3, responses.size());
         
         ______TS("null params");
         
         try {
-            frDb.getFeedbackResponsesFromGiverForCourse(null, "student1InCourse1@gmail.com");
+            frDb.getFeedbackResponsesFromGiverForCourse(null, "student1InCourse1@gmail.tmt");
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
@@ -512,11 +512,11 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         ______TS("non-existent feedback question");
         
-        assertTrue(frDb.getFeedbackResponsesFromGiverForCourse("non-existent courseId", "student1InCourse1@gmail.com").isEmpty());
+        assertTrue(frDb.getFeedbackResponsesFromGiverForCourse("non-existent courseId", "student1InCourse1@gmail.tmt").isEmpty());
         
         ______TS("non-existent giver");
         
-        assertTrue(frDb.getFeedbackResponsesFromGiverForCourse(courseId, "non-existentStudentInCourse1@gmail.com").isEmpty());        
+        assertTrue(frDb.getFeedbackResponsesFromGiverForCourse(courseId, "non-existentStudentInCourse1@gmail.tmt").isEmpty());        
     }
 
     @Test
@@ -740,9 +740,9 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         fra.feedbackSessionName = "fsTest1";
         fra.courseId = "testCourse";
         fra.feedbackQuestionType = FeedbackQuestionType.TEXT;
-        fra.giverEmail = "giver@email.com";
+        fra.giverEmail = "giver@email.tmt";
         fra.giverSection = "None";
-        fra.recipientEmail = "recipient@email.com";
+        fra.recipientEmail = "recipient@email.tmt";
         fra.recipientSection = "None";
         fra.feedbackQuestionId = "testFeedbackQuestionId";
         

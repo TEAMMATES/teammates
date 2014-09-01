@@ -4,36 +4,36 @@
             "googleId":"IFQSubmitUiT.instr",
             "name":"Teammates Test",
             "isInstructor":true,
-            "email":"IFQSubmitUiT.instr@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"IFQSubmitUiT.instr@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "IFQSubmitUiT.instr2":{
             "googleId":"IFQSubmitUiT.instr2",
             "name":"Teammates Test2",
             "isInstructor":true,
-            "email":"IFQSubmitUiT.instr2@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"IFQSubmitUiT.instr2@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "IFQSubmitUiT.instr3":{
             "googleId":"IFQSubmitUiT.instr3",
             "name":"Teammates Test3",
             "isInstructor":true,
-            "email":"IFQSubmitUiT.instr3@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"IFQSubmitUiT.instr3@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "IFQSubmitUiT.instr4":{
             "googleId":"IFQSubmitUiT.instr4",
             "name":"Teammates Test4",
             "isInstructor":true,
-            "email":"IFQSubmitUiT.instr4@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"IFQSubmitUiT.instr4@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "IFQSubmitUiT.instr5":{
             "googleId":"IFQSubmitUiT.instr5",
             "name":"Teammates Test5",
             "isInstructor":true,
-            "email":"IFQSubmitUiT.instr5@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"IFQSubmitUiT.instr5@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         }
     },
     "courses":{
@@ -47,7 +47,7 @@
             "googleId":"IFQSubmitUiT.instr",
             "courseId":"IFQSubmitUiT.CS2104",
             "name":"Teammates Test",
-            "email":"IFQSubmitUiT.instr@gmail.com",
+            "email":"IFQSubmitUiT.instr@gmail.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -56,7 +56,7 @@
             "googleId":"IFQSubmitUiT.instr2",
             "courseId":"IFQSubmitUiT.CS2104",
             "name":"Teammates Test2",
-            "email":"IFQSubmitUiT.instr2@gmail.com",
+            "email":"IFQSubmitUiT.instr2@gmail.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -65,7 +65,7 @@
             "googleId":"IFQSubmitUiT.instr3",
             "courseId":"IFQSubmitUiT.CS2104",
             "name":"Teammates Test3",
-            "email":"IFQSubmitUiT.instr3@gmail.com",
+            "email":"IFQSubmitUiT.instr3@gmail.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -74,7 +74,7 @@
             "googleId":"IFQSubmitUiT.instr4",
             "courseId":"IFQSubmitUiT.CS2104",
             "name":"Teammates Test4",
-            "email":"IFQSubmitUiT.instr4@gmail.com",
+            "email":"IFQSubmitUiT.instr4@gmail.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -83,7 +83,7 @@
             "googleId":"IFQSubmitUiT.instr5",
             "courseId":"IFQSubmitUiT.CS2104",
             "name":"Teammates Test5",
-            "email":"IFQSubmitUiT.instr5@gmail.com",
+            "email":"IFQSubmitUiT.instr5@gmail.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -93,7 +93,7 @@
         "Open Session":{
             "feedbackSessionName":"Open Session",
             "courseId":"IFQSubmitUiT.CS2104",
-            "creatorEmail":"IFQSubmitUiT.instr@gmail.com",
+            "creatorEmail":"IFQSubmitUiT.instr@gmail.tmt",
             "instructions":{
                 "value":"Instructions for Open Session"
             },
@@ -111,7 +111,7 @@
         "Grace Period Session":{
             "feedbackSessionName":"Grace Period Session",
             "courseId":"IFQSubmitUiT.CS2104",
-            "creatorEmail":"IFQSubmitUiT.instr@gmail.com",
+            "creatorEmail":"IFQSubmitUiT.instr@gmail.tmt",
             "instructions":{
                 "value":"Please please fill in the following questions."
             },
@@ -129,7 +129,7 @@
         "Closed Session":{
             "feedbackSessionName":"Closed Session",
             "courseId":"IFQSubmitUiT.CS2104",
-            "creatorEmail":"IFQSubmitUiT.instr@gmail.com",
+            "creatorEmail":"IFQSubmitUiT.instr@gmail.tmt",
             "instructions":{
                 "value":"Please please fill in the second feedback session"
             },
@@ -147,7 +147,7 @@
         "Awaiting Session":{
             "feedbackSessionName":"Awaiting Session",
             "courseId":"IFQSubmitUiT.CS2104",
-            "creatorEmail":"IFQSubmitUiT.instr@gmail.com",
+            "creatorEmail":"IFQSubmitUiT.instr@gmail.tmt",
             "instructions":{
                 "value":"Please please fill in the last feedback session"
             },
@@ -165,7 +165,7 @@
         "Private Session":{
             "feedbackSessionName":"Private Session",
             "courseId":"IFQSubmitUiT.CS2104",
-            "creatorEmail":"IFQSubmitUiT.instr@gmail.com",
+            "creatorEmail":"IFQSubmitUiT.instr@gmail.tmt",
             "instructions":{
                 "value":"Please please fill in the following questions."
             },
@@ -185,7 +185,7 @@
         "qn1InSession1":{
             "feedbackSessionName":"Open Session",
             "courseId":"IFQSubmitUiT.CS2104",
-            "creatorEmail":"IFQSubmitUiT.instr@gmail.com",
+            "creatorEmail":"IFQSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"What is the best selling point of your product?"
             },
@@ -208,7 +208,7 @@
         "qn1InSession2":{
             "feedbackSessionName":"Closed Session",
             "courseId":"IFQSubmitUiT.CS2104",
-            "creatorEmail":"IFQSubmitUiT.instr@gmail.com",
+            "creatorEmail":"IFQSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"Give feedback to your instructors"
             },
@@ -230,7 +230,7 @@
         "qn1InSession3":{
             "feedbackSessionName":"Awaiting Session",
             "courseId":"IFQSubmitUiT.CS2104",
-            "creatorEmail":"IFQSubmitUiT.instr@gmail.com",
+            "creatorEmail":"IFQSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"Give feedback to your instructors"
             },
@@ -252,7 +252,7 @@
         "qn1InSession4":{
             "feedbackSessionName":"Private Session",
             "courseId":"IFQSubmitUiT.CS2104",
-            "creatorEmail":"IFQSubmitUiT.instr@gmail.com",
+            "creatorEmail":"IFQSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"Give feedback to yourself"
             },
@@ -274,7 +274,7 @@
         "graceperiod.session.feedback":{
             "feedbackSessionName":"Grace Period Session",
             "courseId":"IFQSubmitUiT.CS2104",
-            "creatorEmail":"IFQSubmitUiT.instr@gmail.com",
+            "creatorEmail":"IFQSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"Give feedback to yourself."
             },

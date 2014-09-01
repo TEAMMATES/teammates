@@ -4,15 +4,15 @@
       "googleId": "SCJConfirmationUiT.instr",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "SCJConfirmationUiT.instr@gmail.com",
-      "institute": "National University of Singapore"
+      "email": "SCJConfirmationUiT.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     },
     "alice.tmms": {
       "googleId": "{$test.student1}",
       "name": "Alice B",
       "isInstructor": false,
-      "email": "{$test.student1}@gmail.com",
-      "institute": "National University of Singapore"
+      "email": "{$test.student1}@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     }
   },
 
@@ -39,7 +39,7 @@
       "googleId": "SCJConfirmationUiT.instr",
       "courseId": "SCJConfirmationUiT.CS2104",
       "name": "Teammates Test",
-      "email": "SCJConfirmationUiT.instr@gmail.com",
+      "email": "SCJConfirmationUiT.instr@gmail.tmt",
       "role":"Co-owner",
       "displayedName":"Co-owner",
       "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -48,7 +48,7 @@
       "googleId": "SCJConfirmationUiT.instr",
       "courseId": "SCJConfirmationUiT.CS1101",
       "name": "Teammates Test",
-      "email": "SCJConfirmationUiT.instr@gmail.com",
+      "email": "SCJConfirmationUiT.instr@gmail.tmt",
       "role":"Co-owner",
       "displayedName":"Co-owner",
       "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -57,14 +57,14 @@
   
   "students": {
     "alice.tmms@SCJConfirmationUiT.CS2104": {
-      "email": "{$test.student1}@gmail.com",
+      "email": "{$test.student1}@gmail.tmt",
       "course": "SCJConfirmationUiT.CS2104",
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",
       "team": "Team 1"
     },
     "alice.tmms@SCJConfirmationUiT.CS2103": {
-      "email": "{$test.student1}@gmail.com",
+      "email": "{$test.student1}@gmail.tmt",
       "course": "SCJConfirmationUiT.CS2103",
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",
@@ -72,7 +72,7 @@
     },
     "alice.tmms@SCJConfirmationUiT.CS1101": {
       "googleId": "{$test.student1}",
-      "email": "{$test.student1}@gmail.com",
+      "email": "{$test.student1}@gmail.tmt",
       "course": "SCJConfirmationUiT.CS1101",
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",

@@ -150,23 +150,23 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
                         "First Session", 20);
         
         assertNull(BackDoor.getFeedbackResponse(fq.getId(),
-                "IFSubmitUiT.instr@gmail.com",
-                "IFSubmitUiT.alice.b@gmail.com"));
+                "IFSubmitUiT.instr@gmail.tmt",
+                "IFSubmitUiT.alice.b@gmail.tmt"));
         assertNull(BackDoor.getFeedbackResponse(fqPartial.getId(),
-                "IFSubmitUiT.instr@gmail.com",
-                "IFSubmitUiT.instr2@gmail.com"));
+                "IFSubmitUiT.instr@gmail.tmt",
+                "IFSubmitUiT.instr2@gmail.tmt"));
         assertNull(BackDoor.getFeedbackResponse(fqMcq.getId(),
-                "IFSubmitUiT.instr@gmail.com",
-                "IFSubmitUiT.instr2@gmail.com"));
+                "IFSubmitUiT.instr@gmail.tmt",
+                "IFSubmitUiT.instr2@gmail.tmt"));
         assertNull(BackDoor.getFeedbackResponse(fqMsq.getId(),
-                "IFSubmitUiT.instr@gmail.com",
-                "IFSubmitUiT.instr2@gmail.com"));
+                "IFSubmitUiT.instr@gmail.tmt",
+                "IFSubmitUiT.instr2@gmail.tmt"));
         assertNull(BackDoor.getFeedbackResponse(fqNumscale.getId(),
-                "IFSubmitUiT.instr@gmail.com",
-                "IFSubmitUiT.instr@gmail.com"));
+                "IFSubmitUiT.instr@gmail.tmt",
+                "IFSubmitUiT.instr@gmail.tmt"));
         assertNull(BackDoor.getFeedbackResponse(fqConstSum.getId(),
-                "IFSubmitUiT.instr@gmail.com",
-                "IFSubmitUiT.instr@gmail.com"));
+                "IFSubmitUiT.instr@gmail.tmt",
+                "IFSubmitUiT.instr@gmail.tmt"));
         
         submitPage.clickSubmitButton();
 
@@ -174,23 +174,23 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
                 submitPage.getStatus());
         
         assertNotNull(BackDoor.getFeedbackResponse(fq.getId(),
-                "IFSubmitUiT.instr@gmail.com",
-                "IFSubmitUiT.alice.b@gmail.com"));
+                "IFSubmitUiT.instr@gmail.tmt",
+                "IFSubmitUiT.alice.b@gmail.tmt"));
         assertNotNull(BackDoor.getFeedbackResponse(fqPartial.getId(),
-                "IFSubmitUiT.instr@gmail.com",
-                "IFSubmitUiT.instr3@gmail.com"));
+                "IFSubmitUiT.instr@gmail.tmt",
+                "IFSubmitUiT.instr3@gmail.tmt"));
         assertNotNull(BackDoor.getFeedbackResponse(fqMcq.getId(),
-                "IFSubmitUiT.instr@gmail.com",
-                "IFSubmitUiT.instr2@gmail.com"));
+                "IFSubmitUiT.instr@gmail.tmt",
+                "IFSubmitUiT.instr2@gmail.tmt"));
         assertNotNull(BackDoor.getFeedbackResponse(fqMsq.getId(),
-                "IFSubmitUiT.instr@gmail.com",
-                "IFSubmitUiT.instr2@gmail.com"));
+                "IFSubmitUiT.instr@gmail.tmt",
+                "IFSubmitUiT.instr2@gmail.tmt"));
         assertNotNull(BackDoor.getFeedbackResponse(fqNumscale.getId(),
-                "IFSubmitUiT.instr@gmail.com",
-                "IFSubmitUiT.instr@gmail.com"));
+                "IFSubmitUiT.instr@gmail.tmt",
+                "IFSubmitUiT.instr@gmail.tmt"));
         assertNotNull(BackDoor.getFeedbackResponse(fqConstSum.getId(),
-                "IFSubmitUiT.instr@gmail.com",
-                "IFSubmitUiT.instr@gmail.com"));
+                "IFSubmitUiT.instr@gmail.tmt",
+                "IFSubmitUiT.instr@gmail.tmt"));
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPagePartiallyFilled.html");
@@ -248,16 +248,16 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         // Just check the edited responses, and two new response.
         assertNull(BackDoor.getFeedbackResponse(fq.getId(),
-                "IFSubmitUiT.instr@gmail.com",
+                "IFSubmitUiT.instr@gmail.tmt",
                 "Team 2"));
         assertNull(BackDoor.getFeedbackResponse(fqConstSum2.getId(),
-                "IFSubmitUiT.instr@gmail.com",
+                "IFSubmitUiT.instr@gmail.tmt",
                 "Team 1"));
         assertNull(BackDoor.getFeedbackResponse(fqConstSum2.getId(),
-                "IFSubmitUiT.instr@gmail.com",
+                "IFSubmitUiT.instr@gmail.tmt",
                 "Team 2"));
         assertNull(BackDoor.getFeedbackResponse(fqConstSum2.getId(),
-                "IFSubmitUiT.instr@gmail.com",
+                "IFSubmitUiT.instr@gmail.tmt",
                 "Team 3"));
         
         submitPage.clickSubmitButton();
@@ -266,55 +266,55 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
                 submitPage.getStatus());
         assertEquals(editedResponse,
                 BackDoor.getFeedbackResponse(fq.getId(),
-                    "IFSubmitUiT.instr@gmail.com",
-                    "IFSubmitUiT.alice.b@gmail.com").getResponseDetails().getAnswerString());
+                    "IFSubmitUiT.instr@gmail.tmt",
+                    "IFSubmitUiT.alice.b@gmail.tmt").getResponseDetails().getAnswerString());
         
         fq = BackDoor.getFeedbackQuestion(
                 "IFSubmitUiT.CS2104",
                 "First Session", 7);
         assertNotNull(BackDoor.getFeedbackResponse(fq.getId(),
-                "IFSubmitUiT.instr@gmail.com",
-                "IFSubmitUiT.instr@gmail.com"));
+                "IFSubmitUiT.instr@gmail.tmt",
+                "IFSubmitUiT.instr@gmail.tmt"));
         assertEquals("UI",
                 BackDoor.getFeedbackResponse(fqMcq.getId(),
-                    "IFSubmitUiT.instr@gmail.com",
-                    "IFSubmitUiT.instr2@gmail.com").getResponseDetails().getAnswerString());
+                    "IFSubmitUiT.instr@gmail.tmt",
+                    "IFSubmitUiT.instr2@gmail.tmt").getResponseDetails().getAnswerString());
         
         FeedbackMsqResponseDetails frMsq = 
                 (FeedbackMsqResponseDetails) BackDoor.getFeedbackResponse(fqMsq.getId(),
-                        "IFSubmitUiT.instr@gmail.com",
-                        "IFSubmitUiT.instr2@gmail.com").getResponseDetails();
+                        "IFSubmitUiT.instr@gmail.tmt",
+                        "IFSubmitUiT.instr2@gmail.tmt").getResponseDetails();
         assertFalse(frMsq.contains("UI"));
         assertTrue(frMsq.contains("Algo"));
         assertFalse(frMsq.contains("Design"));
         
         FeedbackNumericalScaleResponseDetails frNumscale = 
                 (FeedbackNumericalScaleResponseDetails) BackDoor.getFeedbackResponse(fqNumscale.getId(),
-                        "IFSubmitUiT.instr@gmail.com",
-                        "IFSubmitUiT.instr@gmail.com").getResponseDetails();
+                        "IFSubmitUiT.instr@gmail.tmt",
+                        "IFSubmitUiT.instr@gmail.tmt").getResponseDetails();
         assertEquals("5", frNumscale.getAnswerString());
         
         FeedbackConstantSumResponseDetails frConstSum = 
                 (FeedbackConstantSumResponseDetails) BackDoor.getFeedbackResponse(fqConstSum.getId(),
-                        "IFSubmitUiT.instr@gmail.com",
-                        "IFSubmitUiT.instr@gmail.com").getResponseDetails();
+                        "IFSubmitUiT.instr@gmail.tmt",
+                        "IFSubmitUiT.instr@gmail.tmt").getResponseDetails();
         assertEquals("70, 30", frConstSum.getAnswerString());
         
         FeedbackConstantSumResponseDetails frConstSum2_0 = 
                 (FeedbackConstantSumResponseDetails) BackDoor.getFeedbackResponse(fqConstSum2.getId(),
-                        "IFSubmitUiT.instr@gmail.com",
+                        "IFSubmitUiT.instr@gmail.tmt",
                         "Team 1").getResponseDetails();
         assertEquals("90", frConstSum2_0.getAnswerString());
         
         FeedbackConstantSumResponseDetails frConstSum2_1 = 
                 (FeedbackConstantSumResponseDetails) BackDoor.getFeedbackResponse(fqConstSum2.getId(),
-                        "IFSubmitUiT.instr@gmail.com",
+                        "IFSubmitUiT.instr@gmail.tmt",
                         "Team 2").getResponseDetails();
         assertEquals("110", frConstSum2_1.getAnswerString());
         
         FeedbackConstantSumResponseDetails frConstSum2_2 = 
                 (FeedbackConstantSumResponseDetails) BackDoor.getFeedbackResponse(fqConstSum2.getId(),
-                        "IFSubmitUiT.instr@gmail.com",
+                        "IFSubmitUiT.instr@gmail.tmt",
                         "Team 3").getResponseDetails();
         assertEquals("100", frConstSum2_2.getAnswerString());
         

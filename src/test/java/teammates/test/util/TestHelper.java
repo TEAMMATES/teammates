@@ -463,7 +463,7 @@ public class TestHelper extends BaseComponentTestCase{
             EntityDoesNotExistException {
         // create course
         
-        logic.createAccount("instructorForTestingER", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
+        logic.createAccount("instructorForTestingER", "Instructor 1", true, "instructor@email.tmt", "TEAMMATES Test Institute 1");
         logic.createCourseAndInstructor("instructorForTestingER", courseId,
                 "Course For Testing Evaluation Results");
         // create students
@@ -472,7 +472,7 @@ public class TestHelper extends BaseComponentTestCase{
         for (int i = 0; i < teamSize; i++) {
             StudentAttributes student = new StudentAttributes();
             int studentNumber = i + 1;
-            student.email = "s" + studentNumber + "@gmail.com";
+            student.email = "s" + studentNumber + "@gmail.tmt";
             student.name = "Student " + studentNumber;
             student.team = teamName;
             student.course = courseId;
@@ -498,9 +498,9 @@ public class TestHelper extends BaseComponentTestCase{
                 sub.evaluation = e.name;
                 sub.team = teamName;
                 int reviewerNumber = i + 1;
-                sub.reviewer = "s" + reviewerNumber + "@gmail.com";
+                sub.reviewer = "s" + reviewerNumber + "@gmail.tmt";
                 int revieweeNumber = j + 1;
-                sub.reviewee = "s" + revieweeNumber + "@gmail.com";
+                sub.reviewee = "s" + revieweeNumber + "@gmail.tmt";
                 sub.points = input[i][j];
                 sub.justification = new Text("jus[s" + reviewerNumber + "->s"
                         + revieweeNumber + "]");
@@ -527,8 +527,8 @@ public class TestHelper extends BaseComponentTestCase{
             for (int j = 0; j < teamSize; j++) {
                 SubmissionAttributes s = invokeGetSubmission("idOfTypicalCourse1",
                         "evaluation1 In Course1", "student" + (i + 1)
-                                + "InCourse1@gmail.com", "student" + (j + 1)
-                                + "InCourse1@gmail.com");
+                                + "InCourse1@gmail.tmt", "student" + (j + 1)
+                                + "InCourse1@gmail.tmt");
                 s.points = points[i][j];
                 submissions.add(s);
             }

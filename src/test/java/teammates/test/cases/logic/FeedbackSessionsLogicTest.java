@@ -507,7 +507,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         // 2 valid sessions in course 1, 0 in course 2.
         
-        actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse1", "student1InCourse1@gmail.com");
+        actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse1", "student1InCourse1@gmail.tmt");
         
         // Student can see sessions 1 and 2. Session 3 has no questions. Session 4 is not yet visible for students.
         String expected =
@@ -521,14 +521,14 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertTrue(actualSessions.size() == 3);
         
         // Course 2 only has an instructor session and a private session.
-        actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "student1InCourse2@gmail.com");        
+        actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "student1InCourse2@gmail.tmt");        
         assertTrue(actualSessions.isEmpty());
                 
         ______TS("Instructor viewing");
         
         // 3 valid sessions in course 1, 1 in course 2.
         
-        actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse1", "instructor1@course1.com");
+        actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse1", "instructor1@course1.tmt");
         
         // Instructors should be able to see all sessions for the course
         expected =
@@ -545,7 +545,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertTrue(actualSessions.size() == 6);
         
         // We should only have one session here as session 2 is private and this instructor is not the creator.
-        actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "instructor2@course2.com");
+        actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "instructor2@course2.tmt");
         
         assertEquals(actualSessions.get(0).toString(),
                 dataBundle.feedbackSessions.get("session2InCourse2").toString());
@@ -556,7 +556,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         // This is the creator for the private session.
         // We have already tested above that other instructors cannot see it.
-        actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "instructor1@course2.com");
+        actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "instructor1@course2.tmt");
         AssertHelper.assertContains(dataBundle.feedbackSessions.get("session1InCourse2").toString(),
                 actualSessions.toString());
 
@@ -570,7 +570,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         FeedbackSessionQuestionsBundle actual =
                 fsLogic.getFeedbackSessionQuestionsForStudent(
-                        "First feedback session", "idOfTypicalCourse1", "student1InCourse1@gmail.com");
+                        "First feedback session", "idOfTypicalCourse1", "student1InCourse1@gmail.tmt");
         
         // We just test this once.
         assertEquals(actual.feedbackSession.toString(), 
@@ -609,7 +609,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 
         // Check that student3 get team member's (student4) feedback response as well (for team question).
         actual = fsLogic.getFeedbackSessionQuestionsForStudent(
-                        "Second feedback session", "idOfTypicalCourse1", "student3InCourse1@gmail.com");
+                        "Second feedback session", "idOfTypicalCourse1", "student3InCourse1@gmail.tmt");
 
         assertEquals(2, actual.questionResponseBundle.size());
         
@@ -636,7 +636,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         try {
             fsLogic.getFeedbackSessionQuestionsForStudent(
-                    "invalid session", "idOfTypicalCourse1", "student3InCourse1@gmail.com");
+                    "invalid session", "idOfTypicalCourse1", "student3InCourse1@gmail.tmt");
             signalFailureToDetectException("Did not detect that session does not exist.");
         } catch (EntityDoesNotExistException e) {
             assertEquals("Trying to get a feedback session that does not exist.", e.getMessage());
@@ -661,7 +661,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 
         FeedbackSessionQuestionsBundle actual =
                 fsLogic.getFeedbackSessionQuestionsForInstructor(
-                        "Instructor feedback session", "idOfTypicalCourse2", "instructor1@course2.com");
+                        "Instructor feedback session", "idOfTypicalCourse2", "instructor1@course2.tmt");
         
         // We just test this once.
         assertEquals(dataBundle.feedbackSessions.get("session2InCourse2").toString(), 
@@ -691,12 +691,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         ______TS("private test: not creator");
         actual = fsLogic.getFeedbackSessionQuestionsForInstructor(
-                        "Private feedback session", "idOfTypicalCourse2", "instructor2@course2.com");
+                        "Private feedback session", "idOfTypicalCourse2", "instructor2@course2.tmt");
         assertEquals(0, actual.questionResponseBundle.size());
         
         ______TS("private test: is creator");
         actual = fsLogic.getFeedbackSessionQuestionsForInstructor(
-                        "Private feedback session", "idOfTypicalCourse2", "instructor1@course2.com");
+                        "Private feedback session", "idOfTypicalCourse2", "instructor1@course2.tmt");
         assertEquals(1, actual.questionResponseBundle.size());
         expectedQuestion = getQuestionFromDatastore("qn1InSession1InCourse2");
         assertTrue(actual.questionResponseBundle.containsKey(expectedQuestion));
@@ -705,7 +705,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         try {
             fsLogic.getFeedbackSessionQuestionsForInstructor(
-                    "invalid session", "idOfTypicalCourse1", "instructor1@course1.com");
+                    "invalid session", "idOfTypicalCourse1", "instructor1@course1.tmt");
             signalFailureToDetectException("Did not detect that session does not exist.");
         } catch (EntityDoesNotExistException e) {
             assertEquals("Trying to get a feedback session that does not exist.", e.getMessage());
@@ -745,17 +745,17 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         String mapString = results.emailNameTable.toString();
         List<String> expectedStrings = new ArrayList<String>();
         Collections.addAll(expectedStrings,
-                "FSRTest.student1InCourse1@gmail.com=student1 In Course1",
-                "FSRTest.student2InCourse1@gmail.com=student2 In Course1",
-                "FSRTest.student4InCourse1@gmail.com=student4 In Course1",
+                "FSRTest.student1InCourse1@gmail.tmt=student1 In Course1",
+                "FSRTest.student2InCourse1@gmail.tmt=student2 In Course1",
+                "FSRTest.student4InCourse1@gmail.tmt=student4 In Course1",
                 "Team 1.1=Team 1.1",
                 "Team 1.2=Team 1.2",
                 "Team 1.3=Team 1.3",
                 "Team 1.4=Team 1.4",
-                "FSRTest.instr1@course1.com=Instructor1 Course1",
-                "FSRTest.student1InCourse1@gmail.com" + Const.TEAM_OF_EMAIL_OWNER + "=Team 1.1",
-                "FSRTest.student2InCourse1@gmail.com" + Const.TEAM_OF_EMAIL_OWNER + "=Team 1.1",
-                "FSRTest.student4InCourse1@gmail.com" + Const.TEAM_OF_EMAIL_OWNER + "=Team 1.2",
+                "FSRTest.instr1@course1.tmt=Instructor1 Course1",
+                "FSRTest.student1InCourse1@gmail.tmt" + Const.TEAM_OF_EMAIL_OWNER + "=Team 1.1",
+                "FSRTest.student2InCourse1@gmail.tmt" + Const.TEAM_OF_EMAIL_OWNER + "=Team 1.1",
+                "FSRTest.student4InCourse1@gmail.tmt" + Const.TEAM_OF_EMAIL_OWNER + "=Team 1.2",
                 "Anonymous student 670710946@@Anonymous student 670710946.com=Anonymous student 670710946",
                 "Anonymous student 412545508@@Anonymous student 412545508.com=Anonymous student 412545508");
         AssertHelper.assertContains(expectedStrings, mapString);
@@ -765,17 +765,17 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         mapString = results.emailTeamNameTable.toString();
         expectedStrings.clear();
         Collections.addAll(expectedStrings,
-                "FSRTest.student4InCourse1@gmail.com=Team 1.2",
-                "FSRTest.student1InCourse1@gmail.com=Team 1.1",
-                "FSRTest.student1InCourse1@gmail.com's Team=",
-                "FSRTest.student2InCourse1@gmail.com's Team=",
-                "FSRTest.student4InCourse1@gmail.com's Team=",
-                "FSRTest.student2InCourse1@gmail.com=Team 1.1",
+                "FSRTest.student4InCourse1@gmail.tmt=Team 1.2",
+                "FSRTest.student1InCourse1@gmail.tmt=Team 1.1",
+                "FSRTest.student1InCourse1@gmail.tmt's Team=",
+                "FSRTest.student2InCourse1@gmail.tmt's Team=",
+                "FSRTest.student4InCourse1@gmail.tmt's Team=",
+                "FSRTest.student2InCourse1@gmail.tmt=Team 1.1",
                 "Team 1.1=",
                 "Team 1.3=",
                 "Team 1.2=",
                 "Team 1.4=",
-                "FSRTest.instr1@course1.com=Instructors",
+                "FSRTest.instr1@course1.tmt=Instructors",
                 "Anonymous student 670710946@@Anonymous student 670710946.com=Anonymous student 670710946"+ Const.TEAM_OF_EMAIL_OWNER,
                 "Anonymous student 412545508@@Anonymous student 412545508.com=Anonymous student 412545508"+ Const.TEAM_OF_EMAIL_OWNER);
         AssertHelper.assertContains(expectedStrings, mapString);
@@ -868,14 +868,14 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         expectedStrings.clear();
         Collections.addAll(expectedStrings,
                 "%GENERAL%=%NOBODY%",
-                "FSRTest.student1InCourse1@gmail.com=student1 In Course1",
-                "FSRTest.student2InCourse1@gmail.com=student2 In Course1",
-                "FSRTest.student3InCourse1@gmail.com=student3 In Course1",
-                "FSRTest.student4InCourse1@gmail.com=student4 In Course1",
-                "FSRTest.student5InCourse1@gmail.com=student5 In Course1",
-                "FSRTest.student6InCourse1@gmail.com=student6 In Course1",
-                "FSRTest.instr1@course1.com=Instructor1 Course1",
-                "FSRTest.instr2@course1.com=Instructor2 Course1",
+                "FSRTest.student1InCourse1@gmail.tmt=student1 In Course1",
+                "FSRTest.student2InCourse1@gmail.tmt=student2 In Course1",
+                "FSRTest.student3InCourse1@gmail.tmt=student3 In Course1",
+                "FSRTest.student4InCourse1@gmail.tmt=student4 In Course1",
+                "FSRTest.student5InCourse1@gmail.tmt=student5 In Course1",
+                "FSRTest.student6InCourse1@gmail.tmt=student6 In Course1",
+                "FSRTest.instr1@course1.tmt=Instructor1 Course1",
+                "FSRTest.instr2@course1.tmt=Instructor2 Course1",
                 "Anonymous student 283462789@@Anonymous student 283462789.com=Anonymous student 283462789",
                 "Anonymous student 928876384@@Anonymous student 928876384.com=Anonymous student 928876384",
                 "Anonymous student 412545508@@Anonymous student 412545508.com=Anonymous student 412545508",
@@ -893,14 +893,14 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         expectedStrings.clear();
         Collections.addAll(expectedStrings,
                 "%GENERAL%=",
-                "FSRTest.student1InCourse1@gmail.com=Team 1.1",
-                "FSRTest.student2InCourse1@gmail.com=Team 1.1",
-                "FSRTest.student3InCourse1@gmail.com=Team 1.2",
-                "FSRTest.student4InCourse1@gmail.com=Team 1.2",
-                "FSRTest.student5InCourse1@gmail.com=Team 1.3",
-                "FSRTest.student6InCourse1@gmail.com=Team 1.4",
-                "FSRTest.instr2@course1.com=Instructors",
-                "FSRTest.instr1@course1.com=Instructors",
+                "FSRTest.student1InCourse1@gmail.tmt=Team 1.1",
+                "FSRTest.student2InCourse1@gmail.tmt=Team 1.1",
+                "FSRTest.student3InCourse1@gmail.tmt=Team 1.2",
+                "FSRTest.student4InCourse1@gmail.tmt=Team 1.2",
+                "FSRTest.student5InCourse1@gmail.tmt=Team 1.3",
+                "FSRTest.student6InCourse1@gmail.tmt=Team 1.4",
+                "FSRTest.instr2@course1.tmt=Instructors",
+                "FSRTest.instr1@course1.tmt=Instructors",
                 "Anonymous student 283462789@@Anonymous student 283462789.com=Anonymous student 283462789's Team",
                 "Anonymous student 928876384@@Anonymous student 928876384.com=Anonymous student 928876384's Team",
                 "Anonymous student 541628227@@Anonymous student 541628227.com=Anonymous student 541628227's Team",
@@ -945,13 +945,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         mapString = results.emailNameTable.toString();
         expectedStrings.clear();
         Collections.addAll(expectedStrings,
-                "FSRTest.student1InCourse1@gmail.com=student1 In Course1",
+                "FSRTest.student1InCourse1@gmail.tmt=student1 In Course1",
                 "Anonymous student 283462789@@Anonymous student 283462789.com=Anonymous student 283462789",
                 "Anonymous instructor 682119606@@Anonymous instructor 682119606.com=Anonymous instructor 682119606",
                 "Anonymous student 412545508@@Anonymous student 412545508.com=Anonymous student 412545508",
-                "FSRTest.student2InCourse1@gmail.com=student2 In Course1",
+                "FSRTest.student2InCourse1@gmail.tmt=student2 In Course1",
                 "Team 1.4=Team 1.4",
-                "FSRTest.instr1@course1.com=Instructor1 Course1");
+                "FSRTest.instr1@course1.tmt=Instructor1 Course1");
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(13, results.emailNameTable.size());
         
@@ -959,13 +959,13 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         mapString = results.emailTeamNameTable.toString();
         expectedStrings.clear();
         Collections.addAll(expectedStrings,
-                "FSRTest.student1InCourse1@gmail.com=Team 1.1",
+                "FSRTest.student1InCourse1@gmail.tmt=Team 1.1",
                 "Anonymous student 283462789@@Anonymous student 283462789.com=Anonymous student 283462789's Team",
                 "Anonymous student 412545508@@Anonymous student 412545508.com=Anonymous student 412545508's Team",
                 "Anonymous instructor 682119606@@Anonymous instructor 682119606.com=Anonymous instructor 682119606's Team",
-                "FSRTest.student2InCourse1@gmail.com=Team 1.1",
+                "FSRTest.student2InCourse1@gmail.tmt=Team 1.1",
                 "Team 1.4=",
-                "FSRTest.instr1@course1.com=Instructors");
+                "FSRTest.instr1@course1.tmt=Instructors");
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(13, results.emailTeamNameTable.size());
 
@@ -1012,10 +1012,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         mapString = results.emailNameTable.toString();
         expectedStrings.clear();
         Collections.addAll(expectedStrings,
-                "FSRTest.student1InCourse1@gmail.com=student1 In Course1",
+                "FSRTest.student1InCourse1@gmail.tmt=student1 In Course1",
                 "Team 1.2=Team 1.2",
                 "Anonymous team 1605535342@@Anonymous team 1605535342.com=Anonymous team 1605535342",
-                "FSRTest.instr1@course1.com=Instructor1 Course1");
+                "FSRTest.instr1@course1.tmt=Instructor1 Course1");
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(4, results.emailNameTable.size());
         
@@ -1023,10 +1023,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         mapString = results.emailTeamNameTable.toString();
         expectedStrings.clear();
         Collections.addAll(expectedStrings,
-                "FSRTest.student1InCourse1@gmail.com=Team 1.1",
+                "FSRTest.student1InCourse1@gmail.tmt=Team 1.1",
                 "Team 1.2=",
                 "Anonymous team 1605535342@@Anonymous team 1605535342.com=Anonymous team 1605535342's Team",
-                "FSRTest.instr1@course1.com=Instructors");
+                "FSRTest.instr1@course1.tmt=Instructors");
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(4, results.emailTeamNameTable.size());
 
@@ -1782,7 +1782,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         fsa.feedbackSessionType = FeedbackSessionType.STANDARD;
         fsa.feedbackSessionName = "fsTest1";
         fsa.courseId = "testCourse";
-        fsa.creatorEmail = "valid@email.com";
+        fsa.creatorEmail = "valid@email.tmt";
         fsa.createdTime = new Date();
         fsa.startTime = new Date();
         fsa.endTime = new Date();
