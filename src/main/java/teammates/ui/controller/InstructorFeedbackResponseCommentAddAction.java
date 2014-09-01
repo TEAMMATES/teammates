@@ -81,7 +81,8 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         }
         
         //Set up sending state
-        if(isResponseCommentPublicToRecipient(feedbackResponseComment)){
+        if(isResponseCommentPublicToRecipient(feedbackResponseComment)
+                && session.isPublished()){
             feedbackResponseComment.sendingState = CommentSendingState.PENDING;
         }
         

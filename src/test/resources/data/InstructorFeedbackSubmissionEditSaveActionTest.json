@@ -4,29 +4,29 @@
             "googleId":"instructor1InCourse1",
             "name":"Teammates Test",
             "isInstructor":true,
-            "email":"instructor1@course1.com",
-            "institute":"National University of Singapore"
+            "email":"instructor1@course1.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "instructor2InCourse1":{
             "googleId":"instructor2InCourse1",
             "name":"Teammates Test2",
             "isInstructor":true,
-            "email":"instructor2@course1.com",
-            "institute":"National University of Singapore"
+            "email":"instructor2@course1.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "instructor1InCourse2":{
             "googleId":"idOfInstructor1OfCourse2",
             "name":"Instructor 1 of Course 2",
             "isInstructor":true,
-            "email":"instr1@course2.com",
-            "institute":"National University of Singapore"
+            "email":"instr1@course2.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "student1InCourse1":{
             "googleId":"student1InCourse1",
             "name":"Student 1 in course 1",
             "isInstructor":false,
-            "email":"student1inCourse1@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"student1inCourse1@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         }
     },
     "courses":{
@@ -41,7 +41,7 @@
             "googleId":"instructor1InCourse1",
             "courseId":"idOfCourse1",
             "name":"Teammates Test",
-            "email":"instructor1@course1.com",
+            "email":"instructor1@course1.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -50,7 +50,7 @@
             "googleId":"instructor2InCourse1",
             "courseId":"idOfCourse1",
             "name":"Teammates Test2",
-            "email":"instructor2@course1.com",
+            "email":"instructor2@course1.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -59,7 +59,7 @@
             "googleId":"idOfInstructor1OfCourse2",
             "courseId":"idOfTypicalCourse2",
             "name":"Instructor1 Course2",
-            "email":"instructor1@course2.com",
+            "email":"instructor1@course2.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -67,7 +67,7 @@
     },
     "students":{
         "student1InCourse1":{
-            "email":"student1InCourse1@gmail.com",
+            "email":"student1InCourse1@gmail.tmt",
             "name":"student1 In Course1",
             "team":"Team 1.1",
             "googleId":"student1InCourse1",
@@ -79,7 +79,7 @@
         "Open Session":{
             "feedbackSessionName":"First Session",
             "courseId":"idOfCourse1",
-            "creatorEmail":"instructor1@course1.com",
+            "creatorEmail":"instructor1@course1.tmt",
             "instructions":{
                 "value":"Instructions for first session"
             },
@@ -97,7 +97,7 @@
         "Closed Session":{
             "feedbackSessionName":"Second Session",
             "courseId":"idOfCourse1",
-            "creatorEmail":"instructor1@course1.com",
+            "creatorEmail":"instructor1@course1.tmt",
             "instructions":{
                 "value":"Please please fill in the second feedback session"
             },
@@ -115,7 +115,7 @@
         "Empty Session":{
             "feedbackSessionName":"Third Session",
             "courseId":"idOfCourse1",
-            "creatorEmail":"instructor1@course1.com",
+            "creatorEmail":"instructor1@course1.tmt",
             "instructions":{
                 "value":"Please please fill in the last feedback session"
             },
@@ -133,7 +133,7 @@
         "Grace Period Session":{
             "feedbackSessionName":"Session in Grace Period",
             "courseId":"idOfCourse1",
-            "creatorEmail":"instructor1@course1.com",
+            "creatorEmail":"instructor1@course1.tmt",
             "instructions":{
                 "value":"Please please fill in the following questions."
             },
@@ -151,7 +151,7 @@
         "Private Session":{
             "feedbackSessionName":"Private Session",
             "courseId":"idOfCourse1",
-            "creatorEmail":"instructor1@course1.com",
+            "creatorEmail":"instructor1@course1.tmt",
             "instructions":{
                 "value":"Please please fill in the following questions."
             },
@@ -171,7 +171,7 @@
         "qn1InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"idOfCourse1",
-            "creatorEmail":"instructor1@course1.com",
+            "creatorEmail":"instructor1@course1.tmt",
             "questionMetaData":{
                 "value":"What is the best selling point of your product?"
             },
@@ -194,7 +194,7 @@
         "qn2InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"idOfCourse1",
-            "creatorEmail":"instructor1@course1.com",
+            "creatorEmail":"instructor1@course1.tmt",
             "questionMetaData":{
                 "value":"Rate 3 students' products"
             },
@@ -218,7 +218,7 @@
         "qn3InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"idOfCourse1",
-            "creatorEmail":"instructor1@course1.com",
+            "creatorEmail":"instructor1@course1.tmt",
             "questionMetaData":{
                 "value":"Comments about the class"
             },
@@ -240,7 +240,7 @@
         "qn4InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"idOfCourse1",
-            "creatorEmail":"instructor1@course1.com",
+            "creatorEmail":"instructor1@course1.tmt",
             "questionMetaData":{
                 "value":"This question should be hidden."
             },
@@ -262,7 +262,7 @@
         "qn5InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"idOfCourse1",
-            "creatorEmail":"instructor1@course1.com",
+            "creatorEmail":"instructor1@course1.tmt",
             "questionMetaData":{
                 "value":"This question should be hidden."
             },
@@ -284,7 +284,7 @@
         "qn6InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"idOfCourse1",
-            "creatorEmail":"instructor1@course1.com",
+            "creatorEmail":"instructor1@course1.tmt",
             "questionMetaData":{
                 "value":"Give feedback to other instructors."
             },
@@ -306,7 +306,7 @@
         "qn1InSession2":{
             "feedbackSessionName":"Second Session",
             "courseId":"idOfCourse1",
-            "creatorEmail":"instructor1@course1.com",
+            "creatorEmail":"instructor1@course1.tmt",
             "questionMetaData":{
                 "value":"Give feedback to your instructors"
             },
@@ -328,7 +328,7 @@
         "qn1InGracePeriodSession":{
             "feedbackSessionName":"Session in Grace Period",
             "courseId":"idOfCourse1",
-            "creatorEmail":"instructor1@course1.com",
+            "creatorEmail":"instructor1@course1.tmt",
             "questionMetaData":{
                 "value":"Give feedback."
             },
@@ -350,7 +350,7 @@
         "qn1InPrivateSession":{
             "feedbackSessionName":"Private Session",
             "courseId":"idOfCourse1",
-            "creatorEmail":"instructor1@course1.com",
+            "creatorEmail":"instructor1@course1.tmt",
             "questionMetaData":{
                 "value":"What is the best selling point of your product?"
             },
@@ -376,8 +376,8 @@
             "courseId":"idOfCourse1",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"instructor1@course1.com",
-            "recipientEmail":"instructor1@course1.com",
+            "giverEmail":"instructor1@course1.tmt",
+            "recipientEmail":"instructor1@course1.tmt",
             "responseMetaData":{
                 "value":"Instructor self feedback."
             }
@@ -387,8 +387,8 @@
             "courseId":"idOfCourse1",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"instructor1@course1.com",
-            "recipientEmail":"student1inCourse1@gmail.com",
+            "giverEmail":"instructor1@course1.tmt",
+            "recipientEmail":"student1inCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Instructor feedback to student 1."
             }
@@ -398,8 +398,8 @@
             "courseId":"idOfCourse1",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"instructor1@course1.com",
-            "recipientEmail":"instructor2@course1.com",
+            "giverEmail":"instructor1@course1.tmt",
+            "recipientEmail":"instructor2@course1.tmt",
             "responseMetaData":{
                 "value":"Response from instructor 1 to instructor 2."
             }
@@ -409,8 +409,8 @@
             "courseId":"idOfCourse1",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"instructor1@course1.com",
-            "recipientEmail":"instructor1@course1.com",
+            "giverEmail":"instructor1@course1.tmt",
+            "recipientEmail":"instructor1@course1.tmt",
             "responseMetaData":{
                 "value":"Private response."
             }

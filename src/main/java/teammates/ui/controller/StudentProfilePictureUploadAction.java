@@ -26,6 +26,7 @@ public class StudentProfilePictureUploadAction extends Action {
         
         String pictureKey = "";
         RedirectResult r = createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);
+        
         try {
             pictureKey = extractProfilePictureKey();
             if (pictureKey != "") {
@@ -35,23 +36,17 @@ public class StudentProfilePictureUploadAction extends Action {
             }
         } catch (BlobstoreFailureException bfe) {
             deletePicture(new BlobKey(pictureKey));
-            statusToAdmin += Const.ACTION_RESULT_FAILURE 
-                    + " : Could not delete profile picture for account ("
-                    + account.googleId 
-                    + ")";
-            statusToUser.clear();
-            statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PIC_SERVICE_DOWN);
+            updateStatusesForBlobstoreFailure();
             isError = true;
         } catch (Exception e) {
-            // this is for other exceptions like EntityNotFound, IllegalState, etc that might occur rarely
-            // and are handled higher up.
+            // this is for other exceptions like EntityNotFound, IllegalState, etc 
+            // that occur rarely and are handled higher up.
             deletePicture(new BlobKey(pictureKey));
             statusToUser.clear();
             throw e;
         }
         
         return r;
-                
     }
 
     private String extractProfilePictureKey() {
@@ -68,7 +63,8 @@ public class StudentProfilePictureUploadAction extends Action {
                 return "";
             }
         } catch (IllegalStateException e) {
-            // this means the student did not give a picture to upload
+            // this means the action was called directly (and not via BlobStore API callback)
+            // simply redirect to ProfilePage
             return "";
         }
     }
@@ -102,5 +98,14 @@ public class StudentProfilePictureUploadAction extends Action {
                     + " || Error Message: "
                     + bfe.getMessage() + Const.EOL;
         }
+    }
+
+    private void updateStatusesForBlobstoreFailure() {
+        statusToAdmin += Const.ACTION_RESULT_FAILURE 
+                + " : Could not delete profile picture for account ("
+                + account.googleId 
+                + ")" + Const.EOL;
+        statusToUser.clear();
+        statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PIC_SERVICE_DOWN);
     }
 }
