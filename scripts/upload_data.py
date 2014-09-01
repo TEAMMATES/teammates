@@ -1,6 +1,3 @@
-import os
-import datetime
-
 #This script should be placed in the GAE Python SDK directory.
 #The path of the SDK will look like C:\Program Files (x86)\Google\google_appengine
 #The script is to be used in conjunction with the generated_bulkloader.yaml file
@@ -10,6 +7,8 @@ import datetime
 #As many backups would have been performed, the timestamp of which backup files to be used for uploading must be specified.
 #The format of the timestamp is YYYY-MM-DD_HH-MM-SS.
 
+import os
+import datetime
 
 #Obtain the timestamp from the user and forms the upload file path
 date_time = raw_input("Enter the date and time of the backup files to be uploaded. Format is YYYY-MM-DD_HH-MM-SS: ")

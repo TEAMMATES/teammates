@@ -1,6 +1,3 @@
-import os
-import datetime
-
 #This script should be placed in the GAE Python SDK directory.
 #The path of the SDK will look like C:\Program Files (x86)\Google\google_appengine
 #The script is to be used in conjunction with the generated_bulkloader.yaml file
@@ -8,6 +5,9 @@ import datetime
 #The script will download all types of entities from the GAE datastore except the StudentProfile entity type.
 #The backup files will be stored on the Desktop with a timestamp of when the the backup is performed.
 
+
+import os
+import datetime
 
 #Creates a folder on desktop with a timestamp of the backup
 desktopFile = os.path.expanduser("~/Desktop/TM_Backup/")
