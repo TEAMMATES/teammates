@@ -8,6 +8,7 @@ import javax.mail.internet.MimeMessage;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -44,14 +45,43 @@ public class InstructorsLogic {
         return instance;
     }
     
+    /* ====================================
+     * methods related to google search API
+     * ====================================
+     */
+    
+    public void putDocument(InstructorAttributes instructor){
+        instructorsDb.putDocument(instructor);
+    }
+    
+    public void deleteDocument(InstructorAttributes instructor){
+        instructorsDb.deleteDocument(instructor);
+    }
+    
+    /**
+     * This method should be used by admin only since the searching does not restrict the 
+     * visibility according to the logged-in user's google ID. This is used by admin to
+     * search instructors in the whole system.
+     * @param queryString
+     * @param cursorString
+     * @return null if no result found
+     */
+    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString, String cursorString){
+        return instructorsDb.searchInstructorsInWholeSystem(queryString, cursorString);
+    } 
+    
+    /* ====================================
+     * ====================================
+     */
+    
     public void createInstructor(InstructorAttributes instructorToAdd) 
             throws InvalidParametersException, EntityAlreadyExistsException {
         
         Assumption.assertNotNull("Supplied parameter was null", instructorToAdd);
         
         log.info("going to create instructor :\n"+instructorToAdd.toString());
-        
-        instructorsDb.createEntity(instructorToAdd);
+      
+        instructorsDb.createInstructor(instructorToAdd);
     }
     
     

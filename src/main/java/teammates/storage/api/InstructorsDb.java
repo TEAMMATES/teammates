@@ -10,8 +10,13 @@ import java.util.logging.Logger;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
+
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.InstructorSearchResultBundle;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -21,6 +26,8 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.storage.entity.Instructor;
+import teammates.storage.search.InstructorSearchDocument;
+import teammates.storage.search.InstructorSearchQuery;
 
 /**
  * Handles CRUD Operations for instructor roles.
@@ -31,9 +38,65 @@ public class InstructorsDb extends EntitiesDb{
     
     private static final Logger log = Utils.getLogger();
     
+    
+    /* =========================================================================
+     * Methods related to Google Search API
+     * =========================================================================
+     */
+    
+    public void putDocument(InstructorAttributes instructor){
+        if(instructor.key == null){
+            instructor = this.getInstructorForEmail(instructor.courseId, instructor.email);
+        }
+        putDocument(Const.SearchIndex.INSTRUCTOR, new InstructorSearchDocument(instructor));
+    }
+    
+    public void deleteDocument(InstructorAttributes instructorToDelete){
+        if(instructorToDelete.key == null){
+            InstructorAttributes instructor = this.getInstructorForEmail(instructorToDelete.courseId, instructorToDelete.email);
+            deleteDocument(Const.SearchIndex.INSTRUCTOR, StringHelper.encrypt(instructor.key));
+        } else {
+            deleteDocument(Const.SearchIndex.INSTRUCTOR, StringHelper.encrypt(instructorToDelete.key));
+        }
+    }
+    
+    /**
+     * This method should be used by admin only since the searching does not restrict the 
+     * visibility according to the logged-in user's google ID. This is used by amdin to
+     * search instructors in the whole system.
+     * @param queryString
+     * @param cursorString
+     * @return null if no result found
+     */ 
+    
+    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString, String cursorString){
+        
+        if(queryString.trim().isEmpty()){
+            return new InstructorSearchResultBundle();
+        }
+        
+        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.INSTRUCTOR, 
+                                                          new InstructorSearchQuery(queryString, cursorString));
+        
+        return new InstructorSearchResultBundle().getInstructorsfromResults(results);
+    }
+    
+    
+    /* =========================================================================
+     * =========================================================================
+     */
+    
+    
     public void createInstructors(Collection<InstructorAttributes> instructorsToAdd) throws InvalidParametersException{
         
         List<EntityAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
+        
+        for(InstructorAttributes instructor: instructorsToAdd){
+            if(!instructorsToUpdate.contains(instructor)){
+                putDocument(instructor);
+            }
+        }
+        
         for(EntityAttributes entity : instructorsToUpdate){
             InstructorAttributes instructor = (InstructorAttributes) entity;
             try {
@@ -42,8 +105,14 @@ public class InstructorsDb extends EntitiesDb{
              // This situation is not tested as replicating such a situation is 
              // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
-            }
+            }           
+            putDocument(instructor);
         }
+    }
+    
+    public void createInstructor(InstructorAttributes instructorToAdd) throws InvalidParametersException, EntityAlreadyExistsException{     
+        InstructorAttributes createdInstructor = new InstructorAttributes((Instructor)createEntity(instructorToAdd));
+        putDocument(createdInstructor);
     }
 
     /**
@@ -215,6 +284,7 @@ public class InstructorsDb extends EntitiesDb{
         
         //TODO: make courseId+email the non-modifiable values
         
+        putDocument(new InstructorAttributes(instructorToUpdate));
         getPM().close();
     }
     
@@ -249,7 +319,7 @@ public class InstructorsDb extends EntitiesDb{
         instructorToUpdate.setInstructorPrivilegeAsText(instructorAttributesToUpdate.instructorPrivilegesAsText);
         
         //TODO: make courseId+email the non-modifiable values
-        
+        putDocument(new InstructorAttributes(instructorToUpdate));
         getPM().close();
     }
     
@@ -268,10 +338,12 @@ public class InstructorsDb extends EntitiesDb{
         if (instructorToDelete == null) {
             return;
         }
+        
+        deleteDocument(new InstructorAttributes(instructorToDelete));
 
         getPM().deletePersistent(instructorToDelete);
         getPM().flush();
-
+  
         // Check delete operation persisted
         if(Config.PERSISTENCE_CHECK_DURATION > 0){
             int elapsedTime = 0;
@@ -285,7 +357,13 @@ public class InstructorsDb extends EntitiesDb{
             if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
                 log.severe("Operation did not persist in time: deleteInstructor->"
                         + email);
+                                
             }
+        }
+        
+        Instructor instructorCheck = getInstructorEntityForEmail(courseId, email);
+        if(instructorCheck != null){
+            putDocument(new InstructorAttributes(instructorCheck));
         }
 
         //TODO: reuse the method in the parent class instead
@@ -297,8 +375,12 @@ public class InstructorsDb extends EntitiesDb{
         
         List<Instructor> instructorsToDelete = getInstructorEntitiesForCourses(courseIds);
         
+        for(Instructor instructor : instructorsToDelete){        
+            deleteDocument(new InstructorAttributes(instructor)); 
+        }
+        
         getPM().deletePersistentAll(instructorsToDelete);
-        getPM().flush();
+        getPM().flush();       
     }
     
     /**
@@ -310,9 +392,14 @@ public class InstructorsDb extends EntitiesDb{
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
 
         List<Instructor> instructorList = getInstructorEntitiesForGoogleId(googleId);
-
+        
+        for(Instructor instructor : instructorList){        
+            deleteDocument(new InstructorAttributes(instructor)); 
+        } 
+        
         getPM().deletePersistentAll(instructorList);
         getPM().flush();
+      
     }
     
     /**
@@ -324,9 +411,14 @@ public class InstructorsDb extends EntitiesDb{
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
 
         List<Instructor> instructorList = getInstructorEntitiesForCourse(courseId);
-
+        
+        for(Instructor instructor : instructorList){        
+            deleteDocument(new InstructorAttributes(instructor)); 
+        }        
         getPM().deletePersistentAll(instructorList);
         getPM().flush();
+        
+        
     }
     
     private Instructor getInstructorEntityForGoogleId(String courseId, String googleId) {
