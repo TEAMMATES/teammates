@@ -4,16 +4,16 @@
             "googleId":"SFQSubmitUiT.instr",
             "name":"Teammates Test",
             "isInstructor":true,
-            "email":"SFQSubmitUiT.instr@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"SFQSubmitUiT.instr@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "SFQSubmitUiT.alice.b":{
             "googleId":"SFQSubmitUiT.alice.b",
             "name":"Alice Betsy",
             "isInstructor":false,
-            "email":"SFQSubmitUiT.alice.b@gmail.com",
+            "email":"SFQSubmitUiT.alice.b@gmail.tmt",
             "comments":"This student's name is Alice Betsy",
-            "institute":"National University of Singapore"
+            "institute":"TEAMMATES Test Institute 1"
         }
     },
     "courses":{
@@ -27,7 +27,7 @@
             "googleId":"SFQSubmitUiT.instr",
             "courseId":"SFQSubmitUiT.CS2104",
             "name":"Teammates Test",
-            "email":"SFQSubmitUiT.instr@gmail.com",
+            "email":"SFQSubmitUiT.instr@gmail.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -36,7 +36,7 @@
     "students":{
         "Alice":{
             "googleId":"SFQSubmitUiT.alice.b",
-            "email":"SFQSubmitUiT.alice.b@gmail.com",
+            "email":"SFQSubmitUiT.alice.b@gmail.tmt",
             "course":"SFQSubmitUiT.CS2104",
             "name":"Alice Betsy",
             "comments":"This student's name is Alice Betsy",
@@ -44,7 +44,7 @@
         },
         "Unregistered":{
             "googleId":"",
-            "email":"unregistered@gmail.com",
+            "email":"unregistered@gmail.tmt",
             "course":"SFQSubmitUiT.CS2104",
             "name":"Unregistered Charles",
             "comments":"This student's name is Unreg Charles",
@@ -55,7 +55,7 @@
         "Open Session":{
             "feedbackSessionName":"Open Session",
             "courseId":"SFQSubmitUiT.CS2104",
-            "creatorEmail":"SFQSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFQSubmitUiT.instr@gmail.tmt",
             "instructions":{
                 "value":"Instructions for first session"
             },
@@ -73,7 +73,7 @@
         "Closed Session":{
             "feedbackSessionName":"Closed Session",
             "courseId":"SFQSubmitUiT.CS2104",
-            "creatorEmail":"SFQSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFQSubmitUiT.instr@gmail.tmt",
             "instructions":{
                 "value":"Please please fill in the second feedback session"
             },
@@ -91,7 +91,7 @@
         "Awaiting Session":{
             "feedbackSessionName":"Awaiting Session",
             "courseId":"SFQSubmitUiT.CS2104",
-            "creatorEmail":"SFQSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFQSubmitUiT.instr@gmail.tmt",
             "instructions":{
                 "value":"Please please fill in the last feedback session"
             },
@@ -111,7 +111,7 @@
         "qn1InSession1":{
             "feedbackSessionName":"Open Session",
             "courseId":"SFQSubmitUiT.CS2104",
-            "creatorEmail":"SFQSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFQSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"What is the best selling point of your product?"
             },
@@ -136,7 +136,7 @@
         "qn1InSession2":{
             "feedbackSessionName":"Closed Session",
             "courseId":"SFQSubmitUiT.CS2104",
-            "creatorEmail":"SFQSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFQSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"Give feedback to your instructors"
             },
@@ -158,7 +158,7 @@
         "qn1InSession3":{
             "feedbackSessionName":"Awaiting Session",
             "courseId":"SFQSubmitUiT.CS2104",
-            "creatorEmail":"SFQSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFQSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"Give feedback to your instructors"
             },

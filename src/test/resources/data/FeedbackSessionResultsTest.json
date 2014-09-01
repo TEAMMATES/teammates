@@ -4,64 +4,64 @@
             "googleId": "FSRTest.idOfInstructor1OfCourse1",
             "name": "Instructor 1 of Course 1",
             "isInstructor": true,
-            "email": "FSRTest.instr1@course1.com",
-            "institute": "National University of Singapore"
+            "email": "FSRTest.instr1@course1.tmt",
+            "institute": "TEAMMATES Test Institute 1"
         },
         "instructor2OfCourse1": {
             "googleId": "FSRTest.idOfInstructor2OfCourse1",
             "name": "Instructor 2 of Course 1",
             "isInstructor": true,
-            "email": "FSRTest.instr2@course1.com",
-            "institute": "National University of Singapore"
+            "email": "FSRTest.instr2@course1.tmt",
+            "institute": "TEAMMATES Test Institute 1"
         },
         "instructor3": {
             "googleId": "FSRTest.idOfInstructor3",
             "name": "Instructor 3 of Course 1 and No Sessions",
             "isInstructor": true,
-            "email": "FSRTest.instr3@course1n2.com",
-            "institute": "National University of Singapore"
+            "email": "FSRTest.instr3@course1n2.tmt",
+            "institute": "TEAMMATES Test Institute 1"
         },
         "instructorWithoutCourses": {
             "googleId": "FSRTest.instructorWithoutCourses",
             "name": "Instructor Without Courses",
             "isInstructor": true,
-            "email": "FSRTest.iwc@yahoo.com",
-            "institute": "NTU"
+            "email": "FSRTest.iwc@yahoo.tmt",
+            "institute": "TEAMMATES Test Institute 7"
         },
         "student1InCourse1": {
             "googleId": "FSRTest.student1InCourse1",
             "name": "Student 1 in course 1",
             "isInstructor": false,
-            "email": "FSRTest.sudent1inCourse1@gmail.com",
-            "institute": "National University of Singapore"
+            "email": "FSRTest.sudent1inCourse1@gmail.tmt",
+            "institute": "TEAMMATES Test Institute 1"
         },
         "student2InCourse1": {
             "googleId": "FSRTest.student2InCourse1",
             "name": "Student in two courses",
             "isInstructor": false,
-            "email": "FSRTest.sudent2inCourse1@gmail.com",
-            "institute": "National University of Singapore"
+            "email": "FSRTest.sudent2inCourse1@gmail.tmt",
+            "institute": "TEAMMATES Test Institute 1"
         },
         "student3InCourse1": {
             "googleId": "FSRTest.student3InCourse1",
             "name": "Student 3 in course 1",
             "isInstructor": false,
-            "email": "FSRTest.sudent1inCourse1@gmail.com",
-            "institute": "National University of Singapore"
+            "email": "FSRTest.sudent1inCourse1@gmail.tmt",
+            "institute": "TEAMMATES Test Institute 1"
         },
         "student4InCourse1": {
             "googleId": "FSRTest.student4InCourse1",
             "name": "Student 4 in course 1",
             "isInstructor": false,
-            "email": "FSRTest.sudent4inCourse1@gmail.com",
-            "institute": "National University of Singapore"
+            "email": "FSRTest.sudent4inCourse1@gmail.tmt",
+            "institute": "TEAMMATES Test Institute 1"
         },
         "student5InCourse1": {
             "googleId": "FSRTest.student5InCourse1",
             "name": "Student 5 in course 1",
             "isInstructor": false,
-            "email": "FSRTest.sudent5inCourse1@gmail.com",
-            "institute": "National University of Singapore"
+            "email": "FSRTest.sudent5inCourse1@gmail.tmt",
+            "institute": "TEAMMATES Test Institute 1"
         }
     },
 
@@ -83,7 +83,7 @@
             "googleId": "FSRTest.idOfInstructor1OfCourse1",
             "courseId": "FSRTest.idOfTypicalCourse1",
             "name": "Instructor1 Course1",
-            "email": "FSRTest.instr1@course1.com",
+            "email": "FSRTest.instr1@course1.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -92,7 +92,7 @@
             "googleId": "FSRTest.idOfInstructor2OfCourse1",
             "courseId": "FSRTest.idOfTypicalCourse1",
             "name": "Instructor2 Course1",
-            "email": "FSRTest.instr2@course1.com",
+            "email": "FSRTest.instr2@course1.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -101,7 +101,7 @@
             "googleId": "FSRTest.idOfInstructor3",
             "courseId": "FSRTest.idOfTypicalCourse1",
             "name": "Instructor3 Course1",
-            "email": "FSRTest.instr3@course1n2.com",
+            "email": "FSRTest.instr3@course1n2.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -110,7 +110,7 @@
             "googleId": "FSRTest.idOfInstructor3",
             "courseId": "FSRTest.idOfNoSessionsCourse",
             "name": "Instructor3 No Sessions",
-            "email": "FSRTest.instr3@course1n2.com",
+            "email": "FSRTest.instr3@course1n2.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -119,7 +119,7 @@
 
   "students": {
     "student1InCourse1":{
-      "email": "FSRTest.student1InCourse1@gmail.com",
+      "email": "FSRTest.student1InCourse1@gmail.tmt",
       "name": "student1 In Course1",
       "team": "Team 1.1",
       "section": "Section A",
@@ -128,7 +128,7 @@
       "course" : "FSRTest.idOfTypicalCourse1"
     },
     "student2InCourse1":{
-      "email": "FSRTest.student2InCourse1@gmail.com",
+      "email": "FSRTest.student2InCourse1@gmail.tmt",
       "name": "student2 In Course1",
       "googleId": "FSRTest.student2InCourse1",
       "team": "Team 1.1",
@@ -137,7 +137,7 @@
  	  "course" : "FSRTest.idOfTypicalCourse1"
     },
     "student3InCourse1":{
-      "email": "FSRTest.student3InCourse1@gmail.com",
+      "email": "FSRTest.student3InCourse1@gmail.tmt",
       "name": "student3 In Course1",
       "googleId": "FSRTest.student3InCourse1",
       "team": "Team 1.2",
@@ -146,7 +146,7 @@
       "course" : "FSRTest.idOfTypicalCourse1"
     },
     "student4InCourse1":{
-      "email": "FSRTest.student4InCourse1@gmail.com",
+      "email": "FSRTest.student4InCourse1@gmail.tmt",
       "name": "student4 In Course1",
       "googleId": "FSRTest.student4InCourse1",
       "team": "Team 1.2",
@@ -155,7 +155,7 @@
  	  "course" : "FSRTest.idOfTypicalCourse1"
     },
     "student5InCourse1":{
-      "email": "FSRTest.student5InCourse1@gmail.com",
+      "email": "FSRTest.student5InCourse1@gmail.tmt",
       "name": "student5 In Course1",
       "googleId": "FSRTest.student5InCourse1",
       "team": "Team 1.3",
@@ -164,7 +164,7 @@
       "course" : "FSRTest.idOfTypicalCourse1"
     },
     "student6InCourse1":{
-      "email": "FSRTest.student6InCourse1@gmail.com",
+      "email": "FSRTest.student6InCourse1@gmail.tmt",
       "name": "student6 In Course1",
       "googleId": "FSRTest.student5InCourse1",
       "team": "Team 1.4",
@@ -178,7 +178,7 @@
   	 "standard.session": {
       "feedbackSessionName" : "Standard feedback session",
       "courseId" : "FSRTest.idOfTypicalCourse1",
-      "creatorEmail": "FSRTest.instr1@course1.com",
+      "creatorEmail": "FSRTest.instr1@course1.tmt",
       "instructions": {"value" : "Please please fill in the following questions."},
       "createdTime" : "2012-03-20 11:59 PM UTC",
       "startTime" : "2012-04-01 11:59 PM UTC",
@@ -194,7 +194,7 @@
     "private.session": {
       "feedbackSessionName" : "Private feedback session",
       "courseId" : "FSRTest.idOfTypicalCourse1",
-      "creatorEmail": "FSRTest.instr1@course1.com",
+      "creatorEmail": "FSRTest.instr1@course1.tmt",
       "instructions": {"value" : "Please please fill in the following questions."},
       "createdTime" : "2012-03-20 11:59 PM UTC",
       "startTime" : "2012-04-01 11:59 PM UTC",
@@ -213,7 +213,7 @@
   	 "qn1.standard.session": {
         "feedbackSessionName" : "Standard feedback session",
         "courseId" : "FSRTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSRTest.instr1@course1.com",
+        "creatorEmail" : "FSRTest.instr1@course1.tmt",
         "questionMetaData" : {"value" : "student self feedback"},
         "questionNumber" : "1",
         "questionType" : "TEXT",
@@ -227,7 +227,7 @@
   	"qn2.standard.session": {
         "feedbackSessionName" : "Standard feedback session",
         "courseId" : "FSRTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSRTest.instr1@course1.com",
+        "creatorEmail" : "FSRTest.instr1@course1.tmt",
         "questionMetaData" : {"value" : "student feedback to team members. only recipient can see names."},
         "questionNumber" : "2",
         "questionType" : "TEXT",
@@ -241,7 +241,7 @@
     "qn3.standard.session": {
         "feedbackSessionName" : "Standard feedback session",
         "courseId" : "FSRTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSRTest.instructor1@course1.com",
+        "creatorEmail" : "FSRTest.instructor1@course1.tmt",
         "questionMetaData" : {"value" : "student to instructors. recipient name protected."},
         "questionNumber" : "3",
         "questionType" : "TEXT",
@@ -255,7 +255,7 @@
     "qn4.standard.session": {
         "feedbackSessionName" : "Standard feedback session",
         "courseId" : "FSRTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSRTest.instructor1@course1.com",
+        "creatorEmail" : "FSRTest.instructor1@course1.tmt",
         "questionMetaData" : {"value" : "student to 2 teams with extra responses. only instructor can see giver name."},
         "questionNumber" : "4",
         "questionType" : "TEXT",
@@ -269,7 +269,7 @@
     "qn5.standard.session": {
         "feedbackSessionName" : "Standard feedback session",
         "courseId" : "FSRTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSRTest.instructor1@course1.com",
+        "creatorEmail" : "FSRTest.instructor1@course1.tmt",
         "questionMetaData" : {"value" : "student to students. only giver team + receiver can see giver name"},
         "questionNumber" : "5",
         "questionType" : "TEXT",
@@ -283,7 +283,7 @@
     "qn6.standard.session": {
         "feedbackSessionName" : "Standard feedback session",
         "courseId" : "FSRTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSRTest.instructor1@course1.com",
+        "creatorEmail" : "FSRTest.instructor1@course1.tmt",
         "questionMetaData" : {"value" : "instructor to none. only instructors can see."},
         "questionNumber" : "6",
         "questionType" : "TEXT",
@@ -297,7 +297,7 @@
     "qn7.standard.session": {
         "feedbackSessionName" : "Standard feedback session",
         "courseId" : "FSRTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSRTest.instructor1@course1.com",
+        "creatorEmail" : "FSRTest.instructor1@course1.tmt",
         "questionMetaData" : {"value" : "teams to students. all students can see everything, but not instr inc creator."},
         "questionNumber" : "7",
         "questionType" : "TEXT",
@@ -311,7 +311,7 @@
     "qn8.standard.session": {
         "feedbackSessionName" : "Standard feedback session",
         "courseId" : "FSRTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSRTest.instructor1@course1.com",
+        "creatorEmail" : "FSRTest.instructor1@course1.tmt",
         "questionMetaData" : {"value" : "teams to teams test."},
         "questionNumber" : "8",
         "questionType" : "TEXT",
@@ -325,7 +325,7 @@
     "qn1.private.session": {
         "feedbackSessionName" : "Private feedback session",
         "courseId" : "FSRTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSRTest.instr1@course1.com",
+        "creatorEmail" : "FSRTest.instr1@course1.tmt",
         "questionMetaData" : {"value" : "creator self feedback"},
         "questionNumber" : "1",
         "questionType" : "TEXT",
@@ -339,7 +339,7 @@
   	"qn2.private.session": {
         "feedbackSessionName" : "Private feedback session",
         "courseId" : "FSRTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSRTest.instr1@course1.com",
+        "creatorEmail" : "FSRTest.instr1@course1.tmt",
         "questionMetaData" : {"value" : "hidden qn for opening up later."},
         "questionNumber" : "2",
         "questionType" : "TEXT",
@@ -358,8 +358,8 @@
         "courseId" : "FSRTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "1",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSRTest.student1InCourse1@gmail.com",
-        "recipientEmail" : "FSRTest.student1InCourse1@gmail.com",
+        "giverEmail" : "FSRTest.student1InCourse1@gmail.tmt",
+        "recipientEmail" : "FSRTest.student1InCourse1@gmail.tmt",
         "responseMetaData" : {"value" : "student self feedback."},
         "giverSection":"Section A",
         "recipientSection":"Section A"
@@ -369,8 +369,8 @@
         "courseId" : "FSRTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "2",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSRTest.student1InCourse1@gmail.com",
-        "recipientEmail" : "FSRTest.student2InCourse1@gmail.com",
+        "giverEmail" : "FSRTest.student1InCourse1@gmail.tmt",
+        "recipientEmail" : "FSRTest.student2InCourse1@gmail.tmt",
         "responseMetaData" : {"value" : "student 1 feedback to student 2."},
         "giverSection":"Section A",
         "recipientSection":"Section A"
@@ -380,8 +380,8 @@
         "courseId" : "FSRTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "2",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSRTest.student6InCourse1@gmail.com",
-        "recipientEmail" : "FSRTest.student3InCourse1@gmail.com",
+        "giverEmail" : "FSRTest.student6InCourse1@gmail.tmt",
+        "recipientEmail" : "FSRTest.student3InCourse1@gmail.tmt",
         "responseMetaData" : {"value" : "student 6 feedback to student 3."},
         "giverSection":"Section A",
         "recipientSection":"Section B"
@@ -391,8 +391,8 @@
         "courseId" : "FSRTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "2",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSRTest.student2InCourse1@gmail.com",
-        "recipientEmail" : "FSRTest.student1InCourse1@gmail.com",
+        "giverEmail" : "FSRTest.student2InCourse1@gmail.tmt",
+        "recipientEmail" : "FSRTest.student1InCourse1@gmail.tmt",
         "responseMetaData" : {"value" : "student 2 feedback to student 1."},
         "giverSection":"Section A",
         "recipientSection":"Section A"
@@ -402,8 +402,8 @@
         "courseId" : "FSRTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "3",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSRTest.student1InCourse1@gmail.com",
-        "recipientEmail" : "FSRTest.instr1@course1.com",
+        "giverEmail" : "FSRTest.student1InCourse1@gmail.tmt",
+        "recipientEmail" : "FSRTest.instr1@course1.tmt",
         "responseMetaData" : {"value" : "student 1 feedback to instr 1."},
         "giverSection":"Section A",
         "recipientSection":"None"
@@ -413,8 +413,8 @@
         "courseId" : "FSRTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "3",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSRTest.student3InCourse1@gmail.com",
-        "recipientEmail" : "FSRTest.instr2@course1.com",
+        "giverEmail" : "FSRTest.student3InCourse1@gmail.tmt",
+        "recipientEmail" : "FSRTest.instr2@course1.tmt",
         "responseMetaData" : {"value" : "student 3 feedback to instr 2."},
         "giverSection":"Section B",
         "recipientSection":"None"
@@ -424,7 +424,7 @@
         "courseId" : "FSRTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "4",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSRTest.student5InCourse1@gmail.com",
+        "giverEmail" : "FSRTest.student5InCourse1@gmail.tmt",
         "recipientEmail" : "Team 1.2",
         "responseMetaData" : {"value" : "student 5 feedback to Team 1.2."},
         "giverSection":"Section B",
@@ -435,7 +435,7 @@
         "courseId" : "FSRTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "4",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSRTest.student1InCourse1@gmail.com",
+        "giverEmail" : "FSRTest.student1InCourse1@gmail.tmt",
         "recipientEmail" : "Team 1.3",
         "responseMetaData" : {"value" : "student 1 feedback to Team 1.3."},
         "giverSection":"Section A",
@@ -446,7 +446,7 @@
         "courseId" : "FSRTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "4",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSRTest.student2InCourse1@gmail.com",
+        "giverEmail" : "FSRTest.student2InCourse1@gmail.tmt",
         "recipientEmail" : "Team 1.4",
         "responseMetaData" : {"value" : "extra response to Team 1.4."},
         "giverSection":"Section A",
@@ -457,8 +457,8 @@
         "courseId" : "FSRTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "5",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSRTest.student2InCourse1@gmail.com",
-        "recipientEmail" : "FSRTest.student4InCourse1@gmail.com",
+        "giverEmail" : "FSRTest.student2InCourse1@gmail.tmt",
+        "recipientEmail" : "FSRTest.student4InCourse1@gmail.tmt",
         "responseMetaData" : {"value" : "standard stu>stu, diff teams"},
         "giverSection":"Section A",
         "recipientSection":"Section B"
@@ -468,7 +468,7 @@
         "courseId" : "FSRTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "6",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSRTest.instr1@course1.com",
+        "giverEmail" : "FSRTest.instr1@course1.tmt",
         "recipientEmail" : "%GENERAL%",
         "responseMetaData" : {"value" : "instr > all"},
         "giverSection":"None",
@@ -479,8 +479,8 @@
         "courseId" : "FSRTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "7",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSRTest.student1InCourse1@gmail.com",
-        "recipientEmail" : "FSRTest.student2InCourse1@gmail.com",
+        "giverEmail" : "FSRTest.student1InCourse1@gmail.tmt",
+        "recipientEmail" : "FSRTest.student2InCourse1@gmail.tmt",
         "responseMetaData" : {"value" : "team 1.1 > student (in own team)"},
         "giverSection":"Section A",
         "recipientSection":"Section A"
@@ -490,8 +490,8 @@
         "courseId" : "FSRTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "7",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSRTest.student2InCourse1@gmail.com",
-        "recipientEmail" : "FSRTest.student4InCourse1@gmail.com",
+        "giverEmail" : "FSRTest.student2InCourse1@gmail.tmt",
+        "recipientEmail" : "FSRTest.student4InCourse1@gmail.tmt",
         "responseMetaData" : {"value" : "team 1.1 > student (in Team 1.2)"},
         "giverSection":"Section A",
         "recipientSection":"Section B"
@@ -501,7 +501,7 @@
         "courseId" : "FSRTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "8",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSRTest.student1InCourse1@gmail.com",
+        "giverEmail" : "FSRTest.student1InCourse1@gmail.tmt",
         "recipientEmail" : "Team 1.2",
         "responseMetaData" : {"value" : "team 1.1 > team 1.2"},
         "giverSection":"Section A",
@@ -512,7 +512,7 @@
         "courseId" : "FSRTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "8",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSRTest.student4InCourse1@gmail.com",
+        "giverEmail" : "FSRTest.student4InCourse1@gmail.tmt",
         "recipientEmail" : "Team 1.1",
         "responseMetaData" : {"value" : "team 1.2 > team 1.1"},
         "giverSection":"Section B",
@@ -523,8 +523,8 @@
         "courseId" : "FSRTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "1",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSRTest.instr1@course1.com",
-        "recipientEmail" : "FSRTest.instr1@course1.com",
+        "giverEmail" : "FSRTest.instr1@course1.tmt",
+        "recipientEmail" : "FSRTest.instr1@course1.tmt",
         "responseMetaData" : {"value" : "creator self feedback"},
         "giverSection":"None",
         "recipientSection":"None"
@@ -534,7 +534,7 @@
         "courseId" : "FSRTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "2",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSRTest.student1InCourse1@gmail.com",
+        "giverEmail" : "FSRTest.student1InCourse1@gmail.tmt",
         "recipientEmail" : "Team 1.2",
         "responseMetaData" : {"value" : "feedback created before session became private"},
         "giverSection":"Section A",

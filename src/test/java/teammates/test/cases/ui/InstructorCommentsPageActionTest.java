@@ -37,7 +37,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         
         AssertHelper.assertContainsRegex(Const.ViewURIs.INSTRUCTOR_COMMENTS, result.getDestinationWithParams());
         assertEquals("TEAMMATESLOG|||instructorCommentsPage|||instructorCommentsPage|||true|||Instructor"
-                + "|||Instructor Without Courses|||instructorWithoutCourses|||iwc@yahoo.com|||"
+                + "|||Instructor Without Courses|||instructorWithoutCourses|||iwc@yahoo.tmt|||"
                 + "instructorComments Page Load<br>Viewing <span class=\"bold\">instructorWithoutCourses's"
                 + "</span> comment records for Course <span class=\"bold\">[]</span>|||/page/instructorCommentsPage", 
                 action.getLogMessage());
@@ -56,7 +56,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         
         AssertHelper.assertContainsRegex(Const.ViewURIs.INSTRUCTOR_COMMENTS, result.getDestinationWithParams());
         assertEquals("TEAMMATESLOG|||instructorCommentsPage|||instructorCommentsPage|||true|||Instructor"
-                + "|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                + "|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                 + "instructorComments Page Load<br>Viewing <span class=\"bold\">idOfInstructor1OfCourse1's"
                 + "</span> comment records for Course <span class=\"bold\">[idOfTypicalCourse1]</span>|||/page/instructorCommentsPage", 
                 action.getLogMessage());
@@ -75,7 +75,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         
         AssertHelper.assertContainsRegex(Const.ViewURIs.INSTRUCTOR_COMMENTS, result.getDestinationWithParams());
         assertEquals("TEAMMATESLOG|||instructorCommentsPage|||instructorCommentsPage|||true|||Instructor"
-                + "|||Instructor 2 of Course 1|||idOfInstructor2OfCourse1|||instr2@course1.com|||"
+                + "|||Instructor 2 of Course 1|||idOfInstructor2OfCourse1|||instr2@course1.tmt|||"
                 + "instructorComments Page Load<br>Viewing <span class=\"bold\">idOfInstructor2OfCourse1's"
                 + "</span> comment records for Course <span class=\"bold\">[idOfTypicalCourse1]</span>|||/page/instructorCommentsPage", 
                 action.getLogMessage());

@@ -4,36 +4,36 @@
   	  "googleId": "CFeedbackUiT.instructor",
   	  "name": "Teammates Test",
   	  "isInstructor": true,
-  	  "email": "teammates.test1@gmail.com",
-  	  "institute": "National University of Singapore"
+  	  "email": "teammates.test1@gmail.tmt",
+  	  "institute": "TEAMMATES Test Institute 1"
   	},
   	"helperWithSessions": {
       "googleId": "CFeedbackUiT.helper",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "teammates.helper@gmail.com",
-      "institute": "National University of Singapore"
+      "email": "teammates.helper@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     },
   	"instructorWithSessions2": {
       "googleId": "CFeedbackUiT.instructor2",
       "name": "Teammates Test2",
       "isInstructor": true,
-      "email": "teammates.test2@gmail.com",
-      "institute": "National University of Singapore"
+      "email": "teammates.test2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     },
   	"instructorWithoutCourses": {
   	  "googleId": "CFeedbackUiT.nocourses",
   	  "name": "instructor Without Courses",
   	  "isInstructor": true,
-  	  "email": "teammates.test2@gmail.com",
-  	  "institute": "National University of Singapore"
+  	  "email": "teammates.test2@gmail.tmt",
+  	  "institute": "TEAMMATES Test Institute 1"
   	},
   	"instructorWithoutSessions": {
   	  "googleId": "CFeedbackUiT.nosessions",
   	  "name": "Instructor Without Sessions",
   	  "isInstructor": true,
-  	  "email": "teammates.test3@gmail.com",
-  	  "institute": "National University of Singapore"
+  	  "email": "teammates.test3@gmail.tmt",
+  	  "institute": "TEAMMATES Test Institute 1"
   	}
   },
 
@@ -60,7 +60,7 @@
       "googleId": "CFeedbackUiT.instructor",
       "courseId": "CFeedbackUiT.CS2104",
       "name": "Teammates Test",
-      "email": "teammates.test1@gmail.com",
+      "email": "teammates.test1@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -70,7 +70,7 @@
       "googleId": "CFeedbackUiT.helper",
       "courseId": "CFeedbackUiT.CS2104",
       "name": "Teammates Test",
-      "email": "teammates.helper@gmail.com",
+      "email": "teammates.helper@gmail.tmt",
       "role":"Helper",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -80,7 +80,7 @@
       "googleId": "CFeedbackUiT.nosessions",
       "courseId": "CFeedbackUiT.coursewithoutsessions",
       "name": "Instructor Without Sessions",
-      "email": "teammates.test3@gmail.com",
+      "email": "teammates.test3@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -90,7 +90,7 @@
       "googleId": "CFeedbackUiT.instructor",
       "courseId": "CFeedbackUiT.CS1101",
       "name": "Teammates Test",
-      "email": "teammates.test1@gmail.com",
+      "email": "teammates.test1@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -100,7 +100,7 @@
       "googleId": "CFeedbackUiT.helper",
       "courseId": "CFeedbackUiT.CS1101",
       "name": "Teammates Test",
-      "email": "teammates.helper@gmail.com",
+      "email": "teammates.helper@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -110,7 +110,7 @@
       "googleId": "CFeedbackUiT.instructor2",
       "courseId": "CFeedbackUiT.CS2104",
       "name": "Teammates Test2",
-      "email": "teammates.test2@gmail.com",
+      "email": "teammates.test2@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -120,7 +120,7 @@
       "googleId": "CFeedbackUiT.instructor2",
       "courseId": "CFeedbackUiT.CS1101",
       "name": "Teammates Test2",
-      "email": "teammates.test2@gmail.com",
+      "email": "teammates.test2@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -131,7 +131,7 @@
   "students": {
     "alice.tmms@CFeedbackUiT.CS2104": {
       "googleId": "CFeedbackUiT.alice.tmms",
-      "email": "CFeedbackUiT.alice.b.tmms@gmail.com",
+      "email": "CFeedbackUiT.alice.b.tmms@gmail.tmt",
       "course": "CFeedbackUiT.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
@@ -139,7 +139,7 @@
     },
     "benny.tmms@CFeedbackUiT.CS2104": {
       "googleId": "CFeedbackUiT.benny.tmms",
-      "email": "CFeedbackUiT.benny.tmms@gmail.com",
+      "email": "CFeedbackUiT.benny.tmms@gmail.tmt",
       "course": "CFeedbackUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
@@ -147,7 +147,7 @@
     },
     "charlie.tmms@CFeedbackUiT.CS1101": {
       "googleId": "CFeedbackUiT.charlie.tmms",
-      "email": "CFeedbackUiT.charlie.tmms@gmail.com",
+      "email": "CFeedbackUiT.charlie.tmms@gmail.tmt",
       "course": "CFeedbackUiT.CS1101",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
@@ -155,7 +155,7 @@
     },
     "danny.tmms@CFeedbackUiT.CS1101": {
       "googleId": "CFeedbackUiT.danny.tmms",
-      "email": "CFeedbackUiT.danny.tmms@gmail.com",
+      "email": "CFeedbackUiT.danny.tmms@gmail.tmt",
       "course": "CFeedbackUiT.CS1101",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
@@ -182,7 +182,7 @@
     "publishedSession": {
       "feedbackSessionName" : "First Session",
       "courseId" : "CFeedbackUiT.CS2104",
-      "creatorEmail" : "teammates.test2@gmail.com",
+      "creatorEmail" : "teammates.test2@gmail.tmt",
       "instructions": {"value" : "Instructions for first session"},
       "createdTime" : "2012-04-01 11:59 PM UTC",
       "startTime" : "2012-04-01 11:59 PM UTC",
@@ -198,7 +198,7 @@
     "privateSession": {
       "feedbackSessionName" : "Private Session",
       "courseId" : "CFeedbackUiT.CS2104",
-      "creatorEmail" : "teammates.test1@gmail.com",
+      "creatorEmail" : "teammates.test1@gmail.tmt",
       "instructions": {"value" : "Please please fill in the second feedback session"},
       "createdTime" : "2012-04-01 11:59 PM UTC",
       "startTime" : "2012-04-02 11:59 PM UTC",
@@ -214,7 +214,7 @@
     "manualSession": {
       "feedbackSessionName" : "Manual Session",
       "courseId" : "CFeedbackUiT.CS1101",
-      "creatorEmail" : "teammates.test1@gmail.com",
+      "creatorEmail" : "teammates.test1@gmail.tmt",
       "instructions": {"value" : "Please please fill in the third feedback session"},
       "createdTime" : "2012-04-01 11:59 PM UTC",
       "startTime" : "2012-04-02 11:59 PM UTC",
@@ -230,7 +230,7 @@
     "openSession": {
       "feedbackSessionName" : "Open Session",
       "courseId" : "CFeedbackUiT.CS1101",
-      "creatorEmail" : "teammates.test2@gmail.com",
+      "creatorEmail" : "teammates.test2@gmail.tmt",
       "instructions": {"value" : "Please please fill in the fourth feedback session"},
       "createdTime" : "2012-04-01 11:59 PM UTC",
       "startTime" : "2012-04-02 11:59 PM UTC",
@@ -246,7 +246,7 @@
     "awaitingSession": {
       "feedbackSessionName" : "Awaiting Session",
       "courseId" : "CFeedbackUiT.CS2104",
-      "creatorEmail" : "teammates.test2@gmail.com",
+      "creatorEmail" : "teammates.test2@gmail.tmt",
       "instructions": {"value" : "Instructions for first session"},
       "createdTime" : "2014-04-01 11:59 PM UTC",
       "startTime" : "2017-04-01 11:59 PM UTC",

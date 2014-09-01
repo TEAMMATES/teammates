@@ -373,7 +373,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         fs = dataBundle.feedbackSessions.get("session1InCourse2");
         
         fq = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
-        fr = frDb.getFeedbackResponse(fq.getId(), instructor.email, "student1InCourse2@gmail.com");
+        fr = frDb.getFeedbackResponse(fq.getId(), instructor.email, "student1InCourse2@gmail.tmt");
         assertNotNull(fr);
         
         gaeSimulation.loginAsInstructor(instructor.googleId);

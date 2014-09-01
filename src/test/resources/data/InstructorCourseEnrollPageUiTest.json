@@ -4,8 +4,8 @@
       "googleId": "CCEnrollUiT.teammates.test",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "teammates.test@gmail.com",
-      "institute": "National University of Singapore"
+      "email": "teammates.test@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     }
   },
 
@@ -22,7 +22,7 @@
       "googleId": "CCEnrollUiT.teammates.test",
       "courseId": "CCEnrollUiT.CS2104",
       "name": "Teammates Test",
-      "email": "teammates.test@gmail.com",
+      "email": "teammates.test@gmail.tmt",
       "role":"Co-owner",
       "displayedName":"Co-owner",
       "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -32,7 +32,7 @@
   "students": {
     "alice.b.tmms@CCEnrollUiT.CS2104": {
       "googleId": "CCEnrollUiT.alice.b.tmms",
-      "email": "alice.b.tmms@gmail.com",
+      "email": "alice.b.tmms@gmail.tmt",
       "course": "CCEnrollUiT.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
@@ -41,7 +41,7 @@
     },
     "benny.c.tmms@CCEnrollUiT.CS2104": {
       "googleId": "CCEnrollUiT.benny.c.tmms",
-      "email": "benny.c.tmms@gmail.com",
+      "email": "benny.c.tmms@gmail.tmt",
       "course": "CCEnrollUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
@@ -50,7 +50,7 @@
     },
     "charlie.d.tmms@CCEnrollUiT.CS2104": {
       "googleId": "CCEnrollUiT.charlie.d.tmms",
-      "email": "charlie.d.tmms@gmail.com",
+      "email": "charlie.d.tmms@gmail.tmt",
       "course": "CCEnrollUiT.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
@@ -59,7 +59,7 @@
     },
     "danny.e.tmms@CCEnrollUiT.CS2104": {
       "googleId": "CCEnrollUiT.danny.e.tmms",
-      "email": "danny.e.tmms@gmail.com",
+      "email": "danny.e.tmms@gmail.tmt",
       "course": "CCEnrollUiT.CS2104",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",

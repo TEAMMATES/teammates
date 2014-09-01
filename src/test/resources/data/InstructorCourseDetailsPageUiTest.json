@@ -4,43 +4,43 @@
       "googleId": "CCDetailsUiT.instr",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "CCDetailsUiT.instr@gmail.com",
-      "institute": "National University of Singapore"
+      "email": "CCDetailsUiT.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     },
     "CCDetailsUiT.instr2": {
       "googleId": "CCDetailsUiT.instr2",
       "name": "Teammates Test 2",
       "isInstructor": true,
-      "email": "CCDetailsUiT.instr2@gmail.com",
-      "institute": "National University of Singapore"
+      "email": "CCDetailsUiT.instr2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     },
     "CCDetailsUiT.instr2Helper": {
       "googleId": "CCDetailsUiT.instr2Helper",
       "name": "Teammates Test 2",
       "isInstructor": true,
-      "email": "CCDetailsUiT.instr2Helper@gmail.com",
-      "institute": "National University of Singapore"
+      "email": "CCDetailsUiT.instr2Helper@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     },
     "CCDetailsUiT.coord": {
       "googleId": "CCDetailsUiT.coord",
       "name": "Teammates Coord",
       "isInstructor": true,
-      "email": "CCDetailsUiT.coord@gmail.com",
-      "institute": "National University of Singapore"
+      "email": "CCDetailsUiT.coord@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     },
     "Alice": {
       "googleId": "{$test.student1}",
       "name": "Alice Betsy",
       "isInstructor": false,
-      "email": "alice.b.tmms@gmail.com",
-      "institute": "National University of Singapore"
+      "email": "alice.b.tmms@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     },
     "Charlie": {
       "googleId": "{$test.student2}",
       "name": "Charlie Davis",
       "isInstructor": false,
-      "email": "charlie.d.tmms@gmail.com",
-      "institute": "National University of Singapore"
+      "email": "charlie.d.tmms@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     }
   },
 
@@ -67,7 +67,7 @@
       "googleId": "CCDetailsUiT.instr",
       "courseId": "CCDetailsUiT.CS2104",
       "name": "Teammates Test",
-      "email": "CCDetailsUiT.instr@gmail.com",
+      "email": "CCDetailsUiT.instr@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -77,7 +77,7 @@
       "googleId": "CCDetailsUiT.coord",
       "courseId": "CCDetailsUiT.CS2104",
       "name": "Teammates Coord",
-      "email": "CCDetailsUiT.coord@gmail.com",
+      "email": "CCDetailsUiT.coord@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -87,7 +87,7 @@
       "googleId": "CCDetailsUiT.instr2",
       "courseId": "CCDetailsUiT.CS2103",
       "name": "Teammates Test 2",
-      "email": "CCDetailsUiT.instr2@gmail.com",
+      "email": "CCDetailsUiT.instr2@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -97,7 +97,7 @@
       "googleId": "CCDetailsUiT.instr2Helper",
       "courseId": "CCDetailsUiT.CS2103",
       "name": "Teammates Test 2",
-      "email": "CCDetailsUiT.instr2Helper@gmail.com",
+      "email": "CCDetailsUiT.instr2Helper@gmail.tmt",
       "role":"Helper",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -107,7 +107,7 @@
       "googleId": "CCDetailsUiT.instr",
       "courseId": "CCDetailsUiT.CourseWithoutStudents",
       "name": "Teammates Test",
-      "email": "CCDetailsUiT.instr@gmail.com",
+      "email": "CCDetailsUiT.instr@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -118,7 +118,7 @@
   "students": {
     "CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104": {
       "googleId": "{$test.student1}",
-      "email": "{$test.student1}@gmail.com",
+      "email": "{$test.student1}@gmail.tmt",
       "course": "CCDetailsUiT.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
@@ -126,7 +126,7 @@
     },
     "benny.tmms@CCDetailsUiT.CS2104": {
       "googleId": "",
-      "email": "benny.tmms@gmail.com",
+      "email": "benny.tmms@gmail.tmt",
       "course": "CCDetailsUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
@@ -134,7 +134,7 @@
     },
     "charlie.tmms@CCDetailsUiT.CS2104": {
       "googleId": "",
-      "email": "{$test.student2}@gmail.com",
+      "email": "{$test.student2}@gmail.tmt",
       "course": "CCDetailsUiT.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
@@ -142,7 +142,7 @@
     },
     "danny.tmms@CCDetailsUiT.CS2104": {
       "googleId": "danny.tmms",
-      "email": "danny.e.tmms@gmail.com",
+      "email": "danny.e.tmms@gmail.tmt",
       "course": "CCDetailsUiT.CS2104",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
@@ -150,7 +150,7 @@
     },
     "CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2103": {
       "googleId": "{$test.student1}",
-      "email": "{$test.student1}@gmail.com",
+      "email": "{$test.student1}@gmail.tmt",
       "course": "CCDetailsUiT.CS2103",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
@@ -159,7 +159,7 @@
     },
     "benny.tmms@CCDetailsUiT.CS2103": {
       "googleId": "",
-      "email": "benny.tmms@gmail.com",
+      "email": "benny.tmms@gmail.tmt",
       "course": "CCDetailsUiT.CS2103",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
@@ -168,7 +168,7 @@
     },
     "charlie.tmms@CCDetailsUiT.CS2103": {
       "googleId": "",
-      "email": "{$test.student2}@gmail.com",
+      "email": "{$test.student2}@gmail.tmt",
       "course": "CCDetailsUiT.CS2103",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",

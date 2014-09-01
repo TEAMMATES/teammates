@@ -53,11 +53,11 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         assertEquals("", fileContentLines[2]);
         assertEquals("", fileContentLines[3]);
         assertEquals("Section,Team,First Name,Last Name,Status,Email", fileContentLines[4]);
-        assertEquals("\"Section 1\",\"Team 1.1\",\"student1 In\",\"Course1\",\"Joined\",\"student1InCourse1@gmail.com\"", fileContentLines[5]);
-        assertEquals("\"Section 1\",\"Team 1.1\",\"student2 In\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.com\"", fileContentLines[6]);
-        assertEquals("\"Section 1\",\"Team 1.1\",\"student3 In\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.com\"", fileContentLines[7]);
-        assertEquals("\"Section 1\",\"Team 1.1\",\"student4 In\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.com\"", fileContentLines[8]);
-        assertEquals("\"Section 2\",\"Team 1.2\",\"student5 In\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.com\"", fileContentLines[9]);
+        assertEquals("\"Section 1\",\"Team 1.1\",\"student1 In\",\"Course1\",\"Joined\",\"student1InCourse1@gmail.tmt\"", fileContentLines[5]);
+        assertEquals("\"Section 1\",\"Team 1.1\",\"student2 In\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"", fileContentLines[6]);
+        assertEquals("\"Section 1\",\"Team 1.1\",\"student3 In\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"", fileContentLines[7]);
+        assertEquals("\"Section 1\",\"Team 1.1\",\"student4 In\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"", fileContentLines[8]);
+        assertEquals("\"Section 2\",\"Team 1.2\",\"student5 In\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"", fileContentLines[9]);
         assertEquals("",r.getStatusMessage());
         
         
@@ -79,11 +79,11 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         assertEquals("", fileContentLines[2]);
         assertEquals("", fileContentLines[3]);
         assertEquals("Section,Team,First Name,Last Name,Status,Email", fileContentLines[4]);
-        assertEquals("\"Section 1\",\"Team 1.1\",\"new name\",\"new last name\",\"Joined\",\"student1InCourse1@gmail.com\"", fileContentLines[5]);
-        assertEquals("\"Section 1\",\"Team 1.1\",\"student2 In\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.com\"", fileContentLines[6]);
-        assertEquals("\"Section 1\",\"Team 1.1\",\"student3 In\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.com\"", fileContentLines[7]);
-        assertEquals("\"Section 1\",\"Team 1.1\",\"student4 In\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.com\"", fileContentLines[8]);
-        assertEquals("\"Section 2\",\"Team 1.2\",\"student5 In\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.com\"", fileContentLines[9]);
+        assertEquals("\"Section 1\",\"Team 1.1\",\"new name\",\"new last name\",\"Joined\",\"student1InCourse1@gmail.tmt\"", fileContentLines[5]);
+        assertEquals("\"Section 1\",\"Team 1.1\",\"student2 In\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"", fileContentLines[6]);
+        assertEquals("\"Section 1\",\"Team 1.1\",\"student3 In\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"", fileContentLines[7]);
+        assertEquals("\"Section 1\",\"Team 1.1\",\"student4 In\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"", fileContentLines[8]);
+        assertEquals("\"Section 2\",\"Team 1.2\",\"student5 In\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"", fileContentLines[9]);
         assertEquals("",r.getStatusMessage());
         
         removeAndRestoreTypicalDataInDatastore();
@@ -91,9 +91,9 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         
         ______TS("Typical case: student list downloaded successfully with special team name");
         
-        student1InCourse1 = StudentsLogic.inst().getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.com");
+        student1InCourse1 = StudentsLogic.inst().getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt");
         student1InCourse1.team = "N/A";
-        StudentsLogic.inst().updateStudentCascade("student1InCourse1@gmail.com", student1InCourse1);
+        StudentsLogic.inst().updateStudentCascade("student1InCourse1@gmail.tmt", student1InCourse1);
         
         a = getAction(submissionParams);
         r = (FileDownloadResult)a.executeAndPostProcess();
@@ -107,11 +107,11 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         assertEquals("", fileContentLines[2]);
         assertEquals("", fileContentLines[3]);
         assertEquals("Section,Team,First Name,Last Name,Status,Email", fileContentLines[4]);
-        assertEquals("\"Section 1\",\"N/A\",\"student1 In\",\"Course1\",\"Joined\",\"student1InCourse1@gmail.com\"", fileContentLines[5]);
-        assertEquals("\"Section 1\",\"Team 1.1\",\"student2 In\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.com\"", fileContentLines[6]);
-        assertEquals("\"Section 1\",\"Team 1.1\",\"student3 In\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.com\"", fileContentLines[7]);
-        assertEquals("\"Section 1\",\"Team 1.1\",\"student4 In\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.com\"", fileContentLines[8]);
-        assertEquals("\"Section 2\",\"Team 1.2\",\"student5 In\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.com\"", fileContentLines[9]);
+        assertEquals("\"Section 1\",\"N/A\",\"student1 In\",\"Course1\",\"Joined\",\"student1InCourse1@gmail.tmt\"", fileContentLines[5]);
+        assertEquals("\"Section 1\",\"Team 1.1\",\"student2 In\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"", fileContentLines[6]);
+        assertEquals("\"Section 1\",\"Team 1.1\",\"student3 In\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"", fileContentLines[7]);
+        assertEquals("\"Section 1\",\"Team 1.1\",\"student4 In\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"", fileContentLines[8]);
+        assertEquals("\"Section 2\",\"Team 1.2\",\"student5 In\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"", fileContentLines[9]);
         assertEquals("",r.getStatusMessage());
         
     }
