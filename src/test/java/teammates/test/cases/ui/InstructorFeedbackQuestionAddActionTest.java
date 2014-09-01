@@ -491,7 +491,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
 
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
-                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                         + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
                         + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
                         + " created.<br><span class=\"bold\">Team contribution question:</span> How much has each team member including yourself, contributed to the project?"
