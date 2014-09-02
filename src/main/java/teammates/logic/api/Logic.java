@@ -334,8 +334,8 @@ public class Logic {
         instructorsLogic.createInstructor(instructor);
     }
     
-    public void createInstructor(InstructorAttributes instructor) throws InvalidParametersException, EntityAlreadyExistsException {
-        instructorsLogic.createInstructor(instructor);
+    public InstructorAttributes createInstructor(InstructorAttributes instructor) throws InvalidParametersException, EntityAlreadyExistsException {
+        return instructorsLogic.createInstructor(instructor);
     }
 
     /**
@@ -556,6 +556,10 @@ public class Logic {
         return instructorsLogic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
     }
     
+    public MimeMessage sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor) 
+            throws EntityDoesNotExistException {
+        return instructorsLogic.sendRegistrationInviteToInstructor(courseId, instructor);
+    }
     
     public String sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute)
             throws EntityDoesNotExistException{

@@ -812,7 +812,8 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         }
         
         try {
-            instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, null);
+            String instructorEmail = null;
+            instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instructorEmail);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
