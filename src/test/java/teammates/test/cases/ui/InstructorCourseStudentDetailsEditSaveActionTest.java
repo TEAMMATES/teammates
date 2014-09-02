@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.AccountsLogic;
@@ -28,7 +27,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE;
     }
     
@@ -206,34 +205,6 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         AccountsLogic.inst().deleteAccountCascade(student1InCourse1.googleId);
         
         
-        ______TS("Unsuccessful case: test student email parameter");
-        submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
-        };
-        
-        try {
-            a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
-            signalFailureToDetectException("Did not detect that parameters are null.");
-        } catch (NullPostParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
-                    Const.ParamsNames.STUDENT_EMAIL), e.getMessage());
-        }
-                
-        
-        ______TS("Unsuccessful case: test null course id parameter");
-        submissionParams = new String[]{
-                Const.ParamsNames.STUDENT_EMAIL, newStudentEmail
-        };
-        
-        try {
-            a = getAction(submissionParams);
-            r = (RedirectResult) a.executeAndPostProcess();
-            signalFailureToDetectException("Did not detect that parameters are null.");
-        } catch (NullPostParameterException e) {
-            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
-                    Const.ParamsNames.COURSE_ID), e.getMessage());
-        }
     }
     
     private InstructorCourseStudentDetailsEditSaveAction getAction(String... params) throws Exception{
