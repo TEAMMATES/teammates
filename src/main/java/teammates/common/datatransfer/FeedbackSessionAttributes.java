@@ -5,7 +5,9 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.logging.Logger;
 
@@ -38,7 +40,9 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     public boolean isOpeningEmailEnabled;
     public boolean isClosingEmailEnabled;
     public boolean isPublishedEmailEnabled;
-        
+    public Set<String> respondingInstructorList;
+    public Set<String> respondingStudentList;
+
     @SuppressWarnings("unused")
     private static Logger log = Utils.getLogger();
 
@@ -66,6 +70,8 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.isOpeningEmailEnabled = fs.isOpeningEmailEnabled();
         this.isClosingEmailEnabled = fs.isClosingEmailEnabled();
         this.isPublishedEmailEnabled = fs.isPublishedEmailEnabled();
+        this.respondingInstructorList = (fs.getRespondingInstructorList() == null ? new HashSet<String>() : fs.getRespondingInstructorList());
+        this.respondingStudentList = (fs.getRespondingStudentList() == null ? new HashSet<String>() : fs.getRespondingStudentList());
     }
         
     public FeedbackSessionAttributes(String feedbackSessionName,
@@ -75,6 +81,17 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
             double timeZone, int gracePeriod, FeedbackSessionType feedbackSessionType,
             boolean sentOpenEmail, boolean sentPublishedEmail,
             boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
+        this(feedbackSessionName, courseId, creatorId, instructions, createdTime, startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
+            timeZone, gracePeriod, feedbackSessionType, sentOpenEmail, sentPublishedEmail, isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled, new HashSet<String>(), new HashSet<String>());
+    }
+
+    public FeedbackSessionAttributes(String feedbackSessionName,
+            String courseId, String creatorId, Text instructions,
+            Date createdTime, Date startTime, Date endTime,
+            Date sessionVisibleFromTime, Date resultsVisibleFromTime,
+            double timeZone, int gracePeriod, FeedbackSessionType feedbackSessionType,
+            boolean sentOpenEmail, boolean sentPublishedEmail,
+            boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled, Set<String> instructorList, Set<String> studentList) {
         this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
         this.courseId = Sanitizer.sanitizeTitle(courseId);
         this.creatorEmail = Sanitizer.sanitizeEmail(creatorId);
@@ -92,7 +109,9 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.isOpeningEmailEnabled = isOpeningEmailEnabled;
         this.isClosingEmailEnabled = isClosingEmailEnabled;
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
-    }
+        this.respondingInstructorList = instructorList;
+        this.respondingStudentList = studentList;
+    } 
     
     
 
@@ -104,7 +123,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                 sessionVisibleFromTime, resultsVisibleFromTime,
                 timeZone, gracePeriod,
                 feedbackSessionType, sentOpenEmail, sentPublishedEmail,
-                isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled);
+                isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled, respondingInstructorList, respondingStudentList);
     }
     
     @Override
