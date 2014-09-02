@@ -61,7 +61,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         assertEquals(1, pageData.allCourses.size());
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd"
-                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com"
+                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt"
                 + "|||Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID."
                 + "|||/page/instructorCourseAdd";
         assertEquals(expectedLogMessage, addAction.getLogMessage());
@@ -78,7 +78,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd" 
                 + "|||instructorCourseAdd|||true|||Instructor|||Instructor 1 of Course 1" 
-                + "|||idOfInstructor1OfCourse1|||instr1@course1.com" 
+                + "|||idOfInstructor1OfCourse1|||instr1@course1.tmt" 
                 + "|||Course added : ticac.tpa1.id<br>Total courses: 2|||/page/instructorCourseAdd";
         assertEquals(expectedLogMessage, addAction.getLogMessage());
         
@@ -106,7 +106,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd"
                 + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1"
-                + "|||instr1@course1.com|||A course by the same ID already exists in the system, possibly created by another user. Please choose a different course ID"
+                + "|||instr1@course1.tmt|||A course by the same ID already exists in the system, possibly created by another user. Please choose a different course ID"
                 + "|||/page/instructorCourseAdd";
         assertEquals(expectedLogMessage, addAction.getLogMessage());
         
@@ -133,7 +133,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd" 
                 + "|||true|||Instructor(M)|||Instructor 1 of Course 1" 
-                + "|||idOfInstructor1OfCourse1|||instr1@course1.com|||Course added : ticac.tpa2.id<br>Total courses: 1" 
+                + "|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||Course added : ticac.tpa2.id<br>Total courses: 1" 
                 + "|||/page/instructorCourseAdd";
         assertEquals(expectedLogMessage, addAction.getLogMessage());
         

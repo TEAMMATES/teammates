@@ -60,7 +60,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
         expectedLogMessage = 
                 "TEAMMATESLOG|||instructorFeedbackEditPage|||instructorFeedbackEditPage|||true|||" +
                 "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||" +
-                "instr1@course1.com|||instructorFeedbackEdit Page Load<br>Editing information for Feedback Session" +
+                "instr1@course1.tmt|||instructorFeedbackEdit Page Load<br>Editing information for Feedback Session" +
                 " <span class=\"bold\">[" + feedbackSessionAttributes.feedbackSessionName + "]</span>" +
                 "in Course: <span class=\"bold\">[idOfTypicalCourse1]</span>" +
                 "|||/page/instructorFeedbackEditPage";

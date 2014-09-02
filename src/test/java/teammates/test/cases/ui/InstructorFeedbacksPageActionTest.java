@@ -59,7 +59,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         
         String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage" +
                 "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
-                "|||instr1@course1.com|||Number of feedback sessions: 6|||/page/instructorFeedbacksPage";
+                "|||instr1@course1.tmt|||Number of feedback sessions: 6|||/page/instructorFeedbacksPage";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("no feedback, has eval");
@@ -84,7 +84,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         
         expectedLogMessage = "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage" +
                 "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
-                "|||instr1@course1.com|||Number of feedback sessions: 0|||/page/instructorFeedbacksPage";
+                "|||instr1@course1.tmt|||Number of feedback sessions: 0|||/page/instructorFeedbacksPage";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("0 sessions");
@@ -112,7 +112,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         
         expectedLogMessage = "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage" +
                 "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
-                "|||instr1@course1.com|||Number of feedback sessions: 0|||/page/instructorFeedbacksPage";
+                "|||instr1@course1.tmt|||Number of feedback sessions: 0|||/page/instructorFeedbacksPage";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Masquerade mode, 0 courses");
@@ -141,7 +141,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         
         expectedLogMessage = "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage" +
                 "|||true|||Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
-                "|||instr1@course1.com|||Number of feedback sessions: 0|||/page/instructorFeedbacksPage";
+                "|||instr1@course1.tmt|||Number of feedback sessions: 0|||/page/instructorFeedbacksPage";
         assertEquals(expectedLogMessage, a.getLogMessage());
     }
     

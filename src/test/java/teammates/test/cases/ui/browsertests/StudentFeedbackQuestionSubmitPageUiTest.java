@@ -110,21 +110,21 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         submitPage.fillResponseTextBox(0, "Test Self Feedback");
         assertNull(BackDoor.getFeedbackResponse(fq.getId(),
-                                                "SFQSubmitUiT.alice.b@gmail.com",
-                                                "SFQSubmitUiT.alice.b@gmail.com"));
+                                                "SFQSubmitUiT.alice.b@gmail.tmt",
+                                                "SFQSubmitUiT.alice.b@gmail.tmt"));
 
         submitPage.clickSubmitButton();
 
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
 
         assertNotNull(BackDoor.getFeedbackResponse(fq.getId(),
-                                                   "SFQSubmitUiT.alice.b@gmail.com",
-                                                   "SFQSubmitUiT.alice.b@gmail.com"));
+                                                   "SFQSubmitUiT.alice.b@gmail.tmt",
+                                                   "SFQSubmitUiT.alice.b@gmail.tmt"));
         
         assertEquals("Test Self Feedback", 
                      BackDoor.getFeedbackResponse(fq.getId(), 
-                                                  "SFQSubmitUiT.alice.b@gmail.com",
-                                                  "SFQSubmitUiT.alice.b@gmail.com").getResponseDetails().getAnswerString());
+                                                  "SFQSubmitUiT.alice.b@gmail.tmt",
+                                                  "SFQSubmitUiT.alice.b@gmail.tmt").getResponseDetails().getAnswerString());
 
         ______TS("edit existing response");
 
@@ -134,13 +134,13 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
         assertNotNull(BackDoor.getFeedbackResponse(fq.getId(), 
-                                                   "SFQSubmitUiT.alice.b@gmail.com",
-                                                   "SFQSubmitUiT.alice.b@gmail.com"));
+                                                   "SFQSubmitUiT.alice.b@gmail.tmt",
+                                                   "SFQSubmitUiT.alice.b@gmail.tmt"));
         
         assertEquals(editedResponse,
                      BackDoor.getFeedbackResponse(fq.getId(),
-                                                  "SFQSubmitUiT.alice.b@gmail.com", 
-                                                  "SFQSubmitUiT.alice.b@gmail.com").getResponseDetails().getAnswerString());
+                                                  "SFQSubmitUiT.alice.b@gmail.tmt", 
+                                                  "SFQSubmitUiT.alice.b@gmail.tmt").getResponseDetails().getAnswerString());
         
         submitPage.verifyHtmlMainContent("/studentFeedbackQuestionSubmitPageFilled.html");
 
@@ -173,8 +173,8 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         
         assertEquals("this is a response edited during grace period", 
                      BackDoor.getFeedbackResponse(fq.getId(), 
-                                                  "SFQSubmitUiT.alice.b@gmail.com", 
-                                                  "SFQSubmitUiT.alice.b@gmail.com").getResponseDetails().getAnswerString());
+                                                  "SFQSubmitUiT.alice.b@gmail.tmt", 
+                                                  "SFQSubmitUiT.alice.b@gmail.tmt").getResponseDetails().getAnswerString());
         
         assertEquals("this is a response edited during grace period", submitPage.getTextArea(1, 0).getText());
 

@@ -4,36 +4,36 @@
         "googleId": "instructorWithoutCourses",
         "name": "Instructor Without Courses",
         "isInstructor": true,
-        "email": "iwc@yahoo.com",
-        "institute": "NTU"
+        "email": "iwc@yahoo.tmt",
+        "institute": "TEAMMATES Test Institute 7"
     },
     "instructorWith2Courses": {
         "googleId": "instructorWith2Courses",
         "name": "Instructor With Two Courses",
         "isInstructor": true,
-        "email": "iwithtwoc@yahoo.com",
-        "institute": "NUS"
+        "email": "iwithtwoc@yahoo.tmt",
+        "institute": "TEAMMATES Test Institute 5"
     },
     "instructorOfCourse1": {
         "googleId": "instructorOfCourse1",
         "name": "Instructor of Course 1",
         "isInstructor": true,
-        "email": "instr@course1.com",
-        "institute": "NTU"
+        "email": "instr@course1.tmt",
+        "institute": "TEAMMATES Test Institute 7"
     },
     "instructorOfCourse4": {
         "googleId": "instructorOfCourse4",
         "name": "Instructor of Course 4",
         "isInstructor": true,
-        "email": "instr@course4.com",
-        "institute": "MIT"
+        "email": "instr@course4.tmt",
+        "institute": "TEAMMATES Test Institute 9"
     },
     "Student3Course3": {
       "googleId": "CCSDetailsUiT.charlie.tmms",
-      "email": "CCSDetailsUiT.charlie.tmms@gmail.com",
+      "email": "CCSDetailsUiT.charlie.tmms@gmail.tmt",
       "isInstructor":false,
       "name": "Charlie D",
-      "institute":"NUS"
+      "institute":"TEAMMATES Test Institute 5"
     }
   },
 
@@ -65,7 +65,7 @@
       "googleId": "instructorOfCourse1",
       "courseId": "course1",
       "name": "Instructor1 Course1",
-      "email": "instr@course1.com",
+      "email": "instr@course1.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":Instructor",
@@ -75,7 +75,7 @@
       "googleId": "instructorOfCourse4",
       "courseId": "course1",
       "name": "Instructor1 Course4",
-      "email": "instr@course4.com",
+      "email": "instr@course4.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -85,7 +85,7 @@
       "googleId": "instructorWith2Courses",
       "courseId": "course2",
       "name": "Instructor1 Course2",
-      "email": "iwithtwoc@yahoo.com",
+      "email": "iwithtwoc@yahoo.tmt",
       "role":"Helper",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -95,7 +95,7 @@
       "googleId": "instructorWith2Courses",
       "courseId": "course3",
       "name": "Instructor1 Course3",
-      "email": "iwithtwoc@yahoo.com",
+      "email": "iwithtwoc@yahoo.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -105,7 +105,7 @@
       "googleId": "instructorOfCourse4",
       "courseId": "course3",
       "name": "Instructor1 Course4",
-      "email": "instr@course4.com",
+      "email": "instr@course4.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -115,7 +115,7 @@
       "googleId": "instructorOfCourse4",
       "courseId": "course4",
       "name": "Instructor1 Course4",
-      "email": "instr@course4.com",
+      "email": "instr@course4.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -126,7 +126,7 @@
   "students": {
     "Student1Course2": {
       "googleId": "CCSDetailsUiT.alice.tmms",
-      "email": "CCSDetailsUiT.alice.tmms@gmail.com",
+      "email": "CCSDetailsUiT.alice.tmms@gmail.tmt",
       "course": "course2",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
@@ -135,7 +135,7 @@
     },
     "Student2Course2": {
       "googleId": "",
-      "email": "benny.c.tmms@gmail.com",
+      "email": "benny.c.tmms@gmail.tmt",
       "course": "course2",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
@@ -144,7 +144,7 @@
     },
      "Student3Course2": {
       "googleId": "",
-      "email": "barney.c.tmms@gmail.com",
+      "email": "barney.c.tmms@gmail.tmt",
       "course": "course2",
       "name": "Barney Stinson",
       "comments": "This student's name is Barney Stinson",
@@ -153,7 +153,7 @@
     },
      "Student4Course2": {
       "googleId": "",
-      "email": "ted.c.tmms@gmail.com",
+      "email": "ted.c.tmms@gmail.tmt",
       "course": "course2",
       "name": "Ted Mosby",
       "comments": "This student's name is Ted Mosby",
@@ -162,7 +162,7 @@
     },
      "Student5Course2": {
       "googleId": "",
-      "email": "jack.c.tmms@gmail.com",
+      "email": "jack.c.tmms@gmail.tmt",
       "course": "course2",
       "name": "Jack Lawrence",
       "comments": "This student's name is Jack Lawrence",
@@ -171,7 +171,7 @@
     },
     "Student1Course3": {
       "googleId": "CCSDetailsUiT.alice.tmms",
-      "email": "CCSDetailsUiT.alice.tmms@gmail.com",
+      "email": "CCSDetailsUiT.alice.tmms@gmail.tmt",
       "course": "course3",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
@@ -179,7 +179,7 @@
     },
     "Student2Course3": {
       "googleId": "",
-      "email": "benny.c.tmms@gmail.com",
+      "email": "benny.c.tmms@gmail.tmt",
       "course": "course3",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
@@ -187,7 +187,7 @@
     },
     "Student3Course3": {
       "googleId": "CCSDetailsUiT.charlie.tmms",
-      "email": "CCSDetailsUiT.charlie.tmms@gmail.com",
+      "email": "CCSDetailsUiT.charlie.tmms@gmail.tmt",
       "course": "course3",
       "name": "Charlie D",
       "comments": "This student's name is Alice Betsy",
@@ -195,7 +195,7 @@
     },
     "Student4Course3": {
       "googleId": "",
-      "email": "denny.c.tmms@gmail.com",
+      "email": "denny.c.tmms@gmail.tmt",
       "course": "course3",
       "name": "Denny Charlés",
       "comments": "This student's name is Denny Charlés",
@@ -203,7 +203,7 @@
     },
     "Student5Course4": {
       "googleId": "",
-      "email": "ann.tmms@gmail.com",
+      "email": "ann.tmms@gmail.tmt",
       "course": "course4",
       "name": "Ann",
       "comments": "This student's name is Ann",

@@ -509,12 +509,14 @@ public class Const {
         public static final String COMMENT = "comment";
         public static final String FEEDBACK_RESPONSE_COMMENT = "feedbackresponsecomment";
         public static final String STUDENT = "student";
+        public static final String INSTRUCTOR = "instructor";
     }
     
     public class SearchDocumentField {
         public static final String ATTRIBUTE = "attribute";
         public static final String COMMENT_ATTRIBUTE = "commentAttibute";
         public static final String STUDENT_ATTRIBUTE = "studentAttribute";
+        public static final String INSTRUCTOR_ATTRIBUTE = "instructorAttribute";
         public static final String COMMENT_GIVER_NAME = "commentGiverName";
         public static final String COMMENT_GIVER_EMAIL = "commentGiverEmail";
         public static final String COMMENT_RECIPIENT_NAME = "commentRecipientName";
