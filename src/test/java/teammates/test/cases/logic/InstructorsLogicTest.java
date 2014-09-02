@@ -773,7 +773,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
 
     public void testSendRegistrationInviteToInstructor() throws Exception {
        
-        ______TS("success: send invite to instructor");
+        ______TS("success: send invite to instructor using instructor email");
         
         InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
     
@@ -781,6 +781,13 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
     
         TestHelper.verifyJoinInviteToInstructor(instructor, email);
     
+        
+        ______TS("success: send invite to instructor using instructor attributes");
+
+        email = instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instructor);
+    
+        TestHelper.verifyJoinInviteToInstructor(instructor, email);
+        
         ______TS("failure: send to non-existing instructor");
     
         String instrEmail = "non-existing-instr@email.tmt";
@@ -812,7 +819,8 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         }
         
         try {
-            instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, null);
+            String instructorEmail = null;
+            instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instructorEmail);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
