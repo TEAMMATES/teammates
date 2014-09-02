@@ -131,6 +131,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         testDoneEditingLink();
         
+        testChangeFeedbackRecipient();
+        
         testDeleteSessionAction();
     }
 
@@ -979,6 +981,21 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         InstructorFeedbacksPage feedbackPage = feedbackEditPage.deleteSession();
         AssertHelper.assertContains(Const.StatusMessages.FEEDBACK_SESSION_DELETED, feedbackPage.getStatus());
         assertNull(BackDoor.getFeedbackSession(courseId, feedbackSessionName));
+    }
+    
+    private void testChangeFeedbackRecipient() {
+        feedbackEditPage = getFeedbackEditPage();
+        
+        feedbackEditPage.clickQuestionEditForQuestion1();
+        WebElement editLabel = browser.driver.findElement(By.xpath("//form[@id='form_editquestion-1']//label[@onchange='toggleVisibilityOptions(this)']"));
+        editLabel.click();
+        
+        feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
+        
+        WebElement previewLabel = browser.driver.findElement(By.xpath("//form[@id='form_editquestion-1']//label[@onchange='toggleVisibilityMessage(this)']"));
+        
+        boolean isActiveButton = previewLabel.getAttribute("class").contains("active");
+        assertTrue(isActiveButton);
     }
     
     private void testCopyQuestion() {
