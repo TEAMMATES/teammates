@@ -209,6 +209,15 @@ public class FieldValidatorTest extends BaseTestCase{
                         maxLength, 
                         nameStartedWithCurlyBracketButHasNoEnd));
         
+        ______TS("success: with opening and closing curly braces");
+        
+        assertEquals("valid: max length", 
+                "",
+                validator.getValidityInfoForAllowedName(
+                        typicalFieldName, 
+                        maxLength, 
+                        "{last name} first name"));
+        
         ______TS("success: max length");
         
         assertEquals("valid: max length", 
