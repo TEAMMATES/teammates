@@ -27,13 +27,13 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
     protected void doOperation() {
         Datastore.initialize();
         try {
-            repairDataForSession("LargeScaleT3.Session", "LargeScaleT3.CS2103");
+            repairDataForSession("Course-ID", "Session name");
         } catch (EntityDoesNotExistException | InvalidParametersException | EntityAlreadyExistsException e) {
             e.printStackTrace();
         }
     }
     
-    private void repairDataForSession(String sessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException{
+    private void repairDataForSession(String courseId, String sessionName) throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException{
         List<FeedbackQuestionAttributes> questions = logic.getFeedbackQuestionsForSession(sessionName, courseId);
         for(FeedbackQuestionAttributes question : questions){
             boolean needRepairGiverSection = isGiverContainingSection(question.giverType);
@@ -48,9 +48,12 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
         List<FeedbackResponseAttributes> responses = logic.getFeedbackResponsesForQuestion(question.getId());
         for(FeedbackResponseAttributes response : responses){
             boolean needUpdateResponse = false;
+            String originalGiverSection = "";
+            String originalRecipientSection = "";
             if(needRepairGiverSection){
                 StudentAttributes student = logic.getStudentForEmail(question.courseId, response.giverEmail);
                 if(!response.giverSection.equals(student.section)){
+                    originalGiverSection = response.giverSection;
                     response.giverSection = student.section;
                     needUpdateResponse = true;
                 }
@@ -60,12 +63,14 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
                 if(isTeamRecipient(question.recipientType)){
                     String recipientSection = logic.getStudentsForTeam(response.recipientEmail, question.courseId).get(0).section;
                     if(!recipientSection.equals(response.recipientSection)){
+                        originalRecipientSection = response.recipientSection;
                         response.recipientSection = recipientSection;
                         needUpdateResponse = true;
                     }
                 } else {
                     StudentAttributes student = logic.getStudentForEmail(question.courseId, response.recipientEmail);
                     if(!response.recipientSection.equals(student.section)){
+                        originalRecipientSection = response.recipientSection;
                         response.recipientSection = student.section;
                         needUpdateResponse = true;
                     }
@@ -73,6 +78,10 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
             }
             
             if(needUpdateResponse){
+                System.out.println("Repairing giver section:" +
+                        originalGiverSection + "-->" + response.giverSection
+                        + " receiver section:" +
+                        originalRecipientSection + "-->" + response.recipientSection);
                 logic.updateFeedbackResponse(response);
             }
         }
