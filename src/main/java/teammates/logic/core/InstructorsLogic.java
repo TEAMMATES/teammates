@@ -245,6 +245,10 @@ public class InstructorsLogic {
         instructorsDb.updateInstructorByEmail(instructor);
     }
     
+    /**
+     * Sends a registration email to the instructor
+     * Vulnerable to eventual consistency
+     */
     public MimeMessage sendRegistrationInviteToInstructor(String courseId, String instructorEmail) 
             throws EntityDoesNotExistException {
         
