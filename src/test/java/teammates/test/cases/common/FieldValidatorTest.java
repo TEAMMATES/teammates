@@ -176,7 +176,7 @@ public class FieldValidatorTest extends BaseTestCase{
         ______TS("failure: starts with non-alphanumeric character");
         
         String nameStartedWithNonAlphaNumChar = "!Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
-        assertEquals("invalid: typical length started with non-alphanumeric character", 
+        assertEquals("invalid: typical length with invalid characters", 
                 String.format(
                         INVALID_NAME_ERROR_MESSAGE, 
                         nameStartedWithNonAlphaNumChar, typicalFieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, typicalFieldName),
@@ -184,6 +184,30 @@ public class FieldValidatorTest extends BaseTestCase{
                         typicalFieldName, 
                         maxLength, 
                         nameStartedWithNonAlphaNumChar));
+        
+        ______TS("failure: starts with curly braces but contains invalid char");
+        
+        String nameStartedWithBracesButHasInvalidChar = "{Amy} -Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
+        assertEquals("invalid: typical length with invalid characters", 
+                String.format(
+                        INVALID_NAME_ERROR_MESSAGE, 
+                        nameStartedWithBracesButHasInvalidChar, typicalFieldName, REASON_CONTAINS_INVALID_CHAR, typicalFieldName),
+                validator.getValidityInfoForAllowedName(
+                        typicalFieldName, 
+                        maxLength, 
+                        nameStartedWithBracesButHasInvalidChar));
+        
+        ______TS("failure: starts with opening curly bracket but dose not have closing bracket");
+        
+        String nameStartedWithCurlyBracketButHasNoEnd = "{Amy -Bén s/o O'&|% 2\t\n (~!@#$^*+_={[]\\:;\"<>?)";
+        assertEquals("invalid: typical length started with non-alphanumeric character", 
+                String.format(
+                        INVALID_NAME_ERROR_MESSAGE, 
+                        nameStartedWithCurlyBracketButHasNoEnd, typicalFieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, typicalFieldName),
+                validator.getValidityInfoForAllowedName(
+                        typicalFieldName, 
+                        maxLength, 
+                        nameStartedWithCurlyBracketButHasNoEnd));
         
         ______TS("success: max length");
         
