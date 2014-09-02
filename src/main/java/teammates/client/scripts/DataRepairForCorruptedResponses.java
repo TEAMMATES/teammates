@@ -18,7 +18,7 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
     
     private Logic logic = new Logic();
     
-    public void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException{
         DataRepairForCorruptedResponses dataRepair = new DataRepairForCorruptedResponses();
         dataRepair.doOperationRemotely();
     }
@@ -27,7 +27,7 @@ public class DataRepairForCorruptedResponses extends RemoteApiClient {
     protected void doOperation() {
         Datastore.initialize();
         try {
-            repairDataForSession("Session Name", "CourseID");
+            repairDataForSession("LargeScaleT3.Session", "LargeScaleT3.CS2103");
         } catch (EntityDoesNotExistException | InvalidParametersException | EntityAlreadyExistsException e) {
             e.printStackTrace();
         }
