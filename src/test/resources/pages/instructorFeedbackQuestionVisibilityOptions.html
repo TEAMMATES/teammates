@@ -473,7 +473,7 @@
                             Feedback Recipient:
                         </label>
                         <div class="col-sm-8">
-                            <select class="form-control participantSelect" name="recipienttype" id="recipienttype-1" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
+                            <select class="form-control participantSelect" name="recipienttype" id="recipienttype-1" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                                 <option value="SELF">Giver (Self feedback)</option>
 <option value="STUDENTS">Other students in the course</option>
 <option value="INSTRUCTORS">Instructors in the course</option>
@@ -930,7 +930,7 @@
                                 Feedback Recipient:
                             </label>
                             <div class="col-sm-8">
-                                <select class="form-control participantSelect" name="recipienttype" id="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
+                                <select class="form-control participantSelect" name="recipienttype" id="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                                     <option value="SELF">Giver (Self feedback)</option>
 <option value="STUDENTS">Other students in the course</option>
 <option value="INSTRUCTORS">Instructors in the course</option>

@@ -998,7 +998,7 @@ ul #nav {
                                 Feedback Recipient:
                             </label>
                             <div class="col-sm-8">
-                                <select onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);" id="recipienttype" name="recipienttype" class="form-control participantSelect">
+                                <select onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);" id="recipienttype" name="recipienttype" class="form-control participantSelect">
                                     <option value="SELF">Giver (Self feedback)</option>
 <option value="STUDENTS">Other students in the course</option>
 <option value="INSTRUCTORS">Instructors in the course</option>

@@ -624,7 +624,7 @@
                         </label>
                         <div class="col-sm-8">
                             <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>-<%=question.questionNumber%>"
-                                disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
+                                disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                                 <%
                                     for(String opt: data.getParticipantOptions(question, false)) out.println(opt);
                                 %>
@@ -930,7 +930,7 @@
                                 Feedback Recipient:
                             </label>
                             <div class="col-sm-8">
-                                <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
+                                <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                                     <%
                                         for(String opt: data.getParticipantOptions(null, false)) out.println(opt);
                                     %>
