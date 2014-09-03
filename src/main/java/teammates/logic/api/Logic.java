@@ -1829,6 +1829,42 @@ public class Logic {
 
         feedbackSessionsLogic.updateFeedbackSession(updatedSession);
     }
+
+    public void addInstructorRespondant(String googleId, String feedbackSessionName, String courseId) {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+        feedbackSessionsLogic.addInstructorRespondant(googleId, feedbackSessionName, courseId);
+    }
+
+    public void addStudentRespondant(String googleId, String feedbackSessionName, String courseId) {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+        feedbackSessionsLogic.addStudentRespondant(googleId, feedbackSessionsName, courseId);
+    }
+
+    public void deleteInstructorRespondant(String googleId, String feedbackSessionsName, String courseId) {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+        feedbackSessionsLogic.deleteInstructorRespondant(googleId, feedbackSessionsName, courseId);
+    }
+
+    public void deleteStudentRespondant(String googleId, String feedbackSessionsName, String courseId) {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+        feedbackSessionsLogic.deleteStudentRespondant(googleId, feedbackSessionsName, courseId);
+    }
     
     /**
      * Publishes the evaluation and send email alerts to students.

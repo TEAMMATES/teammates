@@ -814,6 +814,66 @@ public class FeedbackSessionsLogic {
         fsDb.updateFeedbackSession(newSession);
     }
 
+    public void addInstructorRespondant(String googleId, String feedbackSessionName, String courseId) {
+
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, googleId);
+
+        FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feebackSessionName, courseId);
+        if (sessionToUpdate == null) {
+            throw new EntityDoesNotExistException(
+                    "Trying to update a feedback session that does not exist.");
+        }
+
+        fsDb.addInstructorRespondant(googleId, sessionToUpdate);
+    }
+
+    public void addStudentRespondant(String googleId, String feedbackSessionName, String courseId) {
+
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, googleId);
+
+        FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feebackSessionName, courseId);
+        if (sessionToUpdate == null) {
+            throw new EntityDoesNotExistException(
+                    "Trying to update a feedback session that does not exist.");
+        }
+
+        fsDb.addStudentRespondant(googleId, sessionToUpdate);
+    }
+
+    public void deleteInstructorRespondant(String googleId, String feedbackSessionName, String courseId) {
+
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, googleId);
+
+        FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feebackSessionName, courseId);
+        if (sessionToUpdate == null) {
+            throw new EntityDoesNotExistException(
+                    "Trying to update a feedback session that does not exist.");
+        }
+
+        fsDb.deleteInstructorRespondant(googleId, sessionToUpdate);
+    }
+
+    public void deleteStudentRespondant(String googleId, String feedbackSessionName, String courseId) {
+
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, googleId);
+
+        FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feebackSessionName, courseId);
+        if (sessionToUpdate == null) {
+            throw new EntityDoesNotExistException(
+                    "Trying to update a feedback session that does not exist.");
+        }
+
+        fsDb.deleteStudentRespondant(googleId, sessionToUpdate);
+    }
+
     /**
      * This method is called when the user publishes a feedback session
      * manually. Preconditions: * The feedback session has to be set as
