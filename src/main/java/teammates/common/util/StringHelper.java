@@ -195,13 +195,15 @@ public class StringHelper {
      * full name "Danny Tim Lin"<br>
      * first name: "Danny Tim" <br>
      * last name: "Lin" <br>
+     * processed full name: "Danny Tim Lin" <br>
      * <br>
-     * full name "Danny (Tim Lin)"<br>
+     * full name "Danny {Tim Lin}"<br>
      * first name: "Danny" <br>
      * last name: "Tim Lin" <br>
+     * processed full name: "Danny Tim Lin" <br>
      * 
      * 
-     * @return split name array{0--> first name, 1--> last name}
+     * @return split name array{0--> first name, 1--> last name, 2--> processed full name by removing "{}"}
      */
     
     public static String[] splitName(String fullName){  
@@ -227,7 +229,10 @@ public class StringHelper {
             firstName = fullName.replace(lastName, "").trim();
         }
         
-        String[] splitNames = {firstName, lastName};       
+        String processedfullName = fullName.replace("{", "")
+                                           .replace("}", "");
+        
+        String[] splitNames = {firstName, lastName, processedfullName};       
         return splitNames;
     }
     
