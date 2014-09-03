@@ -4,22 +4,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import org.mortbay.log.Log;
-
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackQuestionsLogic;
-import teammates.storage.api.StudentsDb;
 import teammates.storage.datastore.Datastore;
 import teammates.test.driver.TestProperties;
 import teammates.common.util.FileHelper;
