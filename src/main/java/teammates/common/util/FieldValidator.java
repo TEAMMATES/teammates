@@ -598,8 +598,15 @@ public class FieldValidator {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         } else if (value.length()>maxLength) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_TOO_LONG, fieldName, maxLength);
-        } else if (Character.isLetterOrDigit(value.codePointAt(0)) == false) {
-            return String.format(INVALID_NAME_ERROR_MESSAGE, value, fieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, fieldName);
+        } else if (Character.isLetterOrDigit(value.codePointAt(0)) == false) {           
+            boolean startsWithBraces = value.charAt(0) == '{' && value.contains("}");
+            if(!startsWithBraces){
+                return String.format(INVALID_NAME_ERROR_MESSAGE, value, fieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, fieldName);
+            }
+            if(!StringHelper.isMatching(value.substring(1), REGEX_NAME)){
+                return String.format(INVALID_NAME_ERROR_MESSAGE, value, fieldName, REASON_CONTAINS_INVALID_CHAR, fieldName);
+            }
+            
         } else if (!StringHelper.isMatching(value, REGEX_NAME)) {
             return String.format(INVALID_NAME_ERROR_MESSAGE, value, fieldName, REASON_CONTAINS_INVALID_CHAR, fieldName);
         }
