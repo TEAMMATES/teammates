@@ -52,12 +52,12 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         assertEquals("Course Name," + "\"" + course.name + "\"", fileContentLines[1]);
         assertEquals("", fileContentLines[2]);
         assertEquals("", fileContentLines[3]);
-        assertEquals("Section,Team,First Name,Last Name,Status,Email", fileContentLines[4]);
-        assertEquals("\"Section 1\",\"Team 1.1\",\"student1 In\",\"Course1\",\"Joined\",\"student1InCourse1@gmail.tmt\"", fileContentLines[5]);
-        assertEquals("\"Section 1\",\"Team 1.1\",\"student2 In\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"", fileContentLines[6]);
-        assertEquals("\"Section 1\",\"Team 1.1\",\"student3 In\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"", fileContentLines[7]);
-        assertEquals("\"Section 1\",\"Team 1.1\",\"student4 In\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"", fileContentLines[8]);
-        assertEquals("\"Section 2\",\"Team 1.2\",\"student5 In\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"", fileContentLines[9]);
+        assertEquals("Section,Team,Full Name,Last Name,Status,Email", fileContentLines[4]);
+        assertEquals("\"Section 1\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Joined\",\"student1InCourse1@gmail.tmt\"", fileContentLines[5]);
+        assertEquals("\"Section 1\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"", fileContentLines[6]);
+        assertEquals("\"Section 1\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"", fileContentLines[7]);
+        assertEquals("\"Section 1\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"", fileContentLines[8]);
+        assertEquals("\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"", fileContentLines[9]);
         assertEquals("",r.getStatusMessage());
         
         
@@ -78,12 +78,12 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         assertEquals("Course Name," + "\"" + course.name + "\"", fileContentLines[1]);
         assertEquals("", fileContentLines[2]);
         assertEquals("", fileContentLines[3]);
-        assertEquals("Section,Team,First Name,Last Name,Status,Email", fileContentLines[4]);
-        assertEquals("\"Section 1\",\"Team 1.1\",\"new name\",\"new last name\",\"Joined\",\"student1InCourse1@gmail.tmt\"", fileContentLines[5]);
-        assertEquals("\"Section 1\",\"Team 1.1\",\"student2 In\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"", fileContentLines[6]);
-        assertEquals("\"Section 1\",\"Team 1.1\",\"student3 In\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"", fileContentLines[7]);
-        assertEquals("\"Section 1\",\"Team 1.1\",\"student4 In\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"", fileContentLines[8]);
-        assertEquals("\"Section 2\",\"Team 1.2\",\"student5 In\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"", fileContentLines[9]);
+        assertEquals("Section,Team,Full Name,Last Name,Status,Email", fileContentLines[4]);
+        assertEquals("\"Section 1\",\"Team 1.1\",\"new name new last name\",\"new last name\",\"Joined\",\"student1InCourse1@gmail.tmt\"", fileContentLines[5]);
+        assertEquals("\"Section 1\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"", fileContentLines[6]);
+        assertEquals("\"Section 1\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"", fileContentLines[7]);
+        assertEquals("\"Section 1\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"", fileContentLines[8]);
+        assertEquals("\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"", fileContentLines[9]);
         assertEquals("",r.getStatusMessage());
         
         removeAndRestoreTypicalDataInDatastore();
@@ -106,12 +106,12 @@ public class InstructorCourseStudentListDownloadActionTest extends BaseActionTes
         assertEquals("Course Name," + "\"" + course.name + "\"", fileContentLines[1]);
         assertEquals("", fileContentLines[2]);
         assertEquals("", fileContentLines[3]);
-        assertEquals("Section,Team,First Name,Last Name,Status,Email", fileContentLines[4]);
-        assertEquals("\"Section 1\",\"N/A\",\"student1 In\",\"Course1\",\"Joined\",\"student1InCourse1@gmail.tmt\"", fileContentLines[5]);
-        assertEquals("\"Section 1\",\"Team 1.1\",\"student2 In\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"", fileContentLines[6]);
-        assertEquals("\"Section 1\",\"Team 1.1\",\"student3 In\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"", fileContentLines[7]);
-        assertEquals("\"Section 1\",\"Team 1.1\",\"student4 In\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"", fileContentLines[8]);
-        assertEquals("\"Section 2\",\"Team 1.2\",\"student5 In\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"", fileContentLines[9]);
+        assertEquals("Section,Team,Full Name,Last Name,Status,Email", fileContentLines[4]);
+        assertEquals("\"Section 1\",\"N/A\",\"student1 In Course1\",\"Course1\",\"Joined\",\"student1InCourse1@gmail.tmt\"", fileContentLines[5]);
+        assertEquals("\"Section 1\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"", fileContentLines[6]);
+        assertEquals("\"Section 1\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"", fileContentLines[7]);
+        assertEquals("\"Section 1\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"", fileContentLines[8]);
+        assertEquals("\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"", fileContentLines[9]);
         assertEquals("",r.getStatusMessage());
         
     }
