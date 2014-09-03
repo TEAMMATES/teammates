@@ -1323,6 +1323,18 @@ public class FeedbackSessionsLogic {
                                         .isResponseVisibleTo(FeedbackParticipantType.STUDENTS))) {
                             isVisibleResponse = true;
                         }
+                        InstructorAttributes instructor = null;
+                        if (role == Role.INSTRUCTOR) {
+                            instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
+                        }
+                        if (isVisibleResponse && instructor != null) {
+                            if (!(instructor.isAllowedForPrivilege(response.giverSection,
+                                    response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
+                                    || !(instructor.isAllowedForPrivilege(response.giverSection,
+                                            response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))) {
+                                isVisibleResponse = false;
+                            }
+                        }
                         if (isVisibleResponse) {
                             responses.add(response);
                             addEmailNamePairsToTable(emailNameTable, response,
