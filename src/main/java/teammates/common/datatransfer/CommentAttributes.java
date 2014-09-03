@@ -194,6 +194,8 @@ public class CommentAttributes extends EntityAttributes
         if(recipientType != null){
             sanitizeForVisibilityOptions();
         }
+        
+        removeIrrelevantVisibilityOptions();
     }
 
     private void sanitizeForVisibilityOptions() {
@@ -221,6 +223,21 @@ public class CommentAttributes extends EntityAttributes
         }
     }
     
+    private void removeIrrelevantVisibilityOptions() {
+        Iterator<CommentRecipientType> iterGiver = this.showGiverNameTo.iterator();
+        while(iterGiver.hasNext()) {
+            if (!this.isVisibleTo(iterGiver.next())) {
+                iterGiver.remove();
+            }
+        }
+        Iterator<CommentRecipientType> iterRecipient = this.showRecipientNameTo.iterator();
+        while(iterRecipient.hasNext()) {
+            if (!this.isVisibleTo(iterRecipient.next())) {
+                iterRecipient.remove();
+            }
+        }
+    }
+
     private void removeCommentRecipientTypeInVisibilityOptions(CommentRecipientType typeToRemove){
         removeCommentRecipientTypeIn(showCommentTo, typeToRemove);
         removeCommentRecipientTypeIn(showGiverNameTo, typeToRemove);
