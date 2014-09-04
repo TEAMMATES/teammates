@@ -12,6 +12,10 @@ public class AdminAccountManagementPageData extends PageData {
 
     public HashMap<String, ArrayList<InstructorAttributes>> instructorCoursesTable;
     public HashMap<String, AccountAttributes> instructorAccountsTable;
+    /**
+     * By default the testing accounts should not be shown
+     */
+    public boolean isToShowAll = false;
     
     public AdminAccountManagementPageData(AccountAttributes account) {
         super(account);
@@ -40,5 +44,13 @@ public class AdminAccountManagementPageData extends PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
         return link;
     }
-
+    
+    public boolean isTestingAccount(AccountAttributes account){
+        boolean isTestingAccount = false;
+        
+        if(account.email.contains("tmt") || account.institute.contains("TEAMMATES test")){
+            isTestingAccount = true;
+        }
+        return isTestingAccount;
+    }
 }
