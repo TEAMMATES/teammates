@@ -333,10 +333,7 @@ public class FeedbackSessionsLogic {
         List<FeedbackQuestionAttributes> allQuestions = fqLogic.getFeedbackQuestionsForSession(feedbackSessionName,
                         courseId);
         
-        List<FeedbackResponseAttributes> allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName,
-                courseId, null);
-        
-        return getFeedbackSessionResponseStatus(session, roster, allQuestions, allResponses);
+        return getFeedbackSessionResponseStatus(session, roster, allQuestions);
     }
     
     
@@ -1118,17 +1115,12 @@ public class FeedbackSessionsLogic {
                     .getStudentsForCourse(fsa.courseId);
             List<InstructorAttributes> instructors = instructorsLogic
                     .getInstructorsForCourse(fsa.courseId);
-            List<FeedbackResponseAttributes> responses = frLogic
-                    .getFeedbackResponsesForSession(fsa.feedbackSessionName,
-                            fsa.courseId);
             List<FeedbackQuestionAttributes> questions = fqLogic
                     .getFeedbackQuestionsForSession(fsa.feedbackSessionName,
                             fsa.courseId);
             List<FeedbackQuestionAttributes> studentQns = fqLogic
                     .getFeedbackQuestionsForStudents(questions);
 
-            Map<String, String> emailsResponseTable = new HashMap<String, String>();
-        
             if(!studentQns.isEmpty()){
                 details.stats.expectedTotal += students.size();
             }
@@ -1141,12 +1133,11 @@ public class FeedbackSessionsLogic {
                     details.stats.expectedTotal += 1;
                 }
             }
-            for(FeedbackResponseAttributes response : responses){
-                if(emailsResponseTable.get(response.giverEmail) == null){
-                    details.stats.submittedTotal += 1;
-                    emailsResponseTable.put(response.giverEmail, "Responded");
-                }
-            }
+            
+            Set<String> respondingList = fsa.respondingStudentList;
+            respondingList.addAll(fsa.respondingInstructorList);
+            details.stats.submittedTotal += respondingList.size();
+
             break;
 
         case PRIVATE:
@@ -1486,7 +1477,7 @@ public class FeedbackSessionsLogic {
         }
         
         responseStatus = (section == null && isIncludeResponseStatus) ? getFeedbackSessionResponseStatus(
-                session, roster, allQuestions, allResponses) : null;
+                session, roster, allQuestions) : null;
 
         StudentAttributes student = null;
         Set<String> studentsEmailInTeam = new HashSet<String>();
@@ -1713,8 +1704,7 @@ public class FeedbackSessionsLogic {
 
     private FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(
             FeedbackSessionAttributes fsa, CourseRoster roster,
-            List<FeedbackQuestionAttributes> questions,
-            List<FeedbackResponseAttributes> responses)
+            List<FeedbackQuestionAttributes> questions)
             throws EntityDoesNotExistException {
 
         FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
@@ -1725,8 +1715,8 @@ public class FeedbackSessionsLogic {
 
         if(!studentQns.isEmpty()){
             for(StudentAttributes student : students){
-                responseStatus.noResponse.add(student.name);
-                responseStatus.emailNameTable.put(student.email, student.name);
+                responseStatus.noResponse.add(student.googleId);
+                responseStatus.idNameTable.put(student.googleId, student.name);
             }
         }
 
@@ -1735,22 +1725,19 @@ public class FeedbackSessionsLogic {
                     .getFeedbackQuestionsForInstructor(questions,
                             fsa.isCreator(instructor.email));
             if (!instructorQns.isEmpty()) {
-                if(responseStatus.emailNameTable.get(instructor.email) == null){
-                    responseStatus.noResponse.add(instructor.name);
-                    responseStatus.emailNameTable.put(instructor.email, instructor.name);
+                if(responseStatus.idNameTable.get(instructor.googleId) == null){
+                    responseStatus.noResponse.add(instructor.googleId);
+                    responseStatus.idNameTable.put(instructor.googleId, instructor.name);
                 }
             }
         }
 
-        for(FeedbackResponseAttributes response : responses){
-            String giverName = responseStatus.emailNameTable.get(response.giverEmail);
-            if(giverName != null){
-                responseStatus.noResponse.remove(giverName);
-                responseStatus.hasResponse.add(giverName);
-                responseStatus.emailNameTable.remove(response.giverEmail);
-            }
-        }
-
+        Set<String> respondingList = fsa.respondingStudentList;
+        respondingList.addAll(fsa.respondingInstructorList);
+        
+        responseStatus.hasResponse = new ArrayList<>(respondingList);
+        responseStatus.noResponse.removeAll(respondingList);
+        
         return responseStatus;
     }
 
