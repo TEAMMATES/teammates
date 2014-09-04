@@ -1830,7 +1830,7 @@ public class Logic {
         feedbackSessionsLogic.updateFeedbackSession(updatedSession);
     }
 
-    public void addInstructorRespondant(String googleId, String feedbackSessionName, String courseId) {
+    public void addInstructorRespondant(String googleId, String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
@@ -1839,31 +1839,31 @@ public class Logic {
         feedbackSessionsLogic.addInstructorRespondant(googleId, feedbackSessionName, courseId);
     }
 
-    public void addStudentRespondant(String googleId, String feedbackSessionName, String courseId) {
+    public void addStudentRespondant(String googleId, String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-        feedbackSessionsLogic.addStudentRespondant(googleId, feedbackSessionsName, courseId);
+        feedbackSessionsLogic.addStudentRespondant(googleId, feedbackSessionName, courseId);
     }
 
-    public void deleteInstructorRespondant(String googleId, String feedbackSessionsName, String courseId) {
+    public void deleteInstructorRespondant(String googleId, String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-        feedbackSessionsLogic.deleteInstructorRespondant(googleId, feedbackSessionsName, courseId);
+        feedbackSessionsLogic.deleteInstructorRespondant(googleId, feedbackSessionName, courseId);
     }
 
-    public void deleteStudentRespondant(String googleId, String feedbackSessionsName, String courseId) {
+    public void deleteStudentRespondant(String googleId, String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-        feedbackSessionsLogic.deleteStudentRespondant(googleId, feedbackSessionsName, courseId);
+        feedbackSessionsLogic.deleteStudentRespondant(googleId, feedbackSessionName, courseId);
     }
     
     /**
@@ -2320,6 +2320,15 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, questionId);
 
         return feedbackResponsesLogic.getFeedbackResponsesForQuestion(questionId);
+    }
+
+    public boolean checkIfGiverHasResponsesForSession(String userEmail, String feedbackSessionName, String courseId){
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+        return feedbackResponsesLogic.getFeedbackResponsesFromGiverForSessionWithinRange(userEmail, feedbackSessionName, courseId, 1).size() > 0;
     }
     
     /**

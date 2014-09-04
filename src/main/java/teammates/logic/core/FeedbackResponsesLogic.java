@@ -189,6 +189,11 @@ public class FeedbackResponsesLogic {
                     feedbackQuestionId, userEmail, section);
     }
 
+    public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForSessionWithinRange(
+            String giverEmail, String feedbackSessionName, String courseId, long range) {
+        return frDb.getFeedbackResponsesFromGiverForSessionWithinRange(giverEmail, feedbackSessionName, courseId, range);
+    }
+
     public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForCourse(
             String courseId, String userEmail) {
         return frDb.getFeedbackResponsesForReceiverForCourse(courseId, userEmail);

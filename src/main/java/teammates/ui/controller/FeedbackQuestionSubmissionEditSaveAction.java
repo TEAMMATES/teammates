@@ -88,6 +88,12 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         if (isError == false) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         }
+
+        if(logic.checkIfGiverHasResponsesForSession(userEmailForCourse, feedbackSessionName, courseId)){
+            appendRespondant();
+        } else {
+            removeRespondant();
+        }
         
         getPageData(userEmailForCourse);
         
@@ -186,6 +192,10 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
     }
 
     protected abstract void verifyAccesibleForSpecificUser();
+
+    protected abstract void appendRespondant();
+
+    protected abstract void removeRespondant();
     
     protected abstract String getUserEmailForCourse();
     

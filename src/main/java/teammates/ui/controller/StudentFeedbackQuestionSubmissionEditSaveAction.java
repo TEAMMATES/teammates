@@ -4,6 +4,8 @@ import teammates.common.datatransfer.FeedbackQuestionBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -15,6 +17,24 @@ public class StudentFeedbackQuestionSubmissionEditSaveAction extends
         new GateKeeper().verifyAccessible(
                 getStudent(),
                 logic.getFeedbackSession(feedbackSessionName, courseId));
+    }
+
+    @Override
+    protected void appendRespondant() {
+        try {
+            logic.addStudentRespondant(account.googleId, feedbackSessionName, courseId);
+        } catch (InvalidParametersException | EntityDoesNotExistException e) {
+            Assumption.fail("Fail to append student respondant");
+        }
+    }
+
+    @Override
+    protected void removeRespondant() {
+        try {
+            logic.deleteStudentRespondant(account.googleId, feedbackSessionName, courseId);
+        } catch (InvalidParametersException | EntityDoesNotExistException e) {
+            Assumption.fail("Fail to remove student respondant");
+        }
     }
 
     @Override

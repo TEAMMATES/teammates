@@ -814,13 +814,13 @@ public class FeedbackSessionsLogic {
         fsDb.updateFeedbackSession(newSession);
     }
 
-    public void addInstructorRespondant(String googleId, String feedbackSessionName, String courseId) {
+    public void addInstructorRespondant(String googleId, String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, googleId);
 
-        FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feebackSessionName, courseId);
+        FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
             throw new EntityDoesNotExistException(
                     "Trying to update a feedback session that does not exist.");
@@ -829,13 +829,13 @@ public class FeedbackSessionsLogic {
         fsDb.addInstructorRespondant(googleId, sessionToUpdate);
     }
 
-    public void addStudentRespondant(String googleId, String feedbackSessionName, String courseId) {
+    public void addStudentRespondant(String googleId, String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, googleId);
 
-        FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feebackSessionName, courseId);
+        FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
             throw new EntityDoesNotExistException(
                     "Trying to update a feedback session that does not exist.");
@@ -844,13 +844,13 @@ public class FeedbackSessionsLogic {
         fsDb.addStudentRespondant(googleId, sessionToUpdate);
     }
 
-    public void deleteInstructorRespondant(String googleId, String feedbackSessionName, String courseId) {
+    public void deleteInstructorRespondant(String googleId, String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, googleId);
 
-        FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feebackSessionName, courseId);
+        FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
             throw new EntityDoesNotExistException(
                     "Trying to update a feedback session that does not exist.");
@@ -859,13 +859,13 @@ public class FeedbackSessionsLogic {
         fsDb.deleteInstructorRespondant(googleId, sessionToUpdate);
     }
 
-    public void deleteStudentRespondant(String googleId, String feedbackSessionName, String courseId) {
+    public void deleteStudentRespondant(String googleId, String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, googleId);
 
-        FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feebackSessionName, courseId);
+        FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
         if (sessionToUpdate == null) {
             throw new EntityDoesNotExistException(
                     "Trying to update a feedback session that does not exist.");
