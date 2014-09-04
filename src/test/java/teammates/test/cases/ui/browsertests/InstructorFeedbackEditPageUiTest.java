@@ -235,7 +235,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("edit question 1 to Team-to-Team");
 
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
-        feedbackEditPage.selectGiverTypeForQuestion1("Teams in this course");
+        feedbackEditPage.selectGiverTypeForQuestion1("Teams in this course");        
         feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionEditToTeamToTeam.html");
 
@@ -994,8 +994,18 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         WebElement previewLabel = browser.driver.findElement(By.xpath("//form[@id='form_editquestion-1']//label[@onchange='toggleVisibilityMessage(this)']"));
         
-        boolean isActiveButton = previewLabel.getAttribute("class").contains("active");
-        assertTrue(isActiveButton);
+        boolean isPreviewButtonActive = previewLabel.getAttribute("class").contains("active");
+        assertTrue(!isPreviewButtonActive);
+        
+        boolean isEditButtonActive = editLabel.getAttribute("class").contains("active");
+        assertTrue(isEditButtonActive);
+        
+        WebElement visibilityMessage = browser.driver.findElement(By.xpath("//form[@id='form_editquestion-1']//div[contains(@class, 'visibilityMessage')]"));
+        assertTrue(!visibilityMessage.isDisplayed());
+        
+        WebElement visibilityOptions = browser.driver.findElement(By.xpath("//form[@id='form_editquestion-1']//div[contains(@class, 'visibilityOption')]"));
+        assertTrue(visibilityOptions.isDisplayed());
+        
     }
     
     private void testCopyQuestion() {
