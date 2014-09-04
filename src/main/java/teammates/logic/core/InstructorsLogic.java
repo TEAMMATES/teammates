@@ -33,6 +33,7 @@ public class InstructorsLogic {
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final CommentsLogic commentsLogic = CommentsLogic.inst();
+    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     
     private static Logger log = Utils.getLogger();
     
@@ -325,6 +326,7 @@ public class InstructorsLogic {
     
     public void deleteInstructorCascade(String courseId, String email) {
         commentsLogic.deleteCommentsForInstructor(courseId, email);
+        fsLogic.deleteRespondantsForInstructor(getInstructorForEmail(courseId, email));
         instructorsDb.deleteInstructor(courseId, email);
     }
 

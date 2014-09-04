@@ -52,6 +52,7 @@ public class StudentsLogic {
     private CoursesLogic coursesLogic = CoursesLogic.inst();
     private EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
     private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private AccountsLogic accLogic = AccountsLogic.inst();
     private CommentsLogic commentsLogic = CommentsLogic.inst();
     
@@ -579,14 +580,23 @@ public class StudentsLogic {
         frLogic.deleteFeedbackResponsesForStudentAndCascade(courseId, studentEmail);
         SubmissionsLogic.inst().deleteAllSubmissionsForStudent(courseId, studentEmail);
         commentsLogic.deleteCommentsForStudent(courseId, studentEmail);
+        fsLogic.deleteRespondantsForStudent(getStudentForEmail(courseId, studentEmail));
         studentsDb.deleteStudent(courseId, studentEmail, hasDocument);
     }
 
     public void deleteStudentsForGoogleId(String googleId) {
+        List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
+        for(StudentAttributes student : students) {
+            fsLogic.deleteRespondantsForStudent(student);
+        }
         studentsDb.deleteStudentsForGoogleId(googleId);
     }
 
     public void deleteStudentsForGoogleIdWithoutDocument(String googleId) {
+        List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
+        for(StudentAttributes student : students) {
+            fsLogic.deleteRespondantsForStudent(student);
+        }
         studentsDb.deleteStudentsForGoogleIdWithoutDocument(googleId);
     }
     

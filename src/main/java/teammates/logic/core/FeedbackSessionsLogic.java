@@ -814,6 +814,32 @@ public class FeedbackSessionsLogic {
         fsDb.updateFeedbackSession(newSession);
     }
 
+    public void deleteRespondantsForInstructor(InstructorAttributes instructor) {
+        List<FeedbackSessionAttributes> sessionsToUpdate =
+                fsDb.getFeedbackSessionsForCourse(instructor.courseId);
+
+        for(FeedbackSessionAttributes session : sessionsToUpdate){
+            try {
+                deleteInstructorRespondant(instructor.googleId, session.feedbackSessionName, session.courseId);
+            } catch (InvalidParametersException | EntityDoesNotExistException e) {
+                Assumption.fail("Fail to delete instructor respondant for " + session.feedbackSessionName);
+            }
+        }
+    }
+
+    public void deleteRespondantsForStudent(StudentAttributes student) {    
+        List<FeedbackSessionAttributes> sessionsToUpdate =
+                fsDb.getFeedbackSessionsForCourse(student.course);
+
+        for(FeedbackSessionAttributes session : sessionsToUpdate) {
+            try {
+                deleteStudentRespondant(student.googleId, session.feedbackSessionName, session.courseId);
+            } catch (InvalidParametersException | EntityDoesNotExistException e) {
+                Assumption.fail("Fail to delete instructor respondant for " + session.feedbackSessionName);
+            }
+        }
+    }
+
     public void addInstructorRespondant(String googleId, String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
