@@ -26,7 +26,8 @@ public class AdminActivityLogPageData extends PageData {
      * logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
      * or simply reloaded with this parameter omitted.
      */
-    public boolean ifShowAll;
+    public boolean ifShowAll = false;
+    public boolean ifShowTestData = false;
     
     public String statusForAjax;
     private QueryParameters q;
@@ -38,7 +39,16 @@ public class AdminActivityLogPageData extends PageData {
                                                       Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,                                                      
                                                       //this servlet name is set in CompileLogsServlet
                                                       "logCompilation"};
-
+    
+    public boolean isTestingData(String email){
+        boolean isTestingAccount = false;
+        
+        if(email.contains("tmt")){
+            isTestingAccount = true;
+        }
+        return isTestingAccount;
+    }
+    
     public AdminActivityLogPageData(AccountAttributes account) {
         super(account);
     }
