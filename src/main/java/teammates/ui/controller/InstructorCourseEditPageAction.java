@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -10,20 +11,24 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
 
 /**
  * Action: showing the 'Edit' page for a course of an instructor
  */
 public class InstructorCourseEditPageAction extends Action {
- 
+    
+    protected static final Logger log = Utils.getLogger();
+    
     //TODO: display privileges in the database properly
     @Override
     public ActionResult execute() throws EntityDoesNotExistException { 
                 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
-        String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
+        String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
+        String index = getRequestParamValue(Const.ParamsNames.COURSE_EDIT_MAIN_INDEX);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         CourseAttributes courseToEdit = logic.getCourse(courseId);
@@ -33,12 +38,13 @@ public class InstructorCourseEditPageAction extends Action {
         /* Setup page data for 'Edit' page of a course for an instructor */
         InstructorCourseEditPageData data = new InstructorCourseEditPageData(account);
         data.course = courseToEdit;
-        if(instructorId == null) {
+        if(instructorEmail == null) {
             data.instructorList = logic.getInstructorsForCourse(courseId);
-            data.isAccessControlDisplayed = false;    
+            data.isAccessControlDisplayed = false;   
         } else {
             data.instructorList = new ArrayList<InstructorAttributes>();
-            data.instructorList.add(logic.getInstructorForGoogleId(courseId, instructorId));        
+            data.instructorList.add(logic.getInstructorForEmail(courseId, instructorEmail));
+            data.index = Integer.parseInt(index);        
             data.isAccessControlDisplayed = true;
         }
         

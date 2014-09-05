@@ -104,7 +104,12 @@
         <%
             for (int i = 0; i < data.instructorList.size(); i++) {
                 InstructorAttributes instructor = data.instructorList.get(i);
-                int index = i+1;
+                int index;
+                if(data.index == -1){
+                    index = i + 1;
+                } else {
+                    index = data.index;
+                }
         %>
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -123,7 +128,8 @@
                     <% } %>
                     <form style="display:none;" id="edit-<%=index%>" class="editForm" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE%>">
                         <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=instructor.courseId%>">
-                        <input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="<%=instructor.googleId%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>" value="<%=instructor.email%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_EDIT_MAIN_INDEX%>" value="<%=index%>">
                         <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
                     </form>
                     <a  href="javascript:;" id="instrEditLink<%=index%>" class="btn btn-primary btn-xs"

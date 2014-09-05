@@ -6,6 +6,7 @@ function editFormRequest(e){
 	var form = $(this).prev(".editForm");
 	var formData = form.serialize();
 	var index = $(this).attr("id").replace("instrEditLink", "");
+    console.log(index);
 	var editForm = $("#accessControlEditDivForInstr" + index);
 	var saveButton = $("#btnSaveInstructor" + index);
 
@@ -20,7 +21,7 @@ function editFormRequest(e){
             console.log('Error');
         },
         success : function(data) {
-          	var appendedData = $(data).find('#accessControlEditDivForInstr1').html();
+          	var appendedData = $($(data).find("div[id^=accessControlEditDivForInstr]")[0]).html();
             $(data).remove();
             $(editForm[0]).html(appendedData);
             checkTheRoleThatApplies(index);

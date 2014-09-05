@@ -15,6 +15,7 @@ public class InstructorCourseEditPageData extends PageData {
 
     public InstructorCourseEditPageData(AccountAttributes account) {
         super(account);
+        index = -1;
     }
     
     public CourseAttributes course;
@@ -23,6 +24,7 @@ public class InstructorCourseEditPageData extends PageData {
     public List<String> sectionNames;
     public List<String> evalNames;
     public List<String> feedbackNames;
+    public int index;
     public boolean isAccessControlDisplayed;
 
     public String getInstructorCourseInstructorEditLink(String courseId, String instructorId) {
