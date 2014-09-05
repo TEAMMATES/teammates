@@ -26,6 +26,7 @@
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorCourseEdit.js"></script>
+    <script type="text/javascript" src="/js/instructorCourseEditAjax.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>   
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -120,9 +121,13 @@
                             >
                             <span class="glyphicon glyphicon-envelope"></span> Resend Invite</a>
                     <% } %>
-                    <a href="javascript:;" id="instrEditLink<%=index%>" class="btn btn-primary btn-xs"
+                    <form style="display:none;" id="edit-<%=index%>" class="editForm" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=instructor.courseId%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="<%=instructor.googleId%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                    </form>
+                    <a  href="javascript:;" id="instrEditLink<%=index%>" class="btn btn-primary btn-xs"
                         data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_INSTRUCTOR_EDIT%>"
-                        onclick="enableEditInstructor(<%=index%>, <%=data.instructorList.size()%>)"
                         <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {%>
                         disabled="disabled"
                         <% } %>
@@ -210,9 +215,9 @@
                                 </div>
                             </div>
                         </div>
-
-                        <% if(data.isAccessControlDisplayed) { %>                        
+                       
                         <div id="accessControlEditDivForInstr<%=index%>">
+                             <% if(data.isAccessControlDisplayed) { %> 
                             <div class="form-group">
                                 <div class="col-sm-3">
                                     <label class="control-label pull-right">Access-level</label>
@@ -574,8 +579,8 @@
                                     </div>
                                 </div>
                             </div>
+                            <% } %>
                         </div>
-                        <% } %>
                         <div class="form-group">
                             <div class="align-center">
                                 <input id="btnSaveInstructor<%=index%>" type="submit" class="btn btn-primary"

@@ -306,6 +306,15 @@ function toggleDeleteInstructorConfirmation(courseID, instructorName, isDeleteOw
     }
 }
 
+function bindChangingRole(index){
+	$("input[id^='instructorroleforinstructor" + index + "']").change(function(){
+		var idAttr = $(this).attr('id');
+		var instrNum = parseInt(idAttr.substring(27));
+		var role = $(this).attr("value");
+		checkPrivilegesOfRoleForInstructor(instrNum, role);
+	});
+}
+
 $(function(){
 	var numOfInstr = $("form[id^='formEditInstructor']").length;
 	for (var i=0; i<numOfInstr;i++) {
@@ -314,10 +323,4 @@ $(function(){
 		INSTRUCTOR_COURSE_EDIT_INSTRUCTOR_ACCESS_LEVEL_WHEN_LOADING_PAGE.push(instrRole);
 		checkTheRoleThatApplies(i+1);
 	}
-	$("input[id^='instructorroleforinstructor']").change(function(){
-		var idAttr = $(this).attr('id');
-		var instrNum = parseInt(idAttr.substring(27));
-		var role = $(this).attr("value");
-		checkPrivilegesOfRoleForInstructor(instrNum, role);
-	});
 });
