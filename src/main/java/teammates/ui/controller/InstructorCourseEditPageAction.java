@@ -23,7 +23,8 @@ public class InstructorCourseEditPageAction extends Action {
                 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
-        
+        String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
+
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         CourseAttributes courseToEdit = logic.getCourse(courseId);
          
@@ -32,7 +33,15 @@ public class InstructorCourseEditPageAction extends Action {
         /* Setup page data for 'Edit' page of a course for an instructor */
         InstructorCourseEditPageData data = new InstructorCourseEditPageData(account);
         data.course = courseToEdit;
-        data.instructorList = logic.getInstructorsForCourse(courseId);
+        if(instructorId == null) {
+            data.instructorList = logic.getInstructorsForCourse(courseId);
+            data.isAccessControlDisplayed = false;    
+        } else {
+            data.instructorList = new ArrayList<InstructorAttributes>();
+            data.instructorList.add(logic.getInstructorForGoogleId(courseId, instructorId));        
+            data.isAccessControlDisplayed = true;
+        }
+        
         data.currentInstructor = instructor;
         data.sectionNames = logic.getSectionNamesForCourse(courseId);
         data.evalNames = new ArrayList<String>();

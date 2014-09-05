@@ -211,7 +211,8 @@
                             </div>
                         </div>
 
-                        <div id="accessControlEditDivForInstr<%=index%>" style="display:none;">
+                        <% if(data.isAccessControlDisplayed) { %>                        
+                        <div id="accessControlEditDivForInstr<%=index%>">
                             <div class="form-group">
                                 <div class="col-sm-3">
                                     <label class="control-label pull-right">Access-level</label>
@@ -574,6 +575,7 @@
                                 </div>
                             </div>
                         </div>
+                        <% } %>
                         <div class="form-group">
                             <div class="align-center">
                                 <input id="btnSaveInstructor<%=index%>" type="submit" class="btn btn-primary"
