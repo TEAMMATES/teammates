@@ -27,6 +27,11 @@ public class AdminActivityLogPageData extends PageData {
      * or simply reloaded with this parameter omitted.
      */
     public boolean ifShowAll = false;
+    
+    /**
+     * This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
+     * to show all testing logs
+     */
     public boolean ifShowTestData = false;
     
     public String statusForAjax;
