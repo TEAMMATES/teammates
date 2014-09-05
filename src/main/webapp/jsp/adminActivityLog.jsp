@@ -101,9 +101,18 @@
                                             </span> </h4>                                          
                                             <div class="text-center">                                          
                                             <ul class="list-group">
-                                                <li class="list-group-item">
-                                                    instructorEvalStatsPage
-                                                </li>
+                                            
+                                                <%
+                                                   for(String blocked : AdminActivityLogPageData.excludedLogRequestURIs){
+                                                       int startIndex = blocked.lastIndexOf("/") == -1 ? 0 : blocked.lastIndexOf("/") + 1;
+                                                %>	    
+                                                	   <li class="list-group-item">
+                                                        <%=blocked.substring(startIndex)%>
+                                                       </li>
+                                                <%     
+                                                   }
+                                                %>
+                                                
                                             </ul>
                                             </div>
                                         
