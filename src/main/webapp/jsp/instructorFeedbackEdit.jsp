@@ -663,7 +663,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12 text-muted visibilityMessage">
+                    <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-<%=question.questionNumber%>">
                         This is the visibility as seen by the feedback giver.
                         <ul class="background-color-warning">
                         <%
@@ -677,7 +677,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="visibilityOptions">
+                <div class="visibilityOptions" id="visibilityOptions-<%=question.questionNumber%>">
                     <br>
                     <table class="dataTable participantTable table table-striped text-center">
                         <tr>
