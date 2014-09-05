@@ -1,3 +1,5 @@
+var instructorSize;
+
 function editFormRequest(e){
 	e.preventDefault();
 	var editButton = this;
@@ -21,14 +23,18 @@ function editFormRequest(e){
           	var appendedData = $(data).find('#accessControlEditDivForInstr1').html();
             $(data).remove();
             $(editForm[0]).html(appendedData);
-            $(saveButton).show();
+            checkTheRoleThatApplies(index);
+            bindChangingRole(index);
         	$(editButton).off('click');
-        	bindChangingRole(index);
+            $(editButton).click({instructorIndex: parseInt(index), total: instructorSize}, enableEditInstructor);
+            $(editButton).trigger('click');
         }	
 	});
 
 }
 
 $(document).ready(function(){
-    $("a[id^=instrEditLink]").click(editFormRequest);
+    var editLinks = $("a[id^=instrEditLink]");
+    instructorSize = editLinks.length;
+    $(editLinks).click(editFormRequest);
 });

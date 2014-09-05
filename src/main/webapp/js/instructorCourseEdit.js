@@ -7,7 +7,9 @@ var INSTRUCTOR_COURSE_EDIT_INSTRUCTOR_ACCESS_LEVEL_WHEN_LOADING_PAGE = [];
  * @param instructorNum
  * @param totalInstructors
  */
-function enableEditInstructor(instructorNum, totalInstructors) {
+function enableEditInstructor(event) {
+	var instructorNum = event.data.instructorIndex;
+	var totalInstructors = event.data.total;
     for (var i=1; i<=totalInstructors; i++) {
         if (i == instructorNum) {
             enableFormEditInstructor(i);
