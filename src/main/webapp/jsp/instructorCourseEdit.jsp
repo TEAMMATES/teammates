@@ -115,6 +115,9 @@
             <div class="panel-heading">
                 <strong>Instructor <%=index%>:</strong>
                 <div class="pull-right">
+                    <div class="display-icon" style="display:inline;">
+                    
+                    </div>
                     <% if (instructor.googleId == null) { %>
                         <a href="<%=data.getInstructorCourseInstructorRemindLink(instructor.courseId, instructor.email)%>" id="instrRemindLink<%=index%>"
                             class="btn btn-primary btn-xs"
