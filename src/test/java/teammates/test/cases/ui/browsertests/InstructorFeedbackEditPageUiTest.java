@@ -984,26 +984,24 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     }
     
     private void testChangeFeedbackRecipient() {
+        ______TS("click on Edit visibility then change recipient");
+        
         feedbackEditPage = getFeedbackEditPage();
+        WebElement editLabel = feedbackEditPage.getEditLabel(1);
+        WebElement previewLabel = feedbackEditPage.getPreviewLabel(1);
         
-        feedbackEditPage.clickQuestionEditForQuestion1();
-        WebElement editLabel = browser.driver.findElement(By.xpath("//form[@id='form_editquestion-1']//label[@onchange='toggleVisibilityOptions(this)']"));
-        editLabel.click();
-        
+        feedbackEditPage.clickQuestionEditForQuestion1();      
+        editLabel.click();        
         feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
         
-        WebElement previewLabel = browser.driver.findElement(By.xpath("//form[@id='form_editquestion-1']//label[@onchange='toggleVisibilityMessage(this)']"));
-        
         boolean isPreviewButtonActive = previewLabel.getAttribute("class").contains("active");
-        assertTrue(!isPreviewButtonActive);
-        
+        assertTrue(!isPreviewButtonActive);        
         boolean isEditButtonActive = editLabel.getAttribute("class").contains("active");
         assertTrue(isEditButtonActive);
         
-        WebElement visibilityMessage = browser.driver.findElement(By.xpath("//form[@id='form_editquestion-1']//div[contains(@class, 'visibilityMessage')]"));
-        assertTrue(!visibilityMessage.isDisplayed());
-        
-        WebElement visibilityOptions = browser.driver.findElement(By.xpath("//form[@id='form_editquestion-1']//div[contains(@class, 'visibilityOption')]"));
+        WebElement visibilityMessage = feedbackEditPage.getVisibilityMessage(1);
+        assertTrue(!visibilityMessage.isDisplayed());        
+        WebElement visibilityOptions = feedbackEditPage.getVisibilityOptions(1);
         assertTrue(visibilityOptions.isDisplayed());
         
     }

@@ -635,12 +635,12 @@
                 <div class="row">
                     <br><br>
                     <div class="col-sm-6 btn-group" data-toggle="buttons">
-                        <label class="btn btn-xs btn-info visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
+                        <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-<%=question.questionNumber%>" onchange="toggleVisibilityOptions(this)">
                             <input type="radio">
                                 <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
                             </input>
                         </label>
-                        <label class="btn btn-xs btn-info active visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+                        <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-<%=question.questionNumber%>" onchange="toggleVisibilityMessage(this)">
                             <input type="radio">
                                 <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
                             </input>
