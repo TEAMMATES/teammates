@@ -212,6 +212,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
        
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestion.html");
         
+        ______TS("Ajax for view by question for helper");
+        
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.helper", "Open Session", true, "question");
+        
+        resultsPage.clickAjaxPanel(0);
+        
+        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestionHelperView.html");
         
         ______TS("Ajax for view by giver > recipient > question");
         
