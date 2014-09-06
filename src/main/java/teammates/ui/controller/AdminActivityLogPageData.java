@@ -48,7 +48,7 @@ public class AdminActivityLogPageData extends PageData {
     public boolean isTestingData(String email){
         boolean isTestingAccount = false;
         
-        if(email.contains("tmt")){
+        if(email.endsWith(".tmt")){
             isTestingAccount = true;
         }
         return isTestingAccount;
