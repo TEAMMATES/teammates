@@ -57,7 +57,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         
         ______TS("fail: giver is not instructor");
         c.courseId = existingComment1.courseId;
-        c.giverEmail = "student2InCourse1@gmail.com";
+        c.giverEmail = "student2InCourse1@gmail.tmt";
         c.commentText = new Text("Invalid comment from student to student");
         
         verifyExceptionThrownFromCreateFrComment(c,
@@ -65,7 +65,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
                 + c.courseId + ".");
         
         ______TS("fail: giver is not an instructor for the course");
-        c.giverEmail = "instructor1@course2.com";
+        c.giverEmail = "instructor1@course2.tmt";
         c.commentText = new Text("Invalid Comment from instructor1Course2 to student1Course1");
 
         verifyExceptionThrownFromCreateFrComment(c,
@@ -75,9 +75,9 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         ______TS("typical case");
         
         c.courseId = "idOfTypicalCourse1";
-        c.giverEmail = "instructor2@course1.com";
+        c.giverEmail = "instructor2@course1.tmt";
         c.recipients = new HashSet<String>();
-        c.recipients.add("student3InCourse1@gmail.com");
+        c.recipients.add("student3InCourse1@gmail.tmt");
         c.createdAt = new Date();
         c.commentText = new Text("New Comment from instructor2 to student3 in course 1");
         

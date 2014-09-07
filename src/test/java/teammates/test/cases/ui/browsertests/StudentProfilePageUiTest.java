@@ -78,9 +78,9 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         
         ______TS("typical success case, no picture");
         
-        profilePage.editProfileThroughUi("", "short.name", "e@email.com", "inst", "Usual Nationality", 
+        profilePage.editProfileThroughUi("", "short.name", "e@email.tmt", "inst", "Usual Nationality", 
                 "female", "this is enough!$%&*</>");
-        profilePage.ensureProfileContains("short.name", "e@email.com", "inst", "Usual Nationality", 
+        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality", 
                 "female", "this is enough!$%&*</>");
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_EDITED);
         
@@ -88,12 +88,12 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         ______TS("invalid data");
         
         StudentProfileAttributes spa = new StudentProfileAttributes("valid.id", "$$short.name", 
-                "e@email.com", " inst  ", StringHelper.generateStringOfLength(54), 
+                "e@email.tmt", " inst  ", StringHelper.generateStringOfLength(54), 
                 "male", "this is enough!$%&*</>", "");
         profilePage.editProfileThroughUi("", spa.shortName, spa.email, spa.institute, 
                 spa.nationality, spa.gender, spa.moreInfo);
         
-        profilePage.ensureProfileContains("short.name", "e@email.com", "inst", "Usual Nationality", 
+        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality", 
                 "female", "this is enough!$%&*</>");
         
         profilePage.verifyStatus(StringHelper.toString(spa.getInvalidityInfo(), " "));
@@ -107,7 +107,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.isElementVisible("studentPhotoUploader");
         
         profilePage.editProfilePhoto();
-        profilePage.ensureProfileContains("short.name", "e@email.com", "inst", "Usual Nationality", 
+        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality", 
                 "female", "this is enough!$%&*</>");
         profilePage.verifyPhotoSize(150, 150);
         

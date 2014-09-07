@@ -723,7 +723,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         // reconfigure points of an existing evaluation in the datastore
         course = dataBundle.courses.get("typicalCourse1");
         evaluation = dataBundle.evaluations.get("evaluation1InCourse1");
-        student1email = "student1InCourse1@gmail.com";
+        student1email = "student1InCourse1@gmail.tmt";
     
         // @formatter:off
         TestHelper.setPointsForSubmissions(new int[][] 
@@ -765,13 +765,13 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         assertEquals(teamSize, result.selfEvaluations.size());
     
         // check reviewee of incoming
-        assertEquals("student1InCourse1@gmail.com",
+        assertEquals("student1InCourse1@gmail.tmt",
                 result.outgoing.get(0).reviewee);
-        assertEquals("student2InCourse1@gmail.com",
+        assertEquals("student2InCourse1@gmail.tmt",
                 result.outgoing.get(1).reviewee);
-        assertEquals("student3InCourse1@gmail.com",
+        assertEquals("student3InCourse1@gmail.tmt",
                 result.outgoing.get(2).reviewee);
-        assertEquals("student4InCourse1@gmail.com",
+        assertEquals("student4InCourse1@gmail.tmt",
                 result.outgoing.get(3).reviewee);
     
         // check sorting of 'incoming' (should be sorted feedback)
@@ -784,13 +784,13 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         assertTrue(0 > feedback3.compareTo(feedback4));
     
         // check reviewer of outgoing
-        assertEquals("student3InCourse1@gmail.com",
+        assertEquals("student3InCourse1@gmail.tmt",
                 result.incoming.get(0).reviewer);
-        assertEquals("student2InCourse1@gmail.com",
+        assertEquals("student2InCourse1@gmail.tmt",
                 result.incoming.get(1).reviewer);
-        assertEquals("student4InCourse1@gmail.com",
+        assertEquals("student4InCourse1@gmail.tmt",
                 result.incoming.get(2).reviewer);
-        assertEquals("student1InCourse1@gmail.com",
+        assertEquals("student1InCourse1@gmail.tmt",
                 result.incoming.get(3).reviewer);
     
         // check some random values from submission lists
@@ -828,7 +828,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
     
         try {
             evaluationsLogic.getEvaluationResultForStudent(course.id, evaluation.name,
-                    "non-existent@email.com");
+                    "non-existent@email.tmt");
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist", e.getMessage());
@@ -911,15 +911,15 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         ______TS("Typical case");
 
         EvaluationAttributes evaluation1InCourse1 = dataBundle.evaluations.get("evaluation1InCourse1");
-        String student1Email = "student1InCourse1@gmail.com";
-        String student2Email = "student2InCourse1@gmail.com";
+        String student1Email = "student1InCourse1@gmail.tmt";
+        String student2Email = "student2InCourse1@gmail.tmt";
 
         assertTrue(evaluationsLogic.isEvaluationCompletedByStudent(evaluation1InCourse1, student1Email));
         assertFalse(evaluationsLogic.isEvaluationCompletedByStudent(evaluation1InCourse1, student2Email));
 
         ______TS("Failure case: non-existent student");
 
-        assertFalse(evaluationsLogic.isEvaluationCompletedByStudent(evaluation1InCourse1, "non-existent@email.com"));
+        assertFalse(evaluationsLogic.isEvaluationCompletedByStudent(evaluation1InCourse1, "non-existent@email.tmt"));
 
         ______TS("Failure case: null parameter");
 
@@ -1197,7 +1197,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
 
         evaluationsLogic.adjustSubmissionsForNewStudentInEvaluation(course.id,
-                "incoming@student.com", student.team, evaluation1.name);
+                "incoming@student.tmt", student.team, evaluation1.name);
 
         // We have a 5-member team and a 1-member team.
         // Therefore, we expect (5*5)+(1*1)=26 submissions.
@@ -1206,21 +1206,21 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         
         // Check the same for the other evaluation, to detect any state leakage
         evaluationsLogic.adjustSubmissionsForNewStudentInEvaluation(course.id,
-                "incoming@student.com", student.team, evaluation2.name);
+                "incoming@student.tmt", student.team, evaluation2.name);
         submissions = submissionsLogic.getSubmissionsForEvaluation(course.id, evaluation2.name);
         assertEquals(26, submissions.size());
         
         ______TS("Moving to new team");
         
         evaluationsLogic.adjustSubmissionsForNewStudentInEvaluation(course.id,
-                "incoming@student.com", "new team", evaluation1.name);
+                "incoming@student.tmt", "new team", evaluation1.name);
         //There should be one more submission now.
         submissions = submissionsLogic.getSubmissionsForEvaluation(course.id, evaluation1.name);
         assertEquals(27, submissions.size());
         
         // Check the same for the other evaluation
         evaluationsLogic.adjustSubmissionsForNewStudentInEvaluation(course.id,
-                "incoming@student.com", "new team", evaluation2.name);
+                "incoming@student.tmt", "new team", evaluation2.name);
         //There should be one more submission now.
         submissions = submissionsLogic.getSubmissionsForEvaluation(course.id, evaluation2.name);
         assertEquals(27, submissions.size());
@@ -1229,7 +1229,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 
         try {
             evaluationsLogic.adjustSubmissionsForNewStudentInEvaluation(course.id,
-                "incoming.student.com", "new team", evaluation2.name);
+                "incoming.student.tmt", "new team", evaluation2.name);
             signalFailureToDetectException();
         } catch(InvalidParametersException e) {
             AssertHelper.assertContains("Invalid email address", e.getMessage());
@@ -1237,7 +1237,7 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
 
         try {
             evaluationsLogic.adjustSubmissionsForNewStudentInEvaluation("invalid id",
-                "incoming@student.com", "new team", evaluation2.name);
+                "incoming@student.tmt", "new team", evaluation2.name);
             signalFailureToDetectException();
         } catch(InvalidParametersException e) {
             AssertHelper.assertContains("is not acceptable to TEAMMATES as a Course ID"

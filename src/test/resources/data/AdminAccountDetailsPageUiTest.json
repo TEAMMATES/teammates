@@ -4,8 +4,8 @@
       "googleId": "AAMgtUiT.instr2",
       "name": "Teammates Instr2",
       "isInstructor": true,
-      "email": "AAMgtUiT.instr2@gmail.com",
-      "institute": "National University of Singapore"
+      "email": "AAMgtUiT.instr2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     }
   },
 
@@ -14,7 +14,7 @@
       "googleId": "AAMgtUiT.instr2",
       "courseId": "AAMgtUiT.CS2104",
       "name": "Teammates Instr2",
-      "email": "AAMgtUiT.instr2@gmail.com",
+      "email": "AAMgtUiT.instr2@gmail.tmt",
       "role":"Co-owner",
       "displayedName":"Co-owner",
       "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -23,7 +23,7 @@
       "googleId": "AAMgtUiT.instr2",
       "courseId": "AAMgtUiT.CS2103",
       "name": "Teammates Instr2",
-      "email": "AAMgtUiT.instr2@gmail.com",
+      "email": "AAMgtUiT.instr2@gmail.tmt",
       "role":"Co-owner",
       "displayedName":"Co-owner",
       "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -32,7 +32,7 @@
       "googleId": "AAMgtUiT.instr2",
       "courseId": "AAMgtUiT.CS1101",
       "name": "Teammates Instr2",
-      "email": "AAMgtUiT.instr2@gmail.com",
+      "email": "AAMgtUiT.instr2@gmail.tmt",
       "role":"Co-owner",
       "displayedName":"Co-owner",
       "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -55,7 +55,7 @@
   "students": {
     "AAMgtUiT.instr2-student": {
       "googleId": "AAMgtUiT.instr2",
-      "email": "AAMgtUiT.instr2@gmail.com",
+      "email": "AAMgtUiT.instr2@gmail.tmt",
       "course": "AAMgtUiT.CS1101",
       "name": "Teammates Instr2",
       "comments": "This is an instructor",

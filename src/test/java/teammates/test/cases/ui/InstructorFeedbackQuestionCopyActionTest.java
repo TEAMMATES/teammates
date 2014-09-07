@@ -82,7 +82,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionCopy|||instructorFeedbackQuestionCopy|||true|||"
-                + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                 + "Created Feedback Question for Feedback Session:<span class=\"bold\">(Second feedback session)"
                 + "</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span> created.<br><span class=\"bold\">"
                 + "Essay question:</span> What is the best selling point of your product?Created Feedback Question for "
@@ -113,7 +113,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionCopy|||instructorFeedbackQuestionCopy|||true|||"
-                + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                 + "|||/page/instructorFeedbackQuestionCopy";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
@@ -144,7 +144,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackQuestionCopy|||instructorFeedbackQuestionCopy|||true|||"
-                + "Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+                + "Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                 + "Created Feedback Question for Feedback Session:<span class=\"bold\">(Second feedback session)</span> "
                 + "for Course <span class=\"bold\">[idOfTypicalCourse1]</span> created.<br><span class=\"bold\">"
                 + "Essay question:</span> My comments on the class|||/page/instructorFeedbackQuestionCopy";

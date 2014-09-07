@@ -346,7 +346,7 @@
                                         %></span></div>
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
-                                                <div class="pull-left"><%=data.bundle.getResponseAnswerHtml(singleResponse, question)%></div>
+                                                <div class="pull-left text-preserve-space"><%=data.bundle.getResponseAnswerHtml(singleResponse, question)%></div>
                                                 <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" 
                                                     onclick="showResponseCommentAddForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>)"
                                                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_ADD%>"

@@ -41,9 +41,9 @@ public class InstructorCourseInstructorAddAction extends Action {
         
         /* Process adding the instructor and setup status to be shown to user and admin */
         try {
-            logic.createInstructor(instructorToAdd);
-            logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
-            
+            InstructorAttributes newInstructor = logic.createInstructor(instructorToAdd);
+            logic.sendRegistrationInviteToInstructor(courseId, newInstructor);
+
             statusToUser.add(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
                     instructorName, instructorEmail));
             statusToAdmin = "New instructor (<span class=\"bold\"> " + instructorEmail + "</span>)"

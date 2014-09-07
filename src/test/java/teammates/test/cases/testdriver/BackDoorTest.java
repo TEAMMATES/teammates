@@ -181,7 +181,7 @@ public class BackDoorTest extends BaseTestCase {
         AccountAttributes testAccount = dataBundle.accounts.get("instructor1OfCourse1");
         verifyPresentInDatastore(testAccount);
         testAccount.name = "New name";
-        testAccount.institute = "NTU";
+        testAccount.institute = "TEAMMATES Test Institute 7";
         BackDoor.editAccount(testAccount);
         verifyPresentInDatastore(testAccount);
     }

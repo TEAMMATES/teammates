@@ -40,7 +40,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         gaeSimulation.loginAsInstructor(instructorId);
         
         String newInstructorName = "New Instructor Name";
-        String newInstructorEmail = "ICIAAT.newInstructor@email.com";
+        String newInstructorEmail = "ICIAAT.newInstructor@email.tmt";
         
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
@@ -85,12 +85,12 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
 
         expectedLogSegment = "TEAMMATESLOG|||instructorCourseInstructorAdd|||instructorCourseInstructorAdd"
                 + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1"
-                + "|||instr1@course1.com|||Servlet Action Failure : Trying to create a Instructor that exists: idOfTypicalCourse1/ICIAAT.newInstructor@email.com"
+                + "|||instr1@course1.tmt|||Servlet Action Failure : Trying to create a Instructor that exists: idOfTypicalCourse1/ICIAAT.newInstructor@email.tmt"
                 + "|||/page/instructorCourseInstructorAdd";
         assertEquals(expectedLogSegment, addAction.getLogMessage());
         
         ______TS("Error: try to add an instructor with invalid email");
-        String newInvalidInstructorEmail = "ICIAAT.newInvalidInstructor.email.com";
+        String newInvalidInstructorEmail = "ICIAAT.newInvalidInstructor.email.tmt";
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
@@ -108,7 +108,7 @@ public class InstructorCourseInstructorAddActionTest extends BaseActionTest {
         assertEquals(String.format(Const.StatusMessages.INVALID_EMAIL,newInvalidInstructorEmail), redirectResult.getStatusMessage());
             
         expectedLogSegment = "TEAMMATESLOG|||instructorCourseInstructorAdd|||instructorCourseInstructorAdd"
-               + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com"
+               + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt"
                + "|||Servlet Action Failure : " + String.format(Const.StatusMessages.INVALID_EMAIL,newInvalidInstructorEmail) 
                + "|||/page/instructorCourseInstructorAdd";
         assertEquals(expectedLogSegment, addAction.getLogMessage());

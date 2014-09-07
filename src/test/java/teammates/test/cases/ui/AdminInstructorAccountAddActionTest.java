@@ -44,8 +44,8 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
     public void testExecuteAndPostProcess() throws Exception{
         final String newInstructorShortName = "James";
         final String name = "JamesBond";
-        final String email = "jamesbond89@gmail.com";
-        final String institute = "National University of Singapore";
+        final String email = "jamesbond89@gmail.tmt";
+        final String institute = "TEAMMATES Test Institute 1";
         final String adminUserId = "admin.user";
         
         ______TS("Not enough parameters");
@@ -129,7 +129,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         assertEquals(Const.ActionURIs.ADMIN_HOME_PAGE + "?error=false&user=" + adminUserId, r.getDestinationWithParams());
         
         // delete the comment that was created
-        CommentAttributes comment = CommentsLogic.inst().getCommentsForReceiver(getDemoCourseIdRoot(email), CommentRecipientType.PERSON,  "alice.b.tmms@gmail.com").get(0);
+        CommentAttributes comment = CommentsLogic.inst().getCommentsForReceiver(getDemoCourseIdRoot(email), CommentRecipientType.PERSON,  "alice.b.tmms@gmail.tmt").get(0);
         CommentsLogic.inst().deleteComment(comment);
         new Logic().deleteCourse(getDemoCourseIdRoot(email));
     }
@@ -141,7 +141,7 @@ public class AdminInstructorAccountAddActionTest extends BaseActionTest {
         generateNextDemoCourseId = a.getClass().getDeclaredMethod("generateNextDemoCourseId", String.class, int.class);
         generateNextDemoCourseId.setAccessible(true);
         final String normalIdSuffix = ".gma-demo";
-        final String atEmail = "@gmail.com";
+        final String atEmail = "@gmail.tmt";
         final int normalIdSuffixLength = normalIdSuffix.length();  //9
         final String strShortWithWordDemo = StringHelper.generateStringOfLength((maximumIdLength - normalIdSuffixLength)/2) + "-demo";
         final String strWayShorterThanMaxium = StringHelper.generateStringOfLength((maximumIdLength - normalIdSuffixLength)/2);
