@@ -24,6 +24,10 @@ public class AdminAccountManagementPageAction extends Action {
         @SuppressWarnings("deprecation") //This method is deprecated to prevent unintended usage. This is an intended usage.
         List<AccountAttributes> allInstructorAccountsList = logic.getInstructorAccounts();
         
+        boolean isToShowAll = this.getRequestParamAsBoolean("all");
+        
+        data.isToShowAll = isToShowAll;
+        
         data.instructorCoursesTable = new HashMap<String, ArrayList<InstructorAttributes>>();
         data.instructorAccountsTable = new HashMap<String, AccountAttributes>();
         
@@ -46,5 +50,5 @@ public class AdminAccountManagementPageAction extends Action {
         
         return createShowPageResult(Const.ViewURIs.ADMIN_ACCOUNT_MANAGEMENT, data);
     }
-
+    
 }
