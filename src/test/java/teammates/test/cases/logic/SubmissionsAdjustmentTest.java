@@ -268,7 +268,7 @@ public class SubmissionsAdjustmentTest extends
         newStudent.team = "Team 1.1";
         newStudent.section = "Section 1";
         newStudent.course = "idOfTypicalCourse1";
-        newStudent.email = "random@g";
+        newStudent.email = "random@g.tmt";
         newStudent.name = "someName";
         newStudent.comments = "comments";
         
