@@ -51,7 +51,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         
         for(Student s: allStudents){
             if(!isTestingStudentData(s)){
-                set.add(s.getEmail());
+                set.add(s.getEmail().toLowerCase());
                 totalRealStudent ++;
             }
             
