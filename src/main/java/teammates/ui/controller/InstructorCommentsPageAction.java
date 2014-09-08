@@ -68,7 +68,7 @@ public class InstructorCommentsPageAction extends Action {
         
         CourseRoster roster = null;
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new HashMap<String, List<CommentAttributes>>();
-        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = new HashMap<String, FeedbackSessionResultsBundle>();
+        List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<FeedbackSessionAttributes>();
         if(coursePaginationList.size() > 0){
         //Load details of students and instructors once and pass it to callee methods
         //  (rather than loading them many times).
@@ -78,13 +78,13 @@ public class InstructorCommentsPageAction extends Action {
 
             //Prepare comments data
             giverEmailToCommentsMap = getGiverEmailToCommentsMap();
-            feedbackResultBundles = getFeedbackResultBundles(roster);
+            feedbackSessions = getFeedbackSessions();
         }
         
         data.coursePaginationList = coursePaginationList;
         data.comments = giverEmailToCommentsMap;
         data.roster = roster;
-        data.feedbackResultBundles = feedbackResultBundles;
+        data.feedbackSessions = feedbackSessions;
         data.instructorEmail = instructor != null? instructor.email : "no-email";
         data.previousPageLink = previousPageLink;
         data.nextPageLink = nextPageLink;
@@ -205,62 +205,8 @@ public class InstructorCommentsPageAction extends Action {
         }
     }
 
-    private Map<String, FeedbackSessionResultsBundle> getFeedbackResultBundles(CourseRoster roster)
-            throws EntityDoesNotExistException {
-        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = new HashMap<String, FeedbackSessionResultsBundle>();
-        if(!isViewingDraft){
+    private List<FeedbackSessionAttributes> getFeedbackSessions() {
             List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsForCourse(courseId);
-            for(FeedbackSessionAttributes fs : fsList){
-                FeedbackSessionResultsBundle bundle = 
-                        logic.getFeedbackSessionResultsForInstructor(
-                                fs.feedbackSessionName, courseId, instructor.email, roster, !IS_INCLUDE_RESPONSE_STATUS);
-                if(bundle != null){
-                    removeQuestionsAndResponsesWithoutFeedbackResponseComment(bundle);
-                    removeQuestionsAndResponsesIfNotAllowed(bundle);
-                    if(bundle.questions.size() != 0){
-                        feedbackResultBundles.put(fs.feedbackSessionName, bundle);
-                    }
-                }
-            }
-        }
-        return feedbackResultBundles;
-    }
-
-    private void removeQuestionsAndResponsesIfNotAllowed(FeedbackSessionResultsBundle bundle) {
-        Iterator<FeedbackResponseAttributes> iter = bundle.responses.iterator();
-        while (iter.hasNext()) {
-            FeedbackResponseAttributes fdr = iter.next();
-            if (!(data.currentInstructor != null &&
-                    data.currentInstructor.isAllowedForPrivilege(fdr.giverSection, 
-                            fdr.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)
-                    && data.currentInstructor.isAllowedForPrivilege(fdr.recipientSection, 
-                            fdr.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))) {
-                iter.remove();
-            }
-        }
-    }
-
-    private void removeQuestionsAndResponsesWithoutFeedbackResponseComment(FeedbackSessionResultsBundle bundle) {
-        List<FeedbackResponseAttributes> responsesWithFeedbackResponseComment = new ArrayList<FeedbackResponseAttributes>();
-        for(FeedbackResponseAttributes fr: bundle.responses){
-            List<FeedbackResponseCommentAttributes> frComment = bundle.responseComments.get(fr.getId());
-            if(frComment != null && frComment.size() != 0){
-                responsesWithFeedbackResponseComment.add(fr);
-                for(FeedbackResponseCommentAttributes frc: frComment){
-                    if(frc.sendingState == CommentSendingState.PENDING && bundle.feedbackSession.isPublished()){
-                        numberOfPendingComments++;
-                    }
-                }
-            }
-        }
-        Map<String, FeedbackQuestionAttributes> questionsWithFeedbackResponseComment = new HashMap<String, FeedbackQuestionAttributes>();
-        for(FeedbackResponseAttributes fr: responsesWithFeedbackResponseComment){
-            FeedbackQuestionAttributes qn = bundle.questions.get(fr.feedbackQuestionId);
-            if(questionsWithFeedbackResponseComment.get(qn.getId()) == null){
-                questionsWithFeedbackResponseComment.put(qn.getId(), qn);
-            }
-        }
-        bundle.questions = questionsWithFeedbackResponseComment;
-        bundle.responses = responsesWithFeedbackResponseComment;
+        return fsList;
     }
 }

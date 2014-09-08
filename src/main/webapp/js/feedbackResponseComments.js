@@ -178,7 +178,7 @@ var deleteCommentHandler = function(e) {
     });
 };
 
-$(document).ready(function(){
+function registerResponseCommentsEvent(){
     $("form[class*='responseCommentAddForm'] > div > a").click(addCommentHandler);
     $("form[class*='responseCommentEditForm'] > div > a").click(editCommentHandler);
     $("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
@@ -200,7 +200,25 @@ $(document).ready(function(){
     });
     
     $("div[id^=plainCommentText]").css("margin-left","15px");
-});
+}
+
+function enableHoverToDisplayEditOptions(){
+	//show on hover for comment
+	  $('.comments > .list-group-item').hover(
+	     function(){
+		  $("a[type='button']", this).show();
+	  }, function(){
+		  $("a[type='button']", this).hide();
+	  });
+}
+
+function enableTooltip(){
+	$(function() { 
+	    $("[data-toggle='tooltip']").tooltip({html: true, container: 'body'}); 
+	});
+}
+
+$(document).ready(registerResponseCommentsEvent);
 
 function generateNewCommentRow(data) {
 	var commentDate = new Date(data.comment.createdAt);
@@ -358,4 +376,20 @@ function showNewlyAddedResponseCommentEditForm(addedIndex) {
         $("#responseCommentEditForm-"+addedIndex).prev().remove();
     }
     $("#responseCommentEditForm-"+addedIndex).show();
+}
+
+function loadFeedbackResponseComments(user, courseId, fsName, sender) {
+	var panelBody = $(sender).parent().find('div[class^="panel-body"]');
+	var fsNameForUrl = fsName.split(' ').join('+');
+	var url = "/page/instructorFeedbackResponseCommentsLoad?user=" + user + "&courseid=" + courseId + "&fsname=" + fsNameForUrl;
+	$(sender).find('div[id="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
+	panelBody.load(url, function( response, status, xhr ) {
+	  if (status == "success") {
+		  panelBody.removeClass('hidden');
+		  registerResponseCommentsEvent();
+		  enableHoverToDisplayEditOptions();
+		  enableTooltip();
+	  }
+	  $(sender).find('div[id="placeholder-img-loading"]').html("");
+	});
 }

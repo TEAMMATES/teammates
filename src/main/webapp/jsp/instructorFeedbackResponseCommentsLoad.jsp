@@ -768,4 +768,14 @@
     }//FeedbackQuestion loop ends
 
     }//FeedbackSession loop ends
+    if(data.feedbackResultBundles.keySet().size() == 0){
 %>
+<div id="no-comment-panel" style="">
+    <br>
+    <div class="panel panel-primary">
+        <div class="panel-body">
+            You don't have any comment in this session.
+        </div>
+    </div>
+</div>
+<% } %>

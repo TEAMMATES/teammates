@@ -83,3 +83,7 @@
 #footerComponent{
     z-index: 999;
 }
+
+.panel-heading {
+    cursor: pointer;
+}
