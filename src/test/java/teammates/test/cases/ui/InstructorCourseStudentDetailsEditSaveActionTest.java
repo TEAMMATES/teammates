@@ -3,7 +3,6 @@ package teammates.test.cases.ui;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -13,7 +12,6 @@ import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.AccountsLogic;
-import teammates.logic.core.StudentsLogic;
 import teammates.ui.controller.InstructorCourseStudentDetailsEditSaveAction;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
@@ -206,7 +204,7 @@ public class InstructorCourseStudentDetailsEditSaveActionTest extends BaseAction
         AccountsLogic.inst().deleteAccountCascade(student1InCourse1.googleId);
         
         
-        ______TS("Unsuccessful case: test student email parameter");
+        ______TS("Unsuccessful case: test null student email parameter");
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId
         };

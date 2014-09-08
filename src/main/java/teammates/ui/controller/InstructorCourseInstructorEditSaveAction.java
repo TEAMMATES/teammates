@@ -22,12 +22,12 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         String instructorName = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_NAME);
-        Assumption.assertNotNull(instructorName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_NAME, instructorName);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-        Assumption.assertNotNull(instructorEmail);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
