@@ -772,10 +772,12 @@
 %>
 <div id="no-comment-panel" style="">
     <br>
-    <div class="panel panel-primary">
-        <div class="panel-body">
-            You don't have any comment in this session.
-        </div>
+    <div class="panel panel-info">
+        <ul class="list-group comments">
+            <li class="list-group-item list-group-item-warning">
+                You don't have any comment in this session.
+            </li>
+        </ul>
     </div>
 </div>
 <% } %>
