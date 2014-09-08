@@ -598,7 +598,7 @@
                             <div class="panel panel-info">
                                 <ul class="list-group comments">
                                     <li class="list-group-item list-group-item-danger">
-                                        Failed to load response comments for this session.
+                                        Failed to load response comments for this session. Please try again later.
                                     </li>
                                 </ul>
                             </div>
