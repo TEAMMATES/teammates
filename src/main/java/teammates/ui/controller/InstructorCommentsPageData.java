@@ -11,7 +11,6 @@ import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.logic.api.Logic;

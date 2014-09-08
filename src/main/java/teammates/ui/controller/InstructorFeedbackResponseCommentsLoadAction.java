@@ -58,6 +58,7 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         return feedbackResultBundles;
     }
 
+    //TODO: update this part's logic, refer to issue #2368
     private void removeQuestionsAndResponsesIfNotAllowed(FeedbackSessionResultsBundle bundle) {
         Iterator<FeedbackResponseAttributes> iter = bundle.responses.iterator();
         while (iter.hasNext()) {

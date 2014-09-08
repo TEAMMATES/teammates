@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -11,11 +10,7 @@ import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
@@ -27,7 +22,6 @@ import teammates.logic.api.GateKeeper;
 public class InstructorCommentsPageAction extends Action {
 
     public static final String COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION = "comments_page_displayarchive";
-    private static final Boolean IS_INCLUDE_RESPONSE_STATUS = true;
     
     private InstructorCommentsPageData data;
     private String courseId;
@@ -37,7 +31,6 @@ public class InstructorCommentsPageAction extends Action {
     private String previousPageLink = "javascript:;";
     private String nextPageLink = "javascript:;";
     private InstructorAttributes instructor;
-    private int numberOfPendingComments = 0;
     
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
@@ -88,7 +81,8 @@ public class InstructorCommentsPageAction extends Action {
         data.instructorEmail = instructor != null? instructor.email : "no-email";
         data.previousPageLink = previousPageLink;
         data.nextPageLink = nextPageLink;
-        data.numberOfPendingComments = numberOfPendingComments;
+        data.numberOfPendingComments = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size() 
+                + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
         
         statusToAdmin = "instructorComments Page Load<br>" + 
                 "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records " +
@@ -176,9 +170,6 @@ public class InstructorCommentsPageAction extends Action {
             boolean isCurrentInstructorGiver = comment.giverEmail.equals(instructor.email);
             String key = isCurrentInstructorGiver? 
                     InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST: comment.giverEmail;
-            if(comment.sendingState == CommentSendingState.PENDING){
-                numberOfPendingComments++;
-            }
 
             List<CommentAttributes> commentList = giverEmailToCommentsMap.get(key);
             if (commentList == null) {
