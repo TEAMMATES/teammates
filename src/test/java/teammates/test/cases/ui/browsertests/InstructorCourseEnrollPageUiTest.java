@@ -90,13 +90,13 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
 
         enrollString = "Section | Team | Name | Email | Comments\n";
         // Modify team for student within section
-        enrollString += "Section 1| Team 4 | Alice Betsy | alice.b.tmms@gmail.com | This comment has been changed\n";
+        enrollString += "Section 1| Team 4 | Alice Betsy | alice.b.tmms@gmail.tmt | This comment has been changed\n";
         // Modify section and team
-        enrollString += "Section 2| Team 2 | Benny Charles| benny.c.tmms@gmail.com |\n";
+        enrollString += "Section 2| Team 2 | Benny Charles| benny.c.tmms@gmail.tmt |\n";
         // A student with no comment
-        enrollString += "Section 3 | Team 3 |Frank Galoe | frank.g.tmms@gmail.com |\n";
+        enrollString += "Section 3 | Team 3 |Frank Galoe | frank.g.tmms@gmail.tmt |\n";
         // A new student with name containing accented characters
-        enrollString += "Section 1 | Team 1|José Gómez | jose.gomez.tmns@gmail.com | This student name contains accented characters\n";
+        enrollString += "Section 1 | Team 1|José Gómez | jose.gomez.tmns@gmail.tmt | This student name contains accented characters\n";
 
         InstructorCourseEnrollResultPage resultsPage = enrollPage.enroll(enrollString);
         resultsPage.verifyHtmlMainContent("/instructorCourseEnrollPageResult.html");
@@ -127,11 +127,11 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
         
         enrollString = "| Name | Email | | Team | Comments\n";
-        enrollString += "|Alice Betsy | alice.b.tmms@gmail.com || Team 1 | This comment has been changed\n";
+        enrollString += "|Alice Betsy | alice.b.tmms@gmail.tmt || Team 1 | This comment has been changed\n";
         // A student with no comment
-        enrollString += "|Frank Galoe | frank.g.tmms@gmail.com || Team 1 |\n";
+        enrollString += "|Frank Galoe | frank.g.tmms@gmail.tmt || Team 1 |\n";
         // A new student with name containing accented characters
-        enrollString += "|José Gómez | jose.gomez.tmns@gmail.com || Team 3 | This student name contains accented characters\n";
+        enrollString += "|José Gómez | jose.gomez.tmns@gmail.tmt || Team 3 | This student name contains accented characters\n";
                 
         resultsPage = enrollPage.enroll(enrollString);
         resultsPage.verifyHtmlMainContent("/instructorCourseEnrollPageResultForEmptyCourse.html");
@@ -157,7 +157,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
 
         enrollString = "Section | Team | Name | Email | Comments\n";
-        enrollString += "Different Section | Team 1 | Alice Betsy | alice.b.tmms@gmail.com |\n";
+        enrollString += "Different Section | Team 1 | Alice Betsy | alice.b.tmms@gmail.tmt |\n";
 
         enrollPage.enrollUnsuccessfully(enrollString);
         enrollPage.verifyStatus("The team \"Team 1\" is in multiple sections. The team ID should be unique across the entire course and a team cannot be spread across multiple sections."
@@ -195,13 +195,13 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         // A new student with no email input
         enrollString += "Team 3 | Frank Hughe\n";
         // A new student with invalid email input
-        enrollString += "Team 1 | Black Jack | bjack.gmail.com | This student email is invalid\n";
+        enrollString += "Team 1 | Black Jack | bjack.gmail.tmt | This student email is invalid\n";
         // A new student with invalid team name
         enrollString += StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1)
-                        + " | Robert Downey | rob@email.com | This student team name is too long\n";
+                        + " | Robert Downey | rob@email.tmt | This student team name is too long\n";
         // A new student with invalid name
         enrollString += "Team 2 | " + StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1)
-                        + " | longname@email.com | This student name is too long\n";
+                        + " | longname@email.tmt | This student name is too long\n";
                         
         enrollPage.enrollUnsuccessfully(enrollString);
         enrollPage.verifyHtmlMainContent("/instructorCourseEnrollError.html");

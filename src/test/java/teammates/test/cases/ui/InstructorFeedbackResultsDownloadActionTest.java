@@ -8,7 +8,10 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.logic.backdoor.BackDoorLogic;
+import teammates.logic.core.StudentsLogic;
 import teammates.ui.controller.FileDownloadResult;
 import teammates.ui.controller.InstructorFeedbackResultsDownloadAction;
 
@@ -60,6 +63,30 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         assertEquals(expectedFileName, result.getFileName());
         verifyFileContentForSession1InCourse1(result.getFileContent(), session);
         
+        
+        ______TS("Typical successful case: student last name displayed properly after being specified with braces");
+        
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        student1InCourse1.name = "new name {new last name}";
+        StudentsLogic studentsLogic = StudentsLogic.inst();
+        studentsLogic.updateStudentCascade(student1InCourse1.email, student1InCourse1);
+        
+        action = getAction(paramsNormal);
+        result = (FileDownloadResult) action.executeAndPostProcess();
+        
+        expectedDestination = "filedownload?" +
+                              "error=false" +
+                              "&user=idOfInstructor1OfCourse1";
+        assertEquals(expectedDestination, result.getDestinationWithParams());
+        assertFalse(result.isError);
+        assertEquals("", result.getStatusMessage());
+        
+        expectedFileName = session.courseId + "_" + session.feedbackSessionName;
+        assertEquals(expectedFileName, result.getFileName());
+        verifyFileContentForSession1InCourse1WithNewLastName(result.getFileContent(), session);
+        
+        removeAndRestoreTypicalDataInDatastore();
+        
         ______TS("Typical successful case: results within section downloadable");
         
         action = getAction(paramsNormalWithinSection);
@@ -93,9 +120,9 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         
         Question 1,"What is the best selling point of your product?"
         
-        Team,Giver,Recipient's Team,Recipient,Feedback
-        "Team 1.1","student1 In Course1","Team 1.1","student1 In Course1","Student 1 self feedback."
-        "Team 1.1","student2 In Course1","Team 1.1","student2 In Course1","I'm cool'"
+        Team,Giver's Full Name,Giver's Last Name,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Feedback
+        "Team 1.1","student1 In Course1","Course1","Team 1.1","student1 In Course1","Course1","Student 1 self feedback."
+        "Team 1.1","student2 In Course1","Course1","Team 1.1","student2 In Course1","Course1","I'm cool'"
         ...
         ==================================
         full testing of file content is 
@@ -115,13 +142,54 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 exportLines[4]);
         assertEquals("",
                 exportLines[5]);
-        assertEquals("Team,Giver,Recipient's Team,Recipient,Feedback",
+        assertEquals("Team,Giver's Full Name,Giver's Last Name,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Feedback",
                 exportLines[6]);
-        assertEquals("\"Team 1.1\",\"student1 In Course1\",\"Team 1.1\",\"student1 In Course1\",\"Student 1 self feedback.\"",
+        assertEquals("\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Student 1 self feedback.\"",
                 exportLines[7]);
-        assertEquals("\"Team 1.1\",\"student2 In Course1\",\"Team 1.1\",\"student2 In Course1\",\"I'm cool'\"",
+        assertEquals("\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"I'm cool'\"",
                 exportLines[8]);
     }
+    
+    
+    private void verifyFileContentForSession1InCourse1WithNewLastName(String fileContent, FeedbackSessionAttributes session) {
+        /* This is what fileContent should look like:
+        ==================================
+        Course,idOfTypicalCourse1
+        Session Name,First feedback session
+        
+        
+        Question 1,"What is the best selling point of your product?"
+        
+        Team,Giver's Full Name,Giver's Last Name,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Feedback
+        "Team 1.1","new name","new last name","Team 1.1","new name","new last name","Student 1 self feedback."
+        "Team 1.1","student2 In Course1","Course1","Team 1.1","student2 In Course1","Course1","I'm cool'"
+        ...
+        ==================================
+        full testing of file content is 
+        in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
+        */
+        
+        String[] exportLines = fileContent.split(Const.EOL);
+        assertEquals("Course,\"" + session.courseId + "\"", 
+                exportLines[0]);
+        assertEquals("Session Name,\"" + session.feedbackSessionName + "\"", 
+                exportLines[1]);
+        assertEquals("", 
+                exportLines[2]);
+        assertEquals("", 
+                exportLines[3]);
+        assertEquals("Question 1,\"What is the best selling point of your product?\"",
+                exportLines[4]);
+        assertEquals("",
+                exportLines[5]);
+        assertEquals("Team,Giver's Full Name,Giver's Last Name,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Feedback",
+                exportLines[6]);
+        assertEquals("\"Team 1.1\",\"new name new last name\",\"new last name\",\"Team 1.1\",\"new name new last name\",\"new last name\",\"Student 1 self feedback.\"",
+                exportLines[7]);
+        assertEquals("\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"I'm cool'\"",
+                exportLines[8]);
+    }
+    
     
     private void verifyFileContentForSession1InCourse1WithinSection1(String fileContent, FeedbackSessionAttributes session) {
         /* This is what fileContent should look like:
@@ -132,9 +200,9 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         
         Question 1,"What is the best selling point of your product?"
         
-        Team,Giver,Recipient's Team,Recipient,Feedback
-        "Team 1.1","student1 In Course1","Team 1.1","student1 In Course1","Student 1 self feedback."
-        "Team 1.1","student2 In Course1","Team 1.1","student2 In Course1","I'm cool'"
+        Team,Giver's Full Name,Giver's Last Name,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Feedback
+        "Team 1.1","student1 In Course1","Course1","Team 1.1","student1 In Course1","Course1","Student 1 self feedback."
+        "Team 1.1","student2 In Course1","Course1","Team 1.1","student2 In Course1","Course1","I'm cool'"
         ...
         ==================================
         full testing of file content is 
@@ -156,11 +224,11 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 exportLines[5]);
         assertEquals("",
                 exportLines[6]);
-        assertEquals("Team,Giver,Recipient's Team,Recipient,Feedback",
+        assertEquals("Team,Giver's Full Name,Giver's Last Name,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Feedback",
                 exportLines[7]);
-        assertEquals("\"Team 1.1\",\"student1 In Course1\",\"Team 1.1\",\"student1 In Course1\",\"Student 1 self feedback.\"",
+        assertEquals("\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Student 1 self feedback.\"",
                 exportLines[8]);
-        assertEquals("\"Team 1.1\",\"student2 In Course1\",\"Team 1.1\",\"student2 In Course1\",\"I'm cool'\"",
+        assertEquals("\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"I'm cool'\"",
                 exportLines[9]);
     }
     

@@ -124,7 +124,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         //create fresh test data
         accountsLogic.createAccount(
                 new AccountAttributes(instructorId, "ICET Instr Name", true,
-                        "instructor@icet.com", "National University of Singapore",
+                        "instructor@icet.tmt", "TEAMMATES Test Institute 1",
                         new StudentProfileAttributes(instructorId, "ICET", "", "", "", "other", "", "")));
         coursesLogic.createCourseAndInstructor(instructorId, instructorCourse, "Course for Enroll Testing");
 
@@ -234,7 +234,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         expectedStudentProfile.googleId = student1.googleId;
         expectedStudentProfile.shortName = "short";
-        expectedStudentProfile.email = "personal@email.com";
+        expectedStudentProfile.email = "personal@email.tmt";
         expectedStudentProfile.institute = "institute";
         expectedStudentProfile.nationality = "Valid Nationality";
         expectedStudentProfile.gender = "female";
@@ -257,7 +257,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
         List<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
         studentList.add(new StudentAttributes("Section 3", "Team 1.3", "New Student", "emailNew@com", "", courseId));
-        studentList.add(new StudentAttributes("Section 2", "Team 1.4", "student2 In Course1", "student2InCourse1@gmail.com","",courseId));
+        studentList.add(new StudentAttributes("Section 2", "Team 1.4", "student2 In Course1", "student2InCourse1@gmail.tmt","",courseId));
         try {
             studentsLogic.validateSections(studentList, courseId);
         } catch (EnrollException e) {
@@ -382,7 +382,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         Emails emailMgr = new Emails();
         @SuppressWarnings("static-access")
         String emailInfo = emailMgr.getEmailInfo(msgToStudent);
-        String expectedEmailInfo = "[Email sent]to=student1InCourse1@gmail.com|from=" + 
+        String expectedEmailInfo = "[Email sent]to=student1InCourse1@gmail.tmt|from=" + 
                 "TEAMMATES Admin <Admin@null.appspotmail.com>|subject=TEAMMATES:" + 
                 " Invitation to join course [Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
         assertEquals(expectedEmailInfo, emailInfo);
@@ -513,16 +513,16 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         String invalidStudentName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
         
         String headerLine = "Team  | Name | Email";
-        String lineWithInvalidTeamName = invalidTeamName + "| John | john@email.com";
+        String lineWithInvalidTeamName = invalidTeamName + "| John | john@email.tmt";
         String lineWithInvalidStudentName = "Team 1 |" + invalidStudentName + 
-                "| student@email.com";
-        String lineWithInvalidEmail = "Team 1 | James |" + "James_invalid_email.com";
+                "| student@email.tmt";
+        String lineWithInvalidEmail = "Team 1 | James |" + "James_invalid_email.tmt";
         String lineWithInvalidStudentNameAndEmail = "Team 2 |" + invalidStudentName + 
-                "|" + "student_invalid_email.com";
+                "|" + "student_invalid_email.tmt";
         String lineWithInvalidTeamNameAndEmail = invalidTeamName + "| Paul |" + 
-                "Paul_invalid_email.com";
+                "Paul_invalid_email.tmt";
         String lineWithInvalidTeamNameAndStudentNameAndEmail = invalidTeamName + "|" + 
-                invalidStudentName + "|" + "invalid_email.com";
+                invalidStudentName + "|" + "invalid_email.tmt";
         
         enrollLines = headerLine + Const.EOL + lineWithInvalidTeamName + Const.EOL + lineWithInvalidStudentName + Const.EOL +
                     lineWithInvalidEmail + Const.EOL + lineWithInvalidStudentNameAndEmail + Const.EOL +
@@ -559,7 +559,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("enrollLines with too few");
         String lineWithNoEmailInput = "Team 4 | StudentWithNoEmailInput";
         String lineWithExtraParameters = "Team 4 | StudentWithExtraParameters | " + 
-               " studentWithExtraParameters@email.com | comment | extra_parameter";
+               " studentWithExtraParameters@email.tmt | comment | extra_parameter";
         
         enrollLines = headerLine + Const.EOL + lineWithNoEmailInput + Const.EOL + lineWithExtraParameters;
         
@@ -575,8 +575,8 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         ______TS("enrollLines with some empty fields");
        
-        String lineWithTeamNameEmpty = "    | StudentWithTeamFieldEmpty | student@email.com";
-        String lineWithStudentNameEmpty = "Team 5 |  | no_name@email.com";
+        String lineWithTeamNameEmpty = "    | StudentWithTeamFieldEmpty | student@email.tmt";
+        String lineWithStudentNameEmpty = "Team 5 |  | no_name@email.tmt";
         String lineWithEmailEmpty = "Team 5 | StudentWithEmailFieldEmpty | |";
         
         enrollLines = headerLine + Const.EOL + lineWithTeamNameEmpty + Const.EOL + lineWithStudentNameEmpty + Const.EOL + lineWithEmailEmpty;
@@ -599,8 +599,8 @@ public class StudentsLogicTest extends BaseComponentTestCase{
 
         ______TS("enrollLines with correct input");
         headerLine = "Team | Name | Email | Comment";
-        String lineWithCorrectInput = "Team 3 | Mary | mary@email.com";
-        String lineWithCorrectInputWithComment = "Team 4 | Benjamin | benjamin@email.com | Foreign student";
+        String lineWithCorrectInput = "Team 3 | Mary | mary@email.tmt";
+        String lineWithCorrectInputWithComment = "Team 4 | Benjamin | benjamin@email.tmt | Foreign student";
         
         enrollLines = headerLine + Const.EOL + lineWithCorrectInput + Const.EOL + lineWithCorrectInputWithComment;
         
@@ -652,10 +652,10 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         String instructorId = "instructorForEnrollTesting";
         String courseIdForEnrollTest = "courseForEnrollTest";
-        String instructorEmail = "instructor@email.com";      
+        String instructorEmail = "instructor@email.tmt";      
         String EOL = Const.EOL;
         AccountAttributes accountToAdd = new AccountAttributes(instructorId, 
-                "Instructor 1", true, instructorEmail, "National University Of Singapore",
+                "Instructor 1", true, instructorEmail, "TEAMMATES Test Institute 1",
                 new StudentProfileAttributes(instructorId, "Ins1", "", "", "", "male", "", ""));
         
         accountsLogic.createAccount(accountToAdd);
@@ -748,7 +748,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("same student added, modified and unmodified");
         
         accountToAdd = new AccountAttributes("tes.instructor", 
-                "Instructor 1", true, "instructor@email.com", "National University Of Singapore",
+                "Instructor 1", true, "instructor@email.tmt", "TEAMMATES Test Institute 1",
                 new StudentProfileAttributes("tes.instructor", "Ins 1", "", "", "", "male", "", ""));
         accountsLogic.createAccount(accountToAdd);
         coursesLogic.createCourseAndInstructor("tes.instructor", "tes.course", "TES Course");
@@ -825,7 +825,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         //reuse existing student to create a new student
         StudentAttributes newStudent = dataBundle.students.get("student4InCourse1");
         String initialEmail = newStudent.email;
-        newStudent.email = "new@student.com";
+        newStudent.email = "new@student.tmt";
         TestHelper.verifyAbsentInDatastore(newStudent);
         
         List<SubmissionAttributes> submissionsBeforeAdding = submissionsLogic.getSubmissionsForCourse(newStudent.course);
@@ -892,7 +892,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("null parameters");
 
         try {
-            studentsLogic.getStudentForEmail(null, "valid@email.com");
+            studentsLogic.getStudentForEmail(null, "valid@email.tmt");
             signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
@@ -900,7 +900,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         ______TS("non-exist student");
         
-        String nonExistStudentEmail = "nonExist@google.com";
+        String nonExistStudentEmail = "nonExist@google.tmt";
         String course1Id = dataBundle.courses.get("typicalCourse1").id;
         assertEquals(null, studentsLogic.getStudentForEmail(course1Id, nonExistStudentEmail));
         
@@ -1163,7 +1163,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         ______TS("non-existent student");
         
-        String nonExistStudentEmail = "nonExist@google.com";
+        String nonExistStudentEmail = "nonExist@google.tmt";
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
         assertFalse(studentsLogic.isStudentInCourse(course1.id, nonExistStudentEmail));
         
@@ -1178,7 +1178,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         ______TS("non-existent student");
         
-        String nonExistStudentEmail = "nonExist@google.com";
+        String nonExistStudentEmail = "nonExist@google.tmt";
         String teamName = "Team 1";
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
         assertFalse(studentsLogic.isStudentInTeam(course1.id, teamName, nonExistStudentEmail));
@@ -1200,7 +1200,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
-        String nonExistStudentEmail = "nonExist@google.com";
+        String nonExistStudentEmail = "nonExist@google.tmt";
         assertFalse(studentsLogic.isStudentsInSameTeam(course1.id, nonExistStudentEmail, student2InCourse1.email));
         
         
@@ -1233,9 +1233,9 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         
         String courseId = dataBundle.courses.get("typicalCourse1").id;
-        StudentAttributes newsStudent0Info = new StudentAttributes("sect", "team", "n0", "e0@google.com", "", courseId);
-        StudentAttributes newsStudent1Info = new StudentAttributes("sect", "team", "n1", "e1@google.com", "", courseId);
-        StudentAttributes newsStudent2Info = new StudentAttributes("sect", "team", "n2", "e2@google.com", "", courseId);
+        StudentAttributes newsStudent0Info = new StudentAttributes("sect", "team", "n0", "e0@google.tmt", "", courseId);
+        StudentAttributes newsStudent1Info = new StudentAttributes("sect", "team", "n1", "e1@google.tmt", "", courseId);
+        StudentAttributes newsStudent2Info = new StudentAttributes("sect", "team", "n2", "e2@google.tmt", "", courseId);
         invokeEnrollStudent(newsStudent0Info);
         invokeEnrollStudent(newsStudent1Info);
         invokeEnrollStudent(newsStudent2Info);
@@ -1245,19 +1245,19 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         Emails emailMgr = new Emails();
         @SuppressWarnings("static-access")
         String emailInfo0 = emailMgr.getEmailInfo(msgsForCourse.get(0));
-        String expectedEmailInfoForEmail0 = "[Email sent]to=e0@google.com|from=TEAMMATES Admin " + 
+        String expectedEmailInfoForEmail0 = "[Email sent]to=e0@google.tmt|from=TEAMMATES Admin " + 
                 "<Admin@null.appspotmail.com>|subject=TEAMMATES: Invitation to join course " + 
                 "[Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
         assertEquals(expectedEmailInfoForEmail0, emailInfo0);
         @SuppressWarnings("static-access")
         String emailInfo1 = emailMgr.getEmailInfo(msgsForCourse.get(1));
-        String expectedEmailInfoForEmail1 = "[Email sent]to=e1@google.com|from=TEAMMATES Admin " + 
+        String expectedEmailInfoForEmail1 = "[Email sent]to=e1@google.tmt|from=TEAMMATES Admin " + 
                 "<Admin@null.appspotmail.com>|subject=TEAMMATES: Invitation to join course " + 
                 "[Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
         assertEquals(expectedEmailInfoForEmail1, emailInfo1);
         @SuppressWarnings("static-access")
         String emailInfo2 = emailMgr.getEmailInfo(msgsForCourse.get(2));
-        String expectedEmailInfoForEmail2 = "[Email sent]to=e2@google.com|from=" + 
+        String expectedEmailInfoForEmail2 = "[Email sent]to=e2@google.tmt|from=" + 
                 "TEAMMATES Admin <Admin@null.appspotmail.com>|subject=TEAMMATES:" + 
                 " Invitation to join course [Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
         assertEquals(expectedEmailInfoForEmail2, emailInfo2);
@@ -1320,7 +1320,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("null parameters");
 
         try {
-            studentsLogic.deleteStudentCascadeWithoutDocument(null, "valid@email.com");
+            studentsLogic.deleteStudentCascadeWithoutDocument(null, "valid@email.tmt");
             signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());

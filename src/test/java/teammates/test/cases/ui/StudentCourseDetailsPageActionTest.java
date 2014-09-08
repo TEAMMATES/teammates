@@ -84,7 +84,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         assertTrue(TestHelper.isSameContentIgnoreOrder(expectedInstructorsList,actualInstructorsList));
 
         String expectedLogMessage = "TEAMMATESLOG|||studentCourseDetailsPage|||studentCourseDetailsPage|||true"
-                + "|||Student|||Student 1 in course 1|||student1InCourse1|||student1InCourse1@gmail.com"
+                + "|||Student|||Student 1 in course 1|||student1InCourse1|||student1InCourse1@gmail.tmt"
                 + "|||studentCourseDetails Page Load<br>Viewing team details for <span class=\"bold\">"
                 + "[idOfTypicalCourse1] Typical Course 1 with 2 Evals</span>|||/page/studentCourseDetailsPage";
 

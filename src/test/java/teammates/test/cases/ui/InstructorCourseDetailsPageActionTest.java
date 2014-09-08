@@ -55,7 +55,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         assertEquals(0, pageData.courseDetails.feedbackSessions.size());
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseDetailsPage|||instructorCourseDetailsPage|||"
-        + "true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.com|||"
+        + "true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
         + "instructorCourseDetails Page Load<br>Viewing Course Details for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
         + "|||/page/instructorCourseDetailsPage";
         assertEquals(expectedLogMessage, pageAction.getLogMessage());
@@ -85,7 +85,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         assertEquals(0, pageData.courseDetails.feedbackSessions.size());
 
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseDetailsPage|||instructorCourseDetailsPage|||"
-        + "true|||Instructor(M)|||Instructor 4 of CourseNoEvals|||idOfInstructor4|||instr4@coursenoevals.com|||"
+        + "true|||Instructor(M)|||Instructor 4 of CourseNoEvals|||idOfInstructor4|||instr4@coursenoevals.tmt|||"
         + "instructorCourseDetails Page Load<br>Viewing Course Details for Course <span class=\"bold\">[idOfCourseNoEvals]</span>|||"
         + "/page/instructorCourseDetailsPage";
         assertEquals(expectedLogMessage, pageAction.getLogMessage());

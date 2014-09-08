@@ -8,6 +8,7 @@ import javax.mail.internet.MimeMessage;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -44,14 +45,43 @@ public class InstructorsLogic {
         return instance;
     }
     
-    public void createInstructor(InstructorAttributes instructorToAdd) 
+    /* ====================================
+     * methods related to google search API
+     * ====================================
+     */
+    
+    public void putDocument(InstructorAttributes instructor){
+        instructorsDb.putDocument(instructor);
+    }
+    
+    public void deleteDocument(InstructorAttributes instructor){
+        instructorsDb.deleteDocument(instructor);
+    }
+    
+    /**
+     * This method should be used by admin only since the searching does not restrict the 
+     * visibility according to the logged-in user's google ID. This is used by admin to
+     * search instructors in the whole system.
+     * @param queryString
+     * @param cursorString
+     * @return null if no result found
+     */
+    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString, String cursorString){
+        return instructorsDb.searchInstructorsInWholeSystem(queryString, cursorString);
+    } 
+    
+    /* ====================================
+     * ====================================
+     */
+    
+    public InstructorAttributes createInstructor(InstructorAttributes instructorToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
         
         Assumption.assertNotNull("Supplied parameter was null", instructorToAdd);
         
         log.info("going to create instructor :\n"+instructorToAdd.toString());
         
-        instructorsDb.createEntity(instructorToAdd);
+        return instructorsDb.createInstructor(instructorToAdd);
     }
     
     
@@ -215,6 +245,10 @@ public class InstructorsLogic {
         instructorsDb.updateInstructorByEmail(instructor);
     }
     
+    /**
+     * Sends a registration email to the instructor
+     * Vulnerable to eventual consistency
+     */
     public MimeMessage sendRegistrationInviteToInstructor(String courseId, String instructorEmail) 
             throws EntityDoesNotExistException {
         
@@ -229,10 +263,39 @@ public class InstructorsLogic {
             throw new EntityDoesNotExistException(
                     "Instructor [" + instructorEmail + "] does not exist in course [" + courseId + "]");
         }
-        
+
         Emails emailMgr = new Emails();
         try {
             MimeMessage email = emailMgr.generateInstructorCourseJoinEmail(course, instructorData);
+            emailMgr.sendEmail(email);
+            
+            return email;
+        } catch (Exception e) {
+            throw new RuntimeException("Unexpected error while sending email", e);
+        }
+        
+    }
+    
+    /**
+     * Sends a registration email using the instructor attributes provided instead of retrieving the instructor
+     * object from the datastore
+     * @param courseId
+     * @param instructor InstructorAttributes object containing the details of the instructor
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException 
+     */
+    public MimeMessage sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor) 
+            throws EntityDoesNotExistException {
+        
+        CourseAttributes course = coursesLogic.getCourse(courseId);
+        if (course == null) {
+            throw new EntityDoesNotExistException(
+                    "Course does not exist [" + courseId + "], trying to send invite email to student [" + instructor.email + "]");
+        }
+
+        Emails emailMgr = new Emails();
+        try {
+            MimeMessage email = emailMgr.generateInstructorCourseJoinEmail(course, instructor);
             emailMgr.sendEmail(email);
             
             return email;

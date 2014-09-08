@@ -264,7 +264,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
         
         actions.click(photoLink).build().perform();
         waitForElementToAppear(By.cssSelector(".popover-content > img"));
-        ThreadHelper.waitFor(500);
         
         AssertHelper.assertContainsRegex(urlRegex, 
                 browser.driver.findElement(By.cssSelector(".popover-content > img"))
@@ -281,8 +280,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
         WebElement photoLink = browser.driver.findElement(By.cssSelector(".popover-content > a"));
         actions.click(photoLink).build().perform();
-        actions.moveByOffset(100, 100).moveToElement(photoDiv).build().perform();
-        ThreadHelper.waitFor(500);
         
         waitForElementToAppear(By.cssSelector(".popover-content > img"));
         

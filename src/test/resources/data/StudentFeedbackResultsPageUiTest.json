@@ -4,43 +4,43 @@
             "googleId":"SFResultsUiT.instr",
             "name":"Teammates Test",
             "isInstructor":true,
-            "email":"SFResultsUiT.instr@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"SFResultsUiT.instr@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "SFResultsUiT.alice.b":{
             "googleId":"SFResultsUiT.alice.b",
             "name":"Alice B.",
             "isInstructor":false,
-            "email":"SFResultsUiT.alice.b@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"SFResultsUiT.alice.b@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "SFResultsUiT.benny.c":{
             "googleId":"SFResultsUiT.benny.c",
             "name":"Benny C.",
             "isInstructor":false,
-            "email":"SFResultsUiT.benny.c@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"SFResultsUiT.benny.c@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "SFResultsUiT.charlie.d":{
             "googleId":"SFResultsUiT.charlie.d",
             "name":"Charlie D.",
             "isInstructor":false,
-            "email":"SFResultsUiT.charlie.d@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"SFResultsUiT.charlie.d@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "SFResultsUiT.danny.e":{
             "googleId":"SFResultsUiT.danny.e",
             "name":"Danny E.",
             "isInstructor":false,
-            "email":"SFResultsUiT.danny.e@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"SFResultsUiT.danny.e@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "SFResultsUiT.emily.f":{
             "googleId":"SFResultsUiT.emily.f",
             "name":"Emily F.",
             "isInstructor":false,
-            "email":"SFResultsUiT.emily.f@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"SFResultsUiT.emily.f@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         }
         
     },
@@ -57,7 +57,7 @@
             "googleId":"SFResultsUiT.instr",
             "courseId":"SFResultsUiT.CS2104",
             "name":"Teammates Test",
-            "email":"SFResultsUiT.instr@gmail.com",
+            "email":"SFResultsUiT.instr@gmail.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -67,7 +67,7 @@
     "students":{
         "Alice":{
             "googleId":"SFResultsUiT.alice.b",
-            "email":"SFResultsUiT.alice.b@gmail.com",
+            "email":"SFResultsUiT.alice.b@gmail.tmt",
             "course":"SFResultsUiT.CS2104",
             "name":"Alice Betsy",
             "comments":"This student's name is Alice Betsy",
@@ -75,7 +75,7 @@
         },
         "Benny":{
             "googleId":"SFResultsUiT.benny.c",
-            "email":"SFResultsUiT.benny.c@gmail.com",
+            "email":"SFResultsUiT.benny.c@gmail.tmt",
             "course":"SFResultsUiT.CS2104",
             "name":"Benny Charles",
             "comments":"This student's name is Benny Charles",
@@ -83,7 +83,7 @@
         },
         "ExtraGuy":{
             "googleId":"extra.guy",
-            "email":"extra.guy@gmail.com",
+            "email":"extra.guy@gmail.tmt",
             "course":"SFResultsUiT.CS2104",
             "name":"Extra guy",
             "comments":"This student will move to a new team after evaluation created",
@@ -91,7 +91,7 @@
         },
         "DropOut":{
             "googleId":"",
-            "email":"drop.out@gmail.com",
+            "email":"drop.out@gmail.tmt",
             "course":"SFResultsUiT.CS2104",
             "name":"Drop out",
             "comments":"This student will drop out after evaluation created",
@@ -99,7 +99,7 @@
         },
         "Charlie":{
             "googleId":"SFResultsUiT.charlie.d",
-            "email":"SFResultsUiT.charlie.d@gmail.com",
+            "email":"SFResultsUiT.charlie.d@gmail.tmt",
             "course":"SFResultsUiT.CS2104",
             "name":"Charlie Davis",
             "comments":"This student's name is Charlie Davis",
@@ -107,7 +107,7 @@
         },
         "Danny":{
             "googleId":"SFResultsUiT.danny.e",
-            "email":"SFResultsUiT.danny.e@gmail.com",
+            "email":"SFResultsUiT.danny.e@gmail.tmt",
             "course":"SFResultsUiT.CS2104",
             "name":"Danny Engrid",
             "comments":"This student's name is Danny Engrid",
@@ -115,7 +115,7 @@
         },
         "Emily":{
             "googleId":"SFResultsUiT.emily.f",
-            "email":"SFResultsUiT.emily.f@gmail.com",
+            "email":"SFResultsUiT.emily.f@gmail.tmt",
             "course":"SFResultsUiT.CS2104",
             "name":"Emily",
             "comments":"This student's name is Emily",
@@ -126,7 +126,7 @@
         "Open Session":{
             "feedbackSessionName":"First Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "instructions":{
                 "value":"Instructions for first session"
             },
@@ -144,7 +144,7 @@
         "Unpublished Session":{
             "feedbackSessionName":"Second Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "instructions":{
                 "value":"Please please fill in the second feedback session"
             },
@@ -162,7 +162,7 @@
         "Empty Session":{
             "feedbackSessionName":"Third Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "instructions":{
                 "value":"Please please fill in the last feedback session"
             },
@@ -180,7 +180,7 @@
         "MCQ Session":{
             "feedbackSessionName":"MCQ Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "instructions":{
                 "value":"Instructions for mcq session"
             },
@@ -198,7 +198,7 @@
         "MSQ Session":{
             "feedbackSessionName":"MSQ Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "instructions":{
                 "value":"Instructions for mcq session"
             },
@@ -216,7 +216,7 @@
         "NUMSCALE Session":{
             "feedbackSessionName":"NUMSCALE Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "instructions":{
                 "value":"Instructions for numscale session"
             },
@@ -234,7 +234,7 @@
         "CONSTSUM Session":{
             "feedbackSessionName":"CONSTSUM Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "instructions":{
                 "value":"Instructions for constsum session"
             },
@@ -252,7 +252,7 @@
         "CONTRIB Session":{
             "feedbackSessionName":"CONTRIB Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "instructions":{
                 "value":"Instructions for contrib session"
             },
@@ -272,7 +272,7 @@
         "qn1InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"What is the best selling point of your product?"
             },
@@ -298,7 +298,7 @@
         "qn2InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"Rate 3 other students' products"
             },
@@ -326,7 +326,7 @@
         "qn3InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"Feedback to class"
             },
@@ -349,7 +349,7 @@
         "qn4InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"Give feedback to 3 other teams."
             },
@@ -373,7 +373,7 @@
         "qn5InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"Give feedback to your team mates"
             },
@@ -396,7 +396,7 @@
         "qn6InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"This question should be hidden."
             },
@@ -419,7 +419,7 @@
         "qn1InSession2":{
             "feedbackSessionName":"Second Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"Give feedback to your instructors"
             },
@@ -442,7 +442,7 @@
         "qn1InMcqSession":{
             "feedbackSessionName":"MCQ Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"MCQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
             },
@@ -468,7 +468,7 @@
         "qn2InMcqSession":{
             "feedbackSessionName":"MCQ Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"MCQ\",\"questionText\":\"Rate 3 other students' products\",\"numOfMcqChoices\":3,\"mcqChoices\":[\"Good\",\"OK\",\"Poor\"],\"otherEnabled\":false}"
             },
@@ -495,7 +495,7 @@
         "qn3InMcqSession":{
             "feedbackSessionName":"MCQ Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"MCQ\",\"questionText\":\"Give feedback to your team mates\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"Good\",\"Can improve\"],\"otherEnabled\":false}"
             },
@@ -517,7 +517,7 @@
         "qn4InMcqSession":{
             "feedbackSessionName":"MCQ Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"MCQ\",\"questionText\":\"Choose the best student in the course.\",\"generateOptionsFor\":\"STUDENTS\",\"otherEnabled\":false}"
             },
@@ -544,7 +544,7 @@
         "qn5InMcqSession":{
             "feedbackSessionName":"MCQ Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"MCQ\",\"questionText\":\"Choose the best team in the course.\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}"
             },
@@ -566,7 +566,7 @@
         "qn1InMsqSession":{
             "feedbackSessionName":"MSQ Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"MSQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMsqChoices\":2,\"msqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
             },
@@ -592,7 +592,7 @@
         "qn2InMsqSession":{
             "feedbackSessionName":"MSQ Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"MSQ\",\"questionText\":\"Rate 3 other students' products\",\"numOfMsqChoices\":3,\"msqChoices\":[\"Good\",\"OK\",\"Poor\"],\"otherEnabled\":false}"
             },
@@ -620,7 +620,7 @@
         "qn3InMsqSession":{
             "feedbackSessionName":"MSQ Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"MSQ\",\"questionText\":\"Give feedback to your team mates\",\"numOfMsqChoices\":2,\"msqChoices\":[\"Good\",\"Can improve\"],\"otherEnabled\":false}"
             },
@@ -643,7 +643,7 @@
         "qn4InMsqSession":{
             "feedbackSessionName":"MSQ Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"MSQ\",\"questionText\":\"Choose the students you were impressed by in the course.\",\"generateOptionsFor\":\"STUDENTS\",\"otherEnabled\":false}"
             },
@@ -670,7 +670,7 @@
         "qn5InMsqSession":{
             "feedbackSessionName":"MSQ Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"MSQ\",\"questionText\":\"Choose the teams you were impressed by in the course.\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}"
             },
@@ -692,7 +692,7 @@
         "qn1InNumscaleSession":{
             "feedbackSessionName":"NUMSCALE Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"NUMSCALE\",\"questionText\":\"Rate your product?\",\"minScale\":1,\"maxScale\":5,\"step\":0.5}"
             },
@@ -718,7 +718,7 @@
         "qn2InNumscaleSession":{
             "feedbackSessionName":"NUMSCALE Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"NUMSCALE\",\"questionText\":\"Rate others' product?\",\"minScale\":1,\"maxScale\":5,\"step\":0.5}"
             },
@@ -746,7 +746,7 @@
         "qn3InNumscaleSession":{
             "feedbackSessionName":"NUMSCALE Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"NUMSCALE\",\"questionText\":\"Rate your team's product?\",\"minScale\":1,\"maxScale\":5,\"step\":0.5}"
             },
@@ -769,7 +769,7 @@
         "qn1InConstSumSession":{
             "feedbackSessionName":"CONSTSUM Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionText\":\"How important are the following factors to you? Give points accordingly.\",
                           \"questionType\":\"CONSTSUM\", \"numOfConstSumOptions\" : 2,
@@ -798,7 +798,7 @@
         "qn2InConstSumSession":{
             "feedbackSessionName":"CONSTSUM Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionText\":\"Split points among 3 students.\",
                           \"questionType\":\"CONSTSUM\", \"numOfConstSumOptions\" : 0,
@@ -829,7 +829,7 @@
         "qn3InConstSumSession":{
             "feedbackSessionName":"CONSTSUM Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionText\":\"Split points among your team members by how much they contributed.\",
                           \"questionType\":\"CONSTSUM\", \"numOfConstSumOptions\" : 0,
@@ -858,7 +858,7 @@
         "qn1InContribSession":{
             "feedbackSessionName":"CONTRIB Session",
             "courseId":"SFResultsUiT.CS2104",
-            "creatorEmail":"SFResultsUiT.instr@gmail.com",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionText\":\"Rate the contribution by yourself and your team members.\"}"
             },
@@ -888,8 +888,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
-            "recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.alice.b@gmail.tmt",
             "responseMetaData":{
                 "value":"Alice self feedback."
             }
@@ -900,8 +900,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
-            "recipientEmail":"SFResultsUiT.benny.c@gmail.com",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.benny.c@gmail.tmt",
             "responseMetaData":{
                 "value":"Response to Benny."
             }
@@ -912,8 +912,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
-            "recipientEmail":"SFResultsUiT.danny.e@gmail.com",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.danny.e@gmail.tmt",
             "responseMetaData":{
                 "value":"Response to Danny."
             }
@@ -924,8 +924,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
-            "recipientEmail":"drop.out@gmail.com",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"drop.out@gmail.tmt",
             "responseMetaData":{
                 "value":"Response to Dropout."
             }
@@ -935,8 +935,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"drop.out@gmail.com",
-            "recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+            "giverEmail":"drop.out@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.alice.b@gmail.tmt",
             "responseMetaData":{
                 "value":"Response to Alice from Dropout."
             }
@@ -946,8 +946,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"drop.out@gmail.com",
-            "recipientEmail":"SFResultsUiT.danny.e@gmail.com@gmail.com",
+            "giverEmail":"drop.out@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.danny.e@gmail.tmt@gmail.tmt",
             "responseMetaData":{
                 "value":"Response to Danny from Dropout."
             }
@@ -957,8 +957,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"drop.out@gmail.com",
-            "recipientEmail":"SFResultsUiT.benny.c@gmail.com",
+            "giverEmail":"drop.out@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.benny.c@gmail.tmt",
             "responseMetaData":{
                 "value":"Response to Benny from Dropout."
             }
@@ -969,7 +969,7 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"3",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"SFResultsUiT.benny.c@gmail.com",
+            "giverEmail":"SFResultsUiT.benny.c@gmail.tmt",
             "recipientEmail":"%GENERAL%",
             "responseMetaData":{
                 "value":"Secret feedback about class. (to nobody test)"
@@ -981,7 +981,7 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"4",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"SFResultsUiT.charlie.d@gmail.com",
+            "giverEmail":"SFResultsUiT.charlie.d@gmail.tmt",
             "recipientEmail":"Team 1",
             "responseMetaData":{
                 "value":"Team 2 (charlie) to team 1"
@@ -993,7 +993,7 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"4",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"SFResultsUiT.danny.e@gmail.com",
+            "giverEmail":"SFResultsUiT.danny.e@gmail.tmt",
             "recipientEmail":"Team 1",
             "responseMetaData":{
                 "value":"Team 2 (danny) to team 1"
@@ -1005,7 +1005,7 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"4",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"SFResultsUiT.emily.f@gmail.com",
+            "giverEmail":"SFResultsUiT.emily.f@gmail.tmt",
             "recipientEmail":"Team 1",
             "responseMetaData":{
                 "value":"Team 3 to Team 1 \r\n multiline special char test"
@@ -1017,7 +1017,7 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"4",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
             "recipientEmail":"Team 2",
             "responseMetaData":{
                 "value":"alice to team 2"
@@ -1029,8 +1029,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"5",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"SFResultsUiT.benny.c@gmail.com",
-            "recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+            "giverEmail":"SFResultsUiT.benny.c@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.alice.b@gmail.tmt",
             "responseMetaData":{
                 "value":"Teammate feedback from benny"
             }
@@ -1042,8 +1042,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"MCQ",
-            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
-            "recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.alice.b@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Algo\", \"otherFieldContent\" : \"\"}"
             }
@@ -1054,8 +1054,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"MCQ",
-            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
-            "recipientEmail":"SFResultsUiT.benny.c@gmail.com",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.benny.c@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Good\", \"otherFieldContent\" : \"\"}"
             }
@@ -1066,8 +1066,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"MCQ",
-            "giverEmail":"drop.out@gmail.com",
-            "recipientEmail":"SFResultsUiT.charlie.d@gmail.com",
+            "giverEmail":"drop.out@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.charlie.d@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Good\", \"otherFieldContent\" : \"\"}"
             }
@@ -1078,8 +1078,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"MCQ",
-            "giverEmail":"drop.out@gmail.com",
-            "recipientEmail":"SFResultsUiT.danny.e@gmail.com",
+            "giverEmail":"drop.out@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.danny.e@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Good\", \"otherFieldContent\" : \"\"}"
             }
@@ -1090,8 +1090,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"MCQ",
-            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
-            "recipientEmail":"SFResultsUiT.danny.e@gmail.com",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.danny.e@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"OK\", \"otherFieldContent\" : \"\"}"
             }
@@ -1102,8 +1102,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"MCQ",
-            "giverEmail":"drop.out@gmail.com",
-            "recipientEmail":"SFResultsUiT.danny.e@gmail.com",
+            "giverEmail":"drop.out@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.danny.e@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"OK\", \"otherFieldContent\" : \"\"}"
             }
@@ -1114,8 +1114,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"3",
             "feedbackQuestionType":"MCQ",
-            "giverEmail":"SFResultsUiT.benny.c@gmail.com",
-            "recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+            "giverEmail":"SFResultsUiT.benny.c@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.alice.b@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Can improve\", \"otherFieldContent\" : \"\"}"
             }
@@ -1126,8 +1126,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"4",
             "feedbackQuestionType":"MCQ",
-            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
-            "recipientEmail":"SFResultsUiT.danny.e@gmail.com",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.danny.e@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Danny\", \"otherFieldContent\" : \"\"}"
             }
@@ -1138,8 +1138,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"5",
             "feedbackQuestionType":"MCQ",
-            "giverEmail":"SFResultsUiT.benny.c@gmail.com",
-            "recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+            "giverEmail":"SFResultsUiT.benny.c@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.alice.b@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Team 1\", \"otherFieldContent\" : \"\"}"
             }
@@ -1151,8 +1151,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"MSQ",
-            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
-            "recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.alice.b@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Algo\"]}"
             }
@@ -1163,8 +1163,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"MSQ",
-            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
-            "recipientEmail":"SFResultsUiT.benny.c@gmail.com",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.benny.c@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Good\",\"OK\"]}"
             }
@@ -1175,8 +1175,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"MSQ",
-            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
-            "recipientEmail":"SFResultsUiT.danny.e@gmail.com",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.danny.e@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"OK\",\"Poor\"]}"
             }
@@ -1187,8 +1187,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"3",
             "feedbackQuestionType":"MSQ",
-            "giverEmail":"SFResultsUiT.benny.c@gmail.com",
-            "recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+            "giverEmail":"SFResultsUiT.benny.c@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.alice.b@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Can improve\"]}"
             }
@@ -1199,8 +1199,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"4",
             "feedbackQuestionType":"MSQ",
-            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
-            "recipientEmail":"SFResultsUiT.danny.e@gmail.com",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.danny.e@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Danny\",\"Alice\"]}"
             }
@@ -1211,8 +1211,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"5",
             "feedbackQuestionType":"MSQ",
-            "giverEmail":"SFResultsUiT.benny.c@gmail.com",
-            "recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+            "giverEmail":"SFResultsUiT.benny.c@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.alice.b@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MSQ\", \"answers\" : [\"Team 1\", \"Team 2\"]}"
             }
@@ -1224,8 +1224,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"NUMSCALE",
-            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
-            "recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.alice.b@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 1}"
             }
@@ -1236,8 +1236,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"NUMSCALE",
-            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
-            "recipientEmail":"SFResultsUiT.benny.c@gmail.com",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.benny.c@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 5}"
             }
@@ -1248,8 +1248,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"NUMSCALE",
-            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
-            "recipientEmail":"SFResultsUiT.danny.e@gmail.com",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.danny.e@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 3.5}"
             }
@@ -1260,8 +1260,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"3",
             "feedbackQuestionType":"NUMSCALE",
-            "giverEmail":"SFResultsUiT.benny.c@gmail.com",
-            "recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+            "giverEmail":"SFResultsUiT.benny.c@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.alice.b@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 2.5}"
             }
@@ -1273,8 +1273,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"CONSTSUM",
-            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
-            "recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.alice.b@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [20, 80]}"
             }
@@ -1285,8 +1285,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"CONSTSUM",
-            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
-            "recipientEmail":"SFResultsUiT.benny.c@gmail.com",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.benny.c@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [80]}"
             }
@@ -1297,8 +1297,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"CONSTSUM",
-            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
-            "recipientEmail":"SFResultsUiT.charlie.d@gmail.com",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.charlie.d@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [120]}"
             }
@@ -1309,8 +1309,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"CONSTSUM",
-            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
-            "recipientEmail":"SFResultsUiT.danny.e@gmail.com",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.danny.e@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [100]}"
             }
@@ -1321,8 +1321,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"3",
             "feedbackQuestionType":"CONSTSUM",
-            "giverEmail":"SFResultsUiT.benny.c@gmail.com",
-            "recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+            "giverEmail":"SFResultsUiT.benny.c@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.alice.b@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [99]}"
             }
@@ -1333,8 +1333,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"3",
             "feedbackQuestionType":"CONSTSUM",
-            "giverEmail":"SFResultsUiT.benny.c@gmail.com",
-            "recipientEmail":"SFResultsUiT.benny.c@gmail.com",
+            "giverEmail":"SFResultsUiT.benny.c@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.benny.c@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [101]}"
             }
@@ -1345,8 +1345,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"CONTRIB",
-            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
-            "recipientEmail":"SFResultsUiT.alice.b@gmail.com",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.alice.b@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"CONTRIB\", \"answer\" : 110}"
             }
@@ -1357,8 +1357,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"CONTRIB",
-            "giverEmail":"SFResultsUiT.alice.b@gmail.com",
-            "recipientEmail":"SFResultsUiT.benny.c@gmail.com",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"SFResultsUiT.benny.c@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"CONTRIB\", \"answer\" : 100}"
             }
@@ -1370,8 +1370,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackSessionName":"First Session",
             "feedbackQuestionId":"1",
-            "giverEmail":"SFResultsUiT.instr@gmail.com",
-            "feedbackResponseId":"1%SFResultsUiT.alice.b@gmail.com%SFResultsUiT.alice.b@gmail.com",
+            "giverEmail":"SFResultsUiT.instr@gmail.tmt",
+            "feedbackResponseId":"1%SFResultsUiT.alice.b@gmail.tmt%SFResultsUiT.alice.b@gmail.tmt",
             "createdAt":"2016-03-01 11:59 PM UTC",
             "showCommentTo":[STUDENTS];
             "showGiverNameTo":[STUDENTS];
@@ -1383,8 +1383,8 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackSessionName":"First Session",
             "feedbackQuestionId":"1",
-            "giverEmail":"SFResultsUiT.instr@gmail.com",
-            "feedbackResponseId":"1%SFResultsUiT.alice.b@gmail.com%SFResultsUiT.alice.b@gmail.com",
+            "giverEmail":"SFResultsUiT.instr@gmail.tmt",
+            "feedbackResponseId":"1%SFResultsUiT.alice.b@gmail.tmt%SFResultsUiT.alice.b@gmail.tmt",
             "createdAt":"2016-03-02 11:59 PM UTC",
             "showCommentTo":[STUDENTS];
             "showGiverNameTo":[STUDENTS];

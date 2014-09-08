@@ -42,6 +42,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackSessionsDb;
@@ -65,7 +66,8 @@ public class FeedbackSessionsLogic {
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
     private static final int EMAIL_NAME_PAIR = 0;
-    private static final int EMAIL_TEAMNAME_PAIR = 1;
+    private static final int EMAIL_LASTNAME_PAIR = 1;
+    private static final int EMAIL_TEAMNAME_PAIR = 2;
 
     public static FeedbackSessionsLogic inst() {
         if (instance == null)
@@ -616,19 +618,30 @@ public class FeedbackSessionsLogic {
                 exportBuilder.append(statistics + Const.EOL);
             }
             
-            exportBuilder.append("Team" + "," + "Giver" + "," + "Recipient's Team" + ","
-                    + "Recipient" + "," + questionDetails.getCsvHeader() + Const.EOL);
+            exportBuilder.append("Team" + "," + "Giver's Full Name" + "," + "Giver's Last Name" + "," + "Recipient's Team" + ","
+                    + "Recipient's Full Name" + "," + "Recipient's Last Name" + "," + questionDetails.getCsvHeader() + Const.EOL);
 
             for (FeedbackResponseAttributes response : entry.getValue()) {
-                exportBuilder.append(Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.giverEmail))
-                        + "," + Sanitizer.sanitizeForCsv(results.getNameForEmail(response.giverEmail))
-                        + "," + Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.recipientEmail))
-                        + "," + Sanitizer.sanitizeForCsv(results.getNameForEmail(response.recipientEmail))
-                        + "," + response.getResponseDetails().getAnswerCsv(questionDetails) + Const.EOL);
+             
+                String giverLastName = results.getLastNameForEmail(response.giverEmail);
+                String giverFullName = results.getNameForEmail(response.giverEmail);
+                String recipientLastName = results.getLastNameForEmail(response.recipientEmail);
+                String recipientFulltName = results.getNameForEmail(response.recipientEmail);
+                
+                exportBuilder.append(Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.giverEmail)) 
+                                     + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) 
+                                     + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
+                                     + "," + Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.recipientEmail))
+                                     + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFulltName))
+                                     + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
+                                     + "," + response.getResponseDetails().getAnswerCsv(questionDetails) + Const.EOL);
+           
+            
             }
             exportBuilder.append(Const.EOL + Const.EOL);
         }
         return exportBuilder.toString();
+        
     }
 
     /**
@@ -1108,6 +1121,8 @@ public class FeedbackSessionsLogic {
                 new HashMap<String, FeedbackQuestionAttributes>();
         Map<String, String> emailNameTable =
                 new HashMap<String, String>();
+        Map<String, String> emailLastNameTable =
+                new HashMap<String, String>();
         Map<String, String> emailTeamNameTable =
                 new HashMap<String, String>();
         Map<String, boolean[]> visibilityTable =
@@ -1123,7 +1138,7 @@ public class FeedbackSessionsLogic {
             // return empty result set
             return new FeedbackSessionResultsBundle(
                     session, responses, relevantQuestions,
-                    emailNameTable, emailTeamNameTable,
+                    emailNameTable, emailLastNameTable, emailTeamNameTable,
                     visibilityTable, responseStatus, responseComments);
         }
 
@@ -1150,6 +1165,8 @@ public class FeedbackSessionsLogic {
                 for (FeedbackResponseAttributes response : responsesForThisQn) {
                     relevantResponse.put(response.getId(), response);
                     addEmailNamePairsToTable(emailNameTable, response,
+                            question, roster);
+                    addEmailLastNamePairsToTable(emailLastNameTable, response,
                             question, roster);
                     addEmailTeamNamePairsToTable(emailTeamNameTable, response,
                             question, roster);
@@ -1206,7 +1223,7 @@ public class FeedbackSessionsLogic {
         FeedbackSessionResultsBundle results =
                 new FeedbackSessionResultsBundle(
                         session, responses, relevantQuestions,
-                        emailNameTable, emailTeamNameTable,
+                        emailNameTable, emailLastNameTable, emailTeamNameTable,
                         visibilityTable, responseStatus, responseComments);
 
         return results;
@@ -1244,6 +1261,8 @@ public class FeedbackSessionsLogic {
                 new HashMap<String, FeedbackQuestionAttributes>();
         Map<String, String> emailNameTable =
                 new HashMap<String, String>();
+        Map<String, String> emailLastNameTable =
+                new HashMap<String, String>();
         Map<String, String> emailTeamNameTable =
                 new HashMap<String, String>();
         Map<String, boolean[]> visibilityTable =
@@ -1266,7 +1285,7 @@ public class FeedbackSessionsLogic {
             // return empty result set
             return new FeedbackSessionResultsBundle(
                     session, responses, relevantQuestions,
-                    emailNameTable, emailTeamNameTable,
+                    emailNameTable, emailLastNameTable, emailTeamNameTable,
                     visibilityTable, responseStatus, responseComments);
         }
         
@@ -1304,9 +1323,23 @@ public class FeedbackSessionsLogic {
                                         .isResponseVisibleTo(FeedbackParticipantType.STUDENTS))) {
                             isVisibleResponse = true;
                         }
+                        InstructorAttributes instructor = null;
+                        if (role == Role.INSTRUCTOR) {
+                            instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
+                        }
+                        if (isVisibleResponse && instructor != null) {
+                            if (!(instructor.isAllowedForPrivilege(response.giverSection,
+                                    response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
+                                    || !(instructor.isAllowedForPrivilege(response.giverSection,
+                                            response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))) {
+                                isVisibleResponse = false;
+                            }
+                        }
                         if (isVisibleResponse) {
                             responses.add(response);
                             addEmailNamePairsToTable(emailNameTable, response,
+                                    question, roster);
+                            addEmailLastNamePairsToTable(emailLastNameTable, response,
                                     question, roster);
                             addEmailTeamNamePairsToTable(emailTeamNameTable,
                                     response,
@@ -1322,7 +1355,7 @@ public class FeedbackSessionsLogic {
             FeedbackSessionResultsBundle results =
                     new FeedbackSessionResultsBundle(
                             session, responses, relevantQuestions,
-                            emailNameTable, emailTeamNameTable,
+                            emailNameTable, emailLastNameTable, emailTeamNameTable,
                             visibilityTable, responseStatus, responseComments, true);
 
             return results;
@@ -1356,7 +1389,7 @@ public class FeedbackSessionsLogic {
                 FeedbackSessionResultsBundle results =
                     new FeedbackSessionResultsBundle(
                             session, responses, relevantQuestions,
-                            emailNameTable, emailTeamNameTable,
+                            emailNameTable, emailLastNameTable, emailTeamNameTable,
                             visibilityTable, responseStatus, responseComments, isComplete);
     
                 return results;
@@ -1410,6 +1443,8 @@ public class FeedbackSessionsLogic {
                             relatedQuestion);
                     addEmailNamePairsToTable(emailNameTable, response,
                             relatedQuestion, roster);
+                    addEmailLastNamePairsToTable(emailLastNameTable, response,
+                            relatedQuestion, roster);                
                     addEmailTeamNamePairsToTable(emailTeamNameTable, response,
                             relatedQuestion, roster);
                     addVisibilityToTable(visibilityTable, relatedQuestion,
@@ -1458,7 +1493,7 @@ public class FeedbackSessionsLogic {
         FeedbackSessionResultsBundle results =
                 new FeedbackSessionResultsBundle(
                         session, responses, relevantQuestions,
-                        emailNameTable, emailTeamNameTable,
+                        emailNameTable, emailLastNameTable, emailTeamNameTable,
                         visibilityTable, responseStatus, responseComments, isComplete);
 
         return results;
@@ -1527,6 +1562,14 @@ public class FeedbackSessionsLogic {
             throws EntityDoesNotExistException {
         addEmailNamePairsToTable(emailNameTable, response, question, roster,
                 EMAIL_NAME_PAIR);
+    }
+    
+    private void addEmailLastNamePairsToTable(Map<String, String> emailLastNameTable,
+            FeedbackResponseAttributes response,
+            FeedbackQuestionAttributes question, CourseRoster roster)
+            throws EntityDoesNotExistException {
+        addEmailNamePairsToTable(emailLastNameTable, response, question, roster,
+                EMAIL_LASTNAME_PAIR);
     }
 
     private void addEmailTeamNamePairsToTable(
@@ -1641,14 +1684,17 @@ public class FeedbackSessionsLogic {
             String email, CourseRoster roster)
             throws EntityDoesNotExistException {
         String giverRecipientName = null;
+        String giverRecipientLastName = null;
         String teamName = null;
         String name = null;
+        String lastName = null;
         String team = null;
 
         StudentAttributes student = roster.getStudentForEmail(email);
         if (student != null) {
             name = student.name;
             team = student.team;
+            lastName = student.lastName;
         } else {
             InstructorAttributes instructor = roster
                     .getInstructorForEmail(email);
@@ -1656,14 +1702,17 @@ public class FeedbackSessionsLogic {
                 if (email.equals(Const.GENERAL_QUESTION)) {
                     // Email represents that there is no specific recipient.
                     name = Const.USER_IS_NOBODY;
+                    lastName = Const.USER_IS_NOBODY;
                     team = email;
                 } else {
                     // Assume that the email is actually a team name.
                     name = Const.USER_IS_TEAM;
+                    lastName = Const.USER_IS_TEAM;
                     team = email;
                 }
             } else {
                 name = instructor.name;
+                lastName = instructor.name;
                 team = "Instructors";
             }
         }
@@ -1671,15 +1720,18 @@ public class FeedbackSessionsLogic {
         if (type == FeedbackParticipantType.TEAMS
                 || type == FeedbackParticipantType.OWN_TEAM) {
             giverRecipientName = team;
+            giverRecipientLastName = team;
             teamName = "";
         } else if (name != Const.USER_IS_NOBODY && name != Const.USER_IS_TEAM) {
             giverRecipientName = name;
+            giverRecipientLastName = lastName;
             teamName = team;
         } else {
             giverRecipientName = name;
+            giverRecipientLastName = lastName;
             teamName = "";
         }
-        return new String[] { giverRecipientName, teamName };
+        return new String[] { giverRecipientName, giverRecipientLastName, teamName };
     }
 
     public boolean isFeedbackSessionFullyCompletedByStudent(
