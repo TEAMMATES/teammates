@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.FieldValidator.FieldType;
@@ -145,6 +146,71 @@ public class InstructorCourseInstructorEditSaveActionTest extends BaseActionTest
         //remove the new instructor entity that was created
         CoursesLogic.inst().deleteCourseCascade("icieat.courseId");
         
+        
+        ______TS("Unsuccessful case: test null course id parameter");
+        submissionParams = new String[]{
+                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
+                Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
+        };
+        
+        try {
+            saveAction = getAction(submissionParams);
+            redirectResult = (RedirectResult) saveAction.executeAndPostProcess();        
+        } catch (NullPostParameterException e) {
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+                    Const.ParamsNames.COURSE_ID), e.getMessage());
+        }
+        
+        
+        ______TS("Unsuccessful case: test null instructor name parameter");
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail,
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
+        };
+        
+        try {
+            saveAction = getAction(submissionParams);
+            redirectResult = (RedirectResult) saveAction.executeAndPostProcess();        
+        } catch (NullPostParameterException e) {
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+                    Const.ParamsNames.INSTRUCTOR_NAME), e.getMessage());
+        }
+        
+        
+        ______TS("Unsuccessful case: test null instructor email parameter");
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
+                Const.ParamsNames.INSTRUCTOR_NAME, newInstructorName,
+                Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, "true",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, "true"
+        };
+        
+        try {
+            saveAction = getAction(submissionParams);
+            redirectResult = (RedirectResult) saveAction.executeAndPostProcess();        
+        } catch (NullPostParameterException e) {
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+                    Const.ParamsNames.INSTRUCTOR_EMAIL, newInstructorEmail), e.getMessage());
+        }
     }
     
     private Action getAction(String... parameters) throws Exception {
