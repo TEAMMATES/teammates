@@ -594,6 +594,15 @@
                         <div id="placeholder-img-loading" class="pull-right"></div>
                     </div>
                     <div class="panel-body hidden">
+                        <div id="placeholder-error-msg-<%=panelIdx%>" class="hidden">
+                            <div class="panel panel-info">
+                                <ul class="list-group comments">
+                                    <li class="list-group-item list-group-item-danger">
+                                        Failed to load response comments for this session.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 </div>

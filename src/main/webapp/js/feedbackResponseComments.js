@@ -389,6 +389,9 @@ function loadFeedbackResponseComments(user, courseId, fsName, sender) {
 		  registerResponseCommentsEvent();
 		  enableHoverToDisplayEditOptions();
 		  enableTooltip();
+	  } else {
+		  panelBody.find('div[id^="placeholder-error-msg"]').removeClass('hidden');
+		  panelBody.removeClass('hidden');
 	  }
 	  $(sender).find('div[id="placeholder-img-loading"]').html("");
 	});
