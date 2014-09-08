@@ -11,7 +11,7 @@
       "googleId": "{$test.student1}",
       "name": "Alice B",
       "isInstructor": false,
-      "email": "{$test.student1}@gmail.tmt",
+      "email": "{$test.student1}@gmail.com",
       "institute": "TEAMMATES Test Institute 1"
     }
   },
@@ -66,7 +66,7 @@
   
   "students": {
     "alice.tmms@SHomeUiT.CS2104": {
-      "email": "{$test.student1}@gmail.tmt",
+      "email": "{$test.student1}@gmail.com",
       "course": "SHomeUiT.CS2104",
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",
@@ -98,7 +98,7 @@
     },
     "alice.tmms@SHomeUiT.CS1101": {
       "googleId": "{$test.student1}",
-      "email": "{$test.student1}@gmail.tmt",
+      "email": "{$test.student1}@gmail.com",
       "course": "SHomeUiT.CS1101",
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",
@@ -130,7 +130,7 @@
     },
     "alice.tmms@SHomeUiT.CS4215": {
       "googleId": "{$test.student1}",
-      "email": "{$test.student1}@gmail.tmt",
+      "email": "{$test.student1}@gmail.com",
       "course": "SHomeUiT.CS4215",
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",
@@ -202,23 +202,23 @@
   
   "submissions" : {
     "submissionFromAmyToBennyFirstEval": {
-      "reviewer" : "{$test.student1}@gmail.tmt",
+      "reviewer" : "{$test.student1}@gmail.com",
       "reviewee" : "SHomeUiT.benny.c@gmail.tmt",
       "course" : "SHomeUiT.CS2104",
       "evaluation" : "First Eval",
       "points" : 100,
-      "justification" : {"value" : "This is a justification from {$test.student1}@gmail.tmt to SHomeUiT.benny.c@gmail.tmt"},
-      "p2pFeedback" : {"value" :"This is a public comment from {$test.student1}@gmail.tmt to SHomeUiT.benny.c@gmail.tmt"},
+      "justification" : {"value" : "This is a justification from {$test.student1}@gmail.com to SHomeUiT.benny.c@gmail.tmt"},
+      "p2pFeedback" : {"value" :"This is a public comment from {$test.student1}@gmail.com to SHomeUiT.benny.c@gmail.tmt"},
       "team" : "Team 1"
     },
     "submissionFromBennyToAmyFirstEval": {
       "reviewer" : "SHomeUiT.benny.c@gmail.tmt",
-      "reviewee" : "{$test.student1}@gmail.tmt",
+      "reviewee" : "{$test.student1}@gmail.com",
       "course" : "SHomeUiT.CS2104",
       "evaluation" : "First Eval",
       "points" : 100,
-      "justification" : {"value" : "This is a justification from SHomeUiT.benny.c@gmail.tmt to {$test.student1}@gmail.tmt"},
-      "p2pFeedback" : {"value" :"This is a public comment from SHomeUiT.benny.c@gmail.tmt to {$test.student1}@gmail.tmt"},
+      "justification" : {"value" : "This is a justification from SHomeUiT.benny.c@gmail.tmt to {$test.student1}@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SHomeUiT.benny.c@gmail.tmt to {$test.student1}@gmail.com"},
       "team" : "Team 1"
     },
     "submissionFromCharlieToDannyFirstEval": {
@@ -243,12 +243,12 @@
     },
     "submissionFromBennyToAmySecondEval": {
       "reviewer" : "SHomeUiT.benny.c@gmail.tmt",
-      "reviewee" : "{$test.student1}@gmail.tmt",
+      "reviewee" : "{$test.student1}@gmail.com",
       "course" : "SHomeUiT.CS2104",
       "evaluation" : "Second Eval",
       "points" : 100,
-      "justification" : {"value" : "This is a justification from SHomeUiT.benny.c@gmail.tmt to {$test.student1}@gmail.tmt"},
-      "p2pFeedback" : {"value" :"This is a public comment from SHomeUiT.benny.c@gmail.tmt to {$test.student1}@gmail.tmt"},
+      "justification" : {"value" : "This is a justification from SHomeUiT.benny.c@gmail.tmt to {$test.student1}@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SHomeUiT.benny.c@gmail.tmt to {$test.student1}@gmail.com"},
       "team" : "Team 1"
     },
     "submissionFromCharlieToDannySecondEval": {
@@ -272,23 +272,23 @@
       "team" : "Team 2"
     },
     "submissionFromAmyToBennyThirdEval": {
-      "reviewer" : "{$test.student1}@gmail.tmt",
+      "reviewer" : "{$test.student1}@gmail.com",
       "reviewee" : "SHomeUiT.benny.c@gmail.tmt",
       "course" : "SHomeUiT.CS1101",
       "evaluation" : "Third Eval",
       "points" : 100,
-      "justification" : {"value" : "This is a justification from {$test.student1}@gmail.tmt to SHomeUiT.benny.c@gmail.tmt"},
-      "p2pFeedback" : {"value" :"This is a public comment from {$test.student1}@gmail.tmt to SHomeUiT.benny.c@gmail.tmt"},
+      "justification" : {"value" : "This is a justification from {$test.student1}@gmail.com to SHomeUiT.benny.c@gmail.tmt"},
+      "p2pFeedback" : {"value" :"This is a public comment from {$test.student1}@gmail.com to SHomeUiT.benny.c@gmail.tmt"},
       "team" : "Team 1"
     },
     "submissionFromBennyToAmyThirdEval": {
       "reviewer" : "SHomeUiT.benny.c@gmail.tmt",
-      "reviewee" : "{$test.student1}@gmail.tmt",
+      "reviewee" : "{$test.student1}@gmail.com",
       "course" : "SHomeUiT.CS1101",
       "evaluation" : "Third Eval",
       "points" : 100,
-      "justification" : {"value" : "This is a justification from SHomeUiT.benny.c@gmail.tmt to {$test.student1}@gmail.tmt"},
-      "p2pFeedback" : {"value" :"This is a public comment from SHomeUiT.benny.c@gmail.tmt to {$test.student1}@gmail.tmt"},
+      "justification" : {"value" : "This is a justification from SHomeUiT.benny.c@gmail.tmt to {$test.student1}@gmail.com"},
+      "p2pFeedback" : {"value" :"This is a public comment from SHomeUiT.benny.c@gmail.tmt to {$test.student1}@gmail.com"},
       "team" : "Team 1"
     },
     "submissionFromCharlieToDannyThirdEval": {
