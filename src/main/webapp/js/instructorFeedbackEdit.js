@@ -1054,13 +1054,10 @@ function getVisibilityMessage(buttonElem){
 
 function getVisibilityMessageIfPreviewIsActive(buttonElem) {
 	var form = $(buttonElem).closest("form");
-	console.log($(form).find('.visibilityMessageButton'));
-    
-    if (!$(form).find('.visibilityMessageButton').hasClass('active')) {
-    	return;	
-    } 
-    
-    getVisibilityMessage(buttonElem);
+	
+    if ($(form).find('.visibilityMessageButton').hasClass('active')) {
+    	getVisibilityMessage(buttonElem);	
+    }         
 }
 
 function formatVisibilityMessageHtml(visibilityMessage){

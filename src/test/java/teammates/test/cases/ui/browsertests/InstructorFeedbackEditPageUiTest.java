@@ -1,5 +1,6 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
@@ -985,25 +986,22 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     
     private void testChangeFeedbackRecipient() {
         ______TS("click on Edit visibility then change recipient");
+   
+        feedbackEditPage = getFeedbackEditPage();       
         
-        feedbackEditPage = getFeedbackEditPage();
-        WebElement editLabel = feedbackEditPage.getEditLabel(1);
-        WebElement previewLabel = feedbackEditPage.getPreviewLabel(1);
+        assertTrue(feedbackEditPage.verifyPreviewLabelIsActive(1));        
+        assertFalse(feedbackEditPage.verifyEditLabelIsActive(1));           
+        assertTrue(feedbackEditPage.verifyVisibilityMessageIsDisplayed(1));               
+        assertFalse(feedbackEditPage.verifyVisibilityOptionsIsDisplayed(1));        
         
         feedbackEditPage.clickQuestionEditForQuestion1();      
-        editLabel.click();        
+        feedbackEditPage.clickEditLabel(1);        
         feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
-        
-        boolean isPreviewButtonActive = previewLabel.getAttribute("class").contains("active");
-        assertTrue(!isPreviewButtonActive);        
-        boolean isEditButtonActive = editLabel.getAttribute("class").contains("active");
-        assertTrue(isEditButtonActive);
-        
-        WebElement visibilityMessage = feedbackEditPage.getVisibilityMessage(1);
-        assertTrue(!visibilityMessage.isDisplayed());        
-        WebElement visibilityOptions = feedbackEditPage.getVisibilityOptions(1);
-        assertTrue(visibilityOptions.isDisplayed());
-        
+                                    
+        assertFalse(feedbackEditPage.verifyPreviewLabelIsActive(1));
+        assertTrue(feedbackEditPage.verifyEditLabelIsActive(1));                
+        assertFalse(feedbackEditPage.verifyVisibilityMessageIsDisplayed(1));                
+        assertTrue(feedbackEditPage.verifyVisibilityOptionsIsDisplayed(1));   
     }
     
     private void testCopyQuestion() {

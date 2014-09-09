@@ -650,6 +650,26 @@ public class InstructorFeedbackEditPage extends AppPage {
         row.click();
     }
     
+    public void clickEditLabel(int questionNumber) {
+        getEditLabel(questionNumber).click();
+    }
+    
+    public boolean verifyPreviewLabelIsActive(int questionNumber) {
+        return getPreviewLabel(questionNumber).getAttribute("class").contains("active");
+    }
+    
+    public boolean verifyEditLabelIsActive(int questionNumber) {
+        return getEditLabel(questionNumber).getAttribute("class").contains("active");
+    }
+    
+    public boolean verifyVisibilityMessageIsDisplayed(int questionNumber) {
+        return getVisibilityMessage(questionNumber).isDisplayed();
+    }
+    
+    public boolean verifyVisibilityOptionsIsDisplayed(int questionNumber) {
+        return getVisibilityOptions(questionNumber).isDisplayed();
+    }
+    
     public WebElement getPreviewLabel(int questionNumber) {
         return browser.driver.findElement(By.id("visibilityMessageButton-" + String.valueOf(questionNumber)));   
     }
