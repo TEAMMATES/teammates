@@ -31,7 +31,14 @@
       "isInstructor":false,
       "name": "Emily",
       "institute":"TEAMMATES Test Institute 5"
-    }
+    },
+    "CESubEditUiT.instructor": {
+      "googleId": "CESubEditUiT.instructor",
+      "name": "Teammates Demo Instr",
+      "isInstructor": true,
+      "email": "CESubEditUiT.instructor@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    } 
   },
   "courses": {
     "CESubEditUiT.CS1101": {

@@ -41,6 +41,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
         testContent();
         //no input validation to check
         testViewAccountDetailsLink();
+        testViewRecentActionsLink();
         testDeleteInstructorStatusAction();
         testDeleteInstructorAccountAction();
     }
@@ -72,7 +73,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
         String instructorId = "AAMgtUiT.instr1";
         AdminActivityLogPage logPage = accountsPage.clickViewRecentActions(instructorId);
         logPage.verifyIsCorrectPage();
-        logPage.goToPreviousPage(AdminAccountManagementPage.class);
+        logPage.closeCurrentWindowAndSwitchToParentWindow();
     }
 
     public void testDeleteInstructorStatusAction(){
@@ -89,6 +90,8 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
         
         ______TS("action: delete account");
         
+        browser.driver.get(accountsPageUrl.toString());;
+        
         String googleId = "AAMgtUiT.instr3";
         accountsPage.clickAndCancelDeleteAccountLink(googleId);
         assertNotNull(BackDoor.getAccount(googleId));
@@ -99,7 +102,7 @@ public class AdminAccountManagementPageUiTest extends BaseUiTestCase{
     }
 
     private void loginToAdminAccountsManagementPage() {
-        accountsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE);
+        accountsPageUrl = createUrl(Const.ActionURIs.ADMIN_ACCOUNT_MANAGEMENT_PAGE + "?all=true");
         accountsPage = loginAdminToPage(browser, accountsPageUrl, AdminAccountManagementPage.class);
     }
 
