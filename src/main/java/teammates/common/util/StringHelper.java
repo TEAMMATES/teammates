@@ -179,21 +179,31 @@ public class StringHelper {
     
     /**
      * split a full name string into first and last names
-     * 
+     * <br>
      * 1.If passed in empty string, both last and first name will be empty string
-     * 
+     * <br>
      * 2.If single word, this will be last name and first name will be an empty string
-     * 
+     * <br>
      * 3.If more than two words, the last word will be last name and 
      * the rest will be first name.
-     * 
+     * <br>
+     * 4.If the last name is enclosed with braces "{}" such as first {Last1 Last2},
+     * the last name will be the String inside the braces
+     * <br>
      * Example: 
+     * <br><br>
+     * full name "Danny Tim Lin"<br>
+     * first name: "Danny Tim" <br>
+     * last name: "Lin" <br>
+     * processed full name: "Danny Tim Lin" <br>
+     * <br>
+     * full name "Danny {Tim Lin}"<br>
+     * first name: "Danny" <br>
+     * last name: "Tim Lin" <br>
+     * processed full name: "Danny Tim Lin" <br>
      * 
-     * full name "Danny Tim Lin"
-     * first name: "Danny Tim"
-     * last name: "Lin"
      * 
-     * @return split name array{0--> first name, 1--> last name}
+     * @return split name array{0--> first name, 1--> last name, 2--> processed full name by removing "{}"}
      */
     
     public static String[] splitName(String fullName){  
@@ -201,11 +211,28 @@ public class StringHelper {
         if(fullName == null){
             return null;
         }
+           
+        String lastName;
+        String firstName;
         
-        String lastName = fullName.substring(fullName.lastIndexOf(" ")+1).trim();
-        String firstName = fullName.replace(lastName, "").trim();
+        if(fullName.contains("{") && fullName.contains("}")){
+            int startIndex = fullName.indexOf("{");
+            int endIndex = fullName.indexOf("}");
+            lastName = fullName.substring(startIndex + 1, endIndex);
+            firstName = fullName.replace("{", "")
+                                .replace("}", "")
+                                .replace(lastName, "")
+                                .trim();           
+            
+        } else {         
+            lastName = fullName.substring(fullName.lastIndexOf(" ")+1).trim();
+            firstName = fullName.replace(lastName, "").trim();
+        }
         
-        String[] splitNames = {firstName, lastName};       
+        String processedfullName = fullName.replace("{", "")
+                                           .replace("}", "");
+        
+        String[] splitNames = {firstName, lastName, processedfullName};       
         return splitNames;
     }
     

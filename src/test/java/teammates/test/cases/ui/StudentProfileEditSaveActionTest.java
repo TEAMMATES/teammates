@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.test.driver.AssertHelper;
@@ -33,74 +34,92 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         AccountAttributes student = dataBundle.accounts.get("student1InCourse1");
-        String[] submissionParams = createValidParamsForProfile();
-        StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
         
-        ______TS("typical success case");
-        
+        testActionWithInvalidParameters(student);
+        testActionTypicalSuccess(student);
+        testActionInMasqueradeMode(student);
+    }
+
+    private void testActionWithInvalidParameters(AccountAttributes student)
+            throws EntityDoesNotExistException {
         gaeSimulation.loginAsStudent(student.googleId);
-        
-        StudentProfileEditSaveAction a = getAction(submissionParams);
-        RedirectResult r = (RedirectResult) a.executeAndPostProcess();
-        expectedProfile.googleId = student.googleId;
-        
-        assertFalse(r.isError);
-        AssertHelper.assertContains(Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=false&user=" + student.googleId, r.getDestinationWithParams());
-        assertEquals(Const.StatusMessages.STUDENT_PROFILE_EDITED, r.getStatusMessage());
-        expectedProfile.modifiedDate = a.account.studentProfile.modifiedDate;
-        String expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave" +
-                "|||true|||Student|||"+ student.name +"|||" + student.googleId + "|||" + student.email +
-                "|||Student Profile for <span class=\"bold\">(" + student.googleId + ")</span> edited.<br>" +
-                expectedProfile.toString() + "|||/page/studentProfileEditSave";
-        
-        assertEquals(expectedLogMessage, a.getLogMessage());
-        
         ______TS("invalid parameters");
         
-        submissionParams = createInvalidParamsForProfile();
-        expectedProfile = getProfileAttributesFrom(submissionParams);
+        String[] submissionParams = createInvalidParamsForProfile();
+        StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
         expectedProfile.googleId = student.googleId;
         
-        a = getAction(submissionParams);
-        r = (RedirectResult) a.executeAndPostProcess();
+        StudentProfileEditSaveAction action = getAction(submissionParams);
+        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
         
-        assertTrue(r.isError);
-        AssertHelper.assertContains(Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId, r.getDestinationWithParams());
+        assertTrue(result.isError);
+        AssertHelper.assertContains(Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId, result.getDestinationWithParams());
         List<String> expectedErrorMessages = new ArrayList<String>();
         
         expectedErrorMessages.add(String.format(FieldValidator.INVALID_NAME_ERROR_MESSAGE, submissionParams[1], "a person name", FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR, "a person name"));
         expectedErrorMessages.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, submissionParams[3], FieldValidator.REASON_INCORRECT_FORMAT));
         
-        AssertHelper.assertContains(expectedErrorMessages, r.getStatusMessage());
+        AssertHelper.assertContains(expectedErrorMessages, result.getStatusMessage());
         
-        expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave" +
+        String expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave" +
                 "|||true|||Student|||"+ student.name +"|||" + student.googleId + "|||" + student.email +
-                "|||" + Const.ACTION_RESULT_FAILURE + " : " + r.getStatusMessage() + "|||/page/studentProfileEditSave";
-        AssertHelper.assertContainsRegex(expectedLogMessage, a.getLogMessage());
+                "|||" + Const.ACTION_RESULT_FAILURE + " : " + result.getStatusMessage() + "|||/page/studentProfileEditSave";
+        AssertHelper.assertContainsRegex(expectedLogMessage, action.getLogMessage());
+    }
+
+    private void testActionTypicalSuccess(AccountAttributes student)
+            throws EntityDoesNotExistException {
+        String[] submissionParams = createValidParamsForProfile();
+        StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
+        gaeSimulation.loginAsStudent(student.googleId);
         
-        ______TS("masquerade mode");
+        ______TS("typical success case");
         
-        String adminUserId = "admin.user";
-        gaeSimulation.loginAsAdmin(adminUserId);
-        
-        submissionParams = createValidParamsForProfile();
-        expectedProfile = getProfileAttributesFrom(submissionParams);
+        StudentProfileEditSaveAction action = getAction(submissionParams);
+        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
         expectedProfile.googleId = student.googleId;
         
-        a = getAction(addUserIdToParams(student.googleId, submissionParams));
-        r = (RedirectResult) a.executeAndPostProcess();
+        assertFalse(result.isError);
+        AssertHelper.assertContains(Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=false&user=" + student.googleId, result.getDestinationWithParams());
+        assertEquals(Const.StatusMessages.STUDENT_PROFILE_EDITED, result.getStatusMessage());
         
-        assertFalse(r.isError);
-        assertEquals(Const.StatusMessages.STUDENT_PROFILE_EDITED, r.getStatusMessage());
-        AssertHelper.assertContains(Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=false&user=" + student.googleId, r.getDestinationWithParams());
+        verifyLogMessage(student, action, expectedProfile, false);
+    }
+
+    private void testActionInMasqueradeMode(AccountAttributes student)
+            throws EntityDoesNotExistException {
+
+        ______TS("masquerade mode");
+        gaeSimulation.loginAsAdmin("admin.user");
         
-        expectedProfile.modifiedDate = a.account.studentProfile.modifiedDate;
-        expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave" +
-                "|||true|||Student(M)|||"+ student.name +"|||" + student.googleId + "|||" + student.email +
+        String[] submissionParams = createValidParamsForProfile();
+        StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
+        expectedProfile.googleId = student.googleId;
+                StudentProfileEditSaveAction action = getAction(addUserIdToParams(student.googleId, submissionParams));
+        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        
+        assertFalse(result.isError);
+        assertEquals(Const.StatusMessages.STUDENT_PROFILE_EDITED, result.getStatusMessage());
+        AssertHelper.assertContains(Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=false&user=" + student.googleId, result.getDestinationWithParams());
+        verifyLogMessage(student, action, expectedProfile, true);
+    }
+    
+    
+    //-------------------------------------------------------------------------------------------------------
+    //-------------------------------------- Helper Functions -----------------------------------------------
+    //-------------------------------------------------------------------------------------------------------
+
+    private void verifyLogMessage(AccountAttributes student,
+            StudentProfileEditSaveAction action,
+            StudentProfileAttributes expectedProfile,
+            boolean isMasquerade) {
+        expectedProfile.modifiedDate = action.account.studentProfile.modifiedDate;
+        String expectedLogMessage = "TEAMMATESLOG|||studentProfileEditSave|||studentProfileEditSave" +
+                "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||"+ student.name +"|||" + student.googleId + "|||" + student.email +
                 "|||Student Profile for <span class=\"bold\">(" + student.googleId + ")</span> edited.<br>" +
                 expectedProfile.toString() + "|||/page/studentProfileEditSave";
         
-        AssertHelper.assertContainsRegex(expectedLogMessage, a.getLogMessage());
+        AssertHelper.assertContainsRegex(expectedLogMessage, action.getLogMessage());
     }
 
     private StudentProfileAttributes getProfileAttributesFrom(

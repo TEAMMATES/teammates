@@ -33,6 +33,7 @@ import teammates.common.datatransfer.FeedbackSessionResponseStatus;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
@@ -258,7 +259,8 @@ public class Logic {
         accountsLogic.deleteAccountCascade(googleId);
     }
     
-    public void deleteStudentProfilePicture(String googleId) throws BlobstoreFailureException {
+    public void deleteStudentProfilePicture(String googleId) 
+            throws BlobstoreFailureException, EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         
         accountsLogic.deleteStudentProfilePicture(googleId);
@@ -333,9 +335,42 @@ public class Logic {
         instructorsLogic.createInstructor(instructor);
     }
     
-    public void createInstructor(InstructorAttributes instructor) throws InvalidParametersException, EntityAlreadyExistsException {
-        instructorsLogic.createInstructor(instructor);
+    public InstructorAttributes createInstructor(InstructorAttributes instructor) throws InvalidParametersException, EntityAlreadyExistsException {
+        return instructorsLogic.createInstructor(instructor);
     }
+    
+    
+    /**
+     * This method should be used by admin only since the searching does not restrict the 
+     * visibility according to the logged-in user's google ID. This is used by admin to
+     * search instructors in the whole system.
+     * @param queryString
+     * @param cursorString
+     * @return Null if no match found.
+     */
+    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString, String cursorString){
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, queryString);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, cursorString);
+        
+        return instructorsLogic.searchInstructorsInWholeSystem(queryString, cursorString);
+    }
+    
+    /**
+     * Create or update document for the given Instructor
+     * @param Instructor to be put into documents
+     */
+    public void putDocument(InstructorAttributes instructor){
+        instructorsLogic.putDocument(instructor);
+    }
+    
+    /**
+     * Remove document for the given Instructor
+     * @param comment to be removed from documents
+     */
+    public void deleteDocument(InstructorAttributes instructor){
+        instructorsLogic.deleteDocument(instructor);
+    }
+    
 
     /**
      * Preconditions: <br>
@@ -555,6 +590,10 @@ public class Logic {
         return instructorsLogic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
     }
     
+    public MimeMessage sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor) 
+            throws EntityDoesNotExistException {
+        return instructorsLogic.sendRegistrationInviteToInstructor(courseId, instructor);
+    }
     
     public String sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute)
             throws EntityDoesNotExistException{
@@ -1246,7 +1285,7 @@ public class Logic {
             throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluation);
-
+        
         evaluationsLogic.createEvaluationCascade(evaluation);
     }
     

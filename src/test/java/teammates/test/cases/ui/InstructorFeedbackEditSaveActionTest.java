@@ -64,7 +64,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackEditSave|||instructorFeedbackEditSave|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
-                + "instr1@course1.com|||Updated Feedback Session <span class=\"bold\">"
+                + "instr1@course1.tmt|||Updated Feedback Session <span class=\"bold\">"
                 + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]"
                 + "</span> created.<br><span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012"
                 + "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br><span class=\"bold\">"
@@ -121,7 +121,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackEditSave|||instructorFeedbackEditSave|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
-                + "instr1@course1.com|||Updated Feedback Session <span class=\"bold\">"
+                + "instr1@course1.tmt|||Updated Feedback Session <span class=\"bold\">"
                 + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]"
                 + "</span> created.<br><span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012"
                 + "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br><span class=\"bold\">"
@@ -159,7 +159,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackEditSave|||instructorFeedbackEditSave|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
-                + "instr1@course1.com|||Updated Feedback Session <span class=\"bold\">"
+                + "instr1@course1.tmt|||Updated Feedback Session <span class=\"bold\">"
                 + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]"
                 + "</span> created.<br><span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012"
                 + "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br><span class=\"bold\">"
@@ -198,7 +198,7 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackEditSave|||instructorFeedbackEditSave|||true|||"
                 + "Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
-                + "instr1@course1.com|||Updated Feedback Session <span class=\"bold\">"
+                + "instr1@course1.tmt|||Updated Feedback Session <span class=\"bold\">"
                 + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]"
                 + "</span> created.<br><span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012"
                 + "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br><span class=\"bold\">"

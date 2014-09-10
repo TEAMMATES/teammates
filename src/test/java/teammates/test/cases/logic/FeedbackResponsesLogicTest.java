@@ -91,13 +91,13 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                         responseToUpdate.feedbackQuestionType, 
                         responseToUpdate.giverEmail,
                         responseToUpdate.giverSection,
-                        "student3InCourse1@gmail.com",
+                        "student3InCourse1@gmail.tmt",
                         responseToUpdate.recipientSection,
                         responseToUpdate.responseMetaData);
         
         frLogic.createFeedbackResponse(existingResponse);
         
-        responseToUpdate.recipientEmail = "student3InCourse1@gmail.com";
+        responseToUpdate.recipientEmail = "student3InCourse1@gmail.tmt";
         
         try {
             frLogic.updateFeedbackResponse(responseToUpdate);
@@ -126,7 +126,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
         ______TS("success: recipient changed to something else");
         
-        responseToUpdate.recipientEmail = "student5InCourse1@gmail.com";
+        responseToUpdate.recipientEmail = "student5InCourse1@gmail.tmt";
         
         frLogic.updateFeedbackResponse(responseToUpdate);
         
@@ -134,16 +134,16 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                 responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, responseToUpdate.recipientEmail).toString(),
                 responseToUpdate.toString());
         assertNull(frLogic.getFeedbackResponse(
-                responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, "student2InCourse1@gmail.com"));
+                responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, "student2InCourse1@gmail.tmt"));
         
         ______TS("success: both giver and recipient changed (teammate changed response)");
         
         responseToUpdate = getResponseFromDatastore("response1GracePeriodFeedback");
-        responseToUpdate.giverEmail = "student5InCourse1@gmail.com";
+        responseToUpdate.giverEmail = "student5InCourse1@gmail.tmt";
         responseToUpdate.recipientEmail = "Team 1.1";
         
         assertNotNull(frLogic.getFeedbackResponse(
-                responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.com","Team 1.2"));
+                responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.tmt","Team 1.2"));
         
         frLogic.updateFeedbackResponse(responseToUpdate);
         
@@ -151,7 +151,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                 responseToUpdate.feedbackQuestionId, responseToUpdate.giverEmail, responseToUpdate.recipientEmail).toString(),
                 responseToUpdate.toString());
         assertNull(frLogic.getFeedbackResponse(
-                responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.com","Team 1.2"));
+                responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.tmt","Team 1.2"));
         
         
         ______TS("failure: invalid params");
@@ -234,19 +234,19 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                 studentToUpdate.courseId, studentToUpdate.email).size(), 3);
         
         frLogic.updateFeedbackResponsesForChangingEmail(
-                studentToUpdate.courseId, studentToUpdate.email, "new@email.com");
+                studentToUpdate.courseId, studentToUpdate.email, "new@email.tmt");
         
         assertEquals(frLogic.getFeedbackResponsesForReceiverForCourse(
                 studentToUpdate.courseId, studentToUpdate.email).size(), 0);
         assertEquals(frLogic.getFeedbackResponsesFromGiverForCourse(
                 studentToUpdate.courseId, studentToUpdate.email).size(), 0);
         assertEquals(frLogic.getFeedbackResponsesForReceiverForCourse(
-                studentToUpdate.courseId, "new@email.com").size(), 2);
+                studentToUpdate.courseId, "new@email.tmt").size(), 2);
         assertEquals(frLogic.getFeedbackResponsesFromGiverForCourse(
-                studentToUpdate.courseId, "new@email.com").size(), 3);
+                studentToUpdate.courseId, "new@email.tmt").size(), 3);
         
         frLogic.updateFeedbackResponsesForChangingEmail(
-                studentToUpdate.courseId, "new@email.com", studentToUpdate.email);
+                studentToUpdate.courseId, "new@email.tmt", studentToUpdate.email);
     }
     
     public void testGetViewableResponsesForQuestionInSection() throws Exception {
@@ -311,7 +311,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
                         existingResponse.feedbackQuestionType, 
                         existingResponse.giverEmail,
                         "Section 1",
-                        "nullRecipient@gmail.com", 
+                        "nullRecipient@gmail.tmt", 
                         "Section 1",
                         existingResponse.responseMetaData);
       

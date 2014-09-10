@@ -147,6 +147,10 @@ public class FeedbackResponsesLogic {
         return frDb.getFeedbackResponsesForQuestion(feedbackQuestionId);
     }
 
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionWithinRange(String feedbackQuestionId, long range) {
+        return frDb.getFeedbackResponsesForQuestionWithinRange(feedbackQuestionId, range);
+    }
+
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(
             String feedbackQuestionId, String section) {
         if(section == null){
@@ -630,31 +634,21 @@ public class FeedbackResponsesLogic {
     }
 
     private List<FeedbackResponseAttributes> getFeedbackResponsesForTeamMembersOfStudent(
-            String feedbackQuestionId, String userEmail) {
-
-        List<FeedbackResponseAttributes> responses =
-                getFeedbackResponsesForQuestion(feedbackQuestionId);
+            String feedbackQuestionId, StudentAttributes student) {
+        
+        List<StudentAttributes> studentsInTeam = studentsLogic.getStudentsForTeam(student.team, student.course);
+       
         List<FeedbackResponseAttributes> teamResponses =
                 new ArrayList<FeedbackResponseAttributes>();
-
-        for (FeedbackResponseAttributes response : responses) {
-            StudentAttributes student =
-                    studentsLogic.getStudentForEmail(
-                            response.courseId, response.recipientEmail);
-
-            // Case where student might be null due to invalid course or email
-            if (student == null) {
-                log.warning("Null student in " + response.courseId
-                        + " with email " + response.recipientEmail
-                        + " while getting feedback responses.");
+        
+        for(StudentAttributes studentInTeam : studentsInTeam){
+            if(studentInTeam.email.equals(student.email)){
                 continue;
             }
-
-            if (studentsLogic.isStudentInTeam(
-                    response.courseId, student.team, userEmail)) {
-                teamResponses.add(response);
-            }
+            List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForReceiverForQuestion(feedbackQuestionId, studentInTeam.email);
+            teamResponses.addAll(responses);
         }
+        
         return teamResponses;
     }
 
@@ -695,7 +689,7 @@ public class FeedbackResponsesLogic {
             addNewResponses(
                     viewableResponses,
                     getFeedbackResponsesForTeamMembersOfStudent(
-                            question.getId(), studentEmail));
+                            question.getId(), student));
         }
 
         return viewableResponses;

@@ -509,12 +509,14 @@ public class Const {
         public static final String COMMENT = "comment";
         public static final String FEEDBACK_RESPONSE_COMMENT = "feedbackresponsecomment";
         public static final String STUDENT = "student";
+        public static final String INSTRUCTOR = "instructor";
     }
     
     public class SearchDocumentField {
         public static final String ATTRIBUTE = "attribute";
         public static final String COMMENT_ATTRIBUTE = "commentAttibute";
         public static final String STUDENT_ATTRIBUTE = "studentAttribute";
+        public static final String INSTRUCTOR_ATTRIBUTE = "instructorAttribute";
         public static final String COMMENT_GIVER_NAME = "commentGiverName";
         public static final String COMMENT_GIVER_EMAIL = "commentGiverEmail";
         public static final String COMMENT_RECIPIENT_NAME = "commentRecipientName";
@@ -798,7 +800,8 @@ public class Const {
 
         public static final String TEAM_INVALID_SECTION_EDIT = "The team \"%s\" is in multiple sections. The team ID should be unique across the entire course and a team cannot be spread across multiple sections.<br>";
         public static final String SECTION_QUOTA_EXCEED = "You are trying enroll more than 100 students in section \"%s\". To avoid performance problems, please do not enroll more than 100 students in a single section.<br>";
-
+        public static final String QUOTA_PER_ENROLLMENT_EXCEED = "You are trying to enroll more than 100 students. To avoid performance problems, please enroll no more than 100 students at a time.";
+        
         public static final String COURSE_INSTRUCTOR_ADDED = "The instructor %s has been added successfully. "
                 + "An email containing how to 'join' this course will be sent to %s in a few minutes.";
         public static final String COURSE_INSTRUCTOR_EXISTS = "An instructor with the same email address already exists in the course.";
@@ -831,9 +834,9 @@ public class Const {
         public static final String EVALUATION_DELETED = "The evaluation has been deleted.";
         public static final String EVALUATION_EDITED = "The evaluation has been edited.";
         public static final String EVALUATION_INFORMEDSTUDENTSOFCHANGES = "E-mails have been sent out to inform the students of the changes to the evaluation.";
-        public static final String EVALUATION_PUBLISHED = "The evaluation has been published.";
+        public static final String EVALUATION_PUBLISHED = "The evaluation has been published. Please allow up to 1 hour for all the notification emails to be sent out.";
         public static final String EVALUATION_UNPUBLISHED = "The evaluation has been unpublished.";
-        public static final String EVALUATION_REMINDERSSENT = "Reminder e-mails have been sent out to those students.";
+        public static final String EVALUATION_REMINDERSSENT = "Reminder e-mails have been sent out to those students. Please allow up to 1 hour for all the notification emails to be sent out.";
         public static final String EVALUATION_RESULTSEDITED = "The particular evaluation results have been edited.";
         public static final String EVALUATION_EMPTY = "You have not created any sessions yet. Use the form above to create a session.";
         public static final String EVALUATION_NOT_OPEN = "This evaluation is not open at this time. You are not allowed to edit your submission.";
@@ -852,9 +855,9 @@ public class Const {
         public static final String FEEDBACK_SESSION_COPIED = "The feedback session has been copied. Please modify settings/questions as necessary.";
         public static final String FEEDBACK_SESSION_EDITED = "The feedback session has been updated.";
         public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
-        public static final String FEEDBACK_SESSION_PUBLISHED = "The feedback session has been published.";
+        public static final String FEEDBACK_SESSION_PUBLISHED = "The feedback session has been published. Please allow up to 1 hour for all the notification emails to be sent out.";
         public static final String FEEDBACK_SESSION_UNPUBLISHED = "The feedback session has been unpublished.";
-        public static final String FEEDBACK_SESSION_REMINDERSSENT = "Reminder e-mails have been sent out to those students and instructors.";
+        public static final String FEEDBACK_SESSION_REMINDERSSENT = "Reminder e-mails have been sent out to those students and instructors. Please allow up to 1 hour for all the notification emails to be sent out.";
         public static final String FEEDBACK_SESSION_EXISTS = "A feedback session by this name already exists under this course";        
         public static final String FEEDBACK_SESSION_EMPTY = "You have not created any sessions yet. Use the form above to create a session.";
     

@@ -1,12 +1,20 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertEquals;
+
+import java.io.File;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.FileHelper;
 import teammates.common.util.Url;
+import teammates.common.util.Utils;
+import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorSearchPage;
@@ -23,6 +31,13 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         removeAndRestoreTestDataOnServer(testData);
         putDocuments(testData);
         browser = BrowserPool.getBrowser();
+        
+        // upload a profile picture for one of the students
+        StudentAttributes student = testData.students.get("student2InCourse1");
+        File picture = new File("src/test/resources/images/profile_pic_updated.png");
+        String pictureData = Utils.getTeammatesGson().toJson(FileHelper.readFileAsBytes(picture.getAbsolutePath()));
+        assertEquals("Unable to upload profile picture", "[BACKDOOR_STATUS_SUCCESS]", 
+                BackDoor.uploadAndUpdateStudentProfilePicture(student.googleId, pictureData));
     }
     
     @Test 
@@ -99,8 +114,8 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchContent = "student2";
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
-        searchPage.verifyHtmlMainContent("/InstructorSearchPageSearchStudentsForStudent2.html");
-        
+        searchPage.clickAndHoverPicture("studentphoto-c0.1");
+        searchPage.verifyHtmlMainContent("/InstructorSearchPageSearchStudentsForStudent2.html");        
     }
 
     private InstructorSearchPage getInstructorSearchPage(String instructorId) {

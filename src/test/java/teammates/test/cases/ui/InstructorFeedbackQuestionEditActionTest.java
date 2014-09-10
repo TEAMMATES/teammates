@@ -17,6 +17,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -258,6 +259,57 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, r.getStatusMessage());
         assertFalse(r.isError);
         
+        
+        ______TS("Unsuccessful case: test null course id parameter");
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "0",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "TEXT",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "question",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+        
+        try {
+            a = getAction(submissionParams);
+            r = (RedirectResult) a.executeAndPostProcess();
+            signalFailureToDetectException("Did not detect that parameters are null.");
+        } catch (NullPostParameterException e) {
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+                    Const.ParamsNames.COURSE_ID), e.getMessage());
+        }
+        
+        
+        ______TS("Unsuccessful case: test null course id parameter");
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "0",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "TEXT",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "question",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+        
+        try {
+            a = getAction(submissionParams);
+            r = (RedirectResult) a.executeAndPostProcess();
+            signalFailureToDetectException("Did not detect that parameters are null.");
+        } catch (NullPostParameterException e) {
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+                    Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
+        }
     }
     
     @Test
@@ -385,7 +437,6 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
         assertFalse(r.isError);
-        
     }
     
     @Test
@@ -826,6 +877,39 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         
         // All existing responses should remain
         assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); 
+        
+        
+        ______TS("Edit: Invalid recipient type");
+        
+        String[] editRecipientTypeParams = {
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONTRIB",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, fqd.questionText,
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+        
+        a = getAction(editRecipientTypeParams);
+        r = (RedirectResult) a.executeAndPostProcess();
+
+        assertEquals( InstructorFeedbackQuestionEditAction.ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH
+                + "<br />" + Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
+
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
+                + "&fsname=CONTRIB+Session&user=FSQTT.idOfInstructor1OfCourse1"
+                + "&error=true", 
+                r.getDestinationWithParams());
+        assertTrue(r.isError);
+        
         
         // delete session to clean database
         FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);

@@ -31,6 +31,12 @@ public class InstructorCommentsPage extends AppPage {
         waitForPageToLoad();
     }
     
+    public InstructorHomePage clickHomePageLinkInHeader(){
+        browser.driver.findElement(By.xpath("//*[@id=\"contentLinks\"]/ul[1]/li[1]/a")).click();
+        waitForPageToLoad();
+        return changePageType(InstructorHomePage.class);
+    }
+    
     public void clickCommentsPageLinkInHeader(){
         browser.driver.findElement(By.xpath("//*[@id=\"contentLinks\"]/ul[1]/li[5]/a")).click();
         waitForPageToLoad();

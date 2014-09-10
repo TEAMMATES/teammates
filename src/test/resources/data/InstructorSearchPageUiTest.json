@@ -4,34 +4,34 @@
             "googleId":"searchUI.idOfInstructor1OfCourse1",
             "name":"Instructor 1 of Course 1",
             "isInstructor":true,
-            "email":"searchUI.instr1@course1.com",
-            "institute":"National University of Singapore"
+            "email":"searchUI.instr1@course1.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "instructor2OfCourse1":{
             "googleId":"searchUI.idOfInstructor2OfCourse1",
             "name":"Instructor 2 of Course 1",
             "isInstructor":true,
-            "email":"searchUI.instr2@course1.com",
-            "institute":"National University of Singapore"
+            "email":"searchUI.instr2@course1.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "helperOfCourse1":{
             "googleId":"searchUI.idOfHelperOfCourse1",
             "name":"Instructor 2 of Course 1",
             "isInstructor":true,
-            "email":"searchUI.Helper@course1.com",
-            "institute":"National University of Singapore"
+            "email":"searchUI.Helper@course1.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "student1InCourse1":{
             "googleId":"searchUI.student1InCourse1",
             "name":"Student 1 in course 1",
             "isInstructor":false,
-            "email":"searchUI.student1InCourse1@gmail.com",
-            "institute":"National University of Singapore",
+            "email":"searchUI.student1InCourse1@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1",
             "studentProfile":{
                 "googleId":"student1InCourse1",
                 "shortName":"Stud1",
-                "email":"i.m.stud1@gmail.com",
-                "institute":"Georgia Tech",
+                "email":"i.m.stud1@gmail.tmt",
+                "institute":"TEAMMATES Test Institute 3",
                 "country":"U.S.A",
                 "gender":"male",
                 "moreInfo":"I am just a student :P"
@@ -41,22 +41,22 @@
             "googleId":"searchUI.student2InCourse1",
             "name":"Student in two courses",
             "isInstructor":false,
-            "email":"searchUI.student2InCourse1@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"searchUI.student2InCourse1@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "student2.2InCourse1":{
             "googleId":"searchUI.student2.2InCourse1",
             "name":"Student in two courses",
             "isInstructor":false,
-            "email":"searchUI.student2InCourse1@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"searchUI.student2InCourse1@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "student3InCourse1":{
             "googleId":"searchUI.student3InCourse1",
             "name":"Student 3 in course 1",
             "isInstructor":false,
-            "email":"searchUI.student3InCourse1@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"searchUI.student3InCourse1@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         }
     },
     "courses":{
@@ -71,7 +71,7 @@
             "googleId":"searchUI.idOfInstructor1OfCourse1",
             "courseId":"searchUI.idOfTypicalCourse1",
             "name":"Instructor1 Course1",
-            "email":"searchUI.instructor1@course1.com",
+            "email":"searchUI.instructor1@course1.tmt",
             "role":"Co-owner",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
@@ -81,7 +81,7 @@
             "googleId":"searchUI.idOfInstructor2OfCourse1",
             "courseId":"searchUI.idOfTypicalCourse1",
             "name":"Instructor2 Course1",
-            "email":"searchUI.instructor2@course1.com",
+            "email":"searchUI.instructor2@course1.tmt",
             "role":"Manager",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
@@ -91,7 +91,7 @@
             "googleId":"searchUI.idOfHelperOfCourse1",
             "courseId":"searchUI.idOfTypicalCourse1",
             "name":"Instructor2 Course1",
-            "email":"searchUI.Helper@course1.com",
+            "email":"searchUI.Helper@course1.tmt",
             "role":"Helper",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
@@ -100,7 +100,7 @@
     },
     "students":{
         "student1InCourse1":{
-            "email":"searchUI.student1InCourse1@gmail.com",
+            "email":"searchUI.student1InCourse1@gmail.tmt",
             "name":"student1 In Course1",
             "team":"Team 1.1",
             "section":"Section 1",
@@ -109,7 +109,7 @@
             "course":"searchUI.idOfTypicalCourse1"
         },
         "student2InCourse1":{
-            "email":"searchUI.student2InCourse1@gmail.com",
+            "email":"searchUI.student2InCourse1@gmail.tmt",
             "name":"student2 In Course1",
             "googleId":"searchUI.student2InCourse1",
             "team":"Team 1.1",
@@ -118,7 +118,7 @@
             "course":"searchUI.idOfTypicalCourse1"
         },
         "student2.2InCourse1":{
-            "email":"searchUI.student2.2InCourse1@gmail.com",
+            "email":"searchUI.student2.2InCourse1@gmail.tmt",
             "name":"student2 2 In Course1",
             "googleId":"searchUI.student2.2InCourse1",
             "team":"Team 1.1",
@@ -127,7 +127,7 @@
             "course":"searchUI.idOfTypicalCourse1"
         },
         "student3InCourse1":{
-            "email":"searchUI.student3InCourse1@gmail.com",
+            "email":"searchUI.student3InCourse1@gmail.tmt",
             "name":"student3 In Course1",
             "googleId":"searchUI.student3InCourse1",
             "team":"Team 1.2",
@@ -140,7 +140,7 @@
         "session1InCourse1":{
             "feedbackSessionName":"searchUI.First feedback session",
             "courseId":"searchUI.idOfTypicalCourse1",
-            "creatorEmail":"searchUI.instructor1@course1.com",
+            "creatorEmail":"searchUI.instructor1@course1.tmt",
             "instructions":{
                 "value":"Please please fill in the following questions."
             },
@@ -161,7 +161,7 @@
         "qn1InSession1InCourse1":{
             "feedbackSessionName":"searchUI.First feedback session",
             "courseId":"searchUI.idOfTypicalCourse1",
-            "creatorEmail":"searchUI.instructor1@course1.com",
+            "creatorEmail":"searchUI.instructor1@course1.tmt",
             "questionMetaData":{
                 "value":"What is the best selling point of your product?"
             },
@@ -184,7 +184,7 @@
         "qn2InSession1InCourse1":{
             "feedbackSessionName":"searchUI.First feedback session",
             "courseId":"searchUI.idOfTypicalCourse1",
-            "creatorEmail":"searchUI.instructor1@course1.com",
+            "creatorEmail":"searchUI.instructor1@course1.tmt",
             "questionMetaData":{
                 "value":"Rate 1 other student's product"
             },
@@ -211,7 +211,7 @@
         "qn3InSession1InCourse1":{
             "feedbackSessionName":"searchUI.First feedback session",
             "courseId":"searchUI.idOfTypicalCourse1",
-            "creatorEmail":"searchUI.instructor1@course1.com",
+            "creatorEmail":"searchUI.instructor1@course1.tmt",
             "questionMetaData":{
                 "value":"My searchUI on the class"
             },
@@ -243,7 +243,7 @@
         "qn4InSession1InCourse1":{
             "feedbackSessionName":"searchUI.First feedback session",
             "courseId":"searchUI.idOfTypicalCourse1",
-            "creatorEmail":"searchUI.instructor1@course1.com",
+            "creatorEmail":"searchUI.instructor1@course1.tmt",
             "questionMetaData":{
                 "value":"Instructor searchUI on the class"
             },
@@ -280,8 +280,8 @@
             "courseId":"searchUI.idOfTypicalCourse1",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"searchUI.student1InCourse1@gmail.com",
-            "recipientEmail":"searchUI.student1InCourse1@gmail.com",
+            "giverEmail":"searchUI.student1InCourse1@gmail.tmt",
+            "recipientEmail":"searchUI.student1InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Student 1 self feedback."
             },
@@ -293,8 +293,8 @@
             "courseId":"searchUI.idOfTypicalCourse1",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"searchUI.student2InCourse1@gmail.com",
-            "recipientEmail":"searchUI.student2InCourse1@gmail.com",
+            "giverEmail":"searchUI.student2InCourse1@gmail.tmt",
+            "recipientEmail":"searchUI.student2InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"I'm cool'"
             },
@@ -307,8 +307,8 @@
             "courseId":"searchUI.idOfTypicalCourse1",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"searchUI.student2InCourse1@gmail.com",
-            "recipientEmail":"searchUI.student1InCourse1@gmail.com",
+            "giverEmail":"searchUI.student2InCourse1@gmail.tmt",
+            "recipientEmail":"searchUI.student1InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Response from student 2 to student 1."
             },
@@ -321,8 +321,8 @@
             "courseId":"searchUI.idOfTypicalCourse1",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"searchUI.student1InCourse1@gmail.com",
-            "recipientEmail":"searchUI.student2InCourse1@gmail.com",
+            "giverEmail":"searchUI.student1InCourse1@gmail.tmt",
+            "recipientEmail":"searchUI.student2InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Response from student 1 to student 2."
             },
@@ -335,8 +335,8 @@
             "courseId":"searchUI.idOfTypicalCourse1",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"searchUI.student3InCourse1@gmail.com",
-            "recipientEmail":"searchUI.student2InCourse1@gmail.com",
+            "giverEmail":"searchUI.student3InCourse1@gmail.tmt",
+            "recipientEmail":"searchUI.student2InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Response from student 3 \"to\" student 2.\r\nMultiline test."
             },
@@ -349,7 +349,7 @@
             "courseId":"searchUI.idOfTypicalCourse1",
             "feedbackQuestionId":"3",
             "feedbackQuestionType":"TEXT",
-            "giverEmail":"searchUI.instructor1@course1.com",
+            "giverEmail":"searchUI.instructor1@course1.tmt",
             "recipientEmail":"%GENERAL%",
             "responseMetaData":{
                 "value":"Good work, keep it up!"
@@ -364,8 +364,8 @@
             "courseId":"searchUI.idOfTypicalCourse1",
             "feedbackSessionName":"searchUI.First feedback session",
             "feedbackQuestionId":"1",
-            "giverEmail":"searchUI.instructor1@course1.com",
-            "feedbackResponseId":"1%searchUI.student1InCourse1@gmail.com%searchUI.student1InCourse1@gmail.com",
+            "giverEmail":"searchUI.instructor1@course1.tmt",
+            "feedbackResponseId":"1%searchUI.student1InCourse1@gmail.tmt%searchUI.student1InCourse1@gmail.tmt",
             "createdAt":"2016-03-01 11:59 PM UTC",
             "commentText":{
                 "value":"Instructor 1 comment to student 1 self feedback"   
@@ -375,8 +375,8 @@
             "courseId":"searchUI.idOfTypicalCourse1",
             "feedbackSessionName":"searchUI.First feedback session",
             "feedbackQuestionId":"2",
-            "giverEmail":"searchUI.instructor2@course1.com",
-            "feedbackResponseId":"2%searchUI.student3InCourse1@gmail.com%searchUI.student2InCourse1@gmail.com",
+            "giverEmail":"searchUI.instructor2@course1.tmt",
+            "feedbackResponseId":"2%searchUI.student3InCourse1@gmail.tmt%searchUI.student2InCourse1@gmail.tmt",
             "showCommentTo": [STUDENTS,INSTRUCTORS],
             "showGiverNameTo": [],
             "createdAt":"2016-02-02 11:59 PM UTC",
@@ -388,8 +388,8 @@
             "courseId":"searchUI.idOfTypicalCourse1",
             "feedbackSessionName":"searchUI.First feedback session",
             "feedbackQuestionId":"2",
-            "giverEmail":"searchUI.instructor2@course1.com",
-            "feedbackResponseId":"2%searchUI.student3InCourse1@gmail.com%searchUI.student2InCourse1@gmail.com",
+            "giverEmail":"searchUI.instructor2@course1.tmt",
+            "feedbackResponseId":"2%searchUI.student3InCourse1@gmail.tmt%searchUI.student2InCourse1@gmail.tmt",
             "showCommentTo": [GIVER,RECEIVER,STUDENTS,INSTRUCTORS],
             "showGiverNameTo": [INSTRUCTORS,RECEIVER_TEAM_MEMBERS],
             "createdAt":"2016-02-03 11:59 PM UTC",
@@ -401,8 +401,8 @@
             "courseId":"searchUI.idOfTypicalCourse1",
             "feedbackSessionName":"searchUI.First feedback session",
             "feedbackQuestionId":"2",
-            "giverEmail":"searchUI.instructor1@course1.com",
-            "feedbackResponseId":"2%searchUI.student3InCourse1@gmail.com%searchUI.student2InCourse1@gmail.com",
+            "giverEmail":"searchUI.instructor1@course1.tmt",
+            "feedbackResponseId":"2%searchUI.student3InCourse1@gmail.tmt%searchUI.student2InCourse1@gmail.tmt",
             "createdAt":"2016-02-01 11:59 PM UTC",
             "commentText":{
                 "value":"Instructor 1 comment to feedback Question 2"   
@@ -412,14 +412,14 @@
     "comments":{
         "privateComments":{
             "courseId":"searchUI.idOfTypicalCourse1",
-            "giverEmail":"searchUI.instructor1@course1.com",
+            "giverEmail":"searchUI.instructor1@course1.tmt",
             "recipientType":"PERSON",
-            "recipients":["searchUI.student1InCourse1@gmail.com"],
+            "recipients":["searchUI.student1InCourse1@gmail.tmt"],
             "status": "FINAL",
             "showCommentTo": [],
             "showGiverNameTo": [],
             "showRecipientNameTo": [],
-            "receiverEmail":"searchUI.student1InCourse1@gmail.com",
+            "receiverEmail":"searchUI.student1InCourse1@gmail.tmt",
             "createdAt":"2012-04-01 11:59 PM UTC",
             "commentText":{
                 "value":"private comment"
@@ -427,14 +427,14 @@
         },
         "recipientCanViewThisComment":{
             "courseId":"searchUI.idOfTypicalCourse1",
-            "giverEmail":"searchUI.instructor1@course1.com",
+            "giverEmail":"searchUI.instructor1@course1.tmt",
             "recipientType":"PERSON",
-            "recipients":["searchUI.student1InCourse1@gmail.com"],
+            "recipients":["searchUI.student1InCourse1@gmail.tmt"],
             "status": "FINAL",
             "showCommentTo": [PERSON],
             "showGiverNameTo": [PERSON],
             "showRecipientNameTo": [PERSON],
-            "receiverEmail":"searchUI.student1InCourse1@gmail.com",
+            "receiverEmail":"searchUI.student1InCourse1@gmail.tmt",
             "createdAt":"2012-05-01 08:49 AM UTC",
             "commentText":{
                 "value":"recipient can see this comment with giver and recipient's name"
@@ -442,14 +442,14 @@
         },
         "recipientCanViewThisCommentWithoutName":{
             "courseId":"searchUI.idOfTypicalCourse1",
-            "giverEmail":"searchUI.instructor1@course1.com",
+            "giverEmail":"searchUI.instructor1@course1.tmt",
             "recipientType":"PERSON",
-            "recipients":["searchUI.student1InCourse1@gmail.com"],
+            "recipients":["searchUI.student1InCourse1@gmail.tmt"],
             "status": "FINAL",
             "showCommentTo": [PERSON],
             "showGiverNameTo": [],
             "showRecipientNameTo": [],
-            "receiverEmail":"searchUI.student1InCourse1@gmail.com",
+            "receiverEmail":"searchUI.student1InCourse1@gmail.tmt",
             "createdAt":"2012-05-02 08:50 AM UTC",
             "commentText":{
                 "value":"recipient can see this comment without giver's name"
@@ -457,14 +457,14 @@
         },
         "teammatesCanViewThisComment":{
             "courseId":"searchUI.idOfTypicalCourse1",
-            "giverEmail":"searchUI.instructor1@course1.com",
+            "giverEmail":"searchUI.instructor1@course1.tmt",
             "recipientType":"PERSON",
-            "recipients":["searchUI.student1InCourse1@gmail.com"],
+            "recipients":["searchUI.student1InCourse1@gmail.tmt"],
             "status": "FINAL",
             "showCommentTo": [TEAM],
             "showGiverNameTo": [TEAM],
             "showRecipientNameTo": [TEAM],
-            "receiverEmail":"searchUI.student1InCourse1@gmail.com",
+            "receiverEmail":"searchUI.student1InCourse1@gmail.tmt",
             "createdAt":"2012-05-03 08:51 AM UTC",
             "commentText":{
                 "value":"teammates can see this comment with giver and recipient's name"
@@ -472,14 +472,14 @@
         },
         "teammatesCanViewThisCommentWithoutName":{
             "courseId":"searchUI.idOfTypicalCourse1",
-            "giverEmail":"searchUI.instructor1@course1.com",
+            "giverEmail":"searchUI.instructor1@course1.tmt",
             "recipientType":"PERSON",
-            "recipients":["searchUI.student1InCourse1@gmail.com"],
+            "recipients":["searchUI.student1InCourse1@gmail.tmt"],
             "status": "FINAL",
             "showCommentTo": [TEAM],
             "showGiverNameTo": [],
             "showRecipientNameTo": [],
-            "receiverEmail":"searchUI.student1InCourse1@gmail.com",
+            "receiverEmail":"searchUI.student1InCourse1@gmail.tmt",
             "createdAt":"2012-05-04 08:52 AM UTC",
             "commentText":{
                 "value":"teammates can see this comment without giver and recipient's name"
@@ -487,7 +487,7 @@
         },
         "teamCanViewThisComment":{
             "courseId":"searchUI.idOfTypicalCourse1",
-            "giverEmail":"searchUI.instructor1@course1.com",
+            "giverEmail":"searchUI.instructor1@course1.tmt",
             "recipientType":"TEAM",
             "recipients":["Team 1.1"],
             "status": "FINAL",
@@ -502,7 +502,7 @@
         },
         "teamCanViewThisCommentWithoutName":{
             "courseId":"searchUI.idOfTypicalCourse1",
-            "giverEmail":"searchUI.instructor1@course1.com",
+            "giverEmail":"searchUI.instructor1@course1.tmt",
             "recipientType":"TEAM",
             "recipients":["Team 1.1"],
             "status": "FINAL",
@@ -517,14 +517,14 @@
         },
         "otherStudentsInThisCourseCanViewThisCommentWithoutName":{
             "courseId":"searchUI.idOfTypicalCourse1",
-            "giverEmail":"searchUI.instructor1@course1.com",
+            "giverEmail":"searchUI.instructor1@course1.tmt",
             "recipientType":"PERSON",
-            "recipients":["searchUI.student1InCourse1@gmail.com"],
+            "recipients":["searchUI.student1InCourse1@gmail.tmt"],
             "status": "FINAL",
             "showCommentTo": [COURSE],
             "showGiverNameTo": [],
             "showRecipientNameTo": [],
-            "receiverEmail":"searchUI.student1InCourse1@gmail.com",
+            "receiverEmail":"searchUI.student1InCourse1@gmail.tmt",
             "createdAt":"2012-05-06 08:55 AM UTC",
             "commentText":{
                 "value":"Other students in this course can see this comment without giver and recipient's name"
@@ -532,7 +532,7 @@
         },
         "studentsInThisCourseCanViewThisComment":{
             "courseId":"searchUI.idOfTypicalCourse1",
-            "giverEmail":"searchUI.instructor1@course1.com",
+            "giverEmail":"searchUI.instructor1@course1.tmt",
             "recipientType":"COURSE",
             "recipients":["searchUI.idOfTypicalCourse1"],
             "status": "FINAL",
@@ -547,7 +547,7 @@
         },
         "otherInstructorCanViewThisComment":{
             "courseId":"searchUI.idOfTypicalCourse1",
-            "giverEmail":"searchUI.instructor2@course1.com",
+            "giverEmail":"searchUI.instructor2@course1.tmt",
             "recipientType":"COURSE",
             "recipients":["searchUI.idOfTypicalCourse1"],
             "status": "FINAL",
@@ -562,7 +562,7 @@
         },
         "otherInstructorCanViewThisCommentWithoutName":{
             "courseId":"searchUI.idOfTypicalCourse1",
-            "giverEmail":"searchUI.instructor2@course1.com",
+            "giverEmail":"searchUI.instructor2@course1.tmt",
             "recipientType":"COURSE",
             "recipients":["searchUI.idOfTypicalCourse1"],
             "status": "FINAL",
@@ -577,7 +577,7 @@
         },
         "privateCommentFromHelper":{
             "courseId":"searchUI.idOfTypicalCourse1",
-            "giverEmail":"searchUI.Helper@course1.com",
+            "giverEmail":"searchUI.Helper@course1.tmt",
             "recipientType":"COURSE",
             "recipients":["searchUI.idOfTypicalCourse1"],
             "status": "FINAL",

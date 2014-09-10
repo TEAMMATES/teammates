@@ -23,8 +23,8 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId), 
@@ -61,7 +61,11 @@ public class InstructorFeedbackQuestionEditAction extends Action {
     private void editQuestion(FeedbackQuestionAttributes updatedQuestion)
             throws InvalidParametersException, EntityDoesNotExistException {
         
-        validateContribQnGiverRecipient(updatedQuestion);
+        String err = validateContribQnGiverRecipient(updatedQuestion);
+        if(!err.isEmpty()){
+            statusToUser.add(err);
+            isError = true;
+        }
         
         if(updatedQuestion.questionNumber != 0){ //Question number was updated
             List<String> questionDetailsErrors = updatedQuestion.getQuestionDetails().validateQuestionDetails();
@@ -88,20 +92,40 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             }
         }
     }
+    
+    final static public String ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH = 
+            Const.FeedbackQuestionTypeNames.CONTRIB + " must have "
+            + FeedbackParticipantType.STUDENTS.toDisplayGiverName()
+            + " and " + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF.toDisplayRecipientName()
+            + " as the feedback giver and recipient respectively."
+            + " These values will be used instead.";
 
-    private void validateContribQnGiverRecipient(
+    public static String validateContribQnGiverRecipient(
             FeedbackQuestionAttributes updatedQuestion) {
-        if(updatedQuestion.questionType == FeedbackQuestionType.CONTRIB){
-            Assumption.assertEquals("Contrib qn giver type invalid: " + updatedQuestion.giverType.toString(),
-                    updatedQuestion.giverType, FeedbackParticipantType.STUDENTS);
-            Assumption.assertEquals("Contrib qn recipient type invalid: " + updatedQuestion.recipientType.toString(),
-                    updatedQuestion.recipientType, FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
-            Assumption.assertTrue("Contrib Qn Invalid visibility options",
-                    (updatedQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
-                    == updatedQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) &&
-                    (updatedQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                    == updatedQuestion.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))));
+        if(updatedQuestion.questionType != FeedbackQuestionType.CONTRIB){
+            return "";
         }
+        
+        String errorMsg = "";
+        
+        if(FeedbackParticipantType.STUDENTS != updatedQuestion.giverType) {
+            log.severe("Unexpected giverType for contribution question: " + updatedQuestion.giverType + " (forced to :" + FeedbackParticipantType.STUDENTS + ")");
+            updatedQuestion.giverType = FeedbackParticipantType.STUDENTS;
+            errorMsg = ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH;
+        }
+        if(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF != updatedQuestion.recipientType) {
+            log.severe("Unexpected recipientType for contribution question: " + updatedQuestion.recipientType + " (forced to :" + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF + ")");
+            updatedQuestion.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
+            errorMsg = ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH;
+        }
+        
+        Assumption.assertTrue("Contrib Qn Invalid visibility options",
+                (updatedQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
+                == updatedQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) &&
+                (updatedQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                == updatedQuestion.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))));
+        
+        return errorMsg;
     }
 
     private static FeedbackQuestionAttributes extractFeedbackQuestionData(Map<String, String[]> requestParameters) {

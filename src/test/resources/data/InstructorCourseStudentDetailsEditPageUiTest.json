@@ -4,8 +4,8 @@
       "googleId": "CCSDEditUiT.instr",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "CCSDEditUiT.instr@gmail.com",
-      "institute": "National University of Singapore"
+      "email": "CCSDEditUiT.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     }
   },
 
@@ -22,7 +22,7 @@
       "googleId": "CCSDEditUiT.instr",
       "courseId": "CCSDEditUiT.CS2104",
       "name": "Teammates Test",
-      "email": "CCSDEditUiT.instr@gmail.com",
+      "email": "CCSDEditUiT.instr@gmail.tmt",
       "role":"Co-owner",
       "displayedName":"Co-owner",
       "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -32,7 +32,7 @@
   "students": {
     "registeredStudent": {
       "googleId": "CCSDEditUiT.jose.tmms",
-      "email": "CCSDEditUiT.jose.tmms@gmail.com",
+      "email": "CCSDEditUiT.jose.tmms@gmail.tmt",
       "course": "CCSDEditUiT.CS2104",
       "name": "José Gómez",
       "comments": "This student's name is José Gómez",
@@ -40,7 +40,7 @@
     },
     "unregisteredStudent": {
       "googleId": "",
-      "email": "benny.c.tmms@gmail.com",
+      "email": "benny.c.tmms@gmail.tmt",
       "course": "CCSDEditUiT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",

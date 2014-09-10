@@ -4,8 +4,8 @@
       "googleId": "ICJConfirmationUiT.instr",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "ICJConfirmationUiT.instr@gmail.com",
-      "institute": "National University of Singapore"
+      "email": "ICJConfirmationUiT.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
     }
   },
 
@@ -46,7 +46,7 @@
       "googleId": "ICJConfirmationUiT.instr",
       "courseId": "ICJConfirmationUiT.CS1101",
       "name": "Teammates Test",
-      "email": "ICJConfirmationUiT.instr@gmail.com",
+      "email": "ICJConfirmationUiT.instr@gmail.tmt",
       "role":"Co-owner",
       "displayedName":"Co-owner",
       "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"

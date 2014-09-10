@@ -1,4 +1,5 @@
 //TODO: Move constants from Common.js into appropriate files if not shared.
+var SELECT_OPTION_UNINITIALISED = -9999;
 
 var modalSelectedRow;
 
@@ -84,7 +85,7 @@ function checkFeedbackQuestion(form) {
             setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID,true);
             return false;
         }
-        var qnNum = ($(form).attr('name')=='form_addquestions') ? -1 : parseInt($(form).attr('id').substring("form_editquestion-".length),$(form).attr('id').length);
+        var qnNum = getQuestionNumFromEditForm(form);
         if(updateNumScalePossibleValues(qnNum)){
             return true;
         } else {
@@ -92,8 +93,19 @@ function checkFeedbackQuestion(form) {
             return false;
         }
     }
-
     return true;
+}
+
+function getQuestionNumFromEditForm(form){
+    if($(form).attr('name') == 'form_addquestions') {
+        return -1;
+    } else {
+        return extractQuestionNumFromEditFormId($(form).attr('id'));
+    }
+}
+
+function extractQuestionNumFromEditFormId(id){
+    return parseInt(id.substring("form_editquestion-".length, id.length));
 }
 
 /**
@@ -154,18 +166,30 @@ function checkEditFeedbackSession(form){
 /**
  * To be run on page finish loading, this will select the input: start date,
  * start time, and timezone based on client's time.
+ * 
+ * The default values will not be set if the form was submitted previously and
+ * failed validation.
  */
 function selectDefaultTimeOptions(){
     var now = new Date();
     
-    var currentDate = convertDateToDDMMYYYY(now);
     var hours = convertDateToHHMM(now).substring(0, 2);
     var currentTime = (parseInt(hours) + 1) % 24;
     var timeZone = -now.getTimezoneOffset() / 60;
+    
+    if (!isTimeZoneUnintialized()) {
+        document.getElementById(FEEDBACK_SESSION_STARTTIME).value = currentTime;
+        document.getElementById(FEEDBACK_SESSION_TIMEZONE).value = ""+timeZone;        
+    }
+    
+    if ($('#timezone > option[value=\'' + SELECT_OPTION_UNINITIALISED + '\']')) {
+    	$('#timezone > option[value=\'' + SELECT_OPTION_UNINITIALISED + '\']').remove();
+    }
+}
 
-    document.getElementById(FEEDBACK_SESSION_STARTDATE).value = currentDate;
-    document.getElementById(FEEDBACK_SESSION_STARTTIME).value = currentTime;
-    document.getElementById(FEEDBACK_SESSION_TIMEZONE).value = ""+timeZone;
+
+function isTimeZoneUnintialized() {
+	return document.getElementById('timezone').value != SELECT_OPTION_UNINITIALISED;
 }
 
 
