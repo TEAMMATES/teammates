@@ -14,6 +14,7 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -26,7 +27,10 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        Assumption.assertNotNull(courseId);
         String fsname = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        Assumption.assertNotNull(fsname);
+        
         instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
         new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));

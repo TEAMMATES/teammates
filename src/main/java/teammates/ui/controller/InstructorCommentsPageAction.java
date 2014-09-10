@@ -81,8 +81,12 @@ public class InstructorCommentsPageAction extends Action {
         data.instructorEmail = instructor != null? instructor.email : "no-email";
         data.previousPageLink = previousPageLink;
         data.nextPageLink = nextPageLink;
-        data.numberOfPendingComments = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size() 
-                + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
+        int numberOfPendingComments = 0;
+        if(!courseId.isEmpty()){
+            numberOfPendingComments = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size() 
+                    + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
+        }
+        data.numberOfPendingComments = numberOfPendingComments;
         
         statusToAdmin = "instructorComments Page Load<br>" + 
                 "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records " +
