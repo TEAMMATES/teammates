@@ -117,7 +117,7 @@ public class Student {
 
     public void setName(String name) {
         name = name.trim();
-        String processedFullName = StringHelper.splitName(name)[0] + " " + StringHelper.splitName(name)[1];
+        String processedFullName = StringHelper.splitName(name)[2];
         this.name = processedFullName.trim();
         this.setLastName(StringHelper.splitName(name)[1]);
     }

@@ -85,7 +85,7 @@ function checkFeedbackQuestion(form) {
             setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID,true);
             return false;
         }
-        var qnNum = ($(form).attr('name')=='form_addquestions') ? -1 : parseInt($(form).attr('id').substring("form_editquestion-".length),$(form).attr('id').length);
+        var qnNum = getQuestionNumFromEditForm(form);
         if(updateNumScalePossibleValues(qnNum)){
             return true;
         } else {
@@ -93,8 +93,19 @@ function checkFeedbackQuestion(form) {
             return false;
         }
     }
-
     return true;
+}
+
+function getQuestionNumFromEditForm(form){
+    if($(form).attr('name') == 'form_addquestions') {
+        return -1;
+    } else {
+        return extractQuestionNumFromEditFormId($(form).attr('id'));
+    }
+}
+
+function extractQuestionNumFromEditFormId(id){
+    return parseInt(id.substring("form_editquestion-".length, id.length));
 }
 
 /**

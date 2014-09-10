@@ -1,4 +1,14 @@
 {
+  "accounts": {
+    "CESubViewUiT.instructor": {
+      "googleId": "CESubViewUiT.instructor",
+      "name": "Teammates Demo Instr",
+      "isInstructor": true,
+      "email": "CESubViewUiT.instructor@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    } 
+  },
+  
   "courses": {
     "CESubViewUiT.CS1101": {
       "id": "CESubViewUiT.CS1101",

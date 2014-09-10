@@ -5,16 +5,11 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
+import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.storage.datastore.Datastore;
 import teammates.test.driver.TestProperties;
 import teammates.common.util.FileHelper;
@@ -33,56 +28,42 @@ public class GenerateLargeScaledData extends RemoteApiClient{
         DataBundle largeScaleBundle = loadDataBundle("/largeScaleTest.json");
         
         try{
-            
-            for(AccountAttributes account: largeScaleBundle.accounts.values()){
-                logic.createAccount(account.googleId, account.name, account.isInstructor, account.email, account.institute);
-            }
-            
-            /* Create course and instructor */
-            for(InstructorAttributes instructor : largeScaleBundle.instructors.values()){
-                logic.createCourseAndInstructor(instructor.googleId, instructor.courseId, "Software Engineering");
-            }
-            
-            logger.info("Finish creating course and instructor");
-            
-            // Create students
+            int index = 0;
+            /*
             for(StudentAttributes student : largeScaleBundle.students.values()){
                 logic.createStudent(student);
+                index++;
+                if(index % 100 == 0){
+                    logger.info("Create student " + index);
+                }
             }
-            
-            logger.info("Finish creating students");
-            
-            // Create sessions
-            for(FeedbackSessionAttributes session : largeScaleBundle.feedbackSessions.values()){
-                logic.createFeedbackSession(session);
-            }
-            
-            logger.info("Finish creating session");
-            
-            // Create question
-            for(FeedbackQuestionAttributes question : largeScaleBundle.feedbackQuestions.values()){
-                logic.createFeedbackQuestion(question);
-            }
-            
-            logger.info("Finish creating questions");
-
-            // Create responses
+            */
+          
             for(FeedbackResponseAttributes response : largeScaleBundle.feedbackResponses.values()){
-                logic.createFeedbackResponse(response);
+                logic.createFeedbackResponse(injectRealIds(response));
+                index++;
+                if(index % 100 == 0){
+                    logger.info("Create response " + index);
+                }
             }
-            
-            logger.info("Finish creating responses");
-           
-            // Create comments
-            for(FeedbackResponseCommentAttributes comment : largeScaleBundle.feedbackResponseComments.values()){
-                logic.createFeedbackResponseComment(comment);
-            }
-            
-            logger.info("Finish creating comments");
-            
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+    
+    private FeedbackResponseAttributes injectRealIds(FeedbackResponseAttributes response) {
+        try {
+            int qnNumber = Integer.parseInt(response.feedbackQuestionId);
+        
+            response.feedbackQuestionId = 
+                FeedbackQuestionsLogic.inst().getFeedbackQuestion(
+                        response.feedbackSessionName, response.courseId,
+                        qnNumber).getId();
+        } catch (NumberFormatException e) {
+            // Correct question ID was already attached to response.
+        }
+        
+        return response;
     }
     
     private static DataBundle loadDataBundle(String pathToJsonFile){
