@@ -101,28 +101,14 @@ function submissionCounter(currentDate, baseDate, submissionPerHour, baseCount) 
 onload = function() {
     
     // Parameters for the estimation calculation
-    //Original code starts here -->
-	/*var baseDate = new Date('January 1, 2014 00:00:00');  //The date the parameters were adjusted
+    var baseDate = new Date('January 1, 2014 00:00:00');  //The date the parameters were adjusted
     var baseCount = 180000;     //The submission count on the above date
     var submissionPerHour = 27; //The rate at which the submission count is growing
     
     //set the submission count in the page
     var e = document.getElementById('submissionsNumber');
     var currentDate = new Date();
-    e.innerHTML = submissionCounter(currentDate, baseDate, submissionPerHour, baseCount);*/
-	//<-- Original code ends here
-	
-	var baseDate = new Date('August 20, 2014 00:00:00');  //The date the parameters were adjusted
-    var baseCount = 500000;     //The submission count on the above date
-    var submissionPerHour = 27; //The rate at which the submission count is growing
-    
-    //set the submission count in the page
-    var e = document.getElementById('submissionsNumber');
-    var currentDate = new Date();
-    //var currentDate = new Date ('August 20, 2014 00:00:00');
     e.innerHTML = submissionCounter(currentDate, baseDate, submissionPerHour, baseCount);
-
-    setInterval(loopTestimonials,LOOP_INTERVAL);
 
     setInterval(loopTestimonials,LOOP_INTERVAL);
 };
