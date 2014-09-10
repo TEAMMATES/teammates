@@ -110,9 +110,10 @@ public class InstructorsDb extends EntitiesDb{
         }
     }
     
-    public void createInstructor(InstructorAttributes instructorToAdd) throws InvalidParametersException, EntityAlreadyExistsException{     
+    public InstructorAttributes createInstructor(InstructorAttributes instructorToAdd) throws InvalidParametersException, EntityAlreadyExistsException{     
         InstructorAttributes createdInstructor = new InstructorAttributes((Instructor)createEntity(instructorToAdd));
         putDocument(createdInstructor);
+        return createdInstructor;
     }
 
     /**

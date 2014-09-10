@@ -129,7 +129,7 @@ public class FeedbackResponseCommentsLogic {
         List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
         for(FeedbackSessionAttributes fs:feedbackSessions){
             if(fs.isPublished()){
-                frcList = frcDb.getFeedbackResponseCommentsForSendingState(courseId, fs.feedbackSessionName, state);
+                frcList.addAll(frcDb.getFeedbackResponseCommentsForSendingState(courseId, fs.feedbackSessionName, state));
             }
         }
         return frcList;

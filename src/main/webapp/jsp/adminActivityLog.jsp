@@ -477,10 +477,17 @@
                                         for (ActivityLogEntry log : appLogs) {
                             %>
                             
+                            <%if(data.isTestingData(log.getEmail()) &&data.ifShowTestData == false) {
+                            	   continue;
+                                } 
+                            %>
+                            
+                            
                             <%=log.getLogInfoForTableRowAsHtml()%>
                             
-                            <%
+                            <% 
                                 index++;
+                                           
                                         }
                                     }
                             %>
