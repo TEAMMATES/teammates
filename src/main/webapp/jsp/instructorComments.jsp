@@ -592,10 +592,10 @@
                     <div class="panel-heading" onclick="loadFeedbackResponseComments('<%=data.account.googleId%>','<%=data.courseId%>','<%=fsName%>', this);"
                         style="cursor: pointer;">
                         <strong>Comments in session: <%=fsName%></strong>
-                        <div id="placeholder-img-loading" class="pull-right"></div>
+                        <div class="placeholder-img-loading pull-right"></div>
                     </div>
                     <div class="panel-body hidden">
-                        <div id="placeholder-error-msg-<%=panelIdx%>" class="hidden">
+                        <div class="placeholder-error-msg-<%=panelIdx%> hidden">
                             <div class="panel panel-info">
                                 <ul class="list-group comments">
                                     <li class="list-group-item list-group-item-danger">

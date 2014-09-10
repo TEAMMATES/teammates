@@ -389,7 +389,7 @@ function loadFeedbackResponseComments(user, courseId, fsName, sender) {
 	var panelBody = $(sender).parent().find('div[class^="panel-body"]');
 	var fsNameForUrl = fsName.split(' ').join('+');
 	var url = "/page/instructorFeedbackResponseCommentsLoad?user=" + user + "&courseid=" + courseId + "&fsname=" + fsNameForUrl;
-	$(sender).find('div[id="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
+	$(sender).find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
 	panelBody.load(url, function( response, status, xhr ) {
 	  if (status == "success") {
 		  panelBody.removeClass('hidden');
@@ -399,10 +399,10 @@ function loadFeedbackResponseComments(user, courseId, fsName, sender) {
 		  enableHoverToDisplayEditOptions();
 		  enableTooltip();
 	  } else {
-		  panelBody.find('div[id^="placeholder-error-msg"]').removeClass('hidden');
+		  panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
 		  panelBody.removeClass('hidden');
 	  }
-	  $(sender).find('div[id="placeholder-img-loading"]').html("");
+	  $(sender).find('div[class^="placeholder-img-loading"]').html("");
 	});
 }
 
