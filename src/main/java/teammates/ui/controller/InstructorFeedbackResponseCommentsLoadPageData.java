@@ -15,6 +15,7 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
     public InstructorAttributes currentInstructor = null;
     public String instructorEmail = "";
     public CourseRoster roster = null;
+    public int numberOfPendingComments = 0;
     
     public InstructorFeedbackResponseCommentsLoadPageData(
             AccountAttributes account) {

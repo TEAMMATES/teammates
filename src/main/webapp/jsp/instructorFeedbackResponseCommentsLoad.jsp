@@ -44,6 +44,7 @@
                 .getQuestionResponseMap().entrySet()) {//FeedbackQuestion loop starts
             qnIndx++;
 %>
+<div class="hidden number-of-pending-comments"><%=data.numberOfPendingComments%></div>
 <div class="panel panel-info">
     <div class="panel-heading">
         <b>Question <%=responseEntries.getKey().questionNumber%></b>:

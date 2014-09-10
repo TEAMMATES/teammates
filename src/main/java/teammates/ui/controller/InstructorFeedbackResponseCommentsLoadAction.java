@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -39,6 +40,8 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         data.instructorEmail = instructor.email;
         data.currentInstructor = instructor;
         data.roster = roster;
+        data.numberOfPendingComments = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size() 
+                + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_LOAD, data);
     }
 
