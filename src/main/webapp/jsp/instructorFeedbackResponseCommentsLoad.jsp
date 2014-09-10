@@ -32,8 +32,9 @@
     import="teammates.ui.controller.InstructorFeedbackResponseCommentsLoadPageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForJs"%>
 
+<%  InstructorFeedbackResponseCommentsLoadPageData data = (InstructorFeedbackResponseCommentsLoadPageData) request.getAttribute("data"); %>
+<div class="hidden number-of-pending-comments"><%=data.numberOfPendingComments%></div>
 <%
-    InstructorFeedbackResponseCommentsLoadPageData data = (InstructorFeedbackResponseCommentsLoadPageData) request.getAttribute("data");
     int fsIndx = 0;
     for (String fsName : data.feedbackResultBundles.keySet()) {//FeedbackSession loop starts
         FeedbackSessionResultsBundle bundle = data.feedbackResultBundles.get(fsName);
@@ -44,7 +45,6 @@
                 .getQuestionResponseMap().entrySet()) {//FeedbackQuestion loop starts
             qnIndx++;
 %>
-<div class="hidden number-of-pending-comments"><%=data.numberOfPendingComments%></div>
 <div class="panel panel-info">
     <div class="panel-heading">
         <b>Question <%=responseEntries.getKey().questionNumber%></b>:
