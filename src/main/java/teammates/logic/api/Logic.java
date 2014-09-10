@@ -1833,6 +1833,13 @@ public class Logic {
 
         feedbackSessionsLogic.updateFeedbackSession(updatedSession);
     }
+    
+    public void updateRespondants(String feedbackSessionName, String courseId) throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        
+        feedbackSessionsLogic.updateRespondants(feedbackSessionName, courseId);
+    }
 
     public void addInstructorRespondant(String googleId, String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
 

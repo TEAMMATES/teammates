@@ -18,8 +18,9 @@ public class FeedbackSessionResponseStatus {
     }
     
     public List<String> getStudentsWhoDidNotRespondToAnyQuestion() {
-        for(String element : noResponse){
-            element = idNameTable.get(element);
+        for(int  i  = 0; i < noResponse.size(); i++){
+            String googleId = noResponse.get(i);
+            noResponse.set(i, idNameTable.get(googleId));
         }
         Collections.sort(noResponse);
         return noResponse;

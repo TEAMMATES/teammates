@@ -809,6 +809,66 @@ public class FeedbackSessionsLogic {
         fsDb.updateFeedbackSession(newSession);
     }
 
+    public void updateRespondants(String feedbackSessionName, String courseId) throws InvalidParametersException, EntityDoesNotExistException {
+
+        clearInstructorRespondants(feedbackSessionName, courseId);
+        clearStudentRespondants(feedbackSessionName, courseId);
+        
+        FeedbackSessionAttributes fsa = getFeedbackSession(feedbackSessionName, courseId);
+        List<FeedbackQuestionAttributes> questions = fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
+        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
+        
+        Map<String, List<String>> instructorQuestionsMap = new HashMap<String, List<String>>();
+        Map<String, String> studentEmailIdMap = new HashMap<String, String>();
+        Map<String, String> instructorEmailIdMap = new HashMap<String, String>();
+        
+        for(StudentAttributes student: students){
+            studentEmailIdMap.put(student.email, student.googleId);
+        }
+        
+        for(InstructorAttributes instructor : instructors){
+            instructorEmailIdMap.put(instructor.email, instructor.googleId);
+        }
+        
+        for (InstructorAttributes instructor : instructors) {
+            List<FeedbackQuestionAttributes> instructorQns = fqLogic
+                    .getFeedbackQuestionsForInstructor(questions,
+                            fsa.isCreator(instructor.email));
+            
+            if (!instructorQns.isEmpty()) {
+                List<String> questionIds = new ArrayList<String>();
+                for(FeedbackQuestionAttributes question : instructorQns){
+                    questionIds.add(question.getId());
+                }
+                instructorQuestionsMap.put(instructor.email, questionIds);
+            }
+        }
+        
+        List<String> respondingStudentList = new ArrayList<String>();
+        List<String> respondingInstructorList = new ArrayList<String>();
+        List<FeedbackResponseAttributes> responses = frLogic.getFeedbackResponsesForSession(feedbackSessionName, courseId);
+        for(FeedbackResponseAttributes response : responses) {
+            List<String> instructorQuestions = instructorQuestionsMap.get(response.giverEmail);
+            if(instructorQuestions != null && instructorQuestions.contains(response.feedbackQuestionId)){
+                String googleId = instructorEmailIdMap.get(response.giverEmail);
+                if(googleId != null){
+                    respondingInstructorList.add(googleId);
+                    instructorEmailIdMap.put(response.giverEmail, null);
+                }
+            } else {
+                String googleId =  studentEmailIdMap.get(response.giverEmail);
+                if(googleId != null){
+                    respondingStudentList.add(googleId);
+                    studentEmailIdMap.put(response.giverEmail, null);
+                }
+            }
+        }
+        
+        addInstructorRespondants(respondingInstructorList, feedbackSessionName, courseId);
+        addStudentRespondants(respondingStudentList, feedbackSessionName, courseId);
+    }
+
     public void deleteRespondantsForInstructor(InstructorAttributes instructor) {
         List<FeedbackSessionAttributes> sessionsToUpdate =
                 fsDb.getFeedbackSessionsForCourse(instructor.courseId);
@@ -850,6 +910,35 @@ public class FeedbackSessionsLogic {
         fsDb.addInstructorRespondant(googleId, sessionToUpdate);
     }
 
+    public void addInstructorRespondants(List<String> googleIds, String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
+
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, googleIds);
+
+        FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
+        if(sessionToUpdate == null) {
+            throw new EntityDoesNotExistException(
+                    "Trying to update a feedback session that does not exist.");
+        }
+
+        fsDb.addInstructorRespondants(googleIds, sessionToUpdate);
+    }
+
+    public void clearInstructorRespondants(String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
+
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+
+        FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
+        if(sessionToUpdate == null) {
+            throw new EntityDoesNotExistException(
+                    "Trying to update a feedback session that does not exist.");
+        }
+
+        fsDb.clearInstructorRespondants(sessionToUpdate);        
+    }
+
     public void addStudentRespondant(String googleId, String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
@@ -863,6 +952,35 @@ public class FeedbackSessionsLogic {
         }
 
         fsDb.addStudentRespondant(googleId, sessionToUpdate);
+    }
+
+    public void addStudentRespondants(List<String> googleIds, String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
+
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, googleIds);
+
+        FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
+        if(sessionToUpdate == null) {
+            throw new EntityDoesNotExistException(
+                    "Trying to update a feedback session that does not exist.");
+        }
+
+        fsDb.addStudentRespondants(googleIds, sessionToUpdate);
+    }
+
+    public void clearStudentRespondants(String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
+
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+
+        FeedbackSessionAttributes sessionToUpdate = getFeedbackSession(feedbackSessionName, courseId);
+        if(sessionToUpdate == null) {
+            throw new EntityDoesNotExistException(
+                    "Trying to update a feedback session that does not exist.");
+        }
+
+        fsDb.clearStudentRespondants(sessionToUpdate);        
     }
 
     public void deleteInstructorRespondant(String googleId, String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
@@ -1132,9 +1250,7 @@ public class FeedbackSessionsLogic {
                 }
             }
             
-            Set<String> respondingList = fsa.respondingStudentList;
-            respondingList.addAll(fsa.respondingInstructorList);
-            details.stats.submittedTotal += respondingList.size();
+            details.stats.submittedTotal += fsa.respondingStudentList.size() + fsa.respondingInstructorList.size();
 
             break;
 
@@ -1723,12 +1839,17 @@ public class FeedbackSessionsLogic {
         List<FeedbackQuestionAttributes> studentQns = fqLogic
                 .getFeedbackQuestionsForStudents(questions);
 
+        List<String> studentNoResponses = new ArrayList<String>();
+        List<String> instructorNoResponses = new ArrayList<String>();
+
         if(!studentQns.isEmpty()){
             for(StudentAttributes student : students){
-                responseStatus.noResponse.add(student.googleId);
+                studentNoResponses.add(student.googleId);
                 responseStatus.idNameTable.put(student.googleId, student.name);
             }
         }
+        studentNoResponses.removeAll(fsa.respondingStudentList);
+
 
         for (InstructorAttributes instructor : instructors) {
             List<FeedbackQuestionAttributes> instructorQns = fqLogic
@@ -1736,17 +1857,15 @@ public class FeedbackSessionsLogic {
                             fsa.isCreator(instructor.email));
             if (!instructorQns.isEmpty()) {
                 if(responseStatus.idNameTable.get(instructor.googleId) == null){
-                    responseStatus.noResponse.add(instructor.googleId);
+                    instructorNoResponses.add(instructor.googleId);
                     responseStatus.idNameTable.put(instructor.googleId, instructor.name);
                 }
             }
         }
+        instructorNoResponses.removeAll(fsa.respondingInstructorList);
 
-        Set<String> respondingList = fsa.respondingStudentList;
-        respondingList.addAll(fsa.respondingInstructorList);
-        
-        responseStatus.hasResponse = new ArrayList<>(respondingList);
-        responseStatus.noResponse.removeAll(respondingList);
+        responseStatus.noResponse.addAll(studentNoResponses);
+        responseStatus.noResponse.addAll(instructorNoResponses);
         
         return responseStatus;
     }

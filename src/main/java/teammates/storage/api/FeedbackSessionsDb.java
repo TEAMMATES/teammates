@@ -268,6 +268,49 @@ public class FeedbackSessionsDb extends EntitiesDb {
         getPM().close();
     }
 
+    public void addInstructorRespondants(List<String> googleIds, FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleIds);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
+
+        feedbackSession.sanitizeForSaving();
+
+        if(!feedbackSession.isValid()) {
+            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
+        }
+
+        FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
+        if(fs == null) {
+            throw new EntityDoesNotExistException(
+                    ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
+        }
+
+        fs.getRespondingInstructorList().addAll(googleIds);
+
+        getPM().close();
+    }
+
+    public void clearInstructorRespondants(FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
+
+        feedbackSession.sanitizeForSaving();
+
+        if(!feedbackSession.isValid()) {
+            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
+        }
+
+        FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
+        if(fs == null) {
+            throw new EntityDoesNotExistException(
+                    ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
+        }
+
+        fs.getRespondingInstructorList().clear();
+
+        getPM().close();
+    }
+
     public void addStudentRespondant(String googleId, FeedbackSessionAttributes feedbackSession) throws EntityDoesNotExistException, InvalidParametersException {
 
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
@@ -311,6 +354,50 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         getPM().close();
     }
+
+    public void addStudentRespondants(List<String> googleIds, FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleIds);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
+
+        feedbackSession.sanitizeForSaving();
+
+        if(!feedbackSession.isValid()) {
+            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
+        }
+
+        FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
+        if(fs == null) {
+            throw new EntityDoesNotExistException(
+                    ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
+        }
+
+        fs.getRespondingStudentList().addAll(googleIds);
+
+        getPM().close();
+    }
+
+    public void clearStudentRespondants(FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
+
+        feedbackSession.sanitizeForSaving();
+
+        if(!feedbackSession.isValid()) {
+            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
+        }
+
+        FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
+        if(fs == null) {
+            throw new EntityDoesNotExistException(
+                    ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
+        }
+
+        fs.getRespondingStudentList().clear();
+
+        getPM().close();
+    }
+
 
     public void deleteStudentRespondant(String googleId, FeedbackSessionAttributes feedbackSession) throws EntityDoesNotExistException, InvalidParametersException {
 
