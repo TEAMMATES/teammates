@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.jdo.JDOHelper;
@@ -12,6 +13,7 @@ import javax.jdo.PersistenceManager;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
+import teammates.storage.entity.Student;
 
 /**
  * Generate list of institutes and number of users per institute.
@@ -31,14 +33,59 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         statistics.doOperationRemotely();
     }
     
-    @SuppressWarnings("unchecked")
+    
     protected void doOperation() {
+        List<InstituteStats> statsPerInstituteList = generateStatsPerInstitute();
+        String statsForUniqueStudentEmail =  generateUniqueStudentEmailStatsInWholeSystem();
+        print(statsPerInstituteList);
+        System.out.println("\n\n" + "***************************************************" + "\n\n");
+        System.out.println(statsForUniqueStudentEmail);
+    }
+    
+    @SuppressWarnings("unchecked")
+    private String generateUniqueStudentEmailStatsInWholeSystem(){
+        String q = "SELECT FROM " + Student.class.getName();
+        List<Student> allStudents = (List<Student>) pm.newQuery(q).execute();
+        HashSet<String> set = new HashSet<String>();
+        int totalRealStudent = 0;
+        
+        for(Student s: allStudents){
+            if(!isTestingStudentData(s)){
+                set.add(s.getEmail().toLowerCase());
+                totalRealStudent ++;
+            }
+            
+        }
+        
+        String result = "===============Unique Student Emails===============\n"
+                        + "Format=> Total Unique Emails [Total Emails]\n"
+                        + "===================================================\n"
+                        + set.size() + " [ " + totalRealStudent + " ]\n";
+        return result;
+    }
+    
+    private boolean isTestingStudentData(Student student){
+        boolean isTestingData = false;
+        
+        if(student.getEmail().toLowerCase().endsWith(".tmt")){
+            isTestingData = true;
+        }       
+        
+        return isTestingData;
+    }
+    
+    @SuppressWarnings("unchecked")
+    private List<InstituteStats> generateStatsPerInstitute(){
         HashMap<String, HashMap<Integer, Integer>> institutes = new HashMap<String, HashMap<Integer, Integer>>();
         String q = "SELECT FROM " + Account.class.getName();
         
         List<Account> allAccounts = (List<Account>) pm.newQuery(q).execute();
         
         for (Account a : allAccounts) {
+            
+            if(isTestingAccount(a)){
+                continue;
+            }
             
             if (a.getInstitute() == null) {
                 System.out.println("Account without institute "
@@ -66,11 +113,23 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         
         List<InstituteStats> statList = convertToList(institutes);
         sortByTotalStudentsDescending(statList);
-        print(statList);
+        return statList;
+    }
+    
+    private boolean isTestingAccount(Account account){
+        boolean isTestingAccount = false;
+        
+        if(account.getInstitute() != null && account.getInstitute().contains("TEAMMATES Test Institute")){
+            isTestingAccount = true;
+        }
+        if(account.getEmail().toLowerCase().endsWith(".tmt")){
+            isTestingAccount = true;
+        }
+        return isTestingAccount;
     }
     
     private void print(List<InstituteStats> statList) {
-        System.out.println("===================================================");
+        System.out.println("===============Stats Per Institute=================");
         System.out.println("Format=> Instructors + Students = Total [Institute]");
         System.out.println("===================================================");
         int i = 0;
@@ -109,7 +168,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             }
         });
     }
-
+    
     class InstituteStats{
         String name;
         int studentTotal;
