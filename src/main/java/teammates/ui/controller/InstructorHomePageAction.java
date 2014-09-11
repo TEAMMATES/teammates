@@ -21,7 +21,7 @@ public class InstructorHomePageAction extends Action {
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
         
-        if (isPersistenceIssue()) {
+        if (!account.isInstructor && isPersistenceIssue()) {
             data = new InstructorHomePageData(account);
             ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, data);
             statusToUser.add(Const.StatusMessages.INSTRUCTOR_PERSISTENCE_ISSUE);
