@@ -396,6 +396,7 @@ function loadFeedbackResponseComments(user, courseId, fsName, sender) {
 		  updateBadgeForPendingComments(panelBody.children(":first").text());
 		  panelBody.children(":first").remove();
 		  registerResponseCommentsEvent();
+		  registerCheckboxEventForVisibilityOptions();
 		  enableHoverToDisplayEditOptions();
 		  enableTooltip();
 	  } else {
@@ -414,4 +415,39 @@ function updateBadgeForPendingComments(numberOfPendingComments){
 	}
 	$('.badge').text(numberOfPendingComments);
 	$('.badge').parent().attr('data-original-title', 'Send email notification to ' + numberOfPendingComments + ' recipient(s) of comments pending notification');
+}
+
+function registerCheckboxEventForVisibilityOptions(){
+	$("input[type=checkbox]").click(function(e){
+    	var table = $(this).parent().parent().parent().parent();
+    	var form = table.parent().parent().parent();
+    	var visibilityOptions = [];
+    	var _target = $(e.target);
+    	
+    	if (_target.prop("class").contains("answerCheckbox") && !_target.prop("checked")) {
+    		_target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
+    		_target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
+    	}
+    	if ((_target.prop("class").contains("giverCheckbox") || 
+    			_target.prop("class").contains("recipientCheckbox")) && _target.prop("checked")) {
+    		_target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
+    	}
+    	
+    	table.find('.answerCheckbox:checked').each(function () {
+			visibilityOptions.push($(this).val());
+	    });
+    	form.find("input[name='showcommentsto']").val(visibilityOptions.toString());
+	    
+	    visibilityOptions = [];
+	    table.find('.giverCheckbox:checked').each(function () {
+			visibilityOptions.push($(this).val());
+	    });
+	    form.find("input[name='showgiverto']").val(visibilityOptions.toString());
+	    
+	    visibilityOptions = [];
+	    table.find('.recipientCheckbox:checked').each(function () {
+			visibilityOptions.push($(this).val());
+	    });
+	    form.find("input[name='showrecipientto']").val(visibilityOptions.toString());
+    });
 }

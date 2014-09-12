@@ -163,10 +163,10 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyCommentFormErrorMessage("1-1-1", "Comment cannot be empty");
         commentsPage.fillTextareaToEditResponseComment(1, 1, 1, "added response comment");
         commentsPage.addResponseComment(1, 1, 1);
-        commentsPage.verifyHtmlMainContent("/instructorCommentsPageAddFrc.html");
-        
         commentsPage.reloadPage();
         commentsPage.loadResponseComments();
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageAddFrc.html");
+        
         ______TS("action: edit feedback response comment");
         commentsPage.clickResponseCommentEdit(1, 1, 1, 1);
         commentsPage.clickResponseCommentVisibilityEdit("1-1-1-1");
@@ -176,13 +176,14 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyCommentFormErrorMessage("1-1-1-1", "Comment cannot be empty");
         commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "edited response comment\na new line");
         commentsPage.saveResponseComment(1, 1, 1, 1);
-        commentsPage.verifyHtmlMainContent("/instructorCommentsPageEditFrc.html");
-        
         commentsPage.reloadPage();
         commentsPage.loadResponseComments();
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageEditFrc.html");
+        
         ______TS("action: delete feedback response comment");
         commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
-        commentsPage.clickCommentsPageLinkInHeader();
+        commentsPage.reloadPage();
+        commentsPage.loadResponseComments();
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageDeleteFrc.html");
     }
     
