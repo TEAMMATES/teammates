@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -24,6 +25,16 @@ public class InstructorCommentsPage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("<h1>Comments from Instructors</h1>");
+    }
+    
+    public void loadResponseComments() throws Exception{
+        browser.driver.findElement(By.xpath("//*[@id=\"panel_display-2\"]/div/div[1]")).click();
+        waitForPageToLoad();
+        try{
+            waitForElementToAppear(By.xpath("//*[@id=\"panel_display-2\"]/div/div[2]/div[1]/div"));
+        } catch (StaleElementReferenceException e){
+            ;//do nothing
+        }
     }
     
     public void clickSendEmailNotificationButton(){
@@ -117,15 +128,7 @@ public class InstructorCommentsPage extends AppPage {
         List<WebElement> answerCheckboxes = browser.driver
                 .findElement(By.id("visibility-options" + row))
                 .findElements(By.className("answerCheckbox"));
-        List<WebElement> giverCheckboxes = browser.driver
-                .findElement(By.id("visibility-options" + row))
-                .findElements(By.className("giverCheckbox"));
-        List<WebElement> recipientCheckboxes = browser.driver
-                .findElement(By.id("visibility-options" + row))
-                .findElements(By.className("recipientCheckbox"));
         List<WebElement> checkboxes = answerCheckboxes;
-        checkboxes.addAll(giverCheckboxes);
-        checkboxes.addAll(recipientCheckboxes);
         for(WebElement checkbox:checkboxes){
             checkbox.click();
         }
@@ -135,11 +138,7 @@ public class InstructorCommentsPage extends AppPage {
         List<WebElement> answerCheckboxes = browser.driver
                 .findElement(By.id("visibility-options-" + suffix))
                 .findElements(By.className("answerCheckbox"));
-        List<WebElement> giverCheckboxes = browser.driver
-                .findElement(By.id("visibility-options-" + suffix))
-                .findElements(By.className("giverCheckbox"));
         List<WebElement> checkboxes = answerCheckboxes;
-        checkboxes.addAll(giverCheckboxes);
         for(WebElement checkbox:checkboxes){
             checkbox.click();
         }
