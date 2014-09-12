@@ -6,7 +6,14 @@
         "isInstructor": true,
         "email": "teammates.test@gmail.tmt",
         "institute": "TEAMMATES Test Institute 1"
-      }
+      },     
+      "CEvEditUiTest.instr": {
+      "googleId": "CEvEditUiTest.instr",
+      "name": "Teammates Demo Instr",
+      "isInstructor": true,
+      "email": "CEvEditUiTest.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    } 
   },
 
  "courses": {

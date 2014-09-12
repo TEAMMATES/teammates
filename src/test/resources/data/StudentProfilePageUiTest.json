@@ -18,7 +18,7 @@
         "googleId": "{$test.student2}",
         "name": "Benny C",
         "isInstructor": false,
-        "email": "{$test.student2}@gmail.tmt",
+        "email": "{$test.student2}@gmail.com",
         "institute": "TEAMMATES Test Institute 7",
         "studentProfile":{
             "googleId":"{$test.student2}",
@@ -67,7 +67,7 @@
   "students": {
     "studentWithExistingProfile": {
       "googleId": "{$test.student2}",
-      "email": "{$test.student2}@gmail.tmt",
+      "email": "{$test.student2}@gmail.com",
       "course": "SHomeUiT.CS2104",
       "name": "Benny C",
       "comments": "This student's name is BC",
