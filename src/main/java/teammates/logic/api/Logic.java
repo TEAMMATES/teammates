@@ -1999,6 +1999,14 @@ public class Logic {
 
         feedbackQuestionsLogic.updateFeedbackQuestion(updatedQuestion);
     }
+
+    public void updateFeedbackQuestionWithResponseRateCheck(FeedbackQuestionAttributes updatedQuestion)
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, updatedQuestion);
+
+        feedbackQuestionsLogic.updateFeedbackQuestionWithResponseRateCheck(updatedQuestion);
+    }
     
     /**
      * Deletes the feedback session but not the questions and
@@ -2013,6 +2021,12 @@ public class Logic {
         feedbackQuestionsLogic.deleteFeedbackQuestionCascade(questionId);
     }
     
+    public void deleteFeedbackQuestionWithResponseRateCheck(String questionId) {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, questionId);
+        feedbackQuestionsLogic.deleteFeedbackQuestionCascadeWithResponseRateCheck(questionId);
+    }
+
     /**
      * Returns true if there is at least one response for the given feedback question,
      * false if not.
@@ -2339,7 +2353,7 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-        return feedbackResponsesLogic.getFeedbackResponsesFromGiverForSessionWithinRange(userEmail, feedbackSessionName, courseId, 1).size() > 0;
+        return feedbackResponsesLogic.checkIfGiverHasResponsesForSession(userEmail, feedbackSessionName, courseId);
     }
     
     /**
