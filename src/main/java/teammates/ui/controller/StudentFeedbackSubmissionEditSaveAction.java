@@ -20,6 +20,9 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
 
     @Override
     protected void appendRespondant() {
+        if(account.googleId == null){
+            return;
+        }
         try {
             logic.addStudentRespondant(account.googleId, feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
@@ -29,6 +32,9 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
 
     @Override
     protected void removeRespondant() {
+        if(account.googleId == null){
+            return;
+        }
         try {
             logic.deleteStudentRespondant(account.googleId, feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {

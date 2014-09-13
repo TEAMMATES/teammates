@@ -865,6 +865,9 @@ public class FeedbackSessionsLogic {
     }
 
     public void deleteRespondantsForInstructor(InstructorAttributes instructor) {
+        if(instructor == null || instructor.googleId == null){
+            return;
+        }
         List<FeedbackSessionAttributes> sessionsToUpdate =
                 fsDb.getFeedbackSessionsForCourse(instructor.courseId);
 
@@ -877,7 +880,10 @@ public class FeedbackSessionsLogic {
         }
     }
 
-    public void deleteRespondantsForStudent(StudentAttributes student) {    
+    public void deleteRespondantsForStudent(StudentAttributes student) {  
+        if(student == null || student.googleId == null){
+            return;
+        }
         List<FeedbackSessionAttributes> sessionsToUpdate =
                 fsDb.getFeedbackSessionsForCourse(student.course);
 
