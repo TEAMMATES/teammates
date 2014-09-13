@@ -10,6 +10,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.logic.api.Logic;
 import teammates.storage.api.FeedbackSessionsDb;
+import teammates.storage.datastore.Datastore;
 
 public class DataMigrationForResponseRate extends RemoteApiClient {
     
@@ -24,6 +25,8 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
     @SuppressWarnings("deprecation")
     @Override
     protected void doOperation() {
+        Datastore.initialize();
+        
         List<FeedbackSessionAttributes> feedbackSessions = fsDb.getAllFeedbackSessions();
         try {
             for(FeedbackSessionAttributes session : feedbackSessions){
