@@ -555,14 +555,9 @@ public class FeedbackSessionsLogic {
     public FeedbackSessionResultsBundle getFeedbackSessionResultsForStudent(
             String feedbackSessionName, String courseId, String userEmail, CourseRoster roster)
             throws EntityDoesNotExistException {
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("isIncludeResponseStatus", "false");
-        params.put("inSection", "true");
-        params.put("fromSection", "false");
-        params.put("toSection", "false");
-        return getFeedbackSessionResultsForUserWithParams(feedbackSessionName,
-                courseId, userEmail,
-                UserType.Role.STUDENT, roster, params);
+        return getFeedbackSessionResultsForUserInSectionByQuestions(
+                feedbackSessionName, courseId, userEmail,
+                UserType.Role.STUDENT, null, roster);
     }
 
     public String getFeedbackSessionResultsSummaryAsCsv(

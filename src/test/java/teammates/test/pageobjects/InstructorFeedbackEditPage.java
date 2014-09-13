@@ -649,4 +649,40 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement row = browser.driver.findElement(By.id("copyTableModal")).findElements(By.tagName("tr")).get(rowIndex + 1);
         row.click();
     }
+    
+    public void clickEditLabel(int questionNumber) {
+        getEditLabel(questionNumber).click();
+    }
+    
+    public boolean verifyPreviewLabelIsActive(int questionNumber) {
+        return getPreviewLabel(questionNumber).getAttribute("class").contains("active");
+    }
+    
+    public boolean verifyEditLabelIsActive(int questionNumber) {
+        return getEditLabel(questionNumber).getAttribute("class").contains("active");
+    }
+    
+    public boolean verifyVisibilityMessageIsDisplayed(int questionNumber) {
+        return getVisibilityMessage(questionNumber).isDisplayed();
+    }
+    
+    public boolean verifyVisibilityOptionsIsDisplayed(int questionNumber) {
+        return getVisibilityOptions(questionNumber).isDisplayed();
+    }
+    
+    public WebElement getPreviewLabel(int questionNumber) {
+        return browser.driver.findElement(By.id("visibilityMessageButton-" + String.valueOf(questionNumber)));   
+    }
+    
+    public WebElement getEditLabel(int questionNumber) {
+        return browser.driver.findElement(By.id("visibilityOptionsLabel-" + String.valueOf(questionNumber)));
+    }
+    
+    public WebElement getVisibilityMessage(int questionNumber) {
+        return browser.driver.findElement(By.id("visibilityMessage-" + String.valueOf(questionNumber)));
+    }
+    
+    public WebElement getVisibilityOptions(int questionNumber) {
+        return browser.driver.findElement(By.id("visibilityOptions-" + String.valueOf(questionNumber)));
+    }
 }

@@ -473,7 +473,7 @@
                             Feedback Recipient:
                         </label>
                         <div class="col-sm-8">
-                            <select class="form-control participantSelect" name="recipienttype" id="recipienttype-1" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
+                            <select class="form-control participantSelect" name="recipienttype" id="recipienttype-1" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                                 <option value="SELF">Giver (Self feedback)</option>
 <option value="STUDENTS">Other students in the course</option>
 <option value="INSTRUCTORS">Instructors in the course</option>
@@ -490,12 +490,12 @@
                 <div class="row">
                     <br><br>
                     <div class="col-sm-6 btn-group" data-toggle="buttons">
-                        <label class="btn btn-xs btn-info visibilityOptionsLabel active" onchange="toggleVisibilityOptions(this)">
+                        <label class="btn btn-xs btn-info visibilityOptionsLabel active" id="visibilityOptionsLabel-1" onchange="toggleVisibilityOptions(this)">
                             <input type="radio">
                                 <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
                             
                         </label>
-                        <label class="btn btn-xs btn-info visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+                        <label class="btn btn-xs btn-info visibilityMessageButton" id="visibilityMessageButton-1" onchange="toggleVisibilityMessage(this)">
                             <input type="radio">
                                 <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
                             
@@ -518,7 +518,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div style="display: none;" class="col-sm-12 text-muted visibilityMessage">
+                    <div style="display: none;" class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-1">
                         This is the visibility as seen by the feedback giver.
                         <ul class="background-color-warning">
                         
@@ -529,7 +529,7 @@
                         </ul>
                     </div>
                 </div>
-                <div style="display: block;" class="visibilityOptions">
+                <div style="display: block;" class="visibilityOptions" id="visibilityOptions-1">
                     <br>
                     <table class="dataTable participantTable table table-striped text-center">
                         <tbody><tr>
@@ -930,7 +930,7 @@
                                 Feedback Recipient:
                             </label>
                             <div class="col-sm-8">
-                                <select class="form-control participantSelect" name="recipienttype" id="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
+                                <select class="form-control participantSelect" name="recipienttype" id="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                                     <option value="SELF">Giver (Self feedback)</option>
 <option value="STUDENTS">Other students in the course</option>
 <option value="INSTRUCTORS">Instructors in the course</option>
