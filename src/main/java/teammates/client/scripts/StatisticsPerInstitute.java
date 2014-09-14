@@ -44,10 +44,19 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
     
     
+    @SuppressWarnings("unchecked")
     protected void doOperation() {
-        List<InstituteStats> statsPerInstituteList = generateStatsPerInstitute();
-        String statsForUniqueStudentEmail =  generateUniqueStudentEmailStatsInWholeSystem();
-        String statsForUniqueInstructorEmail = generateUniqueInstructorEmailStatsInWholeSystem();
+        
+        String q = "SELECT FROM " + Student.class.getName();
+        List<Student> allStudents = (List<Student>) pm.newQuery(q).execute();
+        
+        q = "SELECT FROM " + Instructor.class.getName();
+        List<Instructor> allInstructors = (List<Instructor>) pm.newQuery(q).execute();
+        
+        
+        List<InstituteStats> statsPerInstituteList = generateStatsPerInstitute(allStudents, allInstructors);
+        String statsForUniqueStudentEmail =  generateUniqueStudentEmailStatsInWholeSystem(allStudents);
+        String statsForUniqueInstructorEmail = generateUniqueInstructorEmailStatsInWholeSystem(allInstructors);
         
         print(statsPerInstituteList);
         System.out.println("\n\n" + "***************************************************" + "\n\n");
@@ -59,9 +68,8 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     
     
     @SuppressWarnings("unchecked")
-    private String generateUniqueInstructorEmailStatsInWholeSystem(){
-        String q = "SELECT FROM " + Instructor.class.getName();
-        List<Instructor> allInstructors = (List<Instructor>) pm.newQuery(q).execute();
+    private String generateUniqueInstructorEmailStatsInWholeSystem(List<Instructor> allInstructors){
+       
         HashSet<String> set = new HashSet<String>();
         int totalRealInstructor = 0;
         
@@ -99,9 +107,8 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     
     
     @SuppressWarnings("unchecked")
-    private String generateUniqueStudentEmailStatsInWholeSystem(){
-        String q = "SELECT FROM " + Student.class.getName();
-        List<Student> allStudents = (List<Student>) pm.newQuery(q).execute();
+    private String generateUniqueStudentEmailStatsInWholeSystem(List<Student> allStudents){
+        
         HashSet<String> set = new HashSet<String>();
         int totalRealStudent = 0;
         
@@ -135,44 +142,29 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
     
     @SuppressWarnings("unchecked")
-    private List<InstituteStats> generateStatsPerInstitute(){
+    private List<InstituteStats> generateStatsPerInstitute(List<Student> allStudents, List<Instructor> allInstructors){
         HashMap<String, HashMap<Integer, Integer>> institutes = new HashMap<String, HashMap<Integer, Integer>>();
-        String q = "SELECT FROM " + Account.class.getName();
-        
-        List<Account> allAccounts = (List<Account>) pm.newQuery(q).execute();
-        
-        for (Account a : allAccounts) {
-            
-            if(isTestingAccount(a)){
-                continue;
-            }
-            
-            if (a.getInstitute() == null) {
-                System.out.println("Account without institute "
-                        + a.getGoogleId());
-                continue;
-            }
-            
-            // Create an entry in the HashMap if new
-            if (!institutes.containsKey(a.getInstitute())) {
-                institutes.put(a.getInstitute(),
-                        new HashMap<Integer, Integer>());
-                institutes.get(a.getInstitute()).put(INSTRUCTOR_INDEX, 0);
-                institutes.get(a.getInstitute()).put(STUDENT_INDEX, 0);
-            }
 
-            // Increase the appropriate slot
-            if (a.isInstructor()) {
-                institutes.get(a.getInstitute()).put(INSTRUCTOR_INDEX,
-                                                     institutes.get(a.getInstitute()).get(INSTRUCTOR_INDEX) + 1);
-            } 
+        for (Instructor instructor : allInstructors){
             
+            if(isTestingInstructorData(instructor)){               
+                continue;
+            }
+            
+            String institute = getInstituteForInstructor(instructor);
+            
+            if(!institutes.containsKey(institute)){               
+                institutes.put(institute,
+                               new HashMap<Integer, Integer>());
+                institutes.get(institute).put(INSTRUCTOR_INDEX, 0);
+                institutes.get(institute).put(STUDENT_INDEX, 0);
+            }
+            
+            institutes.get(institute).put(INSTRUCTOR_INDEX,
+                                          institutes.get(institute).get(INSTRUCTOR_INDEX) + 1);
         }
-        
-        
-        q = "SELECT FROM " + Student.class.getName();
-        
-        List<Student> allStudents = (List<Student>) pm.newQuery(q).execute();
+
+       
         
         for(Student student : allStudents){
             
