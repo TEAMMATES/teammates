@@ -27,14 +27,30 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
     protected void doOperation() {
         Datastore.initialize();
         
+        boolean isForAllSession = true; // modify this value to choose to update respondants for all sessions or a specific session
+
+        if(isForAllSession){
+            updateRespondantsForAllSessions();
+        } else {
+            updateRespondantsForSession("Feedback Session Name", "Course ID"); // feedback session info
+        }
+    }
+
+    /* Operation for a specific session */
+    @SuppressWarnings
+    private void updateRespondantsForAllSessions(){
         List<FeedbackSessionAttributes> feedbackSessions = fsDb.getAllFeedbackSessions();
+        for(FeedbackSessionAttributes session : feedbackSessions){
+            updateRespondantsForSession(session.feedbackSessionName, session.courseId);
+        }   
+    }
+
+    private void updateRespondantsForSession(String feedbackSessionName, String courseId) {
         try {
-            for(FeedbackSessionAttributes session : feedbackSessions){
-                logic.updateRespondants(session.feedbackSessionName, session.courseId);
-                System.out.println("Successfully update response rate for session " + session.feedbackSessionName + " in course " + session.courseId);
-            }
+            logic.updateRespondants(feedbackSessionName, courseId);
+            System.out.println("Successfully update response rate for session " + feedbackSessionName + " in course " + courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            Assumption.fail("Fail to update respondants");
+            System.out.println("Fail to update respondants for session " + feedbackSessionName + " in course " + courseId);
         }
     }
     

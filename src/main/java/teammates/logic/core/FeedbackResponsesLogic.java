@@ -589,25 +589,27 @@ public class FeedbackResponsesLogic {
             emails.add(response.giverEmail);
         }
 
+        if(!hasResponseRateCheck){
+            return;
+        }
+
         try {
-            if (hasResponseRateCheck) {
-                FeedbackQuestionAttributes question = fqLogic
-                        .getFeedbackQuestion(feedbackQuestionId);
-                boolean isInstructor = (question.giverType == FeedbackParticipantType.SELF || question.giverType == FeedbackParticipantType.INSTRUCTORS);
-                for (String email : emails) {
-                    boolean hasResponses = checkIfGiverHasResponsesForSession(email, question.feedbackSessionName, question.courseId);
-                    if (!hasResponses) {
-                        if (isInstructor) {
-                            InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(question.courseId, email);
-                            fsLogic.deleteInstructorRespondant(instructor.googleId,
-                                    question.feedbackSessionName,
-                                    question.courseId);
-                        } else {
-                            StudentAttributes student = studentsLogic.getStudentForEmail(question.courseId, email);
-                            fsLogic.deleteStudentRespondant(student.googleId,
-                                    question.feedbackSessionName,
-                                    question.courseId);
-                        }
+            FeedbackQuestionAttributes question = fqLogic
+                    .getFeedbackQuestion(feedbackQuestionId);
+            boolean isInstructor = (question.giverType == FeedbackParticipantType.SELF || question.giverType == FeedbackParticipantType.INSTRUCTORS);
+            for (String email : emails) {
+                boolean hasResponses = checkIfGiverHasResponsesForSession(email, question.feedbackSessionName, question.courseId);
+                if (!hasResponses) {
+                    if (isInstructor) {
+                        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(question.courseId, email);
+                        fsLogic.deleteInstructorRespondant(instructor.googleId,
+                                question.feedbackSessionName,
+                                question.courseId);
+                    } else {
+                        StudentAttributes student = studentsLogic.getStudentForEmail(question.courseId, email);
+                        fsLogic.deleteStudentRespondant(student.googleId,
+                                question.feedbackSessionName,
+                                question.courseId);
                     }
                 }
             }
