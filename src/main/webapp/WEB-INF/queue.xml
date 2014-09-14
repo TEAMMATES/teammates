@@ -40,8 +40,9 @@
   <!-- Configuration allows for submission adjustment for 
          5 feedback sessions to be queued when the bucket is not full
   -->
-  <rate>5/s</rate>
+  <rate>1/s</rate>
   <bucket-size>5</bucket-size>
+  <max-concurrent-requests>1</max-concurrent-requests>
   <retry-parameters>
       <task-retry-limit>2</task-retry-limit>
   </retry-parameters>  
