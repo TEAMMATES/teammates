@@ -286,6 +286,7 @@ public class StudentsLogic {
         if (!originalEmail.equals(student.email)) {
             evaluationsLogic.updateStudentEmailForSubmissionsInCourse(student.course, originalEmail, student.email);
             frLogic.updateFeedbackResponsesForChangingEmail(student.course, originalEmail, student.email);
+            fsLogic.updateRespondantsForStudent(originalEmail, student.email, student.course);
         }
     }
 

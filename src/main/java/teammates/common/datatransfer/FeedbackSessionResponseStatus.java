@@ -9,18 +9,18 @@ import java.util.Map;
 public class FeedbackSessionResponseStatus {
     public List<String> hasResponse; 
     public List<String> noResponse;   
-    public Map<String, String> idNameTable;
+    public Map<String, String> emailNameTable;
     
     public FeedbackSessionResponseStatus() {        
         hasResponse = new ArrayList<String>();
         noResponse = new ArrayList<String>();
-        idNameTable = new HashMap<String, String>();
+        emailNameTable = new HashMap<String, String>();
     }
     
     public List<String> getStudentsWhoDidNotRespondToAnyQuestion() {
         for(int  i  = 0; i < noResponse.size(); i++){
-            String googleId = noResponse.get(i);
-            noResponse.set(i, idNameTable.get(googleId));
+            String email = noResponse.get(i);
+            noResponse.set(i, emailNameTable.get(email));
         }
         Collections.sort(noResponse);
         return noResponse;

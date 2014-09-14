@@ -45,7 +45,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
     @Override
     protected void appendRespondant() {
         try {
-            logic.addInstructorRespondant(account.googleId, feedbackSessionName, courseId);
+            logic.addInstructorRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
             Assumption.fail("Fail to append instructor respondant");
         }
@@ -54,7 +54,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
     @Override
     protected void removeRespondant() {
         try {
-            logic.deleteInstructorRespondant(account.googleId, feedbackSessionName, courseId);
+            logic.deleteInstructorRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
             Assumption.fail("Fail to remove instructor respondant");
         }

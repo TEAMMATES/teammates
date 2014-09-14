@@ -601,13 +601,11 @@ public class FeedbackResponsesLogic {
                 boolean hasResponses = checkIfGiverHasResponsesForSession(email, question.feedbackSessionName, question.courseId);
                 if (!hasResponses) {
                     if (isInstructor) {
-                        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(question.courseId, email);
-                        fsLogic.deleteInstructorRespondant(instructor.googleId,
+                        fsLogic.deleteInstructorRespondant(email,
                                 question.feedbackSessionName,
                                 question.courseId);
                     } else {
-                        StudentAttributes student = studentsLogic.getStudentForEmail(question.courseId, email);
-                        fsLogic.deleteStudentRespondant(student.googleId,
+                        fsLogic.deleteStudentRespondant(email,
                                 question.feedbackSessionName,
                                 question.courseId);
                     }

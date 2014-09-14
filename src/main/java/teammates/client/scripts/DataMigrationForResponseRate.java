@@ -22,7 +22,6 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
         migrator.doOperationRemotely();
     }
     
-    @SuppressWarnings("deprecation")
     @Override
     protected void doOperation() {
         Datastore.initialize();
@@ -37,7 +36,7 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
     }
 
     /* Operation for a specific session */
-    @SuppressWarnings
+    @SuppressWarnings("deprecation")
     private void updateRespondantsForAllSessions(){
         List<FeedbackSessionAttributes> feedbackSessions = fsDb.getAllFeedbackSessions();
         for(FeedbackSessionAttributes session : feedbackSessions){
