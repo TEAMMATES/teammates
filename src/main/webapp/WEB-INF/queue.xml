@@ -37,8 +37,7 @@
 </queue>
 <queue>  
   <name>feedback-submission-adjust-queue</name>  
-  <!-- Configuration allows for submission adjustment for 
-         5 feedback sessions to be queued when the bucket is not full
+  <!-- Processes each feedback adjustment sequentially
   -->
   <rate>1/s</rate>
   <bucket-size>5</bucket-size>
