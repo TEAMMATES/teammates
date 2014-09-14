@@ -308,9 +308,11 @@ public class FeedbackSessionsDb extends EntitiesDb {
                     ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
         }
 
-        fs.getRespondingInstructorList().remove(oldEmail);
-        fs.getRespondingInstructorList().add(newEmail);
-
+        if(fs.getRespondingInstructorList().contains(oldEmail)){
+            fs.getRespondingInstructorList().remove(oldEmail);
+            fs.getRespondingInstructorList().add(newEmail);
+        }
+       
         getPM().close();
     }
 
@@ -419,9 +421,11 @@ public class FeedbackSessionsDb extends EntitiesDb {
                     ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
         }
 
-        fs.getRespondingStudentList().remove(oldEmail);
-        fs.getRespondingStudentList().add(newEmail);
-
+        if(fs.getRespondingStudentList().contains(oldEmail)){
+            fs.getRespondingStudentList().remove(oldEmail);
+            fs.getRespondingStudentList().add(newEmail);
+        }
+        
         getPM().close();
     }
 

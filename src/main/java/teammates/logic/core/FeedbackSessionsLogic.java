@@ -1842,7 +1842,7 @@ public class FeedbackSessionsLogic {
 
         if(!studentQns.isEmpty()){
             for(StudentAttributes student : students){
-                studentNoResponses.add(student.googleId);
+                studentNoResponses.add(student.email);
                 responseStatus.emailNameTable.put(student.email, student.name);
             }
         }
