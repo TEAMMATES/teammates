@@ -48,9 +48,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     public void allTests() throws Exception{
         testContent();
         
-        testNewInstructorLink();
         testEditInstructorLink();
-        
+        testNewInstructorLink();
         testInputValidation();
         
         testInviteInstructorAction();
@@ -58,6 +57,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         testEditInstructorAction();
         testDeleteInstructorAction();
         testDeleteCourseAction();
+
     }
     
     public void testContent() throws Exception{
@@ -88,8 +88,6 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     }
 
     private void testInputValidation() {
-        
-        courseEditPage.clickShowNewInstructorFormButton();
         
         ______TS("Checking max-length enforcement by the text boxes");
         String maxLengthInstructorName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH);

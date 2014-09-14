@@ -122,7 +122,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         if(account.getInstitute() != null && account.getInstitute().contains("TEAMMATES Test Institute")){
             isTestingAccount = true;
         }
-        if(account.getEmail().toLowerCase().endsWith(".tmt")){
+        if(account.getEmail() != null && account.getEmail().toLowerCase().endsWith(".tmt")){
             isTestingAccount = true;
         }
         return isTestingAccount;

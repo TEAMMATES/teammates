@@ -1,5 +1,6 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
@@ -131,6 +132,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         testDoneEditingLink();
         
+        testChangeFeedbackRecipient();
+        
         testDeleteSessionAction();
     }
 
@@ -233,7 +236,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("edit question 1 to Team-to-Team");
 
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
-        feedbackEditPage.selectGiverTypeForQuestion1("Teams in this course");
+        feedbackEditPage.selectGiverTypeForQuestion1("Teams in this course");        
         feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionEditToTeamToTeam.html");
 
@@ -979,6 +982,26 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         InstructorFeedbacksPage feedbackPage = feedbackEditPage.deleteSession();
         AssertHelper.assertContains(Const.StatusMessages.FEEDBACK_SESSION_DELETED, feedbackPage.getStatus());
         assertNull(BackDoor.getFeedbackSession(courseId, feedbackSessionName));
+    }
+    
+    private void testChangeFeedbackRecipient() {
+        ______TS("click on Edit visibility then change recipient");
+   
+        feedbackEditPage = getFeedbackEditPage();       
+        
+        assertTrue(feedbackEditPage.verifyPreviewLabelIsActive(1));        
+        assertFalse(feedbackEditPage.verifyEditLabelIsActive(1));           
+        assertTrue(feedbackEditPage.verifyVisibilityMessageIsDisplayed(1));               
+        assertFalse(feedbackEditPage.verifyVisibilityOptionsIsDisplayed(1));        
+        
+        feedbackEditPage.clickQuestionEditForQuestion1();      
+        feedbackEditPage.clickEditLabel(1);        
+        feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
+                                    
+        assertFalse(feedbackEditPage.verifyPreviewLabelIsActive(1));
+        assertTrue(feedbackEditPage.verifyEditLabelIsActive(1));                
+        assertFalse(feedbackEditPage.verifyVisibilityMessageIsDisplayed(1));                
+        assertTrue(feedbackEditPage.verifyVisibilityOptionsIsDisplayed(1));   
     }
     
     private void testCopyQuestion() {
