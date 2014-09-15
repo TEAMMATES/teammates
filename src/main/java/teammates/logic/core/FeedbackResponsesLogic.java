@@ -69,6 +69,11 @@ public class FeedbackResponsesLogic {
         log.warning(feedbackQuestionId);
         return frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
     }
+    
+    public FeedbackResponse getFeedbackResponseEntityOptimized(
+            String feedbackQuestionId, String giverEmail, String recipient) {
+        return frDb.getFeedbackResponseEntityOptimized(feedbackQuestionId, giverEmail, recipient);
+    }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSession(
             String feedbackSessionName, String courseId) {

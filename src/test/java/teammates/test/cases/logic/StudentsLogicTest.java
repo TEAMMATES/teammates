@@ -30,7 +30,6 @@ import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
-import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -50,6 +49,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.SubmissionsLogic;
 import teammates.storage.api.StudentsDb;
+import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Student;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.storage.EvaluationsDbTest;
@@ -445,7 +445,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
         FeedbackQuestionAttributes feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName, 
                 feedbackResponse1InBundle.courseId, Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
-        FeedbackResponseAttributes responseBefore = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
+        FeedbackResponse responseBefore = frLogic.getFeedbackResponseEntityOptimized(feedbackQuestionInDb.getId(),
                 feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
         
         studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
@@ -466,7 +466,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName, 
                 feedbackResponse1InBundle.courseId, Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
-        responseBefore = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
+        responseBefore = frLogic.getFeedbackResponseEntityOptimized(feedbackQuestionInDb.getId(),
                 feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
         
         studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
@@ -488,7 +488,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName, 
                 feedbackResponse1InBundle.courseId, Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
-        responseBefore = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
+        responseBefore = frLogic.getFeedbackResponseEntityOptimized(feedbackQuestionInDb.getId(),
                 feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
         
         studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
