@@ -16,8 +16,6 @@ import teammates.common.util.Const.ParamsNames;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.storage.api.FeedbackResponsesDb;
-import teammates.storage.entity.FeedbackResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -71,7 +69,6 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
         FeedbackSessionAttributes feedbackSession = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(sessionName, courseId);
         StudentsLogic stLogic = StudentsLogic.inst();
-        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
         String errorString = "Error encountered while adjusting feedback session responses " +
                 "of %s in course : %s : %s";
         
@@ -82,10 +79,7 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
             
             for (FeedbackResponseAttributes response : allResponses) {
                 try {
-                    FeedbackResponse feedbackResponse = frDb.getFeedbackResponseEntityOptimized(response.feedbackQuestionId, 
-                            response.giverEmail, response.recipientEmail);
-                    stLogic.adjustFeedbackResponseForEnrollments(enrollmentList, feedbackResponse);
-                    frDb.commitOutstandingChanges();
+                    stLogic.adjustFeedbackResponseForEnrollments(enrollmentList, response);
                 } catch (Exception e) {
                     log.severe(String.format(errorString, sessionName, courseId, e.getMessage()));
                     return false;

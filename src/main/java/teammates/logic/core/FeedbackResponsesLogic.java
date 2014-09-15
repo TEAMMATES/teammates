@@ -70,11 +70,6 @@ public class FeedbackResponsesLogic {
         return frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
     }
     
-    public FeedbackResponse getFeedbackResponseEntityOptimized(
-            String feedbackQuestionId, String giverEmail, String recipient) {
-        return frDb.getFeedbackResponseEntityOptimized(feedbackQuestionId, giverEmail, recipient);
-    }
-
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSession(
             String feedbackSessionName, String courseId) {
         return frDb.getFeedbackResponsesForSession(feedbackSessionName, courseId);
@@ -479,14 +474,14 @@ public class FeedbackResponsesLogic {
 
     public boolean updateFeedbackResponseForChangingTeam(
             StudentEnrollDetails enrollment,
-            FeedbackResponse response) {
+            FeedbackResponseAttributes response) {
 
         FeedbackQuestionAttributes question = fqLogic
-                .getFeedbackQuestion(response.getFeedbackQuestionId());
+                .getFeedbackQuestion(response.feedbackQuestionId);
 
-        boolean isGiverSameForResponseAndEnrollment = response.getGiverEmail()
+        boolean isGiverSameForResponseAndEnrollment = response.giverEmail
                 .equals(enrollment.email);
-        boolean isReceiverSameForResponseAndEnrollment = response.getRecipientEmail()
+        boolean isReceiverSameForResponseAndEnrollment = response.recipientEmail
                 .equals(enrollment.email);
 
         boolean shouldDeleteByChangeOfGiver = (isGiverSameForResponseAndEnrollment && (question.giverType == FeedbackParticipantType.TEAMS
@@ -506,20 +501,23 @@ public class FeedbackResponsesLogic {
     
     public void updateFeedbackResponseForChangingSection(
             StudentEnrollDetails enrollment,
-            FeedbackResponse response) throws InvalidParametersException, EntityDoesNotExistException {
+            FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
 
-        boolean isGiverSameForResponseAndEnrollment = response.getGiverEmail()
+        FeedbackResponse feedbackResponse = frDb.getFeedbackResponseEntityOptimized(response);
+        boolean isGiverSameForResponseAndEnrollment = feedbackResponse.getGiverEmail()
                 .equals(enrollment.email);
-        boolean isReceiverSameForResponseAndEnrollment = response.getRecipientEmail()
+        boolean isReceiverSameForResponseAndEnrollment = feedbackResponse.getRecipientEmail()
                 .equals(enrollment.email);
         
         if(isGiverSameForResponseAndEnrollment){
-            response.setGiverSection(enrollment.newSection);
+            feedbackResponse.setGiverSection(enrollment.newSection);
         }
         
         if(isReceiverSameForResponseAndEnrollment){
-            response.setRecipientSection(enrollment.newSection);   
+            feedbackResponse.setRecipientSection(enrollment.newSection);  
         }
+        
+        frDb.commitOutstandingChanges();
         
         if(isGiverSameForResponseAndEnrollment || isReceiverSameForResponseAndEnrollment){      
             frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());

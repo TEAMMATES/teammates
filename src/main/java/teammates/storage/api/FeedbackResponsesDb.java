@@ -87,14 +87,8 @@ public class FeedbackResponsesDb extends EntitiesDb {
      * * All parameters are non-null. 
      * @return Null if not found.
      */
-    public FeedbackResponse getFeedbackResponseEntityOptimized (
-            String feedbackQuestionId, String giverEmail, String receiverEmail) {
-        
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, receiverEmail);
-        
-         return getFeedbackResponseEntity(feedbackQuestionId, giverEmail, receiverEmail);   
+    public FeedbackResponse getFeedbackResponseEntityOptimized (FeedbackResponseAttributes response) {
+         return (FeedbackResponse) getEntity(response); 
     }
     
     /**

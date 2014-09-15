@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
@@ -32,7 +33,6 @@ import teammates.common.util.Utils;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.entity.FeedbackResponse;
 
 /**
  * Handles  operations related to student roles.
@@ -626,7 +626,7 @@ public class StudentsLogic {
     
     public void adjustFeedbackResponseForEnrollments(
             ArrayList<StudentEnrollDetails> enrollmentList,
-            FeedbackResponse response) throws InvalidParametersException, EntityDoesNotExistException {
+            FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
         for(StudentEnrollDetails enrollment : enrollmentList) {
             boolean isResponseDeleted = false;
             if(enrollment.updateStatus == UpdateStatus.MODIFIED &&

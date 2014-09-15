@@ -49,7 +49,6 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.SubmissionsLogic;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Student;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.storage.EvaluationsDbTest;
@@ -445,7 +444,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
         FeedbackQuestionAttributes feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName, 
                 feedbackResponse1InBundle.courseId, Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
-        FeedbackResponse responseBefore = frLogic.getFeedbackResponseEntityOptimized(feedbackQuestionInDb.getId(),
+        FeedbackResponseAttributes responseBefore = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
                 feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
         
         studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
@@ -466,7 +465,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName, 
                 feedbackResponse1InBundle.courseId, Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
-        responseBefore = frLogic.getFeedbackResponseEntityOptimized(feedbackQuestionInDb.getId(),
+        responseBefore = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
                 feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
         
         studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
@@ -488,7 +487,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         feedbackQuestionInDb = fqLogic.getFeedbackQuestion(feedbackResponse1InBundle.feedbackSessionName, 
                 feedbackResponse1InBundle.courseId, Integer.parseInt(feedbackResponse1InBundle.feedbackQuestionId));
-        responseBefore = frLogic.getFeedbackResponseEntityOptimized(feedbackQuestionInDb.getId(),
+        responseBefore = frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
                 feedbackResponse1InBundle.giverEmail, feedbackResponse1InBundle.recipientEmail);
         
         studentsLogic.adjustFeedbackResponseForEnrollments(enrollmentList, responseBefore);
