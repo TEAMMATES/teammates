@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -77,8 +78,15 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);  
             String qnId = "";
             
+            Map<String, String> emailNamePair = data.bundle.getSortedRecipientList(questionAttributes.getId());
+            Set<String> emailSet = emailNamePair.keySet();
+            ArrayList<String> responsesRecipient = new ArrayList<String>();
+            
             for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
                 FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, questionIndx, responseIndx, questionDetails);
+                
+                responsesRecipient.add(response.recipientEmail);                
+                
                 if(response.responseMetaData.getValue().isEmpty()){
                     //deletes the response since answer is empty
                     saveResponse(response);
@@ -90,7 +98,13 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 qnId = response.feedbackQuestionId;
             }
             
-            List<String> errors = questionDetails.validateResponseAttributes(responsesForQuestion, data.bundle.recipientList.get(qnId).size());
+            if (!emailSet.containsAll(responsesRecipient)) {
+                statusToUser.add(String.format("Invalid Recipient provided for question %d.", questionIndx));
+                isError = true;
+                continue;
+            }
+            
+            List<String> errors = questionDetails.validateResponseAttributes(responsesForQuestion, data.bundle.recipientList.get(qnId).size());            
             
             if(errors.isEmpty()) {
                 for(FeedbackResponseAttributes response : responsesForQuestion) {
