@@ -20,6 +20,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackResponsesDb;
+import teammates.storage.entity.FeedbackResponse;
 
 public class FeedbackResponsesLogic {
 
@@ -74,6 +75,11 @@ public class FeedbackResponsesLogic {
         return frDb.getFeedbackResponsesForSession(feedbackSessionName, courseId);
     }
 
+    public List<FeedbackResponse> getFeedbackResponsesEntitiesForSessionOptimized(
+            String feedbackSessionName, String courseId) {
+        return frDb.getFeedbackResponsesEntitiesForSessionOptimized(feedbackSessionName, courseId);
+    }
+    
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSection(
             String feedbackSessionName, String courseId, String section){
         if(section == null){
@@ -473,14 +479,14 @@ public class FeedbackResponsesLogic {
 
     public boolean updateFeedbackResponseForChangingTeam(
             StudentEnrollDetails enrollment,
-            FeedbackResponseAttributes response) {
+            FeedbackResponse response) {
 
         FeedbackQuestionAttributes question = fqLogic
-                .getFeedbackQuestion(response.feedbackQuestionId);
+                .getFeedbackQuestion(response.getFeedbackQuestionId());
 
-        boolean isGiverSameForResponseAndEnrollment = response.giverEmail
+        boolean isGiverSameForResponseAndEnrollment = response.getGiverEmail()
                 .equals(enrollment.email);
-        boolean isReceiverSameForResponseAndEnrollment = response.recipientEmail
+        boolean isReceiverSameForResponseAndEnrollment = response.getRecipientEmail()
                 .equals(enrollment.email);
 
         boolean shouldDeleteByChangeOfGiver = (isGiverSameForResponseAndEnrollment && (question.giverType == FeedbackParticipantType.TEAMS
@@ -500,22 +506,23 @@ public class FeedbackResponsesLogic {
     
     public void updateFeedbackResponseForChangingSection(
             StudentEnrollDetails enrollment,
-            FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
+            FeedbackResponse response) throws InvalidParametersException, EntityDoesNotExistException {
 
-        boolean isGiverSameForResponseAndEnrollment = response.giverEmail
+        boolean isGiverSameForResponseAndEnrollment = response.getGiverEmail()
                 .equals(enrollment.email);
-        boolean isReceiverSameForResponseAndEnrollment = response.recipientEmail
+        boolean isReceiverSameForResponseAndEnrollment = response.getRecipientEmail()
                 .equals(enrollment.email);
 
         if(isGiverSameForResponseAndEnrollment){
-            response.giverSection = enrollment.newSection;
+            response.setGiverSection(enrollment.newSection);
+            frDb.commitOutstandingChanges();
         }
         if(isReceiverSameForResponseAndEnrollment){
-            response.recipientSection = enrollment.newSection;
+            response.setRecipientSection(enrollment.newSection);
+            frDb.commitOutstandingChanges();
         }
         
-        if(isGiverSameForResponseAndEnrollment || isReceiverSameForResponseAndEnrollment){
-            frDb.updateFeedbackResponse(response);
+        if(isGiverSameForResponseAndEnrollment || isReceiverSameForResponseAndEnrollment){      
             frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
         }
     }

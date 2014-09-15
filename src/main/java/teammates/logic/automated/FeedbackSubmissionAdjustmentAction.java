@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.util.Assumption;
@@ -16,6 +15,7 @@ import teammates.common.util.Const.ParamsNames;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
+import teammates.storage.entity.FeedbackResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -73,11 +73,11 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
                 "of %s in course : %s : %s";
         
         if(feedbackSession != null) {
-            List<FeedbackResponseAttributes> allResponses = FeedbackResponsesLogic.inst()
-                    .getFeedbackResponsesForSession(feedbackSession.feedbackSessionName,
+            List<FeedbackResponse> allResponses = FeedbackResponsesLogic.inst()
+                    .getFeedbackResponsesEntitiesForSessionOptimized(feedbackSession.feedbackSessionName,
                             feedbackSession.courseId);
             
-            for (FeedbackResponseAttributes response : allResponses) {
+            for (FeedbackResponse response : allResponses) {
                 try {
                     stLogic.adjustFeedbackResponseForEnrollments(enrollmentList, response);
                 } catch (Exception e) {
