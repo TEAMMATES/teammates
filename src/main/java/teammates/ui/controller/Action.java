@@ -216,11 +216,12 @@ public abstract class Action {
         if (!isMasqueradeModeRequested(loggedInUser, paramRequestedUserId)) {
             account = loggedInUser;
             boolean isUserLoggedIn = account.googleId != null;
-            if (doesUserNeedRegistration(account) && !loggedInUserType.isAdmin) {
+            if (isPersistenceIssue() && isHomePage()) {
+                // let the user go through as this is a persistence issue
+            } else if(doesUserNeedRegistration(account) && !loggedInUserType.isAdmin) {
                 if (regkey != null) {
                     // TODO: encrypt the email as currently anyone with the regkey can
-                    //       get the email because of this redirect:
-                    
+                    //       get the email because of this redirect:                    
                     String joinUrl = new Url(student.getRegistrationUrl())
                                         .withParam(Const.ParamsNames.NEXT_URL, requestUrl)
                                         .toString();
@@ -257,10 +258,25 @@ public abstract class Action {
         return account;
     }
 
+    protected boolean isPersistenceIssue() {
+        String persistenceCheckString1 = 
+                getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);
+        String persistenceCheckString2 = 
+                getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_EVALUATION);
+        
+        return persistenceCheckString1 != null 
+                || persistenceCheckString2 != null;
+    }
+
     private boolean isPageNotCourseJoinRelated() {
         String currentURI = request.getRequestURI();
         return !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN) && !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
                 && !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED);
+    }
+
+    private boolean isHomePage() {
+        String currentURI = request.getRequestURI();
+        return currentURI.equals(Const.ActionURIs.STUDENT_HOME_PAGE) || currentURI.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
     }
 
     private boolean doesRegkeyBelongToUnregisteredStudent() {
