@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.util.Assumption;
@@ -15,6 +16,7 @@ import teammates.common.util.Const.ParamsNames;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
+import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.FeedbackResponse;
 
 import com.google.gson.Gson;
@@ -69,22 +71,27 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
         FeedbackSessionAttributes feedbackSession = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(sessionName, courseId);
         StudentsLogic stLogic = StudentsLogic.inst();
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
         String errorString = "Error encountered while adjusting feedback session responses " +
                 "of %s in course : %s : %s";
         
         if(feedbackSession != null) {
-            List<FeedbackResponse> allResponses = FeedbackResponsesLogic.inst()
-                    .getFeedbackResponsesEntitiesForSessionOptimized(feedbackSession.feedbackSessionName,
+            List<FeedbackResponseAttributes> allResponses = FeedbackResponsesLogic.inst()
+                    .getFeedbackResponsesForSession(feedbackSession.feedbackSessionName,
                             feedbackSession.courseId);
             
-            for (FeedbackResponse response : allResponses) {
+            for (FeedbackResponseAttributes response : allResponses) {
                 try {
-                    stLogic.adjustFeedbackResponseForEnrollments(enrollmentList, response);
+                    FeedbackResponse feedbackResponse = frDb.getFeedbackResponseEntityOptimized(response.feedbackQuestionId, 
+                            response.giverEmail, response.recipientEmail);
+                    stLogic.adjustFeedbackResponseForEnrollments(enrollmentList, feedbackResponse);
+                    frDb.commitOutstandingChanges();
                 } catch (Exception e) {
                     log.severe(String.format(errorString, sessionName, courseId, e.getMessage()));
                     return false;
                 }
             }
+            
             return true;
         } else {
             log.severe(String.format(errorString, sessionName, courseId, "feedback session is null"));

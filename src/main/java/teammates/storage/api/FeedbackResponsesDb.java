@@ -189,23 +189,6 @@ public class FeedbackResponsesDb extends EntitiesDb {
     }
     
     /**
-     * Optimized method for allowing direct interaction with the entities instead of 
-     * passing all the values of the entities via FeedbackResponseAttributes. <br>
-     * Do not use this unless you know what you are doing. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null. 
-     * @return An empty list if no such responses are found.
-     */
-    public List<FeedbackResponse> getFeedbackResponsesEntitiesForSessionOptimized(
-            String feedbackSessionName, String courseId) {
-        
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        
-        return getFeedbackResponseEntitiesForSession(feedbackSessionName, courseId);     
-    }
-    
-    /**
      * Preconditions: <br>
      * * All parameters are non-null. 
      * @return An empty list if no such responses are found.

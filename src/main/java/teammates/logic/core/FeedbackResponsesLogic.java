@@ -79,11 +79,6 @@ public class FeedbackResponsesLogic {
             String feedbackSessionName, String courseId) {
         return frDb.getFeedbackResponsesForSession(feedbackSessionName, courseId);
     }
-
-    public List<FeedbackResponse> getFeedbackResponsesEntitiesForSessionOptimized(
-            String feedbackSessionName, String courseId) {
-        return frDb.getFeedbackResponsesEntitiesForSessionOptimized(feedbackSessionName, courseId);
-    }
     
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSection(
             String feedbackSessionName, String courseId, String section){
@@ -517,14 +512,13 @@ public class FeedbackResponsesLogic {
                 .equals(enrollment.email);
         boolean isReceiverSameForResponseAndEnrollment = response.getRecipientEmail()
                 .equals(enrollment.email);
-
+        
         if(isGiverSameForResponseAndEnrollment){
             response.setGiverSection(enrollment.newSection);
-            frDb.commitOutstandingChanges();
         }
+        
         if(isReceiverSameForResponseAndEnrollment){
-            response.setRecipientSection(enrollment.newSection);
-            frDb.commitOutstandingChanges();
+            response.setRecipientSection(enrollment.newSection);   
         }
         
         if(isGiverSameForResponseAndEnrollment || isReceiverSameForResponseAndEnrollment){      
