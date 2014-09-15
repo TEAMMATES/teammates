@@ -205,18 +205,6 @@ public abstract class EntitiesDb {
         }
     }
     
-    /**
-     * Note: Deletes the entity directly instead of converting from attributes form
-     * <br> Preconditions: 
-     * <br> * {@code courseId} is not null.
-     */
-    public void deleteEntity(Object entityToDelete) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToDelete);
-
-        getPM().deletePersistent(entityToDelete);
-        getPM().flush();     
-    }
-    
     public void deleteEntities(Collection<? extends EntityAttributes> entitiesToDelete) {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToDelete);

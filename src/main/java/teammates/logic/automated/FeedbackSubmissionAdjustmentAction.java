@@ -84,8 +84,7 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
                     log.severe(String.format(errorString, sessionName, courseId, e.getMessage()));
                     return false;
                 }
-            }
-            
+            } 
             return true;
         } else {
             log.severe(String.format(errorString, sessionName, courseId, "feedback session is null"));
