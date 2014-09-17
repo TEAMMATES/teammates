@@ -581,14 +581,14 @@ public class StudentsLogic {
         frLogic.deleteFeedbackResponsesForStudentAndCascade(courseId, studentEmail);
         SubmissionsLogic.inst().deleteAllSubmissionsForStudent(courseId, studentEmail);
         commentsLogic.deleteCommentsForStudent(courseId, studentEmail);
-        fsLogic.deleteRespondantsForStudent(getStudentForEmail(courseId, studentEmail));
+        fsLogic.deleteStudentFromRespondantsList(getStudentForEmail(courseId, studentEmail));
         studentsDb.deleteStudent(courseId, studentEmail, hasDocument);
     }
 
     public void deleteStudentsForGoogleId(String googleId) {
         List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
         for(StudentAttributes student : students) {
-            fsLogic.deleteRespondantsForStudent(student);
+            fsLogic.deleteStudentFromRespondantsList(student);
         }
         studentsDb.deleteStudentsForGoogleId(googleId);
     }
@@ -596,7 +596,7 @@ public class StudentsLogic {
     public void deleteStudentsForGoogleIdWithoutDocument(String googleId) {
         List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
         for(StudentAttributes student : students) {
-            fsLogic.deleteRespondantsForStudent(student);
+            fsLogic.deleteStudentFromRespondantsList(student);
         }
         studentsDb.deleteStudentsForGoogleIdWithoutDocument(googleId);
     }

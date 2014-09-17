@@ -369,7 +369,7 @@ public class InstructorsLogic {
     
     public void deleteInstructorCascade(String courseId, String email) {
         commentsLogic.deleteCommentsForInstructor(courseId, email);
-        fsLogic.deleteRespondantsForInstructor(getInstructorForEmail(courseId, email));
+        fsLogic.deleteInstructorFromRespondantsList(getInstructorForEmail(courseId, email));
         instructorsDb.deleteInstructor(courseId, email);
     }
 

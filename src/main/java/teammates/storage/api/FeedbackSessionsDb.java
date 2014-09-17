@@ -248,24 +248,9 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
     public void addInstructorRespondant(String email, FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
         
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
-
-        feedbackSession.sanitizeForSaving();
-        
-        if (!feedbackSession.isValid()) {
-            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
-        }
-        
-        FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
-        if (fs == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
-        }
-
-        fs.getRespondingInstructorList().add(email);
-
-        getPM().close();
+        List<String> emails = new ArrayList<String>();
+        emails.add(email);
+        addInstructorRespondants(emails, feedbackSession);
     }
 
     public void addInstructorRespondants(List<String> emails, FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
@@ -339,24 +324,9 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
     public void addStudentRespondant(String email, FeedbackSessionAttributes feedbackSession) throws EntityDoesNotExistException, InvalidParametersException {
 
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
-
-        feedbackSession.sanitizeForSaving();
-
-        if(!feedbackSession.isValid()){
-            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
-        }
-
-        FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
-        if (fs == null) {
-            throw new EntityDoesNotExistException(
-                    ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
-        }
-
-        fs.getRespondingStudentList().add(email);
-
-        getPM().close();
+        List<String> emails = new ArrayList<String>();
+        emails.add(email);
+        addStudentRespondants(emails, feedbackSession);
     }
 
     public void deleteInstructorRespondant(String email, FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {

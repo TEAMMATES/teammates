@@ -861,7 +861,7 @@ public class FeedbackSessionsLogic {
         addStudentRespondants(new ArrayList<String>(respondingStudentList), feedbackSessionName, courseId);
     }
 
-    public void deleteRespondantsForInstructor(InstructorAttributes instructor) {
+    public void deleteInstructorFromRespondantsList(InstructorAttributes instructor) {
         if(instructor == null || instructor.email == null){
             return;
         }
@@ -877,7 +877,7 @@ public class FeedbackSessionsLogic {
         }
     }
 
-    public void deleteRespondantsForStudent(StudentAttributes student) {  
+    public void deleteStudentFromRespondantsList(StudentAttributes student) {  
         if(student == null || student.email == null){
             return;
         }

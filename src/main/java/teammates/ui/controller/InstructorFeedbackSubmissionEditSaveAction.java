@@ -47,7 +47,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
         try {
             logic.addInstructorRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            Assumption.fail("Fail to append instructor respondant");
+            log.severe("Fail to append instructor respondant");
         }
     }
 
@@ -56,7 +56,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
         try {
             logic.deleteInstructorRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            Assumption.fail("Fail to remove instructor respondant");
+            log.severe("Fail to remove instructor respondant");
         }
     }
 

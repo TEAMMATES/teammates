@@ -199,7 +199,7 @@ public class FeedbackResponsesLogic {
         return frDb.getFeedbackResponsesFromGiverForSessionWithinRange(giverEmail, feedbackSessionName, courseId, range);
     }
 
-    public boolean checkIfGiverHasResponsesForSession(String userEmail, String feedbackSessionName, String courseId){
+    public boolean hasGiverRespondedForSession(String userEmail, String feedbackSessionName, String courseId){
 
         return getFeedbackResponsesFromGiverForSessionWithinRange(userEmail, feedbackSessionName, courseId, 1).size() > 0;
     }
@@ -598,7 +598,7 @@ public class FeedbackResponsesLogic {
                     .getFeedbackQuestion(feedbackQuestionId);
             boolean isInstructor = (question.giverType == FeedbackParticipantType.SELF || question.giverType == FeedbackParticipantType.INSTRUCTORS);
             for (String email : emails) {
-                boolean hasResponses = checkIfGiverHasResponsesForSession(email, question.feedbackSessionName, question.courseId);
+                boolean hasResponses = hasGiverRespondedForSession(email, question.feedbackSessionName, question.courseId);
                 if (!hasResponses) {
                     if (isInstructor) {
                         fsLogic.deleteInstructorRespondant(email,

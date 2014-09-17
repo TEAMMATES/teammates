@@ -108,7 +108,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         }
 
-        if(logic.checkIfGiverHasResponsesForSession(userEmailForCourse, feedbackSessionName, courseId)){
+        if(logic.hasGiverRespondedForSession(userEmailForCourse, feedbackSessionName, courseId)){
             appendRespondant();
         } else {
             removeRespondant();

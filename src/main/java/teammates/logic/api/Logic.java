@@ -2347,13 +2347,13 @@ public class Logic {
         return feedbackResponsesLogic.getFeedbackResponsesForQuestion(questionId);
     }
 
-    public boolean checkIfGiverHasResponsesForSession(String userEmail, String feedbackSessionName, String courseId){
+    public boolean hasGiverRespondedForSession(String userEmail, String feedbackSessionName, String courseId){
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
 
-        return feedbackResponsesLogic.checkIfGiverHasResponsesForSession(userEmail, feedbackSessionName, courseId);
+        return feedbackResponsesLogic.hasGiverRespondedForSession(userEmail, feedbackSessionName, courseId);
     }
     
     /**

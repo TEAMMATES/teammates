@@ -24,7 +24,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveAction extends
         try {
             logic.addStudentRespondant(account.googleId, feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            Assumption.fail("Fail to append student respondant");
+            log.severe("Fail to append student respondant");
         }
     }
 
@@ -33,7 +33,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveAction extends
         try {
             logic.deleteStudentRespondant(account.googleId, feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            Assumption.fail("Fail to remove student respondant");
+            log.severe("Fail to remove student respondant");
         }
     }
 

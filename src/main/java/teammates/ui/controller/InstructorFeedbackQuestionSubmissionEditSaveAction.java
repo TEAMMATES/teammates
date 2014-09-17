@@ -23,7 +23,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveAction extends
         try {
             logic.addInstructorRespondant(account.googleId, feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            Assumption.fail("Fail to append instructor respondant for session");
+            log.severe("Fail to append instructor respondant for session");
         }
     }
 
@@ -32,7 +32,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveAction extends
         try {
             logic.deleteInstructorRespondant(account.googleId, feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            Assumption.fail("Fail to remove instructor respondant for session");
+            log.severe("Fail to remove instructor respondant for session");
         }
     }
 
