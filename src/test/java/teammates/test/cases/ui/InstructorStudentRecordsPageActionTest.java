@@ -106,7 +106,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorStudentRecordsPage|||instructorStudentRecordsPage"+
                 "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"+
-                "|||instr3@course1n2.com|||instructorStudentRecords Page Load<br>" +
+                "|||instr3@course1n2.tmt|||instructorStudentRecords Page Load<br>" +
                 "Viewing <span class=\"bold\">" + student.email + "'s</span> records " +
                 "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>" +
                 "Number of sessions: 8<br>" +
@@ -126,7 +126,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         
         String[] submissionParamsWithNoSession = new String[] {
                 Const.ParamsNames.COURSE_ID, courseIdWithNoSession,
-                Const.ParamsNames.STUDENT_EMAIL, "emailTemp@gmail.com"
+                Const.ParamsNames.STUDENT_EMAIL, "emailTemp@gmail.tmt"
         };
 
         InstructorStudentRecordsPageAction aWithNoSession = getAction(submissionParamsWithNoSession);
@@ -152,7 +152,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
     
     private StudentAttributes createStudentInTypicalDataBundleForCourseWithNoSession() throws EntityAlreadyExistsException, 
     InvalidParametersException, EntityDoesNotExistException {
-        StudentAttributes student = new StudentAttributes("", "emailTemp@gmail.com", "nameOfStudent", "No comment", "idOfCourseNoEvals", "team", "section");
+        StudentAttributes student = new StudentAttributes("", "emailTemp@gmail.tmt", "nameOfStudent", "No comment", "idOfCourseNoEvals", "team", "section");
         logic.createStudentWithoutDocument(student);
         return student;
     }

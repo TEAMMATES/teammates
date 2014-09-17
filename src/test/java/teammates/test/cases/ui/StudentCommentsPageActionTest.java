@@ -45,7 +45,7 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
         assertEquals(1, data.coursePaginationList.size());
         
         String expectedLogMessage = "TEAMMATESLOG|||studentCommentsPage|||studentCommentsPage|||true|||Student"
-                + "|||Student 1 in course 1|||student1InCourse1|||student1InCourse1@gmail.com|||studentComments "
+                + "|||Student 1 in course 1|||student1InCourse1|||student1InCourse1@gmail.tmt|||studentComments "
                 + "Page Load<br>Viewing <span class=\"bold\">student1InCourse1's</span> comment records for Course "
                         + "<span class=\"bold\">[idOfTypicalCourse1]</span>|||/page/studentCommentsPage";
         assertEquals(expectedLogMessage, action.getLogMessage());
@@ -65,7 +65,7 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
         assertEquals(2, data.coursePaginationList.size());
         
         expectedLogMessage = "TEAMMATESLOG|||studentCommentsPage|||studentCommentsPage|||true|||Student(M)|||"
-                + "Student in two courses|||student2InCourse1|||student2InCourse1@gmail.com|||studentComments "
+                + "Student in two courses|||student2InCourse1|||student2InCourse1@gmail.tmt|||studentComments "
                 + "Page Load<br>Viewing <span class=\"bold\">student2InCourse1's</span> comment records for "
                 + "Course <span class=\"bold\">[idOfTypicalCourse2]</span>|||/page/studentCommentsPage";
         assertEquals(expectedLogMessage, action.getLogMessage());

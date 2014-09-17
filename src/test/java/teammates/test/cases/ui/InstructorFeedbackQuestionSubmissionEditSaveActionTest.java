@@ -13,6 +13,7 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
@@ -373,7 +374,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         fs = dataBundle.feedbackSessions.get("session1InCourse2");
         
         fq = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
-        fr = frDb.getFeedbackResponse(fq.getId(), instructor.email, "student1InCourse2@gmail.com");
+        fr = frDb.getFeedbackResponse(fq.getId(), instructor.email, "student1InCourse2@gmail.tmt");
         assertNotNull(fr);
         
         gaeSimulation.loginAsInstructor(instructor.googleId);
@@ -399,6 +400,47 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,    r.getStatusMessage());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
        
+        
+        ______TS("Unsuccessful case: test null course id parameter");
+        submissionParams = new String[]{
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", fr.recipientEmail,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fq.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", "Qn Answer",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-1-0", fr.getId()
+        };
+        
+        try {
+            a = getAction(submissionParams);
+            r = (ShowPageResult) a.executeAndPostProcess();
+            signalFailureToDetectException("Did not detect that parameters are null.");
+        } catch (NullPostParameterException e) {
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+                    Const.ParamsNames.COURSE_ID), e.getMessage());
+        }
+        
+        
+        ______TS("Unsuccessful case: test null feedback session name parameter");
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", fr.recipientEmail,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fq.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", "Qn Answer",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-1-0", fr.getId()
+        };
+        
+        try {
+            a = getAction(submissionParams);
+            r = (ShowPageResult) a.executeAndPostProcess();
+            signalFailureToDetectException("Did not detect that parameters are null.");
+        } catch (NullPostParameterException e) {
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+                    Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
+        }
     }
     
     private InstructorFeedbackQuestionSubmissionEditSaveAction getAction(String... params) throws Exception{

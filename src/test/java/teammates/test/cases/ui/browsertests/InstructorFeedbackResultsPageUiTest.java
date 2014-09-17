@@ -68,8 +68,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("standard session results with helper view");
         
-        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper", "Open Session");
-        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenWithHelperView.html");
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper1", "Open Session");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenWithHelperView1.html");
+        
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper2", "Open Session");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenWithHelperView2.html");
         
         ______TS("empty session");
         
@@ -212,6 +215,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
        
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestion.html");
         
+        ______TS("Ajax for view by question for helper");
+        
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.helper1", "Open Session", true, "question");
+        
+        resultsPage.clickAjaxPanel(0);
+        
+        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestionHelperView.html");
         
         ______TS("Ajax for view by giver > recipient > question");
         
@@ -347,23 +357,23 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.addFeedbackResponseComment("test comment 1");
         resultsPage.addFeedbackResponseComment("test comment 2");
         resultsPage.verifyCommentRowContent("-0",
-                "test comment 1", "CFResultsUiT.instr@gmail.com");
+                "test comment 1", "CFResultsUiT.instr@gmail.tmt");
         resultsPage.verifyCommentRowContent("-1",
-                "test comment 2", "CFResultsUiT.instr@gmail.com");
+                "test comment 2", "CFResultsUiT.instr@gmail.tmt");
         
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyCommentRowContent("-0-1-1-1",
-                "test comment 1", "CFResultsUiT.instr@gmail.com");
+                "test comment 1", "CFResultsUiT.instr@gmail.tmt");
         resultsPage.verifyCommentRowContent("-0-1-1-2",
-                "test comment 2", "CFResultsUiT.instr@gmail.com");
+                "test comment 2", "CFResultsUiT.instr@gmail.tmt");
         
         ______TS("action: edit existing feedback response comment");
 
         resultsPage.editFeedbackResponseComment("-0-1-1-1",
                 "edited test comment");
         resultsPage.verifyCommentRowContent("-0-1-1-1",
-                "edited test comment", "CFResultsUiT.instr@gmail.com");
+                "edited test comment", "CFResultsUiT.instr@gmail.tmt");
         
         ______TS("action: delete existing feedback response comment");
 
@@ -373,19 +383,19 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyCommentRowContent("-0-1-1-1",
-                "test comment 2", "CFResultsUiT.instr@gmail.com");
+                "test comment 2", "CFResultsUiT.instr@gmail.tmt");
         
         ______TS("action: add edit and delete successively");
         
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.addFeedbackResponseComment("successive action comment");
         resultsPage.verifyCommentRowContent("-0",
-                "successive action comment", "CFResultsUiT.instr@gmail.com");
+                "successive action comment", "CFResultsUiT.instr@gmail.tmt");
         
         resultsPage.editFeedbackResponseComment("-0",
                 "edited successive action comment");
         resultsPage.verifyCommentRowContent("-0",
-                "edited successive action comment", "CFResultsUiT.instr@gmail.com");
+                "edited successive action comment", "CFResultsUiT.instr@gmail.tmt");
         
         resultsPage.deleteFeedbackResponseComment("-0");
         resultsPage.verifyRowMissing("-0");
@@ -393,7 +403,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyCommentRowContent("-0-1-1-1",
-                "test comment 2", "CFResultsUiT.instr@gmail.com");
+                "test comment 2", "CFResultsUiT.instr@gmail.tmt");
         resultsPage.verifyRowMissing("-0-1-1-2");
         
     }

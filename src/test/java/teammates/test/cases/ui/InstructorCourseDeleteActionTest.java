@@ -61,7 +61,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseDelete" +
                 "|||instructorCourseDelete|||true|||Instructor|||Instructor 1 of Course 1" +
-                "|||idOfInstructor1OfCourse1|||instr1@course1.com" +
+                "|||idOfInstructor1OfCourse1|||instr1@course1.tmt" +
                 "|||Course deleted: idOfTypicalCourse1|||/page/instructorCourseDelete";
         assertEquals(expectedLogMessage, deleteAction.getLogMessage());
         
@@ -86,7 +86,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
         
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseDelete|||instructorCourseDelete" +
                 "|||true|||Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
-                "|||instr1@course1.com|||Course deleted: icdct.tpa.id1|||/page/instructorCourseDelete";
+                "|||instr1@course1.tmt|||Course deleted: icdct.tpa.id1|||/page/instructorCourseDelete";
         assertEquals(expectedLogMessage, deleteAction.getLogMessage());
     }
     

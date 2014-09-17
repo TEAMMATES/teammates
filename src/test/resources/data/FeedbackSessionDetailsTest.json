@@ -4,62 +4,62 @@
             "googleId": "FSDTest.idOfInstructor1OfCourse1",
             "name": "Instructor 1 of Course 1",
             "isInstructor": true,
-            "email": "FSDTest.instr1@course1.com",
-            "institute": "National University of Singapore"
+            "email": "FSDTest.instr1@course1.tmt",
+            "institute": "TEAMMATES Test Institute 1"
         },
         "instructor2OfCourse1": {
             "googleId": "FSDTest.idOfInstructor2OfCourse1",
             "name": "Instructor 2 of Course 1",
             "isInstructor": true,
-            "email": "FSDTest.instr2@course1.com",
-            "institute": "National University of Singapore"
+            "email": "FSDTest.instr2@course1.tmt",
+            "institute": "TEAMMATES Test Institute 1"
         },
         "instructorWithoutCourses": {
             "googleId": "FSDTest.instructorWithoutCourses",
             "name": "Instructor Without Courses",
             "isInstructor": true,
-            "email": "FSDTest.iwc@yahoo.com",
-            "institute": "NTU"
+            "email": "FSDTest.iwc@yahoo.tmt",
+            "institute": "TEAMMATES Test Institute 7"
         },
         "student1InCourse1": {
             "googleId": "FSDTest.student1InCourse1",
             "name": "Student 1 in course 1",
             "isInstructor": false,
-            "email": "FSDTest.sudent1inCourse1@gmail.com",
-            "institute": "National University of Singapore"
+            "email": "FSDTest.sudent1inCourse1@gmail.tmt",
+            "institute": "TEAMMATES Test Institute 1"
         },
         "student2InCourse1": {
             "googleId": "FSDTest.student2InCourse1",
             "name": "Student in two courses",
             "isInstructor": false,
-            "email": "FSDTest.sudent2inCourse1@gmail.com",
-            "institute": "National University of Singapore"
+            "email": "FSDTest.sudent2inCourse1@gmail.tmt",
+            "institute": "TEAMMATES Test Institute 1"
         },
         "student3InCourse1": {
             "googleId": "FSDTest.student3InCourse1",
             "name": "Student 3 in course 1",
             "isInstructor": false,
-            "email": "FSDTest.sudent1inCourse1@gmail.com",
-            "institute": "National University of Singapore"
+            "email": "FSDTest.sudent1inCourse1@gmail.tmt",
+            "institute": "TEAMMATES Test Institute 1"
         },
         "student4InCourse1": {
             "googleId": "FSDTest.student4InCourse1",
             "name": "Student 4 in course 1",
             "isInstructor": false,
-            "email": "FSDTest.sudent4inCourse1@gmail.com",
-            "institute": "National University of Singapore"
+            "email": "FSDTest.sudent4inCourse1@gmail.tmt",
+            "institute": "TEAMMATES Test Institute 1"
         },
         "student5InCourse1": {
             "googleId": "FSDTest.student5InCourse1",
             "name": "Student 5 in course 1",
             "isInstructor": false,
-            "email": "FSDTest.sudent5inCourse1@gmail.com",
-            "institute": "National University of Singapore"
+            "email": "FSDTest.sudent5inCourse1@gmail.tmt",
+            "institute": "TEAMMATES Test Institute 1"
         }
     },
 
     "courses": {
-        "course.with.completed.sessions.": {
+        "course.with.tmtpleted.sessions.": {
             "id": "FSDTest.idOfTypicalCourse1",
             "name": "Typical Course 1",
             "isArchived": false
@@ -76,7 +76,7 @@
             "googleId": "FSDTest.idOfInstructor1OfCourse1",
             "courseId": "FSDTest.idOfTypicalCourse1",
             "name": "Instructor1 Course1",
-            "email": "FSDTest.instr1@course1.com",
+            "email": "FSDTest.instr1@course1.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -85,7 +85,7 @@
             "googleId": "FSDTest.idOfInstructor2OfCourse1",
             "courseId": "FSDTest.idOfTypicalCourse1",
             "name": "Instructor2 Course1",
-            "email": "FSDTest.instr2@course1.com",
+            "email": "FSDTest.instr2@course1.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -94,7 +94,7 @@
             "googleId": "FSDTest.idOfInstructor1OfCourse1",
             "courseId": "FSDTest.idOfTypicalCourse2",
             "name": "Instructor1 Course2",
-            "email": "FSDTest.instr1@course2.com",
+            "email": "FSDTest.instr1@course2.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -103,7 +103,7 @@
 
   "students": {
     "student1InCourse1":{
-      "email": "FSDTest.student1InCourse1@gmail.com",
+      "email": "FSDTest.student1InCourse1@gmail.tmt",
       "name": "student1 In Course1",
       "team": "Team 1.1",
       "googleId": "FSDTest.student1InCourse1",
@@ -111,7 +111,7 @@
       "course" : "FSDTest.idOfTypicalCourse1"
     },
     "student2InCourse1":{
-      "email": "FSDTest.student2InCourse1@gmail.com",
+      "email": "FSDTest.student2InCourse1@gmail.tmt",
       "name": "student2 In Course1",
       "googleId": "FSDTest.student2InCourse1",
       "team": "Team 1.1",
@@ -119,7 +119,7 @@
  	  "course" : "FSDTest.idOfTypicalCourse1"
     },
     "student3InCourse1":{
-      "email": "FSDTest.student3InCourse1@gmail.com",
+      "email": "FSDTest.student3InCourse1@gmail.tmt",
       "name": "student3 In Course1",
       "googleId": "FSDTest.student3InCourse1",
       "team": "Team 1.2",
@@ -127,7 +127,7 @@
       "course" : "FSDTest.idOfTypicalCourse1"
     },
     "student4InCourse1":{
-      "email": "FSDTest.student4InCourse1@gmail.com",
+      "email": "FSDTest.student4InCourse1@gmail.tmt",
       "name": "student4 In Course1",
       "googleId": "FSDTest.student4InCourse1",
       "team": "Team 1.2",
@@ -135,7 +135,7 @@
  	  "course" : "FSDTest.idOfTypicalCourse1"
     },
     "student5InCourse1":{
-      "email": "FSDTest.student5InCourse1@gmail.com",
+      "email": "FSDTest.student5InCourse1@gmail.tmt",
       "name": "student5 In Course1",
       "googleId": "FSDTest.student5InCourse1",
       "team": "Team 1.3",
@@ -143,7 +143,7 @@
       "course" : "FSDTest.idOfTypicalCourse1"
     },
     "student6InCourse1":{
-      "email": "FSDTest.student6InCourse1@gmail.com",
+      "email": "FSDTest.student6InCourse1@gmail.tmt",
       "name": "student6 In Course1",
       "googleId": "FSDTest.student5InCourse1",
       "team": "Team 1.4",
@@ -151,7 +151,7 @@
       "course" : "FSDTest.idOfTypicalCourse1"
     },
     "student1InCourse2":{
-      "email": "FSDTest.student1InCourse2@gmail.com",
+      "email": "FSDTest.student1InCourse2@gmail.tmt",
       "name": "student1 In Course1",
       "team": "Team A",
       "googleId": "FSDTest.student1InCourse1",
@@ -164,7 +164,7 @@
   	 "standard.session": {
       "feedbackSessionName" : "Standard feedback session",
       "courseId" : "FSDTest.idOfTypicalCourse1",
-      "creatorEmail": "FSDTest.instr1@course1.com",
+      "creatorEmail": "FSDTest.instr1@course1.tmt",
       "instructions": {"value" : "Please please fill in the following questions."},
       "createdTime" : "2012-03-20 11:59 PM UTC",
       "startTime" : "2012-04-01 11:00 AM UTC",
@@ -180,7 +180,7 @@
     "no.responses.session": {
       "feedbackSessionName" : "No responses feedback session",
       "courseId" : "FSDTest.idOfTypicalCourse2",
-      "creatorEmail": "FSDTest.instr1@course2.com",
+      "creatorEmail": "FSDTest.instr1@course2.tmt",
       "instructions": {"value" : "Please please fill in the following questions."},
       "createdTime" : "2016-03-20 1:00 PM UTC",
       "startTime" : "2016-04-01 11:59 PM UTC",
@@ -196,7 +196,7 @@
     "no.recipients.session": {
       "feedbackSessionName" : "Special feedback session",
       "courseId" : "FSDTest.idOfTypicalCourse1",
-      "creatorEmail": "FSDTest.instr1@course1.com",
+      "creatorEmail": "FSDTest.instr1@course1.tmt",
       "instructions": {"value" : "Please please fill in the following questions."},
       "createdTime" : "2012-03-20 11:59 PM UTC",
       "startTime" : "2012-04-01 11:59 PM UTC",
@@ -212,7 +212,7 @@
     "private.session": {
       "feedbackSessionName" : "Private feedback session",
       "courseId" : "FSDTest.idOfTypicalCourse1",
-      "creatorEmail": "FSDTest.instr1@course1.com",
+      "creatorEmail": "FSDTest.instr1@course1.tmt",
       "instructions": {"value" : "Please please fill in the following questions."},
       "createdTime" : "2012-03-20 11:59 PM UTC",
       "startTime" : "2012-04-01 11:59 PM UTC",
@@ -228,7 +228,7 @@
     "private.session.noquestions": {
       "feedbackSessionName" : "Private feedback session2",
       "courseId" : "FSDTest.idOfTypicalCourse1",
-      "creatorEmail": "FSDTest.instr2@course1.com",
+      "creatorEmail": "FSDTest.instr2@course1.tmt",
       "instructions": {"value" : "Please please fill in the following questions."},
       "createdTime" : "2012-03-20 11:59 PM UTC",
       "startTime" : "2012-04-01 11:59 PM UTC",
@@ -244,7 +244,7 @@
     "private.session.done": {
       "feedbackSessionName" : "Private feedback session done",
       "courseId" : "FSDTest.idOfTypicalCourse1",
-      "creatorEmail": "FSDTest.instr2@course1.com",
+      "creatorEmail": "FSDTest.instr2@course1.tmt",
       "instructions": {"value" : "Please please fill in the following questions."},
       "createdTime" : "2012-03-20 11:59 PM UTC",
       "startTime" : "2012-04-01 11:59 PM UTC",
@@ -263,7 +263,7 @@
   	 "qn1.standard.session": {
         "feedbackSessionName" : "Standard feedback session",
         "courseId" : "FSDTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSDTest.instr1@course1.com",
+        "creatorEmail" : "FSDTest.instr1@course1.tmt",
         "questionMetaData" : {"value" : "student self feedback"},
         "questionNumber" : "1",
         "questionType" : "TEXT",
@@ -277,7 +277,7 @@
   	"qn2.standard.session": {
         "feedbackSessionName" : "Standard feedback session",
         "courseId" : "FSDTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSDTest.instr1@course1.com",
+        "creatorEmail" : "FSDTest.instr1@course1.tmt",
         "questionMetaData" : {"value" : "student feedback to team members. only recipient can see names."},
         "questionNumber" : "2",
         "questionType" : "TEXT",
@@ -291,7 +291,7 @@
     "qn3.standard.session": {
         "feedbackSessionName" : "Standard feedback session",
         "courseId" : "FSDTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSDTest.instr1@course1.com",
+        "creatorEmail" : "FSDTest.instr1@course1.tmt",
         "questionMetaData" : {"value" : "student to instructors. recipient name protected."},
         "questionNumber" : "3",
         "questionType" : "TEXT",
@@ -305,7 +305,7 @@
     "qn4.standard.session": {
         "feedbackSessionName" : "Standard feedback session",
         "courseId" : "FSDTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSDTest.instr1@course1.com",
+        "creatorEmail" : "FSDTest.instr1@course1.tmt",
         "questionMetaData" : {"value" : "student to 2 teams with extra responses. only instructor can see giver name."},
         "questionNumber" : "4",
         "questionType" : "TEXT",
@@ -319,7 +319,7 @@
     "qn5.standard.session": {
         "feedbackSessionName" : "Standard feedback session",
         "courseId" : "FSDTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSDTest.instr1@course1.com",
+        "creatorEmail" : "FSDTest.instr1@course1.tmt",
         "questionMetaData" : {"value" : "student to students. only giver team + receiver can see giver name"},
         "questionNumber" : "5",
         "questionType" : "TEXT",
@@ -333,7 +333,7 @@
     "qn6.standard.session": {
         "feedbackSessionName" : "Standard feedback session",
         "courseId" : "FSDTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSDTest.instr1@course1.com",
+        "creatorEmail" : "FSDTest.instr1@course1.tmt",
         "questionMetaData" : {"value" : "instructor to none. only instructors can see."},
         "questionNumber" : "6",
         "questionType" : "TEXT",
@@ -347,7 +347,7 @@
     "qn7.standard.session": {
         "feedbackSessionName" : "Standard feedback session",
         "courseId" : "FSDTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSDTest.instr1@course1.com",
+        "creatorEmail" : "FSDTest.instr1@course1.tmt",
         "questionMetaData" : {"value" : "teams to students. all students can see everything, but not instr inc creator."},
         "questionNumber" : "7",
         "questionType" : "TEXT",
@@ -361,7 +361,7 @@
     "qn8.standard.session": {
         "feedbackSessionName" : "Standard feedback session",
         "courseId" : "FSDTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSDTest.instr1@course1.com",
+        "creatorEmail" : "FSDTest.instr1@course1.tmt",
         "questionMetaData" : {"value" : "teams to teams test."},
         "questionNumber" : "8",
         "questionType" : "TEXT",
@@ -375,7 +375,7 @@
     "qn1.no.recipient.session": {
         "feedbackSessionName" : "Special feedback session",
         "courseId" : "FSDTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSDTest.instr1@course1.com",
+        "creatorEmail" : "FSDTest.instr1@course1.tmt",
         "questionMetaData" : {"value" : "student > none"},
         "questionNumber" : "1",
         "questionType" : "TEXT",
@@ -389,7 +389,7 @@
     "qn2.no.recipient.session": {
         "feedbackSessionName" : "Special feedback session",
         "courseId" : "FSDTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSDTest.instr1@course1.com",
+        "creatorEmail" : "FSDTest.instr1@course1.tmt",
         "questionMetaData" : {"value" : "instructor > none"},
         "questionNumber" : "2",
         "questionType" : "TEXT",
@@ -403,7 +403,7 @@
     "qn1.no.responses.session": {
         "feedbackSessionName" : "No responses feedback session",
         "courseId" : "FSDTest.idOfTypicalCourse2",
-        "creatorEmail" : "FSDTest.instr1@course2.com",
+        "creatorEmail" : "FSDTest.instr1@course2.tmt",
         "questionMetaData" : {"value" : "students"},
         "questionNumber" : "1",
         "questionType" : "TEXT",
@@ -417,7 +417,7 @@
     "qn2.no.responses.session": {
         "feedbackSessionName" : "No responses feedback session",
         "courseId" : "FSDTest.idOfTypicalCourse2",
-        "creatorEmail" : "FSDTest.instr1@course2.com",
+        "creatorEmail" : "FSDTest.instr1@course2.tmt",
         "questionMetaData" : {"value" : "instructors"},
         "questionNumber" : "2",
         "questionType" : "TEXT",
@@ -431,7 +431,7 @@
     "qn1.private.session": {
         "feedbackSessionName" : "Private feedback session",
         "courseId" : "FSDTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSDTest.instr1@course1.com",
+        "creatorEmail" : "FSDTest.instr1@course1.tmt",
         "questionMetaData" : {"value" : "creator self feedback"},
         "questionNumber" : "1",
         "questionType" : "TEXT",
@@ -445,7 +445,7 @@
   	"qn2.private.session": {
         "feedbackSessionName" : "Private feedback session",
         "courseId" : "FSDTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSDTest.instr1@course1.com",
+        "creatorEmail" : "FSDTest.instr1@course1.tmt",
         "questionMetaData" : {"value" : "hidden qn for opening up later."},
         "questionNumber" : "2",
         "questionType" : "TEXT",
@@ -459,7 +459,7 @@
     "qn3.private.session": {
         "feedbackSessionName" : "Private feedback session",
         "courseId" : "FSDTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSDTest.instr1@course1.com",
+        "creatorEmail" : "FSDTest.instr1@course1.tmt",
         "questionMetaData" : {"value" : "incomplete question"},
         "questionNumber" : "3",
         "questionType" : "TEXT",
@@ -473,7 +473,7 @@
     "qn1.private.session.done": {
         "feedbackSessionName" : "Private feedback session done",
         "courseId" : "FSDTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSDTest.instr2@course1.com",
+        "creatorEmail" : "FSDTest.instr2@course1.tmt",
         "questionMetaData" : {"value" : "complete question"},
         "questionNumber" : "1",
         "questionType" : "TEXT",
@@ -492,8 +492,8 @@
         "courseId" : "FSDTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "1",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSDTest.student1InCourse1@gmail.com",
-        "recipientEmail" : "FSDTest.student1InCourse1@gmail.com",
+        "giverEmail" : "FSDTest.student1InCourse1@gmail.tmt",
+        "recipientEmail" : "FSDTest.student1InCourse1@gmail.tmt",
         "responseMetaData" : {"value" : "student self feedback."}
     },
     "qn2.resp1": {
@@ -501,8 +501,8 @@
         "courseId" : "FSDTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "2",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSDTest.student1InCourse1@gmail.com",
-        "recipientEmail" : "FSDTest.student2InCourse1@gmail.com",
+        "giverEmail" : "FSDTest.student1InCourse1@gmail.tmt",
+        "recipientEmail" : "FSDTest.student2InCourse1@gmail.tmt",
         "responseMetaData" : {"value" : "student 1 feedback to student 2."}
     }, 
     "qn2.resp2": {
@@ -510,8 +510,8 @@
         "courseId" : "FSDTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "2",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSDTest.student6InCourse1@gmail.com",
-        "recipientEmail" : "FSDTest.student3InCourse1@gmail.com",
+        "giverEmail" : "FSDTest.student6InCourse1@gmail.tmt",
+        "recipientEmail" : "FSDTest.student3InCourse1@gmail.tmt",
         "responseMetaData" : {"value" : "student 6 feedback to student 3."}
     }, 
     "qn2.resp3": {
@@ -519,8 +519,8 @@
         "courseId" : "FSDTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "2",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSDTest.student2InCourse1@gmail.com",
-        "recipientEmail" : "FSDTest.student1InCourse1@gmail.com",
+        "giverEmail" : "FSDTest.student2InCourse1@gmail.tmt",
+        "recipientEmail" : "FSDTest.student1InCourse1@gmail.tmt",
         "responseMetaData" : {"value" : "student 2 feedback to student 1."}
     }, 
     "qn3.resp1": {
@@ -528,8 +528,8 @@
         "courseId" : "FSDTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "3",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSDTest.student1InCourse1@gmail.com",
-        "recipientEmail" : "FSDTest.instr1@course1.com",
+        "giverEmail" : "FSDTest.student1InCourse1@gmail.tmt",
+        "recipientEmail" : "FSDTest.instr1@course1.tmt",
         "responseMetaData" : {"value" : "student 1 feedback to instr 1."}
     }, 
     "qn3.resp2": {
@@ -537,8 +537,8 @@
         "courseId" : "FSDTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "3",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSDTest.student3InCourse1@gmail.com",
-        "recipientEmail" : "FSDTest.instr2@course1.com",
+        "giverEmail" : "FSDTest.student3InCourse1@gmail.tmt",
+        "recipientEmail" : "FSDTest.instr2@course1.tmt",
         "responseMetaData" : {"value" : "student 3 feedback to instr 2."}
     },
     "qn4.resp1": {
@@ -546,7 +546,7 @@
         "courseId" : "FSDTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "4",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSDTest.student4InCourse1@gmail.com",
+        "giverEmail" : "FSDTest.student4InCourse1@gmail.tmt",
         "recipientEmail" : "Team 1.2",
         "responseMetaData" : {"value" : "student 5 feedback to Team 1.2."}
     },
@@ -555,7 +555,7 @@
         "courseId" : "FSDTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "4",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSDTest.student1InCourse1@gmail.com",
+        "giverEmail" : "FSDTest.student1InCourse1@gmail.tmt",
         "recipientEmail" : "Team 1.3",
         "responseMetaData" : {"value" : "student 1 feedback to Team 1.3."}
     },
@@ -564,7 +564,7 @@
         "courseId" : "FSDTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "4",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSDTest.student2InCourse1@gmail.com",
+        "giverEmail" : "FSDTest.student2InCourse1@gmail.tmt",
         "recipientEmail" : "Team 1.4",
         "responseMetaData" : {"value" : "extra response to Team 1.4."}
     },
@@ -573,8 +573,8 @@
         "courseId" : "FSDTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "5",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSDTest.student2InCourse1@gmail.com",
-        "recipientEmail" : "FSDTest.student4InCourse1@gmail.com",
+        "giverEmail" : "FSDTest.student2InCourse1@gmail.tmt",
+        "recipientEmail" : "FSDTest.student4InCourse1@gmail.tmt",
         "responseMetaData" : {"value" : "standard stu>stu, diff teams"}
     },
     "qn6.resp1": {
@@ -582,7 +582,7 @@
         "courseId" : "FSDTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "6",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSDTest.instr1@course1.com",
+        "giverEmail" : "FSDTest.instr1@course1.tmt",
         "recipientEmail" : "%GENERAL%",
         "responseMetaData" : {"value" : "instr > all"}
     },
@@ -591,8 +591,8 @@
         "courseId" : "FSDTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "7",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSDTest.student1InCourse1@gmail.com",
-        "recipientEmail" : "FSDTest.student2InCourse1@gmail.com",
+        "giverEmail" : "FSDTest.student1InCourse1@gmail.tmt",
+        "recipientEmail" : "FSDTest.student2InCourse1@gmail.tmt",
         "responseMetaData" : {"value" : "team 1.1 > student (in own team)"}
     },
     "qn7.resp2": {
@@ -600,8 +600,8 @@
         "courseId" : "FSDTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "7",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSDTest.student2InCourse1@gmail.com",
-        "recipientEmail" : "FSDTest.student4InCourse1@gmail.com",
+        "giverEmail" : "FSDTest.student2InCourse1@gmail.tmt",
+        "recipientEmail" : "FSDTest.student4InCourse1@gmail.tmt",
         "responseMetaData" : {"value" : "team 1.1 > student (in Team 1.2)"}
     },
     "qn8.resp1": {
@@ -609,7 +609,7 @@
         "courseId" : "FSDTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "8",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSDTest.student1InCourse1@gmail.com",
+        "giverEmail" : "FSDTest.student1InCourse1@gmail.tmt",
         "recipientEmail" : "Team 1.2",
         "responseMetaData" : {"value" : "team 1.1 > team 1.2"}
     },
@@ -618,7 +618,7 @@
         "courseId" : "FSDTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "8",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSDTest.student4InCourse1@gmail.com",
+        "giverEmail" : "FSDTest.student4InCourse1@gmail.tmt",
         "recipientEmail" : "Team 1.1",
         "responseMetaData" : {"value" : "team 1.2 > team 1.1"}
     },
@@ -627,7 +627,7 @@
         "courseId" : "FSDTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "1",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSDTest.student5InCourse1@gmail.com",
+        "giverEmail" : "FSDTest.student5InCourse1@gmail.tmt",
         "recipientEmail" : "%GENERAL%",
         "responseMetaData" : {"value" : "creator self feedback"}
     },
@@ -636,8 +636,8 @@
         "courseId" : "FSDTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "1",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSDTest.instr1@course1.com",
-        "recipientEmail" : "FSDTest.instr1@course1.com",
+        "giverEmail" : "FSDTest.instr1@course1.tmt",
+        "recipientEmail" : "FSDTest.instr1@course1.tmt",
         "responseMetaData" : {"value" : "creator self feedback"}
     },
     "p.qn2.resp1": {
@@ -645,7 +645,7 @@
         "courseId" : "FSDTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "2",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSDTest.student1InCourse1@gmail.com",
+        "giverEmail" : "FSDTest.student1InCourse1@gmail.tmt",
         "recipientEmail" : "Team 1.2",
         "responseMetaData" : {"value" : "feedback created before session became private"}
     },
@@ -654,7 +654,7 @@
         "courseId" : "FSDTest.idOfTypicalCourse1",
         "feedbackQuestionId" : "1",
         "feedbackQuestionType" : "TEXT",
-        "giverEmail" : "FSDTest.instr2@course1.com",
+        "giverEmail" : "FSDTest.instr2@course1.tmt",
         "recipientEmail" : "Team 1.2",
         "responseMetaData" : {"value" : "this is an answer"}
     }

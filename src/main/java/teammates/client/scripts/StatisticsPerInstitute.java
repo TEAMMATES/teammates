@@ -5,13 +5,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.jdo.JDOHelper;
+import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
+
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.Account;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
+
 
 /**
  * Generate list of institutes and number of users per institute.
@@ -25,52 +34,256 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     
     private static final int INSTRUCTOR_INDEX = 0;
     private static final int STUDENT_INDEX = 1;
+    private static final String UNKNOWN_INSTITUTE = "Unkonwn Institute";
+    
+    private HashMap<String, String> courseIdToInstituteMap = new HashMap<String, String>();
     
     public static void main(String[] args) throws IOException {
         StatisticsPerInstitute statistics = new StatisticsPerInstitute();
         statistics.doOperationRemotely();
     }
     
+    
     @SuppressWarnings("unchecked")
     protected void doOperation() {
-        HashMap<String, HashMap<Integer, Integer>> institutes = new HashMap<String, HashMap<Integer, Integer>>();
-        String q = "SELECT FROM " + Account.class.getName();
         
-        List<Account> allAccounts = (List<Account>) pm.newQuery(q).execute();
+        String q = "SELECT FROM " + Student.class.getName();
+        List<Student> allStudents = (List<Student>) pm.newQuery(q).execute();
         
-        for (Account a : allAccounts) {
+        q = "SELECT FROM " + Instructor.class.getName();
+        List<Instructor> allInstructors = (List<Instructor>) pm.newQuery(q).execute();
+        
+        
+        List<InstituteStats> statsPerInstituteList = generateStatsPerInstitute(allStudents, allInstructors);
+        String statsForUniqueStudentEmail =  generateUniqueStudentEmailStatsInWholeSystem(allStudents);
+        String statsForUniqueInstructorEmail = generateUniqueInstructorEmailStatsInWholeSystem(allInstructors);
+        
+        print(statsPerInstituteList);
+        System.out.println("\n\n" + "***************************************************" + "\n\n");
+        System.out.println(statsForUniqueStudentEmail);
+        
+        System.out.println("\n\n" + "***************************************************" + "\n\n");
+        System.out.println(statsForUniqueInstructorEmail);
+    }
+    
+    
+    @SuppressWarnings("unchecked")
+    private String generateUniqueInstructorEmailStatsInWholeSystem(List<Instructor> allInstructors){
+       
+        HashSet<String> set = new HashSet<String>();
+        int totalRealInstructor = 0;
+        
+        for(Instructor i: allInstructors){
+            if(!isTestingInstructorData(i)){
+                set.add(i.getEmail().toLowerCase());
+                totalRealInstructor ++;
+            }
             
-            if (a.getInstitute() == null) {
-                System.out.println("Account without institute "
-                        + a.getGoogleId());
+        }
+        
+        String result = "===============Unique Instructor Emails===============\n"
+                        + "Format=> Total Unique Emails [Total Emails]\n"
+                        + "===================================================\n"
+                        + set.size() + " [ " + totalRealInstructor + " ]\n";
+        return result;
+    }
+    
+    
+    private boolean isTestingInstructorData(Instructor instructor){
+        boolean isTestingData = false;
+        
+        if(instructor.getEmail().toLowerCase().endsWith(".tmt")){
+            isTestingData = true;
+        }       
+        
+        if(getInstituteForInstructor(instructor).contains("TEAMMATES Test Institute")){
+            isTestingData = true;
+        } 
+        
+        return isTestingData;
+    }
+    
+    
+    
+    
+    @SuppressWarnings("unchecked")
+    private String generateUniqueStudentEmailStatsInWholeSystem(List<Student> allStudents){
+        
+        HashSet<String> set = new HashSet<String>();
+        int totalRealStudent = 0;
+        
+        for(Student s: allStudents){
+            if(!isTestingStudentData(s)){
+                set.add(s.getEmail().toLowerCase());
+                totalRealStudent ++;
+            }
+            
+        }
+        
+        String result = "===============Unique Student Emails===============\n"
+                        + "Format=> Total Unique Emails [Total Emails]\n"
+                        + "===================================================\n"
+                        + set.size() + " [ " + totalRealStudent + " ]\n";
+        return result;
+    }
+    
+    private boolean isTestingStudentData(Student student){
+        boolean isTestingData = false;
+        
+        if(student.getEmail().toLowerCase().endsWith(".tmt")){
+            isTestingData = true;
+        }       
+        
+        if(getInstituteForStudent(student).contains("TEAMMATES Test Institute")){
+            isTestingData = true;
+        } 
+        
+        return isTestingData;
+    }
+    
+    @SuppressWarnings("unchecked")
+    private List<InstituteStats> generateStatsPerInstitute(List<Student> allStudents, List<Instructor> allInstructors){
+        HashMap<String, HashMap<Integer, Integer>> institutes = new HashMap<String, HashMap<Integer, Integer>>();
+
+        for (Instructor instructor : allInstructors){
+            
+            if(isTestingInstructorData(instructor)){               
                 continue;
             }
             
-            // Create an entry in the HashMap if new
-            if (!institutes.containsKey(a.getInstitute())) {
-                institutes.put(a.getInstitute(),
-                        new HashMap<Integer, Integer>());
-                institutes.get(a.getInstitute()).put(INSTRUCTOR_INDEX, 0);
-                institutes.get(a.getInstitute()).put(STUDENT_INDEX, 0);
+            String institute = getInstituteForInstructor(instructor);
+            
+            if(!institutes.containsKey(institute)){               
+                institutes.put(institute,
+                               new HashMap<Integer, Integer>());
+                institutes.get(institute).put(INSTRUCTOR_INDEX, 0);
+                institutes.get(institute).put(STUDENT_INDEX, 0);
             }
-
-            // Increase the appropriate slot
-            if (a.isInstructor()) {
-                institutes.get(a.getInstitute()).put(INSTRUCTOR_INDEX,
-                        institutes.get(a.getInstitute()).get(INSTRUCTOR_INDEX) + 1);
-            } else {
-                institutes.get(a.getInstitute()).put(STUDENT_INDEX,
-                        institutes.get(a.getInstitute()).get(STUDENT_INDEX) + 1);
-            }
+            
+            institutes.get(institute).put(INSTRUCTOR_INDEX,
+                                          institutes.get(institute).get(INSTRUCTOR_INDEX) + 1);
         }
+
+       
         
+        for(Student student : allStudents){
+            
+            if(isTestingStudentData(student)){
+                continue;
+            }
+            
+            String institute = getInstituteForStudent(student);
+            
+            if(!institutes.containsKey(institute)){               
+                institutes.put(institute,
+                        new HashMap<Integer, Integer>());
+                institutes.get(institute).put(INSTRUCTOR_INDEX, 0);
+                institutes.get(institute).put(STUDENT_INDEX, 0);
+            }
+            
+            institutes.get(institute).put(STUDENT_INDEX,
+                                          institutes.get(institute).get(STUDENT_INDEX) + 1);
+                                          
+          
+        }
+                
         List<InstituteStats> statList = convertToList(institutes);
         sortByTotalStudentsDescending(statList);
-        print(statList);
+        return statList;
+    }
+    
+    @SuppressWarnings("unchecked")
+    private String getInstituteForStudent(Student student){
+        
+        String institute = courseIdToInstituteMap.get(student.getCourseId());
+        
+        if(institute != null){
+            return institute;
+        } else{
+            institute = UNKNOWN_INSTITUTE;
+        }
+        
+        
+        Query q = pm.newQuery(Instructor.class);
+        q.declareParameters("String courseIdParam");
+        q.setFilter("courseId == courseIdParam");
+        List<Instructor> instructorList = (List<Instructor>) q.execute(student.getCourseId());        
+        
+        institute = getInstituteForInstructors(instructorList);
+        
+        courseIdToInstituteMap.put(student.getCourseId(), institute);
+        
+        return institute;
+        
+    }
+    
+    private String getInstituteForInstructors(List<Instructor> instructorList){
+        String institute = UNKNOWN_INSTITUTE;
+        
+        for(Instructor instructor : instructorList){
+           
+            if(getInstituteForInstructor(instructor) != null){
+                institute = getInstituteForInstructor(instructor);
+                break;
+            }
+           
+        }
+                
+        return institute;
+    }
+    
+    private String getInstituteForInstructor(Instructor instructor){
+        
+        String institute = UNKNOWN_INSTITUTE;
+        
+        if(instructor.getGoogleId() == null){
+            return institute;
+        }
+        
+        Account account = getAccountEntity(instructor.getGoogleId());
+        if(account != null) {
+            return account.getInstitute();
+            
+        } else {
+            return institute;
+        }
+    }
+    
+    
+    private Account getAccountEntity(String googleId) {
+        
+        try {
+            Key key = KeyFactory.createKey(Account.class.getSimpleName(), googleId);
+            Account account = pm.getObjectById(Account.class, key);
+            
+            if (JDOHelper.isDeleted(account)) {
+                return null;
+            } 
+            
+            return account;
+            
+        } catch (IllegalArgumentException iae){
+            return null;            
+        } catch(JDOObjectNotFoundException je) {
+            return null;
+        }
+    }
+    
+    
+    private boolean isTestingAccount(Account account){
+        boolean isTestingAccount = false;
+        
+        if(account.getInstitute() != null && account.getInstitute().contains("TEAMMATES Test Institute")){
+            isTestingAccount = true;
+        }
+        if(account.getEmail() != null && account.getEmail().toLowerCase().endsWith(".tmt")){
+            isTestingAccount = true;
+        }
+        return isTestingAccount;
     }
     
     private void print(List<InstituteStats> statList) {
-        System.out.println("===================================================");
+        System.out.println("===============Stats Per Institute=================");
         System.out.println("Format=> Instructors + Students = Total [Institute]");
         System.out.println("===================================================");
         int i = 0;
@@ -109,7 +322,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             }
         });
     }
-
+    
     class InstituteStats{
         String name;
         int studentTotal;

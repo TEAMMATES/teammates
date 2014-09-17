@@ -98,9 +98,9 @@ public class DataBundleTest extends BaseTestCase {
         // SUBMISSIONS
         SubmissionAttributes submissionFromS1C1ToS2C1 = data.submissions
                 .get("submissionFromS1C1ToS2C1");
-        assertEquals("student1InCourse1@gmail.com",
+        assertEquals("student1InCourse1@gmail.tmt",
                 submissionFromS1C1ToS2C1.reviewer);
-        assertEquals("student2InCourse1@gmail.com",
+        assertEquals("student2InCourse1@gmail.tmt",
                 submissionFromS1C1ToS2C1.reviewee);
         assertEquals("idOfTypicalCourse1", submissionFromS1C1ToS2C1.course);
         assertEquals("evaluation1 In Course1",
@@ -117,9 +117,9 @@ public class DataBundleTest extends BaseTestCase {
 
         SubmissionAttributes submissionFromS2C1ToS1C1 = data.submissions
                 .get("submissionFromS2C1ToS1C1");
-        assertEquals("student2InCourse1@gmail.com",
+        assertEquals("student2InCourse1@gmail.tmt",
                 submissionFromS2C1ToS1C1.reviewer);
-        assertEquals("student1InCourse1@gmail.com",
+        assertEquals("student1InCourse1@gmail.tmt",
                 submissionFromS2C1ToS1C1.reviewee);
     }
 

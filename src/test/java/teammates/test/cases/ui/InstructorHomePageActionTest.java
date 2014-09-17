@@ -2,10 +2,10 @@ package teammates.test.cases.ui;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.fail;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
@@ -31,13 +31,23 @@ public class InstructorHomePageActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        String[] submissionParams = new String[]{};
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "something"
+        };
         
-        ______TS("instructor with no courses");
+        ______TS("persistence issue");
         
-        gaeSimulation.loginAsInstructor(dataBundle.accounts.get("instructorWithoutCourses").googleId);
+        gaeSimulation.loginUser("unreg_user");
         InstructorHomePageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
+        assertFalse(a.account.isInstructor);
+        assertEquals(Const.StatusMessages.INSTRUCTOR_PERSISTENCE_ISSUE, r.getStatusMessage());
+        
+        ______TS("instructor with no courses, right after registration (ie no persistence issue)");
+        
+        gaeSimulation.loginAsInstructor(dataBundle.accounts.get("instructorWithoutCourses").googleId);
+        a = getAction(submissionParams);
+        r = getShowPageResult(a);
         AssertHelper.assertContainsRegex("/jsp/instructorHome.jsp?"
                 + "error=false&user=instructorWithoutCourses", r.getDestinationWithParams());
         assertEquals(false, r.isError);
@@ -48,9 +58,10 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         
         String expectedLogMessage = "TEAMMATESLOG|||instructorHomePage|||instructorHomePage|||true" +
                 "|||Instructor|||Instructor Without Courses|||instructorWithoutCourses" +
-                "|||iwc@yahoo.com|||instructorHome Page Load<br>Total Courses: 0|||/page/instructorHomePage" ;
+                "|||iwc@yahoo.tmt|||instructorHome Page Load<br>Total Courses: 0|||/page/instructorHomePage" ;
         assertEquals(expectedLogMessage, a.getLogMessage());
         
+        submissionParams = new String[]{};
         
         ______TS("instructor with multiple courses, sort by course id, masquerade mode");
         
@@ -90,7 +101,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         
         expectedLogMessage = "TEAMMATESLOG|||instructorHomePage|||instructorHomePage|||true" +
                 "|||Instructor(M)|||Instructor 3 of Course 1 and 2|||idOfInstructor3" +
-                "|||instr3@course1n2.com|||instructorHome Page Load<br>Total Courses: 3|||/page/instructorHomePage" ;
+                "|||instr3@course1n2.tmt|||instructorHome Page Load<br>Total Courses: 3|||/page/instructorHomePage" ;
         assertEquals(expectedLogMessage, a.getLogMessage());
         
         

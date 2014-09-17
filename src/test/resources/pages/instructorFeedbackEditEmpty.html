@@ -998,7 +998,7 @@ ul #nav {
                                 Feedback Recipient:
                             </label>
                             <div class="col-sm-8">
-                                <select onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);" id="recipienttype" name="recipienttype" class="form-control participantSelect">
+                                <select onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);" id="recipienttype" name="recipienttype" class="form-control participantSelect">
                                     <option value="SELF">Giver (Self feedback)</option>
 <option value="STUDENTS">Other students in the course</option>
 <option value="INSTRUCTORS">Instructors in the course</option>
@@ -1214,9 +1214,9 @@ ul #nav {
                             <div class="col-sm-6">
                                 <select name="previewas" class="form-control">
                                     
-                                            <option value="alice.b.tmms@gmail.com">[Team 1] Alice Betsy</option>
+                                            <option value="alice.b.tmms@gmail.tmt">[Team 1] Alice Betsy</option>
                                     
-                                            <option value="benny.tmms@gmail.com">[Team 1] Benny Charles</option>
+                                            <option value="benny.tmms@gmail.tmt">[Team 1] Benny Charles</option>
                                     
                                 </select>
                             </div>
@@ -1233,9 +1233,9 @@ ul #nav {
                             <div class="col-sm-6">
                                 <select name="previewas" class="form-control">
                                 
-                                        <option value="tmms.instr@course.com">Instructor 2</option>
+                                        <option value="tmms.instr@course.tmt">Instructor 2</option>
                                 
-                                        <option value="tmms.test@gmail.com">Teammates Test</option>
+                                        <option value="tmms.test@gmail.tmt">Teammates Test</option>
                                 
                                 </select>
                             </div>
@@ -1265,7 +1265,7 @@ ul #nav {
             </div>
             <div class="col-md-4">
                 
-                        [for <span class="highlight-white"><span class="color_white">National University of Singapore</span></span>]
+                        [for <span class="highlight-white"><span class="color_white">TEAMMATES Test Institute 1</span></span>]
                 
             </div>
             <div class="col-md-4">

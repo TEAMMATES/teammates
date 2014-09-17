@@ -181,7 +181,7 @@ public class BackDoorTest extends BaseTestCase {
         AccountAttributes testAccount = dataBundle.accounts.get("instructor1OfCourse1");
         verifyPresentInDatastore(testAccount);
         testAccount.name = "New name";
-        testAccount.institute = "NTU";
+        testAccount.institute = "TEAMMATES Test Institute 7";
         BackDoor.editAccount(testAccount);
         verifyPresentInDatastore(testAccount);
     }
@@ -210,7 +210,7 @@ public class BackDoorTest extends BaseTestCase {
         String instructorId = "tmapitt.tcc.instructor";
         String courseId = "tmapitt.tcc.course";
         String name = "Tmapitt testInstr Name";
-        String email = "tmapitt@tci.com";
+        String email = "tmapitt@tci.tmt";
         InstructorAttributes instructor = new InstructorAttributes(instructorId, courseId, name, email);
         
         // Make sure not already inside
@@ -220,9 +220,10 @@ public class BackDoorTest extends BaseTestCase {
         // Perform creation
         BackDoor.createInstructor(instructor);
         verifyPresentInDatastore(instructor);
-        
+        instructor = BackDoor.getInstructorByEmail(email, courseId);
         // Clean up
         BackDoor.deleteInstructor(courseId, email);
+        BackDoor.deleteAccount(instructor.googleId);
         verifyAbsentInDatastore(instructor);
     }
 
@@ -260,7 +261,7 @@ public class BackDoorTest extends BaseTestCase {
         // create a fresh instructor with relations for the 2 courses
         String instructor1Id = "AST.TGCBCI.instructor1";
         String instructor1name = "AST TGCBCI Instructor";
-        String instructor1email = "instructor1@ast.tgcbi";
+        String instructor1email = "instructor1@ast.tmt";
         BackDoor.deleteAccount(instructor1Id);
         status = BackDoor.createInstructor(new InstructorAttributes(instructor1Id, course1, instructor1name, instructor1email));
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
@@ -333,7 +334,7 @@ public class BackDoorTest extends BaseTestCase {
         // another well-tested method.
 
         StudentAttributes student = new StudentAttributes(
-                "section name", "team name", "name of tcs student", "tcsStudent@gmail.com", "",
+                "section name", "team name", "name of tcs student", "tcsStudent@gmail.tmt", "",
                 "tmapit.tcs.course");
         BackDoor.deleteStudent(student.course, student.email);
         verifyAbsentInDatastore(student);
@@ -346,7 +347,7 @@ public class BackDoorTest extends BaseTestCase {
     @Test
     public void testGetKeyForStudent() throws EnrollException {
 
-        StudentAttributes student = new StudentAttributes("sect1", "t1", "name of tgsr student", "tgsr@gmail.com", "", "course1");
+        StudentAttributes student = new StudentAttributes("sect1", "t1", "name of tgsr student", "tgsr@gmail.tmt", "", "course1");
         BackDoor.createStudent(student);
         String key = BackDoor.getKeyForStudent(student.course, student.email); 
 
@@ -385,7 +386,8 @@ public class BackDoorTest extends BaseTestCase {
         
         String originalEmail = student.email;
         student.name = "New name";
-        student.email = "new@gmail.com";
+        student.lastName = "name";
+        student.email = "new@gmail.tmt";
         student.comments = "new comments";
         student.team = "new team";
         String status = BackDoor.editStudent(originalEmail, student);
@@ -493,7 +495,7 @@ public class BackDoorTest extends BaseTestCase {
 
         // test for unsuccessful edit
         String initialReviewer = submission.reviewer;
-        submission.reviewer = "non-existent@gmail.com";
+        submission.reviewer = "non-existent@gmail.tmt";
         status = BackDoor.editSubmission(submission);
         assertTrue(status.startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE));
         verifyAbsentInDatastore(submission);
@@ -616,6 +618,7 @@ public class BackDoorTest extends BaseTestCase {
         StudentAttributes actualStudent = gson.fromJson(studentJsonString,
                 StudentAttributes.class);
         equalizeIrrelevantData(expectedStudent, actualStudent);
+        expectedStudent.lastName = StringHelper.splitName(expectedStudent.name)[1];
         assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
     }
 

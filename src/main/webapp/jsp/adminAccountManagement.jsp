@@ -88,6 +88,11 @@
                         			.entrySet()) {
                         		String key = entry.getKey();
                         		AccountAttributes acc = entry.getValue();
+                                
+                                if(data.isTestingAccount(acc) && data.isToShowAll == false){
+                                     continue;   
+                                }
+                                
                         		ArrayList<InstructorAttributes> coursesList = data.instructorCoursesTable
                         				.get(key);
                         %>

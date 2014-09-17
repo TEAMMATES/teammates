@@ -10,7 +10,7 @@ import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.logic.api.Logic;
@@ -31,7 +31,7 @@ public class InstructorCommentsPageData extends PageData {
     public String instructorEmail;
     public InstructorAttributes currentInstructor;
     public CourseRoster roster;
-    public Map<String, FeedbackSessionResultsBundle> feedbackResultBundles;
+    public List<FeedbackSessionAttributes> feedbackSessions;
     public String previousPageLink;
     public String nextPageLink;
     public int numberOfPendingComments = 0;
