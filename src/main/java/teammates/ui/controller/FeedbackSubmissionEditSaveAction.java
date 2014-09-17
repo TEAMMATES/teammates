@@ -77,15 +77,14 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             
             int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);  
             String qnId = "";
-            
-            Map<String, String> emailNamePair = data.bundle.getSortedRecipientList(questionAttributes.getId());
-            Set<String> emailSet = emailNamePair.keySet();
-            ArrayList<String> responsesRecipient = new ArrayList<String>();
+                        
+            Set<String> emailSet = data.bundle.getRecipientEmails(questionAttributes.getId());
+            ArrayList<String> responsesRecipients = new ArrayList<String>();
             
             for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
                 FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, questionIndx, responseIndx, questionDetails);
                 
-                responsesRecipient.add(response.recipientEmail);                
+                responsesRecipients.add(response.recipientEmail);                
                 
                 if(response.responseMetaData.getValue().isEmpty()){
                     //deletes the response since answer is empty
@@ -98,8 +97,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 qnId = response.feedbackQuestionId;
             }
             
-            if (!emailSet.containsAll(responsesRecipient)) {
-                statusToUser.add(String.format("Invalid Recipient provided for question %d.", questionIndx));
+            if (!emailSet.containsAll(responsesRecipients)) {
+                statusToUser.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_INVALID_RECIPIENT, questionIndx));
                 isError = true;
                 continue;
             }
