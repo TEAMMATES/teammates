@@ -20,6 +20,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackResponsesDb;
+import teammates.storage.entity.FeedbackResponse;
 
 public class FeedbackResponsesLogic {
 
@@ -68,12 +69,12 @@ public class FeedbackResponsesLogic {
         log.warning(feedbackQuestionId);
         return frDb.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
     }
-
+    
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSession(
             String feedbackSessionName, String courseId) {
         return frDb.getFeedbackResponsesForSession(feedbackSessionName, courseId);
     }
-
+    
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSection(
             String feedbackSessionName, String courseId, String section){
         if(section == null){
@@ -502,20 +503,23 @@ public class FeedbackResponsesLogic {
             StudentEnrollDetails enrollment,
             FeedbackResponseAttributes response) throws InvalidParametersException, EntityDoesNotExistException {
 
-        boolean isGiverSameForResponseAndEnrollment = response.giverEmail
+        FeedbackResponse feedbackResponse = frDb.getFeedbackResponseEntityOptimized(response);
+        boolean isGiverSameForResponseAndEnrollment = feedbackResponse.getGiverEmail()
                 .equals(enrollment.email);
-        boolean isReceiverSameForResponseAndEnrollment = response.recipientEmail
+        boolean isReceiverSameForResponseAndEnrollment = feedbackResponse.getRecipientEmail()
                 .equals(enrollment.email);
-
+        
         if(isGiverSameForResponseAndEnrollment){
-            response.giverSection = enrollment.newSection;
-        }
-        if(isReceiverSameForResponseAndEnrollment){
-            response.recipientSection = enrollment.newSection;
+            feedbackResponse.setGiverSection(enrollment.newSection);
         }
         
-        if(isGiverSameForResponseAndEnrollment || isReceiverSameForResponseAndEnrollment){
-            frDb.updateFeedbackResponse(response);
+        if(isReceiverSameForResponseAndEnrollment){
+            feedbackResponse.setRecipientSection(enrollment.newSection);  
+        }
+        
+        frDb.commitOutstandingChanges();
+        
+        if(isGiverSameForResponseAndEnrollment || isReceiverSameForResponseAndEnrollment){      
             frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
         }
     }
