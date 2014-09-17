@@ -68,8 +68,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("standard session results with helper view");
         
-        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper", "Open Session");
-        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenWithHelperView.html");
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper1", "Open Session");
+        System.setProperty("godmode", "true");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenWithHelperView1.html");
+        //
+        
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper2", "Open Session");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenWithHelperView2.html");
         
         ______TS("empty session");
         
@@ -214,7 +219,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("Ajax for view by question for helper");
         
-        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.helper", "Open Session", true, "question");
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.helper1", "Open Session", true, "question");
         
         resultsPage.clickAjaxPanel(0);
         
