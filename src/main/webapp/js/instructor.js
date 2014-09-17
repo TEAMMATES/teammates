@@ -8,7 +8,7 @@
 //Initial load-up
 //-----------------------------------------------------------------------------
 
-window.addEventListener('load', function (){
+var onLoadFunction = function () {
     if(typeof doPageSpecificOnload !== 'undefined'){
         doPageSpecificOnload();
     };
@@ -19,7 +19,13 @@ window.addEventListener('load', function (){
     // bind the show picture onhover events
     bindStudentPhotoHoverLink(".profile-pic-icon-hover");
     
-});
+};
+
+if(window.addEventListener) {
+	window.addEventListener('load', onLoadFunction);
+} else {
+	window.attachEvent('onload', onLoadFunction);
+}
 
 
 $(function() { 
@@ -175,7 +181,6 @@ function bindStudentPhotoLink(elements){
 	                .mouseenter(function() {
 	            		$(this).popover('show');
 	                	$(this).siblings('.popover').on('mouseleave', function() {
-	                		console.log('leave')
 	                		$(this).siblings('.profile-pic-icon-click').popover("hide");
 	                	});
 	                	$(this).mouseleave(function() {
@@ -186,7 +191,7 @@ function bindStudentPhotoLink(elements){
 	            	                $(obj).popover("hide");
 	            	            }
 	            	    	}, 200, this);
-	            	    })
+	            	    });
             		});
 	            updateHoverShowPictureEvents(actualLink, resolvedLink);
 	    	});
@@ -275,7 +280,6 @@ function updateHoverShowPictureEvents(actualLink, resolvedLink) {
 		html: true,
 		trigger: 'manual',
 		placement: 'top',
-		delay: {show: 300, hide: 300},
 		content: function () {
 			return '<img class="profile-pic" src="' + resolvedLink + '" />';
 		}
@@ -293,8 +297,7 @@ function updateHoverShowPictureEvents(actualLink, resolvedLink) {
 	                $(obj).popover("hide");
 	            }
 	    	}, 200, this);
-	    })
+	    });
 	})
-	
 	.children('img[src=""]').attr('src', resolvedLink);
 }
