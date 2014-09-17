@@ -69,9 +69,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("standard session results with helper view");
         
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper1", "Open Session");
-        System.setProperty("godmode", "true");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenWithHelperView1.html");
-        //
         
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper2", "Open Session");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenWithHelperView2.html");
