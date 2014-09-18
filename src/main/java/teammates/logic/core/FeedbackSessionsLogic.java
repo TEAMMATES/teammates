@@ -1716,7 +1716,7 @@ public class FeedbackSessionsLogic {
         if (isVisibleResponse && instructor != null) {
             if (!(instructor.isAllowedForPrivilege(response.giverSection,
                     response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
-                    || !(instructor.isAllowedForPrivilege(response.giverSection,
+                    || !(instructor.isAllowedForPrivilege(response.recipientSection,
                             response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))) {
                 isVisibleResponse = false;
             }

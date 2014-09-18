@@ -85,6 +85,15 @@ public class FeedbackResponsesDb extends EntitiesDb {
     /**
      * Preconditions: <br>
      * * All parameters are non-null. 
+     * @return Null if not found.
+     */
+    public FeedbackResponse getFeedbackResponseEntityOptimized (FeedbackResponseAttributes response) {
+         return (FeedbackResponse) getEntity(response); 
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null. 
      * @return An empty list if no such responses are found.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection (
@@ -172,7 +181,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         return fraList;        
     }
-
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null. 
