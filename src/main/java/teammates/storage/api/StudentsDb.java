@@ -114,7 +114,7 @@ public class StudentsDb extends EntitiesDb {
 
     public void createStudent(StudentAttributes student, boolean hasDocument)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        StudentAttributes createdStudent = (StudentAttributes) createEntity(student);
+        StudentAttributes createdStudent = new StudentAttributes((Student)createEntity(student));
         if (hasDocument) {
             putDocument(createdStudent);
         }
