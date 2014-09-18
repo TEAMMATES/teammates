@@ -2,14 +2,17 @@ package teammates.logic.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.UserType;
@@ -28,6 +31,8 @@ public class FeedbackResponsesLogic {
 
     private static FeedbackResponsesLogic instance = null;
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic
             .inst();
     private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
@@ -188,6 +193,16 @@ public class FeedbackResponsesLogic {
         }
         return frDb.getFeedbackResponsesFromGiverForQuestionInSection(
                     feedbackQuestionId, userEmail, section);
+    }
+
+    public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForSessionWithinRange(
+            String giverEmail, String feedbackSessionName, String courseId, long range) {
+        return frDb.getFeedbackResponsesFromGiverForSessionWithinRange(giverEmail, feedbackSessionName, courseId, range);
+    }
+
+    public boolean hasGiverRespondedForSession(String userEmail, String feedbackSessionName, String courseId){
+
+        return getFeedbackResponsesFromGiverForSessionWithinRange(userEmail, feedbackSessionName, courseId, 1).size() > 0;
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForCourse(
@@ -566,11 +581,42 @@ public class FeedbackResponsesLogic {
         frDb.deleteEntity(responseToDelete);
     }
 
-    public void deleteFeedbackResponsesForQuestionAndCascade(String feedbackQuestionId) {
+    public void deleteFeedbackResponsesForQuestionAndCascade(
+            String feedbackQuestionId, boolean hasResponseRateCheck) {
         List<FeedbackResponseAttributes> responsesForQuestion =
                 getFeedbackResponsesForQuestion(feedbackQuestionId);
+
+        Set<String> emails = new HashSet<String>();
+
         for (FeedbackResponseAttributes response : responsesForQuestion) {
             this.deleteFeedbackResponseAndCascade(response);
+            emails.add(response.giverEmail);
+        }
+
+        if(!hasResponseRateCheck){
+            return;
+        }
+
+        try {
+            FeedbackQuestionAttributes question = fqLogic
+                    .getFeedbackQuestion(feedbackQuestionId);
+            boolean isInstructor = (question.giverType == FeedbackParticipantType.SELF || question.giverType == FeedbackParticipantType.INSTRUCTORS);
+            for (String email : emails) {
+                boolean hasResponses = hasGiverRespondedForSession(email, question.feedbackSessionName, question.courseId);
+                if (!hasResponses) {
+                    if (isInstructor) {
+                        fsLogic.deleteInstructorRespondant(email,
+                                question.feedbackSessionName,
+                                question.courseId);
+                    } else {
+                        fsLogic.deleteStudentRespondant(email,
+                                question.feedbackSessionName,
+                                question.courseId);
+                    }
+                }
+            }
+        } catch (InvalidParametersException | EntityDoesNotExistException e) {
+            Assumption.fail("Fail to delete respondant");
         }
     }
 
