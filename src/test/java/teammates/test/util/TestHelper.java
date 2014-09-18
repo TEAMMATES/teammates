@@ -314,6 +314,8 @@ public class TestHelper extends BaseComponentTestCase{
     
     public static void verifyPresentInDatastore(FeedbackSessionAttributes expected) {
         FeedbackSessionAttributes actual = fsDb.getFeedbackSession(expected.courseId, expected.feedbackSessionName);
+        expected.respondingInstructorList = actual.respondingInstructorList;
+        expected.respondingStudentList = actual.respondingStudentList;
         assertEquals(gson.toJson(expected), gson.toJson(actual));
     }
 

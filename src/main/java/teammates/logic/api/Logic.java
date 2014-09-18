@@ -1834,6 +1834,49 @@ public class Logic {
         feedbackSessionsLogic.updateFeedbackSession(updatedSession);
     }
     
+    public void updateRespondants(String feedbackSessionName, String courseId) throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        
+        feedbackSessionsLogic.updateRespondantsForSession(feedbackSessionName, courseId);
+    }
+
+    public void addInstructorRespondant(String email, String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+        feedbackSessionsLogic.addInstructorRespondant(email, feedbackSessionName, courseId);
+    }
+
+    public void addStudentRespondant(String email, String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+        feedbackSessionsLogic.addStudentRespondant(email, feedbackSessionName, courseId);
+    }
+
+    public void deleteInstructorRespondant(String email, String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+        feedbackSessionsLogic.deleteInstructorRespondant(email, feedbackSessionName, courseId);
+    }
+
+    public void deleteStudentRespondant(String email, String feedbackSessionName, String courseId) throws EntityDoesNotExistException, InvalidParametersException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, email);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+        feedbackSessionsLogic.deleteStudentRespondant(email, feedbackSessionName, courseId);
+    }
+    
     /**
      * Publishes the evaluation and send email alerts to students.
      * Preconditions: <br>
@@ -1956,6 +1999,14 @@ public class Logic {
 
         feedbackQuestionsLogic.updateFeedbackQuestion(updatedQuestion);
     }
+
+    public void updateFeedbackQuestionWithResponseRateCheck(FeedbackQuestionAttributes updatedQuestion)
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, updatedQuestion);
+
+        feedbackQuestionsLogic.updateFeedbackQuestionWithResponseRateCheck(updatedQuestion);
+    }
     
     /**
      * Deletes the feedback session but not the questions and
@@ -1970,6 +2021,12 @@ public class Logic {
         feedbackQuestionsLogic.deleteFeedbackQuestionCascade(questionId);
     }
     
+    public void deleteFeedbackQuestionWithResponseRateCheck(String questionId) {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, questionId);
+        feedbackQuestionsLogic.deleteFeedbackQuestionCascadeWithResponseRateCheck(questionId);
+    }
+
     /**
      * Returns true if there is at least one response for the given feedback question,
      * false if not.
@@ -2288,6 +2345,15 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, questionId);
 
         return feedbackResponsesLogic.getFeedbackResponsesForQuestion(questionId);
+    }
+
+    public boolean hasGiverRespondedForSession(String userEmail, String feedbackSessionName, String courseId){
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+
+        return feedbackResponsesLogic.hasGiverRespondedForSession(userEmail, feedbackSessionName, courseId);
     }
     
     /**
