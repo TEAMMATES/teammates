@@ -74,11 +74,10 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         int totalRealInstructor = 0;
         
         for(Instructor i: allInstructors){
-            if(!isTestingInstructorData(i)){
+            if(!isTestingInstructorData(i) && i.getEmail()!= null){
                 set.add(i.getEmail().toLowerCase());
                 totalRealInstructor ++;
             }
-            
         }
         
         String result = "===============Unique Instructor Emails===============\n"
@@ -92,7 +91,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     private boolean isTestingInstructorData(Instructor instructor){
         boolean isTestingData = false;
         
-        if(instructor.getEmail().toLowerCase().endsWith(".tmt")){
+        if(instructor.getEmail()!=null && instructor.getEmail().toLowerCase().endsWith(".tmt")){
             isTestingData = true;
         }       
         
