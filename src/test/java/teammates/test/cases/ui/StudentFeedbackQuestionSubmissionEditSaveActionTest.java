@@ -250,7 +250,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends
 
         saveAction = getAction(submissionParams);
         pageResult = getShowPageResult(saveAction);
-        
+
         assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT,
                 pageResult.destination);
         assertTrue(pageResult.isError);
