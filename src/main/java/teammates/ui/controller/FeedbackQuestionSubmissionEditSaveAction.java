@@ -64,6 +64,7 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         FeedbackAbstractQuestionDetails questionDetails  = data.bundle.question.getQuestionDetails();
            
         Set<String> emailSet = data.bundle.getRecipientEmails(feedbackQuestionId);
+        emailSet.add("");
         ArrayList<String> responsesRecipients = new ArrayList<String>();
         
         for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {

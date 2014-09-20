@@ -79,12 +79,13 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             String qnId = "";
                         
             Set<String> emailSet = data.bundle.getRecipientEmails(questionAttributes.getId());
+            emailSet.add("");
             ArrayList<String> responsesRecipients = new ArrayList<String>();
             
             for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
                 FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, questionIndx, responseIndx, questionDetails);
                 
-                responsesRecipients.add(response.recipientEmail);                
+                responsesRecipients.add(response.recipientEmail);       
                 
                 if(response.responseMetaData.getValue().isEmpty()){
                     //deletes the response since answer is empty
@@ -95,15 +96,12 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     responsesForQuestion.add(response);
                 }
                 qnId = response.feedbackQuestionId;
-            }
-            
-            if (!emailSet.containsAll(responsesRecipients)) {
-                statusToUser.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_INVALID_RECIPIENT, questionIndx));
-                isError = true;
-                continue;
-            }
+            }            
             
             List<String> errors = questionDetails.validateResponseAttributes(responsesForQuestion, data.bundle.recipientList.get(qnId).size());            
+            if (!emailSet.containsAll(responsesRecipients)) {
+                errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_INVALID_RECIPIENT, questionIndx));                
+            }
             
             if(errors.isEmpty()) {
                 for(FeedbackResponseAttributes response : responsesForQuestion) {

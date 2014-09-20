@@ -88,13 +88,13 @@ public class FeedbackSessionQuestionsBundle {
     }
     
     public Set<String> getRecipientEmails(String feedbackQuestionId) {
-        List<Map.Entry<String, String>> sortedList =
+        List<Map.Entry<String, String>> emailList =
                 new ArrayList<Map.Entry<String, String>>(this.recipientList
                         .get(feedbackQuestionId).entrySet());
         
         HashSet<String> result = new HashSet<String>();
 
-        for (Map.Entry<String, String> entry : sortedList) {
+        for (Map.Entry<String, String> entry : emailList) {
             result.add(entry.getKey());
         }
         return result;
