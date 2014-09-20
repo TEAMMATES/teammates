@@ -195,7 +195,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, fr.courseId,
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-2", fr.feedbackQuestionId,
-                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-2-0", "student1InCourse1@gmail.com",
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-2-0", "student1InCourse1@gmail.tmt",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-2", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-2-0", "Edited" + fr.getResponseDetails().getAnswerString()                
         };
@@ -216,7 +216,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, fr.courseId,
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-2", fr.feedbackQuestionId,
-                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-2-0", "student1InCourse1@gmail.com",
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-2-0", "student1InCourse1@gmail.tmt",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-2", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-2-0", fr.getResponseDetails().getAnswerString()                
         };
