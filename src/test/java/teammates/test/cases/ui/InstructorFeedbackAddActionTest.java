@@ -3,11 +3,11 @@ package teammates.test.cases.ui;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.controller.InstructorFeedbackAddAction;
@@ -180,6 +180,16 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         assertEquals(expectedLogMessage, a.getLogMessage());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
         
+        ______TS("Unsuccessful case: test null course ID parameter");
+        params = new String[]{};
+        
+        try {
+            a = getAction(params);
+            rr = (RedirectResult) a.executeAndPostProcess();     
+        } catch (NullPostParameterException e) {
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+                    Const.ParamsNames.COURSE_ID), e.getMessage());
+        }
         // remove the sessions that were added
         FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourse(instructor1ofCourse1.courseId);
     }
