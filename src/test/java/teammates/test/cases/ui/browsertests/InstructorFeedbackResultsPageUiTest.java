@@ -48,7 +48,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     @Test
     public void testAll() throws Exception {
         testContent();
-        testViewPhotoAndAjaxForLargeScaledSession();
         testSortAction();
         testFilterAction();
         testPanelsCollapseExpand();
@@ -57,6 +56,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         testFeedbackResponseCommentActions();
         testDownloadAction();
         testLink();
+
+        testViewPhotoAndAjaxForLargeScaledSession();
     }
 
     public void testContent(){
