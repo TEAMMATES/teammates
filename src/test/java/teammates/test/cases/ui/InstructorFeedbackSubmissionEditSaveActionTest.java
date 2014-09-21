@@ -505,6 +505,27 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         //No tests since contrib qn can only be answered by students to own team members including self.
         
+        ______TS("Unsuccessful case: modified recipient to invalid recipient");
+        submissionParams = new String[]{
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", "invalid_recipient_email",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", ""
+        };
+        
+        a = getAction(submissionParams);
+        r = (RedirectResult) a.executeAndPostProcess();
+        
+        assertTrue(r.isError);
+        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
+                        r.getDestinationWithParams());
+        
+        
+        
     }
     
     @Test

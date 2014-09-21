@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
@@ -303,7 +304,25 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,    r.getStatusMessage());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
-    
+        
+        ______TS("Modified recipient to invalid recipient");
+        
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", "invalid_recipient_email",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fq.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", "response"
+        };
+        
+        a = getAction(submissionParams);
+        r = (ShowPageResult) a.executeAndPostProcess();
+        
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
+        assertTrue(r.isError);
+        
         ______TS("grace period session edit answer");
         
         instructor = dataBundle.instructors.get("instructor1OfCourse1");
