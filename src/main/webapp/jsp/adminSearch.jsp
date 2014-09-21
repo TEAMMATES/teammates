@@ -127,7 +127,7 @@
                                     <th>Name</th>
                                     <th>Google ID</th>
                                     <th>Institute</th>
-    
+                                    <th>Options</th>
                                 </tr>
 
                             </thead>
@@ -153,8 +153,27 @@
                                     </td>
                                     <td><%=data.instructorInstituteMap.get(instructor.getIdentificationString()) == null? 
                                            "" : data.instructorInstituteMap.get(instructor.getIdentificationString())%></td>
-                                  
-                                  </tr>
+
+                                    <td>
+
+                                        <form method="post"
+                                            target="blank"
+                                            action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
+                                            <button type="submit"
+                                                id="<%=instructor.googleId + "_recentActions"%>"
+                                                class="btn btn-link btn-xs recentActionButton">
+                                                <span
+                                                    class="glyphicon glyphicon-zoom-in"></span>
+                                                View Recent Actions
+                                            </button>
+                                            <input type="hidden"
+                                                name="filterQuery"
+                                                value="person:<%=instructor.googleId%>">
+                                        </form>
+
+                                    </td>
+
+                                </tr>
                                   
                                   <tr
                                     class="has-danger list-group fslink fslink_instructor fslink<%=id%>"
