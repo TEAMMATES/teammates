@@ -181,11 +181,14 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             Map<String, TeamEvalResult> teamResults = getContribQnTeamEvalResult(question);
             Map<String, StudentResultSummary> stats = getContribQnStudentResultSummary(question);
             
-            String giverTeamName = emailTeamNameTable.get(response.giverEmail);
+            // Need to get actual team name and giver/recipient emails here,
+            // only for getting the responseAnswer.
+            FeedbackResponseAttributes actualResponse = getActualResponse(response);
+            String giverTeamName = emailTeamNameTable.get(actualResponse.giverEmail);
             TeamEvalResult teamResult = teamResults.get(giverTeamName);
             
-            int giverIndex = teamResult.studentEmails.indexOf(response.giverEmail);
-            int recipientIndex = teamResult.studentEmails.indexOf(response.recipientEmail);
+            int giverIndex = teamResult.studentEmails.indexOf(actualResponse.giverEmail);
+            int recipientIndex = teamResult.studentEmails.indexOf(actualResponse.recipientEmail);
             
             String responseAnswerHtml = 
                     FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
@@ -208,6 +211,18 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         } else {
             return response.getResponseDetails().getAnswerHtml(questionDetails);
         }
+    }
+
+    private FeedbackResponseAttributes getActualResponse(
+            FeedbackResponseAttributes response) {
+        FeedbackResponseAttributes actualResponse = null;
+        for (FeedbackResponseAttributes resp : actualResponses) {
+            if (resp.getId().equals(response.getId())) {
+                actualResponse = resp;
+                break;
+            }
+        }
+        return actualResponse;
     }
     
     private Map<String, StudentResultSummary> getContribQnStudentResultSummary(FeedbackQuestionAttributes question) {
