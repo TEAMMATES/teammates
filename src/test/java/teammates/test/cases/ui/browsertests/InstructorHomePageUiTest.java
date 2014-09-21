@@ -80,6 +80,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     
     @Test
     public void allTests() throws Exception{
+        testPersistenceCheck();
         testLogin();
         testContent();
         testShowFeedbackStatsLink();
@@ -95,6 +96,22 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         testDeleteCourseAction();
     }
     
+    private void testPersistenceCheck() {
+        
+        ______TS("persistence check");
+        
+        loginWithPersistenceProblem();
+        homePage.verifyHtml("/InstructorHomeHTMLPersistenceCheck.html");
+    }
+
+    public void testLogin(){
+        
+        ______TS("login");
+        
+        loginAsCommonInstructor();
+        assertTrue(browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
+    }
+
     private void testShowFeedbackStatsLink() throws Exception {
         WebElement viewResponseLink = homePage.getViewResponseLink("CHomeUiT.CS2104", "Fourth Feedback Session");
         
@@ -115,15 +132,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.setViewResponseLinkValue(viewResponseLink, currentValidUrl);
         viewResponseLink.click();
         homePage.verifyHtmlAjax("/instructorHomeHTMLResponseRatePass.html");
-    }
-
-
-    public void testLogin(){
-        
-        ______TS("login");
-        
-        loginAsCommonInstructor();
-        assertTrue(browser.driver.getCurrentUrl().contains(Const.ActionURIs.INSTRUCTOR_HOME_PAGE));
     }
     
     public void testContent() throws Exception{
@@ -412,6 +420,15 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
                     .withUserId(googleId);
         
         homePage = loginAdminToPage(browser, editUrl, InstructorHomePage.class);
+    }
+
+    private void loginWithPersistenceProblem() {
+        Url homeUrl = createUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE)
+                    .withParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "something")
+                    .withUserId("unreg_user");
+        
+        homePage = loginAdminToPage(browser, homeUrl, InstructorHomePage.class);
+        
     }
 
     @AfterClass

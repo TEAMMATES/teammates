@@ -52,6 +52,7 @@ public class StudentsLogic {
     private CoursesLogic coursesLogic = CoursesLogic.inst();
     private EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
     private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private AccountsLogic accLogic = AccountsLogic.inst();
     private CommentsLogic commentsLogic = CommentsLogic.inst();
     
@@ -285,6 +286,7 @@ public class StudentsLogic {
         if (!originalEmail.equals(student.email)) {
             evaluationsLogic.updateStudentEmailForSubmissionsInCourse(student.course, originalEmail, student.email);
             frLogic.updateFeedbackResponsesForChangingEmail(student.course, originalEmail, student.email);
+            fsLogic.updateRespondantsForStudent(originalEmail, student.email, student.course);
         }
     }
 
@@ -579,14 +581,23 @@ public class StudentsLogic {
         frLogic.deleteFeedbackResponsesForStudentAndCascade(courseId, studentEmail);
         SubmissionsLogic.inst().deleteAllSubmissionsForStudent(courseId, studentEmail);
         commentsLogic.deleteCommentsForStudent(courseId, studentEmail);
+        fsLogic.deleteStudentFromRespondantsList(getStudentForEmail(courseId, studentEmail));
         studentsDb.deleteStudent(courseId, studentEmail, hasDocument);
     }
 
     public void deleteStudentsForGoogleId(String googleId) {
+        List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
+        for(StudentAttributes student : students) {
+            fsLogic.deleteStudentFromRespondantsList(student);
+        }
         studentsDb.deleteStudentsForGoogleId(googleId);
     }
 
     public void deleteStudentsForGoogleIdWithoutDocument(String googleId) {
+        List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
+        for(StudentAttributes student : students) {
+            fsLogic.deleteStudentFromRespondantsList(student);
+        }
         studentsDb.deleteStudentsForGoogleIdWithoutDocument(googleId);
     }
     

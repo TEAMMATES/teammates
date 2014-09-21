@@ -29,6 +29,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected String courseId;
     protected String feedbackSessionName;
     protected FeedbackSubmissionEditPageData data;
+    protected String hasResponses;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -116,6 +117,12 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         
         if (!isError) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        }
+
+        if(logic.hasGiverRespondedForSession(userEmailForCourse, feedbackSessionName, courseId)){
+            appendRespondant();
+        } else {
+            removeRespondant();
         }
         
         // TODO: what happens if qn is deleted as response is being submitted?
@@ -223,6 +230,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         
         return response;
     }
+
+    protected abstract void appendRespondant();
+
+    protected abstract void removeRespondant();
     
     protected abstract void verifyAccesibleForSpecificUser();
 

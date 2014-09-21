@@ -1033,9 +1033,7 @@ function getVisibilityMessage(buttonElem){
     var url = "/page/instructorFeedbackQuestionvisibilityMessage";
 
     eval($(form).attr('onsubmit'));
-
-    var data = $(form[0]).serialize();
-
+    
     $.ajax({
             type: "POST",
             url: url,
@@ -1052,6 +1050,14 @@ function getVisibilityMessage(buttonElem){
             }
         });
 
+}
+
+function getVisibilityMessageIfPreviewIsActive(buttonElem) {
+	var form = $(buttonElem).closest("form");
+	
+    if ($(form).find('.visibilityMessageButton').hasClass('active')) {
+    	getVisibilityMessage(buttonElem);	
+    }         
 }
 
 function formatVisibilityMessageHtml(visibilityMessage){

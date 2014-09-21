@@ -33,6 +33,7 @@ public class InstructorsLogic {
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final CommentsLogic commentsLogic = CommentsLogic.inst();
+    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     
     private static Logger log = Utils.getLogger();
     
@@ -208,8 +209,18 @@ public class InstructorsLogic {
 
         coursesLogic.verifyCourseIsPresent(instructor.courseId);
         verifyInstructorInDbAndCascadeEmailChange(googleId, instructor);
+        checkForUpdatingRespondants(googleId, instructor);
         
         instructorsDb.updateInstructorByGoogleId(instructor);
+    }
+    
+    private void checkForUpdatingRespondants(String googleId, InstructorAttributes instructor) 
+            throws InvalidParametersException, EntityDoesNotExistException {
+
+        InstructorAttributes currentInstructor = getInstructorForGoogleId(instructor.courseId, instructor.googleId);
+        if(!currentInstructor.email.equals(instructor.email)){
+            fsLogic.updateRespondantsForInstructor(currentInstructor.email, instructor.email, instructor.courseId);            
+        }
     }
 
     private void verifyInstructorInDbAndCascadeEmailChange(String googleId,
@@ -358,6 +369,7 @@ public class InstructorsLogic {
     
     public void deleteInstructorCascade(String courseId, String email) {
         commentsLogic.deleteCommentsForInstructor(courseId, email);
+        fsLogic.deleteInstructorFromRespondantsList(getInstructorForEmail(courseId, email));
         instructorsDb.deleteInstructor(courseId, email);
     }
 

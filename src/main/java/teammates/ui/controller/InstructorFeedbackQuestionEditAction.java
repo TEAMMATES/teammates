@@ -51,7 +51,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
     }
 
     private void deleteQuestion(FeedbackQuestionAttributes updatedQuestion) {
-        logic.deleteFeedbackQuestion(updatedQuestion.getId());
+        logic.deleteFeedbackQuestionWithResponseRateCheck(updatedQuestion.getId());
         statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
         statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber +" for session:<span class=\"bold\">(" +
                 updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
@@ -82,7 +82,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                 statusToUser.addAll(questionDetailsErrors);
                 isError = true;
             } else {
-                logic.updateFeedbackQuestion(updatedQuestion);    
+                logic.updateFeedbackQuestionWithResponseRateCheck(updatedQuestion);    
                 statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
                 statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber +" for session:<span class=\"bold\">(" +
                         updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
