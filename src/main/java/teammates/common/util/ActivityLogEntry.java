@@ -28,6 +28,8 @@ public class ActivityLogEntry {
     
     private String logInfoAsHtml;
     
+    private String[] keyStringsToHighlight;
+    
     private static final int TIME_TAKEN_WARNING_LOWER_RANGE = 10000;
     private static final int TIME_TAKEN_WARNING_UPPER_RANGE = 20000;
     private static final int TIME_TAKEN_DANGER_UPPER_RANGE = 60000;
@@ -69,7 +71,8 @@ public class ActivityLogEntry {
             email = tokens[7];
             message = tokens[8];
             url = tokens[9];
-            timeTaken = tokens.length == 11? Long.parseLong(tokens[10].trim()) : null;
+            timeTaken = tokens.length == 11? Long.parseLong(tokens[10].trim()) : null;            
+            keyStringsToHighlight = null;
         } catch (ArrayIndexOutOfBoundsException e){
             
             servletName = "Unknown";
@@ -83,6 +86,7 @@ public class ActivityLogEntry {
                     + "System Error: " + e.getMessage() + "<br>" + appLog.getLogMessage();
             url = "Unknown";
             timeTaken = null;
+            keyStringsToHighlight = null;
         }
         
         logInfoAsHtml = getLogInfoForTableRowAsHtml();
@@ -307,8 +311,16 @@ public class ActivityLogEntry {
         return urlToShow;
     }
     
+    public void setKeyStringsToHighlight(String[] strings){
+        this.keyStringsToHighlight = strings;
+    }
+    
     public boolean toShow(){
         return toShow;
+    }
+    
+    public void setToShow(boolean toShow){
+        this.toShow = toShow;
     }
     
     public long getTime(){
@@ -421,6 +433,26 @@ public class ActivityLogEntry {
                + "</small> </h4> <div>" + getMessageInfo()
                + "</div> </form> </td> </tr>";      
         return result;
+        
+    }
+    
+    public void highlightKeyStringInMessageInfoHtml(){
+        
+        if(keyStringsToHighlight == null){
+            return;
+        }
+        
+        for(String stringToHighlight : keyStringsToHighlight){
+            if(message.toLowerCase().contains(stringToHighlight.toLowerCase())){
+                
+                int startIndex = message.toLowerCase().indexOf(stringToHighlight.toLowerCase());
+                int endIndex = startIndex + stringToHighlight.length();                         
+                String realStringToHighlight = message.substring(startIndex, endIndex);               
+                message = message.replace(realStringToHighlight, "<mark>" + realStringToHighlight + "</mark>");
+            }
+        }
+        
+        logInfoAsHtml = getLogInfoForTableRowAsHtml();
         
     }
     
