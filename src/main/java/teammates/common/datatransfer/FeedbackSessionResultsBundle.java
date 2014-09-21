@@ -43,7 +43,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     //Key is questionId, value is a map of student email to StudentResultSumary
     public Map<String, Map<String, StudentResultSummary>> contributionQuestionStudentResultSummary =
             new HashMap<String, Map<String, StudentResultSummary>>();
-  //Key is questionId, value is a map of team name to TeamEvalResult
+    //Key is questionId, value is a map of team name to TeamEvalResult
     public Map<String, Map<String, TeamEvalResult>> contributionQuestionTeamEvalResults =
             new HashMap<String, Map<String, TeamEvalResult>>();
     
@@ -183,9 +183,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             
             String giverTeamName = emailTeamNameTable.get(response.giverEmail);
             TeamEvalResult teamResult = teamResults.get(giverTeamName);
-            
-            System.out.println("Team Name: " + giverTeamName);
-            System.out.println("Team Result : " + teamResult.toString());
             
             int giverIndex = teamResult.studentEmails.indexOf(response.giverEmail);
             int recipientIndex = teamResult.studentEmails.indexOf(response.recipientEmail);
