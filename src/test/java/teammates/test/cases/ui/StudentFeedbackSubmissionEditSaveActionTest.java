@@ -163,7 +163,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         a = getAction(submissionParams);
         r = (RedirectResult) a.executeAndPostProcess();
         
-                
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
         assertEquals("/page/studentHomePage?error=" + r.isError +"&user=student1InCourse1",

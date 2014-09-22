@@ -97,7 +97,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     responsesForQuestion.add(response);
                 }
                 qnId = response.feedbackQuestionId;
-            }            
+            }
             
             List<String> errors = questionDetails.validateResponseAttributes(responsesForQuestion, data.bundle.recipientList.get(qnId).size());            
             if (!emailSet.containsAll(responsesRecipients)) {
