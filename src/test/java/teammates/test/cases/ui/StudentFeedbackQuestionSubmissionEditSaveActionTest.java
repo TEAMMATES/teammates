@@ -254,6 +254,10 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends
         assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT,
                 pageResult.destination);
         assertTrue(pageResult.isError);
+        assertNull(feedbackResponsesDb.getFeedbackResponse(
+                feedbackQuestion.getId(), student1InCourse1.email,
+                "invalid response recipient"));
+        
 
     }
 

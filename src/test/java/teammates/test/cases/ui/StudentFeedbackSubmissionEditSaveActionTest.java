@@ -526,6 +526,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertTrue(r.isError);        
         assertEquals("/page/studentHomePage?error=true&user=FSQTT.student1InCourse1",
                         r.getDestinationWithParams());
+        assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, "invalid recipient"));
         
     }
     

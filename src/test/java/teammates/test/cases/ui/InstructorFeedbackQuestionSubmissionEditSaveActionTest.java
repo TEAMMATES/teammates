@@ -322,6 +322,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
         assertTrue(r.isError);
+        assertNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, "invalid_recipient_email"));
         
         ______TS("grace period session edit answer");
         
