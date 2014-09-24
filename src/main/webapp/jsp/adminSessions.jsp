@@ -230,6 +230,10 @@
                 if (key.contentEquals("Unknown")) {
                     continue;
                 }
+                
+                if (!data.isShowAll && key.contains("TEAMMATES Test Institute")){
+                	continue;   
+                }
         %>
 
         <div class="panel panel-primary">
@@ -269,6 +273,10 @@
                             List<FeedbackSessionAttributes> curList = data.map.get(key);
 
                                 for (FeedbackSessionAttributes fs : curList) {
+                                    
+                                    if(!data.isShowAll && fs.creatorEmail.endsWith(".tmt")){
+                                    	   continue;   
+                                    }
                         %>
 
                         <tr>
@@ -343,6 +351,10 @@
                             List<FeedbackSessionAttributes> curList = data.map.get(key);
 
                                 for (FeedbackSessionAttributes fs : curList) {
+                                    
+                                	if(!data.isShowAll && fs.creatorEmail.endsWith(".tmt")){
+                                        continue;   
+                                    }
                         %>
 
                         <tr>
