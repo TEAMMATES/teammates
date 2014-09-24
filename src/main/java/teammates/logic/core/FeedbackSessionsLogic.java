@@ -1522,11 +1522,11 @@ public class FeedbackSessionsLogic {
                             boolean needCheckPrivilege = !(question.recipientType == FeedbackParticipantType.NONE ||
                                     question.recipientType == FeedbackParticipantType.INSTRUCTORS ||
                                             question.recipientType == FeedbackParticipantType.STUDENTS);
-                            boolean isAllowedForInstructor = (instructor.isAllowedForPrivilege(response.giverSection,
+                            boolean isNotAllowedForInstructor = !(instructor.isAllowedForPrivilege(response.giverSection,
                                     response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
-                                    && (instructor.isAllowedForPrivilege(response.recipientSection,
+                                    || !(instructor.isAllowedForPrivilege(response.recipientSection,
                                             response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-                            if (needCheckPrivilege && isAllowedForInstructor) {
+                            if (needCheckPrivilege && isNotAllowedForInstructor) {
                                 isVisibleResponse = false;
                             }
                         }
@@ -1721,11 +1721,11 @@ public class FeedbackSessionsLogic {
             boolean needCheckPrivilege = !(relatedQuestion.recipientType == FeedbackParticipantType.NONE ||
                     relatedQuestion.recipientType == FeedbackParticipantType.INSTRUCTORS ||
                             relatedQuestion.recipientType == FeedbackParticipantType.STUDENTS);
-            boolean isAllowedForInstructor = (instructor.isAllowedForPrivilege(response.giverSection,
+            boolean isNotAllowedForInstructor = !(instructor.isAllowedForPrivilege(response.giverSection,
                     response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
-                    && (instructor.isAllowedForPrivilege(response.recipientSection,
+                    || !(instructor.isAllowedForPrivilege(response.recipientSection,
                             response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-            if (needCheckPrivilege && isAllowedForInstructor) {
+            if (needCheckPrivilege && isNotAllowedForInstructor) {
                 isVisibleResponse = false;
             }
         }
