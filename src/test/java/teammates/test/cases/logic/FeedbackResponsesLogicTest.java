@@ -104,7 +104,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
             signalFailureToDetectException("Should have detected that same giver->recipient response alr exists");
         } catch (EntityAlreadyExistsException e){
             AssertHelper.assertContains(
-                        "Trying to update recipient for response to one that already exists for this giver.", 
+                    "Error trying to update recipient for response, as another response with the same recipient already exists.", 
                         e.getMessage());
         }
         
