@@ -257,5 +257,13 @@ public class InstructorCourseEditPage extends AppPage {
     public void clickDeleteInstructorLinkAndCancel() {
         clickAndCancel(deleteInstructorLink);
     }
+    
+    
+    public WebElement getNameField(int instrNum) {
+        return browser.driver.findElement(By.id("instructorname" + String.valueOf(instrNum)));
+    }
+    public WebElement getEmailField(int instrNum) {
+        return browser.driver.findElement(By.id("instructoremail" + String.valueOf(instrNum)));
+    }
 
 }

@@ -1,5 +1,6 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
@@ -56,8 +57,11 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         testAddInstructorAction();
         testEditInstructorAction();
         testDeleteInstructorAction();
+        
+        testUnregisteredInstructorEmailUneditable();
+        
         testDeleteCourseAction();
-
+        
     }
     
     public void testContent() throws Exception{
@@ -249,6 +253,16 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         InstructorCoursesPage coursePage = 
                 courseEditPage.clickDeleteCourseLinkAndConfirm();
         coursePage.verifyContains("Add New Course");
+    }
+    
+    private void testUnregisteredInstructorEmailUneditable() {
+        courseEditPage = getCourseEditPage();
+        ______TS("make a new unregistered instructor and test that its email can't be edited");
+        courseEditPage.addNewInstructor("Unreg Instructor", "InstructorCourseEditEmail@gmail.tmt");
+        
+        assertEquals("Unreg Instructor", courseEditPage.getNameField(3).getAttribute("value"));
+        assertEquals("true", courseEditPage.getEmailField(3).getAttribute("readonly"));
+       
     }
     
     private InstructorCourseEditPage getCourseEditPage() {        
