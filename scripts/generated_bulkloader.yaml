@@ -36,26 +36,26 @@ transformers:
 
     - property: createdAt
       external_name: createdAt
-      # Type: Date/Time Stats: 57 properties of this type in this kind.
+      # Type: Date/Time Stats: 619 properties of this type in this kind.
       import_transform: transform.import_date_time('%Y-%m-%dT%H:%M:%S')
       export_transform: transform.export_date_time('%Y-%m-%dT%H:%M:%S')
 
     - property: email
       external_name: email
-      # Type: String Stats: 57 properties of this type in this kind.
+      # Type: String Stats: 619 properties of this type in this kind.
 
     - property: institute
       external_name: institute
-      # Type: String Stats: 57 properties of this type in this kind.
+      # Type: String Stats: 619 properties of this type in this kind.
 
     - property: isInstructor
       external_name: isInstructor
-      # Type: Boolean Stats: 57 properties of this type in this kind.
+      # Type: Boolean Stats: 619 properties of this type in this kind.
       import_transform: transform.regexp_bool('true', re.IGNORECASE)
 
     - property: name
       external_name: name
-      # Type: String Stats: 57 properties of this type in this kind.
+      # Type: String Stats: 619 properties of this type in this kind.
 
 
 - kind: Comment
@@ -70,26 +70,50 @@ transformers:
 
     - property: commentText
       external_name: commentText
-      # Type: Text Stats: 17 properties of this type in this kind.
+      # Type: Text Stats: 15 properties of this type in this kind.
       import_transform: db.Text
 
     - property: courseId
       external_name: courseId
-      # Type: String Stats: 17 properties of this type in this kind.
+      # Type: String Stats: 15 properties of this type in this kind.
 
     - property: createdAt
       external_name: createdAt
-      # Type: Date/Time Stats: 17 properties of this type in this kind.
+      # Type: Date/Time Stats: 15 properties of this type in this kind.
       import_transform: transform.import_date_time('%Y-%m-%dT%H:%M:%S')
       export_transform: transform.export_date_time('%Y-%m-%dT%H:%M:%S')
 
     - property: giverEmail
       external_name: giverEmail
-      # Type: String Stats: 17 properties of this type in this kind.
+      # Type: String Stats: 15 properties of this type in this kind.
 
-    - property: receiverEmail
-      external_name: receiverEmail
-      # Type: String Stats: 17 properties of this type in this kind.
+    - property: recipientType
+      external_name: recipientType
+      # Type: String Stats: 15 properties of this type in this kind.
+
+    - property: recipients
+      external_name: recipients
+      # Type: String Stats: 15 properties of this type in this kind.
+
+    - property: sendingState
+      external_name: sendingState
+      # Type: String Stats: 15 properties of this type in this kind.
+
+    - property: showCommentTo
+      external_name: showCommentTo
+      # Type: String Stats: 12 properties of this type in this kind.
+
+    - property: showGiverNameTo
+      external_name: showGiverNameTo
+      # Type: String Stats: 7 properties of this type in this kind.
+
+    - property: showRecipientNameTo
+      external_name: showRecipientNameTo
+      # Type: String Stats: 2 properties of this type in this kind.
+
+    - property: status
+      external_name: status
+      # Type: String Stats: 15 properties of this type in this kind.
 
 
 - kind: Course
@@ -104,18 +128,18 @@ transformers:
 
     - property: archiveStatus
       external_name: archiveStatus
-      # Type: Boolean Stats: 71 properties of this type in this kind.
+      # Type: Boolean Stats: 44 properties of this type in this kind.
       import_transform: transform.regexp_bool('true', re.IGNORECASE)
 
     - property: createdAt
       external_name: createdAt
-      # Type: Date/Time Stats: 71 properties of this type in this kind.
+      # Type: Date/Time Stats: 44 properties of this type in this kind.
       import_transform: transform.import_date_time('%Y-%m-%dT%H:%M:%S')
       export_transform: transform.export_date_time('%Y-%m-%dT%H:%M:%S')
 
     - property: name
       external_name: name
-      # Type: String Stats: 71 properties of this type in this kind.
+      # Type: String Stats: 44 properties of this type in this kind.
 
 
 - kind: Evaluation
@@ -130,52 +154,52 @@ transformers:
 
     - property: activated
       external_name: activated
-      # Type: Boolean Stats: 57 properties of this type in this kind.
+      # Type: Boolean Stats: 18 properties of this type in this kind.
       import_transform: transform.regexp_bool('true', re.IGNORECASE)
 
     - property: commentsEnabled
       external_name: commentsEnabled
-      # Type: Boolean Stats: 57 properties of this type in this kind.
+      # Type: Boolean Stats: 18 properties of this type in this kind.
       import_transform: transform.regexp_bool('true', re.IGNORECASE)
 
     - property: courseID
       external_name: courseID
-      # Type: String Stats: 57 properties of this type in this kind.
+      # Type: String Stats: 18 properties of this type in this kind.
 
     - property: endTime
       external_name: endTime
-      # Type: Date/Time Stats: 57 properties of this type in this kind.
+      # Type: Date/Time Stats: 18 properties of this type in this kind.
       import_transform: transform.import_date_time('%Y-%m-%dT%H:%M:%S')
       export_transform: transform.export_date_time('%Y-%m-%dT%H:%M:%S')
 
     - property: gracePeriod
       external_name: gracePeriod
-      # Type: Integer Stats: 57 properties of this type in this kind.
+      # Type: Integer Stats: 18 properties of this type in this kind.
       import_transform: transform.none_if_empty(int)
 
     - property: longInstructions
       external_name: longInstructions
-      # Type: Text Stats: 57 properties of this type in this kind.
+      # Type: Text Stats: 18 properties of this type in this kind.
       import_transform: db.Text
 
     - property: name
       external_name: name
-      # Type: String Stats: 57 properties of this type in this kind.
+      # Type: String Stats: 18 properties of this type in this kind.
 
     - property: published
       external_name: published
-      # Type: Boolean Stats: 57 properties of this type in this kind.
+      # Type: Boolean Stats: 18 properties of this type in this kind.
       import_transform: transform.regexp_bool('true', re.IGNORECASE)
 
     - property: startTime
       external_name: startTime
-      # Type: Date/Time Stats: 57 properties of this type in this kind.
+      # Type: Date/Time Stats: 18 properties of this type in this kind.
       import_transform: transform.import_date_time('%Y-%m-%dT%H:%M:%S')
       export_transform: transform.export_date_time('%Y-%m-%dT%H:%M:%S')
 
     - property: timeZone
       external_name: timeZone
-      # Type: Float Stats: 57 properties of this type in this kind.
+      # Type: Float Stats: 18 properties of this type in this kind.
       import_transform: transform.none_if_empty(float)
 
 
@@ -191,54 +215,54 @@ transformers:
 
     - property: courseId
       external_name: courseId
-      # Type: String Stats: 210 properties of this type in this kind.
+      # Type: String Stats: 83 properties of this type in this kind.
 
     - property: creatorEmail
       external_name: creatorEmail
-      # Type: String Stats: 210 properties of this type in this kind.
+      # Type: String Stats: 83 properties of this type in this kind.
 
     - property: feedbackSessionName
       external_name: feedbackSessionName
-      # Type: String Stats: 210 properties of this type in this kind.
+      # Type: String Stats: 83 properties of this type in this kind.
 
     - property: giverType
       external_name: giverType
-      # Type: String Stats: 210 properties of this type in this kind.
+      # Type: String Stats: 83 properties of this type in this kind.
 
     - property: numberOfEntitiesToGiveFeedbackTo
       external_name: numberOfEntitiesToGiveFeedbackTo
-      # Type: Integer Stats: 210 properties of this type in this kind.
+      # Type: Integer Stats: 83 properties of this type in this kind.
       import_transform: transform.none_if_empty(int)
 
     - property: questionNumber
       external_name: questionNumber
-      # Type: Integer Stats: 210 properties of this type in this kind.
+      # Type: Integer Stats: 83 properties of this type in this kind.
       import_transform: transform.none_if_empty(int)
 
     - property: questionText
       external_name: questionText
-      # Type: Text Stats: 210 properties of this type in this kind.
+      # Type: Text Stats: 83 properties of this type in this kind.
       import_transform: db.Text
 
     - property: questionType
       external_name: questionType
-      # Type: String Stats: 210 properties of this type in this kind.
+      # Type: String Stats: 83 properties of this type in this kind.
 
     - property: recipientType
       external_name: recipientType
-      # Type: String Stats: 210 properties of this type in this kind.
+      # Type: String Stats: 83 properties of this type in this kind.
 
     - property: showGiverNameTo
       external_name: showGiverNameTo
-      # Type: String Stats: 271 properties of this type in this kind.
+      # Type: String Stats: 101 properties of this type in this kind.
 
     - property: showRecipientNameTo
       external_name: showRecipientNameTo
-      # Type: String Stats: 296 properties of this type in this kind.
+      # Type: String Stats: 106 properties of this type in this kind.
 
     - property: showResponsesTo
       external_name: showResponsesTo
-      # Type: String Stats: 399 properties of this type in this kind.
+      # Type: String Stats: 149 properties of this type in this kind.
 
 
 - kind: FeedbackResponseComment
@@ -253,34 +277,59 @@ transformers:
 
     - property: commentText
       external_name: commentText
-      # Type: Text Stats: 25 properties of this type in this kind.
+      # Type: Text Stats: 9 properties of this type in this kind.
       import_transform: db.Text
 
     - property: courseId
       external_name: courseId
-      # Type: String Stats: 25 properties of this type in this kind.
+      # Type: String Stats: 9 properties of this type in this kind.
 
     - property: createdAt
       external_name: createdAt
-      # Type: Date/Time Stats: 25 properties of this type in this kind.
+      # Type: Date/Time Stats: 9 properties of this type in this kind.
       import_transform: transform.import_date_time('%Y-%m-%dT%H:%M:%S')
       export_transform: transform.export_date_time('%Y-%m-%dT%H:%M:%S')
 
     - property: feedbackQuestionId
       external_name: feedbackQuestionId
-      # Type: String Stats: 25 properties of this type in this kind.
+      # Type: String Stats: 9 properties of this type in this kind.
 
     - property: feedbackResponseId
       external_name: feedbackResponseId
-      # Type: String Stats: 25 properties of this type in this kind.
+      # Type: String Stats: 9 properties of this type in this kind.
 
     - property: feedbackSessionName
       external_name: feedbackSessionName
-      # Type: String Stats: 25 properties of this type in this kind.
+      # Type: String Stats: 9 properties of this type in this kind.
 
     - property: giverEmail
       external_name: giverEmail
-      # Type: String Stats: 25 properties of this type in this kind.
+      # Type: String Stats: 9 properties of this type in this kind.
+
+    - property: giverSection
+      external_name: giverSection
+      # Type: String Stats: 9 properties of this type in this kind.
+
+    - property: isVisibilityFollowingFeedbackQuestion
+      external_name: isVisibilityFollowingFeedbackQuestion
+      # Type: Boolean Stats: 9 properties of this type in this kind.
+      import_transform: transform.regexp_bool('true', re.IGNORECASE)
+
+    - property: receiverSection
+      external_name: receiverSection
+      # Type: String Stats: 9 properties of this type in this kind.
+
+    - property: sendingState
+      external_name: sendingState
+      # Type: String Stats: 9 properties of this type in this kind.
+
+    - property: showCommentTo
+      external_name: showCommentTo
+      # Type: String Stats: 6 properties of this type in this kind.
+
+    - property: showGiverNameTo
+      external_name: showGiverNameTo
+      # Type: String Stats: 2 properties of this type in this kind.
 
 
 - kind: FeedbackResponse
@@ -295,32 +344,40 @@ transformers:
 
     - property: answer
       external_name: answer
-      # Type: Text Stats: 216 properties of this type in this kind.
+      # Type: Text Stats: 308 properties of this type in this kind.
       import_transform: db.Text
 
     - property: courseId
       external_name: courseId
-      # Type: String Stats: 216 properties of this type in this kind.
+      # Type: String Stats: 308 properties of this type in this kind.
 
     - property: feedbackQuestionId
       external_name: feedbackQuestionId
-      # Type: String Stats: 216 properties of this type in this kind.
+      # Type: String Stats: 308 properties of this type in this kind.
 
     - property: feedbackQuestionType
       external_name: feedbackQuestionType
-      # Type: String Stats: 216 properties of this type in this kind.
+      # Type: String Stats: 308 properties of this type in this kind.
 
     - property: feedbackSessionName
       external_name: feedbackSessionName
-      # Type: String Stats: 216 properties of this type in this kind.
+      # Type: String Stats: 308 properties of this type in this kind.
 
     - property: giverEmail
       external_name: giverEmail
-      # Type: String Stats: 216 properties of this type in this kind.
+      # Type: String Stats: 308 properties of this type in this kind.
+
+    - property: giverSection
+      external_name: giverSection
+      # Type: String Stats: 304 properties of this type in this kind.
+
+    - property: receiverSection
+      external_name: receiverSection
+      # Type: String Stats: 304 properties of this type in this kind.
 
     - property: receiver
       external_name: receiver
-      # Type: String Stats: 216 properties of this type in this kind.
+      # Type: String Stats: 308 properties of this type in this kind.
 
 
 - kind: FeedbackSession
@@ -335,93 +392,93 @@ transformers:
 
     - property: courseId
       external_name: courseId
-      # Type: String Stats: 83 properties of this type in this kind.
+      # Type: String Stats: 37 properties of this type in this kind.
 
     - property: createdTime
       external_name: createdTime
-      # Type: Date/Time Stats: 83 properties of this type in this kind.
+      # Type: Date/Time Stats: 37 properties of this type in this kind.
       import_transform: transform.import_date_time('%Y-%m-%dT%H:%M:%S')
       export_transform: transform.export_date_time('%Y-%m-%dT%H:%M:%S')
 
     - property: creatorEmail
       external_name: creatorEmail
-      # Type: String Stats: 83 properties of this type in this kind.
+      # Type: String Stats: 37 properties of this type in this kind.
 
     - property: endTime
       external_name: endTime
-      # Type: Date/Time Stats: 77 properties of this type in this kind.
+      # Type: Date/Time Stats: 33 properties of this type in this kind.
       import_transform: transform.import_date_time('%Y-%m-%dT%H:%M:%S')
       export_transform: transform.export_date_time('%Y-%m-%dT%H:%M:%S')
 
     - property: feedbackSessionName
       external_name: feedbackSessionName
-      # Type: String Stats: 83 properties of this type in this kind.
+      # Type: String Stats: 37 properties of this type in this kind.
 
     - property: feedbackSessionType
       external_name: feedbackSessionType
-      # Type: String Stats: 83 properties of this type in this kind.
+      # Type: String Stats: 37 properties of this type in this kind.
 
     - property: gracePeriod
       external_name: gracePeriod
-      # Type: Integer Stats: 83 properties of this type in this kind.
+      # Type: Integer Stats: 37 properties of this type in this kind.
       import_transform: transform.none_if_empty(int)
 
     - property: instructions
       external_name: instructions
-      # Type: Text Stats: 83 properties of this type in this kind.
+      # Type: Text Stats: 37 properties of this type in this kind.
       import_transform: db.Text
 
     - property: isClosingEmailEnabled
       external_name: isClosingEmailEnabled
-      # Type: Boolean Stats: 83 properties of this type in this kind.
+      # Type: Boolean Stats: 37 properties of this type in this kind.
       import_transform: transform.regexp_bool('true', re.IGNORECASE)
 
     - property: isOpeningEmailEnabled
       external_name: isOpeningEmailEnabled
-      # Type: Boolean Stats: 83 properties of this type in this kind.
+      # Type: Boolean Stats: 37 properties of this type in this kind.
       import_transform: transform.regexp_bool('true', re.IGNORECASE)
 
     - property: isPublishedEmailEnabled
       external_name: isPublishedEmailEnabled
-      # Type: Boolean Stats: 83 properties of this type in this kind.
+      # Type: Boolean Stats: 37 properties of this type in this kind.
       import_transform: transform.regexp_bool('true', re.IGNORECASE)
 
     - property: resultsVisibleFromTime
       external_name: resultsVisibleFromTime
-      # Type: Date/Time Stats: 83 properties of this type in this kind.
+      # Type: Date/Time Stats: 37 properties of this type in this kind.
       import_transform: transform.import_date_time('%Y-%m-%dT%H:%M:%S')
       export_transform: transform.export_date_time('%Y-%m-%dT%H:%M:%S')
 
     - property: sentOpenEmail
       external_name: sentOpenEmail
-      # Type: Boolean Stats: 83 properties of this type in this kind.
+      # Type: Boolean Stats: 37 properties of this type in this kind.
       import_transform: transform.regexp_bool('true', re.IGNORECASE)
 
     - property: sentPublishedEmail
       external_name: sentPublishedEmail
-      # Type: Boolean Stats: 83 properties of this type in this kind.
+      # Type: Boolean Stats: 37 properties of this type in this kind.
       import_transform: transform.regexp_bool('true', re.IGNORECASE)
 
     - property: sessionVisibleFromTime
       external_name: sessionVisibleFromTime
-      # Type: Date/Time Stats: 83 properties of this type in this kind.
+      # Type: Date/Time Stats: 37 properties of this type in this kind.
       import_transform: transform.import_date_time('%Y-%m-%dT%H:%M:%S')
       export_transform: transform.export_date_time('%Y-%m-%dT%H:%M:%S')
 
     - property: startTime
       external_name: startTime
-      # Type: Date/Time Stats: 83 properties of this type in this kind.
+      # Type: Date/Time Stats: 37 properties of this type in this kind.
       import_transform: transform.import_date_time('%Y-%m-%dT%H:%M:%S')
       export_transform: transform.export_date_time('%Y-%m-%dT%H:%M:%S')
 
     - property: timeZoneDouble
       external_name: timeZoneDouble
-      # Type: Float Stats: 83 properties of this type in this kind.
+      # Type: Float Stats: 37 properties of this type in this kind.
       import_transform: transform.none_if_empty(float)
 
     - property: timeZone
       external_name: timeZone
-      # Type: Integer Stats: 83 properties of this type in this kind.
+      # Type: Integer Stats: 37 properties of this type in this kind.
       import_transform: transform.none_if_empty(int)
 
 
@@ -437,23 +494,92 @@ transformers:
 
     - property: courseId
       external_name: courseId
-      # Type: String Stats: 23 properties of this type in this kind.
+      # Type: String Stats: 325 properties of this type in this kind.
+
+    - property: displayedName
+      external_name: displayedName
+      # Type: String Stats: 325 properties of this type in this kind.
 
     - property: email
       external_name: email
-      # Type: String Stats: 23 properties of this type in this kind.
+      # Type: String Stats: 325 properties of this type in this kind.
 
     - property: googleId
       external_name: googleId
-      # Type: String Stats: 21 properties of this type in this kind.
+      # Type: String Stats: 322 properties of this type in this kind.
+
+    - property: instructorPrivilegesAsText
+      external_name: instructorPrivilegesAsText
+      # Type: Text Stats: 325 properties of this type in this kind.
+      import_transform: db.Text
+
+    - property: isArchived
+      external_name: isArchived
+      # Type: Boolean Stats: 5 properties of this type in this kind.
+      import_transform: transform.regexp_bool('true', re.IGNORECASE)
+
+    - property: isDisplayedToStudents
+      external_name: isDisplayedToStudents
+      # Type: Boolean Stats: 325 properties of this type in this kind.
+      import_transform: transform.regexp_bool('true', re.IGNORECASE)
 
     - property: name
       external_name: name
-      # Type: String Stats: 23 properties of this type in this kind.
+      # Type: String Stats: 325 properties of this type in this kind.
 
     - property: registrationKey
       external_name: registrationKey
-      # Type: String Stats: 23 properties of this type in this kind.
+      # Type: String Stats: 325 properties of this type in this kind.
+
+    - property: role
+      external_name: role
+      # Type: String Stats: 325 properties of this type in this kind.
+
+
+- kind: StudentProfile
+  connector: csv
+  connector_options:
+    encoding: utf-8
+    columns: from_header
+  property_map:
+    - property: __key__
+      external_name: key
+      export_transform: transform.key_id_or_name_as_string
+
+    - property: email
+      external_name: email
+      # Type: String Stats: 619 properties of this type in this kind.
+
+    - property: gender
+      external_name: gender
+      # Type: String Stats: 619 properties of this type in this kind.
+
+    - property: institute
+      external_name: institute
+      # Type: String Stats: 619 properties of this type in this kind.
+
+    - property: modifiedDate
+      external_name: modifiedDate
+      # Type: Date/Time Stats: 619 properties of this type in this kind.
+      import_transform: transform.import_date_time('%Y-%m-%dT%H:%M:%S')
+      export_transform: transform.export_date_time('%Y-%m-%dT%H:%M:%S')
+
+    - property: moreInfo
+      external_name: moreInfo
+      # Type: Text Stats: 619 properties of this type in this kind.
+      import_transform: db.Text
+
+    - property: nationality
+      external_name: nationality
+      # Type: String Stats: 619 properties of this type in this kind.
+
+    - property: pictureKey
+      external_name: pictureKey
+      # Type: BlobKey Stats: 619 properties of this type in this kind.
+
+    - property: shortName
+      external_name: shortName
+      # Type: String Stats: 619 properties of this type in this kind.
 
 
 - kind: Student
@@ -468,27 +594,35 @@ transformers:
 
     - property: ID
       external_name: ID
-      # Type: String Stats: 148 properties of this type in this kind.
+      # Type: String Stats: 329 properties of this type in this kind.
 
     - property: comments
       external_name: comments
-      # Type: String Stats: 156 properties of this type in this kind.
+      # Type: String Stats: 331 properties of this type in this kind.
 
     - property: courseID
       external_name: courseID
-      # Type: String Stats: 156 properties of this type in this kind.
+      # Type: String Stats: 331 properties of this type in this kind.
 
     - property: email
       external_name: email
-      # Type: String Stats: 156 properties of this type in this kind.
+      # Type: String Stats: 331 properties of this type in this kind.
+
+    - property: lastName
+      external_name: lastName
+      # Type: String Stats: 331 properties of this type in this kind.
 
     - property: name
       external_name: name
-      # Type: String Stats: 156 properties of this type in this kind.
+      # Type: String Stats: 331 properties of this type in this kind.
+
+    - property: sectionName
+      external_name: sectionName
+      # Type: String Stats: 331 properties of this type in this kind.
 
     - property: teamName
       external_name: teamName
-      # Type: String Stats: 156 properties of this type in this kind.
+      # Type: String Stats: 331 properties of this type in this kind.
 
 
 - kind: Submission
@@ -503,38 +637,38 @@ transformers:
 
     - property: commentsToStudent
       external_name: commentsToStudent
-      # Type: Text Stats: 864 properties of this type in this kind.
+      # Type: Text Stats: 176 properties of this type in this kind.
       import_transform: db.Text
 
     - property: courseID
       external_name: courseID
-      # Type: String Stats: 864 properties of this type in this kind.
+      # Type: String Stats: 176 properties of this type in this kind.
 
     - property: evaluationName
       external_name: evaluationName
-      # Type: String Stats: 864 properties of this type in this kind.
+      # Type: String Stats: 176 properties of this type in this kind.
 
     - property: fromStudent
       external_name: fromStudent
-      # Type: String Stats: 864 properties of this type in this kind.
+      # Type: String Stats: 176 properties of this type in this kind.
 
     - property: justification
       external_name: justification
-      # Type: Text Stats: 864 properties of this type in this kind.
+      # Type: Text Stats: 176 properties of this type in this kind.
       import_transform: db.Text
 
     - property: points
       external_name: points
-      # Type: Integer Stats: 864 properties of this type in this kind.
+      # Type: Integer Stats: 176 properties of this type in this kind.
       import_transform: transform.none_if_empty(int)
 
     - property: teamName
       external_name: teamName
-      # Type: String Stats: 864 properties of this type in this kind.
+      # Type: String Stats: 176 properties of this type in this kind.
 
     - property: toStudent
       external_name: toStudent
-      # Type: String Stats: 864 properties of this type in this kind.
+      # Type: String Stats: 176 properties of this type in this kind.
 
 
 - kind: _AE_Backup_Information_Kind_Files
@@ -549,7 +683,7 @@ transformers:
 
     - property: files
       external_name: files
-      # Type: String Stats: 143 properties of this type in this kind.
+      # Type: String Stats: 198 properties of this type in this kind.
 
 
 - kind: _AE_Backup_Information_Kind_Type_Info
@@ -564,12 +698,12 @@ transformers:
 
     - property: entity_type_info
       external_name: entity_type_info
-      # Type: Text Stats: 143 properties of this type in this kind.
+      # Type: Text Stats: 198 properties of this type in this kind.
       import_transform: db.Text
 
     - property: is_partial
       external_name: is_partial
-      # Type: Boolean Stats: 143 properties of this type in this kind.
+      # Type: Boolean Stats: 198 properties of this type in this kind.
       import_transform: transform.regexp_bool('true', re.IGNORECASE)
 
 
@@ -585,29 +719,29 @@ transformers:
 
     - property: complete_time
       external_name: complete_time
-      # Type: Date/Time Stats: 12 properties of this type in this kind.
+      # Type: Date/Time Stats: 16 properties of this type in this kind.
       import_transform: transform.import_date_time('%Y-%m-%dT%H:%M:%S')
       export_transform: transform.export_date_time('%Y-%m-%dT%H:%M:%S')
 
     - property: completed_jobs
       external_name: completed_jobs
-      # Type: String Stats: 56 properties of this type in this kind.
+      # Type: String Stats: 76 properties of this type in this kind.
 
     - property: filesystem
       external_name: filesystem
-      # Type: String Stats: 12 properties of this type in this kind.
+      # Type: String Stats: 16 properties of this type in this kind.
 
     - property: kinds
       external_name: kinds
-      # Type: String Stats: 56 properties of this type in this kind.
+      # Type: String Stats: 76 properties of this type in this kind.
 
     - property: name
       external_name: name
-      # Type: String Stats: 12 properties of this type in this kind.
+      # Type: String Stats: 16 properties of this type in this kind.
 
     - property: start_time
       external_name: start_time
-      # Type: Date/Time Stats: 12 properties of this type in this kind.
+      # Type: Date/Time Stats: 16 properties of this type in this kind.
       import_transform: transform.import_date_time('%Y-%m-%dT%H:%M:%S')
       export_transform: transform.export_date_time('%Y-%m-%dT%H:%M:%S')
 
@@ -628,32 +762,32 @@ transformers:
 
     - property: active_jobs
       external_name: active_jobs
-      # Type: Integer Stats: 13 properties of this type in this kind.
+      # Type: Integer Stats: 20 properties of this type in this kind.
       import_transform: transform.none_if_empty(int)
 
     - property: completed_jobs
       external_name: completed_jobs
-      # Type: Integer Stats: 13 properties of this type in this kind.
+      # Type: Integer Stats: 20 properties of this type in this kind.
       import_transform: transform.none_if_empty(int)
 
     - property: description
       external_name: description
-      # Type: Text Stats: 13 properties of this type in this kind.
+      # Type: Text Stats: 20 properties of this type in this kind.
       import_transform: db.Text
 
     - property: last_updated
       external_name: last_updated
-      # Type: Date/Time Stats: 13 properties of this type in this kind.
+      # Type: Date/Time Stats: 20 properties of this type in this kind.
       import_transform: transform.import_date_time('%Y-%m-%dT%H:%M:%S')
       export_transform: transform.export_date_time('%Y-%m-%dT%H:%M:%S')
 
     - property: status
       external_name: status
-      # Type: String Stats: 13 properties of this type in this kind.
+      # Type: String Stats: 20 properties of this type in this kind.
 
     - property: status_info
       external_name: status_info
-      # Type: String Stats: 13 properties of this type in this kind.
+      # Type: String Stats: 20 properties of this type in this kind.
 
 
 - kind: _GAE_MR_MapreduceState
@@ -805,7 +939,7 @@ transformers:
 
     - property: payload
       external_name: payload
-      # Type: Blob Stats: 16 properties of this type in this kind.
+      # Type: Blob Stats: 36 properties of this type in this kind.
       import_transform: transform.blobproperty_from_base64
       export_transform: base64.b64encode
 
@@ -822,12 +956,12 @@ transformers:
 
     - property: _expires
       external_name: _expires
-      # Type: Integer Stats: 67 properties of this type in this kind.
+      # Type: Integer Stats: 292 properties of this type in this kind.
       import_transform: transform.none_if_empty(int)
 
     - property: _values
       external_name: _values
-      # Type: Blob Stats: 67 properties of this type in this kind.
+      # Type: Blob Stats: 292 properties of this type in this kind.
       import_transform: transform.blobproperty_from_base64
       export_transform: base64.b64encode
 
