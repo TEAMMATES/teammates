@@ -113,6 +113,8 @@ public class FeedbackSessionsLogic {
         copiedFeedbackSession.feedbackSessionName = newFeedbackSessionName;
         copiedFeedbackSession.courseId = newCourseId;
         copiedFeedbackSession.createdTime = new Date();
+        copiedFeedbackSession.respondingInstructorList = new HashSet<String>();
+        copiedFeedbackSession.respondingStudentList = new HashSet<String>();
         fsDb.createEntity(copiedFeedbackSession);
         
         List<FeedbackQuestionAttributes> feedbackQuestions = fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);

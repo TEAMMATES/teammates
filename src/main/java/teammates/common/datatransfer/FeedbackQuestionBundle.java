@@ -3,9 +3,12 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class FeedbackQuestionBundle {
     public FeedbackSessionAttributes feedbackSession;
@@ -42,5 +45,15 @@ public class FeedbackQuestionBundle {
             // Sort by key (email) if name is same.
             return recipient1.getKey().compareTo(recipient2.getKey());
         }
+    }
+    
+    public Set<String> getRecipientEmails(String feedbackQuestionId) {
+              
+        HashSet<String> result = new HashSet<String>();
+
+        for (Entry<String, String> entry : this.recipientList.entrySet()) {
+            result.add(entry.getKey());
+        }
+        return result;
     }
 }
