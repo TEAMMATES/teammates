@@ -1,5 +1,6 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
@@ -82,7 +83,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     private void testEditInstructorLink() {
         
         ______TS("edit instructor link");
-        assertEquals(true, courseEditPage.clickEditInstructorLink());
+        assertEquals(true, courseEditPage.clickEditInstructorLink(1));
     }
 
     private void testNewInstructorLink() {
@@ -167,7 +168,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         ______TS("success: edit an instructor--viewing instructor permission details");
         
-        assertEquals(true, courseEditPage.clickEditInstructorLink());
+        assertEquals(true, courseEditPage.clickEditInstructorLink(1));
         // this should be click co-owner role
         courseEditPage.clickViewDetailsLinkForInstructor(1, 1);
         // what for the animation to finish
@@ -262,7 +263,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         assertEquals("Unreg Instructor", courseEditPage.getNameField(3).getAttribute("value"));
         
-        courseEditPage.clickEditInstructorLink();
+        courseEditPage.clickEditInstructorLink(3);
         assertEquals("true", courseEditPage.getEmailField(3).getAttribute("readonly"));
     }
     
