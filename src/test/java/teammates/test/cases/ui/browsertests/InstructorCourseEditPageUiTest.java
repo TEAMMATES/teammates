@@ -58,7 +58,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         testEditInstructorAction();
         testDeleteInstructorAction();
         
-        testUnregisteredInstructorEmailUneditable();
+        testUnregisteredInstructorEmailIsUneditable();
         
         testDeleteCourseAction();
         
@@ -255,14 +255,15 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         coursePage.verifyContains("Add New Course");
     }
     
-    private void testUnregisteredInstructorEmailUneditable() {
+    private void testUnregisteredInstructorEmailIsUneditable() {
         courseEditPage = getCourseEditPage();
         ______TS("make a new unregistered instructor and test that its email can't be edited");
         courseEditPage.addNewInstructor("Unreg Instructor", "InstructorCourseEditEmail@gmail.tmt");
         
         assertEquals("Unreg Instructor", courseEditPage.getNameField(3).getAttribute("value"));
+        
+        courseEditPage.clickEditInstructorLink();
         assertEquals("true", courseEditPage.getEmailField(3).getAttribute("readonly"));
-       
     }
     
     private InstructorCourseEditPage getCourseEditPage() {        
