@@ -124,8 +124,8 @@ public class InstructorCourseEditPage extends AppPage {
             editInstructorLink.click();
             waitForElementVisible(saveInstructorButton);
             isEditable = editInstructorNameTextBox.isEnabled()
-                                && editInstructorEmailTextBox.isEnabled()
-                                && saveInstructorButton.isDisplayed();
+                        && editInstructorEmailTextBox.isEnabled()
+                        && saveInstructorButton.isDisplayed();
         } else {
             String instructorNum = String.valueOf(instrNum);
             WebElement editLink = browser.driver.findElement(By.id("instrEditLink" + instructorNum));
@@ -138,8 +138,8 @@ public class InstructorCourseEditPage extends AppPage {
             WebElement editInstructorEmailTextBox = browser.driver.findElement(By.id("instructoremail" + instructorNum));
             
             isEditable = editInstructorNameTextBox.isEnabled()
-                                && editInstructorEmailTextBox.isEnabled()
-                                && saveButton.isDisplayed();
+                        && editInstructorEmailTextBox.isEnabled()
+                        && saveButton.isDisplayed();
         }
         
         return isEditable;

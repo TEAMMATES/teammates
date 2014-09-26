@@ -62,7 +62,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         testUnregisteredInstructorEmailIsUneditable();
         
         testDeleteCourseAction();
-        
+
     }
     
     public void testContent() throws Exception{
