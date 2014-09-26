@@ -12,7 +12,7 @@ import datetime
 #URL of live server to download the data from
 #Change this to connect to a different live server
 #Remember to add /remote_api at the end of the URL
-liveServerUrl = "http://4-18-dot-teammates-shawn3.appspot.com/remote_api"
+liveServerUrl = "https://teammatesv4.appspot.com/remote_api"
 
 #URL of local dev server where the downloaded data is uploaded to
 #Change this to connect to a different dev server

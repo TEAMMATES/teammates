@@ -254,14 +254,17 @@ transformers:
 
     - property: showGiverNameTo
       external_name: showGiverNameTo
+      import_transform: "lambda x: len(x) > 0 and eval(x) or ''"
       # Type: String Stats: 101 properties of this type in this kind.
 
     - property: showRecipientNameTo
       external_name: showRecipientNameTo
+      import_transform: "lambda x: len(x) > 0 and eval(x) or ''"
       # Type: String Stats: 106 properties of this type in this kind.
 
     - property: showResponsesTo
       external_name: showResponsesTo
+      import_transform: "lambda x: len(x) > 0 and eval(x) or ''"
       # Type: String Stats: 149 properties of this type in this kind.
 
 
