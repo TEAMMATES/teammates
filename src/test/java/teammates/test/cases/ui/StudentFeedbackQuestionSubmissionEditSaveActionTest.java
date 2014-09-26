@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
@@ -229,6 +230,34 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends
                 feedbackResponse.recipientEmail);
         assertEquals("new response", feedbackResponse.getResponseDetails()
                 .getAnswerString());
+        
+        
+        ______TS("invalid feedback recipient");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                session1InCourse1.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID,
+                feedbackQuestion.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0",
+                "invalid response recipient",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE,
+                feedbackQuestion.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Qn answer"
+        };
+
+        saveAction = getAction(submissionParams);
+        pageResult = getShowPageResult(saveAction);
+
+        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT,
+                pageResult.destination);
+        assertTrue(pageResult.isError);
+        assertNull(feedbackResponsesDb.getFeedbackResponse(
+                feedbackQuestion.getId(), student1InCourse1.email,
+                "invalid response recipient"));
+        
 
     }
 

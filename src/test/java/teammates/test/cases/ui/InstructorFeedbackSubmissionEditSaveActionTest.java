@@ -195,7 +195,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, fr.courseId,
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-2", fr.feedbackQuestionId,
-                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-2-0", "student1InCourse1@gmail.com",
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-2-0", "student1InCourse1@gmail.tmt",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-2", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-2-0", "Edited" + fr.getResponseDetails().getAnswerString()                
         };
@@ -216,7 +216,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, fr.courseId,
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-2", fr.feedbackQuestionId,
-                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-2-0", "student1InCourse1@gmail.com",
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-2-0", "student1InCourse1@gmail.tmt",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-2", fr.feedbackQuestionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-2-0", fr.getResponseDetails().getAnswerString()                
         };
@@ -258,6 +258,26 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=instructor1InCourse1",
                         r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+        
+        ______TS("Unsuccessful case: modified recipient to invalid recipient");
+        submissionParams = new String[]{
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", "invalid_recipient_email",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", fr.getResponseDetails().getAnswerString()
+        };
+        
+        a = getAction(submissionParams);
+        r = (RedirectResult) a.executeAndPostProcess();
+        
+        assertTrue(r.isError);
+        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=instructor1InCourse1",
+                        r.getDestinationWithParams());
+        assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, "invalid_recipient_email"));
         
         ______TS("Successful case: mcq: typical case");
         
@@ -504,6 +524,9 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         ______TS("Successful case: contrib qn: typical case");
         
         //No tests since contrib qn can only be answered by students to own team members including self.
+        
+        
+        
         
     }
     
