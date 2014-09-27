@@ -191,7 +191,11 @@
                                 value="<%=instructor.email%>"
                                 data-toggle="tooltip" data-placement="top" title="Enter the Email of the instructor."
                                 maxlength=<%=FieldValidator.EMAIL_MAX_LENGTH%> tabindex=5
-                                disabled="disabled">
+                                disabled="disabled"
+                                <% if (instructor.googleId == null) { %>
+                                    readonly="readonly"
+                                <% } %>
+                                >
                             </div>
                         </div>
                         <div class="form-group">
