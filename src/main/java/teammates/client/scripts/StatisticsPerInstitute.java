@@ -146,7 +146,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
 
         for (Instructor instructor : allInstructors){
             
-            if(isTestingInstructorData(instructor)){               
+            if(isTestingInstructorData(instructor) || instructor.getEmail() == null){               
                 continue;
             }
             
