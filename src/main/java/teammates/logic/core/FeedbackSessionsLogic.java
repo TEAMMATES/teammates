@@ -1521,10 +1521,14 @@ public class FeedbackSessionsLogic {
                             instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
                         }
                         if (isVisibleResponse && instructor != null) {
-                            if (!(instructor.isAllowedForPrivilege(response.giverSection,
+                            boolean needCheckPrivilege = !(question.recipientType == FeedbackParticipantType.NONE ||
+                                    question.recipientType == FeedbackParticipantType.INSTRUCTORS ||
+                                            question.recipientType == FeedbackParticipantType.STUDENTS);
+                            boolean isNotAllowedForInstructor = !(instructor.isAllowedForPrivilege(response.giverSection,
                                     response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
-                                    || !(instructor.isAllowedForPrivilege(response.giverSection,
-                                            response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))) {
+                                    || !(instructor.isAllowedForPrivilege(response.recipientSection,
+                                            response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                            if (needCheckPrivilege && isNotAllowedForInstructor) {
                                 isVisibleResponse = false;
                             }
                         }
@@ -1716,10 +1720,14 @@ public class FeedbackSessionsLogic {
             isVisibleResponse = true;
         }
         if (isVisibleResponse && instructor != null) {
-            if (!(instructor.isAllowedForPrivilege(response.giverSection,
+            boolean needCheckPrivilege = !(relatedQuestion.recipientType == FeedbackParticipantType.NONE ||
+                    relatedQuestion.recipientType == FeedbackParticipantType.INSTRUCTORS ||
+                            relatedQuestion.recipientType == FeedbackParticipantType.STUDENTS);
+            boolean isNotAllowedForInstructor = !(instructor.isAllowedForPrivilege(response.giverSection,
                     response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
                     || !(instructor.isAllowedForPrivilege(response.recipientSection,
-                            response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))) {
+                            response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+            if (needCheckPrivilege && isNotAllowedForInstructor) {
                 isVisibleResponse = false;
             }
         }

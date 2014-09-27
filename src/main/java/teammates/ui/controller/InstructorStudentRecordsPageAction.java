@@ -62,25 +62,8 @@ public class InstructorStudentRecordsPageAction extends Action {
             List<EvaluationAttributes> evals = logic.getEvaluationsListForInstructor(account.googleId);
             List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsListForInstructor(account.googleId);
             
-            //Remove evaluations and feedbacks not from the courseId parameters
-            //Can be removed later when we want to have unified view
-            for(int i = evals.size() - 1; i >= 0; i--){
-                if(!evals.get(i).courseId.equals(courseId)){
-                    evals.remove(i);
-                } else if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, 
-                        evals.get(i).getSessionName(), Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
-                    evals.remove(i);
-                }
-            }
-            
-            for(int i = feedbacks.size() - 1; i >= 0; i--){
-                if(!feedbacks.get(i).courseId.equals(courseId)){
-                    feedbacks.remove(i);
-                } else if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, 
-                        feedbacks.get(i).feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
-                    feedbacks.remove(i);
-                }
-            }
+            filterEvaluations(courseId, evals);
+            filterFeedbackSessions(courseId, feedbacks);
             
             data.sessions = new ArrayList<SessionAttributes>();
             data.sessions.addAll(evals);
@@ -134,6 +117,35 @@ public class InstructorStudentRecordsPageAction extends Action {
             // TODO: write test to trigger this path
             setStatusForException(e); 
             return createShowPageResult(Const.ViewURIs.STATUS_MESSAGE, data);
+        }
+    }
+
+    private void filterFeedbackSessions(String courseId,
+            List<FeedbackSessionAttributes> feedbacks) {
+        Iterator<FeedbackSessionAttributes> iterFs = feedbacks.iterator();
+        while (iterFs.hasNext()) {
+            FeedbackSessionAttributes tempFs = iterFs.next();
+            if (!tempFs.courseId.equals(courseId)) {
+                iterFs.remove();
+            } else if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, 
+                    tempFs.getSessionName(), Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
+                iterFs.remove();
+            }
+        }
+    }
+
+    private void filterEvaluations(String courseId,
+            List<EvaluationAttributes> evals) {
+        Iterator<EvaluationAttributes> iterEval = evals.iterator();
+        while (iterEval.hasNext()) {
+            EvaluationAttributes tempEval = iterEval.next();
+            if (!tempEval.courseId.equals(courseId)) {
+                iterEval.remove();
+            } else if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, 
+                    Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + tempEval.getSessionName(),
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
+                iterEval.remove();
+            }
         }
     }
     
