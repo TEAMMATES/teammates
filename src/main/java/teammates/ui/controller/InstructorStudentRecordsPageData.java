@@ -15,6 +15,7 @@ public class InstructorStudentRecordsPageData extends PageData {
     public String courseId;
     public InstructorAttributes currentInstructor;
     public StudentProfileAttributes studentProfile;
+    public String targetSessionName;
     public List<CommentAttributes> comments;
     public List<SessionAttributes> sessions;
     public List<SessionResultsBundle> results;

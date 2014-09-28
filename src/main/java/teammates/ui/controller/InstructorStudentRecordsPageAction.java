@@ -33,6 +33,9 @@ public class InstructorStudentRecordsPageAction extends Action {
         
         String showCommentBox = getRequestParamValue(Const.ParamsNames.SHOW_COMMENT_BOX);
         
+        String targetSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        targetSessionName = targetSessionName == null? "": targetSessionName;
+        
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
         new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
@@ -51,7 +54,11 @@ public class InstructorStudentRecordsPageAction extends Action {
             }
             
             data.showCommentBox = showCommentBox;
-            data.comments = logic.getCommentsForReceiver(courseId, instructor.email, CommentRecipientType.PERSON, studentEmail);
+            if(targetSessionName.isEmpty()){
+                data.comments = logic.getCommentsForReceiver(courseId, instructor.email, CommentRecipientType.PERSON, studentEmail);
+            } else {
+                data.comments = new ArrayList<CommentAttributes>();
+            }
             Iterator<CommentAttributes> iterator = data.comments.iterator();
             while(iterator.hasNext()){
                 CommentAttributes c = iterator.next();
@@ -71,14 +78,20 @@ public class InstructorStudentRecordsPageAction extends Action {
             Collections.sort(data.sessions, SessionAttributes.DESCENDING_ORDER);
             CommentAttributes.sortCommentsByCreationTimeDescending(data.comments);
 
+            data.targetSessionName = targetSessionName;
             data.results = new ArrayList<SessionResultsBundle>();
             for(SessionAttributes session : data.sessions){
                 if(session instanceof EvaluationAttributes){
-                    data.results.add(logic.getEvaluationResultForStudent(
-                            courseId, session.getSessionName(), studentEmail));
+                    if(targetSessionName.isEmpty()){
+                        data.results.add(logic.getEvaluationResultForStudent(
+                                courseId, session.getSessionName(), studentEmail));
+                    }
                 } else if(session instanceof FeedbackSessionAttributes){
-                    data.results.add(logic.getFeedbackSessionResultsForInstructor(
-                                    session.getSessionName(), courseId,instructor.email));
+                    if(!targetSessionName.isEmpty() && targetSessionName.equals(session.getSessionName())){
+                        SessionResultsBundle result = logic.getFeedbackSessionResultsForInstructor(
+                                session.getSessionName(), courseId,instructor.email);
+                        data.results.add(result);
+                    }
                 } else {
                     Assumption.fail("Unknown session type");
                 }
