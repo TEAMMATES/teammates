@@ -273,8 +273,15 @@ public class EvaluationsLogic {
     }
  
     
-    public String getEvaluationResultSummaryAsHtml(String courseId, String instrEmail, String evalName) 
+    public String getEvaluationResultSummary(String courseId, String instrEmail, String evalName, boolean isHtml) 
             throws EntityDoesNotExistException {
+        
+        String tablePrefix = isHtml? "<table class=\"table table-bordered table-striped table-condensed\" id=\"summaryModalTable\"><tbody><tr><td>" : "";
+        String rowPrefix = isHtml? "<tr><td>" : "";
+        String delim = isHtml? "</td><td>" : ",";
+        String eol = isHtml? "</td></tr>": Const.EOL;
+        String singleEol = isHtml? "" : Const.EOL;
+        String tablePostfix = isHtml? "</tbody></table>" : "";
         
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, instrEmail);
         EvaluationResultsBundle evaluationResults = getEvaluationResult(courseId, evalName);
@@ -293,12 +300,12 @@ public class EvaluationsLogic {
             }
         }
         
-        String export = "<table class=\"table table-bordered table-striped\" id=\"summaryModalTable\"><tbody>";
+        String export = tablePrefix;
         
-        export += "<tr><td>Course" + "</td><td>" + Sanitizer.sanitizeForHtml(evaluationResults.evaluation.courseId) + "</td></tr>"
-                + "<tr><td>Evaluation Name" + "</td><td>" + Sanitizer.sanitizeForHtml(evaluationResults.evaluation.name) + "</td></tr>";
+        export += "Course" + delim + Sanitizer.sanitizeForCsvOrHtml(evaluationResults.evaluation.courseId, isHtml) + eol
+                + rowPrefix + "Evaluation Name" + delim + Sanitizer.sanitizeForCsvOrHtml(evaluationResults.evaluation.name, isHtml) + eol + singleEol;
         
-        export += "<tr><td>Team" + "</td><td>" + "Student" + "</td><td>" + "Claimed" + "</td><td>" + "Perceived" + "</td><td>" + "Received" + "</td></tr>";
+        export += rowPrefix + "Team" + delim + "Student" + delim + "Claimed" + delim + "Perceived" + delim + "Received" + eol;
         
         for (TeamResultBundle td : evaluationResults.teamResults.values()) {
             for (StudentResultBundle srb : td.studentResults) {
@@ -316,15 +323,15 @@ public class EvaluationsLogic {
                     result += sub.details.normalizedToInstructor;
                 }
                 
-                export += "<tr><td>" + Sanitizer.sanitizeForHtml(srb.student.team) + "</td>" +
-                          "<td>" + Sanitizer.sanitizeForHtml(srb.student.name) + "</td>" + 
-                          "<td>" + Sanitizer.sanitizeForHtml(Integer.toString(srb.summary.claimedToInstructor)) + "</td>" + 
-                          "<td>" + Sanitizer.sanitizeForHtml(Integer.toString(srb.summary.perceivedToInstructor)) + "</td>" + 
-                          "<td>" + Sanitizer.sanitizeForHtml(result) + "</td></tr>";
+                export += rowPrefix + Sanitizer.sanitizeForCsvOrHtml(srb.student.team, isHtml) + 
+                          delim + Sanitizer.sanitizeForCsvOrHtml(srb.student.name, isHtml) + 
+                          delim + Sanitizer.sanitizeForCsvOrHtml(Integer.toString(srb.summary.claimedToInstructor), isHtml) + 
+                          delim + Sanitizer.sanitizeForCsvOrHtml(Integer.toString(srb.summary.perceivedToInstructor), isHtml) + 
+                          delim + Sanitizer.sanitizeForCsvOrHtml(result, isHtml) + eol;
             }
         }
         
-        export += "</tbody></table>";
+        export += tablePostfix;
         
         // Replace all Unset values
         export = export.replaceAll(Integer.toString(Const.INT_UNINITIALIZED), "N/A");
@@ -336,62 +343,14 @@ public class EvaluationsLogic {
     
     public String getEvaluationResultSummaryAsCsv(String courseId, String instrEmail, String evalName) 
             throws EntityDoesNotExistException {
-        
-        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, instrEmail);
-        EvaluationResultsBundle evaluationResults = getEvaluationResult(courseId, evalName);
-        Iterator<Entry<String, TeamResultBundle>> iter = evaluationResults.teamResults.entrySet().iterator();
-        while (iter.hasNext()) {
-            boolean shouldDisplayTeam = true;
-            for (StudentResultBundle studentBundle : iter.next().getValue().studentResults) {
-                if (!instructor.isAllowedForPrivilege(studentBundle.student.section, Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES+evalName,
-                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
-                    shouldDisplayTeam = false;
-                    break;
-                }
-            }
-            if (!shouldDisplayTeam) {
-                iter.remove();
-            }
-        }
-        
-        String export = "";
-        
-        export += "Course" + "," + Sanitizer.sanitizeForCsv(evaluationResults.evaluation.courseId) + Const.EOL
-                + "Evaluation Name" + "," + Sanitizer.sanitizeForCsv(evaluationResults.evaluation.name) + Const.EOL
-                + Const.EOL;
-        
-        export += "Team" + "," + "Student" + "," + "Claimed" + "," + "Perceived" + "," + "Received" + Const.EOL;
-        
-        for (TeamResultBundle td : evaluationResults.teamResults.values()) {
-            for (StudentResultBundle srb : td.studentResults) {
-                String result = "";
-                //TODO: Extract this sorting into a method and push to the appropriat class.
-                Collections.sort(srb.incoming, new Comparator<SubmissionAttributes>(){
-                    @Override
-                    public int compare(SubmissionAttributes s1, SubmissionAttributes s2){
-                            return Integer.valueOf(s2.details.normalizedToInstructor).compareTo(s1.details.normalizedToInstructor);
-                    }
-                });
-                for(SubmissionAttributes sub: srb.incoming){
-                    if(sub.reviewee.equals(sub.reviewer)) continue;
-                    if(!result.isEmpty()) result+=",";
-                    result += sub.details.normalizedToInstructor;
-                }
-                
-                export += Sanitizer.sanitizeForCsv(srb.student.team) + "," +
-                        Sanitizer.sanitizeForCsv(srb.student.name) + "," + 
-                        Sanitizer.sanitizeForCsv(Integer.toString(srb.summary.claimedToInstructor)) + "," + 
-                        Sanitizer.sanitizeForCsv(Integer.toString(srb.summary.perceivedToInstructor)) + "," + 
-                        Sanitizer.sanitizeForCsv(result) + Const.EOL;
-            }
-        }
-        
-        // Replace all Unset values
-        export = export.replaceAll(Integer.toString(Const.INT_UNINITIALIZED), "N/A");
-        export = export.replaceAll(Integer.toString(Const.POINTS_NOT_SURE), "Not Sure");
-        export = export.replaceAll(Integer.toString(Const.POINTS_NOT_SUBMITTED), "Not Submitted");
-        
-        return export;
+         
+        return getEvaluationResultSummary(courseId, instrEmail, evalName, false);
+    }
+    
+    public String getEvaluationResultSummaryAsHtml(String courseId, String instrEmail, String evalName) 
+            throws EntityDoesNotExistException {
+         
+        return getEvaluationResultSummary(courseId, instrEmail, evalName, true);
     }
 
     /**
