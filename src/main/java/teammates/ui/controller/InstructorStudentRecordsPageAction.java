@@ -72,6 +72,8 @@ public class InstructorStudentRecordsPageAction extends Action {
             filterEvaluations(courseId, evals);
             filterFeedbackSessions(courseId, feedbacks);
             
+            data.evals = new ArrayList<SessionAttributes>();
+            data.evals.addAll(evals);
             data.sessions = new ArrayList<SessionAttributes>();
             data.sessions.addAll(evals);
             data.sessions.addAll(feedbacks);

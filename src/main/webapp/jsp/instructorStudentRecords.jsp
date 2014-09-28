@@ -546,7 +546,7 @@
                             onclick="loadFeedbackSession('<%=fbSession.courseId%>', '<%=data.student.email%>', '<%=data.account.googleId%>','<%=fbSession.feedbackSessionName%>', this)">
                             <div class="text-primary">
                                 <h2 id="feedback_name-<%=fbIndex%>">
-                                    <strong>Feedback Session Name: <%=InstructorStudentRecordsPageData.sanitizeForHtml(fbSession.feedbackSessionName)%></strong>
+                                    <strong>Feedback Session : <%=InstructorStudentRecordsPageData.sanitizeForHtml(fbSession.feedbackSessionName)%></strong>
                                 </h2>
                             </div>
                             <div class="placeholder-img-loading"></div>
@@ -566,7 +566,7 @@
                                 if(sessionResult instanceof StudentResultBundle){
                                     evalIndex++;
                                     StudentResultBundle studentResult = (StudentResultBundle) sessionResult;
-                                    EvaluationAttributes eval = (EvaluationAttributes) data.sessions.get(sessionIndex);
+                                    EvaluationAttributes eval = (EvaluationAttributes) data.evals.get(sessionIndex);
                                 
                         %>
                                 <div class="well well-plain student_eval" id="studentEval-<%=evalIndex%>">
@@ -675,7 +675,7 @@
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
 </html>
-<% } %>
+<% } else { %>
 <% 
 //Ajax content to be loaded
 int sessionIndex = -1;
@@ -835,5 +835,5 @@ if(sessionResult instanceof FeedbackSessionResultsBundle){
             <div class="panel-body">No feedback by <%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name)%> found</div>
         </div>
 <%
-    }}}
+    }}}}
 %> 
