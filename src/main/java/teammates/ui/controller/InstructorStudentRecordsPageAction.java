@@ -77,6 +77,7 @@ public class InstructorStudentRecordsPageAction extends Action {
             data.sessions = new ArrayList<SessionAttributes>();
             data.sessions.addAll(evals);
             data.sessions.addAll(feedbacks);
+            Collections.sort(data.evals, SessionAttributes.DESCENDING_ORDER);
             Collections.sort(data.sessions, SessionAttributes.DESCENDING_ORDER);
             CommentAttributes.sortCommentsByCreationTimeDescending(data.comments);
 
