@@ -32,6 +32,8 @@ public class InstructorEvalResultsPageAction extends Action {
         
         data.evaluationResults = logic.getEvaluationResult(courseId, evalName);
         data.instructor = instructor;
+        data.summaryReportHtmlTableAsString = logic.getEvaluationResultSummaryAsHtml(courseId, instructor.email, evalName);
+        
         Iterator<Entry<String, TeamResultBundle>> iter = data.evaluationResults.teamResults.entrySet().iterator();
         while (iter.hasNext()) {
             boolean shouldDisplayTeam = true;

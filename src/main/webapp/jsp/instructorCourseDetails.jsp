@@ -166,7 +166,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <span class="pull-left help-block">
-                                        Tips: After Selecting the table, simply <kbd>Ctrl + C</kbd> to COPY and <kbd>Ctrl-V</kbd> to PASTE to your Excel Workbook.
+                                        Tips: After Selecting the table, <kbd>Ctrl + C</kbd> to COPY and <kbd>Ctrl + V</kbd> to PASTE to your Excel Workbook.
                                         </span>
                                         <button type="button"
                                             class="btn btn-default"

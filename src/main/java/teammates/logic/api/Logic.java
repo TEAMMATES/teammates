@@ -1375,7 +1375,22 @@ public class Logic {
         return evaluationsLogic.getEvaluationResult(courseId, evaluationName);
 
     }
-
+    
+    
+    /**
+     * Generates summary results (without comments) in html table format. <br>
+     * Preconditions: <br>
+     * * All parameters are non-null. <br>
+     */
+    public String getEvaluationResultSummaryAsHtml(String courseId, String instrEmail, String evalName) 
+            throws EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, evalName);
+        
+        return evaluationsLogic.getEvaluationResultSummaryAsHtml(courseId, instrEmail, evalName);
+    }
+    
     /**
      * Generates summary results (without comments) in CSV format. <br>
      * Preconditions: <br>
