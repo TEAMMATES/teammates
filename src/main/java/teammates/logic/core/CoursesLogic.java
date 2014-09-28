@@ -668,6 +668,54 @@ public class CoursesLogic {
         return courseSummaryList;
     }
     
+    
+    public String getCourseStudentListAsHtml(String courseId, String googleId) throws EntityDoesNotExistException {
+
+        HashMap<String, CourseDetailsBundle> courses = getCourseSummariesForInstructor(googleId);
+        CourseDetailsBundle course = courses.get(courseId);
+        boolean hasSection = hasIndicatedSections(courseId);
+        
+        String export = "<table class=\"table table-bordered table-striped\" id=\"detailsTable\"><tbody>";
+        export += "<tr><td>Course ID" + "</td><td>" + Sanitizer.sanitizeForHtml(courseId) + "</td></tr>" + 
+                  "<tr><td>Course Name" + "</td><td>" + Sanitizer.sanitizeForHtml(course.course.name) + "</td></tr>";
+        
+        export += "<tr>";
+        
+        if(hasSection){
+            export += "<td>Section</td>";
+        }
+        export  += "<td>Team</td><td>Full Name</td><td>Last Name</td><td>Status</td><td>Email</td></tr>";
+        
+        for (SectionDetailsBundle section : course.sections) {
+            for (TeamDetailsBundle team  :   section.teams) {
+                for(StudentAttributes student : team.students){
+                    String studentStatus = null;
+                    if(student.googleId == null || student.googleId.equals("")){
+                        studentStatus = Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
+                    } else {
+                        studentStatus = Const.STUDENT_COURSE_STATUS_JOINED;
+                    }
+                    
+                    export += "<tr>";
+                    
+                    if(hasSection){
+                        export += "<td>" + Sanitizer.sanitizeForHtml(section.name) + "</td>";
+                    }
+
+                    export += "<td>" + Sanitizer.sanitizeForHtml(StringHelper.recoverFromSanitizedText(team.name)) + "</td>" + 
+                              "<td>" + Sanitizer.sanitizeForHtml(StringHelper.recoverFromSanitizedText(StringHelper.removeExtraSpace(student.name))) + "</td>" +
+                              "<td>" + Sanitizer.sanitizeForHtml(StringHelper.recoverFromSanitizedText(StringHelper.removeExtraSpace(student.lastName))) + "</td>" +
+                              "<td>" + Sanitizer.sanitizeForHtml(studentStatus) + "</td>" +
+                              "<td>" + Sanitizer.sanitizeForHtml(student.email) + "</td></tr>";
+                }
+            }
+        }
+        
+        export += "</tbody></table>";
+        
+        return export;
+    }
+    
     public String getCourseStudentListAsCsv(String courseId, String googleId) throws EntityDoesNotExistException {
 
         HashMap<String, CourseDetailsBundle> courses = getCourseSummariesForInstructor(googleId);
@@ -676,8 +724,7 @@ public class CoursesLogic {
         
         String export = "";
         export += "Course ID" + "," + Sanitizer.sanitizeForCsv(courseId) + Const.EOL + 
-                  "Course Name" + "," + Sanitizer.sanitizeForCsv(course.course.name) + Const.EOL + 
-                  Const.EOL + Const.EOL;
+                  "Course Name" + "," + Sanitizer.sanitizeForCsv(course.course.name) + Const.EOL;
         if(hasSection){
             export += "Section" + ",";
         }

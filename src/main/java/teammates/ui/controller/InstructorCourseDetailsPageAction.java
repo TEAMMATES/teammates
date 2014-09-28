@@ -29,6 +29,7 @@ public class InstructorCourseDetailsPageAction extends Action {
         data.courseDetails = logic.getCourseDetails(courseId);
         data.students = logic.getStudentsForCourse(courseId);
         data.instructors = logic.getInstructorsForCourse(courseId);
+        data.studentListHtmlTableAsString = logic.getCourseStudentListAsHtml(courseId, account.googleId);
 
         StudentAttributes.sortByNameAndThenByEmail(data.students);
         
