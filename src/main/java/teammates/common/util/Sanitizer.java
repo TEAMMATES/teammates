@@ -165,6 +165,15 @@ public class Sanitizer {
         
         return sanitizedStrList;
     }
+    
+    
+    public static String sanitizeForCsvOrHtml(String str, boolean isHtml){
+        
+        return isHtml? Sanitizer.sanitizeForHtml(str) : 
+                       Sanitizer.sanitizeForCsv(str);
+        
+    }
+    
 
     /**
      * Trims the string if it is not null. 

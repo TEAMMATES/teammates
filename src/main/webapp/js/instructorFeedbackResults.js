@@ -5,6 +5,32 @@
 */
 
 
+
+/**
+ * function that select the whole table
+ * @param el
+ */
+
+function selectElementContents(el) {
+    var body = document.body, range, sel;
+    if (document.createRange && window.getSelection) {
+        range = document.createRange();
+        sel = window.getSelection();
+        sel.removeAllRanges();
+        try {
+            range.selectNodeContents(el);
+            sel.addRange(range);
+        } catch (e) {
+            range.selectNode(el);
+            sel.addRange(range);
+        }
+    } else if (body.createTextRange) {
+        range = body.createTextRange();
+        range.moveToElementText(el);
+        range.select();
+    }
+}
+
 //Show/hide stats
 function showHideStats(){
     if($("#show-stats-checkbox").is(":checked")){
@@ -172,3 +198,5 @@ $(document).ready(function(){
     showHideStats();
     $("#show-stats-checkbox").change(showHideStats);
 });
+
+

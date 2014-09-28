@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.ExceedingRangeException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -15,7 +16,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
     private static final int QUERY_RANGE_FOR_AJAX_TESTING = 5;
     
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() throws EntityDoesNotExistException, ExceedingRangeException {
         
         String needAjax = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX);
         int queryRange;
@@ -45,13 +46,33 @@ public class InstructorFeedbackResultsPageAction extends Action {
         InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(
                 account);
         data.selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
+        
         if (data.selectedSection == null) {
             data.selectedSection = ALL_SECTION_OPTION;
+            data.sessionResultsHtmlTableAsString = logic.getFeedbackSessionResultSummaryAsHtml(courseId, 
+                                                                                               feedbackSessionName, 
+                                                                                               instructor.email);
+        } else {  
+            
+            if(!data.selectedSection.contentEquals(ALL_SECTION_OPTION)){
+               data.sessionResultsHtmlTableAsString = logic.getFeedbackSessionResultSummaryInSectionAsHtml(courseId, 
+                                                                                                        feedbackSessionName, 
+                                                                                                        instructor.email, 
+                                                                                                        data.selectedSection);
+            } else {
+                
+                data.sessionResultsHtmlTableAsString = logic.getFeedbackSessionResultSummaryAsHtml(courseId, 
+                                                                                                   feedbackSessionName, 
+                                                                                                   instructor.email);               
+            }
         }
         data.instructor = instructor;
         data.showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
         data.groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
         data.sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
+        
+        
+        
         String startIndex = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_MAIN_INDEX);
         if(startIndex != null){
             data.startIndex = Integer.parseInt(startIndex);

@@ -15,6 +15,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
@@ -319,8 +320,9 @@ public abstract class Action {
      * 2. User ID, error flag, and the status message will be added to the response,
      *    to be encoded into the URL. The error flag is also added to the
      *    {@code isError} flag in the {@link ActionResult} object.
+     * @throws ExceedingRangeException 
      */
-    public ActionResult executeAndPostProcess() throws EntityDoesNotExistException {
+    public ActionResult executeAndPostProcess() throws EntityDoesNotExistException, ExceedingRangeException {
         if (!isValidUser()) {
             return createRedirectResult(getAuthenticationRedirectUrl());
         }
@@ -373,10 +375,11 @@ public abstract class Action {
      * 3. If the action requires showing a page, prepare the matching PageData object.<br>
      * 4. Set the status messages to be shown to the user (if any) and to the admin (compulsory).
      *    The latter is used for generating the adminActivityLogPage.
+     * @throws ExceedingRangeException 
      * @throws NullPostParametersException 
      */
     protected abstract ActionResult execute() 
-            throws EntityDoesNotExistException;
+            throws EntityDoesNotExistException, ExceedingRangeException;
 
     /**
      * @return The log message in the special format used for generating 

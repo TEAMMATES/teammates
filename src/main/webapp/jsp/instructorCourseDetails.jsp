@@ -135,7 +135,7 @@
 
                         <button class="btn btn-primary"
                             data-toggle="modal"
-                            data-target="#studentTable" onclick="submit">
+                            data-target="#studentTable">
                             Copy Student List To Clipboard</button>
                             
                         <div>
@@ -160,9 +160,9 @@
                                         </h4>
                                     </div>
                                     <div class="modal-body">
-                                        
+                                    <small>
                                     <%=data.studentListHtmlTableAsString%>
-                                       
+                                    </small>
                                     </div>
                                     <div class="modal-footer">
                                         <span class="pull-left help-block">

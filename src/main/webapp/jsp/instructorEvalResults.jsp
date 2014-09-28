@@ -153,7 +153,7 @@
                 
                 <button class="btn btn-primary"
                             data-toggle="modal"
-                            data-target="#studentTable" onclick="submit">
+                            data-target="#evalResultsHtmlWindow">
                             Copy Report Table To Clipboard</button>
                             
                         <div>
@@ -163,7 +163,7 @@
                          </span>
                         </div>
 
-                        <div class="modal fade" id="studentTable">
+                        <div class="modal fade" id="evalResultsHtmlWindow">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -178,9 +178,9 @@
                                         </h4>
                                     </div>
                                     <div class="modal-body">
-                                        
+                                    <small>
                                     <%=data.summaryReportHtmlTableAsString%>
-                                       
+                                    </small>
                                     </div>
                                     <div class="modal-footer">
                                         <span class="pull-left help-block">

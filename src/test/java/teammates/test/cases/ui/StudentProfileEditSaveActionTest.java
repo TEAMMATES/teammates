@@ -14,6 +14,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.ExceedingRangeException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.test.driver.AssertHelper;
@@ -41,7 +42,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
     }
 
     private void testActionWithInvalidParameters(AccountAttributes student)
-            throws EntityDoesNotExistException {
+            throws EntityDoesNotExistException, ExceedingRangeException {
         gaeSimulation.loginAsStudent(student.googleId);
         ______TS("invalid parameters");
         
@@ -68,7 +69,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
     }
 
     private void testActionTypicalSuccess(AccountAttributes student)
-            throws EntityDoesNotExistException {
+            throws EntityDoesNotExistException, ExceedingRangeException {
         String[] submissionParams = createValidParamsForProfile();
         StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
         gaeSimulation.loginAsStudent(student.googleId);
@@ -87,7 +88,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
     }
 
     private void testActionInMasqueradeMode(AccountAttributes student)
-            throws EntityDoesNotExistException {
+            throws EntityDoesNotExistException, ExceedingRangeException {
 
         ______TS("masquerade mode");
         gaeSimulation.loginAsAdmin("admin.user");
