@@ -117,11 +117,8 @@
                     Select Table</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
 
 <%
 	if (noResponses == false || !data.selectedSection.equals("All")
