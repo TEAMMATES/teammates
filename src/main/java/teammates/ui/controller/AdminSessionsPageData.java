@@ -22,6 +22,7 @@ public class AdminSessionsPageData extends PageData {
     public Date rangeEnd;
     public double zone;
     public int tableCount;
+    public boolean isShowAll = false;
 
     public AdminSessionsPageData(AccountAttributes account) {
         super(account);
