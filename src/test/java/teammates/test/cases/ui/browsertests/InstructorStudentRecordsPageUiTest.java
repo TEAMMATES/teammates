@@ -5,7 +5,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static org.testng.AssertJUnit.assertTrue;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -44,8 +43,16 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         testLinks();
         testScript();
         testAction();
+        testAjaxLoading();
     }
 
+
+    private void testAjaxLoading() throws Exception {
+        viewPage.clickFeedbackSession(0);
+        viewPage.clickFeedbackSession(1);
+        viewPage.clickFeedbackSession(2);
+        viewPage.verifyHtml("/instructorStudentRecordsAjaxLoading.html");
+    }
 
     private void testContent() {
         InstructorAttributes instructor;

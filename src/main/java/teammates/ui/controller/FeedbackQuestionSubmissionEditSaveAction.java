@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -61,9 +62,15 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);
         List<FeedbackResponseAttributes> responsesForQuestion = new ArrayList<FeedbackResponseAttributes>();
         FeedbackAbstractQuestionDetails questionDetails  = data.bundle.question.getQuestionDetails();
+           
+        Set<String> emailSet = data.bundle.getRecipientEmails(feedbackQuestionId);
+        emailSet.add("");
+        ArrayList<String> responsesRecipients = new ArrayList<String>();
         
         for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
             FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, 1, responseIndx, questionDetails);
+            responsesRecipients.add(response.recipientEmail);                
+            
             if(response.responseMetaData.getValue().isEmpty()){
                 //deletes the response since answer is empty.
                 saveResponse(response);
@@ -73,8 +80,12 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
                 responsesForQuestion.add(response);
             }
         }
-        
+
         List<String> errors = questionDetails.validateResponseAttributes(responsesForQuestion, data.bundle.recipientList.size());
+
+        if (!emailSet.containsAll(responsesRecipients)) {
+            errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_INVALID_RECIPIENT, data.bundle.question.questionNumber));                      
+        }
         
         if(errors.isEmpty()) {
             for(FeedbackResponseAttributes response : responsesForQuestion) {
@@ -87,6 +98,12 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         
         if (isError == false) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        }
+
+        if(logic.hasGiverRespondedForSession(userEmailForCourse, feedbackSessionName, courseId)){
+            appendRespondant();
+        } else {
+            removeRespondant();
         }
         
         getPageData(userEmailForCourse);
@@ -186,6 +203,10 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
     }
 
     protected abstract void verifyAccesibleForSpecificUser();
+
+    protected abstract void appendRespondant();
+
+    protected abstract void removeRespondant();
     
     protected abstract String getUserEmailForCourse();
     

@@ -74,11 +74,10 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         int totalRealInstructor = 0;
         
         for(Instructor i: allInstructors){
-            if(!isTestingInstructorData(i)){
+            if(!isTestingInstructorData(i) && i.getEmail()!= null){
                 set.add(i.getEmail().toLowerCase());
                 totalRealInstructor ++;
             }
-            
         }
         
         String result = "===============Unique Instructor Emails===============\n"
@@ -92,7 +91,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     private boolean isTestingInstructorData(Instructor instructor){
         boolean isTestingData = false;
         
-        if(instructor.getEmail().toLowerCase().endsWith(".tmt")){
+        if(instructor.getEmail()!=null && instructor.getEmail().toLowerCase().endsWith(".tmt")){
             isTestingData = true;
         }       
         
@@ -143,25 +142,22 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     
     @SuppressWarnings("unchecked")
     private List<InstituteStats> generateStatsPerInstitute(List<Student> allStudents, List<Instructor> allInstructors){
-        HashMap<String, HashMap<Integer, Integer>> institutes = new HashMap<String, HashMap<Integer, Integer>>();
+        HashMap<String, HashMap<Integer, HashSet<String>>> institutes = new HashMap<String, HashMap<Integer, HashSet<String>>>();
 
         for (Instructor instructor : allInstructors){
             
-            if(isTestingInstructorData(instructor)){               
+            if(isTestingInstructorData(instructor) || instructor.getEmail() == null){               
                 continue;
             }
             
             String institute = getInstituteForInstructor(instructor);
             
             if(!institutes.containsKey(institute)){               
-                institutes.put(institute,
-                               new HashMap<Integer, Integer>());
-                institutes.get(institute).put(INSTRUCTOR_INDEX, 0);
-                institutes.get(institute).put(STUDENT_INDEX, 0);
+                institutes.put(institute, new HashMap<Integer, HashSet<String>>());
+                institutes.get(institute).put(INSTRUCTOR_INDEX, new HashSet<String>());
+                institutes.get(institute).put(STUDENT_INDEX, new HashSet<String>());
             }
-            
-            institutes.get(institute).put(INSTRUCTOR_INDEX,
-                                          institutes.get(institute).get(INSTRUCTOR_INDEX) + 1);
+                institutes.get(institute).get(INSTRUCTOR_INDEX).add(instructor.getEmail().toLowerCase());
         }
 
        
@@ -175,14 +171,13 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             String institute = getInstituteForStudent(student);
             
             if(!institutes.containsKey(institute)){               
-                institutes.put(institute,
-                        new HashMap<Integer, Integer>());
-                institutes.get(institute).put(INSTRUCTOR_INDEX, 0);
-                institutes.get(institute).put(STUDENT_INDEX, 0);
+                institutes.put(institute, new HashMap<Integer, HashSet<String>>());
+                
+                institutes.get(institute).put(INSTRUCTOR_INDEX, new HashSet<String>());
+                institutes.get(institute).put(STUDENT_INDEX, new HashSet<String>());
             }
             
-            institutes.get(institute).put(STUDENT_INDEX,
-                                          institutes.get(institute).get(STUDENT_INDEX) + 1);
+            institutes.get(institute).get(STUDENT_INDEX).add(student.getEmail().toLowerCase());
                                           
           
         }
@@ -270,18 +265,6 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
     
     
-    private boolean isTestingAccount(Account account){
-        boolean isTestingAccount = false;
-        
-        if(account.getInstitute() != null && account.getInstitute().contains("TEAMMATES Test Institute")){
-            isTestingAccount = true;
-        }
-        if(account.getEmail() != null && account.getEmail().toLowerCase().endsWith(".tmt")){
-            isTestingAccount = true;
-        }
-        return isTestingAccount;
-    }
-    
     private void print(List<InstituteStats> statList) {
         System.out.println("===============Stats Per Institute=================");
         System.out.println("Format=> Instructors + Students = Total [Institute]");
@@ -302,13 +285,13 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
 
     private List<InstituteStats> convertToList(
-            HashMap<String, HashMap<Integer, Integer>> institutes) {
+            HashMap<String, HashMap<Integer, HashSet<String>>> institutes) {
         List<InstituteStats> list = new ArrayList<InstituteStats>();
         for (String insName : institutes.keySet()) {
             InstituteStats insStat = new InstituteStats();
             insStat.name = insName;
-            insStat.studentTotal = institutes.get(insName).get(STUDENT_INDEX);
-            insStat.instructorTotal = institutes.get(insName).get(INSTRUCTOR_INDEX);
+            insStat.studentTotal = institutes.get(insName).get(STUDENT_INDEX).size();
+            insStat.instructorTotal = institutes.get(insName).get(INSTRUCTOR_INDEX).size();
             list.add(insStat);
         }
         return list;

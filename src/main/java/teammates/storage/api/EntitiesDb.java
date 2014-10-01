@@ -90,7 +90,7 @@ public abstract class EntitiesDb {
                         + entityToAdd.getIdentificationString());
             }
         }
-        return createdEntity;
+        return entity;
     }
     
     public List<EntityAttributes> createEntities(Collection<? extends EntityAttributes> entitiesToAdd) throws InvalidParametersException {

@@ -101,9 +101,19 @@
                                             </span> </h4>                                          
                                             <div class="text-center">                                          
                                             <ul class="list-group">
-                                                <li class="list-group-item">
-                                                    instructorEvalStatsPage
-                                                </li>
+                                            
+                                            <%
+                                               for(String url : data.excludedLogRequestURIs){                                          
+                                                   url = url.substring(url.lastIndexOf("/") + 1);
+                                            %>
+                                             <li class="list-group-item">
+                                                    <%=url%>
+                                              </li>
+                                            <%       
+                                               }
+                                            
+                                            %>
+                                                
                                             </ul>
                                             </div>
                                         
@@ -178,7 +188,7 @@
                                                     Possible Labels:</strong>&nbsp;from,
                                                 to, person, role,
                                                 request, response,
-                                                version,time<br>
+                                                version,time,info<br>
                                                 <ul>
 
                                                     <li>E.g. from:
@@ -215,7 +225,14 @@
                                                         and "-" are
                                                         acceptable)</li>
                                                      
-                                                     <li>E.g. time: 1000 (means 1000ms) </li>                                                                                         
+                                                     <li>E.g. time: 1000 (means 1000ms) </li>
+                                                     
+                                                     <li>E.g. info: Admin Account Management Page Load </li> 
+                                                     
+                                                     <li>E.g. info: Admin Account Management Page Load, Total, 90 (Use "," to search multiple key strings)
+                                                     
+                                                     </li>
+                                                                                                                                             
                                                      
                                                 </ul>
                                             </div>

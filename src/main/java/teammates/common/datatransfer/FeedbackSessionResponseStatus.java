@@ -18,6 +18,10 @@ public class FeedbackSessionResponseStatus {
     }
     
     public List<String> getStudentsWhoDidNotRespondToAnyQuestion() {
+        for(int  i  = 0; i < noResponse.size(); i++){
+            String email = noResponse.get(i);
+            noResponse.set(i, emailNameTable.get(email));
+        }
         Collections.sort(noResponse);
         return noResponse;
     }
