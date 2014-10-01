@@ -273,6 +273,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
                 browser.driver.findElements(By.cssSelector(".popover-content > img"))
                               .get(browser.driver.findElements(By.cssSelector(".popover-content > img")).size() - 1)
                               .getAttribute("src"));
+        
+        actions.moveByOffset(100, 100).click().build().perform();
     }
 
     public void hoverClickAndViewStudentPhotoOnHeading(int panelHeadingIndex, String urlRegex) throws Exception {
