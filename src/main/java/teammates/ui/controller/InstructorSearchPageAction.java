@@ -9,6 +9,8 @@ import java.util.Set;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CommentSearchResultBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -76,6 +78,7 @@ public class InstructorSearchPageAction extends Action {
                     totalResultsSize, instructors, instructorEmails);
             totalResultsSize = filterFeedbackResponseCommentResults(frCommentSearchResults,
                     instructors, totalResultsSize);
+            removeQuestionsAndResponsesWithoutComments(frCommentSearchResults);
             
             if(totalResultsSize == 0){
                 //TODO: put this status msg into Const
@@ -113,11 +116,20 @@ public class InstructorSearchPageAction extends Action {
             Iterator<FeedbackResponseAttributes> fr = frs.iterator();
             while (fr.hasNext()) {
                 FeedbackResponseAttributes response = fr.next();
+                FeedbackQuestionAttributes relatedQuestion = getRelatedQuestionOfResponse(frCommentSearchResults, response);
                 InstructorAttributes instructor = this.getInstructorForCourseId(response.courseId, instructors);
-                if (instructor == null || (!(instructor.isAllowedForPrivilege(response.giverSection,
-                    response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
-                    || !(instructor.isAllowedForPrivilege(response.giverSection,
-                            response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)))) {
+                boolean isVisibleResponse = true;
+                boolean needCheckPrivilege = relatedQuestion == null || !(relatedQuestion.recipientType == FeedbackParticipantType.NONE ||
+                        relatedQuestion.recipientType == FeedbackParticipantType.INSTRUCTORS ||
+                                relatedQuestion.recipientType == FeedbackParticipantType.STUDENTS);
+                boolean isNotAllowedForInstructor = instructor == null || !(instructor.isAllowedForPrivilege(response.giverSection,
+                        response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
+                        || !(instructor.isAllowedForPrivilege(response.recipientSection,
+                                response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                if (needCheckPrivilege && isNotAllowedForInstructor) {
+                    isVisibleResponse = false;
+                }
+                if (isVisibleResponse) {
                     int sizeOfCommentList = frCommentSearchResults.comments.get(response.getId()).size();
                     totalResultsSize -= sizeOfCommentList;
                     //TODO: also need to decrease the size for commentSearchResults|frCommentSearchResults|studentSearchResults
@@ -128,6 +140,30 @@ public class InstructorSearchPageAction extends Action {
         }
         
         return totalResultsSize;
+    }
+    
+    private FeedbackQuestionAttributes getRelatedQuestionOfResponse(FeedbackResponseCommentSearchResultBundle frCommentSearchResults, 
+            FeedbackResponseAttributes fra) {
+        List<FeedbackQuestionAttributes> fqs = frCommentSearchResults.questions.get(fra.feedbackSessionName);
+        for (FeedbackQuestionAttributes fq : fqs) {
+            if (fq.getId().equals(fra.feedbackQuestionId)) {
+                return fq;
+            }
+        }
+        return null;
+    }
+    
+    private void removeQuestionsAndResponsesWithoutComments(FeedbackResponseCommentSearchResultBundle frCommentSearchResults) {
+        Iterator<Entry<String, List<FeedbackQuestionAttributes>>> fqsIter = frCommentSearchResults.questions.entrySet().iterator();
+        while (fqsIter.hasNext()) {
+            Iterator<FeedbackQuestionAttributes> fqIter = fqsIter.next().getValue().iterator();
+            while (fqIter.hasNext()) {
+                FeedbackQuestionAttributes fq = fqIter.next();
+                if (frCommentSearchResults.responses.get(fq.getId()).isEmpty()) {
+                    fqIter.remove();
+                }
+            }
+        }
     }
 
     private int filterCommentSearchResults(
