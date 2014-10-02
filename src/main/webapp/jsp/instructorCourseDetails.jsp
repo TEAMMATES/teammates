@@ -161,9 +161,12 @@
                                             Select Table</button>                                
                                     </div>
                                     <div class="modal-body">
+                                     <div class="table-responsive">
                                     <small id="detailsTable">
                                     <%=data.studentListHtmlTableAsString%>
                                     </small>
+                               
+                                    </div>
                                     </div>
                                 </div>
                                 <!-- /.modal-content -->

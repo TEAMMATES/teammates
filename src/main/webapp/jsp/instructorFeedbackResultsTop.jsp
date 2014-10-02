@@ -54,7 +54,7 @@
               <div class="form-group">
                   <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
                   <div id="feedbackDataButtons">
-                      <input id="button_download" type="submit" class="btn btn-sm btn-primary"
+                      <input id="button_download" type="submit" class="btn btn-primary"
                           name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
                           value="Download results">
                   </div>
@@ -66,21 +66,16 @@
                   </form>
               </div>
               
-               <div class="form-group">
-                  <button class="btn btn-sm btn-primary"
-                            data-toggle="modal"
-                            data-target="#fsResultsTableWindow">
-                            Copy Results To Clipboard</button>
-                  
-              </div>
-              
           </div>
         </div>
         
         <div class="row">
             <small><span class="help-block align-center">
                          [ Downloaded csv file may not be displayed correctly in Excel on Mac.
-                         Please kindly copy & paste the table directly into your workbook if you encounter this problem. ]
+                         Please <span class="btn-link"
+                            data-toggle="modal"
+                            data-target="#fsResultsTableWindow">
+                            click here</span> to copy & paste the table directly into your workbook if you encounter this problem. ]
                          </span></small>
         
         </div>
@@ -94,27 +89,26 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">
-                    <span aria-hidden="true">&times;</span><span
-                        class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title">Session Results Table</h4>
-            </div>
-            <div class="modal-body">
-            <small>
-                <%=data.sessionResultsHtmlTableAsString%>
-            </small>
-            </div>
-            <div class="modal-footer">
-                <span class="pull-left help-block"> Tips: After
+                 <span class="help-block" style="display:inline;"> Tips: After
                     Selecting the table, <kbd>Ctrl + C</kbd> to COPY and
                     <kbd>Ctrl + V</kbd> to PASTE to your Excel Workbook.
                 </span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <button type="button" class="btn btn-default"
                     data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary"
                     onclick="selectElementContents( document.getElementById('fsModalTable') );">
                     Select Table</button>
+            </div>
+            <div class="modal-body">
+            <div class="table-responsive">
+            <small id="fsModalTable">
+                <%=data.sessionResultsHtmlTableAsString%>
+            </small>
+            </div>
+            </div>
+            <div class="modal-footer">
+               
             </div>
         </div>
     </div>

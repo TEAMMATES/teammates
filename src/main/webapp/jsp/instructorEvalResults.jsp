@@ -150,16 +150,14 @@
                         value="<%=sanitizeForHtml(data.evaluationResults.evaluation.name)%>">
                               
                 </form>
-                
-                <button class="btn btn-primary"
-                            data-toggle="modal"
-                            data-target="#evalResultsHtmlWindow">
-                            Copy Report Table To Clipboard</button>
                             
                         <div>
                          <span class="help-block">
                          Reminder: Downloaded csv file may not be displayed correctly in Excel on Mac. <br>
-                         Please kindly copy & paste the table directly into your workbook if you encounter this problem.
+                         Please <span class="btn-link"
+                            data-toggle="modal"
+                            data-target="#evalResultsHtmlWindow">
+                            click here</span> to copy & paste the table directly into your workbook if you encounter this problem.
                          </span>
                         </div>
 
@@ -167,23 +165,7 @@
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <button type="button"
-                                            class="close"
-                                            data-dismiss="modal">
-                                            <span aria-hidden="true">&times;</span><span
-                                                class="sr-only">Close</span>
-                                        </button>
-                                        <h4 class="modal-title">
-                                            Summary Report Table
-                                        </h4>
-                                    </div>
-                                    <div class="modal-body">
-                                    <small>
-                                    <%=data.summaryReportHtmlTableAsString%>
-                                    </small>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <span class="pull-left help-block">
+                                          <span class="pull-left help-block">
                                         Tips: After Selecting the table, <kbd>Ctrl + C</kbd> to COPY and <kbd>Ctrl + V</kbd> to PASTE to your Excel Workbook.
                                         </span>
                                         <button type="button"
@@ -194,6 +176,14 @@
                                             onclick="selectElementContents( document.getElementById('summaryModalTable') );">
                                             Select Table</button>
                                     </div>
+                                    <div class="modal-body">
+                                    <div class="table-responsive">
+                                    <small id="summaryModalTable">
+                                    <%=data.summaryReportHtmlTableAsString%>
+                                    </small>
+                                    </div>
+                                    </div>
+                                   
                                 </div>
                                 <!-- /.modal-content -->
                             </div>
