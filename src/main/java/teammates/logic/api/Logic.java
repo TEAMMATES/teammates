@@ -1406,19 +1406,6 @@ public class Logic {
     }
     
     /**
-     * Generates students list of a course in html table format. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     */
-    public String getCourseStudentListAsHtml(String courseId, String googleId)
-            throws EntityDoesNotExistException {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
-        
-        return coursesLogic.getCourseStudentListAsHtml(courseId, googleId);
-    }
-    
-    /**
      * Generates students list of a course in CSV format. <br>
      * Preconditions: <br>
      * * All parameters are non-null. <br>

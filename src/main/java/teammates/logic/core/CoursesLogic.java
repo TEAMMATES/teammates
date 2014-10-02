@@ -668,35 +668,20 @@ public class CoursesLogic {
         return courseSummaryList;
     }
     
-    
-    public String getCourseStudentList(String courseId, String googleId, boolean isHtml) throws EntityDoesNotExistException {
+    public String getCourseStudentListAsCsv(String courseId, String googleId) throws EntityDoesNotExistException {
 
         HashMap<String, CourseDetailsBundle> courses = getCourseSummariesForInstructor(googleId);
         CourseDetailsBundle course = courses.get(courseId);
         boolean hasSection = hasIndicatedSections(courseId);
         
-        String tablePrefix = isHtml? "<table class=\"table table-bordered table-striped table-condensed\" id=\"detailsTable\"><tbody><tr><td>" : "";
-        String rowPrefix = isHtml? "<tr><td>" : "";
-        String delim = isHtml? "</td><td>" : ",";
-        String eol = isHtml? "</td></tr>": Const.EOL;
-        String doubleEol = isHtml? "" : Const.EOL + Const.EOL;
-        String tablePostfix = isHtml? "</tbody></table>" : "";
-        String row = isHtml? "<tr>" : "";
-        String td = isHtml? "<td>" : "";
-        String _td = isHtml? "</td>" : ","; 
-
-        
-        String export = tablePrefix;
-        
-        export += "Course ID" + delim + Sanitizer.sanitizeForCsvOrHtml(courseId, isHtml) + eol + 
-                  rowPrefix +"Course Name" + delim + Sanitizer.sanitizeForCsvOrHtml(course.course.name, isHtml) + eol + doubleEol;
-        
-        export += row;
-        
+        String export = "";
+        export += "Course ID" + "," + Sanitizer.sanitizeForCsv(courseId) + Const.EOL + 
+                  "Course Name" + "," + Sanitizer.sanitizeForCsv(course.course.name) + Const.EOL + 
+                  Const.EOL + Const.EOL;
         if(hasSection){
-            export += td + "Section" + _td;
+            export += "Section" + ",";
         }
-        export  += td + "Team" + delim + "Full Name" + delim + "Last Name" + delim + "Status" + delim + "Email" + eol;
+        export  += "Team,Full Name,Last Name,Status,Email" + Const.EOL;
         
         for (SectionDetailsBundle section : course.sections) {
             for (TeamDetailsBundle team  :   section.teams) {
@@ -708,34 +693,19 @@ public class CoursesLogic {
                         studentStatus = Const.STUDENT_COURSE_STATUS_JOINED;
                     }
                     
-                    export += row;
-                    
                     if(hasSection){
-                        export += td + Sanitizer.sanitizeForCsvOrHtml(section.name, isHtml) + _td;
+                        export += Sanitizer.sanitizeForCsv(section.name) + ",";
                     }
 
-                    export += td + Sanitizer.sanitizeForCsvOrHtml(StringHelper.recoverFromSanitizedText(team.name), isHtml) + 
-                              delim + Sanitizer.sanitizeForCsvOrHtml(StringHelper.recoverFromSanitizedText(StringHelper.removeExtraSpace(student.name)), isHtml) + 
-                              delim + Sanitizer.sanitizeForCsvOrHtml(StringHelper.recoverFromSanitizedText(StringHelper.removeExtraSpace(student.lastName)), isHtml) + 
-                              delim + Sanitizer.sanitizeForCsvOrHtml(studentStatus, isHtml) + 
-                              delim + Sanitizer.sanitizeForCsvOrHtml(student.email, isHtml) + eol;
+                    export += Sanitizer.sanitizeForCsv(StringHelper.recoverFromSanitizedText(team.name)) + "," + 
+                        Sanitizer.sanitizeForCsv(StringHelper.recoverFromSanitizedText(StringHelper.removeExtraSpace(student.name))) + "," +
+                        Sanitizer.sanitizeForCsv(StringHelper.recoverFromSanitizedText(StringHelper.removeExtraSpace(student.lastName))) + "," +
+                        Sanitizer.sanitizeForCsv(studentStatus) + "," +
+                        Sanitizer.sanitizeForCsv(student.email) + Const.EOL;
                 }
             }
         }
-        
-        export += tablePostfix;
-        
         return export;
-    }
-    
-    public String getCourseStudentListAsHtml(String courseId, String googleId) throws EntityDoesNotExistException {
-
-        return getCourseStudentList(courseId, googleId, true);
-     }
-    
-    public String getCourseStudentListAsCsv(String courseId, String googleId) throws EntityDoesNotExistException {
-
-       return getCourseStudentList(courseId, googleId, false);
     }
 
     public boolean hasIndicatedSections(String courseId) throws EntityDoesNotExistException{

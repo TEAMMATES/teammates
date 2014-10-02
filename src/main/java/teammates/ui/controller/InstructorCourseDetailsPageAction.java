@@ -5,6 +5,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -29,7 +30,7 @@ public class InstructorCourseDetailsPageAction extends Action {
         data.courseDetails = logic.getCourseDetails(courseId);
         data.students = logic.getStudentsForCourse(courseId);
         data.instructors = logic.getInstructorsForCourse(courseId);
-        data.studentListHtmlTableAsString = logic.getCourseStudentListAsHtml(courseId, account.googleId);
+        data.studentListHtmlTableAsString = StringHelper.csvToHtmlTable(logic.getCourseStudentListAsCsv(courseId, account.googleId));
 
         StudentAttributes.sortByNameAndThenByEmail(data.students);
         

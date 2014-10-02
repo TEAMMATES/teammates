@@ -1,11 +1,14 @@
 package teammates.common.util;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+
+import java.util.Iterator;
 
 
 /** Holds String-related helper functions
@@ -295,5 +298,84 @@ public class StringHelper {
                   .replace("&#39;", "'")
                   .replaceAll("&amp;", "&");
     }
+    
+
+    /**
+     * Convert a csv string to a html table string for displaying
+     * @param str
+     * @return html table string
+     */
+    public static String csvToHtmlTable(String str) {
+        str = handleNewLine(str);
+        String[] lines = str.split(Const.EOL);
+
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < lines.length; i++) {
+            
+            result.append("<tr>");
+            for (String td : getTableData(lines[i])) {
+                result.append(String.format("<td>%s</td>\n", td));
+            }
+            result.append("</tr>");
+        }
+
+        return String.format("<table class=\"table table-bordered table-striped table-condensed\">\n%s</table>",
+                             result.toString());
+    }
+
+    private static String handleNewLine(String str) {
+
+        StringBuilder buffer = new StringBuilder();
+        char[] chars = str.toCharArray();
+
+        boolean inquote = false;
+
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] == '"') {
+                inquote = !inquote;
+            }
+
+            if (chars[i] == '\n' && inquote) {
+                buffer.append("<br>");
+            } else {
+                buffer.append(chars[i]);
+            }
+        }
+
+        return buffer.toString();
+    }
+
+    private static List<String> getTableData(String str){
+        List<String> data = new ArrayList<String>();
+        
+        boolean inquote = false;
+        StringBuilder buffer = new StringBuilder();
+        char[] chars = str.toCharArray();
+        
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] == '"') {
+                inquote = !inquote;
+                continue;
+            }
+            
+            if(chars[i] == ','){    
+                if(inquote){
+                    buffer.append(chars[i]);                   
+                } else {
+                    data.add(buffer.toString());
+                    buffer.delete(0, buffer.length());
+                }
+            } else {
+                buffer.append(chars[i]);             
+            }
+            
+        }
+        
+        data.add(buffer.toString());
+        
+        return data;
+    }
+    
     
 }
