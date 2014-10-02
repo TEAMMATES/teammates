@@ -20,7 +20,7 @@ public class AdminSearchPageData extends PageData {
     public HashMap<String, List<String>> studentUnOpenedFeedbackSessionLinksMap = new HashMap<String, List<String>>();
     public HashMap<String, String> feedbackSeesionLinkToNameMap = new HashMap<String, String>();
     public HashMap<String, String> studentIdToHomePageLinkMap = new HashMap<String, String>();
-    public HashMap<String, String> studentDetailsPageLinkMap = new HashMap<String, String>();
+    public HashMap<String, String> studentRecordsPageLinkMap = new HashMap<String, String>();
     public HashMap<String, String> studentInstituteMap = new HashMap<String, String>();
     
     /*
