@@ -136,15 +136,14 @@
                             
                         <div>
                          <span class="help-block">
-                         Reminder: Downloaded csv file may not be displayed correctly in Excel on Mac. <br>
-                         Please <span class="btn-link"
+                            Non-English characters not displayed properly in the downloaded file?<span class="btn-link"
                             data-toggle="modal"
-                            data-target="#studentTable">
-                            click here</span> to copy & paste the table directly into your workbook if you encounter this problem.
+                            data-target="#studentTableWindow">
+                            click here</span>
                          </span>
                         </div>
 
-                        <div class="modal fade" id="studentTable">
+                        <div class="modal fade" id="studentTableWindow">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">       

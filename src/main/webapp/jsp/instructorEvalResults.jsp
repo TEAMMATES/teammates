@@ -152,12 +152,11 @@
                 </form>
                             
                         <div>
-                         <span class="help-block">
-                         Reminder: Downloaded csv file may not be displayed correctly in Excel on Mac. <br>
-                         Please <span class="btn-link"
+                        <span class="help-block">
+                            Non-English characters not displayed properly in the downloaded file?<span class="btn-link"
                             data-toggle="modal"
                             data-target="#evalResultsHtmlWindow">
-                            click here</span> to copy & paste the table directly into your workbook if you encounter this problem.
+                            click here</span>
                          </span>
                         </div>
 

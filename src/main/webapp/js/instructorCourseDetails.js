@@ -4,6 +4,11 @@ $(document).ready(function(){
     } else {
         toggleSort($("#button_sortstudentteam"),1);
     }
+    
+    //auto select the html table when modal is shown
+    $('#studentTableWindow').on('shown.bs.modal', function (e) {
+		selectElementContents( document.getElementById('detailsTable') );
+    });
 });
 
 /**

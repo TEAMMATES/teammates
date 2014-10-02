@@ -197,6 +197,11 @@ $(document).ready(function(){
     //Show/Hide statistics
     showHideStats();
     $("#show-stats-checkbox").change(showHideStats);
+    
+    //auto select the html table when modal is shown
+    $('#fsResultsTableWindow').on('shown.bs.modal', function (e) {
+		selectElementContents( document.getElementById('fsModalTable') );
+    });
 });
 
 

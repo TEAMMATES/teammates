@@ -68,18 +68,16 @@
               
           </div>
         </div>
-        
-        <div class="row">
-            <small><span class="help-block align-center">
-                         [ Downloaded csv file may not be displayed correctly in Excel on Mac.
-                         Please <span class="btn-link"
-                            data-toggle="modal"
-                            data-target="#fsResultsTableWindow">
-                            click here</span> to copy & paste the table directly into your workbook if you encounter this problem. ]
-                         </span></small>
-        
-        </div>
-        
+
+            <div class="row">
+                <span class="help-block align-center">
+
+                    Non-English characters not displayed properly in the
+                    downloaded file?<span class="btn-link"
+                    data-toggle="modal"
+                    data-target="#fsResultsTableWindow"> click here </span>
+            </div>
+
         </div>
       </div>
     

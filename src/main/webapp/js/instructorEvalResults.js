@@ -1,5 +1,10 @@
 $(document).ready(function(){
 	toggleSort($("#button_sortteamname"),1);
+	
+	//auto select the html table when modal is shown
+    $('#evalResultsHtmlWindow').on('shown.bs.modal', function (e) {
+		selectElementContents( document.getElementById('summaryModalTable') );
+    });
 });
 
 
