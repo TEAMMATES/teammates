@@ -45,7 +45,6 @@ function toggleDeleteStudentConfirmation(studentName) {
  * function that select the whole table
  * @param el
  */
-
 function selectElementContents(el) {
     var body = document.body, range, sel;
     if (document.createRange && window.getSelection) {

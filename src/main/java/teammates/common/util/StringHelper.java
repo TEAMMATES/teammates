@@ -313,8 +313,14 @@ public class StringHelper {
 
         for (int i = 0; i < lines.length; i++) {
             
+            List<String> rowData = getTableData(lines[i]);
+            
+            if(checkIfEmptyRow(rowData)){
+                continue;
+            }
+            
             result.append("<tr>");
-            for (String td : getTableData(lines[i])) {
+            for (String td : rowData) {
                 result.append(String.format("<td>%s</td>\n", td));
             }
             result.append("</tr>");
@@ -372,9 +378,20 @@ public class StringHelper {
             
         }
         
-        data.add(buffer.toString());
+        data.add(buffer.toString().trim());
         
         return data;
+    }
+    
+    private static boolean checkIfEmptyRow(List<String> rowData){
+           
+        for(String td : rowData){
+            if(!td.isEmpty()){
+                return false;
+            }
+        }
+        
+        return true;
     }
     
     

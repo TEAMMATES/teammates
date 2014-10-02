@@ -133,39 +133,23 @@
                             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.courseDetails.course.id%>">
                         </form>
 
-                        <button class="btn btn-primary"
-                            data-toggle="modal"
-                            data-target="#studentTable">
-                            Copy Student List To Clipboard</button>
                             
                         <div>
                          <span class="help-block">
                          Reminder: Downloaded csv file may not be displayed correctly in Excel on Mac. <br>
-                         Please kindly copy & paste the table directly into your workbook if you encounter this problem.
+                         Please <span class="btn-link"
+                            data-toggle="modal"
+                            data-target="#studentTable">
+                            click here</span> to copy & paste the table directly into your workbook if you encounter this problem.
                          </span>
                         </div>
 
                         <div class="modal fade" id="studentTable">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button"
-                                            class="close"
-                                            data-dismiss="modal">
-                                            <span aria-hidden="true">&times;</span><span
-                                                class="sr-only">Close</span>
-                                        </button>
-                                        <h4 class="modal-title">
-                                            Student Details Table
-                                        </h4>
-                                    </div>
-                                    <div class="modal-body">
-                                    <small>
-                                    <%=data.studentListHtmlTableAsString%>
-                                    </small>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <span class="pull-left help-block">
+                                    <div class="modal-header">       
+                                        
+                                         <span class="pull-left help-block">
                                         Tips: After Selecting the table, <kbd>Ctrl + C</kbd> to COPY and <kbd>Ctrl + V</kbd> to PASTE to your Excel Workbook.
                                         </span>
                                         <button type="button"
@@ -174,7 +158,12 @@
                                         <button type="button"
                                             class="btn btn-primary"
                                             onclick="selectElementContents( document.getElementById('detailsTable') );">
-                                            Select Table</button>
+                                            Select Table</button>                                
+                                    </div>
+                                    <div class="modal-body">
+                                    <small id="detailsTable">
+                                    <%=data.studentListHtmlTableAsString%>
+                                    </small>
                                     </div>
                                 </div>
                                 <!-- /.modal-content -->
