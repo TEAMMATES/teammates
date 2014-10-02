@@ -271,17 +271,9 @@ public class EvaluationsLogic {
         
         return returnValue;
     }
- 
-    
-    public String getEvaluationResultSummary(String courseId, String instrEmail, String evalName, boolean isHtml) 
+
+    public String getEvaluationResultSummaryAsCsv(String courseId, String instrEmail, String evalName) 
             throws EntityDoesNotExistException {
-        
-        String tablePrefix = isHtml? "<table class=\"table table-bordered table-striped table-condensed\" id=\"summaryModalTable\"><tbody><tr><td>" : "";
-        String rowPrefix = isHtml? "<tr><td>" : "";
-        String delim = isHtml? "</td><td>" : ",";
-        String eol = isHtml? "</td></tr>": Const.EOL;
-        String singleEol = isHtml? "" : Const.EOL;
-        String tablePostfix = isHtml? "</tbody></table>" : "";
         
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, instrEmail);
         EvaluationResultsBundle evaluationResults = getEvaluationResult(courseId, evalName);
@@ -300,12 +292,13 @@ public class EvaluationsLogic {
             }
         }
         
-        String export = tablePrefix;
+        String export = "";
         
-        export += "Course" + delim + Sanitizer.sanitizeForCsvOrHtml(evaluationResults.evaluation.courseId, isHtml) + eol
-                + rowPrefix + "Evaluation Name" + delim + Sanitizer.sanitizeForCsvOrHtml(evaluationResults.evaluation.name, isHtml) + eol + singleEol;
+        export += "Course" + "," + Sanitizer.sanitizeForCsv(evaluationResults.evaluation.courseId) + Const.EOL
+                + "Evaluation Name" + "," + Sanitizer.sanitizeForCsv(evaluationResults.evaluation.name) + Const.EOL
+                + Const.EOL;
         
-        export += rowPrefix + "Team" + delim + "Student" + delim + "Claimed" + delim + "Perceived" + delim + "Received" + eol;
+        export += "Team" + "," + "Student" + "," + "Claimed" + "," + "Perceived" + "," + "Received" + Const.EOL;
         
         for (TeamResultBundle td : evaluationResults.teamResults.values()) {
             for (StudentResultBundle srb : td.studentResults) {
@@ -323,15 +316,13 @@ public class EvaluationsLogic {
                     result += sub.details.normalizedToInstructor;
                 }
                 
-                export += rowPrefix + Sanitizer.sanitizeForCsvOrHtml(srb.student.team, isHtml) + 
-                          delim + Sanitizer.sanitizeForCsvOrHtml(srb.student.name, isHtml) + 
-                          delim + Sanitizer.sanitizeForCsvOrHtml(Integer.toString(srb.summary.claimedToInstructor), isHtml) + 
-                          delim + Sanitizer.sanitizeForCsvOrHtml(Integer.toString(srb.summary.perceivedToInstructor), isHtml) + 
-                          delim + Sanitizer.sanitizeForCsvOrHtml(result, isHtml) + eol;
+                export += Sanitizer.sanitizeForCsv(srb.student.team) + "," +
+                        Sanitizer.sanitizeForCsv(srb.student.name) + "," + 
+                        Sanitizer.sanitizeForCsv(Integer.toString(srb.summary.claimedToInstructor)) + "," + 
+                        Sanitizer.sanitizeForCsv(Integer.toString(srb.summary.perceivedToInstructor)) + "," + 
+                        Sanitizer.sanitizeForCsv(result) + Const.EOL;
             }
         }
-        
-        export += tablePostfix;
         
         // Replace all Unset values
         export = export.replaceAll(Integer.toString(Const.INT_UNINITIALIZED), "N/A");
@@ -339,18 +330,6 @@ public class EvaluationsLogic {
         export = export.replaceAll(Integer.toString(Const.POINTS_NOT_SUBMITTED), "Not Submitted");
         
         return export;
-    }
-    
-    public String getEvaluationResultSummaryAsCsv(String courseId, String instrEmail, String evalName) 
-            throws EntityDoesNotExistException {
-         
-        return getEvaluationResultSummary(courseId, instrEmail, evalName, false);
-    }
-    
-    public String getEvaluationResultSummaryAsHtml(String courseId, String instrEmail, String evalName) 
-            throws EntityDoesNotExistException {
-         
-        return getEvaluationResultSummary(courseId, instrEmail, evalName, true);
     }
 
     /**

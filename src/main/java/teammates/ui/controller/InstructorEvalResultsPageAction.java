@@ -10,6 +10,7 @@ import teammates.common.datatransfer.TeamResultBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
 
@@ -32,7 +33,7 @@ public class InstructorEvalResultsPageAction extends Action {
         
         data.evaluationResults = logic.getEvaluationResult(courseId, evalName);
         data.instructor = instructor;
-        data.summaryReportHtmlTableAsString = logic.getEvaluationResultSummaryAsHtml(courseId, instructor.email, evalName);
+        data.summaryReportHtmlTableAsString = StringHelper.csvToHtmlTable(logic.getEvaluationResultSummaryAsCsv(courseId, instructor.email, evalName));
         
         Iterator<Entry<String, TeamResultBundle>> iter = data.evaluationResults.teamResults.entrySet().iterator();
         while (iter.hasNext()) {
