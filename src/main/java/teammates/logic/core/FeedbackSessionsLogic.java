@@ -559,33 +559,17 @@ public class FeedbackSessionsLogic {
                 feedbackSessionName, courseId, userEmail,
                 UserType.Role.STUDENT, null, roster);
     }
-    
-    public String getFeedbackSessionResultsSummaryAsHtml(
+
+    public String getFeedbackSessionResultsSummaryAsCsv(
             String feedbackSessionName, String courseId, String userEmail)
             throws UnauthorizedAccessException, EntityDoesNotExistException, ExceedingRangeException {
         
-        return getFeedbackSessionResultsSummaryInSection(feedbackSessionName, courseId, userEmail, null, true);
+        return getFeedbackSessionResultsSummaryInSectionAsCsv(feedbackSessionName, courseId, userEmail, null);
     }
-    
-    public String getFeedbackSessionResultsSummaryInSectionAsHtml(
+
+    public String getFeedbackSessionResultsSummaryInSectionAsCsv(
             String feedbackSessionName, String courseId, String userEmail, String section)
             throws UnauthorizedAccessException, EntityDoesNotExistException, ExceedingRangeException {
-           
-        return getFeedbackSessionResultsSummaryInSection(feedbackSessionName, courseId, userEmail, section, true);
-        
-    }
-    
-    public String getFeedbackSessionResultsSummaryInSection(
-            String feedbackSessionName, String courseId, String userEmail, String section, boolean isHtml)
-            throws UnauthorizedAccessException, EntityDoesNotExistException, ExceedingRangeException {
-        
-        String tablePrefix = isHtml? "<table class=\"table table-bordered table-striped table-condensed\" id=\"fsModalTable\"><tbody><tr><td>" : "";
-        String rowPrefix = isHtml? "<tr><td>" : "";
-        String delim = isHtml? "</td><td>" : ",";
-        String eol = isHtml? "</td></tr>": Const.EOL;
-        String doubleEol = isHtml? "": Const.EOL + Const.EOL;
-        String singleEol = isHtml? "": Const.EOL;
-        String tablePostfix = isHtml? "</tbody></table>" : "";
         
         long indicatedRange = (section == null) ? 10000 : -1;
         FeedbackSessionResultsBundle results = getFeedbackSessionResultsForInstructorInSectionWithinRangeFromView(
@@ -600,44 +584,34 @@ public class FeedbackSessionsLogic {
                 results.compareByGiverRecipientQuestion);
         
         StringBuilder exportBuilder = new StringBuilder();
-        
-        exportBuilder.append(tablePrefix);
-        
-        exportBuilder.append("Course" + delim + Sanitizer.sanitizeForCsvOrHtml(results.feedbackSession.courseId, isHtml) + eol
-                + rowPrefix + "Session Name" + delim + Sanitizer.sanitizeForCsvOrHtml(results.feedbackSession.feedbackSessionName, isHtml) + eol);
+
+        exportBuilder.append("Course" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.courseId) + Const.EOL
+                + "Session Name" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.feedbackSessionName) + Const.EOL);
         
         if(section != null){
-            exportBuilder.append(rowPrefix);
-            exportBuilder.append("Section Name" + delim + Sanitizer.sanitizeForCsvOrHtml(section, isHtml) + eol);
+            exportBuilder.append("Section Name" + "," + Sanitizer.sanitizeForCsv(section) + Const.EOL);
         }
 
-        exportBuilder.append(doubleEol);
+        exportBuilder.append(Const.EOL + Const.EOL);
 
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : results
                 .getQuestionResponseMap().entrySet()) {
             FeedbackQuestionAttributes question = entry.getKey();
             FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
-            
-            
-            exportBuilder.append(rowPrefix);
-            exportBuilder.append("Question " + Integer.toString(entry.getKey().questionNumber) + delim 
-                    + Sanitizer.sanitizeForCsvOrHtml(questionDetails.questionText, isHtml)
-                    + eol + singleEol);
+
+            exportBuilder.append("Question " + Integer.toString(entry.getKey().questionNumber) + "," 
+                    + Sanitizer.sanitizeForCsv(questionDetails.questionText)
+                    + Const.EOL + Const.EOL);
             
             String statistics = questionDetails.getQuestionResultStatisticsCsv(entry.getValue(),
                                         question, results);
             if(statistics != ""){
-                
-                exportBuilder.append(rowPrefix);
-                exportBuilder.append("Summary Statistics," + eol);
-                exportBuilder.append(rowPrefix);
-                exportBuilder.append(statistics + eol);
+                exportBuilder.append("Summary Statistics," + Const.EOL);
+                exportBuilder.append(statistics + Const.EOL);
             }
             
-            exportBuilder.append(rowPrefix);
-            
-            exportBuilder.append("Team" + delim + "Giver's Full Name" + delim + "Giver's Last Name" + delim + "Recipient's Team" + delim
-                    + "Recipient's Full Name" + delim + "Recipient's Last Name" + delim + questionDetails.getCsvHeader() + eol);
+            exportBuilder.append("Team" + "," + "Giver's Full Name" + "," + "Giver's Last Name" + "," + "Recipient's Team" + ","
+                    + "Recipient's Full Name" + "," + "Recipient's Last Name" + "," + questionDetails.getCsvHeader() + Const.EOL);
 
             for (FeedbackResponseAttributes response : entry.getValue()) {
              
@@ -646,41 +620,19 @@ public class FeedbackSessionsLogic {
                 String recipientLastName = results.getLastNameForEmail(response.recipientEmail);
                 String recipientFulltName = results.getNameForEmail(response.recipientEmail);
                 
-                exportBuilder.append(rowPrefix);
-                String answer = isHtml? response.getResponseDetails().getAnswerHtml(questionDetails):
-                                        response.getResponseDetails().getAnswerCsv(questionDetails);
-                
-                exportBuilder.append(Sanitizer.sanitizeForCsvOrHtml(results.getTeamNameForEmail(response.giverEmail), isHtml) 
-                                     + delim + Sanitizer.sanitizeForCsvOrHtml(StringHelper.removeExtraSpace(giverFullName), isHtml) 
-                                     + delim + Sanitizer.sanitizeForCsvOrHtml(StringHelper.removeExtraSpace(giverLastName), isHtml)
-                                     + delim + Sanitizer.sanitizeForCsvOrHtml(results.getTeamNameForEmail(response.recipientEmail), isHtml)
-                                     + delim + Sanitizer.sanitizeForCsvOrHtml(StringHelper.removeExtraSpace(recipientFulltName), isHtml)
-                                     + delim + Sanitizer.sanitizeForCsvOrHtml(StringHelper.removeExtraSpace(recipientLastName), isHtml)
-                                     + delim + answer + eol);
+                exportBuilder.append(Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.giverEmail)) 
+                                     + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) 
+                                     + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
+                                     + "," + Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.recipientEmail))
+                                     + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFulltName))
+                                     + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
+                                     + "," + response.getResponseDetails().getAnswerCsv(questionDetails) + Const.EOL);
            
             
             }
-            exportBuilder.append(doubleEol);
+            exportBuilder.append(Const.EOL + Const.EOL);
         }
-        
-        exportBuilder.append(tablePostfix);
-        
         return exportBuilder.toString();
-        
-    }
-    
-    public String getFeedbackSessionResultsSummaryAsCsv(
-            String feedbackSessionName, String courseId, String userEmail)
-            throws UnauthorizedAccessException, EntityDoesNotExistException, ExceedingRangeException {
-        
-        return getFeedbackSessionResultsSummaryInSection(feedbackSessionName, courseId, userEmail, null, false);
-    }
-
-    public String getFeedbackSessionResultsSummaryInSectionAsCsv(
-            String feedbackSessionName, String courseId, String userEmail, String section)
-            throws UnauthorizedAccessException, EntityDoesNotExistException, ExceedingRangeException {
-           
-        return getFeedbackSessionResultsSummaryInSection(feedbackSessionName, courseId, userEmail, section, false);
         
     }
 

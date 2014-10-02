@@ -6,6 +6,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackResultsPageAction extends Action {
@@ -49,21 +50,21 @@ public class InstructorFeedbackResultsPageAction extends Action {
         
         if (data.selectedSection == null) {
             data.selectedSection = ALL_SECTION_OPTION;
-            data.sessionResultsHtmlTableAsString = logic.getFeedbackSessionResultSummaryAsHtml(courseId, 
-                                                                                               feedbackSessionName, 
-                                                                                               instructor.email);
+            data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(logic.getFeedbackSessionResultSummaryAsCsv(courseId, 
+                                                                                                                          feedbackSessionName, 
+                                                                                                                          instructor.email));
         } else {  
             
             if(!data.selectedSection.contentEquals(ALL_SECTION_OPTION)){
-               data.sessionResultsHtmlTableAsString = logic.getFeedbackSessionResultSummaryInSectionAsHtml(courseId, 
-                                                                                                        feedbackSessionName, 
-                                                                                                        instructor.email, 
-                                                                                                        data.selectedSection);
+               data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(logic.getFeedbackSessionResultSummaryInSectionAsCsv(courseId, 
+                                                                                                                                      feedbackSessionName, 
+                                                                                                                                      instructor.email, 
+                                                                                                                                      data.selectedSection));
             } else {
                 
-                data.sessionResultsHtmlTableAsString = logic.getFeedbackSessionResultSummaryAsHtml(courseId, 
-                                                                                                   feedbackSessionName, 
-                                                                                                   instructor.email);               
+                data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(logic.getFeedbackSessionResultSummaryAsCsv(courseId, 
+                                                                                                                              feedbackSessionName, 
+                                                                                                                              instructor.email));               
             }
         }
         data.instructor = instructor;

@@ -1775,36 +1775,6 @@ public class Logic {
         return feedbackQuestionsLogic.getFeedbackQuestionBundleForStudent(feedbackSessionName, courseId, feedbackQuestionId, userEmail);
     }
     
-    
-    /**
-     * Generates summary results (without comments) in html table format. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     */
-    public String getFeedbackSessionResultSummaryAsHtml(String courseId, String feedbackSessionName, String instructorEmail) 
-            throws EntityDoesNotExistException, ExceedingRangeException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
-        
-        return feedbackSessionsLogic.getFeedbackSessionResultsSummaryAsHtml(feedbackSessionName, courseId, instructorEmail);
-    }
-
-    /**
-     * Generates summary results (without comments) within a section in html table format. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     */
-    public String getFeedbackSessionResultSummaryInSectionAsHtml(String courseId, String feedbackSessionName, String instructorEmail, String section) 
-            throws EntityDoesNotExistException, ExceedingRangeException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, section);
-
-        return feedbackSessionsLogic.getFeedbackSessionResultsSummaryInSectionAsHtml(feedbackSessionName, courseId, instructorEmail, section);
-    }
-    
     /**
      * Generates summary results (without comments) in CSV format. <br>
      * Preconditions: <br>
