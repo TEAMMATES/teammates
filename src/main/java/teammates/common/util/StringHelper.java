@@ -1,7 +1,9 @@
 package teammates.common.util;
 
 import java.text.DecimalFormat;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.crypto.Cipher;
@@ -294,6 +296,20 @@ public class StringHelper {
                   .replace("&#x2f;", "/")
                   .replace("&#39;", "'")
                   .replaceAll("&amp;", "&");
+    }
+    
+    /**
+     * This recovers a set of html-sanitized string to original encoding for appropriate display in files such as csv file <br>
+     * It restores encoding for < > \ / ' &  <br>
+     * @param sanitized string set
+     * @return recovered string set
+     */
+    public static Set<String> recoverFromSanitizedText(Set<String> textSet) {
+        Set<String> textSetTemp = new HashSet<String>();
+        for (String text : textSet) {
+            textSetTemp.add(StringHelper.recoverFromSanitizedText(text));
+        }
+        return textSetTemp;
     }
     
 }
