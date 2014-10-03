@@ -46,7 +46,7 @@ public class AdminSearchPageAction extends Action {
         
         data = putFeedbackSessionLinkIntoMap(data.studentResultBundle.studentList, data);
         data = putStudentHomePageLinkIntoMap(data.studentResultBundle.studentList, data);
-        data = putStudentDetailsPageLinkIntoMap(data.studentResultBundle.studentList, data);
+        data = putStudentRecordsPageLinkIntoMap(data.studentResultBundle.studentList, data);
         data = putStudentInsitituteIntoMap(data.studentResultBundle.studentList, data);
                    
         data.instructorResultBundle = logic.searchInstructorsInWholeSystem(searchKey, "");
@@ -168,7 +168,7 @@ public class AdminSearchPageAction extends Action {
         return data;
     }
     
-    private AdminSearchPageData putStudentDetailsPageLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
+    private AdminSearchPageData putStudentRecordsPageLinkIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
         
         for(StudentAttributes student : students){
             
@@ -176,16 +176,15 @@ public class AdminSearchPageAction extends Action {
                 continue;
             }
             
-            String curLink = Url.addParamToUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE,
+            String curLink = Url.addParamToUrl(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE,
                                                         Const.ParamsNames.COURSE_ID, 
                                                         student.course);
             curLink = Url.addParamToUrl(curLink, Const.ParamsNames.STUDENT_EMAIL, student.email);
             String availableGoogleId = findAvailableInstructorGoogleIdForCourse(student.course);
             
-            if (!availableGoogleId.isEmpty()) {
-                
+            if (!availableGoogleId.isEmpty()) {        
                 curLink = Url.addParamToUrl(curLink, Const.ParamsNames.USER_ID, availableGoogleId);
-                data.studentDetailsPageLinkMap.put(student.getIdentificationString(), curLink);
+                data.studentRecordsPageLinkMap.put(student.getIdentificationString(), curLink);
             }
         }
         
