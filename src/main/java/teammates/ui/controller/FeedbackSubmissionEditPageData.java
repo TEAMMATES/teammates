@@ -8,6 +8,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.StringHelper;
 
 public class FeedbackSubmissionEditPageData extends PageData {
 
@@ -37,9 +38,9 @@ public class FeedbackSubmissionEditPageData extends PageData {
         
         for(Map.Entry<String, String> pair : emailNamePair.entrySet()) {
             result.add("<option value=\""+pair.getKey()+"\"" +
-                    (pair.getKey().equals(currentlySelectedOption) 
+                    (StringHelper.recoverFromSanitizedText(pair.getKey()).equals(currentlySelectedOption) 
                         ? " selected=\"selected\"" : "") +
-                    ">"+sanitizeForHtml(pair.getValue())+"</option>");            
+                    ">"+sanitizeForHtml(pair.getValue())+"</option>");
         }
 
         return result;

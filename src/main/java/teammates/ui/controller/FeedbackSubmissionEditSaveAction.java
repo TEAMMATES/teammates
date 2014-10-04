@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
 import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -22,8 +20,11 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.StringHelper;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.StudentsLogic;
+
+import com.google.appengine.api.datastore.Text;
 
 public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected String courseId;
@@ -81,6 +82,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                         
             Set<String> emailSet = data.bundle.getRecipientEmails(questionAttributes.getId());
             emailSet.add("");
+            emailSet = StringHelper.recoverFromSanitizedText(emailSet);
+            
             ArrayList<String> responsesRecipients = new ArrayList<String>();
             
             for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
