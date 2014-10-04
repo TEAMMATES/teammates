@@ -5,17 +5,16 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.StudentsDb;
-import teammates.ui.controller.Action;
-import teammates.ui.controller.ActionResult;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentFeedbackSubmissionEditPageAction;
@@ -57,6 +56,39 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         };
         verifyAssumptionFailure(submissionParams);
 
+        ______TS("Test null feedback session name parameter");
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.USER_ID, student1InCourse1.googleId
+        };
+        
+        StudentFeedbackSubmissionEditPageAction pageAction;
+        RedirectResult redirectResult;
+        
+        try {
+            pageAction = getAction(submissionParams);
+            redirectResult = (RedirectResult) pageAction.executeAndPostProcess();
+            signalFailureToDetectException("Did not detect that parameters are null.");
+        } catch (NullPostParameterException e) {
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+                    Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
+        }
+        
+        ______TS("Test null course id parameter");
+        submissionParams = new String[]{
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.feedbackSessionName,
+                Const.ParamsNames.USER_ID, student1InCourse1.googleId
+        };
+         
+        try {
+            pageAction = getAction(submissionParams);
+            redirectResult = (RedirectResult) pageAction.executeAndPostProcess();
+            signalFailureToDetectException("Did not detect that parameters are null.");
+        } catch (NullPostParameterException e) {
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+                    Const.ParamsNames.COURSE_ID), e.getMessage());
+        }
+        
         ______TS("feedbacksession deleted");
 
         FeedbackSessionsDb feedbackSessionsDb = new FeedbackSessionsDb();
@@ -70,8 +102,8 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
                 Const.ParamsNames.USER_ID, student1InCourse1.googleId
         };
 
-        StudentFeedbackSubmissionEditPageAction pageAction = getAction(params);
-        RedirectResult redirectResult = getRedirectResult(pageAction);
+        pageAction = getAction(params);
+        redirectResult = getRedirectResult(pageAction);
 
         assertEquals(
                 "/page/studentHomePage?error=false&"

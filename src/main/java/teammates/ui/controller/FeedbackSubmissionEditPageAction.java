@@ -14,9 +14,9 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Assumption.assertNotNull(courseId);
         feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         
         if(!isSpecificUserJoinedCourse()){
             return createPleaseJoinCourseResponse(courseId);
