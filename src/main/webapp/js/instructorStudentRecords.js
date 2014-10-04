@@ -6,6 +6,9 @@ $(document).ready(function(){
 	
 	$("div[id^=plainCommentText]").css("margin-left","15px");
 	
+	//auto-loading for feedback responses
+	$("div[id^='studentFeedback-']").click();
+	
 	$('a[id^="visibility-options-trigger"]').click(function(){
     	var visibilityOptions = $(this).parent().next();
 		if(visibilityOptions.is(':visible')){
