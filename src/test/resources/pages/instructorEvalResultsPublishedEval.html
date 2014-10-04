@@ -65,163 +65,22 @@
                      <button class="btn btn-primary" type="submit" value="Download Report">
                         Download Report
                      </button>
-                     <input name="user" type="hidden" value="CEvalRUiT.instr"/>
+                    <input name="user" type="hidden" value="CEvalRUiT.instr"/>
                                           <input name="courseid" type="hidden" value="CEvalRUiT.CS1101"/>
                                           <input name="evaluationname" type="hidden" value="Second Eval"/>
                                        </form>
-                  <button class="btn btn-primary" data-target="#evalResultsHtmlWindow" data-toggle="modal">
-                     Copy Report Table To Clipboard
-                  </button>
                   <div>
                      <span class="help-block">
-                        Reminder: Downloaded csv file may not be displayed correctly in Excel on Mac.
-                        <br/>
-                                                Please kindly copy & paste the table directly into your workbook if you encounter this problem.
+                        Non-English characters not displayed properly in the downloaded file?
+                        <span class="btn-link" data-target="#evalResultsHtmlWindow" data-toggle="modal">
+                           click here
+                        </span>
                      </span>
                   </div>
                   <div class="modal fade" id="evalResultsHtmlWindow">
                      <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                            <div class="modal-header">
-                              <button class="close" data-dismiss="modal" type="button">
-                                 <span aria-hidden="true">
-                                    ×
-                                 </span>
-                                 <span class="sr-only">
-                                    Close
-                                 </span>
-                              </button>
-                              <h4 class="modal-title">
-                                 Summary Report Table
-                              </h4>
-                           </div>
-                           <div class="modal-body">
-                              <small>
-                                 <table class="table table-bordered table-striped table-condensed" id="summaryModalTable">
-                                    <tbody>
-                                       <tr>
-                                          <td>
-                                             Course
-                                          </td>
-                                          <td>
-                                             CEvalRUiT.CS1101
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>
-                                             Evaluation Name
-                                          </td>
-                                          <td>
-                                             Second Eval
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>
-                                             Team
-                                          </td>
-                                          <td>
-                                             Student
-                                          </td>
-                                          <td>
-                                             Claimed
-                                          </td>
-                                          <td>
-                                             Perceived
-                                          </td>
-                                          <td>
-                                             Received
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>
-                                             Team 1
-                                          </td>
-                                          <td>
-                                             Alice Betsy
-                                          </td>
-                                          <td>
-                                             Not Submitted
-                                          </td>
-                                          <td>
-                                             100
-                                          </td>
-                                          <td>
-                                             100
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>
-                                             Team 1
-                                          </td>
-                                          <td>
-                                             Benny Charles
-                                          </td>
-                                          <td>
-                                             Not Sure
-                                          </td>
-                                          <td>
-                                             N/A
-                                          </td>
-                                          <td>
-                                             N/A
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>
-                                             Team 2
-                                          </td>
-                                          <td>
-                                             Charlie Davis
-                                          </td>
-                                          <td>
-                                             200
-                                          </td>
-                                          <td>
-                                             102
-                                          </td>
-                                          <td>
-                                             105,100
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>
-                                             Team 2
-                                          </td>
-                                          <td>
-                                             Danny Engrid
-                                          </td>
-                                          <td>
-                                             97
-                                          </td>
-                                          <td>
-                                             50
-                                          </td>
-                                          <td>
-                                             100,0
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>
-                                             Team 2
-                                          </td>
-                                          <td>
-                                             Emily
-                                          </td>
-                                          <td>
-                                             100
-                                          </td>
-                                          <td>
-                                             148
-                                          </td>
-                                          <td>
-                                             200,95
-                                          </td>
-                                       </tr>
-                                    </tbody>
-                                 </table>
-                              </small>
-                           </div>
-                           <div class="modal-footer">
                               <span class="pull-left help-block">
                                  Tips: After Selecting the table,
                                  <kbd>
@@ -239,6 +98,134 @@
                               <button class="btn btn-primary" onclick="selectElementContents( document.getElementById('summaryModalTable') );" type="button">
                                  Select Table
                               </button>
+                           </div>
+                           <div class="modal-body">
+                              <div class="table-responsive">
+                                 <small id="summaryModalTable">
+                                    <table class="table table-bordered table-striped table-condensed">
+                                       <tbody>
+                                          <tr>
+                                             <td>
+                                                Course
+                                             </td>
+                                             <td>
+                                                CEvalRUiT.CS1101
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Evaluation Name
+                                             </td>
+                                             <td>
+                                                Second Eval
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Team
+                                             </td>
+                                             <td>
+                                                Student
+                                             </td>
+                                             <td>
+                                                Claimed
+                                             </td>
+                                             <td>
+                                                Perceived
+                                             </td>
+                                             <td>
+                                                Received
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Team 1
+                                             </td>
+                                             <td>
+                                                Alice Betsy
+                                             </td>
+                                             <td>
+                                                Not Submitted
+                                             </td>
+                                             <td>
+                                                100
+                                             </td>
+                                             <td>
+                                                100
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Team 1
+                                             </td>
+                                             <td>
+                                                Benny Charles
+                                             </td>
+                                             <td>
+                                                Not Sure
+                                             </td>
+                                             <td>
+                                                N/A
+                                             </td>
+                                             <td>
+                                                N/A
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Team 2
+                                             </td>
+                                             <td>
+                                                Charlie Davis
+                                             </td>
+                                             <td>
+                                                200
+                                             </td>
+                                             <td>
+                                                102
+                                             </td>
+                                             <td>
+                                                105,100
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Team 2
+                                             </td>
+                                             <td>
+                                                Danny Engrid
+                                             </td>
+                                             <td>
+                                                97
+                                             </td>
+                                             <td>
+                                                50
+                                             </td>
+                                             <td>
+                                                100,0
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Team 2
+                                             </td>
+                                             <td>
+                                                Emily
+                                             </td>
+                                             <td>
+                                                100
+                                             </td>
+                                             <td>
+                                                148
+                                             </td>
+                                             <td>
+                                                200,95
+                                             </td>
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                 </small>
+                              </div>
                            </div>
                         </div>
                      </div>

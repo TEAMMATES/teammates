@@ -54,7 +54,7 @@
                      <div class="form-group">
                         <form action="/page/instructorFeedbackResultsDownload" method="post">
                            <div id="feedbackDataButtons">
-                              <input class="btn btn-sm btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download results"/>
+                              <input class="btn btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download results"/>
                                                          </div>
                            <input name="user" type="hidden" value="CFResultsUiT.instr"/>
                                                       <input name="fsname" type="hidden" value="Third Session"/>
@@ -62,20 +62,16 @@
                                                       <input name="sectionname" type="hidden" value="All"/>
                                                    </form>
                      </div>
-                     <div class="form-group">
-                        <button class="btn btn-sm btn-primary" data-target="#fsResultsTableWindow" data-toggle="modal">
-                           Copy Results To Clipboard
-                        </button>
-                     </div>
                   </div>
                </div>
                <div class="row">
-                  <small>
-                     <span class="help-block align-center">
-                        [ Downloaded csv file may not be displayed correctly in Excel on Mac.
-                         Please kindly copy & paste the table directly into your workbook if you encounter this problem. ]
+                  <span class="help-block align-center">
+                     Non-English characters not displayed properly in the
+                    downloaded file?
+                     <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal">
+                        click here
                      </span>
-                  </small>
+                  </span>
                </div>
             </div>
          </div>
@@ -84,44 +80,7 @@
          <div class="modal-dialog modal-lg">
             <div class="modal-content">
                <div class="modal-header">
-                  <button class="close" data-dismiss="modal" type="button">
-                     <span aria-hidden="true">
-                        ×
-                     </span>
-                     <span class="sr-only">
-                        Close
-                     </span>
-                  </button>
-                  <h4 class="modal-title">
-                     Session Results Table
-                  </h4>
-               </div>
-               <div class="modal-body">
-                  <small>
-                     <table class="table table-bordered table-striped table-condensed" id="fsModalTable">
-                        <tbody>
-                           <tr>
-                              <td>
-                                 Course
-                              </td>
-                              <td>
-                                 CFResultsUiT.CS2104
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Session Name
-                              </td>
-                              <td>
-                                 Third Session
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                  </small>
-               </div>
-               <div class="modal-footer">
-                  <span class="pull-left help-block">
+                  <span class="help-block" style="display:inline;">
                      Tips: After
                     Selecting the table,
                      <kbd>
@@ -133,6 +92,7 @@
                      </kbd>
                      to PASTE to your Excel Workbook.
                   </span>
+                       
                   <button class="btn btn-default" data-dismiss="modal" type="button">
                      Close
                   </button>
@@ -140,10 +100,37 @@
                      Select Table
                   </button>
                </div>
+               <div class="modal-body">
+                  <div class="table-responsive">
+                     <small id="fsModalTable">
+                        <table class="table table-bordered table-striped table-condensed">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    Course
+                                 </td>
+                                 <td>
+                                    CFResultsUiT.CS2104
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Session Name
+                                 </td>
+                                 <td>
+                                    Third Session
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </small>
+                  </div>
+               </div>
+               <div class="modal-footer">
+               </div>
             </div>
          </div>
       </div>
-
 <br>
 
 

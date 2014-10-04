@@ -51,7 +51,7 @@
                      <div class="form-group">
                         <form action="/page/instructorFeedbackResultsDownload" method="post">
                            <div id="feedbackDataButtons">
-                              <input class="btn btn-sm btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download results"/>
+                              <input class="btn btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download results"/>
                                                          </div>
                            <input name="user" type="hidden" value="CFResultsUiT.helper1"/>
                                                       <input name="fsname" type="hidden" value="First Session"/>
@@ -59,20 +59,16 @@
                                                       <input name="sectionname" type="hidden" value="All"/>
                                                    </form>
                      </div>
-                     <div class="form-group">
-                        <button class="btn btn-sm btn-primary" data-target="#fsResultsTableWindow" data-toggle="modal">
-                           Copy Results To Clipboard
-                        </button>
-                     </div>
                   </div>
                </div>
                <div class="row">
-                  <small>
-                     <span class="help-block align-center">
-                        [ Downloaded csv file may not be displayed correctly in Excel on Mac.
-                         Please kindly copy & paste the table directly into your workbook if you encounter this problem. ]
+                  <span class="help-block align-center">
+                     Non-English characters not displayed properly in the
+                    downloaded file?
+                     <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal">
+                        click here
                      </span>
-                  </small>
+                  </span>
                </div>
             </div>
          </div>
@@ -81,540 +77,7 @@
          <div class="modal-dialog modal-lg">
             <div class="modal-content">
                <div class="modal-header">
-                  <button class="close" data-dismiss="modal" type="button">
-                     <span aria-hidden="true">
-                        ×
-                     </span>
-                     <span class="sr-only">
-                        Close
-                     </span>
-                  </button>
-                  <h4 class="modal-title">
-                     Session Results Table
-                  </h4>
-               </div>
-               <div class="modal-body">
-                  <small>
-                     <table class="table table-bordered table-striped table-condensed" id="fsModalTable">
-                        <tbody>
-                           <tr>
-                              <td>
-                                 Course
-                              </td>
-                              <td>
-                                 CFResultsUiT.CS2104
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Session Name
-                              </td>
-                              <td>
-                                 First Session
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 1
-                              </td>
-                              <td>
-                                 Rate 3 other students' products
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 2
-                              </td>
-                              <td>
-                                 What is the best selling point of your product?
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 3
-                              </td>
-                              <td>
-                                 My comments on the class
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 4
-                              </td>
-                              <td>
-                                 Give feedback to 3 other teams.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 5
-                              </td>
-                              <td>
-                                 Give feedback to your team mates
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 6
-                              </td>
-                              <td>
-                                 This question should be hidden.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 7
-                              </td>
-                              <td>
-                                 What is your extra feature?
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 8
-                              </td>
-                              <td>
-                                 What is your extra feature?
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedbacks:,"FlexiCommand","PowerSearch","GoodUI","Google Integration"
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 9
-                              </td>
-                              <td>
-                                 Who do you think is the most hardworking student?
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 10
-                              </td>
-                              <td>
-                                 Which team do you think has the best feature?
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 11
-                              </td>
-                              <td>
-                                 Who are your teammates?
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedbacks:,
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 12
-                              </td>
-                              <td>
-                                 Which teams do you like?
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedbacks:,
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 13
-                              </td>
-                              <td>
-                                 Rate our product.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 14
-                              </td>
-                              <td>
-                                 How important are the following factors to you? Give points accordingly.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedbacks:,"Grades","Fun"
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 15
-                              </td>
-                              <td>
-                                 Split points among the your team members and yourself, according to how much you think each member has contributed.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 16
-                              </td>
-                              <td>
-                                 Rate the contribution of yourself and your team members towards the latest project.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                  </small>
-               </div>
-               <div class="modal-footer">
-                  <span class="pull-left help-block">
+                  <span class="help-block" style="display:inline;">
                      Tips: After
                     Selecting the table,
                      <kbd>
@@ -626,12 +89,559 @@
                      </kbd>
                      to PASTE to your Excel Workbook.
                   </span>
+                       
                   <button class="btn btn-default" data-dismiss="modal" type="button">
                      Close
                   </button>
                   <button class="btn btn-primary" onclick="selectElementContents( document.getElementById('fsModalTable') );" type="button">
                      Select Table
                   </button>
+               </div>
+               <div class="modal-body">
+                  <div class="table-responsive">
+                     <small id="fsModalTable">
+                        <table class="table table-bordered table-striped table-condensed">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    Course
+                                 </td>
+                                 <td>
+                                    CFResultsUiT.CS2104
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Session Name
+                                 </td>
+                                 <td>
+                                    First Session
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 1
+                                 </td>
+                                 <td>
+                                    Rate 3 other students' products
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 2
+                                 </td>
+                                 <td>
+                                    What is the best selling point of your product?
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 3
+                                 </td>
+                                 <td>
+                                    My comments on the class
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 4
+                                 </td>
+                                 <td>
+                                    Give feedback to 3 other teams.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 5
+                                 </td>
+                                 <td>
+                                    Give feedback to your team mates
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 6
+                                 </td>
+                                 <td>
+                                    This question should be hidden.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 7
+                                 </td>
+                                 <td>
+                                    What is your extra feature?
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 8
+                                 </td>
+                                 <td>
+                                    What is your extra feature?
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedbacks:
+                                 </td>
+                                 <td>
+                                    FlexiCommand
+                                 </td>
+                                 <td>
+                                    PowerSearch
+                                 </td>
+                                 <td>
+                                    GoodUI
+                                 </td>
+                                 <td>
+                                    Google Integration
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 9
+                                 </td>
+                                 <td>
+                                    Who do you think is the most hardworking student?
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 10
+                                 </td>
+                                 <td>
+                                    Which team do you think has the best feature?
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 11
+                                 </td>
+                                 <td>
+                                    Who are your teammates?
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedbacks:
+                                 </td>
+                                 <td>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 12
+                                 </td>
+                                 <td>
+                                    Which teams do you like?
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedbacks:
+                                 </td>
+                                 <td>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 13
+                                 </td>
+                                 <td>
+                                    Rate our product.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 14
+                                 </td>
+                                 <td>
+                                    How important are the following factors to you? Give points accordingly.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedbacks:
+                                 </td>
+                                 <td>
+                                    Grades
+                                 </td>
+                                 <td>
+                                    Fun
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 15
+                                 </td>
+                                 <td>
+                                    Split points among the your team members and yourself, according to how much you think each member has contributed.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 16
+                                 </td>
+                                 <td>
+                                    Rate the contribution of yourself and your team members towards the latest project.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </small>
+                  </div>
+               </div>
+               <div class="modal-footer">
                </div>
             </div>
          </div>

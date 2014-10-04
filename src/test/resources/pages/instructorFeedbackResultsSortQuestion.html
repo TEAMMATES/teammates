@@ -54,7 +54,7 @@
                      <div class="form-group">
                         <form action="/page/instructorFeedbackResultsDownload" method="post">
                            <div id="feedbackDataButtons">
-                              <input class="btn btn-sm btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download results"/>
+                              <input class="btn btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download results"/>
                                                          </div>
                            <input name="user" type="hidden" value="CFResultsUiT.instr"/>
                                                       <input name="fsname" type="hidden" value="First Session"/>
@@ -62,20 +62,16 @@
                                                       <input name="sectionname" type="hidden" value="All"/>
                                                    </form>
                      </div>
-                     <div class="form-group">
-                        <button class="btn btn-sm btn-primary" data-target="#fsResultsTableWindow" data-toggle="modal">
-                           Copy Results To Clipboard
-                        </button>
-                     </div>
                   </div>
                </div>
                <div class="row">
-                  <small>
-                     <span class="help-block align-center">
-                        [ Downloaded csv file may not be displayed correctly in Excel on Mac.
-                         Please kindly copy & paste the table directly into your workbook if you encounter this problem. ]
+                  <span class="help-block align-center">
+                     Non-English characters not displayed properly in the
+                    downloaded file?
+                     <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal">
+                        click here
                      </span>
-                  </small>
+                  </span>
                </div>
             </div>
          </div>
@@ -84,1311 +80,7 @@
          <div class="modal-dialog modal-lg">
             <div class="modal-content">
                <div class="modal-header">
-                  <button class="close" data-dismiss="modal" type="button">
-                     <span aria-hidden="true">
-                        ×
-                     </span>
-                     <span class="sr-only">
-                        Close
-                     </span>
-                  </button>
-                  <h4 class="modal-title">
-                     Session Results Table
-                  </h4>
-               </div>
-               <div class="modal-body">
-                  <small>
-                     <table class="table table-bordered table-striped table-condensed" id="fsModalTable">
-                        <tbody>
-                           <tr>
-                              <td>
-                                 Course
-                              </td>
-                              <td>
-                                 CFResultsUiT.CS2104
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Session Name
-                              </td>
-                              <td>
-                                 First Session
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 1
-                              </td>
-                              <td>
-                                 Rate 3 other students' products
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Benny Charles
-                              </td>
-                              <td>
-                                 Charles
-                              </td>
-                              <td>
-                                 2 Response to Benny.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 Team 2
-                              </td>
-                              <td>
-                                 Drop out
-                              </td>
-                              <td>
-                                 out
-                              </td>
-                              <td>
-                                 Response to Dropout.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Benny Charles
-                              </td>
-                              <td>
-                                 Charles
-                              </td>
-                              <td>
-                                 Team 2
-                              </td>
-                              <td>
-                                 Charlie Dávis
-                              </td>
-                              <td>
-                                 Dávis
-                              </td>
-                              <td>
-                                 4 Response to Charlie.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Benny Charles
-                              </td>
-                              <td>
-                                 Charles
-                              </td>
-                              <td>
-                                 Team 2
-                              </td>
-                              <td>
-                                 Danny Engrid
-                              </td>
-                              <td>
-                                 Engrid
-                              </td>
-                              <td>
-                                 1 Response to Danny.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 2
-                              </td>
-                              <td>
-                                 Charlie Dávis
-                              </td>
-                              <td>
-                                 Dávis
-                              </td>
-                              <td>
-                                 Team 3
-                              </td>
-                              <td>
-                                 Emily
-                              </td>
-                              <td>
-                                 Emily
-                              </td>
-                              <td>
-                                 3 Response to Emily.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 2
-                              </td>
-                              <td>
-                                 Drop out
-                              </td>
-                              <td>
-                                 out
-                              </td>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 Response to Alice from Dropout.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 2
-                              </td>
-                              <td>
-                                 Drop out
-                              </td>
-                              <td>
-                                 out
-                              </td>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Benny Charles
-                              </td>
-                              <td>
-                                 Charles
-                              </td>
-                              <td>
-                                 Response to Benny from Dropout.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 2
-                              </td>
-                              <td>
-                                 Drop out
-                              </td>
-                              <td>
-                                 out
-                              </td>
-                              <td>
-                                 Team 2
-                              </td>
-                              <td>
-                                 Danny Engrid
-                              </td>
-                              <td>
-                                 Engrid
-                              </td>
-                              <td>
-                                 Response to Danny from Dropout.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 2
-                              </td>
-                              <td>
-                                 What is the best selling point of your product?
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 Alice self feedback.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 3
-                              </td>
-                              <td>
-                                 My comments on the class
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Instructors
-                              </td>
-                              <td>
-                                 Teammates Test
-                              </td>
-                              <td>
-                                 Teammates Test
-                              </td>
-                              <td>
-                                 -
-                              </td>
-                              <td>
-                                 -
-                              </td>
-                              <td>
-                                 -
-                              </td>
-                              <td>
-                                 This is for nobody specific.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 4
-                              </td>
-                              <td>
-                                 Give feedback to 3 other teams.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                              </td>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                              </td>
-                              <td>
-                                 Team 2
-                              </td>
-                              <td>
-                                 Team 2
-                              </td>
-                              <td>
-                                 Response from team 1 (by alice) to team 2.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 5
-                              </td>
-                              <td>
-                                 Give feedback to your team mates
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 6
-                              </td>
-                              <td>
-                                 This question should be hidden.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 7
-                              </td>
-                              <td>
-                                 What is your extra feature?
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Summary Statistics,
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Choice, Response Count, Percentage
-FlexiCommand,0,0
-PowerSearch,2,100
-GoodUI,0,0
-Google Integration,0,0
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 PowerSearch
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 2
-                              </td>
-                              <td>
-                                 Drop out
-                              </td>
-                              <td>
-                                 out
-                              </td>
-                              <td>
-                                 Team 2
-                              </td>
-                              <td>
-                                 Drop out
-                              </td>
-                              <td>
-                                 out
-                              </td>
-                              <td>
-                                 PowerSearch
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 8
-                              </td>
-                              <td>
-                                 What is your extra feature?
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Summary Statistics,
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Choice, Response Count, Percentage
-FlexiCommand,0,0
-PowerSearch,1,50
-GoodUI,1,50
-Google Integration,0,0
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedbacks:,"FlexiCommand","PowerSearch","GoodUI","Google Integration"
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 <ul class="selectedOptionsList">
-                                    <li>
-                                       PowerSearch
-                                    </li>
-                                    <li>
-                                       GoodUI
-                                    </li>
-                                 </ul>
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 9
-                              </td>
-                              <td>
-                                 Who do you think is the most hardworking student?
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Summary Statistics,
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Choice, Response Count, Percentage
-Danny,1,100
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 Danny
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 10
-                              </td>
-                              <td>
-                                 Which team do you think has the best feature?
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Summary Statistics,
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Choice, Response Count, Percentage
-Team 1,1,50
-Team 2,1,50
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 Team 1
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 2
-                              </td>
-                              <td>
-                                 Drop out
-                              </td>
-                              <td>
-                                 out
-                              </td>
-                              <td>
-                                 Team 2
-                              </td>
-                              <td>
-                                 Drop out
-                              </td>
-                              <td>
-                                 out
-                              </td>
-                              <td>
-                                 Team 2
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 11
-                              </td>
-                              <td>
-                                 Who are your teammates?
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Summary Statistics,
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Choice, Response Count, Percentage
-Danny,1,100
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedbacks:,
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 <ul class="selectedOptionsList">
-                                    <li>
-                                       Danny
-                                    </li>
-                                 </ul>
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 12
-                              </td>
-                              <td>
-                                 Which teams do you like?
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Summary Statistics,
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Choice, Response Count, Percentage
-Team 1,1,50
-Team 2,1,50
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedbacks:,
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 <ul class="selectedOptionsList">
-                                    <li>
-                                       Team 1
-                                    </li>
-                                    <li>
-                                       Team 2
-                                    </li>
-                                 </ul>
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 13
-                              </td>
-                              <td>
-                                 Rate our product.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Summary Statistics,
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Average, Minimum, Maximum
-3.5,3.5,3.5
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 3.5
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 14
-                              </td>
-                              <td>
-                                 How important are the following factors to you? Give points accordingly.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Summary Statistics,
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Option, Average Points
-Grades,45
-Fun,55
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedbacks:,"Grades","Fun"
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 <ul>
-                                    <li>
-                                       Grades: 45
-                                    </li>
-                                    <li>
-                                       Fun: 55
-                                    </li>
-                                 </ul>
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 15
-                              </td>
-                              <td>
-                                 Split points among the your team members and yourself, according to how much you think each member has contributed.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Summary Statistics,
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Recipient, Average Points
-Alice Betsy,110
-Benny Charles,90
-Charlie Dávis,50
-Danny Engrid,150
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 110
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Benny Charles
-                              </td>
-                              <td>
-                                 Charles
-                              </td>
-                              <td>
-                                 90
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 Team 2
-                              </td>
-                              <td>
-                                 Charlie Dávis
-                              </td>
-                              <td>
-                                 Dávis
-                              </td>
-                              <td>
-                                 50
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 Team 2
-                              </td>
-                              <td>
-                                 Danny Engrid
-                              </td>
-                              <td>
-                                 Engrid
-                              </td>
-                              <td>
-                                 150
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Question 16
-                              </td>
-                              <td>
-                                 Rate the contribution of yourself and your team members towards the latest project.
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Summary Statistics,
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team, Name, CC, PC, Ratings Recieved
-"Team 1","Alice Betsy","111","N/A","N/A"
-"Team 1","Benny Charles","Not Submitted","100","100"
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team
-                              </td>
-                              <td>
-                                 Giver's Full Name
-                              </td>
-                              <td>
-                                 Giver's Last Name
-                              </td>
-                              <td>
-                                 Recipient's Team
-                              </td>
-                              <td>
-                                 Recipient's Full Name
-                              </td>
-                              <td>
-                                 Recipient's Last Name
-                              </td>
-                              <td>
-                                 Feedback
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 <span class="color-positive">
-                                    Equal Share +50%
-                                 </span>
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Alice Betsy
-                              </td>
-                              <td>
-                                 Betsy
-                              </td>
-                              <td>
-                                 Team 1
-                              </td>
-                              <td>
-                                 Benny Charles
-                              </td>
-                              <td>
-                                 Charles
-                              </td>
-                              <td>
-                                 <span class="color-positive">
-                                    Equal Share +20%
-                                 </span>
-                              </td>
-                           </tr>
-                        </tbody>
-                     </table>
-                  </small>
-               </div>
-               <div class="modal-footer">
-                  <span class="pull-left help-block">
+                  <span class="help-block" style="display:inline;">
                      Tips: After
                     Selecting the table,
                      <kbd>
@@ -1400,12 +92,1617 @@ Danny Engrid,150
                      </kbd>
                      to PASTE to your Excel Workbook.
                   </span>
+                       
                   <button class="btn btn-default" data-dismiss="modal" type="button">
                      Close
                   </button>
                   <button class="btn btn-primary" onclick="selectElementContents( document.getElementById('fsModalTable') );" type="button">
                      Select Table
                   </button>
+               </div>
+               <div class="modal-body">
+                  <div class="table-responsive">
+                     <small id="fsModalTable">
+                        <table class="table table-bordered table-striped table-condensed">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    Course
+                                 </td>
+                                 <td>
+                                    CFResultsUiT.CS2104
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Session Name
+                                 </td>
+                                 <td>
+                                    First Session
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 1
+                                 </td>
+                                 <td>
+                                    Rate 3 other students' products
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Benny Charles
+                                 </td>
+                                 <td>
+                                    Charles
+                                 </td>
+                                 <td>
+                                    2 Response to Benny.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    Team 2
+                                 </td>
+                                 <td>
+                                    Drop out
+                                 </td>
+                                 <td>
+                                    out
+                                 </td>
+                                 <td>
+                                    Response to Dropout.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Benny Charles
+                                 </td>
+                                 <td>
+                                    Charles
+                                 </td>
+                                 <td>
+                                    Team 2
+                                 </td>
+                                 <td>
+                                    Charlie Dávis
+                                 </td>
+                                 <td>
+                                    Dávis
+                                 </td>
+                                 <td>
+                                    4 Response to Charlie.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Benny Charles
+                                 </td>
+                                 <td>
+                                    Charles
+                                 </td>
+                                 <td>
+                                    Team 2
+                                 </td>
+                                 <td>
+                                    Danny Engrid
+                                 </td>
+                                 <td>
+                                    Engrid
+                                 </td>
+                                 <td>
+                                    1 Response to Danny.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 2
+                                 </td>
+                                 <td>
+                                    Charlie Dávis
+                                 </td>
+                                 <td>
+                                    Dávis
+                                 </td>
+                                 <td>
+                                    Team 3
+                                 </td>
+                                 <td>
+                                    Emily
+                                 </td>
+                                 <td>
+                                    Emily
+                                 </td>
+                                 <td>
+                                    3 Response to Emily.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 2
+                                 </td>
+                                 <td>
+                                    Drop out
+                                 </td>
+                                 <td>
+                                    out
+                                 </td>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    Response to Alice from Dropout.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 2
+                                 </td>
+                                 <td>
+                                    Drop out
+                                 </td>
+                                 <td>
+                                    out
+                                 </td>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Benny Charles
+                                 </td>
+                                 <td>
+                                    Charles
+                                 </td>
+                                 <td>
+                                    Response to Benny from Dropout.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 2
+                                 </td>
+                                 <td>
+                                    Drop out
+                                 </td>
+                                 <td>
+                                    out
+                                 </td>
+                                 <td>
+                                    Team 2
+                                 </td>
+                                 <td>
+                                    Danny Engrid
+                                 </td>
+                                 <td>
+                                    Engrid
+                                 </td>
+                                 <td>
+                                    Response to Danny from Dropout.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 2
+                                 </td>
+                                 <td>
+                                    What is the best selling point of your product?
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    Alice self feedback.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 3
+                                 </td>
+                                 <td>
+                                    My comments on the class
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Instructors
+                                 </td>
+                                 <td>
+                                    Teammates Test
+                                 </td>
+                                 <td>
+                                    Teammates Test
+                                 </td>
+                                 <td>
+                                    -
+                                 </td>
+                                 <td>
+                                    -
+                                 </td>
+                                 <td>
+                                    -
+                                 </td>
+                                 <td>
+                                    This is for nobody specific.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 4
+                                 </td>
+                                 <td>
+                                    Give feedback to 3 other teams.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                 </td>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                 </td>
+                                 <td>
+                                    Team 2
+                                 </td>
+                                 <td>
+                                    Team 2
+                                 </td>
+                                 <td>
+                                    Response from team 1 (by alice) to team 2.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 5
+                                 </td>
+                                 <td>
+                                    Give feedback to your team mates
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 6
+                                 </td>
+                                 <td>
+                                    This question should be hidden.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 7
+                                 </td>
+                                 <td>
+                                    What is your extra feature?
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Summary Statistics
+                                 </td>
+                                 <td>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Choice
+                                 </td>
+                                 <td>
+                                    Response Count
+                                 </td>
+                                 <td>
+                                    Percentage
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    FlexiCommand
+                                 </td>
+                                 <td>
+                                    0
+                                 </td>
+                                 <td>
+                                    0
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    PowerSearch
+                                 </td>
+                                 <td>
+                                    2
+                                 </td>
+                                 <td>
+                                    100
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    GoodUI
+                                 </td>
+                                 <td>
+                                    0
+                                 </td>
+                                 <td>
+                                    0
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Google Integration
+                                 </td>
+                                 <td>
+                                    0
+                                 </td>
+                                 <td>
+                                    0
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    PowerSearch
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 2
+                                 </td>
+                                 <td>
+                                    Drop out
+                                 </td>
+                                 <td>
+                                    out
+                                 </td>
+                                 <td>
+                                    Team 2
+                                 </td>
+                                 <td>
+                                    Drop out
+                                 </td>
+                                 <td>
+                                    out
+                                 </td>
+                                 <td>
+                                    PowerSearch
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 8
+                                 </td>
+                                 <td>
+                                    What is your extra feature?
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Summary Statistics
+                                 </td>
+                                 <td>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Choice
+                                 </td>
+                                 <td>
+                                    Response Count
+                                 </td>
+                                 <td>
+                                    Percentage
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    FlexiCommand
+                                 </td>
+                                 <td>
+                                    0
+                                 </td>
+                                 <td>
+                                    0
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    PowerSearch
+                                 </td>
+                                 <td>
+                                    1
+                                 </td>
+                                 <td>
+                                    50
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    GoodUI
+                                 </td>
+                                 <td>
+                                    1
+                                 </td>
+                                 <td>
+                                    50
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Google Integration
+                                 </td>
+                                 <td>
+                                    0
+                                 </td>
+                                 <td>
+                                    0
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedbacks:
+                                 </td>
+                                 <td>
+                                    FlexiCommand
+                                 </td>
+                                 <td>
+                                    PowerSearch
+                                 </td>
+                                 <td>
+                                    GoodUI
+                                 </td>
+                                 <td>
+                                    Google Integration
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                 </td>
+                                 <td>
+                                 </td>
+                                 <td>
+                                    PowerSearch
+                                 </td>
+                                 <td>
+                                    GoodUI
+                                 </td>
+                                 <td>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 9
+                                 </td>
+                                 <td>
+                                    Who do you think is the most hardworking student?
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Summary Statistics
+                                 </td>
+                                 <td>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Choice
+                                 </td>
+                                 <td>
+                                    Response Count
+                                 </td>
+                                 <td>
+                                    Percentage
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Danny
+                                 </td>
+                                 <td>
+                                    1
+                                 </td>
+                                 <td>
+                                    100
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    Danny
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 10
+                                 </td>
+                                 <td>
+                                    Which team do you think has the best feature?
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Summary Statistics
+                                 </td>
+                                 <td>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Choice
+                                 </td>
+                                 <td>
+                                    Response Count
+                                 </td>
+                                 <td>
+                                    Percentage
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    1
+                                 </td>
+                                 <td>
+                                    50
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 2
+                                 </td>
+                                 <td>
+                                    1
+                                 </td>
+                                 <td>
+                                    50
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    Team 1
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 2
+                                 </td>
+                                 <td>
+                                    Drop out
+                                 </td>
+                                 <td>
+                                    out
+                                 </td>
+                                 <td>
+                                    Team 2
+                                 </td>
+                                 <td>
+                                    Drop out
+                                 </td>
+                                 <td>
+                                    out
+                                 </td>
+                                 <td>
+                                    Team 2
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 11
+                                 </td>
+                                 <td>
+                                    Who are your teammates?
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Summary Statistics
+                                 </td>
+                                 <td>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Choice
+                                 </td>
+                                 <td>
+                                    Response Count
+                                 </td>
+                                 <td>
+                                    Percentage
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Danny
+                                 </td>
+                                 <td>
+                                    1
+                                 </td>
+                                 <td>
+                                    100
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedbacks:
+                                 </td>
+                                 <td>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 12
+                                 </td>
+                                 <td>
+                                    Which teams do you like?
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Summary Statistics
+                                 </td>
+                                 <td>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Choice
+                                 </td>
+                                 <td>
+                                    Response Count
+                                 </td>
+                                 <td>
+                                    Percentage
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    1
+                                 </td>
+                                 <td>
+                                    50
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 2
+                                 </td>
+                                 <td>
+                                    1
+                                 </td>
+                                 <td>
+                                    50
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedbacks:
+                                 </td>
+                                 <td>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 13
+                                 </td>
+                                 <td>
+                                    Rate our product.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Summary Statistics
+                                 </td>
+                                 <td>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Average
+                                 </td>
+                                 <td>
+                                    Minimum
+                                 </td>
+                                 <td>
+                                    Maximum
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    3.5
+                                 </td>
+                                 <td>
+                                    3.5
+                                 </td>
+                                 <td>
+                                    3.5
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    3.5
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 14
+                                 </td>
+                                 <td>
+                                    How important are the following factors to you? Give points accordingly.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Summary Statistics
+                                 </td>
+                                 <td>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Option
+                                 </td>
+                                 <td>
+                                    Average Points
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Grades
+                                 </td>
+                                 <td>
+                                    45
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Fun
+                                 </td>
+                                 <td>
+                                    55
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedbacks:
+                                 </td>
+                                 <td>
+                                    Grades
+                                 </td>
+                                 <td>
+                                    Fun
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                 </td>
+                                 <td>
+                                    45
+                                 </td>
+                                 <td>
+                                    55
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 15
+                                 </td>
+                                 <td>
+                                    Split points among the your team members and yourself, according to how much you think each member has contributed.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Summary Statistics
+                                 </td>
+                                 <td>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Recipient
+                                 </td>
+                                 <td>
+                                    Average Points
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    110
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Benny Charles
+                                 </td>
+                                 <td>
+                                    90
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Charlie Dávis
+                                 </td>
+                                 <td>
+                                    50
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Danny Engrid
+                                 </td>
+                                 <td>
+                                    150
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    110
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Benny Charles
+                                 </td>
+                                 <td>
+                                    Charles
+                                 </td>
+                                 <td>
+                                    90
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    Team 2
+                                 </td>
+                                 <td>
+                                    Charlie Dávis
+                                 </td>
+                                 <td>
+                                    Dávis
+                                 </td>
+                                 <td>
+                                    50
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    Team 2
+                                 </td>
+                                 <td>
+                                    Danny Engrid
+                                 </td>
+                                 <td>
+                                    Engrid
+                                 </td>
+                                 <td>
+                                    150
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 16
+                                 </td>
+                                 <td>
+                                    Rate the contribution of yourself and your team members towards the latest project.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Summary Statistics
+                                 </td>
+                                 <td>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Name
+                                 </td>
+                                 <td>
+                                    CC
+                                 </td>
+                                 <td>
+                                    PC
+                                 </td>
+                                 <td>
+                                    Ratings Recieved
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    111
+                                 </td>
+                                 <td>
+                                    N/A
+                                 </td>
+                                 <td>
+                                    N/A
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Benny Charles
+                                 </td>
+                                 <td>
+                                    Not Submitted
+                                 </td>
+                                 <td>
+                                    100
+                                 </td>
+                                 <td>
+                                    100
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    Equal share + 50%
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Alice Betsy
+                                 </td>
+                                 <td>
+                                    Betsy
+                                 </td>
+                                 <td>
+                                    Team 1
+                                 </td>
+                                 <td>
+                                    Benny Charles
+                                 </td>
+                                 <td>
+                                    Charles
+                                 </td>
+                                 <td>
+                                    Equal share + 20%
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </small>
+                  </div>
+               </div>
+               <div class="modal-footer">
                </div>
             </div>
          </div>

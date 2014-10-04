@@ -63,142 +63,18 @@
                                           <input name="user" type="hidden" value="CCDetailsUiT.instr"/>
                                           <input name="courseid" type="hidden" value="CCDetailsUiT.CS2104"/>
                                        </form>
-                  <button class="btn btn-primary" data-target="#studentTable" data-toggle="modal">
-                     Copy Student List To Clipboard
-                  </button>
                   <div>
                      <span class="help-block">
-                        Reminder: Downloaded csv file may not be displayed correctly in Excel on Mac.
-                        <br/>
-                                                Please kindly copy & paste the table directly into your workbook if you encounter this problem.
+                        Non-English characters not displayed properly in the downloaded file?
+                        <span class="btn-link" data-target="#studentTableWindow" data-toggle="modal">
+                           click here
+                        </span>
                      </span>
                   </div>
-                  <div class="modal fade" id="studentTable">
+                  <div class="modal fade" id="studentTableWindow">
                      <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                            <div class="modal-header">
-                              <button class="close" data-dismiss="modal" type="button">
-                                 <span aria-hidden="true">
-                                    ×
-                                 </span>
-                                 <span class="sr-only">
-                                    Close
-                                 </span>
-                              </button>
-                              <h4 class="modal-title">
-                                 Student Details Table
-                              </h4>
-                           </div>
-                           <div class="modal-body">
-                              <small>
-                                 <table class="table table-bordered table-striped table-condensed" id="detailsTable">
-                                    <tbody>
-                                       <tr>
-                                          <td>
-                                             Course ID
-                                          </td>
-                                          <td>
-                                             CCDetailsUiT.CS2104
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>
-                                             Course Name
-                                          </td>
-                                          <td>
-                                             Programming Language Concepts
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>
-                                             Team
-                                          </td>
-                                          <td>
-                                             Full Name
-                                          </td>
-                                          <td>
-                                             Last Name
-                                          </td>
-                                          <td>
-                                             Status
-                                          </td>
-                                          <td>
-                                             Email
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>
-                                             Team 1
-                                          </td>
-                                          <td>
-                                             Alice Betsy
-                                          </td>
-                                          <td>
-                                             Betsy
-                                          </td>
-                                          <td>
-                                             Joined
-                                          </td>
-                                          <td>
-                                             yangmotest1@gmail.com
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>
-                                             Team 1
-                                          </td>
-                                          <td>
-                                             Charlie Davis
-                                          </td>
-                                          <td>
-                                             Davis
-                                          </td>
-                                          <td>
-                                             Yet to join
-                                          </td>
-                                          <td>
-                                             yangmotest2@gmail.com
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>
-                                             Team 2
-                                          </td>
-                                          <td>
-                                             Benny Charles
-                                          </td>
-                                          <td>
-                                             Charles
-                                          </td>
-                                          <td>
-                                             Yet to join
-                                          </td>
-                                          <td>
-                                             benny.tmms@gmail.tmt
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>
-                                             Team 2
-                                          </td>
-                                          <td>
-                                             Danny Engrid
-                                          </td>
-                                          <td>
-                                             Engrid
-                                          </td>
-                                          <td>
-                                             Joined
-                                          </td>
-                                          <td>
-                                             danny.e.tmms@gmail.tmt
-                                          </td>
-                                       </tr>
-                                    </tbody>
-                                 </table>
-                              </small>
-                           </div>
-                           <div class="modal-footer">
                               <span class="pull-left help-block">
                                  Tips: After Selecting the table,
                                  <kbd>
@@ -216,6 +92,117 @@
                               <button class="btn btn-primary" onclick="selectElementContents( document.getElementById('detailsTable') );" type="button">
                                  Select Table
                               </button>
+                           </div>
+                           <div class="modal-body">
+                              <div class="table-responsive">
+                                 <small id="detailsTable">
+                                    <table class="table table-bordered table-striped table-condensed">
+                                       <tbody>
+                                          <tr>
+                                             <td>
+                                                Course ID
+                                             </td>
+                                             <td>
+                                                CCDetailsUiT.CS2104
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Course Name
+                                             </td>
+                                             <td>
+                                                Programming Language Concepts
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Team
+                                             </td>
+                                             <td>
+                                                Full Name
+                                             </td>
+                                             <td>
+                                                Last Name
+                                             </td>
+                                             <td>
+                                                Status
+                                             </td>
+                                             <td>
+                                                Email
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Team 1
+                                             </td>
+                                             <td>
+                                                Alice Betsy
+                                             </td>
+                                             <td>
+                                                Betsy
+                                             </td>
+                                             <td>
+                                                Joined
+                                             </td>
+                                             <td>
+                                                yangmotest1@gmail.com
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Team 1
+                                             </td>
+                                             <td>
+                                                Charlie Davis
+                                             </td>
+                                             <td>
+                                                Davis
+                                             </td>
+                                             <td>
+                                                Yet to join
+                                             </td>
+                                             <td>
+                                                yangmotest2@gmail.com
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Team 2
+                                             </td>
+                                             <td>
+                                                Benny Charles
+                                             </td>
+                                             <td>
+                                                Charles
+                                             </td>
+                                             <td>
+                                                Yet to join
+                                             </td>
+                                             <td>
+                                                benny.tmms@gmail.tmt
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Team 2
+                                             </td>
+                                             <td>
+                                                Danny Engrid
+                                             </td>
+                                             <td>
+                                                Engrid
+                                             </td>
+                                             <td>
+                                                Joined
+                                             </td>
+                                             <td>
+                                                danny.e.tmms@gmail.tmt
+                                             </td>
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                 </small>
+                              </div>
                            </div>
                         </div>
                      </div>
