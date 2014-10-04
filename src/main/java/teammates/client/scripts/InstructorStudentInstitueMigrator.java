@@ -79,7 +79,7 @@ public class InstructorStudentInstitueMigrator extends RemoteApiClient {
     private void readInput(){
         
         if(fromInstitute != null){
-        reader.nextLine(); 
+           reader.nextLine(); 
         }
         System.out.print("From:");      
         fromInstitute = reader.nextLine();
