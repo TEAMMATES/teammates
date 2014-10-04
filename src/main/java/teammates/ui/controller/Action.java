@@ -219,7 +219,7 @@ public abstract class Action {
             if (isPersistenceIssue() && isHomePage()) {
                 // let the user go through as this is a persistence issue
             } else if(doesUserNeedRegistration(account) && !loggedInUserType.isAdmin) {
-                if (regkey != null) {
+                if (regkey != null && student != null) {
                     // TODO: encrypt the email as currently anyone with the regkey can
                     //       get the email because of this redirect:                    
                     String joinUrl = new Url(student.getRegistrationUrl())
