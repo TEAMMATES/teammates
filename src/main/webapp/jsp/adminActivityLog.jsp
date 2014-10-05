@@ -202,7 +202,7 @@
                                                         teammates.coord</li>
                                                     <li>E.g. role:
                                                         Instructor,
-                                                        Student</li>
+                                                        Student, Unregistered</li>
                                                     <li>E.g.
                                                         request:
                                                         InstructorEval,

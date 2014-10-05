@@ -135,7 +135,7 @@ public class ActivityLogEntry {
             googleId = userAccount.googleId;
             email = userAccount.email;
         } else if(student != null){
-            role = "Student";
+            role = "Unregistered";
             name = student.name;
             googleId = "Unregistered";
             email = student.email;          
@@ -150,23 +150,25 @@ public class ActivityLogEntry {
     public String getIconRoleForShow(){
         String iconRole="";
         
-        if (role.contains("Instructor")){   
+        if(role.contains("Instructor")){   
            
             if(role.contains("(M)")){
                 iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>";
                 iconRole = iconRole + "-<span class = \"glyphicon glyphicon-eye-open\" ></span>- ";
-            }else{
+            } else {
                 iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>";
             }
-        }else if(role.contains("Student")){
+        } else if(role.contains("Student")){
             
             if(role.contains("(M)")){
                 iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>";
                 iconRole = iconRole + "-<span class = \"glyphicon glyphicon-eye-open\" ></span>- ";
-            }else{
+            } else {
                 iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>";
             }
-        }else{
+        } else if(role.contains("Unregistered")){
+            iconRole = "<span class = \"glyphicon glyphicon-question-sign\" style=\"color:#E61E1E;\"></span>";
+        } else {
             iconRole = role;
         }
 
@@ -219,7 +221,7 @@ public class ActivityLogEntry {
         if(url.contains("/student")){
             if(googleId.contentEquals("Unregistered")){
                 return "[" + name +
-                        " Unregistered Student " + 
+                        " (Unregistered Student) " + 
                         " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]" ;
             }     
             return "[" + name +
