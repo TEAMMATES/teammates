@@ -13,11 +13,11 @@ import teammates.storage.entity.Account;
 
 public class InstructorStudentInstitueMigrator extends RemoteApiClient {
     
-    private static String fromInstitute = null;
-    private static String toInstitute = null;
+    private static String fromInstitute = "Original Institute Name";
+    private static String toInstitute = "New Institute Name";
     
     private static final String NO_MATCHING_INSTITUTE = "No Matching Accounts Found for Institue: %s";
-    private static final int PROGRESS_STEP = 1000;
+    private static final int PROGRESS_STEP = 100;
     private static int counter = 0;
     
     
