@@ -16,9 +16,7 @@ public class InstructorStudentInstitueMigrator extends RemoteApiClient {
     private static String fromInstitute = null;
     private static String toInstitute = null;
     
-    private Scanner reader = new Scanner(System.in);
-    
-    private static final String NO_MATCHING_INSTITUTE = "No Matching Accounts Found for Institue: %s [q: exit | r: re-enter]";
+    private static final String NO_MATCHING_INSTITUTE = "No Matching Accounts Found for Institue: %s";
     private static final int PROGRESS_STEP = 1000;
     private static int counter = 0;
     
@@ -36,9 +34,6 @@ public class InstructorStudentInstitueMigrator extends RemoteApiClient {
     
     @Override
     protected void doOperation() {
-        String command = "q";
-        readInput();
-        
         Query q = pm.newQuery(Account.class);
         q.declareParameters("String instituteName");
         q.setFilter("institute == instituteName" );
@@ -54,18 +49,10 @@ public class InstructorStudentInstitueMigrator extends RemoteApiClient {
         
         if(accountsList.size() == 0){
             System.out.printf(NO_MATCHING_INSTITUTE, fromInstitute);      
-            command = reader.next();
-            while(!command.contentEquals("q") && !command.contentEquals("r")){
-                System.out.printf(NO_MATCHING_INSTITUTE, fromInstitute);
-                command = reader.next();
-            }
+         
         }
-        
-        if(command.contentEquals("q")){
-          pm.close();
-        } else {
-          doOperation();
-        }
+  
+        pm.close();
 
     }
     
@@ -75,16 +62,6 @@ public class InstructorStudentInstitueMigrator extends RemoteApiClient {
             System.out.printf("total accounts modified %d/%d \n", counter, total);
         }
     }
-    
-    private void readInput(){
-        
-        if(fromInstitute != null){
-           reader.nextLine(); 
-        }
-        System.out.print("From:");      
-        fromInstitute = reader.nextLine();
-        System.out.print("To:");      
-        toInstitute = reader.nextLine();
-    }
+
 
 }
