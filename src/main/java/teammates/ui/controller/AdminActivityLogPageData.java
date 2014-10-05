@@ -30,7 +30,8 @@ public class AdminActivityLogPageData extends PageData {
     
     /**
      * This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
-     * to show all testing logs
+     * to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
+     * unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted.
      */
     public boolean ifShowTestData = false;
     

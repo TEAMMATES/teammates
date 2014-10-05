@@ -8,6 +8,7 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.TeammatesException;
 
 import com.google.appengine.api.log.AppLogLine;
@@ -118,7 +119,7 @@ public class ActivityLogEntry {
         }
     }
     
-    public ActivityLogEntry(AccountAttributes userAccount, boolean isMasquerade, String logMessage,  String requestUrl){
+    public ActivityLogEntry(AccountAttributes userAccount, boolean isMasquerade, String logMessage,  String requestUrl, StudentAttributes student){
         time = System.currentTimeMillis();
         servletName = getActionName(requestUrl);
         action = servletName; //TODO: remove this?
@@ -126,17 +127,23 @@ public class ActivityLogEntry {
         message = logMessage;
         url = requestUrl;
         
-        if (userAccount == null){
-            role = "Unknown";
-            name = "Unknown";
-            googleId = "Unknown";
-            email = "Unknown";
-        } else {
+       
+        if(userAccount != null && userAccount.googleId != null){
             role = userAccount.isInstructor ? "Instructor" : "Student"; 
             role = role + (isMasquerade? "(M)" : "");
             name = userAccount.name;
             googleId = userAccount.googleId;
             email = userAccount.email;
+        } else if(student != null){
+            role = "Student";
+            name = student.name;
+            googleId = "Unregistered";
+            email = student.email;          
+        } else {
+            role = "Unknown";
+            name = "Unknown";
+            googleId = "Unknown";
+            email = "Unknown";
         }
     }
     
@@ -208,8 +215,13 @@ public class ActivityLogEntry {
         return role ;
     }
     
-    public String getPersonInfo(){
+    public String getPersonInfo(){    
         if(url.contains("/student")){
+            if(googleId.contentEquals("Unregistered")){
+                return "[" + name +
+                        " Unregistered Student " + 
+                        " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]" ;
+            }     
             return "[" + name +
                     " <a href=\""+getStudentHomePageViewLink(googleId)+"\" target=\"_blank\">" + googleId + "</a>" +
                     " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]" ;
@@ -422,18 +434,30 @@ public class ActivityLogEntry {
                + "<br> <p class=\"" + getColorCode(getTimeTaken()) + "\">"
                + "<strong>" + TimeHelper.convertToStandardDuration(getTimeTaken()) + "</strong>"
                + "</p> </td> <td class=\"" + getTableCellColorCode(timeTaken) + "\">"
-               + "<form method=\"post\" action=\"" + Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE + "\"> "
+               + "<form method=\"get\" action=\"" + Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE + "\"> "
                + "<h4 class=\"list-group-item-heading\">" 
                + getIconRoleForShow() + "&nbsp;" + getActionInfo() + "&nbsp;"
                + "<small>" + getPersonInfo() + "</span>" + "&nbsp;"
                + "<button type=\"submit\" class=\"btn " + getLogEntryActionsButtonClass() +  " btn-xs\">"
                + "<span class=\"glyphicon glyphicon-zoom-in\"></span>"
-               + "</button> <input type=\"hidden\" name=\"filterQuery\" value=\"person:" + getId() + "\">"
-               + "<input class=\"ifShowAll_button_for_person\" type=\"hidden\" name=\"all\" value=\"false\">"
+               + "</button> <input type=\"hidden\" name=\"filterQuery\" value=\"person:" + getAvailableIdenficationString() + "\">"
+               + "<input class=\"ifShowAll_for_person\" type=\"hidden\" name=\"all\" value=\"false\">"
+               + "<input class=\"ifShowTestData_for_person\" type=\"hidden\" name=\"testdata\" value=\"false\">"
                + "</small> </h4> <div>" + getMessageInfo()
                + "</div> </form> </td> </tr>";      
         return result;
         
+    }
+    
+    private String getAvailableIdenficationString(){
+        if(!getId().contentEquals("Unregistered") && !getId().contentEquals("Unknown")){
+            return getId();
+        } else if(getEmail() != null && !getEmail().contentEquals("Unknown")){
+            return getEmail();
+        } else if(getName() != null && !getName().contentEquals("Unknown")){
+            return getName();
+        }
+        return "";
     }
     
     public void highlightKeyStringInMessageInfoHtml(){
