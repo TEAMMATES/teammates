@@ -50,114 +50,242 @@
                 </div>
               </div>
           </div>
-          <div class="col-sm-2">
-              
-              <div class="form-group">
-                  <form method="post" action="/page/instructorFeedbackResultsDownload">
-                  <div id="feedbackDataButtons">
-                      <input id="button_download" class="btn btn-primary" name="fruploaddownloadbtn" value="Download results" type="submit">
+         <div class="col-sm-2">
+                     <div class="form-group">
+                        <form action="/page/instructorFeedbackResultsDownload" method="post">
+                           <div id="feedbackDataButtons">
+                              <input class="btn btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download results"/>
+                                                         </div>
+                           <input name="user" type="hidden" value="yangmoInstructor"/>
+                                                      <input name="fsname" type="hidden" value="Second team feedback session"/>
+                                                      <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
+                                                      <input name="sectionname" type="hidden" value="All"/>
+                                                   </form>
+                     </div>
                   </div>
-                  <input name="user" value="{$test.instructor}" type="hidden">
-                  <input name="fsname" value="Second team feedback session" type="hidden">
-                  <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
-                  <input name="sectionname" value="All" type="hidden">
-                  
-                  </form>
-              </div>
-              
-          </div>
-        </div>
-
-            <div class="row">
-                <span class="help-block align-center">
-
-                    Non-English characters not displayed properly in the
-                    downloaded file?<span class="btn-link" data-toggle="modal" data-target="#fsResultsTableWindow"> click here </span>
-            </span></div>
-
-        </div>
+               </div>
+               <div class="row">
+                  <span class="help-block align-center">
+                     Non-English characters not displayed properly in the
+                    downloaded file?
+                     <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal">
+                        click here
+                     </span>
+                  </span>
+               </div>
+            </div>
+         </div>
       </div>
-    
-</div>
-
-<div class="modal fade" id="fsResultsTableWindow">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                 <span class="help-block" style="display:inline;"> Tips: After
-                    Selecting the table, <kbd>Ctrl + C</kbd> to COPY and
-                    <kbd>Ctrl + V</kbd> to PASTE to your Excel Workbook.
-                </span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="selectElementContents( document.getElementById('fsModalTable') );">
-                    Select Table</button>
+      <div class="modal fade" id="fsResultsTableWindow">
+         <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <span class="help-block" style="display:inline;">
+                     Tips: After
+                    Selecting the table,
+                     <kbd>
+                        Ctrl + C
+                     </kbd>
+                     to COPY and
+                     <kbd>
+                        Ctrl + V
+                     </kbd>
+                     to PASTE to your Excel Workbook.
+                  </span>
+                       
+                  <button class="btn btn-default" data-dismiss="modal" type="button">
+                     Close
+                  </button>
+                  <button class="btn btn-primary" onclick="selectElementContents( document.getElementById('fsModalTable') );" type="button">
+                     Select Table
+                  </button>
+               </div>
+               <div class="modal-body">
+                  <div class="table-responsive">
+                     <small id="fsModalTable">
+                        <table class="table table-bordered table-striped table-condensed">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    Course
+                                 </td>
+                                 <td>
+                                    AHPUiT.instr1.gma-demo
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Session Name
+                                 </td>
+                                 <td>
+                                    Second team feedback session
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 1
+                                 </td>
+                                 <td>
+                                    Please rate the estimated contribution of your team members and yourself.
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 2
+                                 </td>
+                                 <td>
+                                    Comments about my contribution (shown to other teammates)
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 3
+                                 </td>
+                                 <td>
+                                    My comments about this teammate(confidential and only shown to instructor)
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 4
+                                 </td>
+                                 <td>
+                                    Comments about team dynamics(confidential and only shown to instructor)
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Question 5
+                                 </td>
+                                 <td>
+                                    My feedback to this teammate(shown anonymously to the teammate)
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    Team
+                                 </td>
+                                 <td>
+                                    Giver's Full Name
+                                 </td>
+                                 <td>
+                                    Giver's Last Name
+                                 </td>
+                                 <td>
+                                    Recipient's Team
+                                 </td>
+                                 <td>
+                                    Recipient's Full Name
+                                 </td>
+                                 <td>
+                                    Recipient's Last Name
+                                 </td>
+                                 <td>
+                                    Feedback
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </small>
+                  </div>
+               </div>
+               <div class="modal-footer">
+               </div>
             </div>
-            <div class="modal-body">
-            <div class="table-responsive">
-            <small id="fsModalTable">
-                <table class="table table-bordered table-striped table-condensed">
-<tbody><tr><td>Course</td>
-<td>AHPUiT.instr1.gma-demo</td>
-</tr><tr><td>Session Name</td>
-<td>Second team feedback session</td>
-</tr><tr><td>Question 1</td>
-<td>Please rate the estimated contribution of your team members and yourself.</td>
-</tr><tr><td>Team</td>
-<td>Giver's Full Name</td>
-<td>Giver's Last Name</td>
-<td>Recipient's Team</td>
-<td>Recipient's Full Name</td>
-<td>Recipient's Last Name</td>
-<td>Feedback</td>
-</tr><tr><td>Question 2</td>
-<td>Comments about my contribution (shown to other teammates)</td>
-</tr><tr><td>Team</td>
-<td>Giver's Full Name</td>
-<td>Giver's Last Name</td>
-<td>Recipient's Team</td>
-<td>Recipient's Full Name</td>
-<td>Recipient's Last Name</td>
-<td>Feedback</td>
-</tr><tr><td>Question 3</td>
-<td>My comments about this teammate(confidential and only shown to instructor)</td>
-</tr><tr><td>Team</td>
-<td>Giver's Full Name</td>
-<td>Giver's Last Name</td>
-<td>Recipient's Team</td>
-<td>Recipient's Full Name</td>
-<td>Recipient's Last Name</td>
-<td>Feedback</td>
-</tr><tr><td>Question 4</td>
-<td>Comments about team dynamics(confidential and only shown to instructor)</td>
-</tr><tr><td>Team</td>
-<td>Giver's Full Name</td>
-<td>Giver's Last Name</td>
-<td>Recipient's Team</td>
-<td>Recipient's Full Name</td>
-<td>Recipient's Last Name</td>
-<td>Feedback</td>
-</tr><tr><td>Question 5</td>
-<td>My feedback to this teammate(shown anonymously to the teammate)</td>
-</tr><tr><td>Team</td>
-<td>Giver's Full Name</td>
-<td>Giver's Last Name</td>
-<td>Recipient's Team</td>
-<td>Recipient's Full Name</td>
-<td>Recipient's Last Name</td>
-<td>Feedback</td>
-</tr></tbody></table>
-            </small>
-            </div>
-            </div>
-            <div class="modal-footer">
-               
-            </div>
-        </div>
-    </div>
-</div>
-
-
+         </div>
+      </div>
 <br>
 
 

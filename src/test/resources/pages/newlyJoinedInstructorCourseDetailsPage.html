@@ -53,120 +53,277 @@
                     </div>
                  </div>
                  
-                 <div class="form-group">
-                     <div class="align-center">
-                         <input data-original-title="Email an invitation to all students yet to join requesting them to join the course using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" class="btn btn-primary" id="button_remind" data-toggle="tooltip" data-placement="top" title="" onclick="if(toggleSendRegistrationKeysConfirmation('AHPUiT.instr1.gma-demo')) window.location.href='/page/instructorCourseRemind?courseid=AHPUiT.instr1.gma-demo&amp;user={$test.instructor}';" value="Remind Students to Join" tabindex="1" type="button">
-                         <form method="post" action="/page/instructorCourseStudentListDownload" style="display:inline;">
-                            <input id="button_download" class="btn btn-primary" name="fruploaddownloadbtn" value=" Download Student List " type="submit">
-                            <input name="user" value="{$test.instructor}" type="hidden">
-                            <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
-                        </form>
-
-                            
-                        <div>
-                         <span class="help-block">
-                            Non-English characters not displayed properly in the downloaded file?<span class="btn-link" data-toggle="modal" data-target="#studentTableWindow">
-                            click here</span>
-                         </span>
-                        </div>
-
-                        <div class="modal fade" id="studentTableWindow">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">       
-                                        
-                                         <span class="pull-left help-block">
-                                        Tips: After Selecting the table, <kbd>Ctrl + C</kbd> to COPY and <kbd>Ctrl + V</kbd> to PASTE to your Excel Workbook.
-                                        </span>
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary" onclick="selectElementContents( document.getElementById('detailsTable') );">
-                                            Select Table</button>                                
-                                    </div>
-                                    <div class="modal-body">
-                                     <div class="table-responsive">
-                                    <small id="detailsTable">
+                <div class="form-group">
+               <div class="align-center">
+                  <input class="btn btn-primary" data-original-title="Email an invitation to all students yet to join requesting them to join the course using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" data-placement="top" data-toggle="tooltip" id="button_remind" onclick="if(toggleSendRegistrationKeysConfirmation('AHPUiT.instr1.gma-demo')) window.location.href='/page/instructorCourseRemind?courseid=AHPUiT.instr1.gma-demo&user=yangmoInstructor';" tabindex="1" title="" type="button" value="Remind Students to Join"/>
+                                    <form action="/page/instructorCourseStudentListDownload" method="post" style="display:inline;">
+                     <input class="btn btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value=" Download Student List "/>
+                                          <input name="user" type="hidden" value="yangmoInstructor"/>
+                                          <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
+                                       </form>
+                  <div>
+                     <span class="help-block">
+                        Non-English characters not displayed properly in the downloaded file?
+                        <span class="btn-link" data-target="#studentTableWindow" data-toggle="modal">
+                           click here
+                        </span>
+                     </span>
+                  </div>
+                  <div class="modal fade" id="studentTableWindow">
+                     <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                           <div class="modal-header">
+                              <span class="pull-left help-block">
+                                 Tips: After Selecting the table,
+                                 <kbd>
+                                    Ctrl + C
+                                 </kbd>
+                                 to COPY and
+                                 <kbd>
+                                    Ctrl + V
+                                 </kbd>
+                                 to PASTE to your Excel Workbook.
+                              </span>
+                              <button class="btn btn-default" data-dismiss="modal" type="button">
+                                 Close
+                              </button>
+                              <button class="btn btn-primary" onclick="selectElementContents( document.getElementById('detailsTable') );" type="button">
+                                 Select Table
+                              </button>
+                           </div>
+                           <div class="modal-body">
+                              <div class="table-responsive">
+                                 <small id="detailsTable">
                                     <table class="table table-bordered table-striped table-condensed">
-<tbody><tr><td>Course ID</td>
-<td>AHPUiT.instr1.gma-demo</td>
-</tr><tr><td>Course Name</td>
-<td>Sample Course 101</td>
-</tr><tr><td>Section</td>
-<td>Team</td>
-<td>Full Name</td>
-<td>Last Name</td>
-<td>Status</td>
-<td>Email</td>
-</tr><tr><td>Tutorial Group 1</td>
-<td>Team 1</td>
-<td>Alice Betsy</td>
-<td>Betsy</td>
-<td>Joined</td>
-<td>alice.b.tmms@gmail.tmt</td>
-</tr><tr><td>Tutorial Group 1</td>
-<td>Team 1</td>
-<td>Benny Charles</td>
-<td>Charles</td>
-<td>Joined</td>
-<td>benny.c.tmms@gmail.tmt</td>
-</tr><tr><td>Tutorial Group 1</td>
-<td>Team 1</td>
-<td>Danny Engrid</td>
-<td>Engrid</td>
-<td>Joined</td>
-<td>danny.e.tmms@gmail.tmt</td>
-</tr><tr><td>Tutorial Group 1</td>
-<td>Team 1</td>
-<td>Emma Farrell</td>
-<td>Farrell</td>
-<td>Joined</td>
-<td>emma.f.tmms@gmail.tmt</td>
-</tr><tr><td>Tutorial Group 2</td>
-<td>Team 2</td>
-<td>AHPUiT Instrúctör</td>
-<td>Instrúctör</td>
-<td>Joined</td>
-<td>AHPUiT.instr1@gmail.tmt</td>
-</tr><tr><td>Tutorial Group 2</td>
-<td>Team 2</td>
-<td>Charlie Davis</td>
-<td>Davis</td>
-<td>Joined</td>
-<td>charlie.d.tmms@gmail.tmt</td>
-</tr><tr><td>Tutorial Group 2</td>
-<td>Team 2</td>
-<td>Francis Gabriel</td>
-<td>Gabriel</td>
-<td>Joined</td>
-<td>francis.g.tmms@gmail.tmt</td>
-</tr><tr><td>Tutorial Group 2</td>
-<td>Team 2</td>
-<td>Gene Hudson</td>
-<td>Hudson</td>
-<td>Joined</td>
-<td>gene.h.tmms@gmail.tmt</td>
-</tr><tr><td>Tutorial Group 2</td>
-<td>Team 3</td>
-<td>Barney Stinson</td>
-<td>Stinson</td>
-<td>Yet to join</td>
-<td>barney.s.tmms@gmail.tmt</td>
-</tr></tbody></table>
-                                    </small>
-                               
-                                    </div>
-                                    </div>
-                                </div>
-                                <!-- /.modal-content -->
-                            </div>
-                            <!-- /.modal-dialog -->
+                                       <tbody>
+                                          <tr>
+                                             <td>
+                                                Course ID
+                                             </td>
+                                             <td>
+                                                AHPUiT.instr1.gma-demo
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Course Name
+                                             </td>
+                                             <td>
+                                                Sample Course 101
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Section
+                                             </td>
+                                             <td>
+                                                Team
+                                             </td>
+                                             <td>
+                                                Full Name
+                                             </td>
+                                             <td>
+                                                Last Name
+                                             </td>
+                                             <td>
+                                                Status
+                                             </td>
+                                             <td>
+                                                Email
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Tutorial Group 1
+                                             </td>
+                                             <td>
+                                                Team 1
+                                             </td>
+                                             <td>
+                                                Alice Betsy
+                                             </td>
+                                             <td>
+                                                Betsy
+                                             </td>
+                                             <td>
+                                                Joined
+                                             </td>
+                                             <td>
+                                                alice.b.tmms@gmail.tmt
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Tutorial Group 1
+                                             </td>
+                                             <td>
+                                                Team 1
+                                             </td>
+                                             <td>
+                                                Benny Charles
+                                             </td>
+                                             <td>
+                                                Charles
+                                             </td>
+                                             <td>
+                                                Joined
+                                             </td>
+                                             <td>
+                                                benny.c.tmms@gmail.tmt
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Tutorial Group 1
+                                             </td>
+                                             <td>
+                                                Team 1
+                                             </td>
+                                             <td>
+                                                Danny Engrid
+                                             </td>
+                                             <td>
+                                                Engrid
+                                             </td>
+                                             <td>
+                                                Joined
+                                             </td>
+                                             <td>
+                                                danny.e.tmms@gmail.tmt
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Tutorial Group 1
+                                             </td>
+                                             <td>
+                                                Team 1
+                                             </td>
+                                             <td>
+                                                Emma Farrell
+                                             </td>
+                                             <td>
+                                                Farrell
+                                             </td>
+                                             <td>
+                                                Joined
+                                             </td>
+                                             <td>
+                                                emma.f.tmms@gmail.tmt
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Tutorial Group 2
+                                             </td>
+                                             <td>
+                                                Team 2
+                                             </td>
+                                             <td>
+                                                AHPUiT Instrúctör
+                                             </td>
+                                             <td>
+                                                Instrúctör
+                                             </td>
+                                             <td>
+                                                Joined
+                                             </td>
+                                             <td>
+                                                AHPUiT.instr1@gmail.tmt
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Tutorial Group 2
+                                             </td>
+                                             <td>
+                                                Team 2
+                                             </td>
+                                             <td>
+                                                Charlie Davis
+                                             </td>
+                                             <td>
+                                                Davis
+                                             </td>
+                                             <td>
+                                                Joined
+                                             </td>
+                                             <td>
+                                                charlie.d.tmms@gmail.tmt
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Tutorial Group 2
+                                             </td>
+                                             <td>
+                                                Team 2
+                                             </td>
+                                             <td>
+                                                Francis Gabriel
+                                             </td>
+                                             <td>
+                                                Gabriel
+                                             </td>
+                                             <td>
+                                                Joined
+                                             </td>
+                                             <td>
+                                                francis.g.tmms@gmail.tmt
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Tutorial Group 2
+                                             </td>
+                                             <td>
+                                                Team 2
+                                             </td>
+                                             <td>
+                                                Gene Hudson
+                                             </td>
+                                             <td>
+                                                Hudson
+                                             </td>
+                                             <td>
+                                                Joined
+                                             </td>
+                                             <td>
+                                                gene.h.tmms@gmail.tmt
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Tutorial Group 2
+                                             </td>
+                                             <td>
+                                                Team 3
+                                             </td>
+                                             <td>
+                                                Barney Stinson
+                                             </td>
+                                             <td>
+                                                Stinson
+                                             </td>
+                                             <td>
+                                                Yet to join
+                                             </td>
+                                             <td>
+                                                barney.s.tmms@gmail.tmt
+                                             </td>
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                 </small>
+                              </div>
+                           </div>
                         </div>
-                        <!-- /.modal -->
-
-                    </div>
-                 </div>
-                 
+                     </div>
+                  </div>
+               </div>
             </div>
-        </div>
+         </div>
+      </div>
         <div id="commentArea" class="well well-plain" style="display: none;">
             <form method="post" action="/page/instructorStudentCommentAdd" name="form_commentadd">
                 <div class="form-group form-inline">
