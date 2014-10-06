@@ -55,10 +55,10 @@
                  
                 <div class="form-group">
                <div class="align-center">
-                  <input class="btn btn-primary" data-original-title="Email an invitation to all students yet to join requesting them to join the course using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" data-placement="top" data-toggle="tooltip" id="button_remind" onclick="if(toggleSendRegistrationKeysConfirmation('AHPUiT.instr1.gma-demo')) window.location.href='/page/instructorCourseRemind?courseid=AHPUiT.instr1.gma-demo&user=yangmoInstructor';" tabindex="1" title="" type="button" value="Remind Students to Join"/>
+                  <input class="btn btn-primary" data-original-title="Email an invitation to all students yet to join requesting them to join the course using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" data-placement="top" data-toggle="tooltip" id="button_remind" onclick="if(toggleSendRegistrationKeysConfirmation('AHPUiT.instr1.gma-demo')) window.location.href='/page/instructorCourseRemind?courseid=AHPUiT.instr1.gma-demo&user={$test.instructor}';" tabindex="1" title="" type="button" value="Remind Students to Join"/>
                                     <form action="/page/instructorCourseStudentListDownload" method="post" style="display:inline;">
                      <input class="btn btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value=" Download Student List "/>
-                                          <input name="user" type="hidden" value="yangmoInstructor"/>
+                                          <input name="user" type="hidden" value="{$test.instructor}"/>
                                           <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
                                        </form>
                   <div>
