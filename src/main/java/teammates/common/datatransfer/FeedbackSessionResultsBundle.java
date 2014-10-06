@@ -207,11 +207,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         if (giverIndex == -1 || recipientIndex == -1) {
             if (giverIndex == -1) {
                 Utils.getLogger().severe("getContributionQuestionResponseAnswerHtml - giverIndex is -1\n"
-                        + "Cannot find giver: " + actualResponse.giverEmail);
+                        + "Cannot find giver: " + actualResponse.giverEmail + "\n"
+                        + "CourseId: " + feedbackSession.courseId + "\n"
+                        + "Session Name: " + feedbackSession.feedbackSessionName + "\n"
+                        + "Response Id: " + actualResponse.getId());
             }
             if (recipientIndex == -1) {
                 Utils.getLogger().severe("getContributionQuestionResponseAnswerHtml - recipientIndex is -1\n"
-                        + "Cannot find recipient: " + actualResponse.recipientEmail);
+                        + "Cannot find recipient: " + actualResponse.recipientEmail + "\n"
+                        + "CourseId: " + feedbackSession.courseId + "\n"
+                        + "Session Name: " + feedbackSession.feedbackSessionName + "\n"
+                        + "Response Id: " + actualResponse.getId());
             }
         } else {
             responseAnswerHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
