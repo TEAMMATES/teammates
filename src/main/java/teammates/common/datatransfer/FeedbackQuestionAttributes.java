@@ -122,6 +122,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes
         return "Feedback Question";
     }
     
+    @Override
+    public String getBackupIdentifier() {
+        return "Course::" + courseId + "::is recently modified.";
+    }
+    
     public List<String> getInvalidityInfo() {
 
         FieldValidator validator = new FieldValidator();

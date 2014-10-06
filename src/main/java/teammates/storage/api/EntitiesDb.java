@@ -90,6 +90,9 @@ public abstract class EntitiesDb {
                         + entityToAdd.getIdentificationString());
             }
         }
+        
+        log.info(entityToAdd.getBackupIdentifier());
+        
         return entity;
     }
     
@@ -114,7 +117,7 @@ public abstract class EntitiesDb {
                 entities.add(entityToAdd.toEntity());
             }
             
-            log.info("Entity is created. Type::" + entityToAdd.getEntityTypeAsString() + "::" + entityToAdd.getIdentificationString() + "::");
+            log.info(entityToAdd.getBackupIdentifier());
         }
        
         getPM().makePersistentAll(entities);
@@ -166,7 +169,7 @@ public abstract class EntitiesDb {
                         + entityToAdd.getIdentificationString());
             }
         }
-        log.info("Entity is created. Type::" + entityToAdd.getEntityTypeAsString() + "::" + entityToAdd.getIdentificationString() + "::");
+        log.info(entityToAdd.getBackupIdentifier());
     }
     
     // TODO: use this method for subclasses.

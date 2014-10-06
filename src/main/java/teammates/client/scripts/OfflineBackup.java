@@ -66,7 +66,8 @@ public class OfflineBackup extends RemoteApiClient {
         Datastore.initialize();
         Vector<String> logs = getModifiedLogs();
         setupCsvFiles();
-        retrieveAllEntities(mapModifiedEntities(logs));
+        Set<String> courses = extractModifiedCourseIds(logs);
+        retrieveEntitiesByCourse(courses);
     }
     
     /**
@@ -85,7 +86,7 @@ public class OfflineBackup extends RemoteApiClient {
                     myURLConnection.getInputStream()));
             String logMessage;
             while ((logMessage = in.readLine()) != null) {
-                System.out.println(logMessage);
+                //System.out.println(logMessage);
                 modifiedLogs.add(logMessage);
             }
             in.close();
@@ -103,56 +104,28 @@ public class OfflineBackup extends RemoteApiClient {
      * Look through the logs and extracts all recently modified entities. Duplicates are removed
      * and the entities are placed into a multimap based on their types (instructor, student etc)
      */
-    private MultiMap mapModifiedEntities(Vector<String> modifiedLogs) {
+    private Set<String> extractModifiedCourseIds(Vector<String> modifiedLogs) {
         
-        //Removes all duplicates using a set
-        Set<String> entities = new HashSet<String>();
-        for(String entity : modifiedLogs) {
-            entities.add(entity);
+        //Extracts the course Ids to be backup from the logs
+        Set<String> courses = new HashSet<String>();
+        for(String course : modifiedLogs) {
+            courses.add(course);
         }
         
-        //Puts all the entities into a multimap based on entity type to make 
-        //it easier to retrieve all entities of a certain type
-        Iterator<String> it = entities.iterator();
-  
-        MultiMap entitiesMap = new MultiValueMap();
-        
-        while(it.hasNext()) {
-            String entity = it.next();
-            String tokens[] = entity.split("::");
-            String type = tokens[0];
-            String id = tokens[1];
-            entitiesMap.put(type, id);
-        }
-        
-        return entitiesMap;
+        return courses;
     }
     
     /** 
      *  Looks through an entity map to obtain all entities that were modified recently. Those entities are 
      *  then retrieved for backup.
      */
-    @SuppressWarnings("unchecked")
-    private void retrieveAllEntities(MultiMap entityMap) {
+    private void retrieveEntitiesByCourse(Set<String> coursesList) {
 
-        Set<String> keys = entityMap.keySet();
-        Iterator<String> it = keys.iterator();
-        
+        Iterator<String> it = coursesList.iterator();
         while(it.hasNext()) {
-            String entityType = it.next();
-            Collection<String> entityIds = (Collection<String>) entityMap.get(entityType);
+            String courseId = it.next();
+            System.out.println(courseId);
             
-            Iterator<String> entityIdsIt = entityIds.iterator();
-            
-            while(entityIdsIt.hasNext()) {
-                String id = entityIdsIt.next();
-                try {
-                    retrieveEntity(entityType,id);
-                    
-                } catch (ParseException e) {
-                    System.out.println("Error while retrieving entities: " + e.getMessage());
-                }     
-            }
         }
     }
     
@@ -167,9 +140,9 @@ public class OfflineBackup extends RemoteApiClient {
                 retrieveAndSaveAccount(id);
                 break;
                 
-            case "Comment":
+            /*case "Comment":
                 retrieveAndSaveComment(id);
-                break;
+                break;*/
                
             case "Course":
                 retrieveAndSaveCourse(id);
@@ -225,7 +198,7 @@ public class OfflineBackup extends RemoteApiClient {
         FileHelper.appendToFile(accountCsvFile, accountCsv);
     }
     
-    private void retrieveAndSaveComment(String id) throws ParseException {
+    /*private void retrieveAndSaveComment(String id) throws ParseException {
         CommentsDb commentDb = new CommentsDb();
         String[] idTokens = id.split("\\|");
         String courseId = idTokens[0].trim();
@@ -233,6 +206,7 @@ public class OfflineBackup extends RemoteApiClient {
         String receiverEmail = idTokens[2].trim();
         Text commentText = new Text(idTokens[3].trim());
         Date date = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").parse(idTokens[4].trim());
+        //Use get comment for course
         CommentAttributes comment = commentDb.getComment(courseId, giverEmail, receiverEmail, commentText, date);
 
         if(comment == null) {
@@ -240,10 +214,10 @@ public class OfflineBackup extends RemoteApiClient {
         }
         
         String createdAt = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(comment.createdAt);
-        String commentCsv = comment.getCommentId() + "," + comment.courseId + "," + comment.giverEmail + "," + comment.receiverEmail + "," + createdAt + "," + 
+        String commentCsv = comment.getCommentId() + "," + comment.courseId + "," + comment.giverEmail + "," + createdAt + "," + 
                                 commentText.getValue() + Const.EOL;
         FileHelper.appendToFile(commentCsvFile, commentCsv);
-    }
+    }*/
     
     private void retrieveAndSaveCourse(String id) {
         Logic logic = new Logic();

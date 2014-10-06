@@ -127,6 +127,11 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     }
 
     @Override
+    public String getBackupIdentifier() {
+        return "Course::" + courseId + "::is recently modified.";
+    }
+    
+    @Override
     public String toString() {
         return "FeedbackResponseAttributes [feedbackSessionName="
                 + feedbackSessionName + ", courseId=" + courseId

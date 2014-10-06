@@ -284,6 +284,11 @@ public class StudentAttributes extends EntityAttributes {
     }
     
     @Override
+    public String getBackupIdentifier() {
+        return "Course::" + course + "::is recently modified.";
+    }
+    
+    @Override
     public void sanitizeForSaving() {
         this.googleId = Sanitizer.sanitizeGoogleId(this.googleId);
         this.email = Sanitizer.sanitizeEmail(this.email);

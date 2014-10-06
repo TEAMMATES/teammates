@@ -156,6 +156,11 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     }
 
     @Override
+    public String getBackupIdentifier() {
+        return "Course::" + courseId + "::is recently modified.";
+    }
+    
+    @Override
     public void sanitizeForSaving() {
         this.courseId = this.courseId.trim();
         this.feedbackSessionName = this.feedbackSessionName.trim();

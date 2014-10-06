@@ -43,6 +43,12 @@ public abstract class EntityAttributes {
     public abstract String getEntityTypeAsString();
 
     /**
+     * @return the type of entity this Attribute class represents as a human
+     *            readable string.
+     */
+    public abstract String getBackupIdentifier();
+    
+    /**
      * Perform any sanitization that needs to be done before saving. 
      * e.g. trim strings
      */

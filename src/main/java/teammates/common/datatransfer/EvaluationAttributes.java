@@ -261,6 +261,11 @@ public class EvaluationAttributes extends EntityAttributes implements SessionAtt
         return "Evaluation";
     }
 
+    @Override
+    public String getBackupIdentifier() {
+        return "Course::" + courseId + "::is recently modified.";
+    }
+    
     public boolean isSimilar(EvaluationAttributes e) {
         if(e==null){
             return false;

@@ -217,6 +217,11 @@ public class SubmissionAttributes extends EntityAttributes {
     }
     
     @Override
+    public String getBackupIdentifier() {
+        return "Course::" + course + "::is recently modified.";
+    }
+    
+    @Override
     public void sanitizeForSaving() {
         this.course = Sanitizer.sanitizeForHtml(course); //TODO: rename to courseId 
         this.evaluation = Sanitizer.sanitizeForHtml(evaluation); //TODO: rename to evaluationName 

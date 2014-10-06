@@ -83,6 +83,11 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     }
 
     @Override
+    public String getBackupIdentifier() {
+        return "Course::" + id + "::is recently modified.";
+    }
+    
+    @Override
     public void sanitizeForSaving() {
         this.id = Sanitizer.sanitizeForHtml(id);
         this.name = Sanitizer.sanitizeForHtml(name);

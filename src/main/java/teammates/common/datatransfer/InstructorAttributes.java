@@ -223,6 +223,11 @@ public class InstructorAttributes extends EntityAttributes {
     }
 
     @Override
+    public String getBackupIdentifier() {
+        return "Course::" + courseId + "::is recently modified.";
+    }
+    
+    @Override
     public void sanitizeForSaving() {
         this.googleId = Sanitizer.sanitizeGoogleId(this.googleId);
         this.name = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(this.name));

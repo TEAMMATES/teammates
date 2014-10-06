@@ -139,6 +139,11 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     }
     
     @Override
+    public String getBackupIdentifier() {
+        return "Course::" + courseId + "::is recently modified.";
+    }
+    
+    @Override
     public List<String> getInvalidityInfo() {
         
         FieldValidator validator = new FieldValidator();

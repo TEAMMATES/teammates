@@ -166,7 +166,7 @@ public class CommentAttributes extends EntityAttributes
 
     @Override
     public String getIdentificationString() {
-        return courseId + "|" + giverEmail + "|" + receiverEmail + "|" + commentText.getValue() + "|" + new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(createdAt).toString();
+        return courseId + "|" + giverEmail + "|" + commentText.getValue() + "|" + new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(createdAt).toString();
     }
 
     @Override
@@ -174,6 +174,11 @@ public class CommentAttributes extends EntityAttributes
         return "Comment";
     }
 
+    @Override
+    public String getBackupIdentifier() {
+        return "Course::" + courseId + "::is recently modified.";
+    }
+    
     @Override
     public void sanitizeForSaving() {
         this.courseId = this.courseId.trim();

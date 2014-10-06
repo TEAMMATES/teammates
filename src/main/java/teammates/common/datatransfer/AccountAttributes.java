@@ -113,6 +113,11 @@ public class AccountAttributes extends EntityAttributes {
     }
 
     @Override
+    public String getBackupIdentifier() {
+        return "Account";
+    }
+    
+    @Override
     public void sanitizeForSaving() {
         this.googleId = Sanitizer.sanitizeForHtml(googleId);
         this.name = Sanitizer.sanitizeForHtml(name);
