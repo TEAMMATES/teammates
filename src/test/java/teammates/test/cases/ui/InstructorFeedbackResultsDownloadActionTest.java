@@ -9,8 +9,8 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
-import teammates.logic.backdoor.BackDoorLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.ui.controller.FileDownloadResult;
 import teammates.ui.controller.InstructorFeedbackResultsDownloadAction;
@@ -104,11 +104,25 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         
         ______TS("Unsuccessful case 1: params with null course id");
         
-        verifyAssumptionFailure(paramsWithNullCourseId);
+        try {
+            action = getAction(paramsWithNullCourseId);
+            result = (FileDownloadResult) action.executeAndPostProcess();
+            signalFailureToDetectException("Did not detect that parameters are null.");
+        } catch (NullPostParameterException e) {
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+                    Const.ParamsNames.COURSE_ID), e.getMessage());
+        }
         
         ______TS("Unsuccessful case 2: params with null feedback session name");
         
-        verifyAssumptionFailure(paramsWithNullFeedbackSessionName);
+        try {
+            action = getAction(paramsWithNullFeedbackSessionName);
+            result = (FileDownloadResult) action.executeAndPostProcess();
+            signalFailureToDetectException("Did not detect that parameters are null.");
+        } catch (NullPostParameterException e) {
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+                    Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
+        }
     }
     
     private void verifyFileContentForSession1InCourse1(String fileContent, FeedbackSessionAttributes session) {
