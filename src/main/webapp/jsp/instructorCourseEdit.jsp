@@ -26,6 +26,7 @@
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorCourseEdit.js"></script>
+    <script type="text/javascript" src="/js/instructorCourseEditAjax.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>   
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -103,12 +104,20 @@
         <%
             for (int i = 0; i < data.instructorList.size(); i++) {
                 InstructorAttributes instructor = data.instructorList.get(i);
-                int index = i+1;
+                int index;
+                if(data.index == -1){
+                    index = i + 1;
+                } else {
+                    index = data.index;
+                }
         %>
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <strong>Instructor <%=index%>:</strong>
                 <div class="pull-right">
+                    <div class="display-icon" style="display:inline;">
+                    
+                    </div>
                     <% if (instructor.googleId == null) { %>
                         <a href="<%=data.getInstructorCourseInstructorRemindLink(instructor.courseId, instructor.email)%>" id="instrRemindLink<%=index%>"
                             class="btn btn-primary btn-xs"
@@ -120,9 +129,14 @@
                             >
                             <span class="glyphicon glyphicon-envelope"></span> Resend Invite</a>
                     <% } %>
-                    <a href="javascript:;" id="instrEditLink<%=index%>" class="btn btn-primary btn-xs"
+                    <form style="display:none;" id="edit-<%=index%>" class="editForm" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=instructor.courseId%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>" value="<%=instructor.email%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_EDIT_MAIN_INDEX%>" value="<%=index%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                    </form>
+                    <a  href="javascript:;" id="instrEditLink<%=index%>" class="btn btn-primary btn-xs"
                         data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_INSTRUCTOR_EDIT%>"
-                        onclick="enableEditInstructor(<%=index%>, <%=data.instructorList.size()%>)"
                         <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {%>
                         disabled="disabled"
                         <% } %>
@@ -177,7 +191,11 @@
                                 value="<%=instructor.email%>"
                                 data-toggle="tooltip" data-placement="top" title="Enter the Email of the instructor."
                                 maxlength=<%=FieldValidator.EMAIL_MAX_LENGTH%> tabindex=5
-                                disabled="disabled">
+                                disabled="disabled"
+                                <% if (instructor.googleId == null) { %>
+                                    readonly="readonly"
+                                <% } %>
+                                >
                             </div>
                         </div>
                         <div class="form-group">
@@ -210,8 +228,9 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div id="accessControlEditDivForInstr<%=index%>" style="display:none;">
+                       
+                        <div id="accessControlEditDivForInstr<%=index%>">
+                             <% if(data.isAccessControlDisplayed) { %> 
                             <div class="form-group">
                                 <div class="col-sm-3">
                                     <label class="control-label pull-right">Access-level</label>
@@ -573,6 +592,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <% } %>
                         </div>
                         <div class="form-group">
                             <div class="align-center">

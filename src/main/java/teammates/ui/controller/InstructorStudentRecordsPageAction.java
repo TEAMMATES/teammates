@@ -33,6 +33,9 @@ public class InstructorStudentRecordsPageAction extends Action {
         
         String showCommentBox = getRequestParamValue(Const.ParamsNames.SHOW_COMMENT_BOX);
         
+        String targetSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        targetSessionName = targetSessionName == null? "": targetSessionName;
+        
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
         new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
@@ -51,7 +54,11 @@ public class InstructorStudentRecordsPageAction extends Action {
             }
             
             data.showCommentBox = showCommentBox;
-            data.comments = logic.getCommentsForReceiver(courseId, instructor.email, CommentRecipientType.PERSON, studentEmail);
+            if(targetSessionName.isEmpty()){
+                data.comments = logic.getCommentsForReceiver(courseId, instructor.email, CommentRecipientType.PERSON, studentEmail);
+            } else {
+                data.comments = new ArrayList<CommentAttributes>();
+            }
             Iterator<CommentAttributes> iterator = data.comments.iterator();
             while(iterator.hasNext()){
                 CommentAttributes c = iterator.next();
@@ -62,40 +69,32 @@ public class InstructorStudentRecordsPageAction extends Action {
             List<EvaluationAttributes> evals = logic.getEvaluationsListForInstructor(account.googleId);
             List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsListForInstructor(account.googleId);
             
-            //Remove evaluations and feedbacks not from the courseId parameters
-            //Can be removed later when we want to have unified view
-            for(int i = evals.size() - 1; i >= 0; i--){
-                if(!evals.get(i).courseId.equals(courseId)){
-                    evals.remove(i);
-                } else if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, 
-                        evals.get(i).getSessionName(), Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
-                    evals.remove(i);
-                }
-            }
+            filterEvaluations(courseId, evals);
+            filterFeedbackSessions(courseId, feedbacks);
             
-            for(int i = feedbacks.size() - 1; i >= 0; i--){
-                if(!feedbacks.get(i).courseId.equals(courseId)){
-                    feedbacks.remove(i);
-                } else if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, 
-                        feedbacks.get(i).feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
-                    feedbacks.remove(i);
-                }
-            }
-            
+            data.evals = new ArrayList<SessionAttributes>();
+            data.evals.addAll(evals);
             data.sessions = new ArrayList<SessionAttributes>();
             data.sessions.addAll(evals);
             data.sessions.addAll(feedbacks);
+            Collections.sort(data.evals, SessionAttributes.DESCENDING_ORDER);
             Collections.sort(data.sessions, SessionAttributes.DESCENDING_ORDER);
             CommentAttributes.sortCommentsByCreationTimeDescending(data.comments);
 
+            data.targetSessionName = targetSessionName;
             data.results = new ArrayList<SessionResultsBundle>();
             for(SessionAttributes session : data.sessions){
                 if(session instanceof EvaluationAttributes){
-                    data.results.add(logic.getEvaluationResultForStudent(
-                            courseId, session.getSessionName(), studentEmail));
+                    if(targetSessionName.isEmpty()){
+                        data.results.add(logic.getEvaluationResultForStudent(
+                                courseId, session.getSessionName(), studentEmail));
+                    }
                 } else if(session instanceof FeedbackSessionAttributes){
-                    data.results.add(logic.getFeedbackSessionResultsForInstructor(
-                                    session.getSessionName(), courseId,instructor.email));
+                    if(!targetSessionName.isEmpty() && targetSessionName.equals(session.getSessionName())){
+                        SessionResultsBundle result = logic.getFeedbackSessionResultsForInstructor(
+                                session.getSessionName(), courseId,instructor.email);
+                        data.results.add(result);
+                    }
                 } else {
                     Assumption.fail("Unknown session type");
                 }
@@ -134,6 +133,35 @@ public class InstructorStudentRecordsPageAction extends Action {
             // TODO: write test to trigger this path
             setStatusForException(e); 
             return createShowPageResult(Const.ViewURIs.STATUS_MESSAGE, data);
+        }
+    }
+
+    private void filterFeedbackSessions(String courseId,
+            List<FeedbackSessionAttributes> feedbacks) {
+        Iterator<FeedbackSessionAttributes> iterFs = feedbacks.iterator();
+        while (iterFs.hasNext()) {
+            FeedbackSessionAttributes tempFs = iterFs.next();
+            if (!tempFs.courseId.equals(courseId)) {
+                iterFs.remove();
+            } else if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, 
+                    tempFs.getSessionName(), Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
+                iterFs.remove();
+            }
+        }
+    }
+
+    private void filterEvaluations(String courseId,
+            List<EvaluationAttributes> evals) {
+        Iterator<EvaluationAttributes> iterEval = evals.iterator();
+        while (iterEval.hasNext()) {
+            EvaluationAttributes tempEval = iterEval.next();
+            if (!tempEval.courseId.equals(courseId)) {
+                iterEval.remove();
+            } else if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, 
+                    Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + tempEval.getSessionName(),
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
+                iterEval.remove();
+            }
         }
     }
     

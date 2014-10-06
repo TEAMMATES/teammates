@@ -21,11 +21,27 @@ $(document).ready(function() {
 
 	});
 	
+	$(".instructorRow").click(function() {
+
+		var rawId = $(this).attr("id");
+		if($(this).attr("class") == "instructorRow active"){
+			$(this).attr("class", "instructorRow");
+		} else{
+			$(this).attr("class", "instructorRow active");
+		}
+		$(".fslink" + rawId).toggle();
+
+	});
+	
 	$(".homePageLink").click(function(e){		
 		e.stopPropagation();
 	});
 	
 	$(".detailsPageLink").click(function(e){		
+		e.stopPropagation();
+	});
+	
+	$(".recentActionButton").click(function(e){
 		e.stopPropagation();
 	});
 	
@@ -35,17 +51,28 @@ $(document).ready(function() {
 
 });
 
-function adminSearchDiscloseAll(){
+function adminSearchDiscloseAllStudents(){
 	
-	$(".fslink").slideDown();	
+	$(".fslink_student").slideDown();	
 	$(".studentRow").attr("class", "studentRow active");
 	
 }
 
-function adminSearchCollapseAll(){
-	$(".fslink").hide();
+function adminSearchCollapseAllStudents(){
+	$(".fslink_student").hide();
 	$(".studentRow").attr("class", "studentRow");
 }
+
+function adminSearchDiscloseAllInstructors(){
+	$(".fslink_instructor").slideDown();
+	$(".instructorRow").attr("class", "instructorRow active");
+}
+
+function adminSearchCollapseAllInstructors(){
+	$(".fslink_instructor").hide();
+	$(".instructorRow").attr("class", "instructorRow");
+}
+
 
 onload = function() {
 	$(".fslink").hide();

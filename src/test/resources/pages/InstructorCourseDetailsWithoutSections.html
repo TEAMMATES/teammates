@@ -47,27 +47,170 @@
                     <div class="col-sm-6" id="instructors">
                         <div class="form-control-static">
                     
-                        Co-owner: Teammates Coord (CCDetailsUiT.coord@gmail.com)<br><br>
+                        Co-owner: Teammates Coord (CCDetailsUiT.coord@gmail.tmt)<br><br>
                     
-                        Co-owner: Teammates Test (CCDetailsUiT.instr@gmail.com)<br><br>
+                        Co-owner: Teammates Test (CCDetailsUiT.instr@gmail.tmt)<br><br>
                     
                         </div>
                     </div>
                  </div>
                  
                  <div class="form-group">
-                     <div class="align-center">
-                         <input data-original-title="Email an invitation to all students yet to join requesting them to join the course using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" class="btn btn-primary" id="button_remind" data-toggle="tooltip" data-placement="top" title="" onclick="if(toggleSendRegistrationKeysConfirmation('CCDetailsUiT.CS2104')) window.location.href='/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2104&amp;user=CCDetailsUiT.instr';" value="Remind Students to Join" tabindex="1" type="button">
-                         <form method="post" action="/page/instructorCourseStudentListDownload" style="display:inline;">
-                            <input id="button_download" class="btn btn-primary" name="fruploaddownloadbtn" value=" Download Student List " type="submit">
-                            <input name="user" value="CCDetailsUiT.instr" type="hidden">
-                            <input name="courseid" value="CCDetailsUiT.CS2104" type="hidden">
-                        </form>
+               <div class="align-center">
+                  <input class="btn btn-primary" data-original-title="Email an invitation to all students yet to join requesting them to join the course using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" data-placement="top" data-toggle="tooltip" id="button_remind" onclick="if(toggleSendRegistrationKeysConfirmation('CCDetailsUiT.CS2104')) window.location.href='/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2104&user=CCDetailsUiT.instr';" tabindex="1" title="" type="button" value="Remind Students to Join"/>
+                                    <form action="/page/instructorCourseStudentListDownload" method="post" style="display:inline;">
+                     <input class="btn btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value=" Download Student List "/>
+                                          <input name="user" type="hidden" value="CCDetailsUiT.instr"/>
+                                          <input name="courseid" type="hidden" value="CCDetailsUiT.CS2104"/>
+                                       </form>
+                  <div>
+                     <span class="help-block">
+                        Non-English characters not displayed properly in the downloaded file?
+                        <span class="btn-link" data-target="#studentTableWindow" data-toggle="modal">
+                           click here
+                        </span>
+                     </span>
+                  </div>
+                  <div class="modal fade" id="studentTableWindow">
+                     <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                           <div class="modal-header">
+                              <span class="pull-left help-block">
+                                 Tips: After Selecting the table,
+                                 <kbd>
+                                    Ctrl + C
+                                 </kbd>
+                                 to COPY and
+                                 <kbd>
+                                    Ctrl + V
+                                 </kbd>
+                                 to PASTE to your Excel Workbook.
+                              </span>
+                              <button class="btn btn-default" data-dismiss="modal" type="button">
+                                 Close
+                              </button>
+                              <button class="btn btn-primary" onclick="selectElementContents( document.getElementById('detailsTable') );" type="button">
+                                 Select Table
+                              </button>
+                           </div>
+                           <div class="modal-body">
+                              <div class="table-responsive">
+                                 <small id="detailsTable">
+                                    <table class="table table-bordered table-striped table-condensed">
+                                       <tbody>
+                                          <tr>
+                                             <td>
+                                                Course ID
+                                             </td>
+                                             <td>
+                                                CCDetailsUiT.CS2104
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Course Name
+                                             </td>
+                                             <td>
+                                                Programming Language Concepts
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Team
+                                             </td>
+                                             <td>
+                                                Full Name
+                                             </td>
+                                             <td>
+                                                Last Name
+                                             </td>
+                                             <td>
+                                                Status
+                                             </td>
+                                             <td>
+                                                Email
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Team 1
+                                             </td>
+                                             <td>
+                                                Alice Betsy
+                                             </td>
+                                             <td>
+                                                Betsy
+                                             </td>
+                                             <td>
+                                                Joined
+                                             </td>
+                                             <td>
+                                                yangmotest1@gmail.com
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Team 1
+                                             </td>
+                                             <td>
+                                                Charlie Davis
+                                             </td>
+                                             <td>
+                                                Davis
+                                             </td>
+                                             <td>
+                                                Yet to join
+                                             </td>
+                                             <td>
+                                                yangmotest2@gmail.com
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Team 2
+                                             </td>
+                                             <td>
+                                                Benny Charles
+                                             </td>
+                                             <td>
+                                                Charles
+                                             </td>
+                                             <td>
+                                                Yet to join
+                                             </td>
+                                             <td>
+                                                benny.tmms@gmail.tmt
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Team 2
+                                             </td>
+                                             <td>
+                                                Danny Engrid
+                                             </td>
+                                             <td>
+                                                Engrid
+                                             </td>
+                                             <td>
+                                                Joined
+                                             </td>
+                                             <td>
+                                                danny.e.tmms@gmail.tmt
+                                             </td>
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                 </small>
+                              </div>
+                           </div>
+                        </div>
                      </div>
-                 </div>
-                 
+                  </div>
+               </div>
             </div>
-        </div>
+         </div>
+      </div>
         <div id="commentArea" class="well well-plain" style="display: none;">
             <form method="post" action="/page/instructorStudentCommentAdd" name="form_commentadd">
                 <div class="form-group form-inline">
@@ -232,20 +375,20 @@
                         <td id="studentname">Benny Charles</td>
                         <td class="align-center">Yet to join</td>
                         <td class="align-center no-print">
-                            <a data-original-title="View the details of the student" class="btn btn-default btn-xs" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.com&amp;user=CCDetailsUiT.instr" data-toggle="tooltip" data-placement="top" title=""> View</a>
-                            <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" class="btn btn-default btn-xs" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.com&amp;user=CCDetailsUiT.instr" data-toggle="tooltip" data-placement="top" title=""> Edit</a>
+                            <a data-original-title="View the details of the student" class="btn btn-default btn-xs" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr" data-toggle="tooltip" data-placement="top" title=""> View</a>
+                            <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" class="btn btn-default btn-xs" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr" data-toggle="tooltip" data-placement="top" title=""> Edit</a>
                             
-                            <a data-original-title="Email an invitation to the student requesting him/her to join the course using his/her Google Account. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" class="btn btn-default btn-xs" href="/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.com&amp;user=CCDetailsUiT.instr" onclick="return toggleSendRegistrationKey()" data-toggle="tooltip" data-placement="top" title=""> Send Invite</a>
+                            <a data-original-title="Email an invitation to the student requesting him/her to join the course using his/her Google Account. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" class="btn btn-default btn-xs" href="/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr" onclick="return toggleSendRegistrationKey()" data-toggle="tooltip" data-placement="top" title=""> Send Invite</a>
                             
-                            <a data-original-title="Delete the student and the corresponding submissions from the course" class="btn btn-default btn-xs" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.com&amp;user=CCDetailsUiT.instr" onclick="return toggleDeleteStudentConfirmation('Benny Charles')" data-toggle="tooltip" data-placement="top" title=""> Delete</a>
-                            <a data-original-title="View all data about this student" class="btn btn-default btn-xs" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.com&amp;user=CCDetailsUiT.instr" data-toggle="tooltip" data-placement="top" title=""> All Records</a>
+                            <a data-original-title="Delete the student and the corresponding submissions from the course" class="btn btn-default btn-xs" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr" onclick="return toggleDeleteStudentConfirmation('Benny Charles')" data-toggle="tooltip" data-placement="top" title=""> Delete</a>
+                            <a data-original-title="View all data about this student" class="btn btn-default btn-xs" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr" data-toggle="tooltip" data-placement="top" title=""> All Records</a>
                             <div class="btn-group">
                                 <a data-original-title="Give a comment for this student, his/her team/section" class="btn btn-default btn-xs cursor-default" href="javascript:;" data-toggle="tooltip" data-placement="top" title=""> Add Comment</a>
                                 <a href="javascript:;" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown"><span class="caret"></span><span class="sr-only">Add comments</span></a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
-                                    <li role="presentation"><a class="t_student_details_tostudent-cCCDetailsUiT.CS2104.1" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.com&amp;user=CCDetailsUiT.instr&amp;addComment=student">
+                                    <li role="presentation"><a class="t_student_details_tostudent-cCCDetailsUiT.CS2104.1" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr&amp;addComment=student">
                                         To student: Benny Charles</a></li>
-                                    <li role="presentation"><a class="t_student_details_toteam-cCCDetailsUiT.CS2104.1" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.com&amp;user=CCDetailsUiT.instr&amp;addComment=team">
+                                    <li role="presentation"><a class="t_student_details_toteam-cCCDetailsUiT.CS2104.1" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr&amp;addComment=team">
                                         To team: Team 2</a></li>
                                     
                                 </ul>
@@ -257,18 +400,18 @@
                         <td id="studentname">Danny Engrid</td>
                         <td class="align-center">Joined</td>
                         <td class="align-center no-print">
-                            <a data-original-title="View the details of the student" class="btn btn-default btn-xs" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=CCDetailsUiT.instr" data-toggle="tooltip" data-placement="top" title=""> View</a>
-                            <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" class="btn btn-default btn-xs" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=CCDetailsUiT.instr" data-toggle="tooltip" data-placement="top" title=""> Edit</a>
+                            <a data-original-title="View the details of the student" class="btn btn-default btn-xs" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr" data-toggle="tooltip" data-placement="top" title=""> View</a>
+                            <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" class="btn btn-default btn-xs" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr" data-toggle="tooltip" data-placement="top" title=""> Edit</a>
                             
-                            <a data-original-title="Delete the student and the corresponding submissions from the course" class="btn btn-default btn-xs" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=CCDetailsUiT.instr" onclick="return toggleDeleteStudentConfirmation('Danny Engrid')" data-toggle="tooltip" data-placement="top" title=""> Delete</a>
-                            <a data-original-title="View all data about this student" class="btn btn-default btn-xs" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=CCDetailsUiT.instr" data-toggle="tooltip" data-placement="top" title=""> All Records</a>
+                            <a data-original-title="Delete the student and the corresponding submissions from the course" class="btn btn-default btn-xs" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr" onclick="return toggleDeleteStudentConfirmation('Danny Engrid')" data-toggle="tooltip" data-placement="top" title=""> Delete</a>
+                            <a data-original-title="View all data about this student" class="btn btn-default btn-xs" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr" data-toggle="tooltip" data-placement="top" title=""> All Records</a>
                             <div class="btn-group">
                                 <a data-original-title="Give a comment for this student, his/her team/section" class="btn btn-default btn-xs cursor-default" href="javascript:;" data-toggle="tooltip" data-placement="top" title=""> Add Comment</a>
                                 <a href="javascript:;" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown"><span class="caret"></span><span class="sr-only">Add comments</span></a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
-                                    <li role="presentation"><a class="t_student_details_tostudent-cCCDetailsUiT.CS2104.3" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=CCDetailsUiT.instr&amp;addComment=student">
+                                    <li role="presentation"><a class="t_student_details_tostudent-cCCDetailsUiT.CS2104.3" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr&amp;addComment=student">
                                         To student: Danny Engrid</a></li>
-                                    <li role="presentation"><a class="t_student_details_toteam-cCCDetailsUiT.CS2104.3" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.com&amp;user=CCDetailsUiT.instr&amp;addComment=team">
+                                    <li role="presentation"><a class="t_student_details_toteam-cCCDetailsUiT.CS2104.3" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr&amp;addComment=team">
                                         To team: Team 2</a></li>
                                     
                                 </ul>

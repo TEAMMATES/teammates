@@ -624,7 +624,7 @@
                         </label>
                         <div class="col-sm-8">
                             <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>-<%=question.questionNumber%>"
-                                disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
+                                disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                                 <%
                                     for(String opt: data.getParticipantOptions(question, false)) out.println(opt);
                                 %>
@@ -635,12 +635,12 @@
                 <div class="row">
                     <br><br>
                     <div class="col-sm-6 btn-group" data-toggle="buttons">
-                        <label class="btn btn-xs btn-info visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
+                        <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-<%=question.questionNumber%>" onchange="toggleVisibilityOptions(this)">
                             <input type="radio">
                                 <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
                             </input>
                         </label>
-                        <label class="btn btn-xs btn-info active visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+                        <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-<%=question.questionNumber%>" onchange="toggleVisibilityMessage(this)">
                             <input type="radio">
                                 <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
                             </input>
@@ -663,7 +663,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12 text-muted visibilityMessage">
+                    <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-<%=question.questionNumber%>">
                         This is the visibility as seen by the feedback giver.
                         <ul class="background-color-warning">
                         <%
@@ -677,7 +677,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="visibilityOptions">
+                <div class="visibilityOptions" id="visibilityOptions-<%=question.questionNumber%>">
                     <br>
                     <table class="dataTable participantTable table table-striped text-center">
                         <tr>
@@ -826,7 +826,7 @@
                                 <option value = "NUMSCALE"><%=Const.FeedbackQuestionTypeNames.NUMSCALE%></option>
                                 <option value = "CONSTSUM_OPTION"><%=Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION%></option>
                                 <option value = "CONSTSUM_RECIPIENT"><%=Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT%></option>
-                                <option value = "CONSTSUM" style="display:none"></option>
+                                <option value = "CONSTSUM" disabled="disabled" style="display:none"></option>
                                 <option value = "CONTRIB"><%=Const.FeedbackQuestionTypeNames.CONTRIB%></option>
                             </select>
                         </div>
@@ -930,7 +930,7 @@
                                 Feedback Recipient:
                             </label>
                             <div class="col-sm-8">
-                                <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
+                                <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                                     <%
                                         for(String opt: data.getParticipantOptions(null, false)) out.println(opt);
                                     %>

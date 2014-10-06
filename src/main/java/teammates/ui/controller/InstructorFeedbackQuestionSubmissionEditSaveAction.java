@@ -3,6 +3,8 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.FeedbackQuestionBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -14,6 +16,24 @@ public class InstructorFeedbackQuestionSubmissionEditSaveAction extends
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getFeedbackSession(feedbackSessionName, courseId),
                 false);
+    }
+
+    @Override
+    protected void appendRespondant() {
+        try {
+            logic.addInstructorRespondant(account.googleId, feedbackSessionName, courseId);
+        } catch (InvalidParametersException | EntityDoesNotExistException e) {
+            log.severe("Fail to append instructor respondant for session");
+        }
+    }
+
+    @Override
+    protected void removeRespondant() {
+        try {
+            logic.deleteInstructorRespondant(account.googleId, feedbackSessionName, courseId);
+        } catch (InvalidParametersException | EntityDoesNotExistException e) {
+            log.severe("Fail to remove instructor respondant for session");
+        }
     }
 
     @Override

@@ -1,5 +1,7 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
@@ -48,16 +50,19 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     public void allTests() throws Exception{
         testContent();
         
-        testNewInstructorLink();
         testEditInstructorLink();
-        
+        testNewInstructorLink();
         testInputValidation();
         
         testInviteInstructorAction();
         testAddInstructorAction();
         testEditInstructorAction();
         testDeleteInstructorAction();
+        
+        testUnregisteredInstructorEmailNotEditable();
+        
         testDeleteCourseAction();
+
     }
     
     public void testContent() throws Exception{
@@ -78,7 +83,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     private void testEditInstructorLink() {
         
         ______TS("edit instructor link");
-        assertEquals(true, courseEditPage.clickEditInstructorLink());
+        assertEquals(true, courseEditPage.clickEditInstructorLink(1));
     }
 
     private void testNewInstructorLink() {
@@ -88,8 +93,6 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     }
 
     private void testInputValidation() {
-        
-        courseEditPage.clickShowNewInstructorFormButton();
         
         ______TS("Checking max-length enforcement by the text boxes");
         String maxLengthInstructorName = StringHelper.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH);
@@ -119,17 +122,17 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         ______TS("success: invite an uregistered instructor");
         
         courseEditPage.clickInviteInstructorLink();
-        courseEditPage.verifyStatus(Const.StatusMessages.COURSE_REMINDER_SENT_TO + "InsCrsEdit.newInstr@gmail.com");
+        courseEditPage.verifyStatus(Const.StatusMessages.COURSE_REMINDER_SENT_TO + "InsCrsEdit.newInstr@gmail.tmt");
     }
 
     private void testAddInstructorAction() {
 
         ______TS("success: add an instructor");
         
-        courseEditPage.addNewInstructor("Teammates Instructor", "InsCrsEdit.instructor@gmail.com");
+        courseEditPage.addNewInstructor("Teammates Instructor", "InsCrsEdit.instructor@gmail.tmt");
         courseEditPage.verifyStatus(
                 String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED,
-                        "Teammates Instructor", "InsCrsEdit.instructor@gmail.com"));
+                        "Teammates Instructor", "InsCrsEdit.instructor@gmail.tmt"));
         
         Url courseDetailsLink = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                 .withCourseId(courseId)
@@ -141,18 +144,18 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     
         ______TS("failure: add an existing instructor");
         
-        courseEditPage.addNewInstructor("Teammates Instructor", "InsCrsEdit.instructor@gmail.com");
+        courseEditPage.addNewInstructor("Teammates Instructor", "InsCrsEdit.instructor@gmail.tmt");
         courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_EXISTS);
         
         ______TS("failure: add an instructor with an invalid parameter");
-        String invalidEmail = "InsCrsEdit.email.com";
+        String invalidEmail = "InsCrsEdit.email.tmt";
         
         courseEditPage.addNewInstructor("Teammates Instructor", invalidEmail);
         courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.EMAIL, invalidEmail));
 
         String invalidName = "";
         
-        courseEditPage.addNewInstructor(invalidName, "teammates@email.com");
+        courseEditPage.addNewInstructor(invalidName, "teammates@email.tmt");
         courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
     }
 
@@ -160,12 +163,12 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
 
         ______TS("success: edit an instructor");
         
-        courseEditPage.editInstructor(instructorId, "New name", "new_email@email.com");
+        courseEditPage.editInstructor(instructorId, "New name", "new_email@email.tmt");
         courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED);
         
         ______TS("success: edit an instructor--viewing instructor permission details");
         
-        assertEquals(true, courseEditPage.clickEditInstructorLink());
+        assertEquals(true, courseEditPage.clickEditInstructorLink(1));
         // this should be click co-owner role
         courseEditPage.clickViewDetailsLinkForInstructor(1, 1);
         // what for the animation to finish
@@ -196,14 +199,14 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesSuccessful.html");
         
         ______TS("failure: edit failed due to invalid parameters");
-        String invalidEmail = "InsCrsEdit.email.com";
+        String invalidEmail = "InsCrsEdit.email.tmt";
         
         courseEditPage.editInstructor(instructorId, "New name", invalidEmail);
         courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.EMAIL, invalidEmail));
         
         String invalidName = "";
         
-        courseEditPage.editInstructor(instructorId, invalidName, "teammates@email.com");
+        courseEditPage.editInstructor(instructorId, invalidName, "teammates@email.tmt");
         courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
     }
     
@@ -251,6 +254,19 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         InstructorCoursesPage coursePage = 
                 courseEditPage.clickDeleteCourseLinkAndConfirm();
         coursePage.verifyContains("Add New Course");
+    }
+    
+    private void testUnregisteredInstructorEmailNotEditable() {
+        courseEditPage = getCourseEditPage();
+        ______TS("make a new unregistered instructor and test that its email can't be edited");
+        courseEditPage.addNewInstructor("Unreg Instructor", "InstructorCourseEditEmail@gmail.tmt");
+        
+        assertEquals("Unreg Instructor", courseEditPage.getNameField(3).getAttribute("value"));
+        assertFalse(courseEditPage.getNameField(3).isEnabled());
+        
+        assertTrue(courseEditPage.clickEditInstructorLink(3));
+        assertEquals("true", courseEditPage.getEmailField(3).getAttribute("readonly"));
+        assertTrue(courseEditPage.getNameField(3).isEnabled());
     }
     
     private InstructorCourseEditPage getCourseEditPage() {        

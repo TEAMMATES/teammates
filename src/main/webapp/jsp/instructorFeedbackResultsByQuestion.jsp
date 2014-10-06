@@ -139,7 +139,7 @@
                                     <td class="middlealign"><%=giverTeamName%></td>
                                     <td class="middlealign"><%=recipientName%></td>
                                     <td class="middlealign"><%=recipientTeamName%></td>
-                                    <td class="multiline"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
+                                    <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
                                 </tr>        
                                 <%
                                     }

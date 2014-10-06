@@ -18,7 +18,6 @@ public class StudentProfileEditSaveAction extends Action {
 
         try {
             account.studentProfile = extractProfileData();
-            account.studentProfile.googleId = account.googleId;
             logic.updateStudentProfile(account.studentProfile);
             statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_EDITED);
             statusToAdmin = "Student Profile for <span class=\"bold\">(" + account.googleId + ")</span> edited.<br>" +
@@ -42,6 +41,7 @@ public class StudentProfileEditSaveAction extends Action {
     private StudentProfileAttributes extractProfileData() {
         StudentProfileAttributes editedProfile = new StudentProfileAttributes();
         
+        editedProfile.googleId = account.googleId;
         editedProfile.shortName = getRequestParamValue(Const.ParamsNames.STUDENT_SHORT_NAME);
         editedProfile.email = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_EMAIL);
         editedProfile.institute = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_INSTITUTION);

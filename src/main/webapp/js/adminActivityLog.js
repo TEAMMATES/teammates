@@ -1,7 +1,8 @@
-function submitForm(offset, ifShowAll) {
+function submitForm(offset, ifShowAll, isShowTestData) {
 	$('input[name=offset]').val(offset);
 	$('input[name=pageChange]').val("true");
 	$('input[name=all]').val(ifShowAll);
+	$('input[name=testdata]').val(isShowTestData);
 	$("#activityLogFilter").submit();
 }
 
@@ -51,7 +52,8 @@ function submitFormAjax(offset) {
                 	lastLogRow.after(value.logInfoAsHtml);
                 	lastLogRow = $('#logsTable tr:last');	                		
                 	});
-                	             
+                	
+                	updateInfoForRecentActionButton();
                 } else {
                     setFormErrorMessage(button, data.errorMessage);
                 }
@@ -68,10 +70,14 @@ function setFormErrorMessage(button, msg){
 	button.after("&nbsp;&nbsp;&nbsp;"+ msg);
 }
 
-$(document).ready(function(){
-	
+function updateInfoForRecentActionButton(){
 	var isShowAll = $("#ifShowAll").val();	
-	$(".ifShowAll_button_for_person").val(isShowAll);
+	$(".ifShowAll_for_person").val(isShowAll);
 	
-	
+	var isShowTestData = $("#ifShowTestData").val();
+	$(".ifShowTestData_for_person").val(isShowTestData);
+}
+
+$(document).ready(function(){
+	updateInfoForRecentActionButton();
 });

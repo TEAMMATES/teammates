@@ -6,6 +6,9 @@ $(document).ready(function(){
 	
 	$("div[id^=plainCommentText]").css("margin-left","15px");
 	
+	//auto-loading for feedback responses
+	$("div[id^='studentFeedback-']").click();
+	
 	$('a[id^="visibility-options-trigger"]').click(function(){
     	var visibilityOptions = $(this).parent().next();
 		if(visibilityOptions.is(':visible')){
@@ -151,4 +154,18 @@ function deleteComment(commentIdx){
     } else {
         return false;
     }
+}
+
+function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
+	$(".tooltip").hide();
+	var targetDiv = $(sender).find('div[id^="target-feedback-"]');
+	var fsNameForUrl = fsName.split(' ').join('+');
+	var url = "/page/instructorStudentRecordsPage?courseid=" + courseId + "&studentemail=" + stuEmail + "&user=" + user + "&fsname=" + fsNameForUrl;
+	$(sender).find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
+	targetDiv.load(url, function( response, status, xhr ) {
+	  if (status == "success") {
+		  $(sender).removeAttr("onclick");
+	  }
+	  $(sender).find('div[class^="placeholder-img-loading"]').html("");
+	});
 }

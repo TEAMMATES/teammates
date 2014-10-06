@@ -7,7 +7,9 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -37,6 +39,24 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
             throw new UnauthorizedAccessException(
                     "Feedback session [" + session.feedbackSessionName + 
                     "] is not accessible to instructor ["+ instructor.email + "] for this purpose");
+        }
+    }
+
+    @Override
+    protected void appendRespondant() {
+        try {
+            logic.addInstructorRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
+        } catch (InvalidParametersException | EntityDoesNotExistException e) {
+            log.severe("Fail to append instructor respondant");
+        }
+    }
+
+    @Override
+    protected void removeRespondant() {
+        try {
+            logic.deleteInstructorRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
+        } catch (InvalidParametersException | EntityDoesNotExistException e) {
+            log.severe("Fail to remove instructor respondant");
         }
     }
 

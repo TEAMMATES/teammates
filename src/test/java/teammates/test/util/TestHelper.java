@@ -33,6 +33,7 @@ import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
@@ -274,6 +275,7 @@ public class TestHelper extends BaseComponentTestCase{
         StudentAttributes actualStudent = studentsDb.getStudentForEmail(expectedStudent.course,
                 expectedStudent.email);
         expectedStudent.updateStatus = UpdateStatus.UNKNOWN;
+        expectedStudent.lastName = StringHelper.splitName(expectedStudent.name)[1];
         equalizeIrrelevantData(expectedStudent, actualStudent);
         assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
     }
@@ -312,6 +314,8 @@ public class TestHelper extends BaseComponentTestCase{
     
     public static void verifyPresentInDatastore(FeedbackSessionAttributes expected) {
         FeedbackSessionAttributes actual = fsDb.getFeedbackSession(expected.courseId, expected.feedbackSessionName);
+        expected.respondingInstructorList = actual.respondingInstructorList;
+        expected.respondingStudentList = actual.respondingStudentList;
         assertEquals(gson.toJson(expected), gson.toJson(actual));
     }
 
@@ -461,7 +465,7 @@ public class TestHelper extends BaseComponentTestCase{
             EntityDoesNotExistException {
         // create course
         
-        logic.createAccount("instructorForTestingER", "Instructor 1", true, "instructor@email.com", "National University Of Singapore");
+        logic.createAccount("instructorForTestingER", "Instructor 1", true, "instructor@email.tmt", "TEAMMATES Test Institute 1");
         logic.createCourseAndInstructor("instructorForTestingER", courseId,
                 "Course For Testing Evaluation Results");
         // create students
@@ -470,7 +474,7 @@ public class TestHelper extends BaseComponentTestCase{
         for (int i = 0; i < teamSize; i++) {
             StudentAttributes student = new StudentAttributes();
             int studentNumber = i + 1;
-            student.email = "s" + studentNumber + "@gmail.com";
+            student.email = "s" + studentNumber + "@gmail.tmt";
             student.name = "Student " + studentNumber;
             student.team = teamName;
             student.course = courseId;
@@ -496,9 +500,9 @@ public class TestHelper extends BaseComponentTestCase{
                 sub.evaluation = e.name;
                 sub.team = teamName;
                 int reviewerNumber = i + 1;
-                sub.reviewer = "s" + reviewerNumber + "@gmail.com";
+                sub.reviewer = "s" + reviewerNumber + "@gmail.tmt";
                 int revieweeNumber = j + 1;
-                sub.reviewee = "s" + revieweeNumber + "@gmail.com";
+                sub.reviewee = "s" + revieweeNumber + "@gmail.tmt";
                 sub.points = input[i][j];
                 sub.justification = new Text("jus[s" + reviewerNumber + "->s"
                         + revieweeNumber + "]");
@@ -525,8 +529,8 @@ public class TestHelper extends BaseComponentTestCase{
             for (int j = 0; j < teamSize; j++) {
                 SubmissionAttributes s = invokeGetSubmission("idOfTypicalCourse1",
                         "evaluation1 In Course1", "student" + (i + 1)
-                                + "InCourse1@gmail.com", "student" + (j + 1)
-                                + "InCourse1@gmail.com");
+                                + "InCourse1@gmail.tmt", "student" + (j + 1)
+                                + "InCourse1@gmail.tmt");
                 s.points = points[i][j];
                 submissions.add(s);
             }

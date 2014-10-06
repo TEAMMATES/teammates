@@ -245,6 +245,203 @@ public class FeedbackSessionsDb extends EntitiesDb {
                 
         getPM().close();
     }
+
+    public void addInstructorRespondant(String email, FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
+        
+        List<String> emails = new ArrayList<String>();
+        emails.add(email);
+        addInstructorRespondants(emails, feedbackSession);
+    }
+
+    public void addInstructorRespondants(List<String> emails, FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, emails);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
+
+        feedbackSession.sanitizeForSaving();
+
+        if(!feedbackSession.isValid()) {
+            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
+        }
+
+        FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
+        if(fs == null) {
+            throw new EntityDoesNotExistException(
+                    ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
+        }
+
+        fs.getRespondingInstructorList().addAll(emails);
+
+        getPM().close();
+    }
+
+    public void updateInstructorRespondant(String oldEmail, String newEmail, FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, oldEmail);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newEmail);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
+
+        feedbackSession.sanitizeForSaving();
+
+        if(!feedbackSession.isValid()) {
+            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
+        }
+
+        FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
+        if(fs == null) {
+            throw new EntityDoesNotExistException(
+                    ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
+        }
+
+        if(fs.getRespondingInstructorList().contains(oldEmail)){
+            fs.getRespondingInstructorList().remove(oldEmail);
+            fs.getRespondingInstructorList().add(newEmail);
+        }
+       
+        getPM().close();
+    }
+
+    public void clearInstructorRespondants(FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
+
+        feedbackSession.sanitizeForSaving();
+
+        if(!feedbackSession.isValid()) {
+            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
+        }
+
+        FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
+        if(fs == null) {
+            throw new EntityDoesNotExistException(
+                    ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
+        }
+
+        fs.getRespondingInstructorList().clear();
+
+        getPM().close();
+    }
+
+    public void addStudentRespondant(String email, FeedbackSessionAttributes feedbackSession) throws EntityDoesNotExistException, InvalidParametersException {
+
+        List<String> emails = new ArrayList<String>();
+        emails.add(email);
+        addStudentRespondants(emails, feedbackSession);
+    }
+
+    public void deleteInstructorRespondant(String email, FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
+
+        feedbackSession.sanitizeForSaving();
+
+        if(!feedbackSession.isValid()) {
+            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
+        }
+
+        FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
+        if (fs == null) {
+            throw new EntityDoesNotExistException(
+                    ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
+        }
+
+        fs.getRespondingInstructorList().remove(email);
+
+        getPM().close();
+    }
+
+    public void addStudentRespondants(List<String> emails, FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, emails);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
+
+        feedbackSession.sanitizeForSaving();
+
+        if(!feedbackSession.isValid()) {
+            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
+        }
+
+        FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
+        if(fs == null) {
+            throw new EntityDoesNotExistException(
+                    ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
+        }
+
+        fs.getRespondingStudentList().addAll(emails);
+
+        getPM().close();
+    }
+
+    public void updateStudentRespondant(String oldEmail, String newEmail, FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, oldEmail);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newEmail);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
+
+        feedbackSession.sanitizeForSaving();
+
+        if(!feedbackSession.isValid()) {
+            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
+        }
+
+        FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
+        if(fs == null) {
+            throw new EntityDoesNotExistException(
+                    ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
+        }
+
+        if(fs.getRespondingStudentList().contains(oldEmail)){
+            fs.getRespondingStudentList().remove(oldEmail);
+            fs.getRespondingStudentList().add(newEmail);
+        }
+        
+        getPM().close();
+    }
+
+    public void clearStudentRespondants(FeedbackSessionAttributes feedbackSession) throws InvalidParametersException, EntityDoesNotExistException {
+
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
+
+        feedbackSession.sanitizeForSaving();
+
+        if(!feedbackSession.isValid()) {
+            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
+        }
+
+        FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
+        if(fs == null) {
+            throw new EntityDoesNotExistException(
+                    ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
+        }
+
+        fs.getRespondingStudentList().clear();
+
+        getPM().close();
+    }
+
+
+    public void deleteStudentRespondant(String email, FeedbackSessionAttributes feedbackSession) throws EntityDoesNotExistException, InvalidParametersException {
+
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSession);
+
+        feedbackSession.sanitizeForSaving();
+
+        if(!feedbackSession.isValid()) {
+            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
+        }
+
+        FeedbackSession fs = (FeedbackSession) getEntity(feedbackSession);
+        if (fs == null) {
+            throw new EntityDoesNotExistException(
+                    ERROR_UPDATE_NON_EXISTENT + feedbackSession.toString());
+        }
+        
+        fs.getRespondingStudentList().remove(email);
+
+        getPM().close();
+    }
     
     public void deleteFeedbackSessionsForCourses(List<String> courseIds){
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);

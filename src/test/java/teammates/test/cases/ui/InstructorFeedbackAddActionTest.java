@@ -3,11 +3,11 @@ package teammates.test.cases.ui;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.controller.InstructorFeedbackAddAction;
@@ -59,7 +59,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackAdd|||instructorFeedbackAdd|||true|||" +
                 "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||" +
-                "instr1@course1.com|||New Feedback Session <span class=\"bold\">(ifaat tca fs)</span>" +
+                "instr1@course1.tmt|||New Feedback Session <span class=\"bold\">(ifaat tca fs)</span>" +
                 " for Course <span class=\"bold\">[idOfTypicalCourse1]</span> created." +
                 "<br><span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012" +
                 "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br>" +
@@ -104,7 +104,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackAdd|||instructorFeedbackAdd|||true|||" +
                 "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||" +
-                "instr1@course1.com|||New Feedback Session <span class=\"bold\">(Course with trailing space)</span>" +
+                "instr1@course1.tmt|||New Feedback Session <span class=\"bold\">(Course with trailing space)</span>" +
                 " for Course <span class=\"bold\">[idOfTypicalCourse1]</span> created." +
                 "<br><span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012" +
                 "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br>" +
@@ -136,7 +136,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackAdd|||instructorFeedbackAdd|||true|||" +
                 "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||" +
-                "instr1@course1.com|||New Feedback Session <span class=\"bold\">(Course with minute offset timezone)</span>" +
+                "instr1@course1.tmt|||New Feedback Session <span class=\"bold\">(Course with minute offset timezone)</span>" +
                 " for Course <span class=\"bold\">[idOfTypicalCourse1]</span> created." +
                 "<br><span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012" +
                 "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br>" +
@@ -170,7 +170,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbackAdd|||instructorFeedbackAdd|||true|||" +
                 "Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||" +
-                "instr1@course1.com|||New Feedback Session <span class=\"bold\">(masquerade session)</span>" +
+                "instr1@course1.tmt|||New Feedback Session <span class=\"bold\">(masquerade session)</span>" +
                 " for Course <span class=\"bold\">[idOfTypicalCourse1]</span> created." +
                 "<br><span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012" +
                 "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br>" +
@@ -180,6 +180,16 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         assertEquals(expectedLogMessage, a.getLogMessage());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_ADDED, rr.getStatusMessage());
         
+        ______TS("Unsuccessful case: test null course ID parameter");
+        params = new String[]{};
+        
+        try {
+            a = getAction(params);
+            rr = (RedirectResult) a.executeAndPostProcess();     
+        } catch (NullPostParameterException e) {
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+                    Const.ParamsNames.COURSE_ID), e.getMessage());
+        }
         // remove the sessions that were added
         FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourse(instructor1ofCourse1.courseId);
     }

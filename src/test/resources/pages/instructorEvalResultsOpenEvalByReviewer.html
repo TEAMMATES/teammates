@@ -5,7 +5,7 @@
         </div>
 
         <div class="well well-plain">
-            <form class="form-horizontal" role="form" id="download_eval_report" method="GET" action="/page/instructorEvalResultsDownload">
+            <div class="form-horizontal">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Course ID:</label>
                     <div class="col-sm-9">
@@ -57,22 +57,183 @@
                 </div>
                 <br>
                 <div class="form-group">
-                    <div class="col-sm-offset-4 col-sm-2 col-xs-offset-2 col-xs-3 col-md-offset-5 col-md-1">
-                        
-                        <button type="button" class="btn btn-primary" id="button_publish" value="Publish" onclick="if(togglePublishEvaluation('First Eval')) window.location.href='/page/instructorEvalPublish?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCEvalRUiT.instr&amp;user=CEvalRUiT.instr';" disabled="disabled">Publish</button>
-                        
-                    </div>
-
-                    <div class="col-sm-2 col-xs-4">
-                        <button type="submit" value="Download Report" class="btn btn-primary">Download Report</button>    
-                    </div>
-                    <input name="user" value="CEvalRUiT.instr" type="hidden">
-                    <input name="courseid" value="CEvalRUiT.CS1101" type="hidden">
-                    <input name="evaluationname" value="First Eval" type="hidden">
-                      
-                </div>
-            </form>
-        </div>
+               <div class="align-center">
+                  <button class="btn btn-primary" disabled="disabled" id="button_publish" onclick="if(togglePublishEvaluation('First Eval')) window.location.href='/page/instructorEvalPublish?courseid=CEvalRUiT.CS1101&evaluationname=First+Eval&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCEvalRUiT.instr&user=CEvalRUiT.instr';" type="button" value="Publish">
+                     Publish
+                  </button>
+                  <form action="/page/instructorEvalResultsDownload" id="download_eval_report" method="GET" style="display:inline;">
+                     <button class="btn btn-primary" type="submit" value="Download Report">
+                        Download Report
+                     </button>
+                     <input name="user" type="hidden" value="CEvalRUiT.instr"/>
+                                          <input name="courseid" type="hidden" value="CEvalRUiT.CS1101"/>
+                                          <input name="evaluationname" type="hidden" value="First Eval"/>
+                                       </form>
+                  <div>
+                     <span class="help-block">
+                        Non-English characters not displayed properly in the downloaded file?
+                        <span class="btn-link" data-target="#evalResultsHtmlWindow" data-toggle="modal">
+                           click here
+                        </span>
+                     </span>
+                  </div>
+                  <div class="modal fade" id="evalResultsHtmlWindow">
+                     <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                           <div class="modal-header">
+                              <span class="pull-left help-block">
+                                 Tips: After Selecting the table,
+                                 <kbd>
+                                    Ctrl + C
+                                 </kbd>
+                                 to COPY and
+                                 <kbd>
+                                    Ctrl + V
+                                 </kbd>
+                                 to PASTE to your Excel Workbook.
+                              </span>
+                              <button class="btn btn-default" data-dismiss="modal" type="button">
+                                 Close
+                              </button>
+                              <button class="btn btn-primary" onclick="selectElementContents( document.getElementById('summaryModalTable') );" type="button">
+                                 Select Table
+                              </button>
+                           </div>
+                           <div class="modal-body">
+                              <div class="table-responsive">
+                                 <small id="summaryModalTable">
+                                    <table class="table table-bordered table-striped table-condensed">
+                                       <tbody>
+                                          <tr>
+                                             <td>
+                                                Course
+                                             </td>
+                                             <td>
+                                                CEvalRUiT.CS1101
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Evaluation Name
+                                             </td>
+                                             <td>
+                                                First Eval
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Team
+                                             </td>
+                                             <td>
+                                                Student
+                                             </td>
+                                             <td>
+                                                Claimed
+                                             </td>
+                                             <td>
+                                                Perceived
+                                             </td>
+                                             <td>
+                                                Received
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Team 1
+                                             </td>
+                                             <td>
+                                                Alice Betsy
+                                             </td>
+                                             <td>
+                                                95
+                                             </td>
+                                             <td>
+                                                100
+                                             </td>
+                                             <td>
+                                                100
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Team 1
+                                             </td>
+                                             <td>
+                                                Benny Charles
+                                             </td>
+                                             <td>
+                                                105
+                                             </td>
+                                             <td>
+                                                100
+                                             </td>
+                                             <td>
+                                                100
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Team 2
+                                             </td>
+                                             <td>
+                                                Charlie Davis
+                                             </td>
+                                             <td>
+                                                103
+                                             </td>
+                                             <td>
+                                                97
+                                             </td>
+                                             <td>
+                                                99,94
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Team 2
+                                             </td>
+                                             <td>
+                                                Danny Engrid
+                                             </td>
+                                             <td>
+                                                110
+                                             </td>
+                                             <td>
+                                                99
+                                             </td>
+                                             <td>
+                                                104,94
+                                             </td>
+                                          </tr>
+                                          <tr>
+                                             <td>
+                                                Team 2
+                                             </td>
+                                             <td>
+                                                Emily
+                                             </td>
+                                             <td>
+                                                110
+                                             </td>
+                                             <td>
+                                                104
+                                             </td>
+                                             <td>
+                                                104,N/A
+                                             </td>
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                 </small>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
 
         <br>
         
@@ -145,8 +306,8 @@
                     <td><span class="color-positive">+5%</span></td>
                     <td><span class="color_neutral">E</span></td>
                     <td class="align-center no-print">
-                        <a data-original-title="View feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="viewEvaluationResults0" id="viewEvaluationResults0" target="_blank" href="/page/instructorEvalSubmissionPage?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.alice.b%40gmail.com&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title=""> View</a>
-                        <a data-original-title="Edit feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="editEvaluationResults0" id="editEvaluationResults0" target="_blank" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.alice.b%40gmail.com&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title="" onclick="return openChildWindow(this.href)"> Edit</a>
+                        <a data-original-title="View feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="viewEvaluationResults0" id="viewEvaluationResults0" target="_blank" href="/page/instructorEvalSubmissionPage?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.alice.b%40gmail.tmt&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title=""> View</a>
+                        <a data-original-title="Edit feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="editEvaluationResults0" id="editEvaluationResults0" target="_blank" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.alice.b%40gmail.tmt&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title="" onclick="return openChildWindow(this.href)"> Edit</a>
                     </td>
                 </tr><tr class="student_row" id="student1">
                     <td>Team 1</td>
@@ -158,8 +319,8 @@
                     <td><span class="color-negative">-5%</span></td>
                     <td><span class="color_neutral">E</span></td>
                     <td class="align-center no-print">
-                        <a data-original-title="View feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="viewEvaluationResults1" id="viewEvaluationResults1" target="_blank" href="/page/instructorEvalSubmissionPage?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.benny.c%40gmail.com&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title=""> View</a>
-                        <a data-original-title="Edit feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="editEvaluationResults1" id="editEvaluationResults1" target="_blank" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.benny.c%40gmail.com&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title="" onclick="return openChildWindow(this.href)"> Edit</a>
+                        <a data-original-title="View feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="viewEvaluationResults1" id="viewEvaluationResults1" target="_blank" href="/page/instructorEvalSubmissionPage?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.benny.c%40gmail.tmt&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title=""> View</a>
+                        <a data-original-title="Edit feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="editEvaluationResults1" id="editEvaluationResults1" target="_blank" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.benny.c%40gmail.tmt&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title="" onclick="return openChildWindow(this.href)"> Edit</a>
                     </td>
                 </tr><tr class="student_row" id="student4">
                     <td>Team 2</td>
@@ -171,8 +332,8 @@
                     <td><span class="color-negative">-6%</span></td>
                     <td><span class="color-positive">E +4%</span>, <span data-original-title="Not Available: There is no data for this or the data is not enough" class="color-negative" data-toggle="tooltip" data-placement="top" title="">N/A</span></td>
                     <td class="align-center no-print">
-                        <a data-original-title="View feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="viewEvaluationResults4" id="viewEvaluationResults4" target="_blank" href="/page/instructorEvalSubmissionPage?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.emily.f%40gmail.com&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title=""> View</a>
-                        <a data-original-title="Edit feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="editEvaluationResults4" id="editEvaluationResults4" target="_blank" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.emily.f%40gmail.com&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title="" onclick="return openChildWindow(this.href)"> Edit</a>
+                        <a data-original-title="View feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="viewEvaluationResults4" id="viewEvaluationResults4" target="_blank" href="/page/instructorEvalSubmissionPage?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.emily.f%40gmail.tmt&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title=""> View</a>
+                        <a data-original-title="Edit feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="editEvaluationResults4" id="editEvaluationResults4" target="_blank" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.emily.f%40gmail.tmt&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title="" onclick="return openChildWindow(this.href)"> Edit</a>
                     </td>
                 </tr><tr class="student_row" id="student2">
                     <td>Team 2</td>
@@ -184,8 +345,8 @@
                     <td><span class="color-negative">-6%</span></td>
                     <td><span class="color-negative">E -1%</span>, <span class="color-negative">E -6%</span></td>
                     <td class="align-center no-print">
-                        <a data-original-title="View feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="viewEvaluationResults2" id="viewEvaluationResults2" target="_blank" href="/page/instructorEvalSubmissionPage?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.charlie.d%40gmail.com&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title=""> View</a>
-                        <a data-original-title="Edit feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="editEvaluationResults2" id="editEvaluationResults2" target="_blank" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.charlie.d%40gmail.com&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title="" onclick="return openChildWindow(this.href)"> Edit</a>
+                        <a data-original-title="View feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="viewEvaluationResults2" id="viewEvaluationResults2" target="_blank" href="/page/instructorEvalSubmissionPage?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.charlie.d%40gmail.tmt&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title=""> View</a>
+                        <a data-original-title="Edit feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="editEvaluationResults2" id="editEvaluationResults2" target="_blank" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.charlie.d%40gmail.tmt&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title="" onclick="return openChildWindow(this.href)"> Edit</a>
                     </td>
                 </tr><tr class="student_row" id="student3">
                     <td>Team 2</td>
@@ -197,8 +358,8 @@
                     <td><span class="color-negative">-11%</span></td>
                     <td><span class="color-positive">E +4%</span>, <span class="color-negative">E -6%</span></td>
                     <td class="align-center no-print">
-                        <a data-original-title="View feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="viewEvaluationResults3" id="viewEvaluationResults3" target="_blank" href="/page/instructorEvalSubmissionPage?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.danny.e%40gmail.com&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title=""> View</a>
-                        <a data-original-title="Edit feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="editEvaluationResults3" id="editEvaluationResults3" target="_blank" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.danny.e%40gmail.com&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title="" onclick="return openChildWindow(this.href)"> Edit</a>
+                        <a data-original-title="View feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="viewEvaluationResults3" id="viewEvaluationResults3" target="_blank" href="/page/instructorEvalSubmissionPage?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.danny.e%40gmail.tmt&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title=""> View</a>
+                        <a data-original-title="Edit feedback from the student for his team<br />This opens in a new window" class="btn btn-default btn-xs" name="editEvaluationResults3" id="editEvaluationResults3" target="_blank" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.danny.e%40gmail.tmt&amp;user=CEvalRUiT.instr" data-toggle="tooltip" data-placement="top" data-container="body" title="" onclick="return openChildWindow(this.href)"> Edit</a>
                     </td>
                 </tr></tbody></table>
             <br> <br> <br>
@@ -242,7 +403,7 @@
                                 <div class="col-md-1">
                                     <div class="pull-right">
                                     
-                                           <a target="_blank" class="button btn-primary btn-xs" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.alice.b%40gmail.com&amp;user=CEvalRUiT.instr" onclick="return openChildWindow(this.href)"><span class="glyphicon glyphicon-pencil"></span> Edit</a> 
+                                           <a target="_blank" class="button btn-primary btn-xs" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.alice.b%40gmail.tmt&amp;user=CEvalRUiT.instr" onclick="return openChildWindow(this.href)"><span class="glyphicon glyphicon-pencil"></span> Edit</a> 
                                     
                                     </div>
                                 </div>
@@ -253,10 +414,10 @@
                         <table class="table table-bordered">
                           <tbody>
                             <tr>
-                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.alice.b@gmail.com to CEvalRUiT.alice.b@gmail.com</td>
+                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.alice.b@gmail.tmt to CEvalRUiT.alice.b@gmail.tmt</td>
                             </tr>
                             <tr>
-                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.alice.b@gmail.com to CEvalRUiT.alice.b@gmail.com</td>
+                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.alice.b@gmail.tmt to CEvalRUiT.alice.b@gmail.tmt</td>
                             </tr>
 
                           </tbody>
@@ -276,7 +437,7 @@
                             <tr>
                               <td>Benny Charles</td>
                               <td><span class="color-positive">E +5%</span></td>
-                              <td>This is a justification from CEvalRUiT.alice.b@gmail.com to CEvalRUiT.benny.c@gmail.com</td>
+                              <td>This is a justification from CEvalRUiT.alice.b@gmail.tmt to CEvalRUiT.benny.c@gmail.tmt</td>
                               <td><strong>What I appreciate about you as a team member:</strong>
 Good Job!
 <strong class="bold">Areas you can improve further:</strong>
@@ -314,7 +475,7 @@ Nothing</td>
                                 <div class="col-md-1">
                                     <div class="pull-right">
                                     
-                                           <a target="_blank" class="button btn-primary btn-xs" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.benny.c%40gmail.com&amp;user=CEvalRUiT.instr" onclick="return openChildWindow(this.href)"><span class="glyphicon glyphicon-pencil"></span> Edit</a> 
+                                           <a target="_blank" class="button btn-primary btn-xs" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.benny.c%40gmail.tmt&amp;user=CEvalRUiT.instr" onclick="return openChildWindow(this.href)"><span class="glyphicon glyphicon-pencil"></span> Edit</a> 
                                     
                                     </div>
                                 </div>
@@ -325,10 +486,10 @@ Nothing</td>
                         <table class="table table-bordered">
                           <tbody>
                             <tr>
-                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.benny.c@gmail.com</td>
+                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.benny.c@gmail.tmt to CEvalRUiT.benny.c@gmail.tmt</td>
                             </tr>
                             <tr>
-                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.benny.c@gmail.com</td>
+                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.benny.c@gmail.tmt to CEvalRUiT.benny.c@gmail.tmt</td>
                             </tr>
 
                           </tbody>
@@ -348,8 +509,8 @@ Nothing</td>
                             <tr>
                               <td>Alice Betsy</td>
                               <td><span class="color-negative">E -5%</span></td>
-                              <td>This is a justification from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.alice.b@gmail.com</td>
-                              <td>This is a public comment from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.alice.b@gmail.com</td>
+                              <td>This is a justification from CEvalRUiT.benny.c@gmail.tmt to CEvalRUiT.alice.b@gmail.tmt</td>
+                              <td>This is a public comment from CEvalRUiT.benny.c@gmail.tmt to CEvalRUiT.alice.b@gmail.tmt</td>
                             </tr>
                             
                           </tbody>
@@ -397,7 +558,7 @@ Nothing</td>
                                 <div class="col-md-1">
                                     <div class="pull-right">
                                     
-                                           <a target="_blank" class="button btn-primary btn-xs" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.charlie.d%40gmail.com&amp;user=CEvalRUiT.instr" onclick="return openChildWindow(this.href)"><span class="glyphicon glyphicon-pencil"></span> Edit</a> 
+                                           <a target="_blank" class="button btn-primary btn-xs" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.charlie.d%40gmail.tmt&amp;user=CEvalRUiT.instr" onclick="return openChildWindow(this.href)"><span class="glyphicon glyphicon-pencil"></span> Edit</a> 
                                     
                                     </div>
                                 </div>
@@ -408,10 +569,10 @@ Nothing</td>
                         <table class="table table-bordered">
                           <tbody>
                             <tr>
-                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
+                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.charlie.d@gmail.tmt to CEvalRUiT.charlie.d@gmail.tmt</td>
                             </tr>
                             <tr>
-                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
+                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.charlie.d@gmail.tmt to CEvalRUiT.charlie.d@gmail.tmt</td>
                             </tr>
 
                           </tbody>
@@ -431,15 +592,15 @@ Nothing</td>
                             <tr>
                               <td>Danny Engrid</td>
                               <td><span class="color-negative">E -6%</span></td>
-                              <td>This is a justification from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
-                              <td>This is a public comment from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
+                              <td>This is a justification from CEvalRUiT.charlie.d@gmail.tmt to CEvalRUiT.danny.e@gmail.tmt</td>
+                              <td>This is a public comment from CEvalRUiT.charlie.d@gmail.tmt to CEvalRUiT.danny.e@gmail.tmt</td>
                             </tr>
                             
                             <tr>
                               <td>Emily</td>
                               <td><span class="color-positive">E +3%</span></td>
-                              <td>This is a justification from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
-                              <td>This is a public comment from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
+                              <td>This is a justification from CEvalRUiT.charlie.d@gmail.tmt to CEvalRUiT.emily.f@gmail.tmt</td>
+                              <td>This is a public comment from CEvalRUiT.charlie.d@gmail.tmt to CEvalRUiT.emily.f@gmail.tmt</td>
                             </tr>
                             
                           </tbody>
@@ -471,7 +632,7 @@ Nothing</td>
                                 <div class="col-md-1">
                                     <div class="pull-right">
                                     
-                                           <a target="_blank" class="button btn-primary btn-xs" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.danny.e%40gmail.com&amp;user=CEvalRUiT.instr" onclick="return openChildWindow(this.href)"><span class="glyphicon glyphicon-pencil"></span> Edit</a> 
+                                           <a target="_blank" class="button btn-primary btn-xs" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.danny.e%40gmail.tmt&amp;user=CEvalRUiT.instr" onclick="return openChildWindow(this.href)"><span class="glyphicon glyphicon-pencil"></span> Edit</a> 
                                     
                                     </div>
                                 </div>
@@ -482,10 +643,10 @@ Nothing</td>
                         <table class="table table-bordered">
                           <tbody>
                             <tr>
-                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
+                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.danny.e@gmail.tmt to CEvalRUiT.danny.e@gmail.tmt</td>
                             </tr>
                             <tr>
-                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
+                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.danny.e@gmail.tmt to CEvalRUiT.danny.e@gmail.tmt</td>
                             </tr>
 
                           </tbody>
@@ -505,15 +666,15 @@ Nothing</td>
                             <tr>
                               <td>Charlie Davis</td>
                               <td><span class="color-negative">E -10%</span></td>
-                              <td>This is a justification from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
-                              <td>This is a public comment from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
+                              <td>This is a justification from CEvalRUiT.danny.e@gmail.tmt to CEvalRUiT.charlie.d@gmail.tmt</td>
+                              <td>This is a public comment from CEvalRUiT.danny.e@gmail.tmt to CEvalRUiT.charlie.d@gmail.tmt</td>
                             </tr>
                             
                             <tr>
                               <td>Emily</td>
                               <td><span data-original-title="Not sure about the contribution" class="color-negative" data-toggle="tooltip" data-placement="top" title="">N/S</span></td>
-                              <td>This is a justification from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
-                              <td>This is a public comment from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
+                              <td>This is a justification from CEvalRUiT.danny.e@gmail.tmt to CEvalRUiT.emily.f@gmail.tmt</td>
+                              <td>This is a public comment from CEvalRUiT.danny.e@gmail.tmt to CEvalRUiT.emily.f@gmail.tmt</td>
                             </tr>
                             
                           </tbody>
@@ -545,7 +706,7 @@ Nothing</td>
                                 <div class="col-md-1">
                                     <div class="pull-right">
                                     
-                                           <a target="_blank" class="button btn-primary btn-xs" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.emily.f%40gmail.com&amp;user=CEvalRUiT.instr" onclick="return openChildWindow(this.href)"><span class="glyphicon glyphicon-pencil"></span> Edit</a> 
+                                           <a target="_blank" class="button btn-primary btn-xs" href="/page/instructorEvalSubmissionEdit?courseid=CEvalRUiT.CS1101&amp;evaluationname=First+Eval&amp;studentemail=CEvalRUiT.emily.f%40gmail.tmt&amp;user=CEvalRUiT.instr" onclick="return openChildWindow(this.href)"><span class="glyphicon glyphicon-pencil"></span> Edit</a> 
                                     
                                     </div>
                                 </div>
@@ -556,10 +717,10 @@ Nothing</td>
                         <table class="table table-bordered">
                           <tbody>
                             <tr>
-                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
+                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.emily.f@gmail.tmt to CEvalRUiT.emily.f@gmail.tmt</td>
                             </tr>
                             <tr>
-                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
+                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.emily.f@gmail.tmt to CEvalRUiT.emily.f@gmail.tmt</td>
                             </tr>
 
                           </tbody>
@@ -579,15 +740,15 @@ Nothing</td>
                             <tr>
                               <td>Charlie Davis</td>
                               <td><span class="color-negative">E -10%</span></td>
-                              <td>This is a justification from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
-                              <td>This is a public comment from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
+                              <td>This is a justification from CEvalRUiT.emily.f@gmail.tmt to CEvalRUiT.charlie.d@gmail.tmt</td>
+                              <td>This is a public comment from CEvalRUiT.emily.f@gmail.tmt to CEvalRUiT.charlie.d@gmail.tmt</td>
                             </tr>
                             
                             <tr>
                               <td>Danny Engrid</td>
                               <td><span class="color_neutral">E</span></td>
-                              <td>This is a justification from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
-                              <td>This is a public comment from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
+                              <td>This is a justification from CEvalRUiT.emily.f@gmail.tmt to CEvalRUiT.danny.e@gmail.tmt</td>
+                              <td>This is a public comment from CEvalRUiT.emily.f@gmail.tmt to CEvalRUiT.danny.e@gmail.tmt</td>
                             </tr>
                             
                           </tbody>
@@ -643,10 +804,10 @@ Nothing</td>
                         <table class="table table-bordered">
                           <tbody>
                             <tr>
-                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.alice.b@gmail.com to CEvalRUiT.alice.b@gmail.com</td>
+                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.alice.b@gmail.tmt to CEvalRUiT.alice.b@gmail.tmt</td>
                             </tr>
                             <tr>
-                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.alice.b@gmail.com to CEvalRUiT.alice.b@gmail.com</td>
+                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.alice.b@gmail.tmt to CEvalRUiT.alice.b@gmail.tmt</td>
                             </tr>
 
                           </tbody>
@@ -666,8 +827,8 @@ Nothing</td>
                             <tr>
                               <td>Benny Charles</td>
                               <td><span class="color_neutral">E</span></td>
-                              <td>This is a justification from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.alice.b@gmail.com</td>
-                              <td>This is a public comment from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.alice.b@gmail.com</td>
+                              <td>This is a justification from CEvalRUiT.benny.c@gmail.tmt to CEvalRUiT.alice.b@gmail.tmt</td>
+                              <td>This is a public comment from CEvalRUiT.benny.c@gmail.tmt to CEvalRUiT.alice.b@gmail.tmt</td>
                             </tr>
                             
                           </tbody>
@@ -702,10 +863,10 @@ Nothing</td>
                         <table class="table table-bordered">
                           <tbody>
                             <tr>
-                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.benny.c@gmail.com</td>
+                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.benny.c@gmail.tmt to CEvalRUiT.benny.c@gmail.tmt</td>
                             </tr>
                             <tr>
-                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.benny.c@gmail.com to CEvalRUiT.benny.c@gmail.com</td>
+                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.benny.c@gmail.tmt to CEvalRUiT.benny.c@gmail.tmt</td>
                             </tr>
 
                           </tbody>
@@ -725,7 +886,7 @@ Nothing</td>
                             <tr>
                               <td>Alice Betsy</td>
                               <td><span class="color_neutral">E</span></td>
-                              <td>This is a justification from CEvalRUiT.alice.b@gmail.com to CEvalRUiT.benny.c@gmail.com</td>
+                              <td>This is a justification from CEvalRUiT.alice.b@gmail.tmt to CEvalRUiT.benny.c@gmail.tmt</td>
                               <td><strong>What I appreciate about you as a team member:</strong>
 Good Job!
 <strong class="bold">Areas you can improve further:</strong>
@@ -782,10 +943,10 @@ Nothing</td>
                         <table class="table table-bordered">
                           <tbody>
                             <tr>
-                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
+                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.charlie.d@gmail.tmt to CEvalRUiT.charlie.d@gmail.tmt</td>
                             </tr>
                             <tr>
-                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
+                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.charlie.d@gmail.tmt to CEvalRUiT.charlie.d@gmail.tmt</td>
                             </tr>
 
                           </tbody>
@@ -805,15 +966,15 @@ Nothing</td>
                             <tr>
                               <td>Danny Engrid</td>
                               <td><span class="color-negative">E -1%</span></td>
-                              <td>This is a justification from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
-                              <td>This is a public comment from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
+                              <td>This is a justification from CEvalRUiT.danny.e@gmail.tmt to CEvalRUiT.charlie.d@gmail.tmt</td>
+                              <td>This is a public comment from CEvalRUiT.danny.e@gmail.tmt to CEvalRUiT.charlie.d@gmail.tmt</td>
                             </tr>
                             
                             <tr>
                               <td>Emily</td>
                               <td><span class="color-negative">E -6%</span></td>
-                              <td>This is a justification from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
-                              <td>This is a public comment from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.charlie.d@gmail.com</td>
+                              <td>This is a justification from CEvalRUiT.emily.f@gmail.tmt to CEvalRUiT.charlie.d@gmail.tmt</td>
+                              <td>This is a public comment from CEvalRUiT.emily.f@gmail.tmt to CEvalRUiT.charlie.d@gmail.tmt</td>
                             </tr>
                             
                           </tbody>
@@ -848,10 +1009,10 @@ Nothing</td>
                         <table class="table table-bordered">
                           <tbody>
                             <tr>
-                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
+                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.danny.e@gmail.tmt to CEvalRUiT.danny.e@gmail.tmt</td>
                             </tr>
                             <tr>
-                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
+                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.danny.e@gmail.tmt to CEvalRUiT.danny.e@gmail.tmt</td>
                             </tr>
 
                           </tbody>
@@ -871,15 +1032,15 @@ Nothing</td>
                             <tr>
                               <td>Emily</td>
                               <td><span class="color-positive">E +4%</span></td>
-                              <td>This is a justification from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
-                              <td>This is a public comment from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
+                              <td>This is a justification from CEvalRUiT.emily.f@gmail.tmt to CEvalRUiT.danny.e@gmail.tmt</td>
+                              <td>This is a public comment from CEvalRUiT.emily.f@gmail.tmt to CEvalRUiT.danny.e@gmail.tmt</td>
                             </tr>
                             
                             <tr>
                               <td>Charlie Davis</td>
                               <td><span class="color-negative">E -6%</span></td>
-                              <td>This is a justification from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
-                              <td>This is a public comment from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.danny.e@gmail.com</td>
+                              <td>This is a justification from CEvalRUiT.charlie.d@gmail.tmt to CEvalRUiT.danny.e@gmail.tmt</td>
+                              <td>This is a public comment from CEvalRUiT.charlie.d@gmail.tmt to CEvalRUiT.danny.e@gmail.tmt</td>
                             </tr>
                             
                           </tbody>
@@ -914,10 +1075,10 @@ Nothing</td>
                         <table class="table table-bordered">
                           <tbody>
                             <tr>
-                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
+                              <td><strong>Self evaluation:</strong> <br>This is a justification from CEvalRUiT.emily.f@gmail.tmt to CEvalRUiT.emily.f@gmail.tmt</td>
                             </tr>
                             <tr>
-                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.emily.f@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
+                              <td><strong>Comments about the team:</strong><br>This is a public comment from CEvalRUiT.emily.f@gmail.tmt to CEvalRUiT.emily.f@gmail.tmt</td>
                             </tr>
 
                           </tbody>
@@ -937,15 +1098,15 @@ Nothing</td>
                             <tr>
                               <td>Charlie Davis</td>
                               <td><span class="color-positive">E +4%</span></td>
-                              <td>This is a justification from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
-                              <td>This is a public comment from CEvalRUiT.charlie.d@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
+                              <td>This is a justification from CEvalRUiT.charlie.d@gmail.tmt to CEvalRUiT.emily.f@gmail.tmt</td>
+                              <td>This is a public comment from CEvalRUiT.charlie.d@gmail.tmt to CEvalRUiT.emily.f@gmail.tmt</td>
                             </tr>
                             
                             <tr>
                               <td>Danny Engrid</td>
                               <td><span data-original-title="Not Available: There is no data for this or the data is not enough" class="color-negative" data-toggle="tooltip" data-placement="top" title="">N/A</span></td>
-                              <td>This is a justification from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
-                              <td>This is a public comment from CEvalRUiT.danny.e@gmail.com to CEvalRUiT.emily.f@gmail.com</td>
+                              <td>This is a justification from CEvalRUiT.danny.e@gmail.tmt to CEvalRUiT.emily.f@gmail.tmt</td>
+                              <td>This is a public comment from CEvalRUiT.danny.e@gmail.tmt to CEvalRUiT.emily.f@gmail.tmt</td>
                             </tr>
                             
                           </tbody>

@@ -12,6 +12,7 @@ import teammates.common.util.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCommentsPage;
+import teammates.test.pageobjects.InstructorHomePage;
 
 public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     private static Browser browser;
@@ -35,7 +36,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         testEmailPendingComments();
     }
 
-    private void testContent() {
+    private void testContent() throws Exception {
         
         ______TS("content: no course");
         
@@ -61,7 +62,8 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
             .withUserId(testData.accounts.get("helperOfCourse1").googleId);
 
         commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
-
+        commentsPage.loadResponseComments();
+        
         commentsPage.verifyHtmlMainContent("/instructorCommentsForTypicalCourseWithCommentsWithHelperView.html");
          
         ______TS("content: typical course with comments");
@@ -70,7 +72,9 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
             .withUserId(testData.accounts.get("instructor1OfCourse1").googleId);
 
         commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
+        commentsPage.loadResponseComments();
         removePreExistComments();
+        
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageForTypicalCourseWithComments.html");
     }
 
@@ -82,7 +86,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         }
     }
     
-    private void testScripts() {
+    private void testScripts() throws Exception {
         ______TS("script: include archived course");
         
         commentsPage.clickIsIncludeArchivedCoursesCheckbox();
@@ -102,6 +106,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         
         commentsPage.clickShowMoreOptions();
         
+        commentsPage.loadResponseComments();
         commentsPage.showCommentsForAll();
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsForAll.html");
         
@@ -132,7 +137,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageShowCommentsForPrivate.html");
     }
 
-    private void testActions() {
+    private void testActions() throws Exception {
         ______TS("action: edit student comment");
         commentsPage.clickStudentCommentEditForRow(1);
         commentsPage.clickStudentCommentVisibilityEdit(1);
@@ -150,6 +155,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.clickHiddenElementAndConfirm("commentdelete-" + 1);
         commentsPage.verifyStatus(Const.StatusMessages.COMMENT_DELETED);
         
+        commentsPage.loadResponseComments();
         ______TS("action: add feedback response comment");
         commentsPage.clickResponseCommentAdd(1, 1, 1);
         commentsPage.fillTextareaToEditResponseComment(1, 1, 1, "");
@@ -158,6 +164,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.fillTextareaToEditResponseComment(1, 1, 1, "added response comment");
         commentsPage.addResponseComment(1, 1, 1);
         commentsPage.reloadPage();
+        commentsPage.loadResponseComments();
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageAddFrc.html");
         
         ______TS("action: edit feedback response comment");
@@ -170,15 +177,17 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.fillTextareaToEditResponseComment(1, 1, 1, 1, "edited response comment\na new line");
         commentsPage.saveResponseComment(1, 1, 1, 1);
         commentsPage.reloadPage();
+        commentsPage.loadResponseComments();
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageEditFrc.html");
         
         ______TS("action: delete feedback response comment");
         commentsPage.clickResponseCommentDelete(1, 1, 1, 1);
-        commentsPage.clickCommentsPageLinkInHeader();
+        commentsPage.reloadPage();
+        commentsPage.loadResponseComments();
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageDeleteFrc.html");
     }
     
-    private void testSearch() {
+    private void testSearch() throws Exception {
         ______TS("search: empty string");
         commentsPage.search("");
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageSearchEmpty.html");
@@ -191,6 +200,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.saveEditStudentCommentForRow(1);
         commentsPage.clickStudentCommentEditForRow(2);
         commentsPage.saveEditStudentCommentForRow(2);
+        commentsPage.loadResponseComments();
         commentsPage.clickResponseCommentEdit(1, 1, 1, 1);
         commentsPage.saveResponseComment(1, 1, 1, 1);
         commentsPage.clickCommentsPageLinkInHeader();
@@ -201,6 +211,9 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     }
     
     private void testEmailPendingComments() {
+        InstructorHomePage homePage = commentsPage.clickHomePageLinkInHeader();
+        homePage.verifyContains("Send email notification to recipients of 2 pending comments");
+        commentsPage.clickCommentsPageLinkInHeader();
         commentsPage.clickSendEmailNotificationButton();
         commentsPage.verifyStatus(Const.StatusMessages.COMMENT_CLEARED);
     }

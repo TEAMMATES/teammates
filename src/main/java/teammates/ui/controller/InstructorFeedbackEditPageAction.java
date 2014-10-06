@@ -42,7 +42,7 @@ public class InstructorFeedbackEditPageAction extends Action {
         data.instructorList = logic.getInstructorsForCourse(courseId);
         Collections.sort(data.instructorList, new InstructorComparator());
         
-        data.instructor = logic.getInstructorForGoogleId(courseId, loggedInUser.googleId);
+        data.instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
         statusToAdmin = "instructorFeedbackEdit Page Load<br>"
                 + "Editing information for Feedback Session <span class=\"bold\">["

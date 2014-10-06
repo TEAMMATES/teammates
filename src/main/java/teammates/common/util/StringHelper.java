@@ -1,7 +1,10 @@
 package teammates.common.util;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.crypto.Cipher;
@@ -179,21 +182,31 @@ public class StringHelper {
     
     /**
      * split a full name string into first and last names
-     * 
+     * <br>
      * 1.If passed in empty string, both last and first name will be empty string
-     * 
+     * <br>
      * 2.If single word, this will be last name and first name will be an empty string
-     * 
+     * <br>
      * 3.If more than two words, the last word will be last name and 
      * the rest will be first name.
-     * 
+     * <br>
+     * 4.If the last name is enclosed with braces "{}" such as first {Last1 Last2},
+     * the last name will be the String inside the braces
+     * <br>
      * Example: 
+     * <br><br>
+     * full name "Danny Tim Lin"<br>
+     * first name: "Danny Tim" <br>
+     * last name: "Lin" <br>
+     * processed full name: "Danny Tim Lin" <br>
+     * <br>
+     * full name "Danny {Tim Lin}"<br>
+     * first name: "Danny" <br>
+     * last name: "Tim Lin" <br>
+     * processed full name: "Danny Tim Lin" <br>
      * 
-     * full name "Danny Tim Lin"
-     * first name: "Danny Tim"
-     * last name: "Lin"
      * 
-     * @return split name array{0--> first name, 1--> last name}
+     * @return split name array{0--> first name, 1--> last name, 2--> processed full name by removing "{}"}
      */
     
     public static String[] splitName(String fullName){  
@@ -201,11 +214,28 @@ public class StringHelper {
         if(fullName == null){
             return null;
         }
+           
+        String lastName;
+        String firstName;
         
-        String lastName = fullName.substring(fullName.lastIndexOf(" ")+1).trim();
-        String firstName = fullName.replace(lastName, "").trim();
+        if(fullName.contains("{") && fullName.contains("}")){
+            int startIndex = fullName.indexOf("{");
+            int endIndex = fullName.indexOf("}");
+            lastName = fullName.substring(startIndex + 1, endIndex);
+            firstName = fullName.replace("{", "")
+                                .replace("}", "")
+                                .replace(lastName, "")
+                                .trim();           
+            
+        } else {         
+            lastName = fullName.substring(fullName.lastIndexOf(" ")+1).trim();
+            firstName = fullName.replace(lastName, "").trim();
+        }
         
-        String[] splitNames = {firstName, lastName};       
+        String processedfullName = fullName.replace("{", "")
+                                           .replace("}", "");
+        
+        String[] splitNames = {firstName, lastName, processedfullName};       
         return splitNames;
     }
     
@@ -268,5 +298,114 @@ public class StringHelper {
                   .replace("&#39;", "'")
                   .replaceAll("&amp;", "&");
     }
+    
+    /**
+     * This recovers a set of html-sanitized string to original encoding for appropriate display in files such as csv file <br>
+     * It restores encoding for < > \ / ' &  <br>
+     * @param sanitized string set
+     * @return recovered string set
+     */
+    public static Set<String> recoverFromSanitizedText(Set<String> textSet) {
+        Set<String> textSetTemp = new HashSet<String>();
+        for (String text : textSet) {
+            textSetTemp.add(StringHelper.recoverFromSanitizedText(text));
+        }
+        return textSetTemp;
+    }
+    
+    /**
+     * Convert a csv string to a html table string for displaying
+     * @param str
+     * @return html table string
+     */
+    public static String csvToHtmlTable(String str) {
+        str = handleNewLine(str);
+        String[] lines = str.split(Const.EOL);
+
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < lines.length; i++) {
+            
+            List<String> rowData = getTableData(lines[i]);
+            
+            if(checkIfEmptyRow(rowData)){
+                continue;
+            }
+            
+            result.append("<tr>");
+            for (String td : rowData) {
+                result.append(String.format("<td>%s</td>\n", td));
+            }
+            result.append("</tr>");
+        }
+
+        return String.format("<table class=\"table table-bordered table-striped table-condensed\">\n%s</table>",
+                             result.toString());
+    }
+
+    private static String handleNewLine(String str) {
+
+        StringBuilder buffer = new StringBuilder();
+        char[] chars = str.toCharArray();
+
+        boolean inquote = false;
+
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] == '"') {
+                inquote = !inquote;
+            }
+
+            if (chars[i] == '\n' && inquote) {
+                buffer.append("<br>");
+            } else {
+                buffer.append(chars[i]);
+            }
+        }
+
+        return buffer.toString();
+    }
+
+    private static List<String> getTableData(String str){
+        List<String> data = new ArrayList<String>();
+        
+        boolean inquote = false;
+        StringBuilder buffer = new StringBuilder();
+        char[] chars = str.toCharArray();
+        
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] == '"') {
+                inquote = !inquote;
+                continue;
+            }
+            
+            if(chars[i] == ','){    
+                if(inquote){
+                    buffer.append(chars[i]);                   
+                } else {
+                    data.add(buffer.toString());
+                    buffer.delete(0, buffer.length());
+                }
+            } else {
+                buffer.append(chars[i]);             
+            }
+            
+        }
+        
+        data.add(buffer.toString().trim());
+        
+        return data;
+    }
+    
+    private static boolean checkIfEmptyRow(List<String> rowData){
+           
+        for(String td : rowData){
+            if(!td.isEmpty()){
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
     
 }

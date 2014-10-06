@@ -3,23 +3,23 @@
    "instructorWithCourses":{
       	"googleId": "CCAddUiTest.instructor",
       	"name":	"Teammates Demo Instr",
-      	"email": "CCAddUiTest.instructor@gmail.com",
+      	"email": "CCAddUiTest.instructor@gmail.tmt",
       	"isInstructor": true,
-      	"institute": "Some Other University With a Long Name, South Africa"
+      	"institute": "TEAMMATES Test Institute with Long Long Long Name"
   	},
   	"instructorWithoutCourses":{
       	"googleId": "CCAddUiTest.instr2",
       	"name":	"Teammates Demo Instr 2",
-      	"email": "CCAddUiTest.instr2@gmail.com",
+      	"email": "CCAddUiTest.instr2@gmail.tmt",
       	"isInstructor": true,
-      	"institute": "Some Other University With a Long Name, South Africa"
+      	"institute": "TEAMMATES Test Institute with Long Long Long Name"
   	},
   	"OtherInstructorWithoutCourses":{
       	"googleId": "CCAddUiTest.instr3",
       	"name":	"Teammates Demo Instr 3",
-      	"email": "CCAddUiTest.instr3@gmail.com",
+      	"email": "CCAddUiTest.instr3@gmail.tmt",
       	"isInstructor": true,
-      	"institute": "Some Other University With a Long Name, South Africa"
+      	"institute": "TEAMMATES Test Institute with Long Long Long Name"
   	}
   },
   
@@ -42,7 +42,7 @@
       "googleId": "CCAddUiTest.instructor", 
       "courseId":"CCAddUiTest.CS1101",
       "name": "Teammates Demo Instr",
-      "email": "CCAddUiTest.instructor@gmail.com",
+      "email": "CCAddUiTest.instructor@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -53,7 +53,7 @@
       "courseId":"CCAddUiTest.CS1101",
       "isArchived":"false",
       "name": "Teammates Demo Instr 3",
-      "email": "CCAddUiTest.instr3@gmail.com",
+      "email": "CCAddUiTest.instr3@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",
@@ -63,7 +63,7 @@
       "googleId": "CCAddUiTest.instructor", 
       "courseId":"CCAddUiTest.CS2104",
       "name": "Teammates Demo Instr",
-      "email": "CCAddUiTest.instructor@gmail.com",
+      "email": "CCAddUiTest.instructor@gmail.tmt",
       "role":"Co-owner",
       "isDisplayedToStudents":true,
       "displayedName":"Instructor",

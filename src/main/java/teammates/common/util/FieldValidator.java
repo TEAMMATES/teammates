@@ -219,7 +219,7 @@ public class FieldValidator {
      * Field: Feedback session name
      */
     public static final String FEEDBACK_SESSION_NAME = "feedback session";
-    public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "a feedback session name";
+    public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "feedback session name";
     public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
     public static final String FEEDBACK_SESSION_NAME_ERROR_MESSAGE = 
             "\"%s\" is not acceptable to TEAMMATES as "+FEEDBACK_SESSION_NAME_FIELD_NAME+" because it %s. " +
@@ -410,6 +410,9 @@ public class FieldValidator {
     public static final String WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE =
             "The provided %s is not acceptable to TEAMMATES as it contains only whitespace or contains extra spaces at the beginning or at the end of the text.";
     
+    public static final String NON_HTML_FIELD_ERROR_MESSAGE = 
+            Sanitizer.sanitizeForHtml("The provided %s is not acceptable to TEAMMATES as it cannot contain the following special html characters in brackets: (< > \\ / ' &)");
+    
     public static final String NON_NULL_FIELD_ERROR_MESSAGE = 
             "The provided %s is not acceptable to TEAMMATES as it cannot be empty.";
     
@@ -467,8 +470,7 @@ public class FieldValidator {
                     EVALUATION_INSTRUCTIONS_FIELD_NAME, value);
             break;
         case FEEDBACK_SESSION_NAME:
-            returnValue = getValidityInfoForAllowedName(
-                    FEEDBACK_SESSION_NAME_FIELD_NAME, FEEDBACK_SESSION_NAME_MAX_LENGTH, (String)value);
+            returnValue = getValidityInfoForFeedbackSessionName(value);
             break;
         case FEEDBACK_QUESTION_TEXT:
             returnValue = getValidityInfoForSizeCappedNonEmptyString(
@@ -596,8 +598,15 @@ public class FieldValidator {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         } else if (value.length()>maxLength) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_TOO_LONG, fieldName, maxLength);
-        } else if (Character.isLetterOrDigit(value.codePointAt(0)) == false) {
-            return String.format(INVALID_NAME_ERROR_MESSAGE, value, fieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, fieldName);
+        } else if (Character.isLetterOrDigit(value.codePointAt(0)) == false) {           
+            boolean startsWithBraces = value.charAt(0) == '{' && value.contains("}");
+            if(!startsWithBraces){
+                return String.format(INVALID_NAME_ERROR_MESSAGE, value, fieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, fieldName);
+            }
+            if(!StringHelper.isMatching(value.substring(1), REGEX_NAME)){
+                return String.format(INVALID_NAME_ERROR_MESSAGE, value, fieldName, REASON_CONTAINS_INVALID_CHAR, fieldName);
+            }
+            
         } else if (!StringHelper.isMatching(value, REGEX_NAME)) {
             return String.format(INVALID_NAME_ERROR_MESSAGE, value, fieldName, REASON_CONTAINS_INVALID_CHAR, fieldName);
         }
@@ -784,6 +793,31 @@ public class FieldValidator {
         }
 
         return errors;
+    }
+
+    public String getValidityInfoForFeedbackSessionName(Object value) {
+        String returnValue;
+        returnValue = getValidityInfoForAllowedName(
+                FEEDBACK_SESSION_NAME_FIELD_NAME, FEEDBACK_SESSION_NAME_MAX_LENGTH, (String)value);
+        if(returnValue.equals("")){
+            returnValue = getValidityInfoForNonHtmlField(
+                    FEEDBACK_SESSION_NAME_FIELD_NAME, (String) value);
+        }
+        return returnValue;
+    }
+    
+    public String getValidityInfoForNonHtmlField(String fieldName, String value) {
+        String sanitizedValue = value;
+        sanitizedValue = sanitizedValue.replace("<", "&lt;")
+            .replace(">", "&gt;")
+            .replace("\"", "&quot;")
+            .replace("/", "&#x2f;")
+            .replace("'", "&#39;")
+            //To ensure when apply sanitizeForHtml for multiple times, the string's still fine
+            //Regex meaning: replace '&' with safe encoding, but not the one that is safe already
+            .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
+        //Fails if sanitized value is not same as value
+        return (value.equals(sanitizedValue)) ? "" : String.format(NON_HTML_FIELD_ERROR_MESSAGE, fieldName);
     }
     
     public String getValidityInfoForNonNullField(String fieldName, Object value) {

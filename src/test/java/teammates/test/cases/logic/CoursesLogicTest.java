@@ -316,7 +316,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         StudentProfileAttributes spa = new StudentProfileAttributes();
         spa.googleId = "instructor1";
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
-                "instructor@email.com", "National University Of Singapore", spa));
+                "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         courseSummary = coursesLogic.getCourseSummary("course1");
         assertEquals("course1", courseSummary.course.id);
@@ -370,7 +370,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         spa.googleId = "instructor1";
         
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true,
-                "instructor@email.com", "National University Of Singapore", spa));
+                "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         courseSummary = coursesLogic.getCourseSummaryWithoutStats("course1");
         assertEquals("course1", courseSummary.course.id);
@@ -428,7 +428,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         spa.googleId = "instructor1";
         
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
-                "instructor@email.com", "National University Of Singapore", spa));
+                "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         courseDetails = coursesLogic.getCourseDetails("course1");
         assertEquals("course1", courseDetails.course.id);
@@ -481,7 +481,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         spa.googleId = "instructor1";
         
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
-                "instructor@email.com", "National University Of Singapore", spa));
+                "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         teams = coursesLogic.getTeamsForCourse("course1");
 
@@ -559,7 +559,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         spa.googleId = "instructor1";
         
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
-                "instructor@email.com", "National University Of Singapore", spa));
+                "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         teamNum = coursesLogic.getNumberOfTeams("course1");
 
@@ -602,7 +602,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         spa.googleId = "instructor1";
         
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
-                "instructor@email.com", "National University Of Singapore", spa));
+                "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         enrolledNum = coursesLogic.getTotalEnrolledInCourse("course1");
 
@@ -645,7 +645,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         spa.googleId = "instructor1";
         
         AccountsLogic.inst().createAccount(new AccountAttributes("instructor1", "Instructor 1", true, 
-                "instructor@email.com", "National University Of Singapore", spa));
+                "instructor@email.tmt", "TEAMMATES Test Institute 1", spa));
         coursesLogic.createCourseAndInstructor("instructor1", "course1", "course 1");
         unregisteredNum = coursesLogic.getTotalUnregisteredInCourse("course1");
 
@@ -1013,12 +1013,12 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         String expectedCsvString = "Course ID,\"idOfTypicalCourse1\"" + Const.EOL  
                                  + "Course Name,\"Typical Course 1 with 2 Evals\"" + Const.EOL  
                                  + Const.EOL + Const.EOL 
-                                 + "Section,Team,First Name,Last Name,Status,Email" + Const.EOL
-                                 + "\"Section 1\",\"Team 1.1\",\"student1 In\",\"Course1\",\"Joined\",\"student1InCourse1@gmail.com\"" + Const.EOL
-                                 + "\"Section 1\",\"Team 1.1\",\"student2 In\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.com\"" + Const.EOL
-                                 + "\"Section 1\",\"Team 1.1\",\"student3 In\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.com\"" + Const.EOL
-                                 + "\"Section 1\",\"Team 1.1\",\"student4 In\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.com\"" + Const.EOL
-                                 + "\"Section 2\",\"Team 1.2\",\"student5 In\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.com\"" + Const.EOL;
+                                 + "Section,Team,Full Name,Last Name,Status,Email" + Const.EOL
+                                 + "\"Section 1\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Joined\",\"student1InCourse1@gmail.tmt\"" + Const.EOL
+                                 + "\"Section 1\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"Joined\",\"student2InCourse1@gmail.tmt\"" + Const.EOL
+                                 + "\"Section 1\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"Joined\",\"student3InCourse1@gmail.tmt\"" + Const.EOL
+                                 + "\"Section 1\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"Joined\",\"student4InCourse1@gmail.tmt\"" + Const.EOL
+                                 + "\"Section 2\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"Joined\",\"student5InCourse1@gmail.tmt\"" + Const.EOL;
 
         assertEquals(expectedCsvString, csvString);
 
@@ -1033,9 +1033,9 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         expectedCsvString = "Course ID,\"idOfTypicalCourse1\"" + Const.EOL  
                                  + "Course Name,\"Typical Course 1 with 2 Evals\"" + Const.EOL  
                                  + Const.EOL + Const.EOL 
-                                 + "Team,First Name,Last Name,Status,Email" + Const.EOL
-                                 + "\"Team 2.1\",\"student1 In\",\"Course2\",\"Joined\",\"student1InCourse2@gmail.com\"" + Const.EOL
-                                 + "\"Team 2.1\",\"student2 In\",\"Course2\",\"Joined\",\"student2InCourse2@gmail.com\"" + Const.EOL;
+                                 + "Team,Full Name,Last Name,Status,Email" + Const.EOL
+                                 + "\"Team 2.1\",\"student1 In Course2\",\"Course2\",\"Joined\",\"student1InCourse2@gmail.tmt\"" + Const.EOL
+                                 + "\"Team 2.1\",\"student2 In Course2\",\"Course2\",\"Joined\",\"student2InCourse2@gmail.tmt\"" + Const.EOL;
 
         ______TS("Typical case: course with unregistered student");
 
@@ -1048,9 +1048,9 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         expectedCsvString = "Course ID,\"idOfUnregisteredCourse\"" + Const.EOL  
                                  + "Course Name,\"Unregistered Course\"" + Const.EOL  
                                  + Const.EOL + Const.EOL 
-                                 + "Section,Team,First Name,Last Name,Status,Email" + Const.EOL
-                                 + "\"Section 1\",\"Team 1\",\"student1 In\",\"unregisteredCourse\",\"Yet to join\",\"student1InUnregisteredCourse@gmail.com\"" + Const.EOL
-                                 + "\"Section 2\",\"Team 2\",\"student2 In\",\"unregisteredCourse\",\"Yet to join\",\"student2InUnregisteredCourse@gmail.com\"" + Const.EOL;
+                                 + "Section,Team,Full Name,Last Name,Status,Email" + Const.EOL
+                                 + "\"Section 1\",\"Team 1\",\"student1 In unregisteredCourse\",\"unregisteredCourse\",\"Yet to join\",\"student1InUnregisteredCourse@gmail.tmt\"" + Const.EOL
+                                 + "\"Section 2\",\"Team 2\",\"student2 In unregisteredCourse\",\"unregisteredCourse\",\"Yet to join\",\"student2InUnregisteredCourse@gmail.tmt\"" + Const.EOL;
 
         assertEquals(expectedCsvString, csvString);
 
@@ -1159,7 +1159,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         c.name = "Fresh course for tccai";
         
         @SuppressWarnings("deprecation")
-        InstructorAttributes i = new InstructorAttributes("instructor-for-tccai", c.id, "Instructor for tccai", "ins.for.iccai@gmail.com");       
+        InstructorAttributes i = new InstructorAttributes("instructor-for-tccai", c.id, "Instructor for tccai", "ins.for.iccai@gmail.tmt");       
         
         try {
             coursesLogic.createCourseAndInstructor(i.googleId, c.id, c.name);
@@ -1176,7 +1176,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         a.googleId = i.googleId;
         a.name = i.name;
         a.email = i.email;
-        a.institute = "NUS";
+        a.institute = "TEAMMATES Test Institute 5";
         a.isInstructor = false;
         a.studentProfile = new StudentProfileAttributes();
         a.studentProfile.googleId = i.googleId;
@@ -1221,7 +1221,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
         ______TS("fails: error during instructor creation due to invalid parameters");
 
-        i.email = "ins.for.iccai.gmail.com";
+        i.email = "ins.for.iccai.gmail.tmt";
 
         try {
             coursesLogic.createCourseAndInstructor(i.googleId, c.id, c.name);
@@ -1233,7 +1233,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
        
         ______TS("success: typical case");
 
-         i.email = "ins.for.iccai@gmail.com";
+         i.email = "ins.for.iccai@gmail.tmt";
 
         //remove the duplicate instructor object from the datastore.
         instructorsDb.deleteInstructor(i.courseId, i.email);

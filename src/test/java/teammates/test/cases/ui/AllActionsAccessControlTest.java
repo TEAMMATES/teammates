@@ -29,7 +29,6 @@ import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
-import teammates.logic.backdoor.BackDoorLogic;
 import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
@@ -67,13 +66,13 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     
     @AfterClass
     public static void classTearDown() throws Exception {
-        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.com");
+        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
     }
     
     private static void addUnregStudentToCourse1() throws Exception{
-        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.com");
+        StudentsLogic.inst().deleteStudentCascade("idOfTypicalCourse1", "student6InCourse1@gmail.tmt");
         StudentAttributes student = new StudentAttributes();
-        student.email = "student6InCourse1@gmail.com";
+        student.email = "student6InCourse1@gmail.tmt";
         student.name = "unregistered student6 In Course1";
         student.team = "Team Unregistered";
         student.section = "Section 3";
@@ -278,7 +277,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
                 Const.ParamsNames.INSTRUCTOR_NAME, "Instructor Name",
-                Const.ParamsNames.INSTRUCTOR_EMAIL, "instructor@email.com",
+                Const.ParamsNames.INSTRUCTOR_EMAIL, "instructor@email.tmt",
                 Const.ParamsNames.INSTRUCTOR_ROLE_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, "true",
@@ -291,7 +290,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         verifyUnaccessibleWithoutModifyInstructorPrivilege(submissionParams);
         
         // remove the newly added instructor
-        InstructorsLogic.inst().deleteInstructorCascade("idOfTypicalCourse1", "instructor@email.com");
+        InstructorsLogic.inst().deleteInstructorCascade("idOfTypicalCourse1", "instructor@email.tmt");
     }
     
     @Test
@@ -863,8 +862,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionAttributes question = fqDb.getFeedbackQuestion(
                 fs.feedbackSessionName, fs.courseId, questionNumber);
-        String giverEmail = "student1InCourse1@gmail.com";
-        String receiverEmail = "student1InCourse1@gmail.com";
+        String giverEmail = "student1InCourse1@gmail.tmt";
+        String receiverEmail = "student1InCourse1@gmail.tmt";
         FeedbackResponseAttributes response = frDb.getFeedbackResponse(question.getId(),
                 giverEmail, receiverEmail);
         FeedbackResponseCommentAttributes comment = new FeedbackResponseCommentAttributes();
@@ -934,8 +933,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         FeedbackQuestionAttributes feedbackQuestion = fqDb.getFeedbackQuestion(
                 "First feedback session", "idOfTypicalCourse1", questionNumber);
         
-        String giverEmail = "student1InCourse1@gmail.com";
-        String receiverEmail = "student1InCourse1@gmail.com";
+        String giverEmail = "student1InCourse1@gmail.tmt";
+        String receiverEmail = "student1InCourse1@gmail.tmt";
         FeedbackResponseAttributes feedbackResponse = frDb.getFeedbackResponse(feedbackQuestion.getId(),
                 giverEmail, receiverEmail);
         
@@ -1069,6 +1068,13 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     public void InstructorHomePage() throws Exception{
         uri = Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
         verifyOnlyInstructorsCanAccess(submissionParams);
+        
+        // check for persistence issue
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "random_course"
+        };
+        
+        verifyOnlyLoggedInUsersCanAccess(submissionParams);
     }
 
     @Test
@@ -1486,6 +1492,12 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         String[] submissionParams = new String[]{};
         verifyOnlyLoggedInUsersCanAccess(submissionParams);
         
+        // check for persistence issue
+        submissionParams = new String[] {
+                Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "random_course"
+        };
+        
+        verifyAccessibleForUnregisteredUsers(submissionParams);
     }
     
     @Test

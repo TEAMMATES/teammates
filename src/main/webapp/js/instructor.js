@@ -8,7 +8,7 @@
 //Initial load-up
 //-----------------------------------------------------------------------------
 
-window.addEventListener('load', function (){
+var onLoadFunction = function () {
     if(typeof doPageSpecificOnload !== 'undefined'){
         doPageSpecificOnload();
     };
@@ -19,7 +19,13 @@ window.addEventListener('load', function (){
     // bind the show picture onhover events
     bindStudentPhotoHoverLink(".profile-pic-icon-hover");
     
-});
+};
+
+if(window.addEventListener) {
+	window.addEventListener('load', onLoadFunction);
+} else {
+	window.attachEvent('onload', onLoadFunction);
+}
 
 
 $(function() { 
@@ -166,12 +172,27 @@ function bindStudentPhotoLink(elements){
 	                .parent().attr('data-link', '')
 	                .popover({
 	                	html: true,
-	                    trigger: 'hover',
+	                    trigger: 'manual',
 	                    placement: 'top',
 	                    content: function () {
 	                    	return '<img class="profile-pic" src="' + resolvedLink + '" />';
 	                    }
-	                });
+	                })
+	                .mouseenter(function() {
+	            		$(this).popover('show');
+	                	$(this).siblings('.popover').on('mouseleave', function() {
+	                		$(this).siblings('.profile-pic-icon-click').popover("hide");
+	                	});
+	                	$(this).mouseleave(function() {
+	            	    	// this is so that the user can hover over the 
+	            	    	// pop-over photo without hiding the photo
+	            	    	setTimeout(function(obj) {
+	            	    		if (!$(obj).siblings(".popover").is(":hover")) {
+	            	                $(obj).popover("hide");
+	            	            }
+	            	    	}, 200, this);
+	            	    });
+            		});
 	            updateHoverShowPictureEvents(actualLink, resolvedLink);
 	    	});
 	    $(this).remove();
@@ -257,12 +278,26 @@ function updateHoverShowPictureEvents(actualLink, resolvedLink) {
 	.popover('destroy')
 	.popover({
 		html: true,
-		trigger: 'hover',
+		trigger: 'manual',
 		placement: 'top',
-		delay: {show: 300, hide: 300},
 		content: function () {
 			return '<img class="profile-pic" src="' + resolvedLink + '" />';
 		}
+	})
+	.mouseenter(function() {
+		$(this).popover('show');
+    	$(this).siblings('.popover').on('mouseleave', function() {
+    		$(this).siblings('.profile-pic-icon-hover').popover("hide");
+    	});
+    	$(this).mouseleave(function() {
+	    	// this is so that the user can hover over the 
+	    	// pop-over photo without hiding the photo
+	    	setTimeout(function(obj) {
+	    		if (!$(obj).siblings(".popover").is(":hover")) {
+	                $(obj).popover("hide");
+	            }
+	    	}, 200, this);
+	    });
 	})
 	.children('img[src=""]').attr('src', resolvedLink);
 }

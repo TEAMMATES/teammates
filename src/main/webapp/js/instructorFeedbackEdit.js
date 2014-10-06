@@ -371,6 +371,7 @@ function prepareQuestionForm(type) {
         $('#msqForm').hide();
         $('#numScaleForm').hide();
         $('#constSumForm').show();
+        $('#questionTypeChoice').find('option').prop('disabled', false);
         $('#questionTypeChoice').val('CONSTSUM');
         break;
     case "CONSTSUM_RECIPIENT":
@@ -382,6 +383,7 @@ function prepareQuestionForm(type) {
         $('#msqForm').hide();
         $('#numScaleForm').hide();
         $('#constSumForm').show();
+        $('#questionTypeChoice').find('option').prop('disabled', false);
         $('#questionTypeChoice').val('CONSTSUM');
         break;
     case "CONTRIB":
@@ -481,6 +483,10 @@ function fixContribQnGiverRecipient(questionNumber){
     //Fix giver->recipient to be STUDENT->OWN_TEAM_MEMBERS_INCLUDING_SELF
     $('#givertype'+idSuffix).find('option').not('[value="STUDENTS"]').hide();
     $('#recipienttype'+idSuffix).find('option').not('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').hide();
+
+    $('#givertype'+idSuffix).find('option').not('[value="STUDENTS"]').prop('disabled', true);
+    $('#recipienttype'+idSuffix).find('option').not('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').prop('disabled', true);
+
     $('#givertype'+idSuffix).find('option').filter('[value="STUDENTS"]').attr('selected','selected');
     $('#recipienttype'+idSuffix).find('option').filter('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').attr('selected','selected');
 }
@@ -1027,9 +1033,7 @@ function getVisibilityMessage(buttonElem){
     var url = "/page/instructorFeedbackQuestionvisibilityMessage";
 
     eval($(form).attr('onsubmit'));
-
-    var data = $(form[0]).serialize();
-
+    
     $.ajax({
             type: "POST",
             url: url,
@@ -1046,6 +1050,14 @@ function getVisibilityMessage(buttonElem){
             }
         });
 
+}
+
+function getVisibilityMessageIfPreviewIsActive(buttonElem) {
+	var form = $(buttonElem).closest("form");
+	
+    if ($(form).find('.visibilityMessageButton').hasClass('active')) {
+    	getVisibilityMessage(buttonElem);	
+    }         
 }
 
 function formatVisibilityMessageHtml(visibilityMessage){

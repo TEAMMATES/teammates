@@ -101,9 +101,19 @@
                                             </span> </h4>                                          
                                             <div class="text-center">                                          
                                             <ul class="list-group">
-                                                <li class="list-group-item">
-                                                    instructorEvalStatsPage
-                                                </li>
+                                            
+                                            <%
+                                               for(String url : data.excludedLogRequestURIs){                                          
+                                                   url = url.substring(url.lastIndexOf("/") + 1);
+                                            %>
+                                             <li class="list-group-item">
+                                                    <%=url%>
+                                              </li>
+                                            <%       
+                                               }
+                                            
+                                            %>
+                                                
                                             </ul>
                                             </div>
                                         
@@ -178,7 +188,7 @@
                                                     Possible Labels:</strong>&nbsp;from,
                                                 to, person, role,
                                                 request, response,
-                                                version,time<br>
+                                                version,time,info<br>
                                                 <ul>
 
                                                     <li>E.g. from:
@@ -192,7 +202,7 @@
                                                         teammates.coord</li>
                                                     <li>E.g. role:
                                                         Instructor,
-                                                        Student</li>
+                                                        Student, Unregistered</li>
                                                     <li>E.g.
                                                         request:
                                                         InstructorEval,
@@ -215,7 +225,14 @@
                                                         and "-" are
                                                         acceptable)</li>
                                                      
-                                                     <li>E.g. time: 1000 (means 1000ms) </li>                                                                                         
+                                                     <li>E.g. time: 1000 (means 1000ms) </li>
+                                                     
+                                                     <li>E.g. info: Admin Account Management Page Load </li> 
+                                                     
+                                                     <li>E.g. info: Admin Account Management Page Load, Total, 90 (Use "," to search multiple key strings)
+                                                     
+                                                     </li>
+                                                                                                                                             
                                                      
                                                 </ul>
                                             </div>
@@ -412,6 +429,12 @@
                         logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
                         or simply reloaded with this parameter omitted. -->
                         <input type="hidden" name="all" value="<%=data.ifShowAll%>">
+
+                        <!-- This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
+                        to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
+                        unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted. -->
+                        <input type="hidden" name="testdata" value="<%=data.ifShowTestData%>">
+                            
                     </form>
 
 
@@ -477,10 +500,17 @@
                                         for (ActivityLogEntry log : appLogs) {
                             %>
                             
+                            <%if(data.isTestingData(log.getEmail()) &&data.ifShowTestData == false) {
+                            	   continue;
+                                } 
+                            %>
+                            
+                            
                             <%=log.getLogInfoForTableRowAsHtml()%>
                             
-                            <%
+                            <% 
                                 index++;
+                                           
                                         }
                                     }
                             %>

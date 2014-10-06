@@ -53,7 +53,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorStudentListPage|||instructorStudentListPage"+
                 "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"+
-                "|||instr3@course1n2.com|||instructorStudentList Page Load<br>Total Courses: 2"+
+                "|||instr3@course1n2.tmt|||instructorStudentList Page Load<br>Total Courses: 2"+
                 "|||/page/instructorStudentListPage";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
@@ -77,7 +77,7 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
 
         expectedLogMessage = "TEAMMATESLOG|||instructorStudentListPage|||instructorStudentListPage"+
                 "|||true|||Instructor|||Instructor Without Courses|||instructorWithoutCourses"+
-                "|||iwc@yahoo.com|||instructorStudentList Page Load<br>Total Courses: 0"+
+                "|||iwc@yahoo.tmt|||instructorStudentList Page Load<br>Total Courses: 0"+
                 "|||/page/instructorStudentListPage";
         assertEquals(expectedLogMessage, a.getLogMessage());
         

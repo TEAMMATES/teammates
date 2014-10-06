@@ -85,6 +85,15 @@ public class FeedbackResponsesDb extends EntitiesDb {
     /**
      * Preconditions: <br>
      * * All parameters are non-null. 
+     * @return Null if not found.
+     */
+    public FeedbackResponse getFeedbackResponseEntityOptimized (FeedbackResponseAttributes response) {
+         return (FeedbackResponse) getEntity(response); 
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null. 
      * @return An empty list if no such responses are found.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection (
@@ -129,6 +138,30 @@ public class FeedbackResponsesDb extends EntitiesDb {
     
     /**
      * Preconditions: <br>
+     * * All parameters are non-null.This function will find the responses for a
+     * specified question within a given range
+     * 
+     * @return An empty list if no such responses are found.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionWithinRange(
+            String feedbackQuestionId, long range) {
+
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
+        
+        List<FeedbackResponse> frList =
+                getFeedbackResponseEntitiesForQuestionWithinRange(feedbackQuestionId, range);
+        List<FeedbackResponseAttributes> fraList =
+                new ArrayList<FeedbackResponseAttributes>();
+        
+        for (FeedbackResponse fr : frList) {
+                fraList.add(new FeedbackResponseAttributes(fr));
+        }
+        
+        return fraList;   
+    }
+    
+    /**
+     * Preconditions: <br>
      * * All parameters are non-null. 
      * @return An empty list if no such responses are found.
      */
@@ -148,7 +181,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         return fraList;        
     }
-
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null. 
@@ -403,7 +436,30 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         return fraList;
     }
-    
+
+    /**
+     *  Preconditions: <br>
+     * * All parameters are non-null.
+     *  @return An empty list if no such responses are found.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForSessionWithinRange (String giverEmail, String feedbackSessionName, String courseId, long range) {
+
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+
+        Collection<FeedbackResponse> frList = 
+                getFeedbackResponseEntitiesFromGiverForSessionWithinRange(giverEmail, feedbackSessionName, courseId, range);
+        List<FeedbackResponseAttributes> fraList = 
+                new ArrayList<FeedbackResponseAttributes>();
+
+        for (FeedbackResponse fr : frList) {
+            fraList.add(new FeedbackResponseAttributes(fr));
+        }
+
+        return fraList;
+    }
+
     /**
      * Preconditions: <br>
      * * All parameters are non-null. 
@@ -578,6 +634,21 @@ public class FeedbackResponsesDb extends EntitiesDb {
         q.declareParameters("String feedbackQuestionIdParam");
         q.setFilter("feedbackQuestionId == feedbackQuestionIdParam ");
         
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponse> FeedbackResponseList =
+            (List<FeedbackResponse>) q.execute(feedbackQuestionId);
+        
+        return FeedbackResponseList;
+    }
+
+    private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestionWithinRange(    
+                String feedbackQuestionId, long range) {
+    
+        Query q = getPM().newQuery(FeedbackResponse.class);
+        q.declareParameters("String feedbackQuestionIdParam");
+        q.setFilter("feedbackQuestionId == feedbackQuestionIdParam ");
+        q.setRange(0, range + 1);
+
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> FeedbackResponseList =
             (List<FeedbackResponse>) q.execute(feedbackQuestionId);
@@ -814,6 +885,21 @@ public class FeedbackResponsesDb extends EntitiesDb {
         return FeedbackResponseList.values(); 
     }
     
+    private List<FeedbackResponse> getFeedbackResponseEntitiesFromGiverForSessionWithinRange(
+            String giverEmail, String feedbackSessionName, String courseId, long range) {
+
+        Query q = getPM().newQuery(FeedbackResponse.class);
+        q.declareParameters("String giverEmailParam, String feedbackSessionNameParam, String courseIdParam");
+        q.setFilter("giverEmail == giverEmailParam && feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam");
+        q.setRange(0, range + 1);
+        
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponse> FeedbackResponseList =
+            (List<FeedbackResponse>) q.execute(giverEmail, feedbackSessionName, courseId);
+        
+        return FeedbackResponseList;
+    }
+
     private List<FeedbackResponse> getFeedbackResponseEntitiesForReceiverForCourse(
             String courseId, String receiver) {
 

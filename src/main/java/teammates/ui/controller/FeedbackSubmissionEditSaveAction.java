@@ -3,8 +3,7 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import com.google.appengine.api.datastore.Text;
+import java.util.Set;
 
 import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
 import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
@@ -21,13 +20,17 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.StringHelper;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.StudentsLogic;
+
+import com.google.appengine.api.datastore.Text;
 
 public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected String courseId;
     protected String feedbackSessionName;
     protected FeedbackSubmissionEditPageData data;
+    protected String hasResponses;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -76,9 +79,18 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             
             int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);  
             String qnId = "";
+                        
+            Set<String> emailSet = data.bundle.getRecipientEmails(questionAttributes.getId());
+            emailSet.add("");
+            emailSet = StringHelper.recoverFromSanitizedText(emailSet);
+            
+            ArrayList<String> responsesRecipients = new ArrayList<String>();
             
             for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
                 FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, questionIndx, responseIndx, questionDetails);
+                
+                responsesRecipients.add(response.recipientEmail);       
+                
                 if(response.responseMetaData.getValue().isEmpty()){
                     //deletes the response since answer is empty
                     saveResponse(response);
@@ -90,7 +102,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 qnId = response.feedbackQuestionId;
             }
             
-            List<String> errors = questionDetails.validateResponseAttributes(responsesForQuestion, data.bundle.recipientList.get(qnId).size());
+            List<String> errors = questionDetails.validateResponseAttributes(responsesForQuestion, data.bundle.recipientList.get(qnId).size());            
+            if (!emailSet.containsAll(responsesRecipients)) {
+                errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_INVALID_RECIPIENT, questionIndx));                
+            }
             
             if(errors.isEmpty()) {
                 for(FeedbackResponseAttributes response : responsesForQuestion) {
@@ -105,6 +120,12 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         
         if (!isError) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
+        }
+
+        if(logic.hasGiverRespondedForSession(userEmailForCourse, feedbackSessionName, courseId)){
+            appendRespondant();
+        } else {
+            removeRespondant();
         }
         
         // TODO: what happens if qn is deleted as response is being submitted?
@@ -212,6 +233,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         
         return response;
     }
+
+    protected abstract void appendRespondant();
+
+    protected abstract void removeRespondant();
     
     protected abstract void verifyAccesibleForSpecificUser();
 

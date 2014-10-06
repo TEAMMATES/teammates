@@ -442,7 +442,7 @@
                                 <option value="NUMSCALE">Numerical-scale question</option>
                                 <option value="CONSTSUM_OPTION">Distribute points (among options) question</option>
                                 <option value="CONSTSUM_RECIPIENT">Distribute points (among recipients) question</option>
-                                <option value="CONSTSUM" style="display:none"></option>
+                                <option value="CONSTSUM" disabled="disabled" style="display:none"></option>
                                 <option value="CONTRIB">Team contribution question</option>
                             </select>
                         </div>
@@ -715,7 +715,7 @@
                                 Feedback Recipient:
                             </label>
                             <div class="col-sm-8">
-                                <select class="form-control participantSelect" name="recipienttype" id="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessage(this);">
+                                <select class="form-control participantSelect" name="recipienttype" id="recipienttype" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                                     <option value="SELF">Giver (Self feedback)</option>
 <option value="STUDENTS">Other students in the course</option>
 <option value="INSTRUCTORS">Instructors in the course</option>

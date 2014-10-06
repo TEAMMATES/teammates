@@ -31,7 +31,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         
-        Assumption.assertNotNull(courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId); 
         
@@ -49,6 +49,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         data.newFeedbackSession = fs;
         
         String feedbackSessionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TYPE);
+        data.feedbackSessionType = feedbackSessionType;
         
         try {
             logic.createFeedbackSession(fs);

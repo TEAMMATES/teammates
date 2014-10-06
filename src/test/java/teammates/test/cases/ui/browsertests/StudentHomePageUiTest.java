@@ -69,6 +69,11 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         // this test uses the accounts from test.properties
         studentHome.verifyHtmlMainContent("/StudentHomeHTMLEmpty.html");
         
+        ______TS("persistence check");
+        
+        loginWithPersistenceProblem();
+        studentHome.verifyHtmlMainContent("/StudentHomeHTMLPersistenceCheck.html");
+        
         ______TS("login");
         
         studentHome = HomePage.getNewInstance(browser)
@@ -237,6 +242,15 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         studentHomePage.getSubmitFeedbackButton("First Feedback Session").click();
         browser.selenium.waitForPageToLoad("15000");
         studentHomePage.verifyHtmlMainContent("/StudentHomeFeedbackDeletedHTML.html");
+        
+    }
+
+    private void loginWithPersistenceProblem() {
+        Url homeUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
+                    .withParam(Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "SHomeUiT.CS2104")
+                    .withUserId("unreg_user");
+        
+        studentHome = loginAdminToPage(browser, homeUrl, StudentHomePage.class);
         
     }
 

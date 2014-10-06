@@ -114,7 +114,7 @@ public class StudentsDb extends EntitiesDb {
 
     public void createStudent(StudentAttributes student, boolean hasDocument)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        StudentAttributes createdStudent = (StudentAttributes) createEntity(student);
+        StudentAttributes createdStudent = new StudentAttributes((Student)createEntity(student));
         if (hasDocument) {
             putDocument(createdStudent);
         }
@@ -370,6 +370,7 @@ public class StudentsDb extends EntitiesDb {
 
         student.setEmail(Sanitizer.sanitizeForHtml(newEmail));
         student.setName(Sanitizer.sanitizeForHtml(newName));
+        student.setLastName(Sanitizer.sanitizeName(StringHelper.splitName(newName)[1]));
         student.setComments(Sanitizer.sanitizeForHtml(newComments));
         student.setGoogleId(Sanitizer.sanitizeForHtml(newGoogleID));
         student.setTeamName(Sanitizer.sanitizeForHtml(newTeamName));

@@ -110,7 +110,7 @@ public class BackDoorLogic extends Logic {
         List<AccountAttributes> instructorAccounts = new ArrayList<AccountAttributes>();
         for (InstructorAttributes instructor : instructors.values()) {
             if (instructor.googleId != null && !instructor.googleId.equals("")) {
-                AccountAttributes account = new AccountAttributes(instructor.googleId, instructor.name, true, instructor.email, "National University of Singapore");
+                AccountAttributes account = new AccountAttributes(instructor.googleId, instructor.name, true, instructor.email, "TEAMMATES Test Institute 1");
                 if (account.studentProfile == null) {
                     account.studentProfile = new StudentProfileAttributes();
                     account.studentProfile.googleId = account.googleId;
@@ -126,7 +126,7 @@ public class BackDoorLogic extends Logic {
         for (StudentAttributes student : students.values()) {
             student.section = (student.section == null) ? "None" : student.section;
             if (student.googleId != null && !student.googleId.equals("")) {
-                AccountAttributes account = new AccountAttributes(student.googleId, student.name, false, student.email, "National University of Singapore");
+                AccountAttributes account = new AccountAttributes(student.googleId, student.name, false, student.email, "TEAMMATES Test Institute 1");
                 if (account.studentProfile == null) {
                     account.studentProfile = new StudentProfileAttributes();
                     account.studentProfile.googleId = account.googleId;
@@ -183,6 +183,10 @@ public class BackDoorLogic extends Logic {
         }
         frDb.createFeedbackResponses(responses.values());
         
+        for(FeedbackSessionAttributes session : sessions.values()){
+            updateRespondants(session.feedbackSessionName, session.courseId);
+        }
+        
         HashMap<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
         for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
             responseComment = injectRealIds(responseComment);
@@ -195,6 +199,8 @@ public class BackDoorLogic extends Logic {
         // any Db can be used to commit the changes. 
         // Eval is used as it is already used in the file
         new EvaluationsDb().commitOutstandingChanges();
+
+        
         
         return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
     }

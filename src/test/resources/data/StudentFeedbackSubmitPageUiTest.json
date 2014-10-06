@@ -4,50 +4,50 @@
             "googleId":"SFSubmitUiT.instr",
             "name":"Teammates Test",
             "isInstructor":true,
-            "email":"SFSubmitUiT.instr@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"SFSubmitUiT.instr@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "SFSubmitUiT.instr2":{
             "googleId":"SFSubmitUiT.instr2",
             "name":"Teammates Test2",
             "isInstructor":true,
-            "email":"SFSubmitUiT.instr2@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"SFSubmitUiT.instr2@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "SFSubmitUiT.instr3":{
             "googleId":"SFSubmitUiT.instr3",
             "name":"Teammates Test3",
             "isInstructor":true,
-            "email":"SFSubmitUiT.instr3@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"SFSubmitUiT.instr3@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "SFResultsUiT.alice.b":{
             "googleId":"SFSubmitUiT.alice.b",
             "name":"Alice B.",
             "isInstructor":false,
-            "email":"SFSubmitUiT.alice.b@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"SFSubmitUiT.alice.b@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "SFSubmitUiT.charlie.d":{
             "googleId":"SFSubmitUiT.charlie.d",
             "name":"Charlie D.",
             "isInstructor":false,
-            "email":"SFSubmitUiT.charlie.d@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"SFSubmitUiT.charlie.d@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "SFSubmitUiT.danny.e":{
             "googleId":"SFSubmitUiT.danny.e",
             "name":"Danny E.",
             "isInstructor":false,
-            "email":"SFSubmitUiT.danny.e@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"SFSubmitUiT.danny.e@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         },
         "SFSubmitUiT.emily.f":{
             "googleId":"SFSubmitUiT.emily.f",
             "name":"Emily F.",
             "isInstructor":false,
-            "email":"SFSubmitUiT.emily.f@gmail.com",
-            "institute":"National University of Singapore"
+            "email":"SFSubmitUiT.emily.f@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         }
     },
     "courses":{
@@ -62,7 +62,7 @@
             "googleId":"SFSubmitUiT.instr",
             "courseId":"SFSubmitUiT.CS2104",
             "name":"Teammates Test",
-            "email":"SFSubmitUiT.instr@gmail.com",
+            "email":"SFSubmitUiT.instr@gmail.tmt",
             "role":"Co-owner",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
@@ -72,7 +72,7 @@
             "googleId":"SFSubmitUiT.instr2",
             "courseId":"SFSubmitUiT.CS2104",
             "name":"Teammates Test2",
-            "email":"SFSubmitUiT.instr2@gmail.com",
+            "email":"SFSubmitUiT.instr2@gmail.tmt",
             "role":"Co-owner",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
@@ -82,7 +82,7 @@
             "googleId":"SFSubmitUiT.instr3",
             "courseId":"SFSubmitUiT.CS2104",
             "name":"Teammates Test3",
-            "email":"SFSubmitUiT.instr3@gmail.com",
+            "email":"SFSubmitUiT.instr3@gmail.tmt",
             "role":"Co-owner",
             "isDisplayedToStudents":false,
             "displayedName":"Instructor",
@@ -92,23 +92,23 @@
     "students":{
         "Alice":{
             "googleId":"SFSubmitUiT.alice.b",
-            "email":"SFSubmitUiT.alice.b@gmail.com",
+            "email":"SFSubmitUiT.alice.b@gmail.tmt",
             "course":"SFSubmitUiT.CS2104",
             "name":"Alice Betsy",
             "comments":"This student's name is Alice Betsy",
-            "team":"Team 1"
+            "team":"Team> 1"
         },
         "Benny":{
             "googleId":"SFSubmitUiT.benny.c",
-            "email":"SFSubmitUiT.benny.c@gmail.com",
+            "email":"SFSubmitUiT.benny.c@gmail.tmt",
             "course":"SFSubmitUiT.CS2104",
             "name":"Benny Charles",
             "comments":"This student's name is Benny Charles",
-            "team":"Team 1"
+            "team":"Team> 1"
         },
         "ExtraGuy":{
             "googleId":"extra.guy",
-            "email":"extra.guy@gmail.com",
+            "email":"extra.guy@gmail.tmt",
             "course":"SFSubmitUiT.CS2104",
             "name":"Extra guy",
             "comments":"This student will move to a new team after evaluation created",
@@ -116,7 +116,7 @@
         },
         "DropOut":{
             "googleId":"",
-            "email":"drop.out@gmail.com",
+            "email":"drop.out@gmail.tmt",
             "course":"SFSubmitUiT.CS2104",
             "name":"Drop out",
             "comments":"This student will drop out after evaluation created",
@@ -124,7 +124,7 @@
         },
         "Charlie":{
             "googleId":"SFSubmitUiT.charlie.d",
-            "email":"SFSubmitUiT.charlie.d@gmail.com",
+            "email":"SFSubmitUiT.charlie.d@gmail.tmt",
             "course":"SFSubmitUiT.CS2104",
             "name":"Charlie Davis",
             "comments":"This student's name is Charlie Davis",
@@ -132,7 +132,7 @@
         },
         "Danny":{
             "googleId":"SFSubmitUiT.danny.e",
-            "email":"SFSubmitUiT.danny.e@gmail.com",
+            "email":"SFSubmitUiT.danny.e@gmail.tmt",
             "course":"SFSubmitUiT.CS2104",
             "name":"Danny Engrid",
             "comments":"This student's name is Danny Engrid",
@@ -140,7 +140,7 @@
         },
         "Emily":{
             "googleId":"SFSubmitUiT.emily.f",
-            "email":"SFSubmitUiT.emily.f@gmail.com",
+            "email":"SFSubmitUiT.emily.f@gmail.tmt",
             "course":"SFSubmitUiT.CS2104",
             "name":"Emily",
             "comments":"This student's name is Emily",
@@ -151,7 +151,7 @@
         "Open Session":{
             "feedbackSessionName":"First Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "instructions":{
                 "value":"Instructions for first session"
             },
@@ -169,7 +169,7 @@
         "Grace Period Session":{
             "feedbackSessionName":"Grace Period Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "instructions":{
                 "value":"This going to be a grace period session"
             },
@@ -187,7 +187,7 @@
         "Closed Session":{
             "feedbackSessionName":"Second Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "instructions":{
                 "value":"Please please fill in the second feedback session"
             },
@@ -205,7 +205,7 @@
         "Empty Session":{
             "feedbackSessionName":"Third Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "instructions":{
                 "value":"Please please fill in the last feedback session"
             },
@@ -223,7 +223,7 @@
         "Awaiting Session":{
             "feedbackSessionName":"Fourth Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "instructions":{
                 "value":"Please please fill in the second feedback session"
             },
@@ -243,7 +243,7 @@
         "qn1InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"What is the best selling point of your product?"
             },
@@ -268,7 +268,7 @@
         "qn2InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"Rate 3 other students' products"
             },
@@ -294,7 +294,7 @@
         "qn3InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"Comments about the class"
             },
@@ -316,7 +316,7 @@
         "qn4InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"Give feedback to 3 other teams."
             },
@@ -338,7 +338,7 @@
         "qn5InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"Give feedback to your team mates"
             },
@@ -360,7 +360,7 @@
         "qn6InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"This question should be hidden."
             },
@@ -382,7 +382,7 @@
         "qn7InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"MCQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
             },
@@ -407,7 +407,7 @@
         "qn8InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"MCQ\",\"questionText\":\"What do you think is the other teams' best feature?\",\"numOfMcqChoices\":2,\"mcqChoices\":[\"UI\",\"Algo\"],\"otherEnabled\":false}"
             },
@@ -429,7 +429,7 @@
         "qn9InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"MSQ\",\"questionText\":\"What is the best selling point of your product?\",\"numOfMsqChoices\":3,\"msqChoices\":[\"UI\",\"Algo\",\"Design\"],\"otherEnabled\":false}"
             },
@@ -454,7 +454,7 @@
         "qn10InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"MSQ\",\"questionText\":\"What do you think is the other teams' best feature?\",\"numOfMsqChoices\":3,\"msqChoices\":[\"UI\",\"Algo\",\"Design\"],\"otherEnabled\":false}"
             },
@@ -476,7 +476,7 @@
         "qn11InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"MCQ\",\"questionText\":\"Who is the best class mate?\",\"numOfMcqChoices\":0,\"mcqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"STUDENTS\"}"
             },
@@ -501,7 +501,7 @@
         "qn12InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"MSQ\",\"questionText\":\"Who do you recommend as tutor?\",\"numOfMsqChoices\":0,\"msqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"STUDENTS\"}"
             },
@@ -526,7 +526,7 @@
         "qn13InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"MCQ\",\"questionText\":\"Which is the best team?\",\"numOfMcqChoices\":0,\"mcqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"TEAMS\"}"
             },
@@ -551,7 +551,7 @@
         "qn14InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"MSQ\",\"questionText\":\"Who do you recommend as tutor?\",\"numOfMsqChoices\":0,\"msqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"TEAMS\"}"
             },
@@ -576,7 +576,7 @@
         "qn15InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"NUMSCALE\",\"questionText\":\"Rate your product\",\"minScale\":1,\"maxScale\":5,\"step\":0.5}"
             },
@@ -601,7 +601,7 @@
         "qn16InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"NUMSCALE\",\"questionText\":\"Rate others' product\",\"minScale\":1,\"maxScale\":5,\"step\":0.5}"
             },
@@ -623,7 +623,7 @@
         "qn17InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"MCQ\",\"questionText\":\"Who is the best instructor?\",\"numOfMcqChoices\":0,\"mcqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"INSTRUCTORS\"}"
             },
@@ -648,7 +648,7 @@
         "qn18InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"MSQ\",\"questionText\":\"Who do you recommend as tutors?\",\"numOfMsqChoices\":0,\"msqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"INSTRUCTORS\"}"
             },
@@ -673,7 +673,7 @@
         "qn19InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionText\":\"How important are the following factors to you? Give points accordingly.\",
                           \"questionType\":\"CONSTSUM\", \"numOfConstSumOptions\" : 2,
@@ -701,7 +701,7 @@
         "qn20InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionText\":\"Split points among the teams\",
                           \"questionType\":\"CONSTSUM\", \"numOfConstSumOptions\" : 0,
@@ -727,7 +727,7 @@
         "qn21InSession1":{
             "feedbackSessionName":"First Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"CONTRIB\", \"questionText\":\"Rate the contribution of your team members and yourself.\"}"
             },
@@ -750,7 +750,7 @@
         "qn1InSession2":{
             "feedbackSessionName":"Second Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"Give feedback to your instructors"
             },
@@ -772,7 +772,7 @@
         "qn2InSession2":{
             "feedbackSessionName":"Second Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionText\":\"What do you like best about our product?\", \"questionType\":\"MCQ\", \"numOfMcqChoices\" : 2, \"mcqChoices\" : [\"It's good\", \"It's perfect\"],\"otherEnabled\" : false}"
             },
@@ -794,7 +794,7 @@
         "qn3InSession2":{
             "feedbackSessionName":"Second Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionText\":\"What do you like best about our product?\", \"questionType\":\"MSQ\", \"numOfMsqChoices\" : 2, \"msqChoices\" : [\"It's good\", \"It's perfect\"],\"otherEnabled\" : false}"
             },
@@ -816,7 +816,7 @@
         "qn4InSession2":{
             "feedbackSessionName":"Second Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionText\":\"Rate our product.\", \"questionType\":\"NUMSCALE\", \"minScale\" : 1, \"maxScale\" : 5,\"step\" : 0.5}"
             },
@@ -838,7 +838,7 @@
         "qn1InSession4":{
             "feedbackSessionName":"Fourth Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"Give feedback to your instructors"
             },
@@ -860,7 +860,7 @@
         "qn1InGracePeriodSession":{
             "feedbackSessionName":"Grace Period Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"NUMSCALE\",\"questionText\":\"Rate your product\",\"minScale\":1,\"maxScale\":5,\"step\":0.5}"
             },
@@ -885,7 +885,7 @@
         "qn2InGracePeriodSession":{
             "feedbackSessionName":"Grace Period Session",
             "courseId":"SFSubmitUiT.CS2104",
-            "creatorEmail":"SFSubmitUiT.instr@gmail.com",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"NUMSCALE\",\"questionText\":\"Rate others' product\",\"minScale\":1,\"maxScale\":5,\"step\":0.5}"
             },

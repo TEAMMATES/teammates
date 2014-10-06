@@ -15,6 +15,7 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
@@ -216,11 +217,12 @@ public abstract class Action {
         if (!isMasqueradeModeRequested(loggedInUser, paramRequestedUserId)) {
             account = loggedInUser;
             boolean isUserLoggedIn = account.googleId != null;
-            if (doesUserNeedRegistration(account) && !loggedInUserType.isAdmin) {
-                if (regkey != null) {
+            if (isPersistenceIssue() && isHomePage()) {
+                // let the user go through as this is a persistence issue
+            } else if(doesUserNeedRegistration(account) && !loggedInUserType.isAdmin) {
+                if (regkey != null && student != null) {
                     // TODO: encrypt the email as currently anyone with the regkey can
-                    //       get the email because of this redirect:
-                    
+                    //       get the email because of this redirect:                    
                     String joinUrl = new Url(student.getRegistrationUrl())
                                         .withParam(Const.ParamsNames.NEXT_URL, requestUrl)
                                         .toString();
@@ -257,10 +259,25 @@ public abstract class Action {
         return account;
     }
 
+    protected boolean isPersistenceIssue() {
+        String persistenceCheckString1 = 
+                getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);
+        String persistenceCheckString2 = 
+                getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_EVALUATION);
+        
+        return persistenceCheckString1 != null 
+                || persistenceCheckString2 != null;
+    }
+
     private boolean isPageNotCourseJoinRelated() {
         String currentURI = request.getRequestURI();
         return !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN) && !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
                 && !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED);
+    }
+
+    private boolean isHomePage() {
+        String currentURI = request.getRequestURI();
+        return currentURI.equals(Const.ActionURIs.STUDENT_HOME_PAGE) || currentURI.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
     }
 
     private boolean doesRegkeyBelongToUnregisteredStudent() {
@@ -303,8 +320,9 @@ public abstract class Action {
      * 2. User ID, error flag, and the status message will be added to the response,
      *    to be encoded into the URL. The error flag is also added to the
      *    {@code isError} flag in the {@link ActionResult} object.
+     * @throws ExceedingRangeException 
      */
-    public ActionResult executeAndPostProcess() throws EntityDoesNotExistException {
+    public ActionResult executeAndPostProcess() throws EntityDoesNotExistException, ExceedingRangeException {
         if (!isValidUser()) {
             return createRedirectResult(getAuthenticationRedirectUrl());
         }
@@ -357,10 +375,11 @@ public abstract class Action {
      * 3. If the action requires showing a page, prepare the matching PageData object.<br>
      * 4. Set the status messages to be shown to the user (if any) and to the admin (compulsory).
      *    The latter is used for generating the adminActivityLogPage.
+     * @throws ExceedingRangeException 
      * @throws NullPostParametersException 
      */
     protected abstract ActionResult execute() 
-            throws EntityDoesNotExistException;
+            throws EntityDoesNotExistException, ExceedingRangeException;
 
     /**
      * @return The log message in the special format used for generating 
@@ -371,7 +390,8 @@ public abstract class Action {
                 account, 
                 isInMasqueradeMode(),
                 statusToAdmin, 
-                requestUrl);
+                requestUrl,
+                student);
         return activityLogEntry.generateLogMessage();
     }
     

@@ -4,15 +4,15 @@
   	  "googleId": "FContribQnUiT.instructor",
   	  "name": "Teammates Test",
   	  "isInstructor": true,
-  	  "email": "tmms.test@gmail.com",
-  	  "institute": "National University of Singapore"
+  	  "email": "tmms.test@gmail.tmt",
+  	  "institute": "TEAMMATES Test Institute 1"
   	},
   	"alice.tmms": {
   	  "googleId": "CFeedbackEditUiT.alice.tmms",
   	  "name": "Alice Betsy",
   	  "isInstructor": false,
-  	  "email": "alice.b.tmms@gmail.com",
-  	  "institute": "National University of Singapore"
+  	  "email": "alice.b.tmms@gmail.tmt",
+  	  "institute": "TEAMMATES Test Institute 1"
   	}
   },
 
@@ -29,7 +29,7 @@
       "googleId": "FContribQnUiT.instructor",
       "courseId": "FContribQnUiT.CS2104",
       "name": "Teammates Test",
-      "email": "tmms.test@gmail.com",
+      "email": "tmms.test@gmail.tmt",
       "role":"Co-owner",
       "displayedName":"Co-owner",
       "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -39,7 +39,7 @@
   "students": {
     "alice.tmms@FContribQnUiT.CS2104": {
       "googleId": "CFeedbackEditUiT.alice.tmms",
-      "email": "alice.b.tmms@gmail.com",
+      "email": "alice.b.tmms@gmail.tmt",
       "course": "FContribQnUiT.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
@@ -51,7 +51,7 @@
     "openSession": {
       "feedbackSessionName" : "First Session",
       "courseId" : "FContribQnUiT.CS2104",
-      "creatorEmail" : "tmms.test@gmail.com",
+      "creatorEmail" : "tmms.test@gmail.tmt",
       "instructions": {"value" : "Instructions for first session"},
       "createdTime" : "2012-04-01 11:59 PM UTC",
       "startTime" : "2012-04-01 11:59 PM UTC",

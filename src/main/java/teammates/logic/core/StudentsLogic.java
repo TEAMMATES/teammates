@@ -44,6 +44,7 @@ public class StudentsLogic {
     //  comments.
     
     private static int SECTION_SIZE_LIMIT = 100;
+    private static int SIZE_LIMIT_PER_ENROLLMENT = 150;
 
     private static StudentsLogic instance = null;
     private StudentsDb studentsDb = new StudentsDb();
@@ -51,6 +52,7 @@ public class StudentsLogic {
     private CoursesLogic coursesLogic = CoursesLogic.inst();
     private EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
     private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private AccountsLogic accLogic = AccountsLogic.inst();
     private CommentsLogic commentsLogic = CommentsLogic.inst();
     
@@ -284,6 +286,7 @@ public class StudentsLogic {
         if (!originalEmail.equals(student.email)) {
             evaluationsLogic.updateStudentEmailForSubmissionsInCourse(student.course, originalEmail, student.email);
             frLogic.updateFeedbackResponsesForChangingEmail(student.course, originalEmail, student.email);
+            fsLogic.updateRespondantsForStudent(originalEmail, student.email, student.course);
         }
     }
 
@@ -338,6 +341,7 @@ public class StudentsLogic {
             studentList.add(student);
         }
 
+        verifyIsWithinSizeLimitPerEnrollment(studentList);
         validateSections(studentList, courseId);
 
         // TODO: can we use a batch persist operation here?
@@ -381,6 +385,12 @@ public class StudentsLogic {
         }
 
         return returnList;
+    }
+
+    private void verifyIsWithinSizeLimitPerEnrollment(List<StudentAttributes> students) throws EnrollException {
+        if(students.size() > SIZE_LIMIT_PER_ENROLLMENT) {
+            throw new EnrollException(Const.StatusMessages.QUOTA_PER_ENROLLMENT_EXCEED);
+        }
     }
 
     public void validateSections(List<StudentAttributes> studentList, String courseId) throws EntityDoesNotExistException, EnrollException {
@@ -571,14 +581,23 @@ public class StudentsLogic {
         frLogic.deleteFeedbackResponsesForStudentAndCascade(courseId, studentEmail);
         SubmissionsLogic.inst().deleteAllSubmissionsForStudent(courseId, studentEmail);
         commentsLogic.deleteCommentsForStudent(courseId, studentEmail);
+        fsLogic.deleteStudentFromRespondantsList(getStudentForEmail(courseId, studentEmail));
         studentsDb.deleteStudent(courseId, studentEmail, hasDocument);
     }
 
     public void deleteStudentsForGoogleId(String googleId) {
+        List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
+        for(StudentAttributes student : students) {
+            fsLogic.deleteStudentFromRespondantsList(student);
+        }
         studentsDb.deleteStudentsForGoogleId(googleId);
     }
 
     public void deleteStudentsForGoogleIdWithoutDocument(String googleId) {
+        List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
+        for(StudentAttributes student : students) {
+            fsLogic.deleteStudentFromRespondantsList(student);
+        }
         studentsDb.deleteStudentsForGoogleIdWithoutDocument(googleId);
     }
     

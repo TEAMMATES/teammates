@@ -8,11 +8,11 @@ public class StudentProfileCreateFormUrlAjaxPageData extends PageData {
     boolean isError;
     
     public StudentProfileCreateFormUrlAjaxPageData(AccountAttributes account,
-            String url) {
+            String url, boolean hasError) {
         super(account);
         account = null;
         formUrl = url;
-        isError = false;
+        isError = hasError;
     }
 
 }
