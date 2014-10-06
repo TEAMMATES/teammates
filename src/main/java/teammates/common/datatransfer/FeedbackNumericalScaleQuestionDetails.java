@@ -119,7 +119,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         if (view.equals("question")) {
             return getInstructorQuestionResultsStatisticsHtml(responses);
         } else if (view.equals("student")) {
-            return getStudentQuestionResultsStatisticsHtml(responses, currentUser);
+            return getStudentQuestionResultsStatisticsHtml(responses, currentUser, question, bundle);
         } else {
             return "";
         }
@@ -160,7 +160,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
     }
 
     private String getStudentQuestionResultsStatisticsHtml(
-            List<FeedbackResponseAttributes> responses, AccountAttributes currentUser) {
+            List<FeedbackResponseAttributes> responses, AccountAttributes currentUser,
+            FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
         String html = "";
         double average = 0;
         double min = Integer.MAX_VALUE;
@@ -168,16 +169,25 @@ public class FeedbackNumericalScaleQuestionDetails extends
         int numResponses = 0;
         double total = 0;
         
+        String currentUserTeam = bundle.emailTeamNameTable.get(currentUser.email);
+        boolean isDirectedAtGeneral = question.recipientType == FeedbackParticipantType.NONE;
+        
         for(FeedbackResponseAttributes response : responses){
-            boolean isDirectedAtUser = response.recipientEmail.equals(currentUser.email);
+            boolean isDirectedAtUser = response.recipientEmail.equals(currentUser.email); 
+            boolean isDirectedAtUserTeam = question.recipientType == FeedbackParticipantType.TEAMS && response.recipientEmail.equals(StringHelper.recoverFromSanitizedText(currentUserTeam));
             
-            if (isDirectedAtUser) {
+            if (isDirectedAtUser || isDirectedAtUserTeam || isDirectedAtGeneral) {
                 numResponses++;
                 double answer = ((FeedbackNumericalScaleResponseDetails)response.getResponseDetails()).getAnswer();
                 min = (answer < min) ? answer : min;
                 max = (answer > max) ? answer : max;
                 total += answer;
             }
+        }
+        
+        // Do not give summary statistics if less than 2 responses
+        if (numResponses < 2) {
+            return "";
         }
         
         average = total/numResponses;
@@ -187,9 +197,11 @@ public class FeedbackNumericalScaleQuestionDetails extends
         df.setMaximumFractionDigits(5);
         df.setRoundingMode(RoundingMode.DOWN);
         
+        String statsTitle = isDirectedAtGeneral? "Response Summary" : "Summary of responses directed at you"; 
+        
         html = FeedbackQuestionFormTemplates.populateTemplate(
                         FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS,
-                        "${summaryTitle}", "Summary of responses directed at you",
+                        "${summaryTitle}", statsTitle,
                         "${average}", df.format(average),
                         "${min}", (min == Integer.MAX_VALUE)? "-" : df.format(min),
                         "${max}", (max == Integer.MIN_VALUE)? "-" : df.format(max));
