@@ -43,18 +43,9 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         testLinks();
         testScript();
         testAction();
-        testAjaxLoading();
     }
 
-
-    private void testAjaxLoading() throws Exception {
-        viewPage.clickFeedbackSession(0);
-        viewPage.clickFeedbackSession(1);
-        viewPage.clickFeedbackSession(2);
-        viewPage.verifyHtml("/instructorStudentRecordsAjaxLoading.html");
-    }
-
-    private void testContent() {
+    private void testContent() throws Exception {
         InstructorAttributes instructor;
         StudentAttributes student; 
         
@@ -70,7 +61,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         studentEmail = student.email;
         
         viewPage = getStudentRecordsPage();
-        viewPage.verifyHtml("/instructorStudentRecords.html");
+        viewPage.verifyHtmlAjax("/instructorStudentRecords.html");
         
         ______TS("content: typical case, normal student records with comments, helper view");
         
@@ -81,7 +72,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         studentEmail = student.email;
             
         viewPage = getStudentRecordsPage();
-        viewPage.verifyHtmlMainContent("/instructorStudentRecordsWithHelperView.html");
+        viewPage.verifyHtmlAjax("/instructorStudentRecordsWithHelperView.html");
         
         ______TS("content: normal student records with private feedback session");
                 
@@ -93,7 +84,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         studentEmail = student.email;
         
         viewPage = getStudentRecordsPage();
-        viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageWithPrivateFeedback.html");
+        viewPage.verifyHtmlAjax("/instructorStudentRecordsPageWithPrivateFeedback.html");
         
         
         ______TS("content: no student records, no profiles");
@@ -106,7 +97,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         studentEmail = student.email;
         
         viewPage = getStudentRecordsPage();
-        viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageNoRecords.html");
+        viewPage.verifyHtmlAjax("/instructorStudentRecordsPageNoRecords.html");
         
         ______TS("content: multiple feedback session type student record");
         
@@ -120,7 +111,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         studentEmail = student.email;
         
         viewPage = getStudentRecordsPage();
-        viewPage.verifyHtmlMainContent("/instructorStudentRecordsPageMixedQuestionType.html");
+        viewPage.verifyHtmlAjax("/instructorStudentRecordsPageMixedQuestionType.html");
 
     }
     

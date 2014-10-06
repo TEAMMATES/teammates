@@ -80,6 +80,8 @@ public class AdminSessionsPageAction extends Action {
         String endMin = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDMINUTE);       
         String timeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
         
+        data.isShowAll = getRequestParamAsBoolean("all");
+        
         Date start;
         Date end;
         double zone = 0.0;
@@ -172,10 +174,8 @@ public class AdminSessionsPageAction extends Action {
             List<InstructorAttributes> instructors = logic.getInstructorsForCourse(fs.courseId);
 
             if (!instructors.isEmpty()) {
-
-                InstructorAttributes instructor = instructors.get(0);
-
-                AccountAttributes account = logic.getAccount(instructor.googleId);
+                
+                AccountAttributes account = getRegisteredInstructorAccountFromInstructors(instructors);
 
                 if (account == null) {
                     putIntoUnknownList(map, fs);
@@ -205,6 +205,18 @@ public class AdminSessionsPageAction extends Action {
 
         return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
     }
+    
+    private AccountAttributes getRegisteredInstructorAccountFromInstructors(List<InstructorAttributes> instructors){
+        
+        for(InstructorAttributes instructor : instructors){
+            if(instructor.googleId != null){
+                return logic.getAccount(instructor.googleId);
+            }
+        }
+        
+        return null;
+    }
+    
     
     private boolean checkAllParameters(String condition){
         

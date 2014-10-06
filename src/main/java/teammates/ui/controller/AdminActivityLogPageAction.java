@@ -172,8 +172,9 @@ public class AdminActivityLogPageAction extends Action {
                 }
                 String logMsg = appLog.getLogMessage();
                 if (logMsg.contains("TEAMMATESLOG") && !logMsg.contains("adminActivityLogPage")) {
-                    ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);                
-                    if(data.filterLogs(activityLogEntry)){
+                    ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);                   
+                    activityLogEntry = data.filterLogs(activityLogEntry);
+                    if(activityLogEntry.toShow()){
                         appLogs.add(activityLogEntry);
                         currentLogsInPage ++;
                     }

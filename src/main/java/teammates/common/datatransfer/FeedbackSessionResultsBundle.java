@@ -174,43 +174,51 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     /**
      * Used for instructor feedback results views.
      */
-    @SuppressWarnings("static-access")
     public String getResponseAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question){
         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
         if(question.questionType == FeedbackQuestionType.CONTRIB){
-            Map<String, TeamEvalResult> teamResults = getContribQnTeamEvalResult(question);
-            Map<String, StudentResultSummary> stats = getContribQnStudentResultSummary(question);
-            
-            // Need to get actual team name and giver/recipient emails here,
-            // only for getting the responseAnswer.
-            FeedbackResponseAttributes actualResponse = getActualResponse(response);
-            String giverTeamName = emailTeamNameTable.get(actualResponse.giverEmail);
-            TeamEvalResult teamResult = teamResults.get(giverTeamName);
-            
-            int giverIndex = teamResult.studentEmails.indexOf(actualResponse.giverEmail);
-            int recipientIndex = teamResult.studentEmails.indexOf(actualResponse.recipientEmail);
-            
-            String responseAnswerHtml = 
-                    FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
-                            teamResult.normalizedPeerContributionRatio[giverIndex][recipientIndex]);
-            
-            if(response.giverEmail.equals(response.recipientEmail)){
-                //For CONTRIB qns, We want to show PC if giver == recipient.
-                responseAnswerHtml = response.getResponseDetails().getAnswerHtml(questionDetails);
-                StudentResultSummary studentResult = stats.get(response.giverEmail);
-                if(studentResult != null){
-                    int pc = studentResult.perceivedToInstructor;
-                    String pcHtml = ((FeedbackContributionQuestionDetails) questionDetails).convertToEqualShareFormatHtml(pc);
-                    responseAnswerHtml += "<span>&nbsp;&nbsp;["
-                            + "Perceived Contribution: "
-                            + pcHtml
-                            + "]</span>";
-                }
-            }
-            return responseAnswerHtml;
+            return getContributionQuestionResponseAnswerHtml(response,
+                    question, questionDetails);
         } else {
             return response.getResponseDetails().getAnswerHtml(questionDetails);
         }
+    }
+
+    private String getContributionQuestionResponseAnswerHtml(
+            FeedbackResponseAttributes response,
+            FeedbackQuestionAttributes question,
+            FeedbackAbstractQuestionDetails questionDetails) {
+        Map<String, TeamEvalResult> teamResults = getContribQnTeamEvalResult(question);
+        Map<String, StudentResultSummary> stats = getContribQnStudentResultSummary(question);
+        
+        // Need to get actual team name and giver/recipient emails here,
+        // only for getting the responseAnswer.
+        FeedbackResponseAttributes actualResponse = getActualResponse(response);
+        String giverTeamName = emailTeamNameTable.get(actualResponse.giverEmail);
+        TeamEvalResult teamResult = teamResults.get(giverTeamName);
+        
+        int giverIndex = teamResult.studentEmails.indexOf(actualResponse.giverEmail);
+        int recipientIndex = teamResult.studentEmails.indexOf(actualResponse.recipientEmail);
+        
+        String responseAnswerHtml = 
+                FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
+                        teamResult.normalizedPeerContributionRatio[giverIndex][recipientIndex]);
+        
+        if(response.giverEmail.equals(response.recipientEmail)){
+            //For CONTRIB qns, We want to show PC if giver == recipient.
+            responseAnswerHtml = response.getResponseDetails().getAnswerHtml(questionDetails);
+            StudentResultSummary studentResult = stats.get(response.giverEmail);
+            if(studentResult != null){
+                int pc = studentResult.perceivedToInstructor;
+                @SuppressWarnings("static-access")
+                String pcHtml = ((FeedbackContributionQuestionDetails) questionDetails).convertToEqualShareFormatHtml(pc);
+                responseAnswerHtml += "<span>&nbsp;&nbsp;["
+                        + "Perceived Contribution: "
+                        + pcHtml
+                        + "]</span>";
+            }
+        }
+        return responseAnswerHtml;
     }
 
     private FeedbackResponseAttributes getActualResponse(
@@ -253,6 +261,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         if(contribQnStats == null){
             FeedbackContributionQuestionDetails fqcd = (FeedbackContributionQuestionDetails) question.getQuestionDetails();
             contribQnStats = fqcd.getTeamEvalResults(this, question);
+            contributionQuestionTeamEvalResults.put(question.getId(), contribQnStats);
         }
         
         return contribQnStats;
