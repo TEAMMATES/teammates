@@ -390,7 +390,8 @@ public abstract class Action {
                 account, 
                 isInMasqueradeMode(),
                 statusToAdmin, 
-                requestUrl);
+                requestUrl,
+                student);
         return activityLogEntry.generateLogMessage();
     }
     
