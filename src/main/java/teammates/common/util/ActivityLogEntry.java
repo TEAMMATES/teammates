@@ -164,7 +164,7 @@ public class ActivityLogEntry {
            
             if(role.contains("(M)")){
                 iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>";
-                iconRole = iconRole + "-<span class = \"glyphicon glyphicon-eye-open\" ></span>- ";
+                iconRole = iconRole + "-<span class = \"glyphicon glyphicon-eye-open\" style=\"color:#E61E1E;\"></span>- ";
             } else {
                 iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>";
             }
@@ -172,18 +172,18 @@ public class ActivityLogEntry {
             
             if(role.contains("(M)")){
                 iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>";
-                iconRole = iconRole + "-<span class = \"glyphicon glyphicon-eye-open\" ></span>- ";
+                iconRole = iconRole + "-<span class = \"glyphicon glyphicon-eye-open\" style=\"color:#E61E1E;\"></span>- ";
             } else {
                 iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>";
             }
         } else if(role.contains("Unregistered")){
-            iconRole = "<span class = \"glyphicon glyphicon-question-sign\" style=\"color:#E61E1E;\"></span>";
+            iconRole = "<span class = \"glyphicon glyphicon-user\"></span>";
         } else {
             iconRole = role;
         }
 
         if (servletName.toLowerCase().startsWith("admin")) {
-            iconRole = "<span class = \"glyphicon glyphicon-user\"></span>";
+            iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#E61E1E;\"></span>";
         }
             
         
