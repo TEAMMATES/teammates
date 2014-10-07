@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.TeammatesException;
 
 import com.google.appengine.api.log.AppLogLine;
@@ -119,17 +120,26 @@ public class ActivityLogEntry {
         }
     }
     
-    public ActivityLogEntry(AccountAttributes userAccount, boolean isMasquerade, String logMessage,  String requestUrl, StudentAttributes student){
+    public ActivityLogEntry(AccountAttributes userAccount, boolean isMasquerade, String logMessage, 
+                            String requestUrl, StudentAttributes student, UserType userType){
         time = System.currentTimeMillis();
         servletName = getActionName(requestUrl);
         action = servletName; //TODO: remove this?
         toShow = true;
         message = logMessage;
-        url = requestUrl;
-        
+        url = requestUrl;    
        
         if(userAccount != null && userAccount.googleId != null){
-            role = userAccount.isInstructor ? "Instructor" : "Student"; 
+            
+            if(userType.isInstructor && !userType.isStudent){
+                role = "Instructor";
+            } else if (!userType.isInstructor && userType.isStudent){
+                role = "Student";
+            } else if (userType.isInstructor && userType.isStudent){
+                role = servletName.toLowerCase().startsWith("instructor") ? "Instructor" : "Student";
+            } else {
+                role = "Unknown";
+            }    
             role = role + (isMasquerade? "(M)" : "");
             name = userAccount.name;
             googleId = userAccount.googleId;
