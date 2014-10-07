@@ -138,7 +138,7 @@ public class ActivityLogEntry {
             } else if (userType.isInstructor && userType.isStudent){
                 role = servletName.toLowerCase().startsWith("instructor") ? "Instructor" : "Student";
             } else {
-                role = "Unkown";
+                role = "Unknown";
             }    
             role = role + (isMasquerade? "(M)" : "");
             name = userAccount.name;
