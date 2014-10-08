@@ -81,7 +81,9 @@ public class StudentsDb extends EntitiesDb {
     public void deleteDocument(StudentAttributes studentToDelete){
         if(studentToDelete.key == null){
             StudentAttributes student = getStudentForEmail(studentToDelete.course, studentToDelete.email);
-            deleteDocument(Const.SearchIndex.STUDENT, student.key);
+            if (student != null) {
+                deleteDocument(Const.SearchIndex.STUDENT, student.key);
+            }
         } else {
             deleteDocument(Const.SearchIndex.STUDENT, studentToDelete.key);
         }

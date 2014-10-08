@@ -129,7 +129,7 @@ public class InstructorSearchPageAction extends Action {
                 if (needCheckPrivilege && isNotAllowedForInstructor) {
                     isVisibleResponse = false;
                 }
-                if (isVisibleResponse) {
+                if (!isVisibleResponse) {
                     int sizeOfCommentList = frCommentSearchResults.comments.get(response.getId()).size();
                     totalResultsSize -= sizeOfCommentList;
                     //TODO: also need to decrease the size for commentSearchResults|frCommentSearchResults|studentSearchResults
