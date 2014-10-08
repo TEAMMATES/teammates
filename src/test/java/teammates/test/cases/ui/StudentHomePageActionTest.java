@@ -58,7 +58,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         assertEquals(0, data.evalSubmissionStatusMap.keySet().size());
         
         String expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage" +
-                "|||true|||Student|||null|||unreg.user|||null" +
+                "|||true|||Unknown|||null|||unreg.user|||null" +
                 "|||Servlet Action Failure :Student with Google ID unreg.user does not exist|||/page/studentHomePage" ;
         assertEquals(expectedLogMessage, a.getLogMessage());
         
@@ -93,7 +93,7 @@ public class StudentHomePageActionTest extends BaseActionTest {
         assertEquals(0, data.evalSubmissionStatusMap.keySet().size());
         
         expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage|||true" +
-                "|||Student|||Student Without Courses|||googleId.without.courses" +
+                "|||Unknown|||Student Without Courses|||googleId.without.courses" +
                 "|||googleId.without.courses@email.tmt|||Servlet Action Failure :Student with Google ID googleId.without.courses does not exist|||/page/studentHomePage" ;
         assertEquals(expectedLogMessage, a.getLogMessage());
         
