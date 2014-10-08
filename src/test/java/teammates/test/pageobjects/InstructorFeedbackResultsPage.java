@@ -286,7 +286,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         waitForElementToAppear(By.cssSelector(".popover-content"));
         
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
-        jsExecutor.executeScript("document.getElementsByClassName('popover-content')[document.getElementsByClassName('popover-content').length - 1]"
+        jsExecutor.executeScript("document.getElementsByClassName('popover-content')[0]"
                 + ".getElementsByTagName('a')[0].click();");
         
         waitForElementToAppear(By.cssSelector(".popover-content > img"));
@@ -296,7 +296,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
                               .get(browser.driver.findElements(By.cssSelector(".popover-content > img")).size()-1)
                               .getAttribute("src"));
         
-        actions.moveToElement(photoDiv, 100, 100).build().perform();
+        jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild(document.getElementsByClassName('popover')[0])");
     }
 
     public void hoverAndViewStudentPhotoOnBody(int panelBodyIndex, String urlRegex) throws Exception {
@@ -315,5 +315,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
                 browser.driver.findElements(By.cssSelector(".popover-content > img"))
                               .get(browser.driver.findElements(By.cssSelector(".popover-content > img")).size()-1)
                               .getAttribute("src"));
+        
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild(document.getElementsByClassName('popover')[0])");
     }
 }
