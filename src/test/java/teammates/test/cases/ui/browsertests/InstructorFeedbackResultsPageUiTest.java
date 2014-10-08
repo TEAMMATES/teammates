@@ -233,6 +233,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("test view photo for view by giver > recipient > question");
         
+        resultsPage.removeNavBar();
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverAndViewStudentPhotoOnBody(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.click(By.id("panelHeading-5"));
@@ -249,6 +250,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("test view photo for view by giver > question > recipient");
         
+        resultsPage.removeNavBar();
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.clickViewPhotoLink(5, "profile_picture_default.png");
         
@@ -261,6 +263,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("test view photo for view by recipient > question > giver");
         
+        resultsPage.removeNavBar();
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.clickViewPhotoLink(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         
@@ -273,6 +276,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("test view photo for view by recipient > giver > question");
         
+        resultsPage.removeNavBar();
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverAndViewStudentPhotoOnBody(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.click(By.id("panelHeading-5"));

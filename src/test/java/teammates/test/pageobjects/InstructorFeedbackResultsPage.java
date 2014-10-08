@@ -293,7 +293,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         
         AssertHelper.assertContainsRegex(urlRegex, 
                 browser.driver.findElements(By.cssSelector(".popover-content > img"))
-                              .get(browser.driver.findElements(By.cssSelector(".popover-content > img")).size()-1)
+                              .get(0)
                               .getAttribute("src"));
         
         jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild(document.getElementsByClassName('popover')[0])");
@@ -313,10 +313,15 @@ public class InstructorFeedbackResultsPage extends AppPage {
         
         AssertHelper.assertContainsRegex(urlRegex, 
                 browser.driver.findElements(By.cssSelector(".popover-content > img"))
-                              .get(browser.driver.findElements(By.cssSelector(".popover-content > img")).size()-1)
+                              .get(0)
                               .getAttribute("src"));
         
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild(document.getElementsByClassName('popover')[0])");
+    }
+
+    public void removeNavBar() {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("document.getElementsByClassName('navbar-fixed-top')[0].parentNode.removeChild(document.getElementsByClassName('navbar-fixed-top')[0])");
     }
 }
