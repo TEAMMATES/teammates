@@ -96,7 +96,7 @@
             "course":"SFSubmitUiT.CS2104",
             "name":"Alice Betsy",
             "comments":"This student's name is Alice Betsy",
-            "team":"Team 1"
+            "team":"Team> 1"
         },
         "Benny":{
             "googleId":"SFSubmitUiT.benny.c",
@@ -104,7 +104,7 @@
             "course":"SFSubmitUiT.CS2104",
             "name":"Benny Charles",
             "comments":"This student's name is Benny Charles",
-            "team":"Team 1"
+            "team":"Team> 1"
         },
         "ExtraGuy":{
             "googleId":"extra.guy",

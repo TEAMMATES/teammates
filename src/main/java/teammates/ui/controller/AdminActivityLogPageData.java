@@ -30,7 +30,8 @@ public class AdminActivityLogPageData extends PageData {
     
     /**
      * This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
-     * to show all testing logs
+     * to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
+     * unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted.
      */
     public boolean ifShowTestData = false;
     
@@ -64,7 +65,7 @@ public class AdminActivityLogPageData extends PageData {
      */
     private boolean arrayContains(String[] arr, String value){
         for (int i = 0; i < arr.length; i++){
-            if(arr[i].equals(value.toLowerCase())){
+            if(arr[i].equals(value.toLowerCase().trim())){
                 return true;
             }
         }
@@ -152,9 +153,9 @@ public class AdminActivityLogPageData extends PageData {
             }
         }
         if(q.isPersonInQuery){
-            if(!logEntry.getName().toLowerCase().contains(q.personValue) && 
-                    !logEntry.getId().toLowerCase().contains(q.personValue) && 
-                    !logEntry.getEmail().toLowerCase().contains(q.personValue)){
+            if(!logEntry.getName().toLowerCase().contains(q.personValue.toLowerCase()) && 
+                    !logEntry.getId().toLowerCase().contains(q.personValue.toLowerCase()) && 
+                    !logEntry.getEmail().toLowerCase().contains(q.personValue.toLowerCase())){
                 logEntry.setToShow(false);
                 return logEntry;
             }
