@@ -4,12 +4,12 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.ui.controller.InstructorFeedbackSubmissionEditPageAction;
 import teammates.ui.controller.ShowPageResult;
@@ -43,6 +43,39 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         verifyAssumptionFailure(paramsWithoutCourseId);
         verifyAssumptionFailure(paramsWithoutFeedbackSessionName);
         
+        ______TS("Test null feedback session name parameter");
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, session.courseId,
+                Const.ParamsNames.USER_ID, instructor.googleId
+        };
+        
+        InstructorFeedbackSubmissionEditPageAction a;
+        ShowPageResult r;
+        
+        try {
+            a = getAction(submissionParams);
+            r = (ShowPageResult) a.executeAndPostProcess();
+            signalFailureToDetectException("Did not detect that parameters are null.");
+        } catch (NullPostParameterException e) {
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+                    Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
+        }
+        
+        ______TS("Test null course id parameter");
+        submissionParams = new String[]{
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.USER_ID, instructor.googleId
+        };
+
+        try {
+            a = getAction(submissionParams);
+            r = (ShowPageResult) a.executeAndPostProcess();
+            signalFailureToDetectException("Did not detect that parameters are null.");
+        } catch (NullPostParameterException e) {
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+                    Const.ParamsNames.COURSE_ID), e.getMessage());
+        }
+        
         ______TS("typical success case");
         
         String[] params = new String[]{
@@ -51,8 +84,8 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
                 Const.ParamsNames.USER_ID, instructor.googleId
         };
         
-        InstructorFeedbackSubmissionEditPageAction a = getAction(params);
-        ShowPageResult r = (ShowPageResult) a.executeAndPostProcess();
+        a = getAction(params);
+        r = (ShowPageResult) a.executeAndPostProcess();
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT
                 + "?error=false"

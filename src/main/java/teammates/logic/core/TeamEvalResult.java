@@ -1,6 +1,8 @@
 package teammates.logic.core;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import teammates.common.util.Const;
@@ -12,6 +14,7 @@ import teammates.common.util.Utils;
  * It exposes the result via some public variables.
  */
 public class TeamEvalResult {
+    
     /** submitted value is uninitialized */
     public static int NA = Const.INT_UNINITIALIZED;
     /** submitted 'Not SUre' */
@@ -31,6 +34,12 @@ public class TeamEvalResult {
 
     /** the values that were used to calculate normalizedAveragePerceived values*/
     public int[][] normalizedPeerContributionRatio;
+    
+    // List of student email's.
+    // The index of the student in the list is used as the index for the int arrays.
+    // The 2d int arrays are of the format [giverIndex][recipientIndex]
+    public List<String> studentEmails = null;
+    
 
     public TeamEvalResult(int[][] submissionValues) {
         /*This is the only method that should be public. However, many of the 

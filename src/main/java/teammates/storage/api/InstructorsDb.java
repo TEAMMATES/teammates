@@ -48,13 +48,20 @@ public class InstructorsDb extends EntitiesDb{
         if(instructor.key == null){
             instructor = this.getInstructorForEmail(instructor.courseId, instructor.email);
         }
-        putDocument(Const.SearchIndex.INSTRUCTOR, new InstructorSearchDocument(instructor));
+        // defensive coding for legacy data
+        if(instructor.key != null) {
+            putDocument(Const.SearchIndex.INSTRUCTOR, new InstructorSearchDocument(instructor));
+        }
     }
     
     public void deleteDocument(InstructorAttributes instructorToDelete){
         if(instructorToDelete.key == null){
             InstructorAttributes instructor = this.getInstructorForEmail(instructorToDelete.courseId, instructorToDelete.email);
-            deleteDocument(Const.SearchIndex.INSTRUCTOR, StringHelper.encrypt(instructor.key));
+            
+            // handle legacy data which do not have key attribute (key == null)
+            if(instructor.key != null) {
+                deleteDocument(Const.SearchIndex.INSTRUCTOR, StringHelper.encrypt(instructor.key));
+            }
         } else {
             deleteDocument(Const.SearchIndex.INSTRUCTOR, StringHelper.encrypt(instructorToDelete.key));
         }

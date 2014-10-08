@@ -506,6 +506,28 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
                     Const.ParamsNames.COURSE_ID), e.getMessage());
         }
+        
+        ______TS("Unsuccessful case: modified recipient list to invalid recipient");
+        
+        submissionParams = new String[]{
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", "invalid recipient",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", ""
+        };
+        
+        a = getAction(submissionParams);
+        r = (RedirectResult) a.executeAndPostProcess();
+        
+        assertTrue(r.isError);        
+        assertEquals("/page/studentHomePage?error=true&user=FSQTT.student1InCourse1",
+                        r.getDestinationWithParams());
+        assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, "invalid recipient"));
+        
     }
     
     @Test

@@ -32,6 +32,8 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             .getPersistenceManagerFactory("transactions-optional")
             .getPersistenceManager();
     
+    private int iterationCounter = 0;
+    
     private static final int INSTRUCTOR_INDEX = 0;
     private static final int STUDENT_INDEX = 1;
     private static final String UNKNOWN_INSTITUTE = "Unkonwn Institute";
@@ -53,10 +55,13 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         q = "SELECT FROM " + Instructor.class.getName();
         List<Instructor> allInstructors = (List<Instructor>) pm.newQuery(q).execute();
         
+        StatsBundle statsBundle = generateStatsPerInstitute(allStudents, allInstructors);
+        List<InstituteStats> statsPerInstituteList = statsBundle.instituteStatsList;
         
-        List<InstituteStats> statsPerInstituteList = generateStatsPerInstitute(allStudents, allInstructors);
-        String statsForUniqueStudentEmail =  generateUniqueStudentEmailStatsInWholeSystem(allStudents);
-        String statsForUniqueInstructorEmail = generateUniqueInstructorEmailStatsInWholeSystem(allInstructors);
+        String statsForUniqueStudentEmail =  generateUniqueStudentEmailStatsInWholeSystem(statsBundle.numOfAllStudentEmails,
+                                                                                          statsBundle.numOfUniqueStudentEmails);
+        String statsForUniqueInstructorEmail = generateUniqueInstructorEmailStatsInWholeSystem(statsBundle.numOfAllInstructorEmail,
+                                                                                               statsBundle.numOfUniqueInstructorEmails);
         
         print(statsPerInstituteList);
         System.out.println("\n\n" + "***************************************************" + "\n\n");
@@ -66,24 +71,14 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         System.out.println(statsForUniqueInstructorEmail);
     }
     
-    
-    @SuppressWarnings("unchecked")
-    private String generateUniqueInstructorEmailStatsInWholeSystem(List<Instructor> allInstructors){
+
+    private String generateUniqueInstructorEmailStatsInWholeSystem(int totalCountOfEmails, int totalCountOfUniqueEmails){
        
-        HashSet<String> set = new HashSet<String>();
-        int totalRealInstructor = 0;
-        
-        for(Instructor i: allInstructors){
-            if(!isTestingInstructorData(i) && i.getEmail()!= null){
-                set.add(i.getEmail().toLowerCase());
-                totalRealInstructor ++;
-            }
-        }
         
         String result = "===============Unique Instructor Emails===============\n"
                         + "Format=> Total Unique Emails [Total Emails]\n"
                         + "===================================================\n"
-                        + set.size() + " [ " + totalRealInstructor + " ]\n";
+                        + totalCountOfUniqueEmails + " [ " + totalCountOfEmails + " ]\n";
         return result;
     }
     
@@ -103,26 +98,12 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
     
     
-    
-    
-    @SuppressWarnings("unchecked")
-    private String generateUniqueStudentEmailStatsInWholeSystem(List<Student> allStudents){
-        
-        HashSet<String> set = new HashSet<String>();
-        int totalRealStudent = 0;
-        
-        for(Student s: allStudents){
-            if(!isTestingStudentData(s)){
-                set.add(s.getEmail().toLowerCase());
-                totalRealStudent ++;
-            }
-            
-        }
-        
+    private String generateUniqueStudentEmailStatsInWholeSystem(int totalCountOfEmails, int totalCountOfUniqueEmails){
+       
         String result = "===============Unique Student Emails===============\n"
                         + "Format=> Total Unique Emails [Total Emails]\n"
                         + "===================================================\n"
-                        + set.size() + " [ " + totalRealStudent + " ]\n";
+                        + totalCountOfEmails + " [ " + totalCountOfEmails + " ]\n";
         return result;
     }
     
@@ -141,54 +122,68 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
     
     @SuppressWarnings("unchecked")
-    private List<InstituteStats> generateStatsPerInstitute(List<Student> allStudents, List<Instructor> allInstructors){
-        HashMap<String, HashMap<Integer, Integer>> institutes = new HashMap<String, HashMap<Integer, Integer>>();
-
+    private StatsBundle generateStatsPerInstitute(List<Student> allStudents, List<Instructor> allInstructors){
+        HashMap<String, HashMap<Integer, HashSet<String>>> institutes = new HashMap<String, HashMap<Integer, HashSet<String>>>();
+        
+        HashSet<String> allInstructorEmailSet = new HashSet<String>();
+        HashSet<String> allStudentEmailSet = new HashSet<String>();
+        int studentEmailCounter = 0;
+        int instructorEmailCounter = 0;
+        
         for (Instructor instructor : allInstructors){
             
-            if(isTestingInstructorData(instructor)){               
+            if(isTestingInstructorData(instructor) || instructor.getEmail() == null){               
                 continue;
             }
             
             String institute = getInstituteForInstructor(instructor);
             
             if(!institutes.containsKey(institute)){               
-                institutes.put(institute,
-                               new HashMap<Integer, Integer>());
-                institutes.get(institute).put(INSTRUCTOR_INDEX, 0);
-                institutes.get(institute).put(STUDENT_INDEX, 0);
+                institutes.put(institute, new HashMap<Integer, HashSet<String>>());
+                institutes.get(institute).put(INSTRUCTOR_INDEX, new HashSet<String>());
+                institutes.get(institute).put(STUDENT_INDEX, new HashSet<String>());
             }
-            
-            institutes.get(institute).put(INSTRUCTOR_INDEX,
-                                          institutes.get(institute).get(INSTRUCTOR_INDEX) + 1);
+                institutes.get(institute).get(INSTRUCTOR_INDEX).add(instructor.getEmail().toLowerCase());
+                allInstructorEmailSet.add(instructor.getEmail().toLowerCase());
+                instructorEmailCounter ++;
+                updateProgressIndicator();
         }
 
-       
+        
+        
         
         for(Student student : allStudents){
             
-            if(isTestingStudentData(student)){
+            if(isTestingStudentData(student) || student.getEmail() == null){
                 continue;
             }
             
             String institute = getInstituteForStudent(student);
             
             if(!institutes.containsKey(institute)){               
-                institutes.put(institute,
-                        new HashMap<Integer, Integer>());
-                institutes.get(institute).put(INSTRUCTOR_INDEX, 0);
-                institutes.get(institute).put(STUDENT_INDEX, 0);
+                institutes.put(institute, new HashMap<Integer, HashSet<String>>());
+                
+                institutes.get(institute).put(INSTRUCTOR_INDEX, new HashSet<String>());
+                institutes.get(institute).put(STUDENT_INDEX, new HashSet<String>());
             }
             
-            institutes.get(institute).put(STUDENT_INDEX,
-                                          institutes.get(institute).get(STUDENT_INDEX) + 1);
-                                          
-          
+            institutes.get(institute).get(STUDENT_INDEX).add(student.getEmail().toLowerCase());
+            allStudentEmailSet.add(student.getEmail().toLowerCase());  
+            studentEmailCounter ++;
+            updateProgressIndicator();
         }
                 
         List<InstituteStats> statList = convertToList(institutes);
         sortByTotalStudentsDescending(statList);
-        return statList;
+        
+        StatsBundle statsBundle = new StatsBundle();
+        statsBundle.instituteStatsList = statList;
+        statsBundle.numOfAllInstructorEmail = instructorEmailCounter;
+        statsBundle.numOfAllStudentEmails = studentEmailCounter;
+        statsBundle.numOfUniqueInstructorEmails = allInstructorEmailSet.size();
+        statsBundle.numOfUniqueStudentEmails = allStudentEmailSet.size();
+        
+        return statsBundle;
     }
     
     @SuppressWarnings("unchecked")
@@ -269,18 +264,6 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
     
     
-    private boolean isTestingAccount(Account account){
-        boolean isTestingAccount = false;
-        
-        if(account.getInstitute() != null && account.getInstitute().contains("TEAMMATES Test Institute")){
-            isTestingAccount = true;
-        }
-        if(account.getEmail() != null && account.getEmail().toLowerCase().endsWith(".tmt")){
-            isTestingAccount = true;
-        }
-        return isTestingAccount;
-    }
-    
     private void print(List<InstituteStats> statList) {
         System.out.println("===============Stats Per Institute=================");
         System.out.println("Format=> Instructors + Students = Total [Institute]");
@@ -301,13 +284,13 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     }
 
     private List<InstituteStats> convertToList(
-            HashMap<String, HashMap<Integer, Integer>> institutes) {
+            HashMap<String, HashMap<Integer, HashSet<String>>> institutes) {
         List<InstituteStats> list = new ArrayList<InstituteStats>();
         for (String insName : institutes.keySet()) {
             InstituteStats insStat = new InstituteStats();
             insStat.name = insName;
-            insStat.studentTotal = institutes.get(insName).get(STUDENT_INDEX);
-            insStat.instructorTotal = institutes.get(insName).get(INSTRUCTOR_INDEX);
+            insStat.studentTotal = institutes.get(insName).get(STUDENT_INDEX).size();
+            insStat.instructorTotal = institutes.get(insName).get(INSTRUCTOR_INDEX).size();
             list.add(insStat);
         }
         return list;
@@ -322,12 +305,24 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         });
     }
     
+    private void updateProgressIndicator(){
+        iterationCounter ++;       
+        if(iterationCounter%1000 == 0){           
+            System.out.print("------------------  iterations count:" + iterationCounter + "  ------------------------\n");
+        }
+    }
+    
     class InstituteStats{
         String name;
         int studentTotal;
         int instructorTotal;
-        
-        
     }
     
+    class StatsBundle{
+        List<InstituteStats> instituteStatsList;
+        int numOfUniqueStudentEmails;
+        int numOfAllStudentEmails;
+        int numOfUniqueInstructorEmails;
+        int numOfAllInstructorEmail;
+    }
 }

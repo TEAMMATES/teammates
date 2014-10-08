@@ -295,7 +295,12 @@ ul #nav {
 
 
 
-    <div style="display: none;" id="statusMessage"></div>
+    <div class="alert alert-warning" id="statusMessage">
+        Comment edited
+    </div>
+    <script type="text/javascript">
+        document.getElementById( 'statusMessage' ).scrollIntoView();
+    </script>
 
         
                 <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" id="studentProfileMoreInfo" class="modal fade">

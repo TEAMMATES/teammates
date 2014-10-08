@@ -141,7 +141,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
                 teamNames, teamMembersEmail, teamResponses);
         
         //Each team's eval results.
-        Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray);
+        Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray, teamMembersEmail);
         
         String html = "";
         
@@ -200,7 +200,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
                 teamNames, teamMembersEmail, teamResponses);
         
         //Each team's eval results.
-        Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray);
+        Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray, teamMembersEmail);
         
         //Each person's results summary
         Map<String, StudentResultSummary> studentResults = getStudentResults(
@@ -303,7 +303,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
                 teamNames, teamMembersEmail, teamResponses);
         
         //Each team's eval results.
-        Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray);
+        Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray, teamMembersEmail);
         
         //Each person's results summary
         Map<String, StudentResultSummary> studentResults = getStudentResults(
@@ -385,7 +385,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
     /**
      * @return A Map with student email as key and StudentResultSummary as value for the specified question.
      */
-    public Map<String, StudentResultSummary> getStudentResults(FeedbackSessionResultsBundle bundle, FeedbackQuestionAttributes question){
+    public Map<String, StudentResultSummary> getStudentResults(FeedbackSessionResultsBundle bundle,
+            FeedbackQuestionAttributes question){
+        
         List<FeedbackResponseAttributes> responses = getActualResponses(question, bundle);
 
         List<String> teamNames = getTeamsWithAtLeastOneResponse(responses, bundle);
@@ -398,9 +400,32 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         Map<String, int[][]> teamSubmissionArray = getTeamSubmissionArray(
                 teamNames, teamMembersEmail, teamResponses);
         
-        Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray);
+        Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray, teamMembersEmail);
         
         return getStudentResults(teamMembersEmail, teamResults);
+    }
+    
+    /**
+     * @return A Map with student email as key and TeamEvalResult as value for the specified question.
+     */
+    public Map<String, TeamEvalResult> getTeamEvalResults(FeedbackSessionResultsBundle bundle,
+            FeedbackQuestionAttributes question){
+        
+        List<FeedbackResponseAttributes> responses = getActualResponses(question, bundle);
+
+        List<String> teamNames = getTeamsWithAtLeastOneResponse(responses, bundle);
+        
+        Map<String, List<String>> teamMembersEmail = getTeamMembersEmail(bundle, teamNames);
+        
+        Map<String, List<FeedbackResponseAttributes>> teamResponses = getTeamResponses(
+                responses, bundle, teamNames);
+        
+        Map<String, int[][]> teamSubmissionArray = getTeamSubmissionArray(
+                teamNames, teamMembersEmail, teamResponses);
+        
+        Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray, teamMembersEmail);
+        
+        return teamResults;
     }
 
     private Map<String, StudentResultSummary> getStudentResults(
@@ -427,10 +452,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
     }
 
     private Map<String, TeamEvalResult> getTeamResults(List<String> teamNames,
-            Map<String, int[][]> teamSubmissionArray) {
+            Map<String, int[][]> teamSubmissionArray, Map<String, List<String>> teamMembersEmail) {
         Map<String, TeamEvalResult> teamResults = new LinkedHashMap<String, TeamEvalResult>();
         for(String team : teamNames){
-            teamResults.put(team, new TeamEvalResult(teamSubmissionArray.get(team)));
+            TeamEvalResult teamEvalResult = new TeamEvalResult(teamSubmissionArray.get(team));
+            teamEvalResult.studentEmails = teamMembersEmail.get(team);
+            teamResults.put(team, teamEvalResult);
         }
         return teamResults;
     }
