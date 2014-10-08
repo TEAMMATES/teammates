@@ -116,12 +116,10 @@ public class FeedbackNumericalScaleQuestionDetails extends
             FeedbackSessionResultsBundle bundle,
             String view) {
         
-        if (view.equals("question")) {
-            return getInstructorQuestionResultsStatisticsHtml(responses);
-        } else if (view.equals("student")) {
+        if (view.equals("student")) {
             return getStudentQuestionResultsStatisticsHtml(responses, currentUser, question, bundle);
         } else {
-            return "";
+            return getInstructorQuestionResultsStatisticsHtml(responses);
         }
     }
 
@@ -197,7 +195,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         df.setMaximumFractionDigits(5);
         df.setRoundingMode(RoundingMode.DOWN);
         
-        String statsTitle = isDirectedAtGeneral? "Response Summary" : "Summary of responses directed at you"; 
+        String statsTitle = isDirectedAtGeneral? "Response Summary" : "Summary of responses received by you"; 
         
         html = FeedbackQuestionFormTemplates.populateTemplate(
                         FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS,
