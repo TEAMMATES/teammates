@@ -1844,6 +1844,7 @@ public class FeedbackSessionsLogic {
             for(StudentAttributes student : students){
                 studentNoResponses.add(student.email);
                 responseStatus.emailNameTable.put(student.email, student.name);
+				responseStatus.emailTeamNameTable.put(student.email, student.team);
             }
         }
         studentNoResponses.removeAll(fsa.respondingStudentList);
