@@ -287,8 +287,7 @@
                                     </td>
                                     <td><%=student.team%></td>
                                     <td><a class="detailsPageLink"
-                                        href="<%=data.studentDetailsPageLinkMap.get(student
-                            .getIdentificationString())%>"
+                                        href=<%=data.studentRecordsPageLinkMap.get(student.getIdentificationString())%>
                                         target="blank"> <%=student.name%></a></td>
                                     <td><a
                                         href="<%=data.studentIdToHomePageLinkMap
