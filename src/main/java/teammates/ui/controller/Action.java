@@ -386,12 +386,15 @@ public abstract class Action {
      *   the 'activity log' for the Admin.
      */
     public String getLogMessage(){
+        UserType currentUser = logic.getCurrentUser();
+        
         ActivityLogEntry activityLogEntry = new ActivityLogEntry(
                 account, 
                 isInMasqueradeMode(),
                 statusToAdmin, 
                 requestUrl,
-                student);
+                student,
+                currentUser);
         return activityLogEntry.generateLogMessage();
     }
     
