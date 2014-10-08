@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -7,9 +8,12 @@ import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.images.Image;
+import com.google.appengine.api.images.ImagesServiceFactory;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -25,22 +29,25 @@ public class StudentProfilePictureUploadAction extends Action {
         new GateKeeper().verifyLoggedInUserPrivileges();
         
         String pictureKey = "";
+        BlobKey blobKey = new BlobKey("");
         RedirectResult r = createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);
         
         try {
-            pictureKey = extractProfilePictureKey();
+            blobKey = extractProfilePictureKey();
             if (pictureKey != "") {
+                pictureKey = renameFileToGoogleId(blobKey);
                 logic.updateStudentProfilePicture(account.googleId, pictureKey);
                 statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
                 r.addResponseParam(Const.ParamsNames.STUDENT_PROFILE_PHOTOEDIT, "true");
             }
-        } catch (BlobstoreFailureException bfe) {
-            deletePicture(new BlobKey(pictureKey));
+        } catch (BlobstoreFailureException | IOException bfe) {
+            deletePicture(blobKey);
             updateStatusesForBlobstoreFailure();
             isError = true;
         } catch (Exception e) {
             // this is for other exceptions like EntityNotFound, IllegalState, etc 
             // that occur rarely and are handled higher up.
+            
             deletePicture(new BlobKey(pictureKey));
             statusToUser.clear();
             throw e;
@@ -49,7 +56,15 @@ public class StudentProfilePictureUploadAction extends Action {
         return r;
     }
 
-    private String extractProfilePictureKey() {
+    private String renameFileToGoogleId(BlobKey blobKey) throws IOException {
+        Image oldImage = ImagesServiceFactory.makeImageFromBlob(blobKey);
+        String newKey = GoogleCloudStorageHelper.writeDataToGcs(account.googleId, oldImage.getImageData(), "");
+        deletePicture(blobKey);
+        blobKey = new BlobKey("");
+        return newKey;
+    }
+
+    private BlobKey extractProfilePictureKey() {
         try {
             Map<String, List<BlobInfo>> blobsMap = BlobstoreServiceFactory.getBlobstoreService().getBlobInfos(request);
             List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.STUDENT_PROFILE_PHOTO);
@@ -60,28 +75,28 @@ public class StudentProfilePictureUploadAction extends Action {
             } else{
                 statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_NO_PICTURE_GIVEN);
                 isError = true;
-                return "";
+                return new BlobKey("");
             }
         } catch (IllegalStateException e) {
             // this means the action was called directly (and not via BlobStore API callback)
             // simply redirect to ProfilePage
-            return "";
+            return new BlobKey("");
         }
     }
 
-    private String validateProfilePicture (BlobInfo profilePic) {
+    private BlobKey validateProfilePicture (BlobInfo profilePic) {
         if (profilePic.getSize() > Const.SystemParams.MAX_PROFILE_PIC_SIZE) {
             deletePicture(profilePic.getBlobKey());
             isError = true;
             statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
-            return "";
+            return new BlobKey("");
         } else if(!profilePic.getContentType().contains("image/")) {
             deletePicture(profilePic.getBlobKey());
             isError = true;
             statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
-            return "";
+            return new BlobKey("");
         } else {
-            return profilePic.getBlobKey().getKeyString();
+            return profilePic.getBlobKey();
         }
         
     }

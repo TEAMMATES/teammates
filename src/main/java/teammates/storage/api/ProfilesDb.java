@@ -132,9 +132,6 @@ public class ProfilesDb extends EntitiesDb {
         boolean newKeyGiven = !newPictureKey.equals(profileToUpdate.getPictureKey().getKeyString());
         
         if (newKeyGiven) {
-            if (!profileToUpdate.getPictureKey().equals(new BlobKey(""))) {
-                deletePicture(profileToUpdate.getPictureKey());
-            }
             profileToUpdate.setPictureKey(new BlobKey(newPictureKey));
             profileToUpdate.setModifiedDate(new Date());
         }
