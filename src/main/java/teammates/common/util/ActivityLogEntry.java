@@ -8,6 +8,8 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.UserType;
 import teammates.common.exception.TeammatesException;
 
 import com.google.appengine.api.log.AppLogLine;
@@ -118,53 +120,75 @@ public class ActivityLogEntry {
         }
     }
     
-    public ActivityLogEntry(AccountAttributes userAccount, boolean isMasquerade, String logMessage,  String requestUrl){
+    public ActivityLogEntry(AccountAttributes userAccount, boolean isMasquerade, String logMessage, 
+                            String requestUrl, StudentAttributes student, UserType userType){
         time = System.currentTimeMillis();
         servletName = getActionName(requestUrl);
         action = servletName; //TODO: remove this?
         toShow = true;
         message = logMessage;
-        url = requestUrl;
-        
-        if (userAccount == null){
-            role = "Unknown";
-            name = "Unknown";
-            googleId = "Unknown";
-            email = "Unknown";
-        } else {
-            role = userAccount.isInstructor ? "Instructor" : "Student"; 
+        url = requestUrl;    
+       
+        if(userAccount != null && userAccount.googleId != null){
+            
+            if(userType.isInstructor && !userType.isStudent){
+                role = "Instructor";
+            } else if (!userType.isInstructor && userType.isStudent){
+                role = "Student";
+            } else if (userType.isInstructor && userType.isStudent){
+                role = servletName.toLowerCase().startsWith("instructor") ? "Instructor" : "Student";
+            } else {
+                if(userType.isAdmin){
+                    role = userAccount.isInstructor ? "Instructor" : "Student";
+                } else {
+                    role = "Unknown";
+                }
+            }          
+            
             role = role + (isMasquerade? "(M)" : "");
             name = userAccount.name;
             googleId = userAccount.googleId;
             email = userAccount.email;
+        } else if(student != null){
+            role = "Unregistered";
+            name = student.name;
+            googleId = "Unregistered";
+            email = student.email;          
+        } else {
+            role = "Unknown";
+            name = "Unknown";
+            googleId = "Unknown";
+            email = "Unknown";
         }
     }
     
     public String getIconRoleForShow(){
         String iconRole="";
         
-        if (role.contains("Instructor")){   
+        if(role.contains("Instructor")){   
            
             if(role.contains("(M)")){
                 iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>";
-                iconRole = iconRole + "-<span class = \"glyphicon glyphicon-eye-open\" ></span>- ";
-            }else{
+                iconRole = iconRole + "-<span class = \"glyphicon glyphicon-eye-open\" style=\"color:#E61E1E;\"></span>- ";
+            } else {
                 iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#39b3d7;\"></span>";
             }
-        }else if(role.contains("Student")){
+        } else if(role.contains("Student")){
             
             if(role.contains("(M)")){
                 iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>";
-                iconRole = iconRole + "-<span class = \"glyphicon glyphicon-eye-open\" ></span>- ";
-            }else{
+                iconRole = iconRole + "-<span class = \"glyphicon glyphicon-eye-open\" style=\"color:#E61E1E;\"></span>- ";
+            } else {
                 iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#FFBB13;\"></span>";
             }
-        }else{
+        } else if(role.contains("Unregistered")){
+            iconRole = "<span class = \"glyphicon glyphicon-user\"></span>";
+        } else {
             iconRole = role;
         }
 
         if (servletName.toLowerCase().startsWith("admin")) {
-            iconRole = "<span class = \"glyphicon glyphicon-user\"></span>";
+            iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#E61E1E;\"></span>";
         }
             
         
@@ -208,8 +232,13 @@ public class ActivityLogEntry {
         return role ;
     }
     
-    public String getPersonInfo(){
+    public String getPersonInfo(){    
         if(url.contains("/student")){
+            if(googleId.contentEquals("Unregistered")){
+                return "[" + name +
+                        " (Unregistered Student) " + 
+                        " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]" ;
+            }     
             return "[" + name +
                     " <a href=\""+getStudentHomePageViewLink(googleId)+"\" target=\"_blank\">" + googleId + "</a>" +
                     " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]" ;
@@ -422,18 +451,30 @@ public class ActivityLogEntry {
                + "<br> <p class=\"" + getColorCode(getTimeTaken()) + "\">"
                + "<strong>" + TimeHelper.convertToStandardDuration(getTimeTaken()) + "</strong>"
                + "</p> </td> <td class=\"" + getTableCellColorCode(timeTaken) + "\">"
-               + "<form method=\"post\" action=\"" + Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE + "\"> "
+               + "<form method=\"get\" action=\"" + Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE + "\"> "
                + "<h4 class=\"list-group-item-heading\">" 
                + getIconRoleForShow() + "&nbsp;" + getActionInfo() + "&nbsp;"
                + "<small>" + getPersonInfo() + "</span>" + "&nbsp;"
                + "<button type=\"submit\" class=\"btn " + getLogEntryActionsButtonClass() +  " btn-xs\">"
                + "<span class=\"glyphicon glyphicon-zoom-in\"></span>"
-               + "</button> <input type=\"hidden\" name=\"filterQuery\" value=\"person:" + getId() + "\">"
-               + "<input class=\"ifShowAll_button_for_person\" type=\"hidden\" name=\"all\" value=\"false\">"
+               + "</button> <input type=\"hidden\" name=\"filterQuery\" value=\"person:" + getAvailableIdenficationString() + "\">"
+               + "<input class=\"ifShowAll_for_person\" type=\"hidden\" name=\"all\" value=\"false\">"
+               + "<input class=\"ifShowTestData_for_person\" type=\"hidden\" name=\"testdata\" value=\"false\">"
                + "</small> </h4> <div>" + getMessageInfo()
                + "</div> </form> </td> </tr>";      
         return result;
         
+    }
+    
+    private String getAvailableIdenficationString(){
+        if(!getId().contentEquals("Unregistered") && !getId().contentEquals("Unknown")){
+            return getId();
+        } else if(getEmail() != null && !getEmail().contentEquals("Unknown")){
+            return getEmail();
+        } else if(getName() != null && !getName().contentEquals("Unknown")){
+            return getName();
+        }
+        return "";
     }
     
     public void highlightKeyStringInMessageInfoHtml(){
