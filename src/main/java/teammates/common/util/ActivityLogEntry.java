@@ -36,6 +36,23 @@ public class ActivityLogEntry {
     private static final int TIME_TAKEN_WARNING_UPPER_RANGE = 20000;
     private static final int TIME_TAKEN_DANGER_UPPER_RANGE = 60000;
     
+    public static String[] automatedActions = {
+                            Const.ActionURIs.AUTOMATED_EVAL_OPENING_REMINDERS,
+                            Const.ActionURIs.AUTOMATED_EVAL_CLOSING_REMINDERS,
+                            Const.ActionURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS,
+                            Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS,
+                            Const.ActionURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS,
+                            "/logCompilation",
+                            Const.ActionURIs.EMAIL_WORKER,
+                            Const.ActionURIs.SUBMISSION_WORKER,
+                            Const.ActionURIs.EVAL_SUBMISSION_ADJUSTMENT_WORKER,
+                            Const.ActionURIs.FEEDBACK_SUBMISSION_ADJUSTMENT_WORKER,
+                            Const.ActionURIs.EVAL_PUBLISH_EMAIL_WORKER,
+                            Const.ActionURIs.EVAL_REMIND_EMAIL_WORKER,
+                            Const.ActionURIs.FEEDBACK_REMIND_EMAIL_WORKER,
+                            Const.ActionURIs.SEND_EMAIL_WORKER
+    };
+    
     /**
      * Constructor that creates a empty ActivityLog
      */
@@ -95,6 +112,16 @@ public class ActivityLogEntry {
     }
     
     
+    private String changeRoleToAutoIfAutomatedActions(String servletName, String role){
+        for (String name : automatedActions) {
+            if(name.toLowerCase().contains(servletName.toLowerCase())){
+                role = "Auto";
+            }
+        }
+        
+        return role;
+    }
+    
     /**
      * Constructor that creates an ActivityLog object from scratch
      * Used in the various servlets in the application
@@ -118,6 +145,8 @@ public class ActivityLogEntry {
             googleId = acc.googleId;
             email = acc.email;
         }
+        
+        role = changeRoleToAutoIfAutomatedActions(servletName, role);
     }
     
     public ActivityLogEntry(AccountAttributes userAccount, boolean isMasquerade, String logMessage, 
@@ -160,6 +189,8 @@ public class ActivityLogEntry {
             googleId = "Unknown";
             email = "Unknown";
         }
+        
+        role = changeRoleToAutoIfAutomatedActions(servletName, role);
     }
     
     public String getIconRoleForShow(){
@@ -183,6 +214,8 @@ public class ActivityLogEntry {
             }
         } else if(role.contains("Unregistered")){
             iconRole = "<span class = \"glyphicon glyphicon-user\"></span>";
+        } else if(role.contains("Auto")){
+            iconRole = "<span class = \"glyphicon glyphicon-cog\"></span>";
         } else {
             iconRole = role;
         }
