@@ -11,6 +11,10 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.TeammatesException;
+import teammates.logic.automated.FeedbackSessionClosingMailAction;
+import teammates.logic.automated.FeedbackSessionOpeningMailAction;
+import teammates.logic.automated.FeedbackSessionPublishedMailAction;
+import teammates.logic.automated.PendingCommentClearedMailAction;
 
 import com.google.appengine.api.log.AppLogLine;
 
@@ -43,14 +47,13 @@ public class ActivityLogEntry {
                             Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS,
                             Const.ActionURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS,
                             "/logCompilation",
-                            Const.ActionURIs.EMAIL_WORKER,
-                            Const.ActionURIs.SUBMISSION_WORKER,
-                            Const.ActionURIs.EVAL_SUBMISSION_ADJUSTMENT_WORKER,
-                            Const.ActionURIs.FEEDBACK_SUBMISSION_ADJUSTMENT_WORKER,
-                            Const.ActionURIs.EVAL_PUBLISH_EMAIL_WORKER,
-                            Const.ActionURIs.EVAL_REMIND_EMAIL_WORKER,
-                            Const.ActionURIs.FEEDBACK_REMIND_EMAIL_WORKER,
-                            Const.ActionURIs.SEND_EMAIL_WORKER
+                            "EvaluationClosingMailAction",
+                            "EvaluationOpeningMailAction",
+                            "FeedbackSessionClosingMailAction",
+                            "FeedbackSessionOpeningMailAction",
+                            "FeedbackSessionPublishedMailAction",
+                            "PendingCommentClearedMailAction",
+                            
     };
     
     /**
