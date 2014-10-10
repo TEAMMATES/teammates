@@ -46,7 +46,7 @@ public class ActivityLogEntry {
                             Const.ActionURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS,
                             Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS,
                             Const.ActionURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS,
-                            "/logCompilation",
+                            "logCompilation",
                             "EvaluationClosingMailAction",
                             "EvaluationOpeningMailAction",
                             "FeedbackSessionClosingMailAction",
