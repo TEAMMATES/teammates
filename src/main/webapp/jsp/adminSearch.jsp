@@ -389,6 +389,35 @@
                                                 }
                                                         }
                                             %>
+                                            
+                                            <%
+                                                if (data.studentPublishedFeedbackSessionLinksMap.get(student
+                                                                .getIdentificationString()) != null) {
+                                            %>
+
+
+
+                                            <%
+                                                for (String link : data.studentPublishedFeedbackSessionLinksMap
+                                                                    .get(student.getIdentificationString())) {
+                                            %>
+
+
+
+                                            <li
+                                                class="list-group-item list-group-item-success">
+                                                <strong> <%=data.feedbackSeesionLinkToNameMap.get(link)%>
+                                            </strong> <input value=<%=link%>
+                                                readonly="readonly"
+                                                class="form-control"/>
+                                            </li>
+
+
+
+                                            <%
+                                                }
+                                                        }
+                                            %>
 
                                         </ul>
                                     </td>
