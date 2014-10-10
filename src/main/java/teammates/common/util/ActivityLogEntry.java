@@ -129,21 +129,23 @@ public class ActivityLogEntry {
         message = logMessage;
         url = requestUrl;    
        
-        if(userAccount != null && userAccount.googleId != null){
+        if(userAccount != null && userAccount.googleId != null){                 
             
-            if(userType.isInstructor && !userType.isStudent){
+            if(userType.isInstructor && !userType.isStudent && !userType.isAdmin){
                 role = "Instructor";
-            } else if (!userType.isInstructor && userType.isStudent){
+            } else if (!userType.isInstructor && userType.isStudent && !userType.isAdmin){
                 role = "Student";
-            } else if (userType.isInstructor && userType.isStudent){
+            } else if (userType.isInstructor && userType.isStudent && !userType.isAdmin){
                 role = servletName.toLowerCase().startsWith("instructor") ? "Instructor" : "Student";
+                role = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE.contains(servletName)? "Instructor" : role;
+            } else if (userType.isAdmin){
+                role = "Admin";
+                role = servletName.toLowerCase().startsWith("instructor") ? "Instructor" : role;
+                role = servletName.toLowerCase().startsWith("student") ? "Student" : role;
+                role = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE.contains(servletName)? "Instructor" : role;
             } else {
-                if(userType.isAdmin){
-                    role = userAccount.isInstructor ? "Instructor" : "Student";
-                } else {
-                    role = "Unknown";
-                }
-            }          
+                role = "Unregistered";
+            }
             
             role = role + (isMasquerade? "(M)" : "");
             name = userAccount.name;
@@ -187,7 +189,7 @@ public class ActivityLogEntry {
             iconRole = role;
         }
 
-        if (servletName.toLowerCase().startsWith("admin")) {
+        if (servletName.toLowerCase().startsWith("admin") || role.contains("Admin")) {
             iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#E61E1E;\"></span>";
         }
             
