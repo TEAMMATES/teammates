@@ -22,7 +22,6 @@ public class InstructorCourseDetailsPageData extends PageData {
     public CourseDetailsBundle courseDetails;
     public List<StudentAttributes> students;
     public List<InstructorAttributes> instructors;
-    public String studentListHtmlTableAsString;
     
     
     public String getInstructorCourseRemindLink(){
