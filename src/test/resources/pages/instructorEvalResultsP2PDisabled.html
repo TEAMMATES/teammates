@@ -5,7 +5,7 @@
         </div>
 
         <div class="well well-plain">
-            <div class="form-horizontal">
+            <form class="form-horizontal" role="form" id="download_eval_report" method="GET" action="/page/instructorEvalResultsDownload">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Course ID:</label>
                     <div class="col-sm-9">
@@ -38,204 +38,42 @@
                         </p>
                     </div>
                 </div>
+                 <div class="form-group">
+                    <label class="control-label col-sm-3 col-xs-3">Report type:</label>
+                    <div class="col-sm-9 col-xs-5">
+                        <label class="radio-inline" style="margin-left:10px;">
+                            <input name="radio_reporttype" id="radio_summary" value="instructorEvaluationSummaryTable" checked="checked" onclick="showReport(this.value)" type="radio">
+                            Summary
+                        </label>
+                        <label class="radio-inline">
+                            <input name="radio_reporttype" id="radio_reviewer" value="instructorEvaluationDetailedReviewerTable" onclick="showReport(this.value)" type="radio">
+                            Detailed: By Reviewer
+                        </label>
+                        <label class="radio-inline">
+                            <input name="radio_reporttype" id="radio_reviewee" value="instructorEvaluationDetailedRevieweeTable" onclick="showReport(this.value)" type="radio">
+                            Detailed: By Reviewee
+                        </label>
+                    </div>     
+                </div>
+                <br>
                 <div class="form-group">
-               <label class="control-label col-sm-3 col-xs-3">
-                  Report type:
-               </label>
-               <div class="col-sm-9 col-xs-5">
-                  <label class="radio-inline" style="margin-left:10px;">
-                     <input checked="checked" id="radio_summary" name="radio_reporttype" onclick="showReport(this.value)" type="radio" value="instructorEvaluationSummaryTable"/>
-                                          Summary
-                  </label>
-                  <label class="radio-inline">
-                     <input id="radio_reviewer" name="radio_reporttype" onclick="showReport(this.value)" type="radio" value="instructorEvaluationDetailedReviewerTable"/>
-                                          Detailed: By Reviewer
-                  </label>
-                  <label class="radio-inline">
-                     <input id="radio_reviewee" name="radio_reporttype" onclick="showReport(this.value)" type="radio" value="instructorEvaluationDetailedRevieweeTable"/>
-                                          Detailed: By Reviewee
-                  </label>
-               </div>
-            </div>
-            <br>
-                  <div class="form-group">
-               <div class="align-center">
-                  <button class="btn btn-primary" id="button_publish" onclick="if(togglePublishEvaluation('Fifth Eval')) window.location.href='/page/instructorEvalPublish?courseid=CEvalRUiT.CS1101&evaluationname=Fifth+Eval&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCEvalRUiT.instr&user=CEvalRUiT.instr';" type="button" value="Publish">
-                     Publish
-                  </button>
-                  <form action="/page/instructorEvalResultsDownload" id="download_eval_report" method="GET" style="display:inline;">
-                     <button class="btn btn-primary" type="submit" value="Download Report">
-                        Download Report
-                     </button>
-                     <input name="user" type="hidden" value="CEvalRUiT.instr"/>
-                                          <input name="courseid" type="hidden" value="CEvalRUiT.CS1101"/>
-                                          <input name="evaluationname" type="hidden" value="Fifth Eval"/>
-                                       </form>
-                  <div>
-                     <span class="help-block">
-                        Non-English characters not displayed properly in the downloaded file?
-                        <span class="btn-link" data-target="#evalResultsHtmlWindow" data-toggle="modal">
-                           click here
-                        </span>
-                     </span>
-                  </div>
-                  <div class="modal fade" id="evalResultsHtmlWindow">
-                     <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                           <div class="modal-header">
-                              <span class="pull-left help-block">
-                                 Tips: After Selecting the table,
-                                 <kbd>
-                                    Ctrl + C
-                                 </kbd>
-                                 to COPY and
-                                 <kbd>
-                                    Ctrl + V
-                                 </kbd>
-                                 to PASTE to your Excel Workbook.
-                              </span>
-                              <button class="btn btn-default" data-dismiss="modal" type="button">
-                                 Close
-                              </button>
-                              <button class="btn btn-primary" onclick="selectElementContents( document.getElementById('summaryModalTable') );" type="button">
-                                 Select Table
-                              </button>
-                           </div>
-                           <div class="modal-body">
-                              <div class="table-responsive">
-                                 <small id="summaryModalTable">
-                                    <table class="table table-bordered table-striped table-condensed">
-                                       <tbody>
-                                          <tr>
-                                             <td>
-                                                Course
-                                             </td>
-                                             <td>
-                                                CEvalRUiT.CS1101
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Evaluation Name
-                                             </td>
-                                             <td>
-                                                Fifth Eval
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Team
-                                             </td>
-                                             <td>
-                                                Student
-                                             </td>
-                                             <td>
-                                                Claimed
-                                             </td>
-                                             <td>
-                                                Perceived
-                                             </td>
-                                             <td>
-                                                Received
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Team 1
-                                             </td>
-                                             <td>
-                                                Alice Betsy
-                                             </td>
-                                             <td>
-                                                120
-                                             </td>
-                                             <td>
-                                                100
-                                             </td>
-                                             <td>
-                                                100
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Team 1
-                                             </td>
-                                             <td>
-                                                Benny Charles
-                                             </td>
-                                             <td>
-                                                90
-                                             </td>
-                                             <td>
-                                                100
-                                             </td>
-                                             <td>
-                                                100
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Team 2
-                                             </td>
-                                             <td>
-                                                Charlie Davis
-                                             </td>
-                                             <td>
-                                                97
-                                             </td>
-                                             <td>
-                                                98
-                                             </td>
-                                             <td>
-                                                100,95
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Team 2
-                                             </td>
-                                             <td>
-                                                Danny Engrid
-                                             </td>
-                                             <td>
-                                                97
-                                             </td>
-                                             <td>
-                                                98
-                                             </td>
-                                             <td>
-                                                100,95
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Team 2
-                                             </td>
-                                             <td>
-                                                Emily
-                                             </td>
-                                             <td>
-                                                106
-                                             </td>
-                                             <td>
-                                                105
-                                             </td>
-                                             <td>
-                                                105,105
-                                             </td>
-                                          </tr>
-                                       </tbody>
-                                    </table>
-                                 </small>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
+                    <div class="col-sm-offset-4 col-sm-2 col-xs-offset-2 col-xs-3 col-md-offset-5 col-md-1">
+                        
+                        <button type="button" class="btn btn-primary" id="button_publish" value="Publish" onclick="if(togglePublishEvaluation('Fifth Eval')) window.location.href='/page/instructorEvalPublish?courseid=CEvalRUiT.CS1101&amp;evaluationname=Fifth+Eval&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCEvalRUiT.instr&amp;user=CEvalRUiT.instr';">Publish</button>
+                        
+                    </div>
+
+                    <div class="col-sm-2 col-xs-4">
+                        <button type="submit" value="Download Report" class="btn btn-primary">Download Report</button>    
+                    </div>
+                    <input name="user" value="CEvalRUiT.instr" type="hidden">
+                    <input name="courseid" value="CEvalRUiT.CS1101" type="hidden">
+                    <input name="evaluationname" value="Fifth Eval" type="hidden">
+                      
+                </div>
+            </form>
+        </div>
+
         <br>
         
 
