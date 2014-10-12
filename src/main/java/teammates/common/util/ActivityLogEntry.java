@@ -46,13 +46,13 @@ public class ActivityLogEntry {
                             Const.ActionURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS,
                             Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS,
                             Const.ActionURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS,
-                            "logCompilation",
-                            "EvaluationClosingMailAction",
-                            "EvaluationOpeningMailAction",
-                            "FeedbackSessionClosingMailAction",
-                            "FeedbackSessionOpeningMailAction",
-                            "FeedbackSessionPublishedMailAction",
-                            "PendingCommentClearedMailAction",
+                            Const.ActionURIs.LOG_MSG_LOG_COMILATION,
+                            Const.ActionURIs.LOG_MSG_EVAL_CLOSING_MAIL_ACTION,
+                            Const.ActionURIs.LOG_MSG_EVAL_OPENING_MAIL_ACTION,
+                            Const.ActionURIs.LOG_MSG_FEEDBACKSESSION_CLOSING_MAIL_ACTION,
+                            Const.ActionURIs.LOG_MSG_FEEDBACKSESSION_OPENING_MAIL_ACTION,
+                            Const.ActionURIs.LOG_MSG_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION,
+                            Const.ActionURIs.LOG_MSG_PENDING_COMMENT_CLEARED_MAIL_ACTION
                             
     };
     

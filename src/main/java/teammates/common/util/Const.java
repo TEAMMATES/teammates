@@ -679,6 +679,15 @@ public class Const {
         public static final String EVAL_REMIND_EMAIL_WORKER = "/evalRemindEmailWorker";
         public static final String FEEDBACK_REMIND_EMAIL_WORKER = "/feedbackRemindEmailWorker";
         public static final String SEND_EMAIL_WORKER = "/sendEmailWorker";
+        
+        //real servlet names to be logged for automated actions, not for url pattern recognition
+        public static final String LOG_MSG_LOG_COMILATION = "logCompilation";
+        public static final String LOG_MSG_EVAL_CLOSING_MAIL_ACTION = "EvaluationClosingMailAction";
+        public static final String LOG_MSG_EVAL_OPENING_MAIL_ACTION = "EvaluationOpeningMailAction";
+        public static final String LOG_MSG_FEEDBACKSESSION_CLOSING_MAIL_ACTION = "FeedbackSessionClosingMailAction";
+        public static final String LOG_MSG_FEEDBACKSESSION_OPENING_MAIL_ACTION = "FeedbackSessionOpeningMailAction";
+        public static final String LOG_MSG_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION = "FeedbackSessionPublishedMailAction";
+        public static final String LOG_MSG_PENDING_COMMENT_CLEARED_MAIL_ACTION = "PendingCommentClearedMailAction";
     }
     
     public class ViewURIs{
