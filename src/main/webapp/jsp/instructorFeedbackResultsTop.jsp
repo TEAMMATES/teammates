@@ -92,7 +92,7 @@
 <input type="hidden" name="<%=Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED%>" value=true>
 </form>
 
-<div class="modal fade" id="fsResultsTableWindow">
+<div class="modal fade align-center" id="fsResultsTableWindow">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -112,6 +112,7 @@
             <div id="fsModalTable">
                
             </div>
+            <br>
              <div id="ajaxStatus"></div>      
             </div>
             </div>

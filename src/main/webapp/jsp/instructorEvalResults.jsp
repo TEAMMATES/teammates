@@ -188,6 +188,7 @@
                                     <div id="summaryModalTable">
                                     
                                     </div>
+                                    <br>
                                     <div id="ajaxStatus">
                                     </div>
                                     </div>
