@@ -680,14 +680,22 @@ public class Const {
         public static final String FEEDBACK_REMIND_EMAIL_WORKER = "/feedbackRemindEmailWorker";
         public static final String SEND_EMAIL_WORKER = "/sendEmailWorker";
         
+    }
+    
+    public class AutomatedActionNames{
         //real servlet names to be logged for automated actions, not for url pattern recognition
-        public static final String LOG_MSG_LOG_COMILATION = "logCompilation";
-        public static final String LOG_MSG_EVAL_CLOSING_MAIL_ACTION = "EvaluationClosingMailAction";
-        public static final String LOG_MSG_EVAL_OPENING_MAIL_ACTION = "EvaluationOpeningMailAction";
-        public static final String LOG_MSG_FEEDBACKSESSION_CLOSING_MAIL_ACTION = "FeedbackSessionClosingMailAction";
-        public static final String LOG_MSG_FEEDBACKSESSION_OPENING_MAIL_ACTION = "FeedbackSessionOpeningMailAction";
-        public static final String LOG_MSG_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION = "FeedbackSessionPublishedMailAction";
-        public static final String LOG_MSG_PENDING_COMMENT_CLEARED_MAIL_ACTION = "PendingCommentClearedMailAction";
+        public static final String AUTOMATED_LOG_COMILATION = "logCompilation";
+        public static final String AUTOMATED_EVAL_CLOSING_MAIL_ACTION = "evaluationClosingMailAction";
+        public static final String AUTOMATED_EVAL_OPENING_MAIL_ACTION = "evaluationOpeningMailAction";
+        public static final String AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION = "feedbackSessionClosingMailAction";
+        public static final String AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION = "feedbackSessionOpeningMailAction";
+        public static final String AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION = "feedbackSessionPublishedMailAction";
+        public static final String AUTOMATED_PENDING_COMMENT_CLEARED_MAIL_ACTION = "PendingCommentClearedMailAction";
+        public static final String AUTOMATED_EVAL_OPENING_REMINDERS = "evaluationOpeningReminders";
+        public static final String AUTOMATED_EVAL_CLOSING_REMINDERS = "evaluationclosingreminders";        
+        public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "feedbackSessionOpeningReminders";
+        public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "feedbackSessionClosingReminders";
+        public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "feedbackSessionPublishedReminders";
     }
     
     public class ViewURIs{

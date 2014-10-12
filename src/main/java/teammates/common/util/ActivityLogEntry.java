@@ -11,10 +11,6 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.TeammatesException;
-import teammates.logic.automated.FeedbackSessionClosingMailAction;
-import teammates.logic.automated.FeedbackSessionOpeningMailAction;
-import teammates.logic.automated.FeedbackSessionPublishedMailAction;
-import teammates.logic.automated.PendingCommentClearedMailAction;
 
 import com.google.appengine.api.log.AppLogLine;
 
@@ -41,19 +37,19 @@ public class ActivityLogEntry {
     private static final int TIME_TAKEN_DANGER_UPPER_RANGE = 60000;
     
     public static String[] automatedActions = {
-                            Const.ActionURIs.AUTOMATED_EVAL_OPENING_REMINDERS,
-                            Const.ActionURIs.AUTOMATED_EVAL_CLOSING_REMINDERS,
-                            Const.ActionURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS,
-                            Const.ActionURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS,
-                            Const.ActionURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS,
-                            Const.ActionURIs.LOG_MSG_LOG_COMILATION,
-                            Const.ActionURIs.LOG_MSG_EVAL_CLOSING_MAIL_ACTION,
-                            Const.ActionURIs.LOG_MSG_EVAL_OPENING_MAIL_ACTION,
-                            Const.ActionURIs.LOG_MSG_FEEDBACKSESSION_CLOSING_MAIL_ACTION,
-                            Const.ActionURIs.LOG_MSG_FEEDBACKSESSION_OPENING_MAIL_ACTION,
-                            Const.ActionURIs.LOG_MSG_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION,
-                            Const.ActionURIs.LOG_MSG_PENDING_COMMENT_CLEARED_MAIL_ACTION
-                            
+            Const.AutomatedActionNames.AUTOMATED_LOG_COMILATION,
+            Const.AutomatedActionNames.AUTOMATED_EVAL_CLOSING_MAIL_ACTION,
+            Const.AutomatedActionNames.AUTOMATED_EVAL_OPENING_MAIL_ACTION,
+            Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION,
+            Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION,
+            Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION,
+            Const.AutomatedActionNames.AUTOMATED_PENDING_COMMENT_CLEARED_MAIL_ACTION,
+            Const.AutomatedActionNames.AUTOMATED_EVAL_OPENING_REMINDERS,
+            Const.AutomatedActionNames.AUTOMATED_EVAL_CLOSING_REMINDERS,
+            Const.AutomatedActionNames.AUTOMATED_FEEDBACK_OPENING_REMINDERS,
+            Const.AutomatedActionNames.AUTOMATED_FEEDBACK_CLOSING_REMINDERS,
+            Const.AutomatedActionNames.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS,
+
     };
     
     /**
