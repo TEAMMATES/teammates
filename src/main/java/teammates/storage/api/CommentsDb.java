@@ -220,6 +220,22 @@ public class CommentsDb extends EntitiesDb{
     }
     
     /*
+     * Get comments for a course
+     */
+    public List<CommentAttributes> getCommentsForCourse(String courseId){
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        
+        List<Comment> comments = getCommentEntitiesForCourse(courseId);
+        List<CommentAttributes> commentAttributesList = new ArrayList<CommentAttributes>();
+        
+        for(Comment comment: comments){
+            commentAttributesList.add(new CommentAttributes(comment));
+        }
+        return commentAttributesList;
+    }
+    
+    
+    /*
      * Update comment from old state to new state
      */
     public void updateComments(String courseId, CommentSendingState oldState, CommentSendingState newState){

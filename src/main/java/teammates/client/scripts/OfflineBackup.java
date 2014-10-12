@@ -7,6 +7,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -14,6 +15,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
+
+import org.mortbay.log.Log;
 
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
@@ -23,7 +26,11 @@ import com.google.appengine.repackaged.org.apache.commons.collections.map.MultiV
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentSendingState;
+import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -32,6 +39,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.Logic;
 import teammates.storage.api.CommentsDb;
@@ -124,100 +132,77 @@ public class OfflineBackup extends RemoteApiClient {
         Iterator<String> it = coursesList.iterator();
         while(it.hasNext()) {
             String courseId = it.next();
-            System.out.println(courseId);
+            retrieveAndSaveAccountsByCourse(courseId);
+            retrieveAndSaveCommentsByCourse(courseId);
             
         }
     }
     
-    /**
-     * Retrieve a recently modified entity and saves its contents to a .csv file
+    /** 
+     *  Retrieves all the comments from a course and saves them
      */
-    private void retrieveEntity(String type, String id) throws ParseException {
-        System.out.println(type);
-        
-        switch(type) {
-            case "Account":
-                retrieveAndSaveAccount(id);
-                break;
-                
-            /*case "Comment":
-                retrieveAndSaveComment(id);
-                break;*/
-               
-            case "Course":
-                retrieveAndSaveCourse(id);
-                break;
-                
-            case "Evaluation":
-                retrieveAndSaveEvaluation(id);
-                break;
-                
-            case "Feedback Question":
-                retrieveAndSaveFeedbackQuestion(id);
-                break;
-                
-            case "Feedback Response":
-                retrieveAndSaveFeedbackResponse(id);
-                break;
-                
-            case "FeedbackResponseComment":
-                retrieveAndSaveFeedbackResponseComment(id);
-                break;
-                
-            case "Feedback Session":
-                retrieveAndSaveFeedbackSession(id);
-                break;
-                
-            case "Instructor":
-                retrieveAndSaveInstructor(id);
-                break;
+    private void retrieveAndSaveAccountsByCourse(String courseId) {
+        try {
+            Logic logic = new Logic();
+            List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
+            List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
             
-            case "Student":
-                retrieveAndSaveStudent(id);
-                break;
-                
-            case "Submission":
-                retrieveAndSaveSubmission(id);
-                break;
+            for(EntityAttributes student : students) {
+                saveAccount(student);
+            }
+            
+            for(EntityAttributes instructor : instructors) {
+                saveAccount(instructor);
+            } 
+        } catch (EntityDoesNotExistException entityException) {
+            System.out.println("Error occurred while trying to save accounts within course " + courseId);
         }
-        
     }
     
+    /** 
+     *  Retrieves all the comments from a course and saves them
+     */
+    private void retrieveAndSaveCommentsByCourse(String courseId) {
+        CommentsDb commentsDb = new CommentsDb();
+        List<CommentAttributes> comments = commentsDb.getCommentsForCourse(courseId);
+        
+        for(CommentAttributes comment: comments) {
+            saveComment(comment);
+        }
+    }
+  
     
-    private void retrieveAndSaveAccount(String id) {
+    private void saveAccount(EntityAttributes entity) {
+        String type = entity.getEntityTypeAsString();
+        String googleId = "";
+        
+        if(type.equals("Student")) {
+            StudentAttributes student = (StudentAttributes)entity;
+            googleId = student.googleId;
+        } else if(type.equals("Instructor")) {
+            InstructorAttributes instructor = (InstructorAttributes)entity;
+            googleId = instructor.googleId;
+        }
+        
         Logic logic = new Logic();
-        String googleId = id.trim();
+        googleId = googleId.trim();
         AccountAttributes account = logic.getAccount(googleId);
         
-        if(account == null) {
-            return;
-        }
-        
         String createdAt = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(account.createdAt);
-        String accountCsv = account.googleId + "," + account.name + "," + account.isInstructor + "," + account.email + "," + account.institute + "," + createdAt + Const.EOL;
+        String accountCsv = account.googleId + "," + account.name + "," + account.isInstructor + "," 
+                                + account.email + "," + account.institute + "," + createdAt + Const.EOL;
         FileHelper.appendToFile(accountCsvFile, accountCsv);
     }
     
-    /*private void retrieveAndSaveComment(String id) throws ParseException {
-        CommentsDb commentDb = new CommentsDb();
-        String[] idTokens = id.split("\\|");
-        String courseId = idTokens[0].trim();
-        String giverEmail = idTokens[1].trim();
-        String receiverEmail = idTokens[2].trim();
-        Text commentText = new Text(idTokens[3].trim());
-        Date date = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").parse(idTokens[4].trim());
-        //Use get comment for course
-        CommentAttributes comment = commentDb.getComment(courseId, giverEmail, receiverEmail, commentText, date);
-
-        if(comment == null) {
-            return;
-        }
-        
+    private void saveComment(CommentAttributes comment) {
         String createdAt = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(comment.createdAt);
-        String commentCsv = comment.getCommentId() + "," + comment.courseId + "," + comment.giverEmail + "," + createdAt + "," + 
-                                commentText.getValue() + Const.EOL;
+        String commentCsv = comment.getCommentId() + "," + comment.courseId + "," + comment.giverEmail + "," + 
+                                comment.recipientType + "," + comment.recipients.toString() + "," + comment.status + "," +
+                                comment.sendingState + "," + Arrays.toString(comment.showCommentTo.toArray()) + "," +
+                                Arrays.toString(comment.showGiverNameTo.toArray()) + "," + Arrays.toString(comment.showRecipientNameTo.toArray()) + "," +
+                                comment.commentText.getValue() + "," + createdAt + Const.EOL;
         FileHelper.appendToFile(commentCsvFile, commentCsv);
-    }*/
+    }
     
     private void retrieveAndSaveCourse(String id) {
         Logic logic = new Logic();
