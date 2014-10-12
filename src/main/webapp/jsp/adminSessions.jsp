@@ -290,7 +290,7 @@
                             String googleId = data.sessionToInstructorIdMap.get(fs.getIdentificationString());
                             if(!googleId.isEmpty()){               
                             %>
-                            <td class="session-response-for-test recent">
+                            <td class="session-response-for-test">
                                <a oncontextmenu="return false;" href="<%=data.getFeedbackSessionStatsLink(fs.courseId, fs.feedbackSessionName, googleId)%>">Show</a>
                             </td>
                             
@@ -388,7 +388,7 @@
                             String googleId = data.sessionToInstructorIdMap.get(fs.getIdentificationString());
                             if(!googleId.isEmpty()){               
                             %>
-                            <td class="session-response-for-test recent">
+                            <td class="session-response-for-test">
                                <a oncontextmenu="return false;" href="<%=data.getFeedbackSessionStatsLink(fs.courseId, fs.feedbackSessionName, googleId)%>">Show</a>
                             </td>
                             
