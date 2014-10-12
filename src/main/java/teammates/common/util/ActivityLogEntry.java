@@ -36,6 +36,22 @@ public class ActivityLogEntry {
     private static final int TIME_TAKEN_WARNING_UPPER_RANGE = 20000;
     private static final int TIME_TAKEN_DANGER_UPPER_RANGE = 60000;
     
+    public static String[] automatedActions = {
+            Const.AutomatedActionNames.AUTOMATED_LOG_COMILATION,
+            Const.AutomatedActionNames.AUTOMATED_EVAL_CLOSING_MAIL_ACTION,
+            Const.AutomatedActionNames.AUTOMATED_EVAL_OPENING_MAIL_ACTION,
+            Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION,
+            Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION,
+            Const.AutomatedActionNames.AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION,
+            Const.AutomatedActionNames.AUTOMATED_PENDING_COMMENT_CLEARED_MAIL_ACTION,
+            Const.AutomatedActionNames.AUTOMATED_EVAL_OPENING_REMINDERS,
+            Const.AutomatedActionNames.AUTOMATED_EVAL_CLOSING_REMINDERS,
+            Const.AutomatedActionNames.AUTOMATED_FEEDBACK_OPENING_REMINDERS,
+            Const.AutomatedActionNames.AUTOMATED_FEEDBACK_CLOSING_REMINDERS,
+            Const.AutomatedActionNames.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS,
+
+    };
+    
     /**
      * Constructor that creates a empty ActivityLog
      */
@@ -95,6 +111,16 @@ public class ActivityLogEntry {
     }
     
     
+    private String changeRoleToAutoIfAutomatedActions(String servletName, String role){
+        for (String name : automatedActions) {
+            if(name.toLowerCase().contains(servletName.toLowerCase())){
+                role = "Auto";
+            }
+        }
+        
+        return role;
+    }
+    
     /**
      * Constructor that creates an ActivityLog object from scratch
      * Used in the various servlets in the application
@@ -118,6 +144,8 @@ public class ActivityLogEntry {
             googleId = acc.googleId;
             email = acc.email;
         }
+        
+        role = changeRoleToAutoIfAutomatedActions(servletName, role);
     }
     
     public ActivityLogEntry(AccountAttributes userAccount, boolean isMasquerade, String logMessage, 
@@ -168,6 +196,8 @@ public class ActivityLogEntry {
             googleId = "Unknown";
             email = "Unknown";
         }
+        
+        role = changeRoleToAutoIfAutomatedActions(servletName, role);
     }
     
     public String getIconRoleForShow(){
@@ -191,6 +221,8 @@ public class ActivityLogEntry {
             }
         } else if(role.contains("Unregistered")){
             iconRole = "<span class = \"glyphicon glyphicon-user\"></span>";
+        } else if(role.contains("Auto")){
+            iconRole = "<span class = \"glyphicon glyphicon-cog\"></span>";
         } else {
             iconRole = role;
         }

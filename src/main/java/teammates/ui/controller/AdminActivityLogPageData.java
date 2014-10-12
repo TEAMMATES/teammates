@@ -44,7 +44,7 @@ public class AdminActivityLogPageData extends PageData {
     public static String[] excludedLogRequestURIs = {Const.ActionURIs.INSTRUCTOR_EVAL_STATS_PAGE,
                                                       Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,                                                      
                                                       //this servlet name is set in CompileLogsServlet
-                                                      "logCompilation"};
+                                                      Const.AutomatedActionNames.AUTOMATED_LOG_COMILATION};
     
     public boolean isTestingData(String email){
         boolean isTestingAccount = false;
