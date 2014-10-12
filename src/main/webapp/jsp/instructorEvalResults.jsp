@@ -155,10 +155,18 @@
                         <span class="help-block">
                             Non-English characters not displayed properly in the downloaded file?<span class="btn-link"
                             data-toggle="modal"
-                            data-target="#evalResultsHtmlWindow">
+                            data-target="#evalResultsHtmlWindow"
+                            onclick = "submitFormAjax()">
                             click here</span>
                          </span>
                         </div>
+                        
+                        <form id="csvToHtmlForm">
+                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.courseId%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.EVALUATION_NAME%>" value="<%=data.evalName%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED%>" value=true>
+                        </form>
 
                         <div class="modal fade" id="evalResultsHtmlWindow">
                             <div class="modal-dialog modal-lg">
@@ -177,9 +185,11 @@
                                     </div>
                                     <div class="modal-body">
                                     <div class="table-responsive">
-                                    <small id="summaryModalTable">
-                                    <%=data.summaryReportHtmlTableAsString%>
-                                    </small>
+                                    <div id="summaryModalTable">
+                                    
+                                    </div>
+                                    <div id="ajaxStatus">
+                                    </div>
                                     </div>
                                     </div>
                                    

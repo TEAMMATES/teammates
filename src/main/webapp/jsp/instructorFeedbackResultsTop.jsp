@@ -75,13 +75,22 @@
                     Non-English characters not displayed properly in the
                     downloaded file?<span class="btn-link"
                     data-toggle="modal"
-                    data-target="#fsResultsTableWindow"> click here </span>
+                    data-target="#fsResultsTableWindow"
+                    onclick="submitFormAjax()"> click here </span>
             </div>
 
         </div>
       </div>
     
 </div>
+
+<form id="csvToHtmlForm">
+<input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.courseId%>">
+<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.feedbackSessionName%>">
+<input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+<input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" value="<%=data.selectedSection%>">
+<input type="hidden" name="<%=Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED%>" value=true>
+</form>
 
 <div class="modal fade" id="fsResultsTableWindow">
     <div class="modal-dialog modal-lg">
@@ -100,9 +109,10 @@
             </div>
             <div class="modal-body">
             <div class="table-responsive">
-            <small id="fsModalTable">
-                <%=data.sessionResultsHtmlTableAsString%>
-            </small>
+            <div id="fsModalTable">
+               
+            </div>
+             <div id="ajaxStatus"></div>      
             </div>
             </div>
             <div class="modal-footer">

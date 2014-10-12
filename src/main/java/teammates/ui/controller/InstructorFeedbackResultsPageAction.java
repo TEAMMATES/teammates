@@ -20,6 +20,11 @@ public class InstructorFeedbackResultsPageAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         
         String needAjax = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX);
+        
+        //this is for ajax loading of the htm table in the modal
+        boolean isHtmlTableNeeded = getRequestParamAsBoolean(Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED);
+        
+        
         int queryRange;
         if(needAjax != null){
             queryRange = QUERY_RANGE_FOR_AJAX_TESTING;
@@ -48,29 +53,43 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 account);
         data.selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
         
-//        if (data.selectedSection == null) {
-//            data.selectedSection = ALL_SECTION_OPTION;
-//            data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(logic.getFeedbackSessionResultSummaryAsCsv(courseId, 
-//                                                                                                                          feedbackSessionName, 
-//                                                                                                                          instructor.email));
-//        } else {  
-//            
-//            if(!data.selectedSection.contentEquals(ALL_SECTION_OPTION)){
-//               data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(logic.getFeedbackSessionResultSummaryInSectionAsCsv(courseId, 
-//                                                                                                                                      feedbackSessionName, 
-//                                                                                                                                      instructor.email, 
-//                                                                                                                                      data.selectedSection));
-//            } else {
-//                
-//                data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(logic.getFeedbackSessionResultSummaryAsCsv(courseId, 
-//                                                                                                                              feedbackSessionName, 
-//                                                                                                                              instructor.email));               
-//            }
-//        }
         data.instructor = instructor;
         data.showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
         data.groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
         data.sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
+        data.courseId = courseId;
+        data.feedbackSessionName = feedbackSessionName;
+        
+        if (data.selectedSection == null) {
+            data.selectedSection = ALL_SECTION_OPTION;
+        }
+        
+        if(isHtmlTableNeeded){
+            try {                   
+                if(!data.selectedSection.contentEquals(ALL_SECTION_OPTION)){
+                   data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(logic.getFeedbackSessionResultSummaryInSectionAsCsv(courseId, 
+                                                                                                                                          feedbackSessionName, 
+                                                                                                                                          instructor.email, 
+                                                                                                                                          data.selectedSection));
+                } else {
+                    
+                    data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(logic.getFeedbackSessionResultSummaryAsCsv(courseId, 
+                                                                                                                                  feedbackSessionName, 
+                                                                                                                                  instructor.email));               
+                }
+            } catch (ExceedingRangeException e) {
+                data.sessionResultsHtmlTableAsString = "";
+                data.ajaxStatus = "There are too many responses. Please download the feedback results by section.";
+            }  
+            
+            return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP, data);
+            
+        } else {
+            data.sessionResultsHtmlTableAsString = "";
+            data.ajaxStatus = "";
+            
+        }
+        
         
         
         

@@ -23,7 +23,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public String groupByTeam = null;
     public String showStats = null;
     public int startIndex;
-    public String sessionResultsHtmlTableAsString;
+    
+    //used for html table ajax loading 
+    public String courseId = null;
+    public String feedbackSessionName = null;
+    public String ajaxStatus = null;
+    public String sessionResultsHtmlTableAsString = null;
+    
     
     public InstructorFeedbackResultsPageData(AccountAttributes account) {
         super(account);

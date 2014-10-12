@@ -26,7 +26,7 @@ function submitFormAjax() {
         	content.html("<img src='/images/ajax-loader.gif'/>");
         },
         error : function() {
-        	ajaxStatus.html("Failed to load older logs. Please try again.");
+        	ajaxStatus.html("Failed to load student table. Please try again.");
             content.html("<button class=\"btn btn-info\" onclick=\"submitFormAjax()\"> retry</button>");     	
         },
         success : function(data) {
