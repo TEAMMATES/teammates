@@ -288,7 +288,9 @@ public class Const {
         
         public static final String COPIED_FEEDBACK_SESSION_NAME = "copiedfsname";
         public static final String COPIED_COURSE_ID = "copiedcourseid";
-
+        
+        public static final String CSV_TO_HTML_TABLE_NEEDED = "csvtohtmltable";
+        
         public static final String COURSE_ID = "courseid";
         public static final String COURSE_NAME = "coursename";
         public static final String COURSE_EDIT_MAIN_INDEX = "courseeditmainindex";

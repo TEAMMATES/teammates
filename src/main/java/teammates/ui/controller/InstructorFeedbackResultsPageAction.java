@@ -3,8 +3,10 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.ExceedingRangeException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackResultsPageAction extends Action {
@@ -45,13 +47,33 @@ public class InstructorFeedbackResultsPageAction extends Action {
         InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(
                 account);
         data.selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
-        if (data.selectedSection == null) {
-            data.selectedSection = ALL_SECTION_OPTION;
-        }
+        
+//        if (data.selectedSection == null) {
+//            data.selectedSection = ALL_SECTION_OPTION;
+//            data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(logic.getFeedbackSessionResultSummaryAsCsv(courseId, 
+//                                                                                                                          feedbackSessionName, 
+//                                                                                                                          instructor.email));
+//        } else {  
+//            
+//            if(!data.selectedSection.contentEquals(ALL_SECTION_OPTION)){
+//               data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(logic.getFeedbackSessionResultSummaryInSectionAsCsv(courseId, 
+//                                                                                                                                      feedbackSessionName, 
+//                                                                                                                                      instructor.email, 
+//                                                                                                                                      data.selectedSection));
+//            } else {
+//                
+//                data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(logic.getFeedbackSessionResultSummaryAsCsv(courseId, 
+//                                                                                                                              feedbackSessionName, 
+//                                                                                                                              instructor.email));               
+//            }
+//        }
         data.instructor = instructor;
         data.showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
         data.groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
         data.sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
+        
+        
+        
         String startIndex = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_MAIN_INDEX);
         if(startIndex != null){
             data.startIndex = Integer.parseInt(startIndex);

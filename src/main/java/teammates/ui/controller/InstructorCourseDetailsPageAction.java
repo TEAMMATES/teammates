@@ -5,6 +5,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -16,6 +17,8 @@ public class InstructorCourseDetailsPageAction extends Action {
     public ActionResult execute() throws EntityDoesNotExistException{
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        boolean isHtmlTableNeeded = getRequestParamAsBoolean(Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED);
+        
         Assumption.assertNotNull(courseId);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
@@ -29,6 +32,14 @@ public class InstructorCourseDetailsPageAction extends Action {
         data.courseDetails = logic.getCourseDetails(courseId);
         data.students = logic.getStudentsForCourse(courseId);
         data.instructors = logic.getInstructorsForCourse(courseId);
+        
+        if(isHtmlTableNeeded){
+            data.studentListHtmlTableAsString = StringHelper.csvToHtmlTable(logic.getCourseStudentListAsCsv(courseId, account.googleId));
+            return createAjaxResult(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS, data);
+        } else {
+            data.studentListHtmlTableAsString = "";
+        }
+        
 
         StudentAttributes.sortByNameAndThenByEmail(data.students);
         

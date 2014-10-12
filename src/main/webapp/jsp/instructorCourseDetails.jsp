@@ -132,7 +132,62 @@
                             <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
                             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.courseDetails.course.id%>">
                         </form>
-                     </div>
+
+                            
+                            
+                        <div>
+                         <span class="help-block">
+                            Non-English characters not displayed properly in the downloaded file?<span class="btn-link"
+                            data-toggle="modal"
+                            data-target="#studentTableWindow"
+                            onclick="submitFormAjax()"
+                            >
+                            click here</span>
+                         </span>
+                        </div>
+                        
+                        <form id="csvToHtmlForm">
+                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.courseDetails.course.id%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED%>" value=true>
+                        </form>
+                        
+                        <div class="modal fade" id="studentTableWindow">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">       
+                                        
+                                         <span class="pull-left help-block">
+                                        Tips: After Selecting the table, <kbd>Ctrl + C</kbd> to COPY and <kbd>Ctrl + V</kbd> to PASTE to your Excel Workbook.
+                                        </span>
+                                        <button type="button"
+                                            class="btn btn-default"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="button"
+                                            class="btn btn-primary"
+                                            onclick="selectElementContents( document.getElementById('detailsTable') );">
+                                            Select Table</button>                                
+                                    </div>
+                                    <div class="modal-body">
+                                     <div class="table-responsive">
+                                    
+                                    <div id="detailsTable">                                  
+                                    </div>
+                                    <br>                                    
+                                    <div id="ajaxStatus">
+                                    </div>
+                                    
+                                    
+                               
+                                    </div>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
+
+                    </div>
                  </div>
                  <%
                      }
