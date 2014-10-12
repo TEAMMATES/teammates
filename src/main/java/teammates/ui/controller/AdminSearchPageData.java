@@ -18,6 +18,7 @@ public class AdminSearchPageData extends PageData {
     public StudentSearchResultBundle studentResultBundle = new StudentSearchResultBundle();
     public HashMap<String, List<String>> studentOpenFeedbackSessionLinksMap = new HashMap<String, List<String>>();
     public HashMap<String, List<String>> studentUnOpenedFeedbackSessionLinksMap = new HashMap<String, List<String>>();
+    public HashMap<String, List<String>> studentPublishedFeedbackSessionLinksMap = new HashMap<String, List<String>>();
     public HashMap<String, String> feedbackSeesionLinkToNameMap = new HashMap<String, String>();
     public HashMap<String, String> studentIdToHomePageLinkMap = new HashMap<String, String>();
     public HashMap<String, String> studentRecordsPageLinkMap = new HashMap<String, String>();
