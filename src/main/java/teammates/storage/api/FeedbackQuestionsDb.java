@@ -124,6 +124,24 @@ public class FeedbackQuestionsDb extends EntitiesDb {
     }
     
     /**
+     * Preconditions: <br>
+     * * All parameters are non-null. 
+     * @return An empty list if no such questions are found.
+     */
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForCourse(String courseId) {
+        
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+
+        List<FeedbackQuestion> questions = getFeedbackQuestionEntitiesForCourse(courseId);
+        List<FeedbackQuestionAttributes> fqList = new ArrayList<FeedbackQuestionAttributes>();
+
+        for (FeedbackQuestion question : questions) {
+            fqList.add(new FeedbackQuestionAttributes(question));
+        }
+        return fqList;
+    }
+    
+    /**
      * Updates the feedback question identified by `{@code newAttributes.getId()} 
      * For the remaining parameters, the existing value is preserved 
      *   if the parameter is null (due to 'keep existing' policy).<br> 
@@ -228,6 +246,18 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         @SuppressWarnings("unchecked")
         List<FeedbackQuestion> feedbackQuestionList = 
             (List<FeedbackQuestion>) q.execute(feedbackSessionName, courseId);
+        
+        return feedbackQuestionList;
+    }
+    
+    private List<FeedbackQuestion> getFeedbackQuestionEntitiesForCourse(String courseId) {
+        Query q = getPM().newQuery(FeedbackQuestion.class);
+        q.declareParameters("String courseIdParam");
+        q.setFilter("courseId == courseIdParam");
+        
+        @SuppressWarnings("unchecked")
+        List<FeedbackQuestion> feedbackQuestionList = 
+            (List<FeedbackQuestion>) q.execute(courseId);
         
         return feedbackQuestionList;
     }

@@ -5,30 +5,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
-import org.mortbay.log.Log;
-
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Text;
-import com.google.appengine.repackaged.org.apache.commons.collections.MultiMap;
-import com.google.appengine.repackaged.org.apache.commons.collections.map.MultiValueMap;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentRecipientType;
-import teammates.common.datatransfer.CommentSendingState;
-import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -134,12 +122,20 @@ public class OfflineBackup extends RemoteApiClient {
             String courseId = it.next();
             retrieveAndSaveAccountsByCourse(courseId);
             retrieveAndSaveCommentsByCourse(courseId);
-            
+            retrieveAndSaveCourse(courseId);
+            retrieveAndSaveEvaluationsByCourse(courseId);
+            retrieveAndSaveFeedbackQuestionsByCourse(courseId);
+            retrieveAndSaveFeedbackResponsesByCourse(courseId);
+            retrieveAndSaveFeedbackResponseCommentsByCourse(courseId);
+            retrieveAndSaveFeedbackSessionsByCourse(courseId);
+            retrieveAndSaveInstructorsByCourse(courseId);
+            retrieveAndSaveStudentsByCourse(courseId);
+            retrieveAndSaveSubmissionsByCourse(courseId);
         }
     }
     
     /** 
-     *  Retrieves all the comments from a course and saves them
+     *  Retrieves all the accounts from a course and saves them
      */
     private void retrieveAndSaveAccountsByCourse(String courseId) {
         try {
@@ -154,6 +150,7 @@ public class OfflineBackup extends RemoteApiClient {
             for(EntityAttributes instructor : instructors) {
                 saveAccount(instructor);
             } 
+            
         } catch (EntityDoesNotExistException entityException) {
             System.out.println("Error occurred while trying to save accounts within course " + courseId);
         }
@@ -171,6 +168,122 @@ public class OfflineBackup extends RemoteApiClient {
         }
     }
   
+    private void retrieveAndSaveCourse(String courseId) {
+        Logic logic = new Logic();
+        CourseAttributes course = logic.getCourse(courseId);
+        
+        if(course == null) {
+            return;
+        }
+        
+        String createdAt = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(course.createdAt);
+        String courseCsv = course.id + "," + course.name + "," + createdAt + "," + course.isArchived + Const.EOL;
+        FileHelper.appendToFile(courseCsvFile, courseCsv);
+    }
+    
+    /** 
+     *  Retrieves all the evaluations from a course and saves them
+     */
+    private void retrieveAndSaveEvaluationsByCourse(String courseId) {
+        Logic logic = new Logic();
+
+        List<EvaluationAttributes> evaluations = logic.getEvaluationsForCourse(courseId);
+   
+        for(EvaluationAttributes evaluation : evaluations) {
+            saveEvaluation(evaluation);
+        }
+    }
+    
+    /** 
+     *  Retrieves all the feedback questions from a course and saves them
+     */
+    private void retrieveAndSaveFeedbackQuestionsByCourse(String courseId) {
+        
+        FeedbackQuestionsDb feedbackQuestionDb = new FeedbackQuestionsDb();
+        List<FeedbackQuestionAttributes> feedbackQuestions = feedbackQuestionDb.getFeedbackQuestionsForCourse(courseId);
+
+        for(FeedbackQuestionAttributes feedbackQuestion : feedbackQuestions) {
+            saveFeedbackQuestion(feedbackQuestion);
+        }
+    }
+    
+    /** 
+     *  Retrieves all the feedback responses from a course and saves them
+     */
+    private void retrieveAndSaveFeedbackResponsesByCourse(String courseId) {
+        
+        FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
+        List<FeedbackResponseAttributes> feedbackResponses = feedbackResponsesDb.getFeedbackResponsesForCourse(courseId);
+
+        for(FeedbackResponseAttributes feedbackResponse : feedbackResponses) {
+            saveFeedbackResponse(feedbackResponse);
+        }
+    }
+    
+    /** 
+     *  Retrieves all the feedback responses from a course and saves them
+     */
+    private void retrieveAndSaveFeedbackResponseCommentsByCourse(String courseId) {
+        
+        FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
+        List<FeedbackResponseCommentAttributes> feedbackResponseComments = feedbackResponseCommentsDb.getFeedbackResponseCommentsForCourse(courseId);
+
+        for(FeedbackResponseCommentAttributes feedbackResponseComment : feedbackResponseComments) {
+            saveFeedbackResponseComment(feedbackResponseComment);
+        }
+    }
+    
+    /** 
+     *  Retrieves all the feedback responses from a course and saves them
+     */
+    private void retrieveAndSaveFeedbackSessionsByCourse(String courseId) {
+        Logic logic = new Logic();
+        List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
+        
+        for(FeedbackSessionAttributes feedbackSession : feedbackSessions) {
+            saveFeedbackSession(feedbackSession);
+        }
+    }
+    
+    /** 
+     *  Retrieves all the feedback responses from a course and saves them
+     */
+    private void retrieveAndSaveInstructorsByCourse(String courseId) {
+        Logic logic = new Logic();
+        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+        
+        for(InstructorAttributes instructor : instructors) {
+            saveInstructor(instructor);
+        }
+    }
+    
+    /** 
+     *  Retrieves all the feedback responses from a course and saves them
+     */
+    private void retrieveAndSaveStudentsByCourse(String courseId) {
+        try {
+            Logic logic = new Logic();
+            List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
+            
+            for(StudentAttributes student : students) {
+                saveStudent(student);
+            }
+        } catch (EntityDoesNotExistException exception) {
+            System.out.println("Error while trying to save students in course " + courseId);
+        }
+    }
+    
+    /** 
+     *  Retrieves all the feedback responses from a course and saves them
+     */
+    private void retrieveAndSaveSubmissionsByCourse(String courseId) {
+        SubmissionsDb submissionsDb = new SubmissionsDb();
+        List<SubmissionAttributes> submissions = submissionsDb.getSubmissionsForCourse(courseId);
+        
+        for(SubmissionAttributes submission : submissions) {
+            saveSubmission(submission);
+        }
+    }
     
     private void saveAccount(EntityAttributes entity) {
         String type = entity.getEntityTypeAsString();
@@ -198,38 +311,13 @@ public class OfflineBackup extends RemoteApiClient {
         String createdAt = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(comment.createdAt);
         String commentCsv = comment.getCommentId() + "," + comment.courseId + "," + comment.giverEmail + "," + 
                                 comment.recipientType + "," + comment.recipients.toString() + "," + comment.status + "," +
-                                comment.sendingState + "," + Arrays.toString(comment.showCommentTo.toArray()) + "," +
-                                Arrays.toString(comment.showGiverNameTo.toArray()) + "," + Arrays.toString(comment.showRecipientNameTo.toArray()) + "," +
+                                comment.sendingState + "," + formatList(comment.showCommentTo) + "," +
+                                formatList(comment.showGiverNameTo) + "," + formatList(comment.showRecipientNameTo) + "," +
                                 comment.commentText.getValue() + "," + createdAt + Const.EOL;
         FileHelper.appendToFile(commentCsvFile, commentCsv);
-    }
+    }   
     
-    private void retrieveAndSaveCourse(String id) {
-        Logic logic = new Logic();
-        String courseId = id.trim();
-        CourseAttributes course = logic.getCourse(courseId);
-        
-        if(course == null) {
-            return;
-        }
-        
-        String createdAt = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(course.createdAt);
-        String courseCsv = course.id + "," + course.name + "," + createdAt + "," + course.isArchived + Const.EOL;
-        FileHelper.appendToFile(courseCsvFile, courseCsv);
-    }
-    
-    private void retrieveAndSaveEvaluation(String id) {
-        Logic logic = new Logic();
-        String[] idTokens = id.split("\\|");
-        String courseId = idTokens[0].trim();
-        String evaluationName = idTokens[1].trim();
-        EvaluationAttributes evaluation = logic.getEvaluation(courseId, evaluationName);
-        
-        if(evaluation == null) {
-            System.out.println("Eval is: " + courseId + "|" + evaluationName + "|" + id + "|" + idTokens.length);
-            return;
-        }
-        
+    private void saveEvaluation(EvaluationAttributes evaluation) {
         String startTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(evaluation.startTime);
         String endTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(evaluation.endTime);
         String evaluationCsv = evaluation.getId() + "," + evaluation.courseId + "," + evaluation.name + "," + evaluation.instructions.getValue() + "," + startTime + 
@@ -238,18 +326,7 @@ public class OfflineBackup extends RemoteApiClient {
         FileHelper.appendToFile(evaluationCsvFile, evaluationCsv);
     }
     
-    private void retrieveAndSaveFeedbackQuestion(String id) {
-        FeedbackQuestionsDb feedbackQuestionDb = new FeedbackQuestionsDb();
-        String[] idTokens = id.split("/");
-        String feedbackSessionName = idTokens[0].trim();
-        String courseId = idTokens[1].trim();
-        int questionNumber = Integer.parseInt(idTokens[2].trim());
-        FeedbackQuestionAttributes feedbackQuestion = feedbackQuestionDb.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
-        
-        if(feedbackQuestion == null) {
-            return;
-        }
-        
+    private void saveFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion) {   
         String showResponsesTo = formatList(feedbackQuestion.showResponsesTo);
         String showGiverNameTo = formatList(feedbackQuestion.showGiverNameTo);
         String showRecipientNameTo = formatList(feedbackQuestion.showRecipientNameTo);
@@ -262,117 +339,60 @@ public class OfflineBackup extends RemoteApiClient {
         FileHelper.appendToFile(feedbackQuestionCsvFile, feedbackQuestionCsv);
     }
     
-    private void retrieveAndSaveFeedbackResponse(String id) {
-        FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
-        String[] idTokens = id.split("/");
-        String feedbackQuestionId = idTokens[0].trim();
-        String giverEmail = idTokens[1].split(":")[0].trim();
-        String receiverEmail = idTokens[1].split(":")[1].trim();
-        
-        FeedbackResponseAttributes feedbackResponse = feedbackResponsesDb.getFeedbackResponse(feedbackQuestionId, giverEmail, receiverEmail);
-        
-        if(feedbackResponse == null) {
-            return;
-        }
-        
+    private void saveFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
         String feedbackResponseCsv = feedbackResponse.getId() + "," + feedbackResponse.feedbackSessionName + "," + feedbackResponse.courseId + "," +
                                         feedbackResponse.feedbackQuestionId + "," + feedbackResponse.feedbackQuestionType + "," + feedbackResponse.giverEmail +
-                                        "," + feedbackResponse.recipientEmail + "," + feedbackResponse.responseMetaData.getValue() + Const.EOL;
+                                        "," + feedbackResponse.giverSection + "," + feedbackResponse.recipientEmail + "," + 
+                                        feedbackResponse.recipientSection + "," + feedbackResponse.responseMetaData.getValue() + Const.EOL;
         FileHelper.appendToFile(feedbackResponseCsvFile, feedbackResponseCsv);
     }
     
-    private void retrieveAndSaveFeedbackResponseComment(String id) throws ParseException {
-        FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
-        String[] idTokens = id.split("\\|");
-        String feedbackResponseId = idTokens[0].trim();
-        String giverEmail = idTokens[1].trim();
-        Date date = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").parse(idTokens[2].trim());
-        FeedbackResponseCommentAttributes feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseId, giverEmail, date);
-        
-        if(feedbackResponseComment == null) {
-            return;
-        }
-        
+    private void saveFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment) {
         String createdAt = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(feedbackResponseComment.createdAt);
         
         String feedbackResponseCommentCsv = feedbackResponseComment.getId() + "," + feedbackResponseComment.courseId + "," + feedbackResponseComment.feedbackSessionName +
                                                 "," + feedbackResponseComment.feedbackQuestionId + "," + feedbackResponseComment.giverEmail + "," + 
-                                                feedbackResponseComment.feedbackResponseId + "," + createdAt + "," +
+                                                feedbackResponseComment.giverSection + "," + feedbackResponseComment.receiverSection + "," + 
+                                                feedbackResponseComment.feedbackResponseId + "," + feedbackResponseComment.sendingState + "," + 
+                                                formatList(feedbackResponseComment.showCommentTo) + "," + formatList(feedbackResponseComment.showGiverNameTo) + "," + 
+                                                feedbackResponseComment.isVisibilityFollowingFeedbackQuestion + "," +createdAt + "," +
                                                 feedbackResponseComment.commentText.getValue() + Const.EOL;
         FileHelper.appendToFile(feedbackResponseCommentCsvFile, feedbackResponseCommentCsv);
     }
     
-    private void retrieveAndSaveFeedbackSession(String id) {
-        Logic logic = new Logic();
-        String[] idTokens = id.split("/");
-        String feedbackSessionName = idTokens[0].trim();
-        String courseId = idTokens[1].trim();
-        FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
-        
-        if(feedbackSession == null) {
-            return;
-        }
-        
+    private void saveFeedbackSession(FeedbackSessionAttributes feedbackSession) {
         String createdTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(feedbackSession.createdTime);
         String startTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(feedbackSession.startTime);
         String endTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(feedbackSession.endTime);
         String sessionVisibleFromTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(feedbackSession.sessionVisibleFromTime);
         String resultsVisibleFromTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(feedbackSession.resultsVisibleFromTime);
         
-        String feedbackSessionCsv = feedbackSessionName + "%" + courseId + "," + feedbackSessionName + "," + courseId + "," + feedbackSession.creatorEmail + "," +
-                                    feedbackSession.instructions.getValue() + "," + createdTime + "," + startTime + "," + endTime + "," + sessionVisibleFromTime + "," +
+        String feedbackSessionCsv = feedbackSession.feedbackSessionName + "%" + feedbackSession.courseId + "," + feedbackSession.feedbackSessionName + "," + 
+                                    feedbackSession.courseId + "," + feedbackSession.creatorEmail + "," + feedbackSession.instructions.getValue() + "," + 
+                                    createdTime + "," + startTime + "," + endTime + "," + sessionVisibleFromTime + "," +
                                     resultsVisibleFromTime + "," + feedbackSession.timeZone + "," + feedbackSession.gracePeriod + "," + feedbackSession.feedbackSessionType +
                                     "," + feedbackSession.sentOpenEmail + "," + feedbackSession.sentPublishedEmail + "," + feedbackSession.isOpeningEmailEnabled + "," +
-                                    feedbackSession.isClosingEmailEnabled + "," + feedbackSession.isPublishedEmailEnabled + Const.EOL;
+                                    feedbackSession.isClosingEmailEnabled + "," + feedbackSession.isPublishedEmailEnabled + "," + feedbackSession.respondingInstructorList + "," +
+                                    feedbackSession.respondingStudentList + Const.EOL;
         FileHelper.appendToFile(feedbackSessionCsvFile, feedbackSessionCsv);
     }
     
-    private void retrieveAndSaveInstructor(String id) {
-        Logic logic = new Logic();
-        String[] idTokens = id.split(",");
-        String courseId = idTokens[1].trim();
-        String email = idTokens[0].trim();
-        InstructorAttributes instructor = logic.getInstructorForEmail(courseId, email);
-        
-        if(instructor == null) {
-            return;
-        }
-        
-        String instructorCsv = instructor.getId() + "," + instructor.googleId + "," + instructor.name + "," + instructor.email + "," + instructor.courseId + 
-                                "," + instructor.key + Const.EOL;
+    private void saveInstructor(InstructorAttributes instructor) {
+        String instructorCsv = instructor.getId() + "," + instructor.googleId + "," + instructor.name + "," + instructor.email + "," + 
+                                instructor.courseId + "," + instructor.isArchived + "," + instructor.key + "," + instructor.role + "," + 
+                                instructor.isDisplayedToStudents + "," + instructor.displayedName + Const.EOL;
         FileHelper.appendToFile(InstructorCsvFile, instructorCsv);
     }
     
-    private void retrieveAndSaveStudent(String id) {
-        Logic logic = new Logic();
-        String[] idTokens = id.split("/");
-        String courseId = idTokens[0].trim();
-        String email = idTokens[1].trim();
-        StudentAttributes student = logic.getStudentForEmail(courseId, email);
-        
-        if(student == null) {
-            return;
-        }
-        
+    private void saveStudent(StudentAttributes student) {
         Long key = KeyFactory.stringToKey(student.key).getId();
-        String studentCsv = key + "," + student.googleId + "," + student.name + "," + student.email + "," + student.course + "," + student.comments + 
-                                "," + student.team + Const.EOL;
+        String studentCsv = key + "," + student.googleId + "," + student.name + "," + student.lastName + "," + student.email + "," + 
+                            student.course + "," + student.comments + "," + student.team + "," + student.section + "," + 
+                            student.updateStatus + Const.EOL;
         FileHelper.appendToFile(studentCsvFile, studentCsv);
     }
     
-    private void retrieveAndSaveSubmission(String id) {
-        SubmissionsDb submissionsDb = new SubmissionsDb();
-        String[] idTokens = id.split("[/|]");
-        String courseId = idTokens[0].trim();
-        String evaluationName = idTokens[1].trim();
-        String toStudent = idTokens[2].split("to:")[1].trim();
-        String fromStudent = idTokens[3].split("from:")[1].trim();
-        SubmissionAttributes submission = submissionsDb.getSubmission(courseId, evaluationName, toStudent, fromStudent);
-        
-        if(submission == null) {
-            return;
-        }
-        
+    private void saveSubmission(SubmissionAttributes submission) {
         String submissionCsv = submission.getId() + "," + submission.course + "," + submission.evaluation + "," + submission.team + "," + submission.reviewer + "," 
                                 + submission.reviewee + "," + submission.points + "," + submission.justification.getValue() + "," + 
                                 submission.p2pFeedback.getValue() + Const.EOL;
