@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
+import javax.jdo.JDOUserException;
 import javax.jdo.Query;
 
 import teammates.common.datatransfer.EntityAttributes;
@@ -454,7 +455,11 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList) {
-            fraList.add(new FeedbackResponseAttributes(fr));
+            try {
+                fraList.add(new FeedbackResponseAttributes(fr));
+            } catch (JDOUserException jdoException) {
+                log.info("Skip counting of respondent for deleted response: " + jdoException.getMessage());
+            }
         }
 
         return fraList;
