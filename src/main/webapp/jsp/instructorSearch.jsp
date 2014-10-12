@@ -1,3 +1,5 @@
+<%@page import="java.util.Map.Entry"%>
+<%@page import="java.util.Iterator"%>
 <%@page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -149,8 +151,11 @@
                 <%
                     int fsIndx = 0;
                     Set<String> emailList = data.feedbackResponseCommentSearchResultBundle.instructorEmails;
-                  
-                    for (String fsName : data.feedbackResponseCommentSearchResultBundle.questions.keySet()) {
+                    
+                    Iterator iter = data.feedbackResponseCommentSearchResultBundle.questions.entrySet().iterator();
+                    while(iter.hasNext()) {
+                        Entry entry = (Entry) iter.next();
+                        String fsName = (String) entry.getKey();
                         List<FeedbackQuestionAttributes> questionList = data.feedbackResponseCommentSearchResultBundle.questions.get(fsName);
                         for(int i = questionList.size() - 1; i >= 0; i--) {
                                 FeedbackQuestionAttributes question = questionList.get(i);
@@ -192,7 +197,7 @@
                                 }
                             }
                         if(questionList.size() == 0){
-                            data.feedbackResponseCommentSearchResultBundle.questions.remove(fsName);
+                            iter.remove();
                         }
                     }
 

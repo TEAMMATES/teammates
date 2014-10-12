@@ -10,7 +10,7 @@
 %>
 
 <div class="well well-plain padding-0">
-    <div class="form-horizontal">
+    <form class="form-horizontal" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
         <div class="panel-heading">
           <div class="row">
           <div class="col-sm-4">
@@ -50,76 +50,27 @@
               </div>
           </div>
           <div class="col-sm-2">
-              
-              <div class="form-group">
-                  <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
-                  <div id="feedbackDataButtons">
-                      <input id="button_download" type="submit" class="btn btn-primary"
-                          name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
-                          value="Download results">
-                  </div>
-                  <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-                  <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>">
-                  <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">
-                  <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="<%=data.selectedSection%>">
-                  
-                  </form>
+              <div id="feedbackDataButtons">
+                  <input id="button_download" type="submit" class="btn btn-primary pull-right"
+                      name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
+                      value="Download results">
               </div>
-              
+              <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+              <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>">
+              <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">
+              <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="<%=data.selectedSection%>">
           </div>
         </div>
-
-            <div class="row">
-                <span class="help-block align-center">
-
-                    Non-English characters not displayed properly in the
-                    downloaded file?<span class="btn-link"
-                    data-toggle="modal"
-                    data-target="#fsResultsTableWindow"> click here </span>
-            </div>
-
         </div>
-      </div>
+      </form>
     
 </div>
 
-<div class="modal fade" id="fsResultsTableWindow">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                 <span class="help-block" style="display:inline;"> Tips: After
-                    Selecting the table, <kbd>Ctrl + C</kbd> to COPY and
-                    <kbd>Ctrl + V</kbd> to PASTE to your Excel Workbook.
-                </span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-default"
-                    data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary"
-                    onclick="selectElementContents( document.getElementById('fsModalTable') );">
-                    Select Table</button>
-            </div>
-            <div class="modal-body">
-            <div class="table-responsive">
-            <small id="fsModalTable">
-                <%=data.sessionResultsHtmlTableAsString%>
-            </small>
-            </div>
-            </div>
-            <div class="modal-footer">
-               
-            </div>
-        </div>
-    </div>
-</div>
-
 <%
-	if (noResponses == false || !data.selectedSection.equals("All")
-			|| !showAll) {
+    if (noResponses == false || !data.selectedSection.equals("All") || !showAll) {
 %>
 
-<form class="form-horizontal" role="form" method="post" action="<%=data.getInstructorFeedbackSessionResultsLink(
-						data.bundle.feedbackSession.courseId,
-						data.bundle.feedbackSession.feedbackSessionName)%>">
+<form class="form-horizontal" role="form" method="post" action="<%=data.getInstructorFeedbackSessionResultsLink(data.bundle.feedbackSession.courseId,data.bundle.feedbackSession.feedbackSessionName)%>">
     <div class="panel panel-info margin-0">
         <div class="panel-body">
             <div class="row">
@@ -130,8 +81,7 @@
                         </label>
                         <div class="col-sm-10">
                             <select id="viewSelect" class="form-control" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" onchange="this.form.submit()">
-                                <option value="question" <%=(data.sortType != null) ? data.sortType
-						.equals("question") ? "selected=\"selected\"" : "" : ""%>>
+                                <option value="question" <%=(data.sortType!=null) ? data.sortType.equals("question") ? "selected=\"selected\"" : "" : ""%>>
                                     Group by - Question
                                 </option>
                                 <option value="giver-recipient-question" <%=(data.sortType!=null) ? data.sortType.equals("giver-recipient-question") ? "selected=\"selected\"" : "" : ""%>>

@@ -7,6 +7,7 @@ import static org.testng.AssertJUnit.fail;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
@@ -259,15 +260,21 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement photoCell = browser.driver.findElement(By.id(idOfPanelBody))
                                              .findElements(By.cssSelector(".profile-pic-icon-click"))
                                              .get(0);
-        WebElement photoLink = photoCell.findElement(By.tagName("a"));
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("document.getElementById('" + idOfPanelBody + "')"
+                + ".getElementsByClassName('profile-pic-icon-click')[0]"
+                + ".getElementsByTagName('a')[0].click();");
         Actions actions = new Actions(browser.driver);
         
-        actions.click(photoLink).build().perform();
+        actions.moveToElement(photoCell).build().perform();
         waitForElementToAppear(By.cssSelector(".popover-content > img"));
         
         AssertHelper.assertContainsRegex(urlRegex, 
-                browser.driver.findElement(By.cssSelector(".popover-content > img"))
+                browser.driver.findElements(By.cssSelector(".popover-content > img"))
+                              .get(browser.driver.findElements(By.cssSelector(".popover-content > img")).size() - 1)
                               .getAttribute("src"));
+        
+        actions.moveByOffset(100, 100).click().build().perform();
     }
 
     public void hoverClickAndViewStudentPhotoOnHeading(int panelHeadingIndex, String urlRegex) throws Exception {
@@ -275,17 +282,21 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement photoDiv = browser.driver.findElement(By.id(idOfPanelHeading))
                                             .findElement(By.className("profile-pic-icon-hover"));
         Actions actions = new Actions(browser.driver);
-        actions.moveToElement(photoDiv).build().perform();        
+        actions.moveToElement(photoDiv).build().perform();      
         waitForElementToAppear(By.cssSelector(".popover-content"));
-
-        WebElement photoLink = browser.driver.findElement(By.cssSelector(".popover-content > a"));
-        actions.click(photoLink).build().perform();
+        
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("document.getElementsByClassName('popover-content')[0]"
+                + ".getElementsByTagName('a')[0].click();");
         
         waitForElementToAppear(By.cssSelector(".popover-content > img"));
         
         AssertHelper.assertContainsRegex(urlRegex, 
-                browser.driver.findElement(By.cssSelector(".popover-content > img"))
+                browser.driver.findElements(By.cssSelector(".popover-content > img"))
+                              .get(0)
                               .getAttribute("src"));
+        
+        jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild(document.getElementsByClassName('popover')[0])");
     }
 
     public void hoverAndViewStudentPhotoOnBody(int panelBodyIndex, String urlRegex) throws Exception {
@@ -301,7 +312,16 @@ public class InstructorFeedbackResultsPage extends AppPage {
         ThreadHelper.waitFor(500);
         
         AssertHelper.assertContainsRegex(urlRegex, 
-                browser.driver.findElement(By.cssSelector(".popover-content > img"))
+                browser.driver.findElements(By.cssSelector(".popover-content > img"))
+                              .get(0)
                               .getAttribute("src"));
+        
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild(document.getElementsByClassName('popover')[0])");
+    }
+
+    public void removeNavBar() {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("document.getElementsByClassName('navbar-fixed-top')[0].parentNode.removeChild(document.getElementsByClassName('navbar-fixed-top')[0])");
     }
 }

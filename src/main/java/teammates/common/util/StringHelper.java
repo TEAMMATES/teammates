@@ -1,7 +1,6 @@
 package teammates.common.util;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -312,100 +311,5 @@ public class StringHelper {
         }
         return textSetTemp;
     }
-    
-    /**
-     * Convert a csv string to a html table string for displaying
-     * @param str
-     * @return html table string
-     */
-    public static String csvToHtmlTable(String str) {
-        str = handleNewLine(str);
-        String[] lines = str.split(Const.EOL);
-
-        StringBuilder result = new StringBuilder();
-
-        for (int i = 0; i < lines.length; i++) {
-            
-            List<String> rowData = getTableData(lines[i]);
-            
-            if(checkIfEmptyRow(rowData)){
-                continue;
-            }
-            
-            result.append("<tr>");
-            for (String td : rowData) {
-                result.append(String.format("<td>%s</td>\n", td));
-            }
-            result.append("</tr>");
-        }
-
-        return String.format("<table class=\"table table-bordered table-striped table-condensed\">\n%s</table>",
-                             result.toString());
-    }
-
-    private static String handleNewLine(String str) {
-
-        StringBuilder buffer = new StringBuilder();
-        char[] chars = str.toCharArray();
-
-        boolean inquote = false;
-
-        for (int i = 0; i < chars.length; i++) {
-            if (chars[i] == '"') {
-                inquote = !inquote;
-            }
-
-            if (chars[i] == '\n' && inquote) {
-                buffer.append("<br>");
-            } else {
-                buffer.append(chars[i]);
-            }
-        }
-
-        return buffer.toString();
-    }
-
-    private static List<String> getTableData(String str){
-        List<String> data = new ArrayList<String>();
-        
-        boolean inquote = false;
-        StringBuilder buffer = new StringBuilder();
-        char[] chars = str.toCharArray();
-        
-        for (int i = 0; i < chars.length; i++) {
-            if (chars[i] == '"') {
-                inquote = !inquote;
-                continue;
-            }
-            
-            if(chars[i] == ','){    
-                if(inquote){
-                    buffer.append(chars[i]);                   
-                } else {
-                    data.add(buffer.toString());
-                    buffer.delete(0, buffer.length());
-                }
-            } else {
-                buffer.append(chars[i]);             
-            }
-            
-        }
-        
-        data.add(buffer.toString().trim());
-        
-        return data;
-    }
-    
-    private static boolean checkIfEmptyRow(List<String> rowData){
-           
-        for(String td : rowData){
-            if(!td.isEmpty()){
-                return false;
-            }
-        }
-        
-        return true;
-    }
-    
     
 }
