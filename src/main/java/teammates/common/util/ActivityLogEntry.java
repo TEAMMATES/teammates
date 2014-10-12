@@ -157,7 +157,13 @@ public class ActivityLogEntry {
             googleId = "Unregistered";
             email = student.email;          
         } else {
-            role = "Unknown";
+            
+            //this is a shallow fix for logging redirected student to join authenticated action
+            if(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED.toLowerCase().contains(servletName.toLowerCase())){
+                role = "Unregistered";
+            } else {
+                role = "Unknown";
+            }
             name = "Unknown";
             googleId = "Unknown";
             email = "Unknown";
@@ -238,7 +244,7 @@ public class ActivityLogEntry {
         if(url.contains("/student")){
             if(googleId.contentEquals("Unregistered")){
                 return "[" + name +
-                        " (Unregistered Student) " + 
+                        " (Unregistered User) " + 
                         " <a href=\"mailto:"+email+"\" target=\"_blank\">" + email +"</a>]" ;
             }     
             return "[" + name +
