@@ -177,8 +177,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
             if (isDirectedAtUser || isDirectedAtUserTeam || isDirectedAtGeneral) {
                 numResponses++;
                 double answer = ((FeedbackNumericalScaleResponseDetails)response.getResponseDetails()).getAnswer();
-                min = (answer < min) ? answer : min;
-                max = (answer > max) ? answer : max;
+                min = Math.min(answer, min);
+                max = Math.max(answer, max);
                 total += answer;
             }
         }
@@ -195,7 +195,13 @@ public class FeedbackNumericalScaleQuestionDetails extends
         df.setMaximumFractionDigits(5);
         df.setRoundingMode(RoundingMode.DOWN);
         
-        String statsTitle = isDirectedAtGeneral? "Response Summary" : "Summary of responses received by you"; 
+        String statsTitle = "Summary of responses received by you";
+        if (isDirectedAtGeneral) {
+            statsTitle = "Response Summary";
+        } else if (question.recipientType.equals(FeedbackParticipantType.TEAMS) 
+                || question.recipientType.equals(FeedbackParticipantType.OWN_TEAM)) {
+            statsTitle = "Summary of responses received by your team";
+        }
         
         html = FeedbackQuestionFormTemplates.populateTemplate(
                         FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS,
@@ -225,8 +231,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
         for(FeedbackResponseAttributes response : responses){
             numResponses++;
             double answer = ((FeedbackNumericalScaleResponseDetails)response.getResponseDetails()).getAnswer();
-            min = (answer < min) ? answer : min;
-            max = (answer > max) ? answer : max;
+            min = Math.min(answer, min);
+            max = Math.max(answer, max);
             total += answer;
         }
         
