@@ -35,7 +35,7 @@ public class EntityModifiedLogsServlet extends AutomatedRemindersServlet {
 
             long endTime = (new java.util.Date()).getTime();
             // Sets the range to 6 minutes to slightly overlap the 5 minute scheduled task timer
-            long queryRange = 1000 * 60 * 6;
+            long queryRange = 1000 * 60 * 60;
             long startTime = endTime - queryRange;
 
             LogQuery q = LogQuery.Builder.withDefaults().includeAppLogs(true)
@@ -49,12 +49,11 @@ public class EntityModifiedLogsServlet extends AutomatedRemindersServlet {
                 for (int i = 0; i < logList.size(); i++) {
                     AppLogLine currentLog = logList.get(i);
                     String logMessage = currentLog.getLogMessage();
-                    if(logMessage.contains("Recently modified course::")) {
+                    if(logMessage.contains("modified course::")) {
                         String tokens[] = logMessage.split("::");
                         String courseId = tokens[1];
                       
                         writer.println(courseId);
-
                     }
                 }
             }

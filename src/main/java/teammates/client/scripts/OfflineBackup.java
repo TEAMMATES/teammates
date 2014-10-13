@@ -6,11 +6,14 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
+
+import org.mortbay.log.Log;
 
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -82,7 +85,6 @@ public class OfflineBackup extends RemoteApiClient {
                     myURLConnection.getInputStream()));
             String logMessage;
             while ((logMessage = in.readLine()) != null) {
-                //System.out.println(logMessage);
                 modifiedLogs.add(logMessage);
             }
             in.close();
@@ -105,9 +107,12 @@ public class OfflineBackup extends RemoteApiClient {
         //Extracts the course Ids to be backup from the logs
         Set<String> courses = new HashSet<String>();
         for(String course : modifiedLogs) {
-            courses.add(course);
+            course = course.trim();
+            if(!course.equals("")) {
+                courses.add(course);
+            }
+            
         }
-        
         return courses;
     }
     
@@ -118,6 +123,7 @@ public class OfflineBackup extends RemoteApiClient {
     private void retrieveEntitiesByCourse(Set<String> coursesList) {
 
         Iterator<String> it = coursesList.iterator();
+      
         while(it.hasNext()) {
             String courseId = it.next();
             retrieveAndSaveAccountsByCourse(courseId);
@@ -142,13 +148,13 @@ public class OfflineBackup extends RemoteApiClient {
             Logic logic = new Logic();
             List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
             List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-            
-            for(EntityAttributes student : students) {
-                saveAccount(student);
+
+            for(StudentAttributes student : students) {
+                saveStudentAccount(student);
             }
             
-            for(EntityAttributes instructor : instructors) {
-                saveAccount(instructor);
+            for(InstructorAttributes instructor : instructors) {
+                saveInstructorAccount(instructor);
             } 
             
         } catch (EntityDoesNotExistException entityException) {
@@ -285,25 +291,27 @@ public class OfflineBackup extends RemoteApiClient {
         }
     }
     
-    private void saveAccount(EntityAttributes entity) {
-        if(entity == null) {
+    private void saveStudentAccount(StudentAttributes student) {
+        Logic logic = new Logic();
+        AccountAttributes account = logic.getAccount(student.googleId.trim());
+        
+        if(account == null) {
             return;
         }
         
-        String type = entity.getEntityTypeAsString();
-        String googleId = "";
-        
-        if(type.equals("Student")) {
-            StudentAttributes student = (StudentAttributes)entity;
-            googleId = student.googleId;
-        } else if(type.equals("Instructor")) {
-            InstructorAttributes instructor = (InstructorAttributes)entity;
-            googleId = instructor.googleId;
-        }
-        
+        String createdAt = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(account.createdAt);
+        String accountCsv = account.googleId + "," + account.name + "," + account.isInstructor + "," 
+                                + account.email + "," + account.institute + "," + createdAt + Const.EOL;
+        FileHelper.appendToFile(accountCsvFile, accountCsv);
+    }
+    
+    private void saveInstructorAccount(InstructorAttributes instructor) {
         Logic logic = new Logic();
-        googleId = googleId.trim();
-        AccountAttributes account = logic.getAccount(googleId);
+        AccountAttributes account = logic.getAccount(instructor.googleId.trim());
+        
+        if(account == null) {
+            return;
+        }
         
         String createdAt = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(account.createdAt);
         String accountCsv = account.googleId + "," + account.name + "," + account.isInstructor + "," 
