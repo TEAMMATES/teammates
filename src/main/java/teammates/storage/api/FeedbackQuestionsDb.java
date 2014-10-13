@@ -177,6 +177,7 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         fq.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
         fq.setNumberOfEntitiesToGiveFeedbackTo(newAttributes.numberOfEntitiesToGiveFeedbackTo);
         
+        log.info(newAttributes.getBackupIdentifier());
         getPM().close();
         
     }

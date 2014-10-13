@@ -540,6 +540,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         fr.setGiverSection(newAttributes.giverSection);
         fr.setRecipientSection(newAttributes.recipientSection);
                 
+        log.info(newAttributes.getBackupIdentifier());
         getPM().close();
     }
     

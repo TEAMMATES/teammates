@@ -174,6 +174,7 @@ public class SubmissionsDb extends EntitiesDb {
         submission.setJustification(newSubmissionAttributes.justification);
         submission.setCommentsToStudent(newSubmissionAttributes.p2pFeedback);
 
+        log.info(newSubmissionAttributes.getBackupIdentifier());
         // closing PM because otherwise the data is not updated during dev server testing
         getPM().close();
 
@@ -233,8 +234,9 @@ public class SubmissionsDb extends EntitiesDb {
             }
         }
         
+        log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
         //TODO: We need to update feedback submissions too.
-    
+        
         getPM().close();
     }
 

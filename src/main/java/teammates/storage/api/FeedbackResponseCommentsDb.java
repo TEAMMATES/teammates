@@ -315,6 +315,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         frc.setShowGiverNameTo(newAttributes.showGiverNameTo);
         frc.setIsVisibilityFollowingFeedbackQuestion(Boolean.valueOf(false));
         
+        log.info(newAttributes.getBackupIdentifier());
         getPM().close();
         
         FeedbackResponseCommentAttributes updatedComment = new FeedbackResponseCommentAttributes(frc);
@@ -340,6 +341,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             responseComment.setGiverEmail(updatedEmail);
         }
         
+        log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
         getPM().close();
     }
     
@@ -374,6 +376,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             frComment.setSendingState(newState);
         }
         
+        log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
         getPM().close();
     }
     

@@ -243,6 +243,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         fs.setSendClosingEmail(newAttributes.isClosingEmailEnabled);
         fs.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled);
                 
+        log.info(newAttributes.getBackupIdentifier());
         getPM().close();
     }
 
@@ -271,7 +272,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
         }
 
         fs.getRespondingInstructorList().addAll(emails);
-
+        
+        log.info(feedbackSession.getBackupIdentifier());
         getPM().close();
     }
 
@@ -298,6 +300,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
             fs.getRespondingInstructorList().add(newEmail);
         }
        
+        log.info(feedbackSession.getBackupIdentifier());
         getPM().close();
     }
 
@@ -319,6 +322,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         fs.getRespondingInstructorList().clear();
 
+        log.info(feedbackSession.getBackupIdentifier());
         getPM().close();
     }
 
@@ -348,6 +352,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         fs.getRespondingInstructorList().remove(email);
 
+        log.info(feedbackSession.getBackupIdentifier());
         getPM().close();
     }
 
@@ -370,6 +375,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         fs.getRespondingStudentList().addAll(emails);
 
+        log.info(feedbackSession.getBackupIdentifier());
         getPM().close();
     }
 
@@ -396,6 +402,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
             fs.getRespondingStudentList().add(newEmail);
         }
         
+        log.info(feedbackSession.getBackupIdentifier());
         getPM().close();
     }
 
@@ -417,6 +424,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         fs.getRespondingStudentList().clear();
 
+        log.info(feedbackSession.getBackupIdentifier());
         getPM().close();
     }
 
@@ -440,6 +448,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         
         fs.getRespondingStudentList().remove(email);
 
+        log.info(feedbackSession.getBackupIdentifier());
         getPM().close();
     }
     
