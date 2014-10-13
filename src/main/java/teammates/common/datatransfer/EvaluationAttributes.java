@@ -263,7 +263,7 @@ public class EvaluationAttributes extends EntityAttributes implements SessionAtt
 
     @Override
     public String getBackupIdentifier() {
-        return "Course::" + courseId + "::is recently modified.";
+        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
     }
     
     public boolean isSimilar(EvaluationAttributes e) {

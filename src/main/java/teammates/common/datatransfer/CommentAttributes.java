@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.FieldValidator.FieldType;
@@ -176,7 +177,7 @@ public class CommentAttributes extends EntityAttributes
 
     @Override
     public String getBackupIdentifier() {
-        return "Course::" + courseId + "::is recently modified.";
+        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
     }
     
     @Override

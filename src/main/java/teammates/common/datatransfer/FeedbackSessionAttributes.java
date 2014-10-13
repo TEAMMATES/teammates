@@ -140,7 +140,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     
     @Override
     public String getBackupIdentifier() {
-        return "Course::" + courseId + "::is recently modified.";
+        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
     }
     
     @Override

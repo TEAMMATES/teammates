@@ -70,6 +70,8 @@ public class Const {
         public static final List<String> LEGACY_PAGES_WITH_REDUCED_SECURITY = Arrays.asList(
                 ActionURIs.STUDENT_COURSE_JOIN
         );
+        
+        public static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
     }
 
     /* Text displayed to the user when the mouse hover over certain elements in

@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
@@ -157,7 +158,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
 
     @Override
     public String getBackupIdentifier() {
-        return "Course::" + courseId + "::is recently modified.";
+        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
     }
     
     @Override

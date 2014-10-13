@@ -247,6 +247,7 @@ public class CommentsDb extends EntitiesDb{
             comment.setSendingState(newState);
         }
         
+        log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
         getPM().close();
     }
 
@@ -294,7 +295,7 @@ public class CommentsDb extends EntitiesDb{
         getPM().close();
         
         CommentAttributes updatedComment = new CommentAttributes(comment);
-        
+        log.info(updatedComment.getBackupIdentifier());
         return updatedComment;
     }
     
@@ -319,6 +320,7 @@ public class CommentsDb extends EntitiesDb{
             giverComment.setGiverEmail(updatedInstrEmail);
         }
         
+        log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
         getPM().close();
     }
     
@@ -332,6 +334,7 @@ public class CommentsDb extends EntitiesDb{
             recipientComment.setGiverEmail(updatedInstrEmail);
         }
         
+        log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
         getPM().close();
     }
     
@@ -356,6 +359,7 @@ public class CommentsDb extends EntitiesDb{
             recipientComment.getRecipients().add(updatedStudentEmail);
         }
         
+        log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
         getPM().close();
     }
     

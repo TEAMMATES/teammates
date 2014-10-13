@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
@@ -218,7 +219,7 @@ public class SubmissionAttributes extends EntityAttributes {
     
     @Override
     public String getBackupIdentifier() {
-        return "Course::" + course + "::is recently modified.";
+        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + course;
     }
     
     @Override

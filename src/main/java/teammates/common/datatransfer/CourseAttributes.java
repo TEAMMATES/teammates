@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.FieldValidator.FieldType;
@@ -84,7 +85,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
 
     @Override
     public String getBackupIdentifier() {
-        return "Course::" + id + "::is recently modified.";
+        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + id;
     }
     
     @Override

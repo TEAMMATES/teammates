@@ -286,6 +286,10 @@ public class OfflineBackup extends RemoteApiClient {
     }
     
     private void saveAccount(EntityAttributes entity) {
+        if(entity == null) {
+            return;
+        }
+        
         String type = entity.getEntityTypeAsString();
         String googleId = "";
         
@@ -308,6 +312,10 @@ public class OfflineBackup extends RemoteApiClient {
     }
     
     private void saveComment(CommentAttributes comment) {
+        if(comment == null) {
+            return;
+        }
+        
         String createdAt = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(comment.createdAt);
         String commentCsv = comment.getCommentId() + "," + comment.courseId + "," + comment.giverEmail + "," + 
                                 comment.recipientType + "," + comment.recipients.toString() + "," + comment.status + "," +
@@ -318,6 +326,10 @@ public class OfflineBackup extends RemoteApiClient {
     }   
     
     private void saveEvaluation(EvaluationAttributes evaluation) {
+        if(evaluation == null) {
+            return;
+        }
+        
         String startTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(evaluation.startTime);
         String endTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(evaluation.endTime);
         String evaluationCsv = evaluation.getId() + "," + evaluation.courseId + "," + evaluation.name + "," + evaluation.instructions.getValue() + "," + startTime + 
@@ -327,6 +339,10 @@ public class OfflineBackup extends RemoteApiClient {
     }
     
     private void saveFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion) {   
+        if(feedbackQuestion == null) {
+            return;
+        }
+        
         String showResponsesTo = formatList(feedbackQuestion.showResponsesTo);
         String showGiverNameTo = formatList(feedbackQuestion.showGiverNameTo);
         String showRecipientNameTo = formatList(feedbackQuestion.showRecipientNameTo);
@@ -340,6 +356,10 @@ public class OfflineBackup extends RemoteApiClient {
     }
     
     private void saveFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
+        if(feedbackResponse == null) {
+            return;
+        }
+        
         String feedbackResponseCsv = feedbackResponse.getId() + "," + feedbackResponse.feedbackSessionName + "," + feedbackResponse.courseId + "," +
                                         feedbackResponse.feedbackQuestionId + "," + feedbackResponse.feedbackQuestionType + "," + feedbackResponse.giverEmail +
                                         "," + feedbackResponse.giverSection + "," + feedbackResponse.recipientEmail + "," + 
@@ -348,6 +368,10 @@ public class OfflineBackup extends RemoteApiClient {
     }
     
     private void saveFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment) {
+        if(feedbackResponseComment == null) {
+            return;
+        }
+        
         String createdAt = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(feedbackResponseComment.createdAt);
         
         String feedbackResponseCommentCsv = feedbackResponseComment.getId() + "," + feedbackResponseComment.courseId + "," + feedbackResponseComment.feedbackSessionName +
@@ -361,6 +385,10 @@ public class OfflineBackup extends RemoteApiClient {
     }
     
     private void saveFeedbackSession(FeedbackSessionAttributes feedbackSession) {
+        if(feedbackSession == null) {
+            return;
+        }
+        
         String createdTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(feedbackSession.createdTime);
         String startTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(feedbackSession.startTime);
         String endTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(feedbackSession.endTime);
@@ -378,6 +406,10 @@ public class OfflineBackup extends RemoteApiClient {
     }
     
     private void saveInstructor(InstructorAttributes instructor) {
+        if(instructor == null) {
+            return;
+        }
+        
         String instructorCsv = instructor.getId() + "," + instructor.googleId + "," + instructor.name + "," + instructor.email + "," + 
                                 instructor.courseId + "," + instructor.isArchived + "," + instructor.key + "," + instructor.role + "," + 
                                 instructor.isDisplayedToStudents + "," + instructor.displayedName + Const.EOL;
@@ -385,6 +417,10 @@ public class OfflineBackup extends RemoteApiClient {
     }
     
     private void saveStudent(StudentAttributes student) {
+        if(student == null) {
+            return;
+        }
+        
         Long key = KeyFactory.stringToKey(student.key).getId();
         String studentCsv = key + "," + student.googleId + "," + student.name + "," + student.lastName + "," + student.email + "," + 
                             student.course + "," + student.comments + "," + student.team + "," + student.section + "," + 
@@ -393,6 +429,10 @@ public class OfflineBackup extends RemoteApiClient {
     }
     
     private void saveSubmission(SubmissionAttributes submission) {
+        if(submission == null) {
+            return;
+        }
+        
         String submissionCsv = submission.getId() + "," + submission.course + "," + submission.evaluation + "," + submission.team + "," + submission.reviewer + "," 
                                 + submission.reviewee + "," + submission.points + "," + submission.justification.getValue() + "," + 
                                 submission.p2pFeedback.getValue() + Const.EOL;

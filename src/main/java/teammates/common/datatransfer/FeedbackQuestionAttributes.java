@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
@@ -124,7 +125,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
     
     @Override
     public String getBackupIdentifier() {
-        return "Course::" + courseId + "::is recently modified.";
+        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
     }
     
     public List<String> getInvalidityInfo() {

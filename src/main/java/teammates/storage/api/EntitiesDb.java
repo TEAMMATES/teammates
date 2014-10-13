@@ -210,6 +210,7 @@ public abstract class EntitiesDb {
                         + entityToDelete.getIdentificationString());
             }
         }
+        log.info(entityToDelete.getBackupIdentifier());
     }
     
     public void deleteEntities(Collection<? extends EntityAttributes> entitiesToDelete) {
@@ -220,6 +221,7 @@ public abstract class EntitiesDb {
             Object entity = getEntity(entityToDelete);
             if (entity != null) {
                 entities.add(entity);
+                log.info(entityToDelete.getBackupIdentifier());
             }
         }
         
