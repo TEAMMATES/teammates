@@ -13,6 +13,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Utils;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Url;
 import teammates.storage.entity.Student;
@@ -286,6 +287,11 @@ public class StudentAttributes extends EntityAttributes {
     @Override
     public String getBackupIdentifier() {
         return Const.SystemParams.COURSE_BACKUP_LOG_MSG + course;
+    }
+    
+    @Override
+    public String getJsonString() {
+        return Utils.getTeammatesGson().toJson(this, StudentAttributes.class);
     }
     
     @Override

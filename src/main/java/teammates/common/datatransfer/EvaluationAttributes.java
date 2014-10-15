@@ -266,6 +266,11 @@ public class EvaluationAttributes extends EntityAttributes implements SessionAtt
         return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
     }
     
+    @Override
+    public String getJsonString() {
+        return Utils.getTeammatesGson().toJson(this, EvaluationAttributes.class);
+    }
+    
     public boolean isSimilar(EvaluationAttributes e) {
         if(e==null){
             return false;

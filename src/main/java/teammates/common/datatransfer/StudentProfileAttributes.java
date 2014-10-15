@@ -124,6 +124,11 @@ public class StudentProfileAttributes extends EntityAttributes {
     }
     
     @Override
+    public String getJsonString() {
+        return Utils.getTeammatesGson().toJson(this, StudentProfileAttributes.class);
+    }
+    
+    @Override
     public void sanitizeForSaving() {
         this.googleId = Sanitizer.sanitizeGoogleId(this.googleId);
         this.shortName = Sanitizer.sanitizeForHtml(this.shortName);

@@ -223,6 +223,11 @@ public class SubmissionAttributes extends EntityAttributes {
     }
     
     @Override
+    public String getJsonString() {
+        return Utils.getTeammatesGson().toJson(this, SubmissionAttributes.class);
+    }
+    
+    @Override
     public void sanitizeForSaving() {
         this.course = Sanitizer.sanitizeForHtml(course); //TODO: rename to courseId 
         this.evaluation = Sanitizer.sanitizeForHtml(evaluation); //TODO: rename to evaluationName 

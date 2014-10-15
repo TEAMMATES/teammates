@@ -144,6 +144,11 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     }
     
     @Override
+    public String getJsonString() {
+        return Utils.getTeammatesGson().toJson(this, FeedbackSessionAttributes.class);
+    }
+    
+    @Override
     public List<String> getInvalidityInfo() {
         
         FieldValidator validator = new FieldValidator();

@@ -5,23 +5,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
-import org.mortbay.log.Log;
-
-import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.repackaged.com.google.api.client.util.Charsets;
+import com.google.gson.Gson;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.EntityAttributes;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -31,7 +29,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.Const;
+import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -43,18 +41,9 @@ import teammates.test.driver.TestProperties;
 import teammates.test.util.FileHelper;
 
 public class OfflineBackup extends RemoteApiClient {
-    
-    private final String accountCsvFile = "account.csv";
-    private final String commentCsvFile = "comment.csv";
-    private final String courseCsvFile = "course.csv";
-    private final String evaluationCsvFile = "evaluation.csv";
-    private final String feedbackQuestionCsvFile = "feedbackQuestion.csv";
-    private final String feedbackResponseCsvFile = "feedbackResponse.csv";
-    private final String feedbackResponseCommentCsvFile = "feedbackResponseComment.csv";
-    private final String feedbackSessionCsvFile = "feedbackSession.csv";
-    private final String InstructorCsvFile = "instructor.csv";
-    private final String studentCsvFile = "student.csv";
-    private final String submissionCsvFile = "submission.csv";
+    private final String jsonFile = "json.json";
+
+    private boolean hasPreviousEntity = false;
     
     public static void main(String[] args) throws IOException {
         OfflineBackup offlineBackup = new OfflineBackup();
@@ -64,9 +53,13 @@ public class OfflineBackup extends RemoteApiClient {
     protected void doOperation() {
         Datastore.initialize();
         Vector<String> logs = getModifiedLogs();
-        setupCsvFiles();
         Set<String> courses = extractModifiedCourseIds(logs);
         retrieveEntitiesByCourse(courses);
+        Gson gson = Utils.getTeammatesGson();
+        
+        String jsonString = FileHelper.readFile(jsonFile, Charsets.UTF_8);
+        DataBundle data = gson.fromJson(jsonString, DataBundle.class);
+      
     }
     
     /**
@@ -123,7 +116,7 @@ public class OfflineBackup extends RemoteApiClient {
     private void retrieveEntitiesByCourse(Set<String> coursesList) {
 
         Iterator<String> it = coursesList.iterator();
-      
+        FileHelper.appendToFile(jsonFile, "{\n");
         while(it.hasNext()) {
             String courseId = it.next();
             retrieveAndSaveAccountsByCourse(courseId);
@@ -138,18 +131,23 @@ public class OfflineBackup extends RemoteApiClient {
             retrieveAndSaveStudentsByCourse(courseId);
             retrieveAndSaveSubmissionsByCourse(courseId);
         }
+        FileHelper.appendToFile(jsonFile, "\n}");        
     }
     
     /** 
      *  Retrieves all the accounts from a course and saves them
      */
     private void retrieveAndSaveAccountsByCourse(String courseId) {
+        
         try {
             Logic logic = new Logic();
             List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
             List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-
-            for(StudentAttributes student : students) {
+            
+            FileHelper.appendToFile(jsonFile, "\t\"accounts\":{\n");
+            
+            for(int i = 0; i < students.size(); i++) {
+                StudentAttributes student = students.get(i);
                 saveStudentAccount(student);
             }
             
@@ -157,6 +155,8 @@ public class OfflineBackup extends RemoteApiClient {
                 saveInstructorAccount(instructor);
             } 
             
+            FileHelper.appendToFile(jsonFile, "\n\t},\n");
+            hasPreviousEntity = false;
         } catch (EntityDoesNotExistException entityException) {
             System.out.println("Error occurred while trying to save accounts within course " + courseId);
         }
@@ -169,9 +169,13 @@ public class OfflineBackup extends RemoteApiClient {
         CommentsDb commentsDb = new CommentsDb();
         List<CommentAttributes> comments = commentsDb.getCommentsForCourse(courseId);
         
+        FileHelper.appendToFile(jsonFile, "\t\"comments\":{\n");
+        
         for(CommentAttributes comment: comments) {
             saveComment(comment);
         }
+        hasPreviousEntity = false;
+        FileHelper.appendToFile(jsonFile, "\n\t},\n");
     }
   
     private void retrieveAndSaveCourse(String courseId) {
@@ -182,9 +186,11 @@ public class OfflineBackup extends RemoteApiClient {
             return;
         }
         
-        String createdAt = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(course.createdAt);
-        String courseCsv = course.id + "," + course.name + "," + createdAt + "," + course.isArchived + Const.EOL;
-        FileHelper.appendToFile(courseCsvFile, courseCsv);
+        FileHelper.appendToFile(jsonFile, "\t\"courses\":{\n");
+        FileHelper.appendToFile(jsonFile, formatJsonString(course.getJsonString(), course.id));
+        
+        hasPreviousEntity = false;
+        FileHelper.appendToFile(jsonFile, "\n\t},\n");
     }
     
     /** 
@@ -195,9 +201,13 @@ public class OfflineBackup extends RemoteApiClient {
 
         List<EvaluationAttributes> evaluations = logic.getEvaluationsForCourse(courseId);
    
+        FileHelper.appendToFile(jsonFile, "\t\"evaluations\":{\n");
+        
         for(EvaluationAttributes evaluation : evaluations) {
             saveEvaluation(evaluation);
         }
+        hasPreviousEntity = false;
+        FileHelper.appendToFile(jsonFile, "\n\t},\n");
     }
     
     /** 
@@ -208,9 +218,13 @@ public class OfflineBackup extends RemoteApiClient {
         FeedbackQuestionsDb feedbackQuestionDb = new FeedbackQuestionsDb();
         List<FeedbackQuestionAttributes> feedbackQuestions = feedbackQuestionDb.getFeedbackQuestionsForCourse(courseId);
 
+        FileHelper.appendToFile(jsonFile, "\t\"feedbackQuestions\":{\n");
+        
         for(FeedbackQuestionAttributes feedbackQuestion : feedbackQuestions) {
             saveFeedbackQuestion(feedbackQuestion);
         }
+        hasPreviousEntity = false;
+        FileHelper.appendToFile(jsonFile, "\n\t},\n");
     }
     
     /** 
@@ -221,9 +235,13 @@ public class OfflineBackup extends RemoteApiClient {
         FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
         List<FeedbackResponseAttributes> feedbackResponses = feedbackResponsesDb.getFeedbackResponsesForCourse(courseId);
 
+        FileHelper.appendToFile(jsonFile, "\t\"feedbackResponses\":{\n");
+        
         for(FeedbackResponseAttributes feedbackResponse : feedbackResponses) {
             saveFeedbackResponse(feedbackResponse);
         }
+        hasPreviousEntity = false;
+        FileHelper.appendToFile(jsonFile, "\n\t},\n");
     }
     
     /** 
@@ -234,9 +252,13 @@ public class OfflineBackup extends RemoteApiClient {
         FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
         List<FeedbackResponseCommentAttributes> feedbackResponseComments = feedbackResponseCommentsDb.getFeedbackResponseCommentsForCourse(courseId);
 
+        FileHelper.appendToFile(jsonFile, "\t\"feedbackResponseComments\":{\n");
+        
         for(FeedbackResponseCommentAttributes feedbackResponseComment : feedbackResponseComments) {
             saveFeedbackResponseComment(feedbackResponseComment);
         }
+        hasPreviousEntity = false;
+        FileHelper.appendToFile(jsonFile, "\n\t},\n");
     }
     
     /** 
@@ -246,9 +268,13 @@ public class OfflineBackup extends RemoteApiClient {
         Logic logic = new Logic();
         List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
         
+        FileHelper.appendToFile(jsonFile, "\t\"feedbackSessions\":{\n");
+        
         for(FeedbackSessionAttributes feedbackSession : feedbackSessions) {
             saveFeedbackSession(feedbackSession);
         }
+        hasPreviousEntity = false;
+        FileHelper.appendToFile(jsonFile, "\n\t},\n");
     }
     
     /** 
@@ -258,9 +284,13 @@ public class OfflineBackup extends RemoteApiClient {
         Logic logic = new Logic();
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
         
+        FileHelper.appendToFile(jsonFile, "\t\"instructors\":{\n");
+        
         for(InstructorAttributes instructor : instructors) {
             saveInstructor(instructor);
         }
+        hasPreviousEntity = false;
+        FileHelper.appendToFile(jsonFile, "\n\t},\n");
     }
     
     /** 
@@ -271,9 +301,13 @@ public class OfflineBackup extends RemoteApiClient {
             Logic logic = new Logic();
             List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
             
+            FileHelper.appendToFile(jsonFile, "\t\"students\":{\n");
+            
             for(StudentAttributes student : students) {
                 saveStudent(student);
             }
+            hasPreviousEntity = false;
+            FileHelper.appendToFile(jsonFile, "\n\t},\n");
         } catch (EntityDoesNotExistException exception) {
             System.out.println("Error while trying to save students in course " + courseId);
         }
@@ -286,9 +320,28 @@ public class OfflineBackup extends RemoteApiClient {
         SubmissionsDb submissionsDb = new SubmissionsDb();
         List<SubmissionAttributes> submissions = submissionsDb.getSubmissionsForCourse(courseId);
         
+        FileHelper.appendToFile(jsonFile, "\t\"submissions\":{\n");
+        
         for(SubmissionAttributes submission : submissions) {
             saveSubmission(submission);
         }
+        hasPreviousEntity = false;
+        FileHelper.appendToFile(jsonFile, "\n\t}\n");
+    }
+    
+    private String formatJsonString(String entityJsonString, String name) {
+        String formattedString = "";
+        
+        if(hasPreviousEntity) {
+            formattedString += ",\n";
+        } else {
+            hasPreviousEntity = true;
+        }
+        
+        entityJsonString = entityJsonString.replace("\n", "\n\t\t");
+        formattedString += "\t\t\"" + name + "\":" + entityJsonString;
+        
+        return formattedString;
     }
     
     private void saveStudentAccount(StudentAttributes student) {
@@ -298,11 +351,9 @@ public class OfflineBackup extends RemoteApiClient {
         if(account == null) {
             return;
         }
+
+        FileHelper.appendToFile(jsonFile, formatJsonString(account.getJsonString(), account.email));
         
-        String createdAt = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(account.createdAt);
-        String accountCsv = account.googleId + "," + account.name + "," + account.isInstructor + "," 
-                                + account.email + "," + account.institute + "," + createdAt + Const.EOL;
-        FileHelper.appendToFile(accountCsvFile, accountCsv);
     }
     
     private void saveInstructorAccount(InstructorAttributes instructor) {
@@ -313,192 +364,43 @@ public class OfflineBackup extends RemoteApiClient {
             return;
         }
         
-        String createdAt = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(account.createdAt);
-        String accountCsv = account.googleId + "," + account.name + "," + account.isInstructor + "," 
-                                + account.email + "," + account.institute + "," + createdAt + Const.EOL;
-        FileHelper.appendToFile(accountCsvFile, accountCsv);
+        FileHelper.appendToFile(jsonFile, formatJsonString(account.getJsonString(), account.email));
     }
     
     private void saveComment(CommentAttributes comment) {
-        if(comment == null) {
-            return;
-        }
-        
-        String createdAt = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(comment.createdAt);
-        String commentCsv = comment.getCommentId() + "," + comment.courseId + "," + comment.giverEmail + "," + 
-                                comment.recipientType + "," + comment.recipients.toString() + "," + comment.status + "," +
-                                comment.sendingState + "," + formatList(comment.showCommentTo) + "," +
-                                formatList(comment.showGiverNameTo) + "," + formatList(comment.showRecipientNameTo) + "," + 
-                                comment.commentText.getValue() + "," + createdAt + Const.EOL;
-        FileHelper.appendToFile(commentCsvFile, commentCsv);
+        FileHelper.appendToFile(jsonFile, formatJsonString(comment.getJsonString(), comment.getCommentId().toString()));
     }   
     
     private void saveEvaluation(EvaluationAttributes evaluation) {
-        if(evaluation == null) {
-            return;
-        }
-        
-        String startTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(evaluation.startTime);
-        String endTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(evaluation.endTime);
-        String evaluationCsv = evaluation.getId() + "," + evaluation.courseId + "," + evaluation.name + "," + evaluation.instructions.getValue() + "," + startTime + 
-                "," + endTime + "," + evaluation.timeZone + "," + evaluation.gracePeriod + "," + evaluation.p2pEnabled + "," + evaluation.published + "," + 
-                evaluation.activated + Const.EOL;
-        FileHelper.appendToFile(evaluationCsvFile, evaluationCsv);
+        FileHelper.appendToFile(jsonFile, formatJsonString(evaluation.getJsonString(), evaluation.name));
     }
     
     private void saveFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion) {   
-        if(feedbackQuestion == null) {
-            return;
-        }
-        
-        String showResponsesTo = formatList(feedbackQuestion.showResponsesTo);
-        String showGiverNameTo = formatList(feedbackQuestion.showGiverNameTo);
-        String showRecipientNameTo = formatList(feedbackQuestion.showRecipientNameTo);
-       
-        String feedbackQuestionCsv = feedbackQuestion.getId() + "," + feedbackQuestion.feedbackSessionName + "," + feedbackQuestion.courseId + "," +
-                                        feedbackQuestion.creatorEmail + "," + feedbackQuestion.questionMetaData.getValue() + "," + feedbackQuestion.questionNumber + "," +
-                                        feedbackQuestion.questionType + "," + feedbackQuestion.giverType + "," + feedbackQuestion.recipientType + "," +
-                                        feedbackQuestion.numberOfEntitiesToGiveFeedbackTo + "," + showResponsesTo + "," + showGiverNameTo +
-                                        "," + showRecipientNameTo + Const.EOL;
-        FileHelper.appendToFile(feedbackQuestionCsvFile, feedbackQuestionCsv);
+        FileHelper.appendToFile(jsonFile, formatJsonString(feedbackQuestion.getJsonString(), feedbackQuestion.getId()));
     }
     
     private void saveFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
-        if(feedbackResponse == null) {
-            return;
-        }
-        
-        String feedbackResponseCsv = feedbackResponse.getId() + "," + feedbackResponse.feedbackSessionName + "," + feedbackResponse.courseId + "," +
-                                        feedbackResponse.feedbackQuestionId + "," + feedbackResponse.feedbackQuestionType + "," + feedbackResponse.giverEmail +
-                                        "," + feedbackResponse.giverSection + "," + feedbackResponse.recipientEmail + "," + 
-                                        feedbackResponse.recipientSection + "," + feedbackResponse.responseMetaData.getValue() + Const.EOL;
-        FileHelper.appendToFile(feedbackResponseCsvFile, feedbackResponseCsv);
+        FileHelper.appendToFile(jsonFile, formatJsonString(feedbackResponse.getJsonString(), feedbackResponse.getId()));
     }
     
     private void saveFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment) {
-        if(feedbackResponseComment == null) {
-            return;
-        }
-        
-        String createdAt = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(feedbackResponseComment.createdAt);
-        
-        String feedbackResponseCommentCsv = feedbackResponseComment.getId() + "," + feedbackResponseComment.courseId + "," + feedbackResponseComment.feedbackSessionName +
-                                                "," + feedbackResponseComment.feedbackQuestionId + "," + feedbackResponseComment.giverEmail + "," + 
-                                                feedbackResponseComment.giverSection + "," + feedbackResponseComment.receiverSection + "," + 
-                                                feedbackResponseComment.feedbackResponseId + "," + feedbackResponseComment.sendingState + "," + 
-                                                formatList(feedbackResponseComment.showCommentTo) + "," + formatList(feedbackResponseComment.showGiverNameTo) + "," + 
-                                                feedbackResponseComment.isVisibilityFollowingFeedbackQuestion + "," +createdAt + "," +
-                                                feedbackResponseComment.commentText.getValue() + Const.EOL;
-        FileHelper.appendToFile(feedbackResponseCommentCsvFile, feedbackResponseCommentCsv);
+        FileHelper.appendToFile(jsonFile, formatJsonString(feedbackResponseComment.getJsonString(), feedbackResponseComment.getId().toString()));
     }
     
     private void saveFeedbackSession(FeedbackSessionAttributes feedbackSession) {
-        if(feedbackSession == null) {
-            return;
-        }
-        
-        String createdTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(feedbackSession.createdTime);
-        String startTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(feedbackSession.startTime);
-        String endTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(feedbackSession.endTime);
-        String sessionVisibleFromTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(feedbackSession.sessionVisibleFromTime);
-        String resultsVisibleFromTime = new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(feedbackSession.resultsVisibleFromTime);
-        String id = feedbackSession.feedbackSessionName + "%" + feedbackSession.courseId;
-        String feedbackSessionCsv = id + "," + feedbackSession.feedbackSessionName + "," + feedbackSession.courseId + "," + feedbackSession.creatorEmail + "," + 
-                                    feedbackSession.respondingInstructorList + "," + feedbackSession.respondingStudentList + "," + 
-                                    feedbackSession.instructions.getValue() + "," + createdTime + "," + startTime + "," + endTime + "," + 
-                                    sessionVisibleFromTime + "," + resultsVisibleFromTime + "," + feedbackSession.timeZone + "," + 
-                                    feedbackSession.gracePeriod + "," + feedbackSession.feedbackSessionType + "," + feedbackSession.sentOpenEmail + "," + 
-                                    feedbackSession.sentPublishedEmail + "," + feedbackSession.isOpeningEmailEnabled + "," +
-                                    feedbackSession.isClosingEmailEnabled + "," + feedbackSession.isPublishedEmailEnabled + Const.EOL;
-        FileHelper.appendToFile(feedbackSessionCsvFile, feedbackSessionCsv);
+        FileHelper.appendToFile(jsonFile, formatJsonString(feedbackSession.getJsonString(), feedbackSession.feedbackSessionName + "%" + feedbackSession.courseId));
     }
     
     private void saveInstructor(InstructorAttributes instructor) {
-        if(instructor == null) {
-            return;
-        }
-        
-        String instructorCsv = instructor.getId() + "," + instructor.googleId + "," + instructor.name + "," + instructor.email + "," + 
-                                instructor.courseId + "," + instructor.isArchived + "," + instructor.key + "," + instructor.role + "," + 
-                                instructor.isDisplayedToStudents + "," + instructor.displayedName + Const.EOL;
-        FileHelper.appendToFile(InstructorCsvFile, instructorCsv);
+        FileHelper.appendToFile(jsonFile, formatJsonString(instructor.getJsonString(), instructor.googleId));
     }
     
     private void saveStudent(StudentAttributes student) {
-        if(student == null) {
-            return;
-        }
-        
-        Long key = KeyFactory.stringToKey(student.key).getId();
-        String studentCsv = key + "," + student.googleId + "," + student.name + "," + student.lastName + "," + student.email + "," + 
-                            student.course + "," + student.comments + "," + student.team + "," + student.section + Const.EOL;
-        FileHelper.appendToFile(studentCsvFile, studentCsv);
+        FileHelper.appendToFile(jsonFile, formatJsonString(student.getJsonString(), student.googleId));
     }
     
     private void saveSubmission(SubmissionAttributes submission) {
-        if(submission == null) {
-            return;
-        }
-        
-        String submissionCsv = submission.getId() + "," + submission.course + "," + submission.evaluation + "," + submission.team + "," + submission.reviewer + "," 
-                                + submission.reviewee + "," + submission.points + "," + submission.justification.getValue() + "," + 
-                                submission.p2pFeedback.getValue() + Const.EOL;
-        FileHelper.appendToFile(submissionCsvFile, submissionCsv);
+        FileHelper.appendToFile(jsonFile, formatJsonString(submission.getJsonString(), submission.getId().toString()));
     }
-    
-    /**
-     * Prepares all entity types .csv files with their headers extracted from GAE datastore
-     */
-    private void setupCsvFiles() {
-        String accountCsv = "key,name,isInstructor,email,institute,createdAt" + Const.EOL;
-        FileHelper.writeToFile(accountCsvFile, accountCsv);
-        
-        String commentCsv = "key,courseID,giverEmail,recipientType,recipients,status,sendingState,showCommentTo,"
-                + "showGiverNameTo,showRecipientNameTo,commentText,createdAt" + Const.EOL;
-        FileHelper.writeToFile(commentCsvFile, commentCsv);
-        
-        String courseCsv = "key,name,createdAt,archiveStatus" + Const.EOL;
-        FileHelper.writeToFile(courseCsvFile, courseCsv);
-        
-        String evaluationCsv = "key,courseID,name,longInstructions,startTime,endTime,timeZone,gracePeriod,commentsEnabled,published,activated" + Const.EOL;
-        FileHelper.writeToFile(evaluationCsvFile, evaluationCsv);
-        
-        String feedbackQuestionCsv = "key,feedbackSessionName,courseId,creatorEmail,questionText,questionNumber,questionType,giverType,recipientType,"
-                + "numberOfEntitiesToGiveFeedbackTo,showResponsesTo,showGiverNameTo,showRecipientNameTo" + Const.EOL;
-        FileHelper.writeToFile(feedbackQuestionCsvFile, feedbackQuestionCsv);
-        
-        String feedbackResponseCsv = "key,feedbackSessionName,courseId,feedbackQuestionID,feedbackQuestionType,giverEmail,giverSection,receiver,receiverSection,"
-                + "answer" + Const.EOL;
-        FileHelper.writeToFile(feedbackResponseCsvFile, feedbackResponseCsv);
-        
-        String feedbackResponseCommentCsv = "key,courseId,feedbackSessionName,feedbackQuestionID,giverEmail,giverSection,receiverSection,feedbackResponseID,"
-                + "sendingState,showCommentTo,showGiverNameTo,isVisibilityFollowingFeedbackQuestion,createdAt,commentText" + Const.EOL;
-        FileHelper.writeToFile(feedbackResponseCommentCsvFile, feedbackResponseCommentCsv);
-        
-        String feedbackSessionCsv = "key,feedbackSessionName,courseId,creatorEmail,respondingInstructorList,respondingStudentList,instructions,createdTime,startTime,"
-                + "endTime,sessionVisibleFromTime,resultsVisibleFromTime,timeZoneDouble,gracePeriod,feedbackSessionType,sentOpenEmail,sentPublishedEmail,"
-                + "isOpeningEmailEnabled,isClosingEmailEnabled,isPublishedEmailEnabled" + Const.EOL;
-        FileHelper.writeToFile(feedbackSessionCsvFile, feedbackSessionCsv);
-        
-        String instructorCsv = "key,googleId,name,email,courseId,isArchived,registrationKey,role,isDisplayedToStudents,displayNamed" + Const.EOL;
-        FileHelper.writeToFile(InstructorCsvFile, instructorCsv);
-        
-        String studentCsv = "key,ID,name,lastName,email,courseID,comments,teamName,sectionName" + Const.EOL;
-        FileHelper.writeToFile(studentCsvFile, studentCsv);
-        
-        String submissionCsv = "key,courseID,evaluationName,teamName,fromStudent,toStudent,points,justification,commentsToStudent" + Const.EOL;
-        FileHelper.writeToFile(submissionCsvFile, submissionCsv); 
-    }
-    
-    private String formatList(List<?> list) {
-        String formattedString = "\"[u'";
-        formattedString += list.get(0) + "'";
-        
-        for(int i = 1; i < list.size(); i++) {
-            formattedString += ", u'" + list.get(i) + "'";
-        }
-        formattedString += "]\"";
-        
-        return formattedString;
-    }
+
 }

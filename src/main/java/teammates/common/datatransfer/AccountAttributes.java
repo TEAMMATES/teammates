@@ -118,6 +118,11 @@ public class AccountAttributes extends EntityAttributes {
     }
     
     @Override
+    public String getJsonString() {
+        return Utils.getTeammatesGson().toJson(this, AccountAttributes.class);
+    }
+    
+    @Override
     public void sanitizeForSaving() {
         this.googleId = Sanitizer.sanitizeForHtml(googleId);
         this.name = Sanitizer.sanitizeForHtml(name);

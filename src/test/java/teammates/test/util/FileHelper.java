@@ -59,7 +59,7 @@ public class FileHelper {
        file.delete();
     }
 
-    static String readFile(String path, Charset encoding) {
+    public static String readFile(String path, Charset encoding) {
         byte[] encoded = null;
         try {
             encoded = Files.readAllBytes(Paths.get(path));

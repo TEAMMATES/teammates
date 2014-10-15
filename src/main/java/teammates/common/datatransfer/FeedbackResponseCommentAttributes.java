@@ -9,6 +9,7 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.Utils;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.storage.entity.FeedbackResponseComment;
@@ -159,6 +160,11 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     @Override
     public String getBackupIdentifier() {
         return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
+    }
+    
+    @Override
+    public String getJsonString() {
+        return Utils.getTeammatesGson().toJson(this, FeedbackResponseCommentAttributes.class);
     }
     
     @Override
