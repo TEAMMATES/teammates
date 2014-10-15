@@ -861,6 +861,7 @@
 								.get(studentEmail);
 						String teamName = responseStatus.emailTeamNameTable
 								.get(studentEmail);
+						if (teamName == null) teamName = "Teaching Team";
                             %>
                                     <tr>
                                        <td><%=studentName%></td>
