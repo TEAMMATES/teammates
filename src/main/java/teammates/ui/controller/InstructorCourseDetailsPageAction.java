@@ -30,10 +30,6 @@ public class InstructorCourseDetailsPageAction extends Action {
         /* Setup page data for the "Course Details" page */
         InstructorCourseDetailsPageData data = new InstructorCourseDetailsPageData(account);
 
-        data.currentInstructor = instructor;
-        data.courseDetails = logic.getCourseDetails(courseId);
-        data.students = logic.getStudentsForCourse(courseId);
-        data.instructors = logic.getInstructorsForCourse(courseId);
         
         if(isHtmlTableNeeded){
             data.studentListHtmlTableAsString = StringHelper.csvToHtmlTable(logic.getCourseStudentListAsCsv(courseId, account.googleId));            
@@ -43,7 +39,11 @@ public class InstructorCourseDetailsPageAction extends Action {
         } else {
             data.studentListHtmlTableAsString = "";
         }
-        
+              
+        data.currentInstructor = instructor;
+        data.courseDetails = logic.getCourseDetails(courseId);
+        data.students = logic.getStudentsForCourse(courseId);
+        data.instructors = logic.getInstructorsForCourse(courseId); 
 
         StudentAttributes.sortByNameAndThenByEmail(data.students);
         
