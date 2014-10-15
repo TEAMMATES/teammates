@@ -198,8 +198,8 @@ public class FeedbackNumericalScaleQuestionDetails extends
         String statsTitle = "Summary of responses received by you";
         if (isDirectedAtGeneral) {
             statsTitle = "Response Summary";
-        } else if (question.recipientType.equals(FeedbackParticipantType.TEAMS) 
-                || question.recipientType.equals(FeedbackParticipantType.OWN_TEAM)) {
+        } else if (question.recipientType.equals(FeedbackParticipantType.TEAMS) || 
+                   question.recipientType.equals(FeedbackParticipantType.OWN_TEAM)) {
             statsTitle = "Summary of responses received by your team";
         }
         
