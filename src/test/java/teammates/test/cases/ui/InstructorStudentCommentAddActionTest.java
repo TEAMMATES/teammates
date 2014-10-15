@@ -3,12 +3,12 @@ package teammates.test.cases.ui;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.ui.controller.InstructorStudentCommentAddAction;
 import teammates.ui.controller.RedirectResult;
@@ -31,38 +31,58 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         String instructorId = instructor.googleId;
         
         gaeSimulation.loginAsInstructor(instructorId);
+        
+        ______TS("Unsuccessful case: test empty course id parameter");
+        String[] submissionParams = new String[]{
+                Const.ParamsNames.STUDENT_EMAIL, student.email,
+                Const.ParamsNames.COMMENT_TEXT, "A typical comment to be added"
+        };
+        
+        InstructorStudentCommentAddAction a;
+        RedirectResult r;
+        
+        try {
+            a = getAction(submissionParams);
+            r = (RedirectResult) a.executeAndPostProcess();
+            signalFailureToDetectException("Did not detect that parameters are null.");
+        } catch (NullPostParameterException e) {
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+                    Const.ParamsNames.COURSE_ID), e.getMessage());
+        }
+       
+        ______TS("Unsuccessful case: test empty student email parameter");
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, instructor.courseId,
+                Const.ParamsNames.COMMENT_TEXT, "A typical comment to be added"
+        };
 
-        ______TS("Invalid parameters");
+        try {
+            a = getAction(submissionParams);
+            r = (RedirectResult) a.executeAndPostProcess();
+            signalFailureToDetectException("Did not detect that parameters are null.");
+        } catch (NullPostParameterException e) {
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+                    Const.ParamsNames.STUDENT_EMAIL), e.getMessage());
+        }
         
-        //no params
-        verifyAssumptionFailure();
-        
-        //null courseId
-        String[] invalidParams = new String[]{
-                Const.ParamsNames.STUDENT_EMAIL, student.email
-        };
-        
-        verifyAssumptionFailure(invalidParams);
-        
-        //null studentemail
-        invalidParams = new String[]{
-                Const.ParamsNames.COURSE_ID, instructor.courseId
-        };
-        
-        verifyAssumptionFailure(invalidParams);
-        
-        //null comment text
-        invalidParams = new String[]{
+        ______TS("Unsuccessful case: test empty comment text parameter");
+        submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student.email
         };
-        
-        verifyAssumptionFailure(invalidParams);
-        
+  
+        try {
+            a = getAction(submissionParams);
+            r = (RedirectResult) a.executeAndPostProcess();
+            signalFailureToDetectException("Did not detect that parameters are null.");
+        } catch (NullPostParameterException e) {
+            assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
+                    Const.ParamsNames.COMMENT_TEXT), e.getMessage());
+        }  
 
         ______TS("Typical case, add comment successful");
         
-        String[] submissionParams = new String[] {
+        submissionParams = new String[] {
                 Const.ParamsNames.COMMENT_TEXT, "A typical comment to be added",
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student.email,
@@ -70,8 +90,8 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
                 Const.ParamsNames.RECIPIENTS, student.email
         };
 
-        InstructorStudentCommentAddAction a = getAction(submissionParams);
-        RedirectResult r = getRedirectResult(a);
+        a = getAction(submissionParams);
+        r = getRedirectResult(a);
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE
                 + "?courseid=idOfTypicalCourse1&"

@@ -23,7 +23,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public String groupByTeam = null;
     public String showStats = null;
     public int startIndex;
-    public String sessionResultsHtmlTableAsString;
     
     public InstructorFeedbackResultsPageData(AccountAttributes account) {
         super(account);
