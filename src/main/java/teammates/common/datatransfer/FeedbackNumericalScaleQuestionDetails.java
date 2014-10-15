@@ -169,10 +169,14 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         String currentUserTeam = bundle.emailTeamNameTable.get(currentUser.email);
         boolean isDirectedAtGeneral = question.recipientType == FeedbackParticipantType.NONE;
+        boolean isDirectedAtTeams = (question.recipientType == FeedbackParticipantType.TEAMS) || 
+                                    (question.recipientType == FeedbackParticipantType.OWN_TEAM);
+        boolean isDirectedAtStudents = !isDirectedAtGeneral && !isDirectedAtTeams;
         
         for(FeedbackResponseAttributes response : responses){
-            boolean isDirectedAtUser = response.recipientEmail.equals(currentUser.email); 
-            boolean isDirectedAtUserTeam = question.recipientType == FeedbackParticipantType.TEAMS && response.recipientEmail.equals(StringHelper.recoverFromSanitizedText(currentUserTeam));
+            boolean isDirectedAtUser = isDirectedAtStudents && response.recipientEmail.equals(currentUser.email); 
+            boolean isDirectedAtUserTeam = isDirectedAtTeams && 
+                                           response.recipientEmail.equals(StringHelper.recoverFromSanitizedText(currentUserTeam));
             
             if (isDirectedAtUser || isDirectedAtUserTeam || isDirectedAtGeneral) {
                 numResponses++;
@@ -198,8 +202,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         String statsTitle = "Summary of responses received by you";
         if (isDirectedAtGeneral) {
             statsTitle = "Response Summary";
-        } else if (question.recipientType.equals(FeedbackParticipantType.TEAMS) || 
-                   question.recipientType.equals(FeedbackParticipantType.OWN_TEAM)) {
+        } else if (isDirectedAtTeams) {
             statsTitle = "Summary of responses received by your team";
         }
         
