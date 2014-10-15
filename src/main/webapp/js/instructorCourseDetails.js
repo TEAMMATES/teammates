@@ -4,11 +4,6 @@ $(document).ready(function(){
     } else {
         toggleSort($("#button_sortstudentteam"),1);
     }
-    
-    //auto select the html table when modal is shown
-    $('#studentTableWindow').on('shown.bs.modal', function (e) {
-		selectElementContents( document.getElementById('detailsTable') );
-    });
 });
 
 /**
@@ -44,28 +39,4 @@ function toggleSendRegistrationKeysConfirmation(courseID) {
 function toggleDeleteStudentConfirmation(studentName) {
     return confirm("Are you sure you want to remove " + studentName + " from " +
             "the course?");
-}
-
-/**
- * function that select the whole table
- * @param el
- */
-function selectElementContents(el) {
-    var body = document.body, range, sel;
-    if (document.createRange && window.getSelection) {
-        range = document.createRange();
-        sel = window.getSelection();
-        sel.removeAllRanges();
-        try {
-            range.selectNodeContents(el);
-            sel.addRange(range);
-        } catch (e) {
-            range.selectNode(el);
-            sel.addRange(range);
-        }
-    } else if (body.createTextRange) {
-        range = body.createTextRange();
-        range.moveToElementText(el);
-        range.select();
-    }
 }

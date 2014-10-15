@@ -13,7 +13,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -40,19 +39,17 @@ public class BaseActionTest extends BaseComponentTestCase {
 
     /** Executes the action and returns the result.
      * Assumption: The action returns a ShowPageResult.
-     * @throws ExceedingRangeException 
      */
     protected ShowPageResult getShowPageResult(Action a)
-            throws EntityDoesNotExistException, InvalidParametersException, ExceedingRangeException {
+            throws EntityDoesNotExistException, InvalidParametersException {
         return (ShowPageResult) a.executeAndPostProcess();
     }
     
     /** Executes the action and returns the result.
      * Assumption: The action returns a RedirectResult.
-     * @throws ExceedingRangeException 
      */
     protected RedirectResult getRedirectResult(Action a)
-            throws EntityDoesNotExistException, InvalidParametersException, ExceedingRangeException {
+            throws EntityDoesNotExistException, InvalidParametersException {
         //TODO: check existing code to use this method instead of casting independently
         return (RedirectResult) a.executeAndPostProcess();
     }
