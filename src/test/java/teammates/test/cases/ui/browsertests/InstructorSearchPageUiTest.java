@@ -100,7 +100,6 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchPage.clickSearchButton();
         searchPage.verifyHtmlMainContent("/InstructorSearchPageSearchCommentsAsHelper.html");
         
-        
         searchPage = getInstructorSearchPage(instructorId);
         
         ______TS("search for students");

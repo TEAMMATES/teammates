@@ -300,7 +300,6 @@
             },
             "giverSection":"Section 1",
             "recipientSection":"Section 1" 
-            
         },
         "response1ForQ2S1C1":{
             "feedbackSessionName":"searchUI.First feedback session",
@@ -314,7 +313,6 @@
             },
             "giverSection":"Section 1",
             "recipientSection":"Section 1" 
-            
         },
         "response2ForQ2S1C1":{
             "feedbackSessionName":"searchUI.First feedback session",
@@ -328,7 +326,6 @@
             },
             "giverSection":"Section 1",
             "recipientSection":"Section 1" 
-            
         },
         "response3ForQ2S1C1":{
             "feedbackSessionName":"searchUI.First feedback session",
@@ -341,8 +338,7 @@
                 "value":"Response from student 3 \"to\" student 2.\r\nMultiline test."
             },
             "giverSection":"Section 1",
-            "recipientSection":"Section 1" 
-            
+            "recipientSection":"Section 1"
         },
         "response1ForQ3S1C1":{
             "feedbackSessionName":"searchUI.First feedback session",
@@ -355,8 +351,7 @@
                 "value":"Good work, keep it up!"
             },
             "giverSection":"None",
-            "recipientSection":"None" 
-            
+            "recipientSection":"None"
         }
     },
     "feedbackResponseComments":{
