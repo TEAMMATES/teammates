@@ -1,11 +1,14 @@
 package teammates.client.scripts;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -41,8 +44,8 @@ import teammates.test.driver.TestProperties;
 import teammates.test.util.FileHelper;
 
 public class OfflineBackup extends RemoteApiClient {
-    private final String jsonFile = "json.json";
-
+    private String backupFileDirectory = "";
+    private String currentFileName = "";
     private boolean hasPreviousEntity = false;
     
     public static void main(String[] args) throws IOException {
@@ -54,10 +57,12 @@ public class OfflineBackup extends RemoteApiClient {
         Datastore.initialize();
         Vector<String> logs = getModifiedLogs();
         Set<String> courses = extractModifiedCourseIds(logs);
+        backupFileDirectory = "Backup " + getCurrentDateAndTime();
+        createBackupDirectory(backupFileDirectory);
         retrieveEntitiesByCourse(courses);
         Gson gson = Utils.getTeammatesGson();
         
-        String jsonString = FileHelper.readFile(jsonFile, Charsets.UTF_8);
+        String jsonString = FileHelper.readFile(currentFileName, Charsets.UTF_8);
         DataBundle data = gson.fromJson(jsonString, DataBundle.class);
       
     }
@@ -109,6 +114,30 @@ public class OfflineBackup extends RemoteApiClient {
         return courses;
     }
     
+    
+    /**
+     * Returns the current date and time to label the backup folder
+     */
+    private String getCurrentDateAndTime() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss");
+        Calendar cal = Calendar.getInstance();
+        return dateFormat.format(cal.getTime());
+    }
+    
+    /**
+     * Creates a directory to store the backup files
+     */
+    private void createBackupDirectory(String directoryName) {
+        File directory = new File(directoryName);
+
+       try {
+           directory.mkdirs();
+       } catch(SecurityException se){
+           System.out.println("Error making directory: " + directoryName);
+       }        
+       
+    }
+    
     /** 
      *  Looks through an entity map to obtain all entities that were modified recently. Those entities are 
      *  then retrieved for backup.
@@ -116,9 +145,11 @@ public class OfflineBackup extends RemoteApiClient {
     private void retrieveEntitiesByCourse(Set<String> coursesList) {
 
         Iterator<String> it = coursesList.iterator();
-        FileHelper.appendToFile(jsonFile, "{\n");
+        
         while(it.hasNext()) {
             String courseId = it.next();
+            currentFileName = backupFileDirectory + "/" + courseId + ".json";
+            FileHelper.appendToFile(currentFileName, "{\n");
             retrieveAndSaveAccountsByCourse(courseId);
             retrieveAndSaveCommentsByCourse(courseId);
             retrieveAndSaveCourse(courseId);
@@ -130,8 +161,8 @@ public class OfflineBackup extends RemoteApiClient {
             retrieveAndSaveInstructorsByCourse(courseId);
             retrieveAndSaveStudentsByCourse(courseId);
             retrieveAndSaveSubmissionsByCourse(courseId);
-        }
-        FileHelper.appendToFile(jsonFile, "\n}");        
+            FileHelper.appendToFile(currentFileName, "\n}"); 
+        }              
     }
     
     /** 
@@ -144,7 +175,7 @@ public class OfflineBackup extends RemoteApiClient {
             List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
             List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
             
-            FileHelper.appendToFile(jsonFile, "\t\"accounts\":{\n");
+            FileHelper.appendToFile(currentFileName, "\t\"accounts\":{\n");
             
             for(int i = 0; i < students.size(); i++) {
                 StudentAttributes student = students.get(i);
@@ -155,7 +186,7 @@ public class OfflineBackup extends RemoteApiClient {
                 saveInstructorAccount(instructor);
             } 
             
-            FileHelper.appendToFile(jsonFile, "\n\t},\n");
+            FileHelper.appendToFile(currentFileName, "\n\t},\n");
             hasPreviousEntity = false;
         } catch (EntityDoesNotExistException entityException) {
             System.out.println("Error occurred while trying to save accounts within course " + courseId);
@@ -169,13 +200,13 @@ public class OfflineBackup extends RemoteApiClient {
         CommentsDb commentsDb = new CommentsDb();
         List<CommentAttributes> comments = commentsDb.getCommentsForCourse(courseId);
         
-        FileHelper.appendToFile(jsonFile, "\t\"comments\":{\n");
+        FileHelper.appendToFile(currentFileName, "\t\"comments\":{\n");
         
         for(CommentAttributes comment: comments) {
             saveComment(comment);
         }
         hasPreviousEntity = false;
-        FileHelper.appendToFile(jsonFile, "\n\t},\n");
+        FileHelper.appendToFile(currentFileName, "\n\t},\n");
     }
   
     private void retrieveAndSaveCourse(String courseId) {
@@ -186,11 +217,11 @@ public class OfflineBackup extends RemoteApiClient {
             return;
         }
         
-        FileHelper.appendToFile(jsonFile, "\t\"courses\":{\n");
-        FileHelper.appendToFile(jsonFile, formatJsonString(course.getJsonString(), course.id));
+        FileHelper.appendToFile(currentFileName, "\t\"courses\":{\n");
+        FileHelper.appendToFile(currentFileName, formatJsonString(course.getJsonString(), course.id));
         
         hasPreviousEntity = false;
-        FileHelper.appendToFile(jsonFile, "\n\t},\n");
+        FileHelper.appendToFile(currentFileName, "\n\t},\n");
     }
     
     /** 
@@ -201,13 +232,13 @@ public class OfflineBackup extends RemoteApiClient {
 
         List<EvaluationAttributes> evaluations = logic.getEvaluationsForCourse(courseId);
    
-        FileHelper.appendToFile(jsonFile, "\t\"evaluations\":{\n");
+        FileHelper.appendToFile(currentFileName, "\t\"evaluations\":{\n");
         
         for(EvaluationAttributes evaluation : evaluations) {
             saveEvaluation(evaluation);
         }
         hasPreviousEntity = false;
-        FileHelper.appendToFile(jsonFile, "\n\t},\n");
+        FileHelper.appendToFile(currentFileName, "\n\t},\n");
     }
     
     /** 
@@ -218,13 +249,13 @@ public class OfflineBackup extends RemoteApiClient {
         FeedbackQuestionsDb feedbackQuestionDb = new FeedbackQuestionsDb();
         List<FeedbackQuestionAttributes> feedbackQuestions = feedbackQuestionDb.getFeedbackQuestionsForCourse(courseId);
 
-        FileHelper.appendToFile(jsonFile, "\t\"feedbackQuestions\":{\n");
+        FileHelper.appendToFile(currentFileName, "\t\"feedbackQuestions\":{\n");
         
         for(FeedbackQuestionAttributes feedbackQuestion : feedbackQuestions) {
             saveFeedbackQuestion(feedbackQuestion);
         }
         hasPreviousEntity = false;
-        FileHelper.appendToFile(jsonFile, "\n\t},\n");
+        FileHelper.appendToFile(currentFileName, "\n\t},\n");
     }
     
     /** 
@@ -235,13 +266,13 @@ public class OfflineBackup extends RemoteApiClient {
         FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
         List<FeedbackResponseAttributes> feedbackResponses = feedbackResponsesDb.getFeedbackResponsesForCourse(courseId);
 
-        FileHelper.appendToFile(jsonFile, "\t\"feedbackResponses\":{\n");
+        FileHelper.appendToFile(currentFileName, "\t\"feedbackResponses\":{\n");
         
         for(FeedbackResponseAttributes feedbackResponse : feedbackResponses) {
             saveFeedbackResponse(feedbackResponse);
         }
         hasPreviousEntity = false;
-        FileHelper.appendToFile(jsonFile, "\n\t},\n");
+        FileHelper.appendToFile(currentFileName, "\n\t},\n");
     }
     
     /** 
@@ -252,13 +283,13 @@ public class OfflineBackup extends RemoteApiClient {
         FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
         List<FeedbackResponseCommentAttributes> feedbackResponseComments = feedbackResponseCommentsDb.getFeedbackResponseCommentsForCourse(courseId);
 
-        FileHelper.appendToFile(jsonFile, "\t\"feedbackResponseComments\":{\n");
+        FileHelper.appendToFile(currentFileName, "\t\"feedbackResponseComments\":{\n");
         
         for(FeedbackResponseCommentAttributes feedbackResponseComment : feedbackResponseComments) {
             saveFeedbackResponseComment(feedbackResponseComment);
         }
         hasPreviousEntity = false;
-        FileHelper.appendToFile(jsonFile, "\n\t},\n");
+        FileHelper.appendToFile(currentFileName, "\n\t},\n");
     }
     
     /** 
@@ -268,13 +299,13 @@ public class OfflineBackup extends RemoteApiClient {
         Logic logic = new Logic();
         List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
         
-        FileHelper.appendToFile(jsonFile, "\t\"feedbackSessions\":{\n");
+        FileHelper.appendToFile(currentFileName, "\t\"feedbackSessions\":{\n");
         
         for(FeedbackSessionAttributes feedbackSession : feedbackSessions) {
             saveFeedbackSession(feedbackSession);
         }
         hasPreviousEntity = false;
-        FileHelper.appendToFile(jsonFile, "\n\t},\n");
+        FileHelper.appendToFile(currentFileName, "\n\t},\n");
     }
     
     /** 
@@ -284,13 +315,13 @@ public class OfflineBackup extends RemoteApiClient {
         Logic logic = new Logic();
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
         
-        FileHelper.appendToFile(jsonFile, "\t\"instructors\":{\n");
+        FileHelper.appendToFile(currentFileName, "\t\"instructors\":{\n");
         
         for(InstructorAttributes instructor : instructors) {
             saveInstructor(instructor);
         }
         hasPreviousEntity = false;
-        FileHelper.appendToFile(jsonFile, "\n\t},\n");
+        FileHelper.appendToFile(currentFileName, "\n\t},\n");
     }
     
     /** 
@@ -301,13 +332,13 @@ public class OfflineBackup extends RemoteApiClient {
             Logic logic = new Logic();
             List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
             
-            FileHelper.appendToFile(jsonFile, "\t\"students\":{\n");
+            FileHelper.appendToFile(currentFileName, "\t\"students\":{\n");
             
             for(StudentAttributes student : students) {
                 saveStudent(student);
             }
             hasPreviousEntity = false;
-            FileHelper.appendToFile(jsonFile, "\n\t},\n");
+            FileHelper.appendToFile(currentFileName, "\n\t},\n");
         } catch (EntityDoesNotExistException exception) {
             System.out.println("Error while trying to save students in course " + courseId);
         }
@@ -320,13 +351,13 @@ public class OfflineBackup extends RemoteApiClient {
         SubmissionsDb submissionsDb = new SubmissionsDb();
         List<SubmissionAttributes> submissions = submissionsDb.getSubmissionsForCourse(courseId);
         
-        FileHelper.appendToFile(jsonFile, "\t\"submissions\":{\n");
+        FileHelper.appendToFile(currentFileName, "\t\"submissions\":{\n");
         
         for(SubmissionAttributes submission : submissions) {
             saveSubmission(submission);
         }
         hasPreviousEntity = false;
-        FileHelper.appendToFile(jsonFile, "\n\t}\n");
+        FileHelper.appendToFile(currentFileName, "\n\t}\n");
     }
     
     private String formatJsonString(String entityJsonString, String name) {
@@ -352,7 +383,7 @@ public class OfflineBackup extends RemoteApiClient {
             return;
         }
 
-        FileHelper.appendToFile(jsonFile, formatJsonString(account.getJsonString(), account.email));
+        FileHelper.appendToFile(currentFileName, formatJsonString(account.getJsonString(), account.email));
         
     }
     
@@ -364,43 +395,43 @@ public class OfflineBackup extends RemoteApiClient {
             return;
         }
         
-        FileHelper.appendToFile(jsonFile, formatJsonString(account.getJsonString(), account.email));
+        FileHelper.appendToFile(currentFileName, formatJsonString(account.getJsonString(), account.email));
     }
     
     private void saveComment(CommentAttributes comment) {
-        FileHelper.appendToFile(jsonFile, formatJsonString(comment.getJsonString(), comment.getCommentId().toString()));
+        FileHelper.appendToFile(currentFileName, formatJsonString(comment.getJsonString(), comment.getCommentId().toString()));
     }   
     
     private void saveEvaluation(EvaluationAttributes evaluation) {
-        FileHelper.appendToFile(jsonFile, formatJsonString(evaluation.getJsonString(), evaluation.name));
+        FileHelper.appendToFile(currentFileName, formatJsonString(evaluation.getJsonString(), evaluation.name));
     }
     
     private void saveFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion) {   
-        FileHelper.appendToFile(jsonFile, formatJsonString(feedbackQuestion.getJsonString(), feedbackQuestion.getId()));
+        FileHelper.appendToFile(currentFileName, formatJsonString(feedbackQuestion.getJsonString(), feedbackQuestion.getId()));
     }
     
     private void saveFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
-        FileHelper.appendToFile(jsonFile, formatJsonString(feedbackResponse.getJsonString(), feedbackResponse.getId()));
+        FileHelper.appendToFile(currentFileName, formatJsonString(feedbackResponse.getJsonString(), feedbackResponse.getId()));
     }
     
     private void saveFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment) {
-        FileHelper.appendToFile(jsonFile, formatJsonString(feedbackResponseComment.getJsonString(), feedbackResponseComment.getId().toString()));
+        FileHelper.appendToFile(currentFileName, formatJsonString(feedbackResponseComment.getJsonString(), feedbackResponseComment.getId().toString()));
     }
     
     private void saveFeedbackSession(FeedbackSessionAttributes feedbackSession) {
-        FileHelper.appendToFile(jsonFile, formatJsonString(feedbackSession.getJsonString(), feedbackSession.feedbackSessionName + "%" + feedbackSession.courseId));
+        FileHelper.appendToFile(currentFileName, formatJsonString(feedbackSession.getJsonString(), feedbackSession.feedbackSessionName + "%" + feedbackSession.courseId));
     }
     
     private void saveInstructor(InstructorAttributes instructor) {
-        FileHelper.appendToFile(jsonFile, formatJsonString(instructor.getJsonString(), instructor.googleId));
+        FileHelper.appendToFile(currentFileName, formatJsonString(instructor.getJsonString(), instructor.googleId));
     }
     
     private void saveStudent(StudentAttributes student) {
-        FileHelper.appendToFile(jsonFile, formatJsonString(student.getJsonString(), student.googleId));
+        FileHelper.appendToFile(currentFileName, formatJsonString(student.getJsonString(), student.googleId));
     }
     
     private void saveSubmission(SubmissionAttributes submission) {
-        FileHelper.appendToFile(jsonFile, formatJsonString(submission.getJsonString(), submission.getId().toString()));
+        FileHelper.appendToFile(currentFileName, formatJsonString(submission.getJsonString(), submission.getId().toString()));
     }
 
 }
