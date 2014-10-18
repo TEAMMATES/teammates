@@ -285,27 +285,7 @@
                         %>
 
                         <tr>
-                             <td><%
-                                String status = "";
-                                if(fs.isClosed()){
-                                    status += "[Closed]";   
-                                }
-                                  if(fs.isOpened()){
-                                    status += "[Opened]";    
-                                } 
-                                  if(fs.isWaitingToOpen()){
-                                    status +=  "[Waiting To Open]";   
-                                } 
-                                  if(fs.isPublished()){
-                                    status +=  "[Published]";   
-                                }
-                                  if(fs.isInGracePeriod()){
-                                    status +=  "[Grace Period]";   
-                                }
-                                  
-                                  status = status.isEmpty()? "No Status": status;
-                                  out.print(status);
-                                %>  
+                             <td><%=data.getSessionStatusForShow(fs)%>  
                             </td>
                             <td><%=fs.feedbackSessionName%></td>
                             
@@ -407,27 +387,7 @@
                         %>
 
                         <tr>
-                            <td><%
-                                String status = "";
-                                if(fs.isClosed()){
-                                	status += "[Closed]";   
-                                }
-                                  if(fs.isOpened()){
-                            	    status += "[Opened]";    
-                                } 
-                                  if(fs.isWaitingToOpen()){
-                            	    status +=  "[Waiting To Open]";   
-                                } 
-                                  if(fs.isPublished()){
-                            	    status +=  "[Published]";   
-                                }
-                                  if(fs.isInGracePeriod()){
-                            	    status +=  "[Grace Period]";   
-                                }
-                                  
-                                  status = status.isEmpty()? "No Status": status;
-                                  out.print(status);
-                                %>  
+                            <td><%=data.getSessionStatusForShow(fs)%> 
                             </td>
                             <td><%=fs.feedbackSessionName%></td>
                              <%
