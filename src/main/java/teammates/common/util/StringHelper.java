@@ -42,6 +42,33 @@ public class StringHelper {
         // such as é is correctly matched regardless of single/double code point encoding
         return Pattern.compile(regex, Pattern.CANON_EQ).matcher(input).matches();
     }
+    
+    
+    /**
+     * Check whether any substring of the input string matches the regex repression
+     * @param input The string to be matched
+     * @param regex The regex repression used for the matching
+     */
+    public static boolean isPartialMatching(String input, String regex) {
+        // Important to use the CANON_EQ flag to make sure that canonical characters
+        // such as é is correctly matched regardless of single/double code point encoding
+        return Pattern.compile(regex, Pattern.CANON_EQ).matcher(input).find();
+    }
+    
+    /**
+     * Check whether any substring of the input string matches any of the group of given regex expressions
+     * @param input The string to be matched
+     * @param regexArray The regex repression array used for the matching
+     */
+    public static boolean isAnyPartialMatching(String input, String[] regexArray) {
+        for(String regex : regexArray){
+            if(isPartialMatching(input, regex)){
+                return true;
+            }
+        }
+        
+        return false;
+    }
 
     public static String getIndent(int length) {
         return generateStringOfLength(length, ' ');

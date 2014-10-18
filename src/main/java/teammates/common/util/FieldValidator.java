@@ -374,9 +374,9 @@ public class FieldValidator {
      * Regex used for checking header column name in enroll lines
      */
     public static final String REGEX_COLUMN_SECTION = "sections?";
-    public static final String REGEX_COLUMN_TEAM = "teams?";
+    public static final String[] REGEX_COLUMN_TEAM = {"teams?", "groups?"};
     public static final String REGEX_COLUMN_NAME = "names?";
-    public static final String REGEX_COLUMN_EMAIL = "emails?";
+    public static final String[] REGEX_COLUMN_EMAIL = {"emails?", "mails?", "contacts?"};
     public static final String REGEX_COLUMN_COMMENT = "comments?";
     /*
      * =======================================================================

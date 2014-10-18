@@ -59,7 +59,12 @@ public class StudentAttributesFactory {
         int fieldCount = locateColumnIndexes(headerRow);
         
         if (fieldCount < MIN_FIELD_COUNT || !hasTeam || !hasName || !hasEmail) {
-            throw new EnrollException(ERROR_HEADER_ROW_FIELD_MISSED);
+            
+            String missingField = "";
+            missingField = hasTeam? missingField : missingField + " <mark>Team</mark>";
+            missingField = hasName? missingField : missingField + " <mark>Name</mark>";
+            missingField = hasEmail? missingField : missingField + " <mark>Email</mark>";
+            throw new EnrollException(ERROR_HEADER_ROW_FIELD_MISSED + ": " + missingField);
         } 
     }
     
@@ -119,27 +124,27 @@ public class StudentAttributesFactory {
         for (int curPos = 0; curPos < columns.length; curPos++) {
             String str = columns[curPos].trim().toLowerCase();
             
-            if(StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_SECTION)){
+            if(StringHelper.isPartialMatching(str, FieldValidator.REGEX_COLUMN_SECTION)){
                 sectionColumnIndex = curPos;
                 count++;
                 fieldCount = (!hasSection) ? fieldCount + 1 : fieldCount;
                 hasSection = true;
-            } else if (StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_TEAM)) {
+            } else if (StringHelper.isAnyPartialMatching(str, FieldValidator.REGEX_COLUMN_TEAM)) {
                 teamColumnIndex = curPos;
                 count++;
                 fieldCount = (!hasTeam) ? fieldCount + 1 : fieldCount;
                 hasTeam = true;
-            } else if (StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_NAME)) {
+            } else if (StringHelper.isPartialMatching(str, FieldValidator.REGEX_COLUMN_NAME)) {
                 nameColumnIndex = curPos;
                 count++;
                 fieldCount = (!hasName) ? fieldCount + 1 : fieldCount;
                 hasName = true;
-            } else if (StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_EMAIL)) {
+            } else if (StringHelper.isAnyPartialMatching(str, FieldValidator.REGEX_COLUMN_EMAIL)) {
                 emailColumnIndex = curPos;
                 count++;
                 fieldCount = (!hasEmail) ? fieldCount + 1 : fieldCount;
                 hasEmail = true;
-            } else if (StringHelper.isMatching(str, FieldValidator.REGEX_COLUMN_COMMENT)) {
+            } else if (StringHelper.isPartialMatching(str, FieldValidator.REGEX_COLUMN_COMMENT)) {
                 commentColumnIndex = curPos;
                 count++;
                 fieldCount = (!hasComment) ? fieldCount + 1 : fieldCount;
