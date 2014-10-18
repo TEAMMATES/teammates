@@ -57,7 +57,7 @@ public class OfflineBackup extends RemoteApiClient {
         Datastore.initialize();
         Vector<String> logs = getModifiedLogs();
         Set<String> courses = extractModifiedCourseIds(logs);
-        backupFileDirectory = "Backup " + getCurrentDateAndTime();
+        backupFileDirectory = "Backup/" + getCurrentDateAndTime();
         createBackupDirectory(backupFileDirectory);
         retrieveEntitiesByCourse(courses);
         Gson gson = Utils.getTeammatesGson();
@@ -177,8 +177,7 @@ public class OfflineBackup extends RemoteApiClient {
             
             FileHelper.appendToFile(currentFileName, "\t\"accounts\":{\n");
             
-            for(int i = 0; i < students.size(); i++) {
-                StudentAttributes student = students.get(i);
+            for(StudentAttributes student : students) {
                 saveStudentAccount(student);
             }
             
@@ -376,6 +375,10 @@ public class OfflineBackup extends RemoteApiClient {
     }
     
     private void saveStudentAccount(StudentAttributes student) {
+        if(student == null) {
+            return;
+        }
+        
         Logic logic = new Logic();
         AccountAttributes account = logic.getAccount(student.googleId.trim());
         
@@ -388,6 +391,10 @@ public class OfflineBackup extends RemoteApiClient {
     }
     
     private void saveInstructorAccount(InstructorAttributes instructor) {
+        if(instructor == null) {
+            return;
+        }
+        
         Logic logic = new Logic();
         AccountAttributes account = logic.getAccount(instructor.googleId.trim());
         
