@@ -124,27 +124,27 @@ public class StudentAttributesFactory {
         for (int curPos = 0; curPos < columns.length; curPos++) {
             String str = columns[curPos].trim().toLowerCase();
             
-            if(StringHelper.isPartialMatching(str, FieldValidator.REGEX_COLUMN_SECTION)){
+            if(StringHelper.isAnyMatching(str, FieldValidator.REGEX_COLUMN_SECTION)){
                 sectionColumnIndex = curPos;
                 count++;
                 fieldCount = (!hasSection) ? fieldCount + 1 : fieldCount;
                 hasSection = true;
-            } else if (StringHelper.isAnyPartialMatching(str, FieldValidator.REGEX_COLUMN_TEAM)) {
+            } else if (StringHelper.isAnyMatching(str, FieldValidator.REGEX_COLUMN_TEAM)) {
                 teamColumnIndex = curPos;
                 count++;
                 fieldCount = (!hasTeam) ? fieldCount + 1 : fieldCount;
                 hasTeam = true;
-            } else if (StringHelper.isPartialMatching(str, FieldValidator.REGEX_COLUMN_NAME)) {
+            } else if (StringHelper.isAnyMatching(str, FieldValidator.REGEX_COLUMN_NAME)) {
                 nameColumnIndex = curPos;
                 count++;
                 fieldCount = (!hasName) ? fieldCount + 1 : fieldCount;
                 hasName = true;
-            } else if (StringHelper.isAnyPartialMatching(str, FieldValidator.REGEX_COLUMN_EMAIL)) {
+            } else if (StringHelper.isAnyMatching(str, FieldValidator.REGEX_COLUMN_EMAIL)) {
                 emailColumnIndex = curPos;
                 count++;
                 fieldCount = (!hasEmail) ? fieldCount + 1 : fieldCount;
                 hasEmail = true;
-            } else if (StringHelper.isPartialMatching(str, FieldValidator.REGEX_COLUMN_COMMENT)) {
+            } else if (StringHelper.isAnyMatching(str, FieldValidator.REGEX_COLUMN_COMMENT)) {
                 commentColumnIndex = curPos;
                 count++;
                 fieldCount = (!hasComment) ? fieldCount + 1 : fieldCount;
