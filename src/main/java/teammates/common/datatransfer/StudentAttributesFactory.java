@@ -16,7 +16,7 @@ public class StudentAttributesFactory {
     public static final int MAX_FIELD_COUNT = 5;
     
     public static final String ERROR_HEADER_ROW_FIELD_REPEATED = "The header row contains repeated fields";
-    public static final String ERROR_HEADER_ROW_FIELD_MISSED = "The header row misses required fields";
+    public static final String ERROR_HEADER_ROW_FIELD_MISSED = "The following required column names are missing in the header row";
 
     public static final String ERROR_ENROLL_LINE_EMPTY = "Enroll line was empty\n";
     public static final String ERROR_ENROLL_LINE_TOOFEWPARTS 

@@ -45,6 +45,7 @@ public class StringHelper {
     
     /**
      * Check whether any substring of the input string matches any of the group of given regex expressions
+     * Currently only used in header row processing in StudentAttributesFactory: locateColumnIndexes
      * @param input The string to be matched
      * @param regexArray The regex repression array used for the matching
      */

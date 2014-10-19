@@ -173,7 +173,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollString = "Section | Name | Email\n";
 
         enrollPage.enrollUnsuccessfully(enrollString);
-        enrollPage.verifyStatus("The header row misses required fields: Team");
+        enrollPage.verifyStatus("The following required column names are missing in the header row: Team");
 
 
         ______TS("enroll action: fail to enroll as there is no input");
