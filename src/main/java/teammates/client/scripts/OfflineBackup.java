@@ -15,14 +15,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
-import com.google.appengine.repackaged.com.google.api.client.util.Charsets;
-import com.google.gson.Gson;
-
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -32,7 +28,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -60,11 +55,6 @@ public class OfflineBackup extends RemoteApiClient {
         backupFileDirectory = "Backup/" + getCurrentDateAndTime();
         createBackupDirectory(backupFileDirectory);
         retrieveEntitiesByCourse(courses);
-        Gson gson = Utils.getTeammatesGson();
-        
-        String jsonString = FileHelper.readFile(currentFileName, Charsets.UTF_8);
-        DataBundle data = gson.fromJson(jsonString, DataBundle.class);
-      
     }
     
     /**
@@ -97,8 +87,7 @@ public class OfflineBackup extends RemoteApiClient {
     
    
     /**
-     * Look through the logs and extracts all recently modified entities. Duplicates are removed
-     * and the entities are placed into a multimap based on their types (instructor, student etc)
+     * Look through the logs and extracts all recently modified courses. 
      */
     private Set<String> extractModifiedCourseIds(Vector<String> modifiedLogs) {
         
@@ -139,8 +128,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
     
     /** 
-     *  Looks through an entity map to obtain all entities that were modified recently. Those entities are 
-     *  then retrieved for backup.
+     *  Looks through all the modified courses and retrieve their respective entities.
      */
     private void retrieveEntitiesByCourse(Set<String> coursesList) {
 
@@ -208,6 +196,9 @@ public class OfflineBackup extends RemoteApiClient {
         FileHelper.appendToFile(currentFileName, "\n\t},\n");
     }
   
+    /** 
+     *  Retrieves the course and saves them
+     */
     private void retrieveAndSaveCourse(String courseId) {
         Logic logic = new Logic();
         CourseAttributes course = logic.getCourse(courseId);
@@ -359,6 +350,9 @@ public class OfflineBackup extends RemoteApiClient {
         FileHelper.appendToFile(currentFileName, "\n\t}\n");
     }
     
+    /** 
+     *  Perform formatting of the string to ensure that it conforms to json formatting
+     */
     private String formatJsonString(String entityJsonString, String name) {
         String formattedString = "";
         
@@ -374,6 +368,9 @@ public class OfflineBackup extends RemoteApiClient {
         return formattedString;
     }
     
+    /** 
+     *  Retrieves all the student accounts and saves them
+     */
     private void saveStudentAccount(StudentAttributes student) {
         if(student == null) {
             return;
@@ -390,6 +387,9 @@ public class OfflineBackup extends RemoteApiClient {
         
     }
     
+    /** 
+     *  Retrieves all the instructor accounts and saves them
+     */
     private void saveInstructorAccount(InstructorAttributes instructor) {
         if(instructor == null) {
             return;
