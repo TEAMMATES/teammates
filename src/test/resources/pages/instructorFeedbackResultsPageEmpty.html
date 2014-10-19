@@ -11,7 +11,7 @@
 
 
 <div class="well well-plain padding-0">
-    <form class="form-horizontal" role="form" method="post" action="/page/instructorFeedbackResultsDownload">
+    <div class="form-horizontal">
         <div class="panel-heading">
           <div class="row">
           <div class="col-sm-4">
@@ -51,27 +51,77 @@
               </div>
           </div>
           <div class="col-sm-2">
-              <div id="feedbackDataButtons">
-                  <input id="button_download" class="btn btn-primary pull-right" name="fruploaddownloadbtn" value="Download results" type="submit">
-              </div>
-              <input name="user" value="CFResultsUiT.instr" type="hidden">
-              <input name="fsname" value="Third Session" type="hidden">
-              <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-              <input name="sectionname" value="All" type="hidden">
-          </div>
-        </div>
-        </div>
-      </form>
-    
-</div>
-
-
-<br>
-
-
-
-
-
+                     <div class="form-group">
+                        <form action="/page/instructorFeedbackResultsDownload" method="post">
+                           <div id="feedbackDataButtons">
+                              <input class="btn btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download results"/>
+                                                         </div>
+                           <input name="user" type="hidden" value="CFResultsUiT.instr"/>
+                                                      <input name="fsname" type="hidden" value="Third Session"/>
+                                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                      <input name="sectionname" type="hidden" value="All"/>
+                                                   </form>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <span class="help-block align-center">
+                     Non-English characters not displayed properly in the
+                    downloaded file?
+                     <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" onclick="submitFormAjax()">
+                        click here
+                     </span>
+                  </span>
+               </div>
+            </div>
+         </div>
+      </div>
+      <form id="csvToHtmlForm">
+         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                  <input name="fsname" type="hidden" value="Third Session"/>
+                  <input name="user" type="hidden" value="CFResultsUiT.instr"/>
+                  <input name="frgroupbysection" type="hidden" value="All"/>
+                  <input name="csvtohtmltable" type="hidden" value="true"/>
+               </form>
+      <div class="modal fade align-center" id="fsResultsTableWindow">
+         <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <span class="help-block" style="display:inline;">
+                     Tips: After
+                    Selecting the table,
+                     <kbd>
+                        Ctrl + C
+                     </kbd>
+                     to COPY and
+                     <kbd>
+                        Ctrl + V
+                     </kbd>
+                     to PASTE to your Excel Workbook.
+                  </span>
+                       
+                  <button class="btn btn-default" data-dismiss="modal" type="button">
+                     Close
+                  </button>
+                  <button class="btn btn-primary" onclick="selectElementContents( document.getElementById('fsModalTable') );" type="button">
+                     Select Table
+                  </button>
+               </div>
+               <div class="modal-body">
+                  <div class="table-responsive">
+                     <div id="fsModalTable">
+                     </div>
+                     <br/>
+                                          <div id="ajaxStatus">
+                     </div>
+                  </div>
+               </div>
+               <div class="modal-footer">
+               </div>
+            </div>
+         </div>
+      </div>
+      <br/>
     <div id="statusMessage" style="display: none;"></div>
 
 <br>
