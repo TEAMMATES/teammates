@@ -1,9 +1,16 @@
 package teammates.client.scripts;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -28,9 +35,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.FileHelper;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
-
 import teammates.logic.core.SubmissionsLogic;
-
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -61,7 +66,7 @@ public class UploadBackupData extends RemoteApiClient {
     private static Gson gson = Utils.getTeammatesGson();
     private static String jsonString;
     
-    private static Set<String> coursesPersisted;
+    private static Set<String> coursesPersisted = new HashSet<String>();
     
     private static Logic logic = new Logic();
     private static SubmissionsLogic submissionsLogic = new SubmissionsLogic();
@@ -81,13 +86,38 @@ public class UploadBackupData extends RemoteApiClient {
     
     protected void doOperation() {
         Datastore.initialize();
-        File backupFolder = new File(BACKUP_FOLDER);
-        String[] folders = backupFolder.list();
+        
+        String[] folders = getFolders();
+
         for(String folder : folders) {
             String[] backupFiles = getBackupFilesInFolder(folder);
             uploadData(backupFiles, folder);
         }
     }
+    
+    private static String[] getFolders() {
+        File backupFolder = new File(BACKUP_FOLDER);
+        String[] folders = backupFolder.list();
+        List<String> listOfFolders = Arrays.asList(folders);
+        Collections.sort(listOfFolders, new Comparator<String>() {
+            public int compare(String o1, String o2) {
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd HH.mm.ss");
+                 try {
+                    Date firstDate = dateFormat.parse(o1);
+                    
+                    Date secondDate = dateFormat.parse(o2);
+                    
+                    return secondDate.compareTo(firstDate);
+                }
+                catch (ParseException e) {
+                    return 0;
+                }
+            }
+          });
+        listOfFolders.toArray(folders);
+        return folders;
+    }
+    
     private static String[] getBackupFilesInFolder(String folder) {
         String folderName = BACKUP_FOLDER + "/" + folder;
         File currentFolder = new File(folderName);   
@@ -96,10 +126,16 @@ public class UploadBackupData extends RemoteApiClient {
     
     private static void uploadData(String[] backupFiles, String folder) {
         for(String backupFile : backupFiles) {
+            if(coursesPersisted.contains(backupFile)) {
+                System.out.println(backupFile + " already persisted.");
+                continue;
+            }
             try {
                 String folderName = BACKUP_FOLDER + "/" + folder;
+                
                 jsonString = FileHelper.readFile(folderName + "/" + backupFile);
                 data = gson.fromJson(jsonString, DataBundle.class);  
+                
                 if (!data.accounts.isEmpty()) {                  // Accounts
                     persistAccounts(data.accounts);
                 }                      
@@ -134,6 +170,9 @@ public class UploadBackupData extends RemoteApiClient {
                 if(!data.comments.isEmpty()) {                   // Comments
                     persistComments(data.comments);
                 }
+                
+                coursesPersisted.add(backupFile);
+                
             } catch (Exception e) {
                 System.out.println("Error in uploading files: " + e.getMessage());
             }
