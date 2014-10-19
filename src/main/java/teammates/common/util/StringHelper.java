@@ -46,12 +46,13 @@ public class StringHelper {
     /**
      * Check whether any substring of the input string matches any of the group of given regex expressions
      * Currently only used in header row processing in StudentAttributesFactory: locateColumnIndexes
+     * Case Insensitive
      * @param input The string to be matched
      * @param regexArray The regex repression array used for the matching
      */
     public static boolean isAnyMatching(String input, String[] regexArray) {
         for(String regex : regexArray){
-            if(isMatching(input.trim(), regex)){
+            if(isMatching(input.trim().toLowerCase(), regex)){
                 return true;
             }
         }   

@@ -38,6 +38,12 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals(false, StringHelper.isMatching("Héllo", "Hello"));
     }
     
+    private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult){
+        for(String str : stringsToMatch){
+            assertEquals(expectedResult, StringHelper.isAnyMatching(str, regexArray));
+        }
+    }
+    
     @Test 
     public void testIsAnyMatching(){
         //this method is used in header row processing in StudentAttributesFactory: locateColumnIndexes
@@ -45,81 +51,57 @@ public class StringHelperTest extends BaseTestCase {
         
         
         String[] regexArray = FieldValidator.REGEX_COLUMN_NAME;
+        String[] stringsToMatch = {"names","name", " name ", " names ", "student name", "students names",
+                                   "student names", "students name", "full name", "full names", "full   names",
+                                   "student full names", "students full    names", "Names", "NAMES","Full Names",
+                                   "FULL NAMES", "Full Name", "Student Full Name", "Name"};
+        verifyRegexMatch(stringsToMatch, regexArray, true);
         
-        assertEquals(true, StringHelper.isAnyMatching("names", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching("name", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching("students names", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching("student     name", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching("full    names", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching("student   full  names", regexArray));
+        stringsToMatch = new String[]{"namess", "nam", "student", "full"};
+        verifyRegexMatch(stringsToMatch, regexArray, false);
         
-        assertEquals(false, StringHelper.isAnyMatching("namess", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("nam", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("studenttsnames", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("studen     name", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("fulll names", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("studnt full  names", regexArray));
+        
         
         regexArray = FieldValidator.REGEX_COLUMN_SECTION;
-        assertEquals(true, StringHelper.isAnyMatching("   sect   ", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching("sect ", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching("sections ", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching("section ", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching("course   sections", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching("courses   sec", regexArray));
+        stringsToMatch = new String[]{"section", "sections", "sect", "sec", "course sections", "courses sections",
+                                      "course section", "course sections", "course sec", "courses sec", "Section",
+                                      "SECTIONS", "Sect", "Sec", "Course Section", "Course Sections"};
+        verifyRegexMatch(stringsToMatch, regexArray, true);
         
-        assertEquals(false, StringHelper.isAnyMatching("sectt", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("sectionss", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("sct", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("coursesecs", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("course sectionsss", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("ect", regexArray));
+        stringsToMatch = new String[]{"secc", "Section 1", "Course 1"};
+        verifyRegexMatch(stringsToMatch, regexArray, false);
+        
         
         regexArray = FieldValidator.REGEX_COLUMN_TEAM;
-        assertEquals(true, StringHelper.isAnyMatching("team ", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching("teams", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching(" groups ", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching(" students   teams", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching("  student    groups ", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching(" courses   teams  ", regexArray));
+        stringsToMatch = new String[]{"team", "teams", "Team", "TEAMS", "group", "Group",
+                                      "Groups", "GROUPS", "student teams", "students teams ", "student team",
+                                      "students team", "STUDENT TEAM", "Student Teams ", "Student groups",
+                                      "Student Groups", "student   groups", "student   teams", "Course Teams",
+                                      "courses teams", "course   team", "courses team", "COURSE TEAM"};
+        verifyRegexMatch(stringsToMatch, regexArray, true);
         
-        assertEquals(false, StringHelper.isAnyMatching("tea", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("grop", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("studen teams", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("studentt groups", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("coursess teamss ", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("courseteams", regexArray));
+        stringsToMatch = new String[]{"tea", "Team 1", "Group 1"};
+        verifyRegexMatch(stringsToMatch, regexArray, false);
+        
         
         regexArray = FieldValidator.REGEX_COLUMN_EMAIL;
-        assertEquals(true, StringHelper.isAnyMatching("emails", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching("email ", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching(" e-mails ", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching(" e-mail  ", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching("  e  mails ", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching(" emails   addresses   ", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching(" emails   address   ", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching(" contact   ", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching(" contacts   ", regexArray));
+        stringsToMatch = new String[]{"email", "emails", " email ", " Email ", " Emails", "EMAILS", "EMAIL",
+                                      "mail", "Mail", "MAIL", "MAILS", "E-mail", "E-MAILS", "E-mail", "E-mails",
+                                      "e mails", "E mails", "E  mail", "E MAIL", "E MAILS", "Email address",
+                                      "email addresses", "EMAIL addresses", "email   addresses", "E-mail addresses",
+                                      "E-mail  addresses", "Contact", "CONTACT", "contacts"};
+        verifyRegexMatch(stringsToMatch, regexArray, true);
         
-        assertEquals(false, StringHelper.isAnyMatching("emaill", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("mali", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("eemail", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("emai addresses", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("e-mai address", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("contats", regexArray));
+        stringsToMatch = new String[]{"emai", "test@gmail.com", "address1"};
+        verifyRegexMatch(stringsToMatch, regexArray, false);
         
         regexArray = FieldValidator.REGEX_COLUMN_COMMENT;
-        assertEquals(true, StringHelper.isAnyMatching("   comments  ", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching("  comment ", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching(" notes  ", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching(" note", regexArray));
-        assertEquals(true, StringHelper.isAnyMatching("note", regexArray));
+        stringsToMatch = new String[]{"comment", "Comment", "COMMENT", "comments", "Comments", " COMMENTS ",
+                                      "note", "Note", "NOTE", "notes", "Notes", "  NOTES  "};
+        verifyRegexMatch(stringsToMatch, regexArray, true);
         
-        assertEquals(false, StringHelper.isAnyMatching("", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("commment", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("nottes", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("notess", regexArray));
-        assertEquals(false, StringHelper.isAnyMatching("commentss", regexArray));
+        stringsToMatch = new String[]{"this is a comment", "this is a note", "one comment, one note"};
+        verifyRegexMatch(stringsToMatch, regexArray, false);
 
     }
     
