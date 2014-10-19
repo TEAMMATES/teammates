@@ -373,11 +373,11 @@ public class FieldValidator {
      * =======================================================================
      * Regex used for checking header column name in enroll lines
      */
-    public static final String REGEX_COLUMN_SECTION = "sections?";
-    public static final String REGEX_COLUMN_TEAM = "teams?";
-    public static final String REGEX_COLUMN_NAME = "names?";
-    public static final String REGEX_COLUMN_EMAIL = "emails?";
-    public static final String REGEX_COLUMN_COMMENT = "comments?";
+    public static final String[] REGEX_COLUMN_SECTION = {"sections?", "sect?", "courses?\\s+sec(tion)?s?"};
+    public static final String[] REGEX_COLUMN_TEAM = {"teams?", "groups?", "students?\\s+teams?", "students?\\s+groups?", "courses?\\s+teams?"};
+    public static final String[] REGEX_COLUMN_NAME = {"names?", "students?\\s+names?", "full\\s+names?", "students?\\s+full\\s+names?"};
+    public static final String[] REGEX_COLUMN_EMAIL = {"emails?", "mails?", "e-mails?", "e\\s+mails?", "emails?\\s+address(es)?", "e-mails?\\s+address(es)?", "contacts?"};
+    public static final String[] REGEX_COLUMN_COMMENT = {"comments?", "notes?"};
     /*
      * =======================================================================
      */
