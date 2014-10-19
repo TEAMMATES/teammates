@@ -37,12 +37,7 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals(true, StringHelper.isMatching("\u0061\u0300", "à"));
         assertEquals(false, StringHelper.isMatching("Héllo", "Hello"));
     }
-    
-    private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult){
-        for(String str : stringsToMatch){
-            assertEquals(expectedResult, StringHelper.isAnyMatching(str, regexArray));
-        }
-    }
+   
     
     @Test 
     public void testIsAnyMatching(){
@@ -212,6 +207,12 @@ public class StringHelperTest extends BaseTestCase {
         
         str = Sanitizer.sanitizeForHtml("<text><div> 'param' &&& \\//\\");
         assertEquals("<text><div> 'param' &&& \\//\\",StringHelper.recoverFromSanitizedText(str));
+    }
+    
+    private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult){
+        for(String str : stringsToMatch){
+            assertEquals(expectedResult, StringHelper.isAnyMatching(str, regexArray));
+        }
     }
 
 }
