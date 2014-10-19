@@ -2,6 +2,7 @@ package teammates.client.scripts;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -26,9 +27,13 @@ import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.FileHelper;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
+import teammates.logic.backdoor.BackDoorLogic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.CoursesLogic;
@@ -40,6 +45,17 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.SubmissionsLogic;
+import teammates.storage.api.AccountsDb;
+import teammates.storage.api.CommentsDb;
+import teammates.storage.api.CoursesDb;
+import teammates.storage.api.EvaluationsDb;
+import teammates.storage.api.FeedbackQuestionsDb;
+import teammates.storage.api.FeedbackResponseCommentsDb;
+import teammates.storage.api.FeedbackResponsesDb;
+import teammates.storage.api.FeedbackSessionsDb;
+import teammates.storage.api.InstructorsDb;
+import teammates.storage.api.StudentsDb;
+import teammates.storage.api.SubmissionsDb;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.StudentProfile;
 import teammates.test.driver.BackDoor;
@@ -69,6 +85,7 @@ public class UploadBackupData extends RemoteApiClient {
     
     private static Set<String> coursesPersisted;
     
+    private static Logic logic = new Logic();
     private static AccountsLogic accountsLogic = new AccountsLogic();
     private static CommentsLogic commentsLogic = new CommentsLogic();
     private static CoursesLogic coursesLogic = new CoursesLogic();
@@ -80,6 +97,18 @@ public class UploadBackupData extends RemoteApiClient {
     private static InstructorsLogic instructorsLogic = new InstructorsLogic();
     private static StudentsLogic studentsLogic = new StudentsLogic();
     private static SubmissionsLogic submissionsLogic = new SubmissionsLogic();
+    
+    private static final AccountsDb accountsDb = new AccountsDb();
+    private static final CoursesDb coursesDb = new CoursesDb();
+    private static final CommentsDb commentsDb = new CommentsDb();
+    private static final StudentsDb studentsDb = new StudentsDb();
+    private static final InstructorsDb instructorsDb = new InstructorsDb();
+    private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
+    private static final SubmissionsDb submissionsDb = new SubmissionsDb();
+    private static final FeedbackSessionsDb fbDb = new FeedbackSessionsDb();
+    private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+    private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+    private static final FeedbackResponseCommentsDb fcDb = new FeedbackResponseCommentsDb();
     
     public static void main(String args[]) throws Exception {
         UploadBackupData uploadBackupData = new UploadBackupData();
@@ -95,45 +124,55 @@ public class UploadBackupData extends RemoteApiClient {
             File currentFolder = new File(folderName);   
             String[] backupFiles = currentFolder.list();
             for(String backupFile : backupFiles) {
+                
                 try {
-                jsonString = FileHelper.readFile(folderName + "/" + backupFile);
-                data = gson.fromJson(jsonString, DataBundle.class);  
-                    
+                    jsonString = FileHelper.readFile(folderName + "/" + backupFile);
+                    data = gson.fromJson(jsonString, DataBundle.class);  
                     if (!data.accounts.isEmpty()) {                         // Accounts
-                        persist(data.accounts);    
-                    } 
-                    if(!data.comments.isEmpty()) {                   // Comments
-                        persist(data.comments);
-                    } 
+                        //persist(data.accounts);   
+                        persistAccounts(data.accounts);
+                    }                      
                     if (!data.courses.isEmpty()){                    // Courses
-                        persist(data.courses);
+                        //persist(data.courses);
+                        persistCourses(data.courses);
+                    } 
+                    if (!data.instructors.isEmpty()){                // Instructors
+                        //persist(data.instructors);
+                        persistInstructors(data.instructors);
+                    } 
+                    if (!data.students.isEmpty()){                   // Students
+                        //persist(data.students);
+                        persistStudents(data.students);
                     } 
                     if (!data.evaluations.isEmpty()){                // Evaluations
-                        persist(data.evaluations);
+                        //persist(data.evaluations);
+                        persistEvaluations(data.evaluations);
+                    } 
+                    if (!data.feedbackSessions.isEmpty()){           // Feedback sessions
+                        //persist(data.feedbackSessions);
+                        persistFeedbackSessions(data.feedbackSessions);
                     } 
                     if (!data.feedbackQuestions.isEmpty()){          // Feedback questions
-                        persist(data.feedbackQuestions);
+                        persistFeedbackQuestions(data.feedbackQuestions);
+                        //persist(data.feedbackQuestions);
                     } 
                     if(!data.feedbackResponses.isEmpty()) {          // Feedback responses
-                        persist(data.feedbackResponses);
+                        persistFeedbackResponses(data.feedbackResponses);
+                        
                     } 
                     if (!data.feedbackResponseComments.isEmpty()){   // Feedback response comments
                         persist(data.feedbackResponseComments);
                     } 
-                    if (!data.feedbackSessions.isEmpty()){           // Feedback sessions
-                        persist(data.feedbackSessions);
-                    } 
-                    if (!data.instructors.isEmpty()){                // Instructors
-                        persist(data.feedbackSessions);
-                    } 
-                    if (!data.students.isEmpty()){                   // Students
-                        persist(data.instructors);
-                    } 
                     if (!data.submissions.isEmpty()){                // Submissions
-                        persist(data.submissions);
+                        //persist(data.submissions);
+                        persistSubmissions(data.submissions);;
                     } 
+                    if(!data.comments.isEmpty()) {                   // Comments
+                        //persist(data.comments);
+                        persistComments(data.comments);
+                    }
                 } catch (Exception e) {
-                    
+                    System.out.println("Error in uploading files: " + e.getMessage());
                 }
             }
         }
@@ -149,7 +188,7 @@ public class UploadBackupData extends RemoteApiClient {
      * @param map - HashMap which has data to persist
      * @return status of the Backdoor operation
      */
-    private static String persist(@SuppressWarnings("rawtypes") HashMap map)
+    private static void persist(@SuppressWarnings("rawtypes") HashMap map)
     {
         DataBundle bundle = new DataBundle();
         int count =0;
@@ -166,17 +205,15 @@ public class UploadBackupData extends RemoteApiClient {
                 if (obj instanceof AccountAttributes) {
                     type = "AccountData";
                     AccountAttributes accountData = (AccountAttributes)obj;
-                    Logic logic = new Logic();
+                    
                     logic.createAccount(accountData.googleId, accountData.name, 
                             accountData.isInstructor, accountData.email, accountData.institute);
-                    //StudentProfileAttributes studentProfile = new StudentProfileAttributes();
-                    //AccountAttributes newAccountData = new AccountAttributes(, studentProfile);
-                    //accountsLogic.createAccount(newAccountData);
                 } else if(obj instanceof CommentAttributes){
                     type = "CommentData";
                     CommentAttributes commentData = (CommentAttributes)obj;
-                    CommentsLogic commentsLogic = new CommentsLogic();
-                    commentsLogic.createComment(commentData);
+                    logic.createComment(commentData);
+                    //CommentsLogic commentsLogic = new CommentsLogic();
+                    //commentsLogic.createComment(commentData);
                 } else if(obj instanceof CourseAttributes) {
                     type = "CourseData";
                     CourseAttributes courseData = (CourseAttributes)obj;
@@ -192,7 +229,6 @@ public class UploadBackupData extends RemoteApiClient {
                 } else if (obj instanceof FeedbackResponseAttributes) {
                     type = "FeedbackResponseData";
                     FeedbackResponseAttributes feedbackResponseData = (FeedbackResponseAttributes)obj;
-                    System.out.println(feedbackResponseData.courseId);
                     feedbackResponsesLogic.createFeedbackResponse(feedbackResponseData);
                 } else if (obj instanceof FeedbackResponseCommentAttributes) {
                     type = "FeedbackResponseCommentData";
@@ -275,15 +311,128 @@ public class UploadBackupData extends RemoteApiClient {
                 break;*/
         }
         System.out.print("Persisting: " + count + " entities of type "+ type + "\n" );
-        
-        String status = BackDoor.persistNewDataBundle(gson.toJson(bundle));
-        
-        // wait a few seconds to allow data to persist completedly
+       
+    }
+    
+    private static void persistAccounts(HashMap<String, AccountAttributes> accounts) {
         try {
-            Thread.sleep(WAIT_TIME_BETWEEN_REQUEST);
-        } catch (InterruptedException e) {
+            for(AccountAttributes accountData : accounts.values())
+                logic.createAccount(accountData.googleId, accountData.name, 
+                    accountData.isInstructor, accountData.email, accountData.institute);
+        } catch (InvalidParametersException | EntityAlreadyExistsException | EntityDoesNotExistException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return status;
+    }
+    
+    private static void persistCourses(HashMap<String, CourseAttributes> courses) {
+        try {
+            coursesDb.createCourses(courses.values());
+        } catch (InvalidParametersException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    
+    private static void persistInstructors(HashMap<String, InstructorAttributes> instructors) {
+        try {
+            instructorsDb.createInstructors(instructors.values());
+        } catch (InvalidParametersException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    
+    private static void persistStudents(HashMap<String, StudentAttributes> students) {
+        try {
+            studentsDb.createStudents(students.values());
+        } catch (InvalidParametersException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    
+    private static void persistEvaluations(HashMap<String, EvaluationAttributes> evaluations) {
+
+        for (EvaluationAttributes evaluation : evaluations.values()) {
+            try {
+                logic.createEvaluationWithoutSubmissionQueue(evaluation);
+            } catch (EntityAlreadyExistsException | InvalidParametersException
+                    | EntityDoesNotExistException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    private static void persistFeedbackSessions(HashMap<String, FeedbackSessionAttributes> feedbackSessions) {
+        try {
+            fbDb.createFeedbackSessions(feedbackSessions.values());
+        } catch (InvalidParametersException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    
+    private static void persistFeedbackQuestions(HashMap<String, FeedbackQuestionAttributes> map) {
+        HashMap<String, FeedbackQuestionAttributes> questions = map;
+        List<FeedbackQuestionAttributes> questionList = new ArrayList<FeedbackQuestionAttributes>(questions.values());
+        Collections.sort(questionList);
+        for(FeedbackQuestionAttributes question : questionList){
+            question.removeIrrelevantVisibilityOptions();
+        }
+
+        try {
+            fqDb.createFeedbackQuestions(questionList);
+        } catch (InvalidParametersException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    
+    private static void persistFeedbackResponses(HashMap<String, FeedbackResponseAttributes> map) {
+        HashMap<String, FeedbackResponseAttributes> responses = map;
+        List<FeedbackResponseAttributes> responseList = new ArrayList<FeedbackResponseAttributes>(responses.values());
+        try {
+            frDb.createFeedbackResponses(responseList);
+        } catch (InvalidParametersException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    
+    private static void persistFeedbackResponseComments(HashMap<String, FeedbackResponseCommentAttributes> map) {
+        HashMap<String, FeedbackResponseCommentAttributes> responseComments = map;
+     
+        try {
+            fcDb.createFeedbackResponseComments(responseComments.values());
+        } catch (InvalidParametersException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    
+    private static void persistComments(HashMap<String, CommentAttributes> map) {
+        HashMap<String, CommentAttributes> comments = map;
+        try {
+            commentsDb.createComments(comments.values());
+        } catch (InvalidParametersException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    
+    private static void persistSubmissions(HashMap<String, SubmissionAttributes> submissions) {
+        List<SubmissionAttributes> listOfSubmissionsToAdd = new ArrayList<SubmissionAttributes>();
+        for(SubmissionAttributes submission : submissions.values()) {
+            listOfSubmissionsToAdd.add(submission);
+        }
+        
+        try {
+            submissionsLogic.createSubmissions(listOfSubmissionsToAdd);
+        } catch (InvalidParametersException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }
