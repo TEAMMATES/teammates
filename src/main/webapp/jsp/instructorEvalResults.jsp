@@ -54,7 +54,7 @@
         </div>
 
         <div class="well well-plain">
-            <form class="form-horizontal" role="form" id="download_eval_report" method="GET" action=<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_DOWNLOAD%>>
+            <div class="form-horizontal">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Course ID:</label>
                     <div class="col-sm-9">
@@ -112,44 +112,100 @@
                 </div>
                 <br>
                 <div class="form-group">
-                    <div class="col-sm-offset-4 col-sm-2 col-xs-offset-2 col-xs-3 col-md-offset-5 col-md-1">
+                    <div class="align-center">
+                    
+                    <%
+                        if(InstructorEvalResultsPageData.getInstructorStatusForEval(data.evaluationResults.evaluation).equals(Const.INSTRUCTOR_EVALUATION_STATUS_PUBLISHED)) {
+                    %>
+                    <button type="button" class="btn btn-primary" id="button_unpublish"
+                        value="Unpublish"
+                        onclick="if(toggleUnpublishEvaluation('<%=data.evaluationResults.evaluation.name%>')) window.location.href='<%=data.getInstructorEvaluationUnpublishLink(data.evaluationResults.evaluation.courseId,data.evaluationResults.evaluation.name,false)%>';">Unpublish</button>
+                    <%
+                        } else {
+                    %>
+                    <button type="button" class="btn btn-primary" id="button_publish"
+                        value="Publish"
+                        onclick="if(togglePublishEvaluation('<%=data.evaluationResults.evaluation.name%>')) window.location.href='<%=data.getInstructorEvaluationPublishLink(data.evaluationResults.evaluation.courseId,data.evaluationResults.evaluation.name,false)%>';"
                         <%
-                            if(InstructorEvalResultsPageData.getInstructorStatusForEval(data.evaluationResults.evaluation).equals(Const.INSTRUCTOR_EVALUATION_STATUS_PUBLISHED)) {
+                            if (!InstructorEvalResultsPageData.getInstructorStatusForEval(data.evaluationResults.evaluation).equals(Const.INSTRUCTOR_EVALUATION_STATUS_CLOSED)) {
                         %>
-                        <button type="button" class="btn btn-primary" id="button_unpublish"
-                            value="Unpublish"
-                            onclick="if(toggleUnpublishEvaluation('<%=data.evaluationResults.evaluation.name%>')) window.location.href='<%=data.getInstructorEvaluationUnpublishLink(data.evaluationResults.evaluation.courseId,data.evaluationResults.evaluation.name,false)%>';">Unpublish</button>
-                        <%
-                            } else {
-                        %>
-                        <button type="button" class="btn btn-primary" id="button_publish"
-                            value="Publish"
-                            onclick="if(togglePublishEvaluation('<%=data.evaluationResults.evaluation.name%>')) window.location.href='<%=data.getInstructorEvaluationPublishLink(data.evaluationResults.evaluation.courseId,data.evaluationResults.evaluation.name,false)%>';"
-                            <%
-                                if (!InstructorEvalResultsPageData.getInstructorStatusForEval(data.evaluationResults.evaluation).equals(Const.INSTRUCTOR_EVALUATION_STATUS_CLOSED)) {
-                            %>
-                            disabled="disabled"
-                            <%
-                                }
-                            %>
-                            >Publish</button>
+                        disabled="disabled"
                         <%
                             }
                         %>
-                    </div>
+                        >Publish</button>
+                    <%
+                        }
+                    %>
+                   
+                <form id="download_eval_report" method="GET" action=<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_DOWNLOAD%> style="display:inline;">
+                    
+                <button type="submit" value="Download Report" class="btn btn-primary">Download Report</button>    
+                
+                <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>"
+                        value="<%=data.account.googleId%>">
+                <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>"
+                        value="<%=data.evaluationResults.evaluation.courseId%>">
+                <input type="hidden" name="<%=Const.ParamsNames.EVALUATION_NAME%>"
+                        value="<%=sanitizeForHtml(data.evaluationResults.evaluation.name)%>">
+                              
+                </form>
+                            
+                        <div>
+                        <span class="help-block">
+                            Non-English characters not displayed properly in the downloaded file?<span class="btn-link"
+                            data-toggle="modal"
+                            data-target="#evalResultsHtmlWindow"
+                            onclick = "submitFormAjax()">
+                            click here</span>
+                         </span>
+                        </div>
+                        
+                        <form id="csvToHtmlForm">
+                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.courseId%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.EVALUATION_NAME%>" value="<%=data.evalName%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED%>" value=true>
+                        </form>
 
-                    <div class="col-sm-2 col-xs-4">
-                        <button type="submit" value="Download Report" class="btn btn-primary">Download Report</button>    
-                    </div>
-                    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>"
-                            value="<%=data.account.googleId%>">
-                    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>"
-                            value="<%=data.evaluationResults.evaluation.courseId%>">
-                    <input type="hidden" name="<%=Const.ParamsNames.EVALUATION_NAME%>"
-                            value="<%=sanitizeForHtml(data.evaluationResults.evaluation.name)%>">
+                        <div class="modal fade" id="evalResultsHtmlWindow">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                          <span class="pull-left help-block">
+                                        Tips: After Selecting the table, <kbd>Ctrl + C</kbd> to COPY and <kbd>Ctrl + V</kbd> to PASTE to your Excel Workbook.
+                                        </span>
+                                        <button type="button"
+                                            class="btn btn-default"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="button"
+                                            class="btn btn-primary"
+                                            onclick="selectElementContents( document.getElementById('summaryModalTable') );">
+                                            Select Table</button>
+                                    </div>
+                                    <div class="modal-body">
+                                    <div class="table-responsive">
+                                    <div id="summaryModalTable">
+                                    
+                                    </div>
+                                    <br>
+                                    <div id="ajaxStatus">
+                                    </div>
+                                    </div>
+                                    </div>
+                                   
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
+                
                       
+                   </div>
                 </div>
-            </form>
+            </div>
+            
         </div>
 
         <br>

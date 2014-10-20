@@ -24,6 +24,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public String showStats = null;
     public int startIndex;
     
+    //used for html table ajax loading 
+    public String courseId = null;
+    public String feedbackSessionName = null;
+    public String ajaxStatus = null;
+    public String sessionResultsHtmlTableAsString = null;
+    
+    
     public InstructorFeedbackResultsPageData(AccountAttributes account) {
         super(account);
         startIndex = -1;
