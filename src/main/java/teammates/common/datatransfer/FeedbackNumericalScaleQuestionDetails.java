@@ -256,7 +256,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         
         String statsTitle = "Summary of responses received by you";
-        if (isDirectedAtGeneral) {
+        if (isDirectedAtGeneral || isVisibleToAll) {
             statsTitle = "Response Summary";
         } else if (isDirectedAtTeams) {
             statsTitle = "Summary of responses received by your team";
@@ -329,6 +329,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
                     "${Min}", df.format(min.get(recipient))));
         }
         
+        if (userFragmentHtml.length() == 0) {
+            return "";
+        }
         
         html = FeedbackQuestionFormTemplates.populateTemplate(
                         FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS,
