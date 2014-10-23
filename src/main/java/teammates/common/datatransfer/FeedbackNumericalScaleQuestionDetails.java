@@ -120,40 +120,71 @@ public class FeedbackNumericalScaleQuestionDetails extends
         if (view.equals("student")) {
             return getStudentQuestionResultsStatisticsHtml(responses, currentUser, question, bundle);
         } else {
-            return getInstructorQuestionResultsStatisticsHtml(responses);
+            return getInstructorQuestionResultsStatisticsHtml(responses, question, bundle);
         }
     }
 
     private String getInstructorQuestionResultsStatisticsHtml(
-            List<FeedbackResponseAttributes> responses) {
+            List<FeedbackResponseAttributes> responses, 
+            FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
         String html = "";
-        double average = 0;
-        double min = Integer.MAX_VALUE;
-        double max = Integer.MIN_VALUE;
-        int numResponses = 0;
-        double total = 0;
+        HashMap<String, Double> userAverage = new HashMap<String, Double>();
+        HashMap<String, Double> min = new HashMap<String, Double>();
+        HashMap<String, Double> max = new HashMap<String, Double>();
+        HashMap<String, Integer> numResponses = new HashMap<String, Integer>();
+        HashMap<String, Double> total = new HashMap<String, Double>();
+        
         
         for(FeedbackResponseAttributes response : responses){
-            numResponses++;
             double answer = ((FeedbackNumericalScaleResponseDetails)response.getResponseDetails()).getAnswer();
-            min = (answer < min) ? answer : min;
-            max = (answer > max) ? answer : max;
-            total += answer;
+                
+                
+            int numOfResponses = numResponses.containsKey(response.recipientEmail)? numResponses.get(response.recipientEmail) + 1 : 1;
+            numResponses.put(response.recipientEmail, numOfResponses);
+                
+            double minScoreReceived = min.containsKey(response.recipientEmail)?  Math.min(answer, min.get(response.recipientEmail)): answer;
+            min.put(response.recipientEmail, minScoreReceived);
+                
+            double maxScoreReceived = max.containsKey(response.recipientEmail)? Math.max(answer, max.get(response.recipientEmail)) : answer;
+            max.put(response.recipientEmail, maxScoreReceived);
+                
+            double totalScore = total.containsKey(response.recipientEmail)? total.get(response.recipientEmail) + answer: answer;
+            total.put(response.recipientEmail, totalScore);
         }
         
-        average = total/numResponses;
+        String statsTitle = "Response summary";
         
         DecimalFormat df = new DecimalFormat();
         df.setMinimumFractionDigits(0);
         df.setMaximumFractionDigits(5);
         df.setRoundingMode(RoundingMode.DOWN);
+  
+        
+        StringBuilder userFragmentHtml = new StringBuilder();
+        
+        for (String recipient : numResponses.keySet()) {    
+            userAverage.put(recipient, total.get(recipient) / numResponses.get(recipient));
+            
+            String recipientName;
+            if (recipient.equals("%GENERAL%")) {
+                recipientName = "General";
+            } else {
+                recipientName = bundle.getNameForEmail(recipient);
+            }
+            
+                    
+            userFragmentHtml.append(FeedbackQuestionFormTemplates.populateTemplate(
+                    FeedbackQuestionFormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT,
+                    "${recipientName}", recipientName,
+                    "${Average}", df.format(userAverage.get(recipient)),
+                    "${Max}", df.format(max.get(recipient)),
+                    "${Min}", df.format(min.get(recipient))));
+        }
         
         html = FeedbackQuestionFormTemplates.populateTemplate(
-                        FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS,
-                        "${summaryTitle}", "Response Summary",
-                        "${average}", df.format(average),
-                        "${min}", (min == Integer.MAX_VALUE)? "-" : df.format(min),
-                        "${max}", (max == Integer.MIN_VALUE)? "-" : df.format(max));
+                FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS,
+                "${summaryTitle}", statsTitle,
+                "${statsFragments}", userFragmentHtml.toString());
         
         return html;
     }
@@ -177,9 +208,11 @@ public class FeedbackNumericalScaleQuestionDetails extends
                                     (question.recipientType == FeedbackParticipantType.OWN_TEAM);
         boolean isDirectedAtStudents = !isDirectedAtGeneral && !isDirectedAtTeams;
         
-        boolean isVisibleToAll = question.showResponsesTo.contains(FeedbackParticipantType.TEAMS) || 
-                                 question.showResponsesTo.contains(FeedbackParticipantType.STUDENTS);
-             
+        boolean isVisibleToAll = (question.showResponsesTo.contains(FeedbackParticipantType.TEAMS) &&
+                                  question.showRecipientNameTo.contains(FeedbackParticipantType.TEAMS)) || 
+                                 (question.showResponsesTo.contains(FeedbackParticipantType.STUDENTS) &&
+                                  question.showRecipientNameTo.contains(FeedbackParticipantType.STUDENTS));
+        boolean userGaveResponseToSelf = false;
         
         for(FeedbackResponseAttributes response : responses){
             boolean isDirectedAtUser = isDirectedAtStudents && response.recipientEmail.equals(currentUser.email); 
@@ -209,21 +242,18 @@ public class FeedbackNumericalScaleQuestionDetails extends
                     min.put(rowName, minScoreReceived);
                     max.put(rowName, maxScoreReceived);
                     total.put(rowName, totalScore);
+                } else if (response.recipientEmail.equals(currentUser.email) && response.giverEmail.equals(currentUser.email)) {
+                    userGaveResponseToSelf = true;
                 }
                 
             }
         }
-        
         
         // Do not give summary statistics if less than 2 responses
         if (numResponses.containsKey(currentUser.email) && numResponses.get(currentUser.email) < 2) {
             return "";
         }
         
-        DecimalFormat df = new DecimalFormat();
-        df.setMinimumFractionDigits(0);
-        df.setMaximumFractionDigits(5);
-        df.setRoundingMode(RoundingMode.DOWN);
         
         String statsTitle = "Summary of responses received by you";
         if (isDirectedAtGeneral) {
@@ -231,10 +261,52 @@ public class FeedbackNumericalScaleQuestionDetails extends
         } else if (isDirectedAtTeams) {
             statsTitle = "Summary of responses received by your team";
         }
+  
+        
+        DecimalFormat df = new DecimalFormat();
+        df.setMinimumFractionDigits(0);
+        df.setMaximumFractionDigits(5);
+        df.setRoundingMode(RoundingMode.DOWN);
+  
         
         StringBuilder userFragmentHtml = new StringBuilder();
-        for (String recipient : numResponses.keySet()) {
+        // display the current user's statistics in the first row of the table 
+        if (question.recipientType == FeedbackParticipantType.STUDENTS && 
+            numResponses.containsKey(currentUser.email)) {
+            userAverage.put(currentUser.email, total.get(currentUser.email) / numResponses.get(currentUser.email));
+            userFragmentHtml.append(FeedbackQuestionFormTemplates.populateTemplate(
+                    FeedbackQuestionFormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT,
+                    "${recipientName}", "You",
+                    "${Average}", df.format(userAverage.get(currentUser.email)),
+                    "${Max}", df.format(max.get(currentUser.email)),
+                    "${Min}", df.format(min.get(currentUser.email))));
+            numResponses.remove(currentUser.email); 
             
+        } else if (question.recipientType == FeedbackParticipantType.TEAMS && 
+                   numResponses.containsKey(currentUserTeam)) {
+            userAverage.put(currentUserTeam, total.get(currentUserTeam) / numResponses.get(currentUserTeam));
+            userFragmentHtml.append(FeedbackQuestionFormTemplates.populateTemplate(
+                    FeedbackQuestionFormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT,
+                    "${recipientName}", "Your Team",
+                    "${Average}", df.format(userAverage.get(currentUserTeam)),
+                    "${Max}", df.format(max.get(currentUserTeam)),
+                    "${Min}", df.format(min.get(currentUserTeam))));
+            numResponses.remove(currentUserTeam); 
+            
+        }
+        // display a row consisting of the statistics excluding the user's own response to himself/herself
+        if (userGaveResponseToSelf) {
+            userAverage.put(recipientOfResponseToSelf, total.get(recipientOfResponseToSelf) / numResponses.get(recipientOfResponseToSelf));
+            userFragmentHtml.append(FeedbackQuestionFormTemplates.populateTemplate(
+                    FeedbackQuestionFormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT,
+                    "${recipientName}", recipientOfResponseToSelf,
+                    "${Average}", df.format(userAverage.get(recipientOfResponseToSelf)),
+                    "${Max}", df.format(max.get(recipientOfResponseToSelf)),
+                    "${Min}", df.format(min.get(recipientOfResponseToSelf))));
+        }
+        numResponses.remove(recipientOfResponseToSelf);
+        
+        for (String recipient : numResponses.keySet()) {    
             userAverage.put(recipient, total.get(recipient) / numResponses.get(recipient));
             
             String recipientName;
