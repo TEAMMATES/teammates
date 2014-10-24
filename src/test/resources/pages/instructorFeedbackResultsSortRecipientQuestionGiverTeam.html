@@ -1095,26 +1095,56 @@
         </div>
     </div>
     <div class="row">
-        <form class="form-horizontal col-sm-12" role="form">
-            <div class="form-group margin-0">
-                <label class="col-sm-2 control-label font-weight-normal">Average:</label>
-                <div class="col-sm-3">
-                    <p class="form-control-static">3.5</p>
-                </div>
-            </div>
-            <div class="form-group margin-0">
-                <label class="col-sm-2 control-label font-weight-normal">Minimum:</label>
-                <div class="col-sm-3">
-                    <p class="form-control-static">3.5</p>
-                </div>
-            </div>
-            <div class="form-group margin-0">
-                <label class="col-sm-2 control-label font-weight-normal">Maximum:</label>
-                <div class="col-sm-3">
-                    <p class="form-control-static">3.5</p>
-                </div>
-            </div>
-        </form>
+        <div class="col-sm-12">
+          <table class="table table-bordered table-responsive margin-0">
+             <thead>
+                <tr>
+                   <td class="button-sort-ascending" id="button_sortreceivername" onclick="toggleSort(this,1);">
+                      Recipient
+                      <span class="icon-sort unsorted">
+                      </span>
+                   </td>
+                   <td class="button-sort-none" data-container="body" data-original-title="" data-placement="top" data-toggle="tooltip" id="button_sortavg" onclick="toggleSort(this,2,sortByPoint)" title="">
+                      <abbr title="Average over the scores received">
+                         Average
+                      </abbr>
+                      <span class="icon-sort unsorted">
+                      </span>
+                   </td>
+                   <td class="button-sort-none" data-container="body" data-original-title="" data-placement="top" data-toggle="tooltip" id="button_sortmax" onclick="toggleSort(this,3,sortByPoint)" title="">
+                      <abbr title="Highest score received">
+                         Max
+                      </abbr>
+                      <span class="icon-sort unsorted">
+                      </span>
+                   </td>
+                   <td class="button-sort-none" data-container="body" data-original-title="" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,4,sortByPoint)" title="">
+                      <abbr title="Lowest score received">
+                         Min
+                      </abbr>
+                      <span class="icon-sort unsorted">
+                      </span>
+                   </td>
+                </tr>
+             </thead>
+             <tbody>
+                <tr>
+                   <td>
+                      Alice Betsy
+                   </td>
+                   <td>
+                      3.5
+                   </td>
+                   <td>
+                      3.5
+                   </td>
+                   <td>
+                      3.5
+                   </td>
+                </tr>
+             </tbody>
+          </table>
+       </div>
     </div>
 </div>
                                 </div>

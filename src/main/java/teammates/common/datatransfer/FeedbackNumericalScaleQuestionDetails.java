@@ -152,7 +152,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             total.put(response.recipientEmail, totalScore);
         }
         
-        String statsTitle = "Response summary";
+        String statsTitle = "Response Summary";
         
         DecimalFormat df = new DecimalFormat();
         df.setMinimumFractionDigits(0);
