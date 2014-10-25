@@ -103,7 +103,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         String result = "===============Unique Student Emails===============\n"
                         + "Format=> Total Unique Emails [Total Emails]\n"
                         + "===================================================\n"
-                        + totalCountOfEmails + " [ " + totalCountOfEmails + " ]\n";
+                        + totalCountOfUniqueEmails + " [ " + totalCountOfEmails + " ]\n";
         return result;
     }
     
