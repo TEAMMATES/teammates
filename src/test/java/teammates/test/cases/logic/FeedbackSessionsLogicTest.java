@@ -1321,6 +1321,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         */
         
         exportLines = export.split(Const.EOL);
+        for (String s: exportLines)
+            System.out.println(":::" + s);
         assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
         assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
         assertEquals(exportLines[2], "");
@@ -1328,24 +1330,26 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[4], "Question 1,\"Rate our product.\"");
         assertEquals(exportLines[5], "");
         assertEquals(exportLines[6], "Summary Statistics,");
-        assertEquals(exportLines[7], "Average, Minimum, Maximum");
-        assertEquals(exportLines[8], "2.75,2,3.5");
-        assertEquals(exportLines[9], "");
-        assertEquals(exportLines[10], "Team,Giver's Full Name,Giver's Last Name,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Feedback");
-        assertEquals(exportLines[11], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",3.5");
-        assertEquals(exportLines[12], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",2");
-        assertEquals(exportLines[13], "");
+        assertEquals(exportLines[7], "Recipient, Average, Minimum, Maximum");
+        assertEquals(exportLines[8], "student2 In Course1,2.0,2.0,2.0");
+        assertEquals(exportLines[9], "student1 In Course1,3.5,3.5,3.5");
+        assertEquals(exportLines[10], "");
+        assertEquals(exportLines[11], "Team,Giver's Full Name,Giver's Last Name,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Feedback");
+        assertEquals(exportLines[12], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",3.5");
+        assertEquals(exportLines[13], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",2");
         assertEquals(exportLines[14], "");
-        assertEquals(exportLines[15], "Question 2,\"Rate our product.\"");
-        assertEquals(exportLines[16], "");
-        assertEquals(exportLines[17], "Summary Statistics,");
-        assertEquals(exportLines[18], "Average, Minimum, Maximum");
-        assertEquals(exportLines[19], "2.75,1,4.5");
-        assertEquals(exportLines[20], "");
-        assertEquals(exportLines[21], "Team,Giver's Full Name,Giver's Last Name,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Feedback");
-        assertEquals(exportLines[22], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",4.5");
-        assertEquals(exportLines[23], "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",1");
-        
+        assertEquals(exportLines[15], "");
+        assertEquals(exportLines[16], "Question 2,\"Rate our product.\"");
+        assertEquals(exportLines[17], "");
+        assertEquals(exportLines[18], "Summary Statistics,");
+        assertEquals(exportLines[19], "Recipient, Average, Minimum, Maximum");
+        assertEquals(exportLines[20], "Instructor1 Course1,4.5,4.5,4.5");
+        assertEquals(exportLines[21], "Instructor2 Course1,1.0,1.0,1.0");
+        assertEquals(exportLines[22], "");
+        assertEquals(exportLines[23], "Team,Giver's Full Name,Giver's Last Name,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Feedback");
+        assertEquals(exportLines[24], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",4.5");
+        assertEquals(exportLines[25], "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",1");
+       
         
         ______TS("CONSTSUM results");
         
