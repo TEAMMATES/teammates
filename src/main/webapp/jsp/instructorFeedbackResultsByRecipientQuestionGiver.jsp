@@ -466,37 +466,35 @@
                 FeedbackSessionResponseStatus responseStatus = data.bundle.responseStatus;
                 if (data.selectedSection.equals("All") && !responseStatus.noResponse.isEmpty()) {
             %>          
-                                       <div class="panel-body padding-0">
+                    <div class="panel-body padding-0">
                         <table class="table table-striped table-bordered margin-0">
                             <tbody>
                             <tr>
-							<th id="button_sortTo" class="button-sort-none"
-								onclick="toggleSort(this,1)" style="width: 15%;">Student
-								Name <span class="icon-sort unsorted"></span>
-							</th>
-							<th id="button_sortFromTeam" class="button-sort-ascending"
-								onclick="toggleSort(this,2)" style="width: 15%;">Team <span
-								class="icon-sort unsorted"></span>
-							</th>
-						</tr>
-                            <%  
-                            List<String> students = responseStatus
-							.getStudentsWhoDidNotRespondToAnyQuestion();
-					for (String studentEmail : students) {
-						String studentName = responseStatus.emailNameTable
-								.get(studentEmail);
-						String teamName = responseStatus.emailTeamNameTable
-								.get(studentEmail);
-						if (teamName == null) teamName = "Teaching Team";
-                            %>
-                                    <tr>
-                                        <td><%=studentName%></td>
-                                        <td><%=teamName%></td>
-                                    </tr>
-                            <%
-                                }
-                            %>
-                            </tbody>
+                            <th id="button_sortTo" class="button-sort-none"
+                                onclick="toggleSort(this,1)" style="width: 15%;">Student
+                                    Name <span class="icon-sort unsorted"></span>
+                            </th>
+                            <th id="button_sortFromTeam" class="button-sort-ascending"
+                                onclick="toggleSort(this,2)" style="width: 15%;">Team <span
+                                class="icon-sort unsorted"></span>
+                            </th>
+                            </tr>
+                        <%
+                           List<String> students = responseStatus
+                                                .getStudentsWhoDidNotRespondToAnyQuestion();
+                           for (String studentEmail : students) {
+                               String studentName = responseStatus.emailNameTable.get(studentEmail);
+                               String teamName = responseStatus.emailTeamNameTable.get(studentEmail);
+                        %>
+
+                        <tr>
+                            <td><%=studentName%></td>
+                            <td><%=teamName%></td>
+                        </tr>
+                        <%
+                        }
+                        %>
+                        </tbody>
                         </table>
                     </div>
             <%
