@@ -231,11 +231,19 @@ public abstract class EntitiesDb {
     }
     
     public void deletePicture(BlobKey key) throws BlobstoreFailureException {
-        BlobstoreServiceFactory.getBlobstoreService().delete(key);
+        try {
+            BlobstoreServiceFactory.getBlobstoreService().delete(key);
+        } catch(Exception e) {
+            log.warning("tried to delete non-existent picture");
+        }
     }
     
     public void deletePictures(BlobKey[] keys) throws BlobstoreFailureException {
-        BlobstoreServiceFactory.getBlobstoreService().delete(keys);
+        try {
+            BlobstoreServiceFactory.getBlobstoreService().delete(keys);
+        } catch(Exception e) {
+            log.warning("tried to delete non-existent pictures");
+        }
     }
     
     /**
