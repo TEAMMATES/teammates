@@ -5,6 +5,69 @@
 */
 
 
+
+/**
+ * function that select the whole table
+ * @param el
+ */
+
+function selectElementContents(el) {
+    var body = document.body, range, sel;
+    if (document.createRange && window.getSelection) {
+        range = document.createRange();
+        sel = window.getSelection();
+        sel.removeAllRanges();
+        try {
+            range.selectNodeContents(el);
+            sel.addRange(range);
+        } catch (e) {
+            range.selectNode(el);
+            sel.addRange(range);
+        }
+    } else if (body.createTextRange) {
+        range = body.createTextRange();
+        range.moveToElementText(el);
+        range.select();
+    }
+}
+
+
+function submitFormAjax() {
+
+	var formObject = $("#csvToHtmlForm");
+	var formData = formObject.serialize();
+	var content = $('#fsModalTable');
+	var ajaxStatus = $('#ajaxStatus');
+	
+	$.ajax({
+        type : 'POST',
+        url :   "/page/instructorFeedbackResultsPage?" + formData,
+        beforeSend : function() {
+        	content.html("<img src='/images/ajax-loader.gif'/>");
+        },
+        error : function() {
+        	ajaxStatus.html("Failed to load results table. Please try again.");
+            content.html("<button class=\"btn btn-info\" onclick=\"submitFormAjax()\"> retry</button>");     	
+        },
+        success : function(data) {
+            setTimeout(function(){
+                if (!data.isError) {
+                	var table = data.sessionResultsHtmlTableAsString;                	             	
+                	content.html("<small>" + table + "</small>");
+                	ajaxStatus.html(data.ajaxStatus);
+                } else {
+                    ajaxStatus.html(data.errorMessage);
+                    content.html("<button class=\"btn btn-info\" onclick=\"submitFormAjax()\"> retry</button>");   
+                }
+            	               
+                $("#statusMessage").html(data.statusForAjax);
+
+            },500);
+        }
+    });
+}
+
+
 //Show/hide stats
 function showHideStats(){
     if($("#show-stats-checkbox").is(":checked")){
@@ -171,4 +234,11 @@ $(document).ready(function(){
     //Show/Hide statistics
     showHideStats();
     $("#show-stats-checkbox").change(showHideStats);
+    
+    //auto select the html table when modal is shown
+    $('#fsResultsTableWindow').on('shown.bs.modal', function (e) {
+		selectElementContents( document.getElementById('fsModalTable') );
+    });
 });
+
+

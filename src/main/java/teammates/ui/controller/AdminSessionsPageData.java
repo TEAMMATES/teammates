@@ -84,5 +84,30 @@ public class AdminSessionsPageData extends PageData {
         link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, user);
         return link;
     }
+    
+    public String getSessionStatusForShow(FeedbackSessionAttributes fs){
+        
+        String status = "";
+        if(fs.isClosed()){
+            status += "[Closed]";   
+        }
+          if(fs.isOpened()){
+            status += "[Opened]";    
+        } 
+          if(fs.isWaitingToOpen()){
+            status +=  "[Waiting To Open]";   
+        } 
+          if(fs.isPublished()){
+            status +=  "[Published]";   
+        }
+          if(fs.isInGracePeriod()){
+            status +=  "[Grace Period]";   
+        }
+          
+        status = status.isEmpty()? "No Status": status;
+        
+        return status;
+        
+    }
 
 }
