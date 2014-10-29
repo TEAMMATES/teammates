@@ -78,6 +78,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         newSession.isPublishedEmailEnabled = true;
             
         browser = BrowserPool.getBrowser();
+        System.setProperty("godmode", "true");
     }
     
     @Test
@@ -488,7 +489,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyHtmlAjax ("/instructorFeedbackPublishSuccessful.html");
         
         ______TS("PUBLISHED: publish link hidden");
-        
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
     }
     
@@ -524,7 +525,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyHtmlAjax("/instructorFeedbackUnpublishSuccessful.html");
         
         ______TS("PUBLISHED: unpublish link hidden");
-        
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
         
     }
