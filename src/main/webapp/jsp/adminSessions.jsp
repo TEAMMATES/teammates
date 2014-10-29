@@ -42,6 +42,7 @@
     <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/adminSessions.js"></script>
+    <script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
 
     <jsp:include page="../enableJS.jsp"></jsp:include>
 
@@ -251,18 +252,22 @@
                 <table class="table table-striped dataTable">
                     <thead>
                         <tr>
-                            <th onclick="toggleSort(this,1)"
+                            <th>Status
+                           </th>
+                            <th onclick="toggleSort(this,2)"
                             	class="button-sort-non">Session Name &nbsp; <span
                                 class="icon-sort unsorted"></span>
                             </th>
-                            <th onclick="toggleSort(this,2,sortDate)"
+                            <th> Response Rate 
+                            </th>
+                            <th onclick="toggleSort(this,4,sortDate)"
                                 class="button-sort-non">Start Time&nbsp;
                                 <span class="icon-sort unsorted"></span>
                             </th>
-                            <th onclick="toggleSort(this,3,sortDate)"
+                            <th onclick="toggleSort(this,5,sortDate)"
                                 class="button-sort-non">End Time&nbsp; <span
                                 class="icon-sort unsorted"></span></th>
-                            <th onclick="toggleSort(this,4)"
+                            <th onclick="toggleSort(this,6)"
                                 class="button-sort-non">Creator</th>
                         </tr>
                     </thead>
@@ -280,8 +285,28 @@
                         %>
 
                         <tr>
-                            <%--  <td><%=index%></td> --%>
+                             <td><%=data.getSessionStatusForShow(fs)%>  
+                            </td>
                             <td><%=fs.feedbackSessionName%></td>
+                            
+                            <%
+                            String googleId = data.sessionToInstructorIdMap.get(fs.getIdentificationString());
+                            if(!googleId.isEmpty()){               
+                            %>
+                            <td class="session-response-for-test">
+                               <a oncontextmenu="return false;" href="<%=data.getFeedbackSessionStatsLink(fs.courseId, fs.feedbackSessionName, googleId)%>">Show</a>
+                            </td>
+                            
+                            <%    
+                            } else {
+                            %>
+                             <td class="session-response-for-test">
+                                <p>Not Available</p>
+                            </td>
+                            
+                            <%
+                            }
+                            %>
                             <td><%=TimeHelper.formatTime(fs.getSessionStartTime())%></td>
                             <td><%=TimeHelper.formatTime(fs.getSessionEndTime())%></td>
                             <td><a target="blank"
@@ -329,18 +354,22 @@
                 <table class="table table-striped dataTable">
                     <thead>
                         <tr>
-                           <th onclick="toggleSort(this,1)"
+                           <th>Status
+                           </th>
+                           <th onclick="toggleSort(this,2)"
                                 class="button-sort-non">Session Name &nbsp; <span
                                 class="icon-sort unsorted"></span>
                             </th>
-                            <th onclick="toggleSort(this,2,sortDate)"
+                             <th> Response Rate 
+                            </th>
+                            <th onclick="toggleSort(this,4,sortDate)"
                                 class="button-sort-non">Start Time&nbsp;
                                 <span class="icon-sort unsorted"></span>
                             </th>
-                            <th onclick="toggleSort(this,3,sortDate)"
+                            <th onclick="toggleSort(this,5,sortDate)"
                                 class="button-sort-non">End Time&nbsp; <span
                                 class="icon-sort unsorted"></span></th>
-                            <th onclick="toggleSort(this,4)"
+                            <th onclick="toggleSort(this,6)"
                                 class="button-sort-non">Creator</th>
                         </tr>
                     </thead>
@@ -358,8 +387,27 @@
                         %>
 
                         <tr>
-                            <%-- <td><%=index%></td> --%>
+                            <td><%=data.getSessionStatusForShow(fs)%> 
+                            </td>
                             <td><%=fs.feedbackSessionName%></td>
+                             <%
+                            String googleId = data.sessionToInstructorIdMap.get(fs.getIdentificationString());
+                            if(!googleId.isEmpty()){               
+                            %>
+                            <td class="session-response-for-test">
+                               <a oncontextmenu="return false;" href="<%=data.getFeedbackSessionStatsLink(fs.courseId, fs.feedbackSessionName, googleId)%>">Show</a>
+                            </td>
+                            
+                            <%    
+                            } else {
+                            %>
+                             <td class="session-response-for-test">
+                                <p>Not Available</p>
+                            </td>
+                            
+                            <%
+                            }
+                            %>
                             <td><%=TimeHelper.formatTime(fs.getSessionStartTime())%></td>
                             <td><%=TimeHelper.formatTime(fs.getSessionEndTime())%></td>
                             <td><a

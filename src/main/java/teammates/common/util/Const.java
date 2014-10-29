@@ -288,7 +288,9 @@ public class Const {
         
         public static final String COPIED_FEEDBACK_SESSION_NAME = "copiedfsname";
         public static final String COPIED_COURSE_ID = "copiedcourseid";
-
+        
+        public static final String CSV_TO_HTML_TABLE_NEEDED = "csvtohtmltable";
+        
         public static final String COURSE_ID = "courseid";
         public static final String COURSE_NAME = "coursename";
         public static final String COURSE_EDIT_MAIN_INDEX = "courseeditmainindex";
@@ -679,8 +681,25 @@ public class Const {
         public static final String EVAL_REMIND_EMAIL_WORKER = "/evalRemindEmailWorker";
         public static final String FEEDBACK_REMIND_EMAIL_WORKER = "/feedbackRemindEmailWorker";
         public static final String SEND_EMAIL_WORKER = "/sendEmailWorker";
+        
     }
-
+    
+    public class AutomatedActionNames{
+        //real servlet names to be logged for automated actions, not for url pattern recognition
+        public static final String AUTOMATED_LOG_COMILATION = "logCompilation";
+        public static final String AUTOMATED_EVAL_CLOSING_MAIL_ACTION = "evaluationClosingMailAction";
+        public static final String AUTOMATED_EVAL_OPENING_MAIL_ACTION = "evaluationOpeningMailAction";
+        public static final String AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION = "feedbackSessionClosingMailAction";
+        public static final String AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION = "feedbackSessionOpeningMailAction";
+        public static final String AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION = "feedbackSessionPublishedMailAction";
+        public static final String AUTOMATED_PENDING_COMMENT_CLEARED_MAIL_ACTION = "PendingCommentClearedMailAction";
+        public static final String AUTOMATED_EVAL_OPENING_REMINDERS = "evaluationOpeningReminders";
+        public static final String AUTOMATED_EVAL_CLOSING_REMINDERS = "evaluationclosingreminders";        
+        public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "feedbackSessionOpeningReminders";
+        public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "feedbackSessionClosingReminders";
+        public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "feedbackSessionPublishedReminders";
+    }
+    
     public class ViewURIs{
         
         /* We omit adding the 'page' prefix to views because all of them are "pages" */

@@ -16,6 +16,7 @@ import teammates.logic.api.Logic;
 public class AdminSessionsPageData extends PageData {
 
     public HashMap<String, List<FeedbackSessionAttributes>> map;
+    public HashMap<String, String> sessionToInstructorIdMap = new HashMap<String, String>();
     public int totalOngoingSessions;
     public boolean hasUnknown;
     public Date rangeStart;
@@ -74,6 +75,39 @@ public class AdminSessionsPageData extends PageData {
 
     public String getTimeZoneAsString(){
         return StringHelper.toUtcFormat(zone);
+    }
+    
+    public String getFeedbackSessionStatsLink(String courseID, String feedbackSessionName, String user){
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE;
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
+        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName); 
+        link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, user);
+        return link;
+    }
+    
+    public String getSessionStatusForShow(FeedbackSessionAttributes fs){
+        
+        String status = "";
+        if(fs.isClosed()){
+            status += "[Closed]";   
+        }
+          if(fs.isOpened()){
+            status += "[Opened]";    
+        } 
+          if(fs.isWaitingToOpen()){
+            status +=  "[Waiting To Open]";   
+        } 
+          if(fs.isPublished()){
+            status +=  "[Published]";   
+        }
+          if(fs.isInGracePeriod()){
+            status +=  "[Grace Period]";   
+        }
+          
+        status = status.isEmpty()? "No Status": status;
+        
+        return status;
+        
     }
 
 }

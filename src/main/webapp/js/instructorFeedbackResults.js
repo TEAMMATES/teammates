@@ -31,6 +31,43 @@ function selectElementContents(el) {
     }
 }
 
+
+function submitFormAjax() {
+
+	var formObject = $("#csvToHtmlForm");
+	var formData = formObject.serialize();
+	var content = $('#fsModalTable');
+	var ajaxStatus = $('#ajaxStatus');
+	
+	$.ajax({
+        type : 'POST',
+        url :   "/page/instructorFeedbackResultsPage?" + formData,
+        beforeSend : function() {
+        	content.html("<img src='/images/ajax-loader.gif'/>");
+        },
+        error : function() {
+        	ajaxStatus.html("Failed to load results table. Please try again.");
+            content.html("<button class=\"btn btn-info\" onclick=\"submitFormAjax()\"> retry</button>");     	
+        },
+        success : function(data) {
+            setTimeout(function(){
+                if (!data.isError) {
+                	var table = data.sessionResultsHtmlTableAsString;                	             	
+                	content.html("<small>" + table + "</small>");
+                	ajaxStatus.html(data.ajaxStatus);
+                } else {
+                    ajaxStatus.html(data.errorMessage);
+                    content.html("<button class=\"btn btn-info\" onclick=\"submitFormAjax()\"> retry</button>");   
+                }
+            	               
+                $("#statusMessage").html(data.statusForAjax);
+
+            },500);
+        }
+    });
+}
+
+
 //Show/hide stats
 function showHideStats(){
     if($("#show-stats-checkbox").is(":checked")){

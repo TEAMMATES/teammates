@@ -134,15 +134,24 @@
                         </form>
 
                             
+                            
                         <div>
                          <span class="help-block">
                             Non-English characters not displayed properly in the downloaded file?<span class="btn-link"
                             data-toggle="modal"
-                            data-target="#studentTableWindow">
+                            data-target="#studentTableWindow"
+                            onclick="submitFormAjax()"
+                            >
                             click here</span>
                          </span>
                         </div>
-
+                        
+                        <form id="csvToHtmlForm">
+                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.courseDetails.course.id%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED%>" value=true>
+                        </form>
+                        
                         <div class="modal fade" id="studentTableWindow">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
@@ -161,9 +170,14 @@
                                     </div>
                                     <div class="modal-body">
                                      <div class="table-responsive">
-                                    <small id="detailsTable">
-                                    <%=data.studentListHtmlTableAsString%>
-                                    </small>
+                                    
+                                    <div id="detailsTable">                                  
+                                    </div>
+                                    <br>                                    
+                                    <div id="ajaxStatus">
+                                    </div>
+                                    
+                                    
                                
                                     </div>
                                     </div>

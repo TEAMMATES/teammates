@@ -11,6 +11,42 @@ $(document).ready(function(){
     });
 });
 
+
+function submitFormAjax() {
+
+	var formObject = $("#csvToHtmlForm");
+	var formData = formObject.serialize();
+	var content = $('#detailsTable');
+	var ajaxStatus = $('#ajaxStatus');
+	
+	$.ajax({
+        type : 'POST',
+        url :   "/page/instructorCourseDetailsPage?" + formData,
+        beforeSend : function() {
+        	content.html("<img src='/images/ajax-loader.gif'/>");
+        },
+        error : function() {
+        	ajaxStatus.html("Failed to load student table. Please try again.");
+            content.html("<button class=\"btn btn-info\" onclick=\"submitFormAjax()\"> retry</button>");     	
+        },
+        success : function(data) {
+            setTimeout(function(){
+                if (!data.isError) {
+                	var table = data.studentListHtmlTableAsString;                	             	
+                	content.html("<small>" + table + "</small>");
+                } else {
+                    ajaxStatus.html(data.errorMessage);
+                    content.html("<button class=\"btn btn-info\" onclick=\"submitFormAjax()\"> retry</button>");   
+                }
+            	               
+                $("#statusMessage").html(data.statusForAjax);
+
+            },500);
+        }
+    });
+}
+
+
 /**
  * Functions to trigger registration key sending to a specific student in the
  * course.

@@ -56,7 +56,7 @@
                     </div>     
                 </div>
                 <br>
-               <div class="form-group">
+                <div class="form-group">
                <div class="align-center">
                   <button class="btn btn-primary" disabled="disabled" id="button_publish" onclick="if(togglePublishEvaluation('First Eval')) window.location.href='/page/instructorEvalPublish?courseid=CEvalRUiT.CS1101&evaluationname=First+Eval&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCEvalRUiT.instr&user=CEvalRUiT.instr';" type="button" value="Publish">
                      Publish
@@ -72,11 +72,17 @@
                   <div>
                      <span class="help-block">
                         Non-English characters not displayed properly in the downloaded file?
-                        <span class="btn-link" data-target="#evalResultsHtmlWindow" data-toggle="modal">
+                        <span class="btn-link" data-target="#evalResultsHtmlWindow" data-toggle="modal" onclick="submitFormAjax()">
                            click here
                         </span>
                      </span>
                   </div>
+                  <form id="csvToHtmlForm">
+                     <input name="courseid" type="hidden" value="CEvalRUiT.CS1101"/>
+                                          <input name="evaluationname" type="hidden" value="First Eval"/>
+                                          <input name="user" type="hidden" value="CEvalRUiT.instr"/>
+                                          <input name="csvtohtmltable" type="hidden" value="true"/>
+                                       </form>
                   <div class="modal fade" id="evalResultsHtmlWindow">
                      <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -101,130 +107,11 @@
                            </div>
                            <div class="modal-body">
                               <div class="table-responsive">
-                                 <small id="summaryModalTable">
-                                    <table class="table table-bordered table-striped table-condensed">
-                                       <tbody>
-                                          <tr>
-                                             <td>
-                                                Course
-                                             </td>
-                                             <td>
-                                                CEvalRUiT.CS1101
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Evaluation Name
-                                             </td>
-                                             <td>
-                                                First Eval
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Team
-                                             </td>
-                                             <td>
-                                                Student
-                                             </td>
-                                             <td>
-                                                Claimed
-                                             </td>
-                                             <td>
-                                                Perceived
-                                             </td>
-                                             <td>
-                                                Received
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Team 1
-                                             </td>
-                                             <td>
-                                                Alice Betsy
-                                             </td>
-                                             <td>
-                                                95
-                                             </td>
-                                             <td>
-                                                100
-                                             </td>
-                                             <td>
-                                                100
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Team 1
-                                             </td>
-                                             <td>
-                                                Benny Charles
-                                             </td>
-                                             <td>
-                                                105
-                                             </td>
-                                             <td>
-                                                100
-                                             </td>
-                                             <td>
-                                                100
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Team 2
-                                             </td>
-                                             <td>
-                                                Charlie Davis
-                                             </td>
-                                             <td>
-                                                103
-                                             </td>
-                                             <td>
-                                                97
-                                             </td>
-                                             <td>
-                                                99,94
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Team 2
-                                             </td>
-                                             <td>
-                                                Danny Engrid
-                                             </td>
-                                             <td>
-                                                110
-                                             </td>
-                                             <td>
-                                                99
-                                             </td>
-                                             <td>
-                                                104,94
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Team 2
-                                             </td>
-                                             <td>
-                                                Emily
-                                             </td>
-                                             <td>
-                                                110
-                                             </td>
-                                             <td>
-                                                104
-                                             </td>
-                                             <td>
-                                                104,N/A
-                                             </td>
-                                          </tr>
-                                       </tbody>
-                                    </table>
-                                 </small>
+                                 <div id="summaryModalTable">
+                                 </div>
+                                 <br/>
+                                                                  <div id="ajaxStatus">
+                                 </div>
                               </div>
                            </div>
                         </div>
@@ -234,11 +121,7 @@
             </div>
          </div>
       </div>
-
-        <br>
-        
-
-
+      <br/>
 
 
     <div style="display: none;" id="statusMessage" class="alert alert-warning"></div>
