@@ -93,12 +93,13 @@ public class ControllerServlet extends HttpServlet {
             String requestUrl = req.getRequestURL().toString();
             log.info(e.getMessage());
             cleanUpStatusMessageInSession(req);
+            req.getSession().setAttribute(Const.ParamsNames.STATUS_MESSAGE, 
+                                          Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE);
             if(requestUrl.contains("/instructor")) {
-                resp.sendRedirect(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE);
+                resp.sendRedirect(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
             } else if(requestUrl.contains("/student")) {
-                resp.sendRedirect(Const.ActionURIs.STUDENT_HOME_PAGE + Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE);
+                resp.sendRedirect(Const.ActionURIs.STUDENT_HOME_PAGE);
             }
-            
         } catch (Throwable e) {
             MimeMessage email = new Logic().emailErrorReport(
                     req.getServletPath(), 
