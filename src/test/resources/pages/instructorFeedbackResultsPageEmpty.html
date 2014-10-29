@@ -68,7 +68,7 @@
                   <span class="help-block align-center">
                      Non-English characters not displayed properly in the
                     downloaded file?
-                     <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal">
+                     <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" onclick="submitFormAjax()">
                         click here
                      </span>
                   </span>
@@ -76,7 +76,14 @@
             </div>
          </div>
       </div>
-      <div class="modal fade" id="fsResultsTableWindow">
+      <form id="csvToHtmlForm">
+         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                  <input name="fsname" type="hidden" value="Third Session"/>
+                  <input name="user" type="hidden" value="CFResultsUiT.instr"/>
+                  <input name="frgroupbysection" type="hidden" value="All"/>
+                  <input name="csvtohtmltable" type="hidden" value="true"/>
+               </form>
+      <div class="modal fade align-center" id="fsResultsTableWindow">
          <div class="modal-dialog modal-lg">
             <div class="modal-content">
                <div class="modal-header">
@@ -102,28 +109,11 @@
                </div>
                <div class="modal-body">
                   <div class="table-responsive">
-                     <small id="fsModalTable">
-                        <table class="table table-bordered table-striped table-condensed">
-                           <tbody>
-                              <tr>
-                                 <td>
-                                    Course
-                                 </td>
-                                 <td>
-                                    CFResultsUiT.CS2104
-                                 </td>
-                              </tr>
-                              <tr>
-                                 <td>
-                                    Session Name
-                                 </td>
-                                 <td>
-                                    Third Session
-                                 </td>
-                              </tr>
-                           </tbody>
-                        </table>
-                     </small>
+                     <div id="fsModalTable">
+                     </div>
+                     <br/>
+                                          <div id="ajaxStatus">
+                     </div>
                   </div>
                </div>
                <div class="modal-footer">
@@ -131,12 +121,7 @@
             </div>
          </div>
       </div>
-<br>
-
-
-
-
-
+      <br/>
     <div id="statusMessage" style="display: none;"></div>
 
 <br>

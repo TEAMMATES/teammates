@@ -27,7 +27,9 @@ public class AdminSessionsPageAction extends Action {
 
         new GateKeeper().verifyAdminPrivileges(account);
         data = new AdminSessionsPageData(account);       
-
+        
+        data.isShowAll = getRequestParamAsBoolean("all");
+        
         ActionResult result = createShowPageResultIfParametersInvalid();
         if (result != null) {
             return result;
@@ -79,8 +81,6 @@ public class AdminSessionsPageAction extends Action {
         String startMin = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTMINUTE);
         String endMin = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDMINUTE);       
         String timeZone = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE);
-        
-        data.isShowAll = getRequestParamAsBoolean("all");
         
         Date start;
         Date end;
@@ -202,9 +202,48 @@ public class AdminSessionsPageAction extends Action {
         statusToAdmin = "Admin Sessions Page Load<br>" +
                         "<span class=\"bold\">Total Ongoing Sessions:</span> " +
                         data.totalOngoingSessions;
-
+        
+        constructSessionToInstructorIdMap();
+        
         return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
     }
+    
+    private void constructSessionToInstructorIdMap(){
+        for (String institute : data.map.keySet()){
+            for (FeedbackSessionAttributes fs : data.map.get(institute)){
+                    
+                String googleId = findAvailableInstructorGoogleIdForCourse(fs.courseId);
+                data.sessionToInstructorIdMap.put(fs.getIdentificationString(), googleId);
+                }
+        }
+    }
+    
+    
+    /**
+     * This method loops through all instructors for the given course until a registered Instructor is found.
+     * It returns the google id of the found instructor.
+     * @param CourseId
+     * @return empty string if no available instructor google id is found
+     */
+    private String findAvailableInstructorGoogleIdForCourse(String courseId){
+        
+        String googleId = "";
+        
+        if(logic.getInstructorsForCourse(courseId) == null){
+            return googleId;
+        }
+        
+        for(InstructorAttributes instructor : logic.getInstructorsForCourse(courseId)){
+          
+            if(instructor.googleId != null){
+                googleId = instructor.googleId;
+                break;
+            }            
+        }
+        
+        return googleId; 
+    }
+    
     
     private AccountAttributes getRegisteredInstructorAccountFromInstructors(List<InstructorAttributes> instructors){
         

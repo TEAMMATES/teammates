@@ -93,13 +93,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void filterResponsesForSection(String section) {
-        Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION)));
+        Select select = new Select(browser.driver.findElements(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION)).get(1));
         select.selectByVisibleText(section);
         waitForPageToLoad();
     }
 
     public void filterResponsesForAllSections() {
-        Select select = new Select(browser.driver.findElement(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION)));
+        Select select = new Select(browser.driver.findElements(By.name(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION)).get(1));
         select.selectByVisibleText("All");
         waitForPageToLoad();
     }

@@ -64,11 +64,16 @@
                   <div>
                      <span class="help-block">
                         Non-English characters not displayed properly in the downloaded file?
-                        <span class="btn-link" data-target="#studentTableWindow" data-toggle="modal">
+                        <span class="btn-link" data-target="#studentTableWindow" data-toggle="modal" onclick="submitFormAjax()">
                            click here
                         </span>
                      </span>
                   </div>
+                  <form id="csvToHtmlForm">
+                     <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
+                                          <input name="user" type="hidden" value="{$test.instructor}"/>
+                                          <input name="csvtohtmltable" type="hidden" value="true"/>
+                                       </form>
                   <div class="modal fade" id="studentTableWindow">
                      <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -93,228 +98,11 @@
                            </div>
                            <div class="modal-body">
                               <div class="table-responsive">
-                                 <small id="detailsTable">
-                                    <table class="table table-bordered table-striped table-condensed">
-                                       <tbody>
-                                          <tr>
-                                             <td>
-                                                Course ID
-                                             </td>
-                                             <td>
-                                                AHPUiT.instr1.gma-demo
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Course Name
-                                             </td>
-                                             <td>
-                                                Sample Course 101
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Section
-                                             </td>
-                                             <td>
-                                                Team
-                                             </td>
-                                             <td>
-                                                Full Name
-                                             </td>
-                                             <td>
-                                                Last Name
-                                             </td>
-                                             <td>
-                                                Status
-                                             </td>
-                                             <td>
-                                                Email
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Tutorial Group 1
-                                             </td>
-                                             <td>
-                                                Team 1
-                                             </td>
-                                             <td>
-                                                Alice Betsy
-                                             </td>
-                                             <td>
-                                                Betsy
-                                             </td>
-                                             <td>
-                                                Joined
-                                             </td>
-                                             <td>
-                                                alice.b.tmms@gmail.tmt
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Tutorial Group 1
-                                             </td>
-                                             <td>
-                                                Team 1
-                                             </td>
-                                             <td>
-                                                Benny Charles
-                                             </td>
-                                             <td>
-                                                Charles
-                                             </td>
-                                             <td>
-                                                Joined
-                                             </td>
-                                             <td>
-                                                benny.c.tmms@gmail.tmt
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Tutorial Group 1
-                                             </td>
-                                             <td>
-                                                Team 1
-                                             </td>
-                                             <td>
-                                                Danny Engrid
-                                             </td>
-                                             <td>
-                                                Engrid
-                                             </td>
-                                             <td>
-                                                Joined
-                                             </td>
-                                             <td>
-                                                danny.e.tmms@gmail.tmt
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Tutorial Group 1
-                                             </td>
-                                             <td>
-                                                Team 1
-                                             </td>
-                                             <td>
-                                                Emma Farrell
-                                             </td>
-                                             <td>
-                                                Farrell
-                                             </td>
-                                             <td>
-                                                Joined
-                                             </td>
-                                             <td>
-                                                emma.f.tmms@gmail.tmt
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Tutorial Group 2
-                                             </td>
-                                             <td>
-                                                Team 2
-                                             </td>
-                                             <td>
-                                                AHPUiT Instrúctör
-                                             </td>
-                                             <td>
-                                                Instrúctör
-                                             </td>
-                                             <td>
-                                                Joined
-                                             </td>
-                                             <td>
-                                                AHPUiT.instr1@gmail.tmt
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Tutorial Group 2
-                                             </td>
-                                             <td>
-                                                Team 2
-                                             </td>
-                                             <td>
-                                                Charlie Davis
-                                             </td>
-                                             <td>
-                                                Davis
-                                             </td>
-                                             <td>
-                                                Joined
-                                             </td>
-                                             <td>
-                                                charlie.d.tmms@gmail.tmt
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Tutorial Group 2
-                                             </td>
-                                             <td>
-                                                Team 2
-                                             </td>
-                                             <td>
-                                                Francis Gabriel
-                                             </td>
-                                             <td>
-                                                Gabriel
-                                             </td>
-                                             <td>
-                                                Joined
-                                             </td>
-                                             <td>
-                                                francis.g.tmms@gmail.tmt
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Tutorial Group 2
-                                             </td>
-                                             <td>
-                                                Team 2
-                                             </td>
-                                             <td>
-                                                Gene Hudson
-                                             </td>
-                                             <td>
-                                                Hudson
-                                             </td>
-                                             <td>
-                                                Joined
-                                             </td>
-                                             <td>
-                                                gene.h.tmms@gmail.tmt
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Tutorial Group 2
-                                             </td>
-                                             <td>
-                                                Team 3
-                                             </td>
-                                             <td>
-                                                Barney Stinson
-                                             </td>
-                                             <td>
-                                                Stinson
-                                             </td>
-                                             <td>
-                                                Yet to join
-                                             </td>
-                                             <td>
-                                                barney.s.tmms@gmail.tmt
-                                             </td>
-                                          </tr>
-                                       </tbody>
-                                    </table>
-                                 </small>
+                                 <div id="detailsTable">
+                                 </div>
+                                 <br/>
+                                                                  <div id="ajaxStatus">
+                                 </div>
                               </div>
                            </div>
                         </div>

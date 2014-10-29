@@ -55,7 +55,7 @@
                     </div>
                  </div>
                  
-                 <div class="form-group">
+                <div class="form-group">
                <div class="align-center">
                   <input class="btn btn-primary" data-original-title="Email an invitation to all students yet to join requesting them to join the course using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" data-placement="top" data-toggle="tooltip" id="button_remind" onclick="if(toggleSendRegistrationKeysConfirmation('CCDetailsUiT.CS2104')) window.location.href='/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2104&user=CCDetailsUiT.instr';" tabindex="1" title="" type="button" value="Remind Students to Join"/>
                                     <form action="/page/instructorCourseStudentListDownload" method="post" style="display:inline;">
@@ -66,11 +66,16 @@
                   <div>
                      <span class="help-block">
                         Non-English characters not displayed properly in the downloaded file?
-                        <span class="btn-link" data-target="#studentTableWindow" data-toggle="modal">
+                        <span class="btn-link" data-target="#studentTableWindow" data-toggle="modal" onclick="submitFormAjax()">
                            click here
                         </span>
                      </span>
                   </div>
+                  <form id="csvToHtmlForm">
+                     <input name="courseid" type="hidden" value="CCDetailsUiT.CS2104"/>
+                                          <input name="user" type="hidden" value="CCDetailsUiT.instr"/>
+                                          <input name="csvtohtmltable" type="hidden" value="true"/>
+                                       </form>
                   <div class="modal fade" id="studentTableWindow">
                      <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -95,113 +100,11 @@
                            </div>
                            <div class="modal-body">
                               <div class="table-responsive">
-                                 <small id="detailsTable">
-                                    <table class="table table-bordered table-striped table-condensed">
-                                       <tbody>
-                                          <tr>
-                                             <td>
-                                                Course ID
-                                             </td>
-                                             <td>
-                                                CCDetailsUiT.CS2104
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Course Name
-                                             </td>
-                                             <td>
-                                                Programming Language Concepts
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Team
-                                             </td>
-                                             <td>
-                                                Full Name
-                                             </td>
-                                             <td>
-                                                Last Name
-                                             </td>
-                                             <td>
-                                                Status
-                                             </td>
-                                             <td>
-                                                Email
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Team 1
-                                             </td>
-                                             <td>
-                                                Alice Betsy
-                                             </td>
-                                             <td>
-                                                Betsy
-                                             </td>
-                                             <td>
-                                                Joined
-                                             </td>
-                                             <td>
-                                                {$test.student1}@gmail.com
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Team 1
-                                             </td>
-                                             <td>
-                                                Charlie Davis
-                                             </td>
-                                             <td>
-                                                Davis
-                                             </td>
-                                             <td>
-                                                Yet to join
-                                             </td>
-                                             <td>
-                                                {$test.student2}@gmail.com
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Team 2
-                                             </td>
-                                             <td>
-                                                Benny Charles
-                                             </td>
-                                             <td>
-                                                Charles
-                                             </td>
-                                             <td>
-                                                Yet to join
-                                             </td>
-                                             <td>
-                                                benny.tmms@gmail.tmt
-                                             </td>
-                                          </tr>
-                                          <tr>
-                                             <td>
-                                                Team 2
-                                             </td>
-                                             <td>
-                                                Danny Engrid
-                                             </td>
-                                             <td>
-                                                Engrid
-                                             </td>
-                                             <td>
-                                                Joined
-                                             </td>
-                                             <td>
-                                                danny.e.tmms@gmail.tmt
-                                             </td>
-                                          </tr>
-                                       </tbody>
-                                    </table>
-                                 </small>
+                                 <div id="detailsTable">
+                                 </div>
+                                 <br/>
+                                                                  <div id="ajaxStatus">
+                                 </div>
                               </div>
                            </div>
                         </div>
