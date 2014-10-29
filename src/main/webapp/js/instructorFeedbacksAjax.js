@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var seeMoreRequest = function(e) {
+    var ajaxRequest = function(e) {
         e.preventDefault();
         var formData = $(this).serialize();
         $.ajax({
@@ -22,5 +22,5 @@ $(document).ready(function(){
             }
         });
     };
-    $("#ajaxForSessions").submit(seeMoreRequest);
+    $("#ajaxForSessions").submit(ajaxRequest);
 });
