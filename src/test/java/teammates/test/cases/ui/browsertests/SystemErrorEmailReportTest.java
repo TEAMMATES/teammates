@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -39,8 +40,17 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
         page = loginAdmin(browser);
 
     }
-
+    
     @Test
+    public void testAll() throws Exception {
+        testAssertionError();
+        testEntityDoesNotExistException();
+        testNullPointerException();
+        testDeadlineExceededException();
+        testUnauthorizedAccessException();
+        testNullPostParamException();
+    }
+
     public void testAssertionError() {
         
         ______TS("AssertionError testing");
@@ -52,7 +62,6 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
                 + Config.SUPPORT_EMAIL);
     }
     
-    @Test
     public void testEntityDoesNotExistException() {
         
         ______TS("EntityDoesNotExistException testing");
@@ -63,7 +72,6 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
         print("This exception is handled by system, make sure you don't receive any emails. ");
     }
     
-    @Test
     public void testNullPointerException() {
         
         ______TS("NullPointerException testing");
@@ -74,7 +82,6 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
         print("NullPointerException triggered, please check your crash report at " + Config.SUPPORT_EMAIL);    
     }
     
-    @Test
     public void testDeadlineExceededException() throws Exception {
         
         ______TS("Deadline Exceeded testing");
@@ -91,7 +98,6 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
     }
     
     //TODO: this test should be moved to the class testing access control
-    @Test
     public void testUnauthorizedAccessException() {
         
         ______TS("UnauthorizedAccessException testing");
@@ -99,6 +105,16 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
         Url url = createUrl(Const.ActionURIs.ADMIN_EXCEPTION_TEST)
             .withParam(Const.ParamsNames.ERROR, UnauthorizedAccessException.class.getSimpleName());
         page.navigateTo(url);
+        print("This exception is handled by system, make sure you don't receive any emails. ");
+    }
+    
+    public void testNullPostParamException() {
+        ______TS("NullPostParamException testing");
+        
+        Url url = createUrl(Const.ActionURIs.ADMIN_EXCEPTION_TEST)
+            .withParam(Const.ParamsNames.ERROR, NullPostParameterException.class.getSimpleName());
+        page.navigateTo(url);
+        page.verifyStatus(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE.replace("<br>", "\n"));
         print("This exception is handled by system, make sure you don't receive any emails. ");
     }
 
