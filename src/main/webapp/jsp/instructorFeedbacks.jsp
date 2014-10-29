@@ -55,7 +55,7 @@
     <div id="frameBodyWrapper" class="container theme-showcase">
         <div id="topOfPage"></div>
         <h1>Add New Feedback Session</h1>
-        <% if(!data.isUsingAjax){ %>
+        <% if(data.isUnderTesting || !data.isUsingAjax){ %>
         <div class="well well-plain">
             <form class="form-group" method="post"
                 action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD%>"
@@ -584,7 +584,7 @@
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         <br>
 
-        <% if(data.isUsingAjax) { %>
+        <% if(data.isUnderTesting || data.isUsingAjax) { %>
         <div id="sessionList">
         <table class="table-responsive table table-striped table-bordered">
             <thead>

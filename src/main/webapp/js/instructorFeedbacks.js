@@ -332,8 +332,12 @@ function readyFeedbackPage() {
 
     window.doPageSpecificOnload = selectDefaultTimeOptions();
 
-    $("#ajaxForSessions").trigger('submit');
-
+    if($('#sessionList').length > 0){ // testing case
+        bindCopyButton();
+        bindCopyEvents();
+    } else {
+        $("#ajaxForSessions").trigger('submit');
+    }
     bindUncommonSettingsEvents();
     updateUncommonSettingsInfo();
     hideUncommonPanels();

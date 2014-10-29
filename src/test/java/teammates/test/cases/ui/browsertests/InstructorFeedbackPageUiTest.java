@@ -755,7 +755,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     }
 
     private InstructorFeedbacksPage getFeedbackPageForInstructor(String instructorId) {
-        Url feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withUserId(instructorId);
+        Url feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withUserId(instructorId).withParam(Const.ParamsNames.IS_UNDER_TESTING, "true");        
         return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbacksPage.class);
     }
 
