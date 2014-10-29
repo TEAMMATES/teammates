@@ -466,7 +466,7 @@
                 FeedbackSessionResponseStatus responseStatus = data.bundle.responseStatus;
                 if (data.selectedSection.equals("All") && !responseStatus.noResponse.isEmpty()) {
             %>          
-                    <div class="panel-body padding-0">
+                                       <div class="panel-body padding-0">
                         <table class="table table-striped table-bordered margin-0">
                             <tbody>
                             <tr>
