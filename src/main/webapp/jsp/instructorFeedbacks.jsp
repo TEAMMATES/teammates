@@ -39,6 +39,7 @@
         <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
         
         <script type="text/javascript" src="/js/instructor.js"></script>
+        <script type="text/javascript" src="/js/instructorFeedbacksAjax.js"></script>
         <script type="text/javascript" src="/js/instructorFeedbacks.js"></script>
         <script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
         <jsp:include page="../enableJS.jsp"></jsp:include>
@@ -54,7 +55,7 @@
     <div id="frameBodyWrapper" class="container theme-showcase">
         <div id="topOfPage"></div>
         <h1>Add New Feedback Session</h1>
-
+        <% if(!data.isUsingAjax){ %>
         <div class="well well-plain">
             <form class="form-group" method="post"
                 action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD%>"
@@ -571,13 +572,20 @@
                     name="<%=Const.ParamsNames.USER_ID%>"
                     value="<%=data.account.googleId%>">
             </form>
+            <form style="display:none;" id="ajaxForSessions" class="ajaxForSessionsForm" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>">
+                <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                <input type="hidden" name="<%=Const.ParamsNames.IS_USING_AJAX%>" value="on">
+            </form>
             <br> <br>
         </div>
+        <% } %>
 
         <br>
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         <br>
 
+        <% if(data.isUsingAjax) { %>
+        <div id="sessionList">
         <table class="table-responsive table table-striped table-bordered">
             <thead>
                 <tr class="fill-primary">
@@ -662,6 +670,20 @@
                 }
             %>
         </table>
+        <br> <br> <br>
+        <%
+                if (sessionIdx == -1) {
+        %>
+                <div class="align-center">No records found.</div>
+                <br> <br> <br>
+        <%
+                }
+        %>
+         </div>
+        <% 
+            }
+        %>
+
         <!-- Modal -->
         <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalTitle" aria-hidden="true">
           <div class="modal-dialog">
@@ -670,7 +692,7 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title" id="copyModalTitle">Creating a new session by copying a previous session</h4>
               </div>
-              <div class="modal-body">
+              <div class="modal-body" id="copySessionsBody">
                     <form class="form" id="copyModalForm" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_COPY%>">
                     <!-- Course -->
                     <div class="form-group">
@@ -735,15 +757,6 @@
             </div>
           </div>
         </div>
-        <br> <br> <br>
-        <%
-            if (sessionIdx == -1) {
-        %>
-        <div class="align-center">No records found.</div>
-        <br> <br> <br>
-        <%
-            }
-        %>
     </div>
 
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />

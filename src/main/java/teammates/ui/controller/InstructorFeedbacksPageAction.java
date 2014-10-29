@@ -21,7 +21,8 @@ public class InstructorFeedbacksPageAction extends Action {
         //This can be null. Non-null value indicates the page is being loaded 
         //   to add a feedback to the specified course
         String courseIdForNewSession = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        
+        String isUsingAjax = getRequestParamValue(Const.ParamsNames.IS_USING_AJAX);
+
         new GateKeeper().verifyInstructorPrivileges(account);
                 
         if (courseIdForNewSession!=null) {
@@ -31,6 +32,7 @@ public class InstructorFeedbacksPageAction extends Action {
         }
 
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
+        data.isUsingAjax = (isUsingAjax == null) ? false : true;
         data.courseIdForNewSession = courseIdForNewSession;
         // This indicates that an empty form to be shown (except possibly the course value filled in)
         data.newFeedbackSession = null; 
@@ -39,6 +41,9 @@ public class InstructorFeedbacksPageAction extends Action {
         data.courses = loadCoursesList(account.googleId, data.instructors);
         if (data.courses.size() == 0) {
             statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_EVALUATION.replace("${user}", "?user="+account.googleId));
+        }
+        
+        if(data.courses.size() == 0 || !data.isUsingAjax){
             data.existingEvalSessions = new ArrayList<EvaluationAttributes>();
             data.existingFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
         } else {

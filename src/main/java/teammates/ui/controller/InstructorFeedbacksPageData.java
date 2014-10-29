@@ -24,6 +24,7 @@ public class InstructorFeedbacksPageData extends PageData {
     public List<EvaluationAttributes> existingEvalSessions;
     public List<FeedbackSessionAttributes> existingFeedbackSessions;        
     public HashMap<String, InstructorAttributes> instructors;
+    public boolean isUsingAjax;
     
     public ArrayList<String> getTimeZoneOptionsAsHtml(){
         return getTimeZoneOptionsAsHtml(

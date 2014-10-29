@@ -329,14 +329,19 @@ function readyFeedbackPage() {
     formatSessionVisibilityGroup();
     formatResponsesVisibilityGroup();
     collapseIfPrivateSession();
-    bindCopyButton();
-    bindCopyEvents();
 
     window.doPageSpecificOnload = selectDefaultTimeOptions();
+
+    $("#ajaxForSessions").trigger('submit');
 
     bindUncommonSettingsEvents();
     updateUncommonSettingsInfo();
     hideUncommonPanels();
+}
+
+function bindEventsAfterAjax() {
+    bindCopyButton();
+    bindCopyEvents();
 }
 
 function bindUncommonSettingsEvents(){
