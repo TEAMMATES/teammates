@@ -268,26 +268,26 @@ public class AdminSearchPageAction extends Action {
              data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);  
          }
          
-         if(student.googleId != null && !student.googleId.trim().isEmpty()){
          
-             String viewResultUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+         String viewResultUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
                                     .withCourseId(student.course)
                                     .withSessionName(fsa.feedbackSessionName)
-                                    .withUserId(student.googleId)
+                                    .withRegistrationKey(StringHelper.encrypt(student.key))
+                                    .withStudentEmail(student.email)
                                     .toString();
              
-             if(fsa.isPublished()){
-                 if(data.studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
-                     List<String> viewResultUrlList = new ArrayList<String>();
-                     viewResultUrlList.add(viewResultUrl);
-                     data.studentPublishedFeedbackSessionLinksMap.put(student.getIdentificationString(), viewResultUrlList);
-                 } else {
-                     data.studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString()).add(viewResultUrl);
-                 }
-                 
-                 data.feedbackSeesionLinkToNameMap.put(viewResultUrl, fsa.feedbackSessionName + " (Published)"); 
+         if(fsa.isPublished()){
+             if(data.studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
+                 List<String> viewResultUrlList = new ArrayList<String>();
+                 viewResultUrlList.add(viewResultUrl);
+                 data.studentPublishedFeedbackSessionLinksMap.put(student.getIdentificationString(), viewResultUrlList);
+             } else {
+                 data.studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString()).add(viewResultUrl);
              }
+             
+             data.feedbackSeesionLinkToNameMap.put(viewResultUrl, fsa.feedbackSessionName + " (Published)"); 
          }
+        
            
          return data;
     }
