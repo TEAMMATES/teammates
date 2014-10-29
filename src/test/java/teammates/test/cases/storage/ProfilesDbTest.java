@@ -58,7 +58,6 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         testUpdateProfileSuccessInitiallyEmptyPictureKey(a);
         testUpdateProfileSuccessNoChangesToProfile(a);
         testUpdateProfileSuccessWithSamePictureKey(a);
-        testUpdateProfileSuccessWithDifferentPicture(a);        
     }
 
     private void testUpdateProfileWithNullParameter()
@@ -143,19 +142,6 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         // picture should not be deleted
         assertTrue(GoogleCloudStorageHelper.doesFileExistInGcs(a.googleId, true));
     }
-
-    private void testUpdateProfileSuccessWithDifferentPicture(AccountAttributes a)
-            throws Exception,
-            EntityDoesNotExistException {
-        ______TS("success case: change picture");
-        a.studentProfile.pictureKey = uploadUpdatePictureForProfile(a.googleId);
-        profilesDb.updateStudentProfile(a.studentProfile);
-        assertFalse(GoogleCloudStorageHelper.doesFileExistInGcs(a.googleId, true));
-        
-        StudentProfileAttributes updatedProfile = profilesDb.getStudentProfile(a.studentProfile.googleId);
-        
-        assertEquals(a.studentProfile.pictureKey, updatedProfile.pictureKey);
-    }
     
     @Test
     public void testUpdateStudentProfilePicture() throws Exception {
@@ -169,7 +155,6 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         // success test cases
         testUpdateProfilePictureSuccessInitiallyEmpty(a);
         testUpdateProfilePictureSuccessSamePictureKey(a);
-        testUpdateProfilePictureSuccessWithNewPictureKey(a);
     }
 
     private void testUpdateProfilePictureWithNullParameters()
@@ -242,18 +227,6 @@ public class ProfilesDbTest extends BaseComponentTestCase {
             AccountAttributes a) throws EntityDoesNotExistException {
         ______TS("update picture key - same key; does nothing");
         profilesDb.updateStudentProfilePicture(a.googleId, a.studentProfile.pictureKey);
-    }
-
-    private void testUpdateProfilePictureSuccessWithNewPictureKey(
-            AccountAttributes a) throws IOException,
-            EntityDoesNotExistException {
-        ______TS("new pictureKey");
-        a.studentProfile.pictureKey = uploadUpdatePictureForProfile(a.googleId);
-        profilesDb.updateStudentProfilePicture(a.googleId, a.studentProfile.pictureKey);
-        StudentProfileAttributes updatedProfile = profilesDb.getStudentProfile(a.studentProfile.googleId);
-        
-        assertFalse(GoogleCloudStorageHelper.doesFileExistInGcs(a.googleId, true));
-        assertEquals(a.studentProfile.pictureKey, updatedProfile.pictureKey);
     }
     
     @Test
