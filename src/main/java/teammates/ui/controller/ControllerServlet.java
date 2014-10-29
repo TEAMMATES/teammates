@@ -99,6 +99,11 @@ public class ControllerServlet extends HttpServlet {
                 resp.sendRedirect(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
             } else if(requestUrl.contains("/student")) {
                 resp.sendRedirect(Const.ActionURIs.STUDENT_HOME_PAGE);
+            } else if(requestUrl.contains("/admin")) {
+                resp.sendRedirect(Const.ActionURIs.ADMIN_HOME_PAGE);
+            } else {
+                cleanUpStatusMessageInSession(req);
+                resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
             }
         } catch (Throwable e) {
             MimeMessage email = new Logic().emailErrorReport(
