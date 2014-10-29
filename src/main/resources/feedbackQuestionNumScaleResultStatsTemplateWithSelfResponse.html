@@ -1,0 +1,34 @@
+<div class="panel-body">
+    <div class="row">
+        <div class="col-sm-4 text-color-gray">
+            <strong>
+                 ${summaryTitle}
+            </strong>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-bordered table-responsive margin-0">
+                <thead>
+                <tr>
+                    <td class="button-sort-ascending" id="button_sortreceivername" onclick="toggleSort(this,1);">Recipient 
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortavg" onclick="toggleSort(this,2,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body">
+                        <abbr title="Average over the scores received">Average</abbr>
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortmax" onclick="toggleSort(this,3,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body">
+                        <abbr title="Highest score received">Max</abbr>
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortmin" onclick="toggleSort(this,4,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body">
+                        <abbr title="Lowest score received">Min</abbr>
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortmin" onclick="toggleSort(this,5,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body">
+                        <abbr title="Average excluding student's own response to himself/herself">Average excluding own response</abbr>
+                        <span class="icon-sort unsorted"></span></td>
+                </tr>
+                </thead>
+                ${statsFragments}
+            </table>
+        </div>
+    </div>
+</div>
