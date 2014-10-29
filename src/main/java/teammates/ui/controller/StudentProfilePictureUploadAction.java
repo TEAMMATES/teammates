@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
 
@@ -8,12 +9,21 @@ import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.images.CompositeTransform;
 import com.google.appengine.api.images.Image;
 import com.google.appengine.api.images.ImagesServiceFactory;
+import com.google.appengine.api.images.Transform;
+import com.google.appengine.tools.cloudstorage.GcsFileOptions;
+import com.google.appengine.tools.cloudstorage.GcsFilename;
+import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
+import com.google.appengine.tools.cloudstorage.GcsService;
+import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
+import com.google.appengine.tools.cloudstorage.RetryParams;
 
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -34,7 +44,7 @@ public class StudentProfilePictureUploadAction extends Action {
         
         try {
             blobKey = extractProfilePictureKey();
-            if (pictureKey != "") {
+            if (!isError) {
                 pictureKey = renameFileToGoogleId(blobKey);
                 logic.updateStudentProfilePicture(account.googleId, pictureKey);
                 statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
@@ -57,11 +67,44 @@ public class StudentProfilePictureUploadAction extends Action {
     }
 
     private String renameFileToGoogleId(BlobKey blobKey) throws IOException {
+        Assumption.assertNotNull(blobKey);
+        
         Image oldImage = ImagesServiceFactory.makeImageFromBlob(blobKey);
-        String newKey = GoogleCloudStorageHelper.writeDataToGcs(account.googleId, oldImage.getImageData(), "");
+        Transform flip = ImagesServiceFactory.makeHorizontalFlip();
+        CompositeTransform transform = ImagesServiceFactory.makeCompositeTransform();
+        transform.concatenate(flip).concatenate(flip);
+        Image newImage = ImagesServiceFactory.getImagesService().applyTransform(transform, oldImage);
+        String newKey = uploadFileToGcs(newImage.getImageData());
         deletePicture(blobKey);
         blobKey = new BlobKey("");
         return newKey;
+    }
+    
+    /**
+     * Uploads the given image data to the cloud storage into a file
+     * with the user's googleId as the name. Returns a blobKey that can be used to 
+     * identify the file
+     * 
+     * @param fileName
+     * @param transformedImage
+     * @return BlobKey
+     * @throws IOException
+     * TODO: use the function 'writeDataToGcs' in GoogleCloudStorageHelper to achieve this 
+     */
+    private String uploadFileToGcs(byte[] transformedImage)
+            throws IOException {
+        
+        GcsFilename fileName = new GcsFilename(Config.GCS_BUCKETNAME, account.googleId);
+        
+        GcsService gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
+        GcsOutputChannel outputChannel =
+                gcsService.createOrReplace(fileName, new GcsFileOptions.Builder().mimeType("image/png").build());
+        
+        outputChannel.write(ByteBuffer.wrap(transformedImage));
+        outputChannel.close();
+        
+        return BlobstoreServiceFactory.getBlobstoreService()
+                .createGsBlobKey("/gs/"+Config.GCS_BUCKETNAME + "/" + account.googleId).getKeyString();
     }
 
     private BlobKey extractProfilePictureKey() {
