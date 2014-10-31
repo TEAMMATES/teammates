@@ -116,7 +116,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
 
     @Override
     public String getIdentificationString() {
-        return this.feedbackSessionName + "/" + this.courseId  + "/" + this.questionNumber;
+        return this.questionNumber + ". " + this.questionMetaData.toString() + "/" + this.feedbackSessionName + "/" + this.courseId;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package teammates.common.datatransfer;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -149,7 +148,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
 
     @Override
     public String getIdentificationString() {
-        return this.feedbackResponseId + "|" + this.giverEmail + "|" + new SimpleDateFormat("EEE MMM d HH:mm:ss.SSSSSS zzz yyyy").format(createdAt).toString();
+        return toString();
     }
 
     @Override

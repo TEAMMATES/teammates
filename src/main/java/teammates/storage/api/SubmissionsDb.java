@@ -43,7 +43,7 @@ public class SubmissionsDb extends EntitiesDb {
             }
             //Existence check omitted to save time
             newEntityList.add(sd.toEntity());
-            log.info("Entity is created. Type::" + sd.getEntityTypeAsString() + "::" + sd.getIdentificationString() + "::");
+            log.info(sd.getBackupIdentifier());
         }
         
         getPM().makePersistentAll(newEntityList);

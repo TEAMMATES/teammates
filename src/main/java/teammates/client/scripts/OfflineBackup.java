@@ -438,7 +438,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
     
     protected void saveSubmission(SubmissionAttributes submission) {
-        FileHelper.appendToFile(currentFileName, formatJsonString(submission.getJsonString(), submission.getId().toString()));
+        FileHelper.appendToFile(currentFileName, formatJsonString(submission.getJsonString(), submission.getIdentificationString()));
     }
 
 }

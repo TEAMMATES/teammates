@@ -20,7 +20,6 @@ public class InstructorAttributes extends EntityAttributes {
     private static Gson gson = Utils.getTeammatesGson();
     
     //Note: be careful when changing these variables as their names are used in *.json files.
-    private String id;
     public String googleId;
     public String name;
     public String email;
@@ -125,7 +124,6 @@ public class InstructorAttributes extends EntityAttributes {
     }
     
     public InstructorAttributes(Instructor instructor) {
-        this.id = instructor.getUniqueId();
         this.googleId = instructor.getGoogleId();
         this.courseId = instructor.getCourseId();
         this.isArchived = instructor.getIsArchived();
@@ -163,10 +161,6 @@ public class InstructorAttributes extends EntityAttributes {
     
     public InstructorPrivileges getInstructorPrivilegesFromText() {
         return gson.fromJson(instructorPrivilegesAsText, InstructorPrivileges.class);
-    }
-    
-    public String getId() {
-        return id;
     }
     
     public boolean isRegistered() {

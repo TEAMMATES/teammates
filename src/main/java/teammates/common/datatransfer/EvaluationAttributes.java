@@ -30,7 +30,6 @@ public class EvaluationAttributes extends EntityAttributes implements SessionAtt
     }
         
     //Note: be careful when changing these variables as their names are used in *.json files.
-    private Long id = null;
     public String courseId;
     public String name;
     public Text instructions;
@@ -64,7 +63,6 @@ public class EvaluationAttributes extends EntityAttributes implements SessionAtt
     }
 
     public EvaluationAttributes(Evaluation e) {
-        this.id = e.getId();
         this.courseId = e.getCourseId();
         this.name = e.getName();
         this.instructions = e.getLongInstructions();
@@ -87,10 +85,6 @@ public class EvaluationAttributes extends EntityAttributes implements SessionAtt
         evaluation.setActivated(activated);
         evaluation.setPublished(published);
         return evaluation;
-    }
-
-    public Long getId() {
-        return id;
     }
     
     public EvalStatus getStatus() {
