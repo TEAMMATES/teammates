@@ -49,14 +49,7 @@ public class FeedbackResponsesLogic {
             frDb.createEntity(fra);
         } catch (Exception EntityAlreadyExistsException) {
             try {
-                FeedbackResponseAttributes existingFeedback = new FeedbackResponseAttributes();
-
-                existingFeedback = frDb.getFeedbackResponse(
-                        fra.feedbackQuestionId, fra.giverEmail,
-                        fra.recipientEmail);
-                fra.setId(existingFeedback.getId());
-
-                frDb.updateFeedbackResponse(fra);
+                updateFeedbackResponse(fra);
             } catch (Exception EntityDoesNotExistException) {
                 Assumption.fail();
             }

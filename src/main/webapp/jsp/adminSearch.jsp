@@ -155,22 +155,43 @@
                                            "" : data.instructorInstituteMap.get(instructor.getIdentificationString())%></td>
 
                                     <td>
+                                    
+                                        <%String availableIdString = "";
+                                                  if(instructor.googleId != null && !instructor.googleId.trim().isEmpty()){
+                                                      availableIdString = instructor.googleId;
+                                                  } else if(instructor.name != null && !instructor.name.trim().isEmpty()){
+                                                      availableIdString = instructor.name;
+                                                  } else if(instructor.email != null && !instructor.email.trim().isEmpty()){
+                                                      availableIdString = instructor.email;
+                                                  }
+                                        %>
+                                        
+                                        <% 
+                                            if(!availableIdString.isEmpty()){
+                                        %>
 
-                                        <form method="post"
-                                            target="blank"
-                                            action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
-                                            <button type="submit"
-                                                id="<%=instructor.googleId + "_recentActions"%>"
-                                                class="btn btn-link btn-xs recentActionButton">
-                                                <span
-                                                    class="glyphicon glyphicon-zoom-in"></span>
-                                                View Recent Actions
-                                            </button>
-                                            <input type="hidden"
-                                                name="filterQuery"
-                                                value="person:<%=instructor.googleId%>">
-                                        </form>
-
+                                            <form method="post"
+                                                target="blank"
+                                                action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
+                                                <button type="submit"
+                                                    id="<%=availableIdString + "_recentActions"%>"
+                                                    class="btn btn-link btn-xs recentActionButton">
+                                                    <span
+                                                        class="glyphicon glyphicon-zoom-in"></span>
+                                                    View Recent Actions
+                                                </button>
+                                                
+                                                
+                                                
+                                                <input type="hidden"
+                                                    name="filterQuery"
+                                                    
+                                                    value="person:<%=availableIdString%>">
+                                            </form>
+                                        
+                                        <% 
+                                            }
+                                        %>
                                     </td>
 
                                 </tr>
@@ -257,13 +278,12 @@
 
                             <thead>
                                 <tr>
-                                    <th>Institute [Course]
-                                        (Section)</th>
-                                    <th>Team</th>
+                                    <th>Institute </th>
+                                    <th>Course[Section](Team)</th>
                                     <th>Name</th>
                                     <th>Google ID[Details]</th>
                                     <th>Comments</th>
-
+                                    <th>Options</th>
 
                                 </tr>
 
@@ -282,21 +302,58 @@
                                 <tr id="<%=id%>" class="studentRow">
 
 
-                                    <td><%=data.studentInstituteMap.get(student
-                            .getIdentificationString())%>&nbsp;[<%=student.course%>]&nbsp;(<%=student.section%>)
+                                    <td><%=data.studentInstituteMap.get(student.getIdentificationString())%>
                                     </td>
-                                    <td><%=student.team%></td>
+                                    <td><%=student.course%><br><%=student.section%><br><%=student.team%>
+                                    </td>
+                                    
                                     <td><a class="detailsPageLink"
                                         href=<%=data.studentRecordsPageLinkMap.get(student.getIdentificationString())%>
                                         target="blank"> <%=student.name%></a></td>
                                     <td><a
-                                        href="<%=data.studentIdToHomePageLinkMap
-                            .get(student.googleId)%>"
+                                        href="<%=data.studentIdToHomePageLinkMap.get(student.googleId)%>"
                                         target="blank"
                                         class="homePageLink"><%=student.googleId%></a>
                                     </td>
                                     <td><%=student.comments%></td>
 
+                                    <td>
+                                    
+                                        <%String availableIdString = "";
+                                                  if(student.googleId != null && !student.googleId.trim().isEmpty()){
+                                                      availableIdString = student.googleId;
+                                                  } else if(student.name != null && !student.name.trim().isEmpty()){
+                                                      availableIdString = student.name;
+                                                  } else if(student.email != null && !student.email.trim().isEmpty()){
+                                                      availableIdString = student.email;
+                                                  }
+                                        %>
+                                        
+                                        <% 
+                                            if(!availableIdString.isEmpty()){
+                                        %>
+
+                                            <form method="post"
+                                                target="blank"
+                                                action="<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%>">
+                                                <button type="submit"
+                                                    id="<%=availableIdString + "_recentActions"%>"
+                                                    class="btn btn-link btn-xs recentActionButton">
+                                                    <span
+                                                        class="glyphicon glyphicon-zoom-in"></span>
+                                                    View Recent Actions
+                                                </button>                                 
+                                                
+                                                <input type="hidden"
+                                                    name="filterQuery"
+                                                    
+                                                    value="person:<%=availableIdString%>">
+                                            </form>
+                                        
+                                        <% 
+                                            }
+                                        %>
+                                    </td>
                                 </tr>
 
                                 <tr

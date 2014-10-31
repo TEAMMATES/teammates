@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -30,6 +31,8 @@ public class AdminExceptionTestAction extends Action {
             
         } else if (error.equals(DeadlineExceededException.class.getSimpleName())) {
             throw new DeadlineExceededException();
+        } else if (error.equals(NullPostParameterException.class.getSimpleName())) {
+            throw new NullPostParameterException("test null post param exception");
         }
 
         statusToAdmin = "adminExceptionTest";

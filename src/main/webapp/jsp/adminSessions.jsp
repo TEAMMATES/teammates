@@ -252,20 +252,22 @@
                 <table class="table table-striped dataTable">
                     <thead>
                         <tr>
-                            <th onclick="toggleSort(this,1)"
+                            <th>Status
+                           </th>
+                            <th onclick="toggleSort(this,2)"
                             	class="button-sort-non">Session Name &nbsp; <span
                                 class="icon-sort unsorted"></span>
                             </th>
                             <th> Response Rate 
                             </th>
-                            <th onclick="toggleSort(this,2,sortDate)"
+                            <th onclick="toggleSort(this,4,sortDate)"
                                 class="button-sort-non">Start Time&nbsp;
                                 <span class="icon-sort unsorted"></span>
                             </th>
-                            <th onclick="toggleSort(this,3,sortDate)"
+                            <th onclick="toggleSort(this,5,sortDate)"
                                 class="button-sort-non">End Time&nbsp; <span
                                 class="icon-sort unsorted"></span></th>
-                            <th onclick="toggleSort(this,4)"
+                            <th onclick="toggleSort(this,6)"
                                 class="button-sort-non">Creator</th>
                         </tr>
                     </thead>
@@ -283,7 +285,8 @@
                         %>
 
                         <tr>
-                      
+                             <td><%=data.getSessionStatusForShow(fs)%>  
+                            </td>
                             <td><%=fs.feedbackSessionName%></td>
                             
                             <%
@@ -351,20 +354,22 @@
                 <table class="table table-striped dataTable">
                     <thead>
                         <tr>
-                           <th onclick="toggleSort(this,1)"
+                           <th>Status
+                           </th>
+                           <th onclick="toggleSort(this,2)"
                                 class="button-sort-non">Session Name &nbsp; <span
                                 class="icon-sort unsorted"></span>
                             </th>
                              <th> Response Rate 
                             </th>
-                            <th onclick="toggleSort(this,2,sortDate)"
+                            <th onclick="toggleSort(this,4,sortDate)"
                                 class="button-sort-non">Start Time&nbsp;
                                 <span class="icon-sort unsorted"></span>
                             </th>
-                            <th onclick="toggleSort(this,3,sortDate)"
+                            <th onclick="toggleSort(this,5,sortDate)"
                                 class="button-sort-non">End Time&nbsp; <span
                                 class="icon-sort unsorted"></span></th>
-                            <th onclick="toggleSort(this,4)"
+                            <th onclick="toggleSort(this,6)"
                                 class="button-sort-non">Creator</th>
                         </tr>
                     </thead>
@@ -382,7 +387,8 @@
                         %>
 
                         <tr>
-                            <%-- <td><%=index%></td> --%>
+                            <td><%=data.getSessionStatusForShow(fs)%> 
+                            </td>
                             <td><%=fs.feedbackSessionName%></td>
                              <%
                             String googleId = data.sessionToInstructorIdMap.get(fs.getIdentificationString());
