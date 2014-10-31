@@ -25,9 +25,9 @@ public class InstructorFeedbackPreviewAsStudentAction extends Action {
                                  previewStudentEmail);
 
         new GateKeeper().verifyAccessible(
-            logic.getInstructorForGoogleId(courseId, account.googleId),
-            logic.getFeedbackSession(feedbackSessionName, courseId),
-            true);
+                logic.getInstructorForGoogleId(courseId, account.googleId), 
+                logic.getFeedbackSession(feedbackSessionName, courseId),
+                false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         StudentAttributes previewStudent = logic.getStudentForEmail(courseId, previewStudentEmail);
         
