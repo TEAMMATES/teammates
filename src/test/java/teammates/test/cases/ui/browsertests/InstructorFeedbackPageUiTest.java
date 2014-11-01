@@ -79,14 +79,13 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         newSession.isPublishedEmailEnabled = true;
             
         browser = BrowserPool.getBrowser();
-        System.setProperty("godmode", "true");
     }
     
     @Test
     public void allTests() throws Exception{
-        //testCopyAction();
-        //testContent();
-        //testAddAction();
+        testCopyAction();
+        testContent();
+        testAddAction();
         testDeleteAction();
         testPublishAction();
         testUnpublishAction();
@@ -759,8 +758,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     private InstructorFeedbacksPage getFeedbackPageForInstructor(String instructorId) {
         Url feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withUserId(instructorId);        
         InstructorFeedbacksPage page = loginAdminToPage(browser, feedbackPageLink, InstructorFeedbacksPage.class);
-        //page.waitForElementPresence(By.id("table-sessions"), 5);
-        ThreadHelper.waitFor(2000);
+        page.waitForElementPresence(By.id("table-sessions"), 5);
         return page;
     }
 

@@ -519,13 +519,11 @@ public class InstructorFeedbacksPage extends AppPage {
 
     private int getFeedbackSessionRowId(String courseId, String sessionName) {
         int i = 0;
-        System.out.println("Course ID: " + courseId + ", Session Name: " + sessionName);
         while (i < getFeedbackSessionsCount()) {
             if (getFeedbackSessionCourseId(i).equals(courseId)
                     && getFeedbackSessionName(i).equals(sessionName)) {
                 return i;
             }
-            System.out.println("i: " + i);
             i++;
         }
         return -1;
@@ -536,15 +534,11 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     private String getFeedbackSessionCourseId(int rowId) {
-        String test = browser.selenium.getTable("css=table[id=table-sessions]." + (rowId) + ".0");
-        System.out.println("Course ID: " + test);
-        return test;
+        return browser.selenium.getTable("css=table[id=table-sessions]." + (rowId + 1) + ".0");
     }
 
     private String getFeedbackSessionName(int rowId) {
-        String test = browser.selenium.getTable("css=table[id=table-sessions]." + (rowId) + ".1");
-        System.out.println("Session Name: " + test);
-        return test;
+        return browser.selenium.getTable("css=table[id=table-sessions]." + (rowId + 1) + ".1");
     }
 
     private <T extends AppPage>T goToLinkInRow(By locator, Class<T> destinationPageType) {

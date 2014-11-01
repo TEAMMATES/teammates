@@ -768,7 +768,7 @@ ul #nav {
           </div>
         </div>
     
-        <table class="table-responsive table table-striped table-bordered table-sessions">
+        <table id="table-sessions" class="table-responsive table table-striped table-bordered"> 
             <thead>
                 <tr class="fill-primary">
                     <th class="button-sort-ascending" onclick="toggleSort(this,1);" id="button_sortid">Course ID <span class="icon-sort unsorted"></span>
@@ -778,8 +778,8 @@ ul #nav {
                     <th>Status</th>
                     <th><span data-placement="top" data-toggle="tooltip" title="Number of students submitted / Class size">
                             Response Rate</span></th>
-                <th class="no-print">Action(s)</th>
-            </tr>
+                    <th class="no-print">Action(s)</th>
+                </tr>
             </thead>
             
             <tbody>
