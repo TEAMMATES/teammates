@@ -50,7 +50,7 @@ public class AdminActivityLogPageAction extends Action {
         data.ifShowTestData = getRequestParamAsBoolean("testdata");
         
         
-        if(data.pageChange != null && !data.pageChange.equals("true")){
+        if(data.pageChange != null && data.pageChange.equals("true")){
             //Reset the offset because we are performing a new search, so we start from the beginning of the logs
             data.offset = null;
         }
