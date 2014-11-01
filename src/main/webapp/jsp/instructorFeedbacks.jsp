@@ -55,7 +55,7 @@
     <div id="frameBodyWrapper" class="container theme-showcase">
         <div id="topOfPage"></div>
         <h1>Add New Feedback Session</h1>
-        <% if(data.isUnderTesting || !data.isUsingAjax){ %>
+        <% if(!data.isUsingAjax){ %>
         <div class="well well-plain">
             <form class="form-group" method="post"
                 action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD%>"
@@ -584,9 +584,9 @@
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         <br>
 
-        <% if(data.isUnderTesting || data.isUsingAjax) { %>
+        <% if(data.isUsingAjax) { %>
         <div id="sessionList">
-        <table class="table-responsive table table-striped table-bordered">
+        <table class="table-responsive table table-striped table-bordered" id="table-sessions"> 
             <thead>
                 <tr class="fill-primary">
                     <th id="button_sortid" onclick="toggleSort(this,1);"
@@ -602,8 +602,8 @@
                         title="<%=Const.Tooltips.EVALUATION_RESPONSE_RATE%>"
                         data-toggle="tooltip" data-placement="top">
                             Response Rate</span></th>
-                <th class="no-print">Action(s)</th>
-            </tr>
+                    <th class="no-print">Action(s)</th>
+                </tr>
             </thead>
             <%
                 int sessionIdx = -1;

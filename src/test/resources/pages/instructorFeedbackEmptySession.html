@@ -426,46 +426,10 @@
 
 
 
-    <div id="statusMessage" class="alert alert-warning">
-        You have not created any sessions yet. Use the form above to create a session.
-    </div>
-    <script type="text/javascript">
-        document.getElementById( 'statusMessage' ).scrollIntoView();
-    </script>
+    <div id="statusMessage" style="display: none;"></div>
 
         <br>
 
-        
-        <div id="sessionList">
-        <table class="table-responsive table table-striped table-bordered">
-            <thead>
-                <tr class="fill-primary">
-                    <th id="button_sortid" onclick="toggleSort(this,1);" class="button-sort-ascending">Course ID <span class="icon-sort unsorted"></span>
-                    </th>
-                    <th id="button_sortname" onclick="toggleSort(this,2)" class="button-sort-none">Session Name <span class="icon-sort unsorted"></span>
-                    </th>
-                    <th>Status</th>
-                    <th><span data-original-title="Number of students submitted / Class size" title="" data-toggle="tooltip" data-placement="top">
-                            Response Rate</span></th>
-                <th class="no-print">Action(s)</th>
-            </tr>
-            </thead>
-            
-            <tbody>
-            
-        <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr></tbody></table>
-        <br> <br> <br>
-        
-                <div class="align-center">No records found.</div>
-                <br> <br> <br>
-        
-         </div>
         
 
         <!-- Modal -->
@@ -514,4 +478,33 @@
             </div>
           </div>
         </div>
-    </div>
+    
+        <table class="table-responsive table table-striped table-bordered table-sessions">
+            <thead>
+                <tr class="fill-primary">
+                    <th id="button_sortid" onclick="toggleSort(this,1);" class="button-sort-ascending">Course ID <span class="icon-sort unsorted"></span>
+                    </th>
+                    <th id="button_sortname" onclick="toggleSort(this,2)" class="button-sort-none">Session Name <span class="icon-sort unsorted"></span>
+                    </th>
+                    <th>Status</th>
+                    <th><span title="Number of students submitted / Class size" data-toggle="tooltip" data-placement="top">
+                            Response Rate</span></th>
+                <th class="no-print">Action(s)</th>
+            </tr>
+            </thead>
+            
+            <tbody>
+            
+        <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr></tbody></table>
+        <br> <br> <br>
+        
+                <div class="align-center">No records found.</div>
+                <br> <br> <br>
+        
+         </div>

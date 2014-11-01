@@ -25,7 +25,6 @@ public class InstructorFeedbacksPageData extends PageData {
     public List<FeedbackSessionAttributes> existingFeedbackSessions;
     public HashMap<String, InstructorAttributes> instructors;
     public boolean isUsingAjax;
-    public boolean isUnderTesting;
     public static final int MAX_CLOSED_SESSION_STATS = 5;
 
     public ArrayList<String> getTimeZoneOptionsAsHtml(){

@@ -514,16 +514,18 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     private WebElement getLinkAtTableRow(String className, int rowIndex) {
-        return browser.driver.findElement(By.xpath("//tbody/tr["+(int)(rowIndex+1)+"]//a[contains(@class,'"+className+"')]"));
+        return browser.driver.findElement(By.xpath("//table[contains(@id,'table-sessions')]//tbody/tr["+(int)(rowIndex+1)+"]//a[contains(@class,'"+className+"')]"));
     }
 
     private int getFeedbackSessionRowId(String courseId, String sessionName) {
         int i = 0;
+        System.out.println("Course ID: " + courseId + ", Session Name: " + sessionName);
         while (i < getFeedbackSessionsCount()) {
             if (getFeedbackSessionCourseId(i).equals(courseId)
                     && getFeedbackSessionName(i).equals(sessionName)) {
                 return i;
             }
+            System.out.println("i: " + i);
             i++;
         }
         return -1;
@@ -534,11 +536,15 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     private String getFeedbackSessionCourseId(int rowId) {
-        return browser.selenium.getTable("css=table[class~=table]." + (rowId + 1) + ".0");
+        String test = browser.selenium.getTable("css=table[id=table-sessions]." + (rowId) + ".0");
+        System.out.println("Course ID: " + test);
+        return test;
     }
 
     private String getFeedbackSessionName(int rowId) {
-        return browser.selenium.getTable("css=table[class~=table]." + (rowId + 1) + ".1");
+        String test = browser.selenium.getTable("css=table[id=table-sessions]." + (rowId) + ".1");
+        System.out.println("Session Name: " + test);
+        return test;
     }
 
     private <T extends AppPage>T goToLinkInRow(By locator, Class<T> destinationPageType) {

@@ -331,13 +331,7 @@ function readyFeedbackPage() {
     collapseIfPrivateSession();
 
     window.doPageSpecificOnload = selectDefaultTimeOptions();
-
-    if($('#sessionList').length > 0){ // testing case
-        bindCopyButton();
-        bindCopyEvents();
-    } else {
-        $("#ajaxForSessions").trigger('submit');
-    }
+    $("#ajaxForSessions").trigger('submit');
     bindUncommonSettingsEvents();
     updateUncommonSettingsInfo();
     hideUncommonPanels();
