@@ -284,6 +284,8 @@ public class Const {
 
     public class ParamsNames{
         
+        public static final String IS_USING_AJAX = "isusingAjax";
+        
         public static final String BLOB_KEY = "blob-key";
         
         public static final String COPIED_FEEDBACK_SESSION_NAME = "copiedfsname";

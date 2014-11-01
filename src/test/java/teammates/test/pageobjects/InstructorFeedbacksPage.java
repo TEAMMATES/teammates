@@ -514,7 +514,7 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     private WebElement getLinkAtTableRow(String className, int rowIndex) {
-        return browser.driver.findElement(By.xpath("//tbody/tr["+(int)(rowIndex+1)+"]//a[contains(@class,'"+className+"')]"));
+        return browser.driver.findElement(By.xpath("//table[contains(@id,'table-sessions')]//tbody/tr["+(int)(rowIndex+1)+"]//a[contains(@class,'"+className+"')]"));
     }
 
     private int getFeedbackSessionRowId(String courseId, String sessionName) {
@@ -534,11 +534,11 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     private String getFeedbackSessionCourseId(int rowId) {
-        return browser.selenium.getTable("css=table[class~=table]." + (rowId + 1) + ".0");
+        return browser.selenium.getTable("css=table[id=table-sessions]." + (rowId + 1) + ".0");
     }
 
     private String getFeedbackSessionName(int rowId) {
-        return browser.selenium.getTable("css=table[class~=table]." + (rowId + 1) + ".1");
+        return browser.selenium.getTable("css=table[id=table-sessions]." + (rowId + 1) + ".1");
     }
 
     private <T extends AppPage>T goToLinkInRow(By locator, Class<T> destinationPageType) {

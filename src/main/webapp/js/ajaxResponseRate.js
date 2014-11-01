@@ -1,12 +1,11 @@
-$(document).ready(function(){
-    
+function linkAjaxForResponseRate(){
     var responseRateClickHandler = function(e) {
         var hyperlinkObject = $(this).clone(),
         parentOfHyperlinkObject = $(this).parent();
         e.preventDefault();
         $.ajax({
             type : 'POST',
-            url : 	hyperlinkObject.attr('href'),
+            url :   hyperlinkObject.attr('href'),
             beforeSend : function() {
                 parentOfHyperlinkObject.html("<img src='/images/ajax-loader.gif'/>");
             },
@@ -30,12 +29,12 @@ $(document).ready(function(){
         });
     };
     $("td[class*='session-response-for-test'] > a").click(responseRateClickHandler);
-    
+
     $(".table").each(function(idx) {
         //this is bound to current object in question
-        var currentTable = $(this).has("tbody").length != 0 ? $(this).find("tbody") : $(this); 
+        var currentTable = $(this).has("tbody").length != 0 ? $(this).find("tbody") : $(this);
             store = null;
-        
+
         var allRows = currentTable.find("tr:has(td)");
         var recentElements = allRows.filter(function(i){
             return $(allRows[i]).find("td[class*='recent']").length != 0;
@@ -43,18 +42,22 @@ $(document).ready(function(){
             nonRecentElements = allRows.filter(function(i){
             return $(allRows[i]).find("td[class*='recent']").length == 0;
         });
-        
+
         store = $.merge(recentElements,nonRecentElements);
-        
+
         for(var i=0; i < store.length; i++ ) {
             currentTable.get(0).appendChild(store[i]);
         }
     });
-    
+
     //recent class will only be appended to 'td' element with class 't_session_response'
     $(".table .recent a").each(function(idx) {
         var currentObject = $(this);
-        
+
         currentObject.click();
     });
+}
+
+$(document).ready(function(){
+    linkAjaxForResponseRate();
 });
