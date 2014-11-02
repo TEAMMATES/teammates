@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
@@ -93,7 +94,7 @@ public class SubmissionAttributes extends EntityAttributes {
         copy.details.normalizedToInstructor = this.details.normalizedToInstructor;
         return copy;
     }
-
+    
     public boolean isSelfEvaluation() {
         return reviewee.equals(reviewer);
     }
@@ -207,6 +208,16 @@ public class SubmissionAttributes extends EntityAttributes {
     @Override
     public String getEntityTypeAsString() {
         return "Submission";
+    }
+    
+    @Override
+    public String getBackupIdentifier() {
+        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + course;
+    }
+    
+    @Override
+    public String getJsonString() {
+        return Utils.getTeammatesGson().toJson(this, SubmissionAttributes.class);
     }
     
     @Override

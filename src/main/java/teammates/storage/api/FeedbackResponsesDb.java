@@ -540,6 +540,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
         fr.setGiverSection(newAttributes.giverSection);
         fr.setRecipientSection(newAttributes.recipientSection);
                 
+        log.info(newAttributes.getBackupIdentifier());
         getPM().close();
     }
     
@@ -561,6 +562,26 @@ public class FeedbackResponsesDb extends EntitiesDb {
         return feedbackResponseList;
     }
     
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForCourse(String courseId) {
+        List<FeedbackResponse> frList =
+                getFeedbackResponseEntitiesForCourse(courseId);
+        List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
+        
+        for (FeedbackResponse fr : frList) {
+                fraList.add(new FeedbackResponseAttributes(fr));
+        }
+        return fraList;
+    }
+    
+    private List<FeedbackResponse> getFeedbackResponseEntitiesForCourse(String courseId) {
+        Query q = getPM().newQuery(FeedbackResponse.class);
+        q.declareParameters("String courseIdParam");
+        q.setFilter("courseId == courseIdParam");
+
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponse> feedbackResponseList = (List<FeedbackResponse>) q.execute(courseId);
+        return feedbackResponseList;
+    }
     
     private FeedbackResponse getFeedbackResponseEntity(String feedbackResponseId) {
         Query q = getPM().newQuery(FeedbackResponse.class);
