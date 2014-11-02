@@ -26,6 +26,7 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.api.Logic;
@@ -138,6 +139,7 @@ public class OfflineBackup extends RemoteApiClient {
             String courseId = it.next();
             currentFileName = backupFileDirectory + "/" + courseId + ".json";
             FileHelper.appendToFile(currentFileName, "{\n");
+            
             retrieveAndSaveAccountsByCourse(courseId);
             retrieveAndSaveCommentsByCourse(courseId);
             retrieveAndSaveCourse(courseId);
@@ -147,8 +149,9 @@ public class OfflineBackup extends RemoteApiClient {
             retrieveAndSaveFeedbackResponseCommentsByCourse(courseId);
             retrieveAndSaveFeedbackSessionsByCourse(courseId);
             retrieveAndSaveInstructorsByCourse(courseId);
-            retrieveAndSaveStudentsByCourse(courseId);
             retrieveAndSaveSubmissionsByCourse(courseId);
+            retrieveAndSaveStudentProfilesByCourse(courseId);
+            
             FileHelper.appendToFile(currentFileName, "\n}"); 
         }              
     }
@@ -266,7 +269,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
     
     /** 
-     *  Retrieves all the feedback responses from a course and saves them
+     *  Retrieves all the feedback responses comments from a course and saves them
      */
     protected void retrieveAndSaveFeedbackResponseCommentsByCourse(String courseId) {
         
@@ -283,7 +286,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
     
     /** 
-     *  Retrieves all the feedback responses from a course and saves them
+     *  Retrieves all the feedback sessions from a course and saves them
      */
     protected void retrieveAndSaveFeedbackSessionsByCourse(String courseId) {
         Logic logic = new Logic();
@@ -299,7 +302,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
     
     /** 
-     *  Retrieves all the feedback responses from a course and saves them
+     *  Retrieves all the instructors from a course and saves them
      */
     protected void retrieveAndSaveInstructorsByCourse(String courseId) {
         Logic logic = new Logic();
@@ -315,7 +318,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
     
     /** 
-     *  Retrieves all the feedback responses from a course and saves them
+     *  Retrieves all the students from a course and saves them
      */
     protected void retrieveAndSaveStudentsByCourse(String courseId) {
         try {
@@ -335,7 +338,7 @@ public class OfflineBackup extends RemoteApiClient {
     }
     
     /** 
-     *  Retrieves all the feedback responses from a course and saves them
+     *  Retrieves all the submissions from a course and saves them
      */
     protected void retrieveAndSaveSubmissionsByCourse(String courseId) {
         SubmissionsDb submissionsDb = new SubmissionsDb();
@@ -348,6 +351,33 @@ public class OfflineBackup extends RemoteApiClient {
         }
         hasPreviousEntity = false;
         FileHelper.appendToFile(currentFileName, "\n\t}\n");
+    }
+    
+    /** 
+     *  Retrieves all the submissions from a course and saves them
+     */
+    protected void retrieveAndSaveStudentProfilesByCourse(String courseId) {
+  
+        try {
+            Logic logic = new Logic();
+            List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
+            
+            FileHelper.appendToFile(currentFileName, "\t\"profiles\":{\n");
+            
+            for(StudentAttributes student : students) {
+                if(student != null && student.googleId != null && !student.googleId.equals("")) {
+                    StudentProfileAttributes profile = logic.getStudentProfile(student.googleId);
+                    if(profile != null) {
+                        saveProfile(profile);
+                    }
+                }
+            }
+            
+            FileHelper.appendToFile(currentFileName, "\n\t},\n");
+            hasPreviousEntity = false;
+        } catch (EntityDoesNotExistException entityException) {
+            System.out.println("Error occurred while trying to save profiles within course " + courseId);
+        }
     }
     
     /** 
@@ -439,6 +469,10 @@ public class OfflineBackup extends RemoteApiClient {
     
     protected void saveSubmission(SubmissionAttributes submission) {
         FileHelper.appendToFile(currentFileName, formatJsonString(submission.getJsonString(), submission.getIdentificationString()));
+    }
+    
+    protected void saveProfile(StudentProfileAttributes studentProfile) {
+        FileHelper.appendToFile(currentFileName, formatJsonString(studentProfile.getJsonString(), studentProfile.googleId));
     }
 
 }
