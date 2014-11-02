@@ -43,6 +43,7 @@ public class OfflineBackup extends RemoteApiClient {
     protected String backupFileDirectory = "";
     protected String currentFileName = "";
     protected boolean hasPreviousEntity = false;
+    protected Set<String> accountsSaved = new HashSet<String>();
     
     public static void main(String[] args) throws IOException {
         OfflineBackup offlineBackup = new OfflineBackup();
@@ -149,6 +150,7 @@ public class OfflineBackup extends RemoteApiClient {
             retrieveAndSaveFeedbackResponseCommentsByCourse(courseId);
             retrieveAndSaveFeedbackSessionsByCourse(courseId);
             retrieveAndSaveInstructorsByCourse(courseId);
+            retrieveAndSaveStudentsByCourse(courseId);
             retrieveAndSaveSubmissionsByCourse(courseId);
             retrieveAndSaveStudentProfilesByCourse(courseId);
             
@@ -350,7 +352,7 @@ public class OfflineBackup extends RemoteApiClient {
             saveSubmission(submission);
         }
         hasPreviousEntity = false;
-        FileHelper.appendToFile(currentFileName, "\n\t}\n");
+        FileHelper.appendToFile(currentFileName, "\n\t},\n");
     }
     
     /** 
@@ -373,7 +375,7 @@ public class OfflineBackup extends RemoteApiClient {
                 }
             }
             
-            FileHelper.appendToFile(currentFileName, "\n\t},\n");
+            FileHelper.appendToFile(currentFileName, "\n\t}\n");
             hasPreviousEntity = false;
         } catch (EntityDoesNotExistException entityException) {
             System.out.println("Error occurred while trying to save profiles within course " + courseId);
@@ -409,12 +411,13 @@ public class OfflineBackup extends RemoteApiClient {
         Logic logic = new Logic();
         AccountAttributes account = logic.getAccount(student.googleId.trim());
         
-        if(account == null) {
+        if(account == null || accountsSaved.contains(account.email)) {
             return;
         }
-
-        FileHelper.appendToFile(currentFileName, formatJsonString(account.getJsonString(), account.email));
         
+        
+        FileHelper.appendToFile(currentFileName, formatJsonString(account.getJsonString(), account.email));
+        accountsSaved.add(account.email);
     }
     
     /** 
@@ -428,11 +431,12 @@ public class OfflineBackup extends RemoteApiClient {
         Logic logic = new Logic();
         AccountAttributes account = logic.getAccount(instructor.googleId.trim());
         
-        if(account == null) {
+        if(account == null || accountsSaved.contains(account.email)) {
             return;
         }
         
         FileHelper.appendToFile(currentFileName, formatJsonString(account.getJsonString(), account.email));
+        accountsSaved.add(account.email);
     }
     
     protected void saveComment(CommentAttributes comment) {
