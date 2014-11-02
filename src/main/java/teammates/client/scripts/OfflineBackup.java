@@ -52,7 +52,7 @@ public class OfflineBackup extends RemoteApiClient {
         Datastore.initialize();
         Vector<String> logs = getModifiedLogs();
         Set<String> courses = extractModifiedCourseIds(logs);
-        backupFileDirectory = "Backup/" + getCurrentDateAndTime();
+        backupFileDirectory = "BackupFiles/Backup/" + getCurrentDateAndTime();
         createBackupDirectory(backupFileDirectory);
         retrieveEntitiesByCourse(courses);
     }
