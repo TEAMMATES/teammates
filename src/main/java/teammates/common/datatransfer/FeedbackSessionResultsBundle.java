@@ -223,11 +223,12 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             responseAnswerHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
                     teamResult.normalizedPeerContributionRatio[giverIndex][recipientIndex]);
     
-            if(response.giverEmail.equals(response.recipientEmail)){
-                //For CONTRIB qns, We want to show PC if giver == recipient.
-                responseAnswerHtml = response.getResponseDetails().getAnswerHtml(questionDetails);
+            if (response.giverEmail.equals(response.recipientEmail)) {
                 StudentResultSummary studentResult = stats.get(response.giverEmail);
-                if(studentResult != null){
+                responseAnswerHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
+                        studentResult.claimedToInstructor);
+                if (studentResult != null) {
+                    //For CONTRIB qns, We want to show PC if giver == recipient.
                     int pc = studentResult.perceivedToInstructor;
                     @SuppressWarnings("static-access")
                     String pcHtml = ((FeedbackContributionQuestionDetails) questionDetails).convertToEqualShareFormatHtml(pc);
