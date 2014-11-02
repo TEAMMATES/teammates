@@ -108,6 +108,7 @@ public class EvaluationsDb extends EntitiesDb {
         e.setPublished(newEvaluationAttributes.published);
         e.setTimeZone(newEvaluationAttributes.timeZone);
         
+        log.info(newEvaluationAttributes.getBackupIdentifier());
         getPM().close();
 
     }

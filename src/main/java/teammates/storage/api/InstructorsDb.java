@@ -297,6 +297,7 @@ public class InstructorsDb extends EntitiesDb{
         //TODO: make courseId+email the non-modifiable values
         
         putDocument(new InstructorAttributes(instructorToUpdate));
+        log.info(instructorAttributesToUpdate.getBackupIdentifier());
         getPM().close();
     }
     
@@ -332,6 +333,7 @@ public class InstructorsDb extends EntitiesDb{
         
         //TODO: make courseId+email the non-modifiable values
         putDocument(new InstructorAttributes(instructorToUpdate));
+        log.info(instructorAttributesToUpdate.getBackupIdentifier());
         getPM().close();
     }
     
