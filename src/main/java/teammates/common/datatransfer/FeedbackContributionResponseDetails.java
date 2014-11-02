@@ -35,12 +35,14 @@ public class FeedbackContributionResponseDetails extends FeedbackAbstractRespons
     public String getAnswerString() {
         return Integer.toString(answer);
     }
-
+    
+    // Not used for contribution question, due to calculations required. See FeedbackSessionResultsBundle.
     @Override
     public String getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails) {
         return FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(getAnswer());
     }
 
+    // Not used for contribution question, due to calculations required. See FeedbackSessionResultsBundle.
     @Override
     public String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails) {
         return Sanitizer.sanitizeForCsv(FeedbackContributionQuestionDetails.convertToEqualShareFormat(getAnswer()));

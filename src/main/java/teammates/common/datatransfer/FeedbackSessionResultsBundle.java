@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.logic.core.TeamEvalResult;
 import teammates.ui.controller.PageData;
@@ -184,6 +185,16 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             return response.getResponseDetails().getAnswerHtml(questionDetails);
         }
     }
+    
+    public String getResponseAnswerCsv(FeedbackResponseAttributes response, FeedbackQuestionAttributes question){
+        FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+        if(question.questionType == FeedbackQuestionType.CONTRIB){
+            return getContributionQuestionResponseAnswerCsv(response,
+                    question, questionDetails);
+        } else {
+            return response.getResponseDetails().getAnswerCsv(questionDetails);
+        }
+    }
 
     private String getContributionQuestionResponseAnswerHtml(
             FeedbackResponseAttributes response,
@@ -239,10 +250,55 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 }
             }
         }
-        
-         
-                
         return responseAnswerHtml;
+    }
+    
+    private String getContributionQuestionResponseAnswerCsv(
+            FeedbackResponseAttributes response,
+            FeedbackQuestionAttributes question,
+            FeedbackAbstractQuestionDetails questionDetails) {
+        Map<String, TeamEvalResult> teamResults = getContribQnTeamEvalResult(question);
+        Map<String, StudentResultSummary> stats = getContribQnStudentResultSummary(question);
+        
+        // Need to get actual team name and giver/recipient emails here,
+        // only for getting the responseAnswer.
+        FeedbackResponseAttributes actualResponse = getActualResponse(response);
+        String giverTeamName = emailTeamNameTable.get(actualResponse.giverEmail);
+        TeamEvalResult teamResult = teamResults.get(giverTeamName);
+        
+        int giverIndex = teamResult.studentEmails.indexOf(actualResponse.giverEmail);
+        int recipientIndex = teamResult.studentEmails.indexOf(actualResponse.recipientEmail);
+        
+        String responseAnswerCsv = "";
+        
+        if (giverIndex == -1 || recipientIndex == -1) {
+            if (giverIndex == -1) {
+                Utils.getLogger().severe("getContributionQuestionResponseAnswerCsv - giverIndex is -1\n"
+                        + "Cannot find giver: " + actualResponse.giverEmail + "\n"
+                        + "CourseId: " + feedbackSession.courseId + "\n"
+                        + "Session Name: " + feedbackSession.feedbackSessionName + "\n"
+                        + "Response Id: " + actualResponse.getId());
+            }
+            if (recipientIndex == -1) {
+                Utils.getLogger().severe("getContributionQuestionResponseAnswerCsv - recipientIndex is -1\n"
+                        + "Cannot find recipient: " + actualResponse.recipientEmail + "\n"
+                        + "CourseId: " + feedbackSession.courseId + "\n"
+                        + "Session Name: " + feedbackSession.feedbackSessionName + "\n"
+                        + "Response Id: " + actualResponse.getId());
+            }
+        } else {
+            responseAnswerCsv = Sanitizer.sanitizeForCsv(
+                    FeedbackContributionQuestionDetails.convertToEqualShareFormat(
+                            teamResult.normalizedPeerContributionRatio[giverIndex][recipientIndex]));
+            
+            if (response.giverEmail.equals(response.recipientEmail)) {
+                StudentResultSummary studentResult = stats.get(response.giverEmail);
+                responseAnswerCsv = Sanitizer.sanitizeForCsv(
+                        FeedbackContributionQuestionDetails.convertToEqualShareFormat(
+                                studentResult.claimedToInstructor));
+            }
+        }
+        return responseAnswerCsv;
     }
 
     private FeedbackResponseAttributes getActualResponse(
