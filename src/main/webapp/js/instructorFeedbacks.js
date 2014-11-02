@@ -79,7 +79,7 @@ function checkFeedbackQuestion(form) {
         return false;
     }
     if ($(form).find('[name='+FEEDBACK_QUESTION_TYPE+']').val() == "NUMSCALE") {
-        if( $(form).find('[name='+FEEDBACK_QUESTION_NUMSCALE_MIN+']').val() == "" || 
+        if( $(form).find('[name='+FEEDBACK_QUESTION_NUMSCALE_MIN+']').val() == "" ||
                 $(form).find('[name='+FEEDBACK_QUESTION_NUMSCALE_MAX+']').val() == ""||
                 $(form).find('[name='+FEEDBACK_QUESTION_NUMSCALE_STEP+']').val() == "") {
             setStatusMessage(DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID,true);
@@ -113,7 +113,7 @@ function extractQuestionNumFromEditFormId(id){
  * @param form
  * @returns {Boolean}
  */
-function checkAddFeedbackSession(form){	
+function checkAddFeedbackSession(form){
     var courseID = form.courseid.value;
     var timezone = form.timezone.value;
     var fsname = form.fsname.value;
@@ -159,29 +159,29 @@ function checkEditFeedbackSession(form){
             return false;
         }
     }
-    
+
     return true;
 }
 
 /**
  * To be run on page finish loading, this will select the input: start date,
  * start time, and timezone based on client's time.
- * 
+ *
  * The default values will not be set if the form was submitted previously and
  * failed validation.
  */
 function selectDefaultTimeOptions(){
     var now = new Date();
-    
+
     var hours = convertDateToHHMM(now).substring(0, 2);
     var currentTime = (parseInt(hours) + 1) % 24;
     var timeZone = -now.getTimezoneOffset() / 60;
-    
+
     if (!isTimeZoneUnintialized()) {
         document.getElementById(FEEDBACK_SESSION_STARTTIME).value = currentTime;
-        document.getElementById(FEEDBACK_SESSION_TIMEZONE).value = ""+timeZone;        
+        document.getElementById(FEEDBACK_SESSION_TIMEZONE).value = ""+timeZone;
     }
-    
+
     if ($('#timezone > option[value=\'' + SELECT_OPTION_UNINITIALISED + '\']')) {
     	$('#timezone > option[value=\'' + SELECT_OPTION_UNINITIALISED + '\']').remove();
     }
@@ -225,14 +225,14 @@ function bindCopyButton() {
         e.preventDefault();
         var selectedCourseId = $("#" + COURSE_ID + " option:selected").text();
         var newFeedbackSessionName = $("#" + FEEDBACK_SESSION_NAME).val();
-        
+
         var isExistingSession = false;
 
         var sessionsList = $("tr[id^='session']");
         if(sessionsList.length == 0){
             setStatusMessage(FEEDBACK_SESSION_COPY_INVALID, true);
             return false;
-        } 
+        }
 
         $(sessionsList).each(function(){
             var cells = $(this).find("td");
@@ -329,14 +329,18 @@ function readyFeedbackPage() {
     formatSessionVisibilityGroup();
     formatResponsesVisibilityGroup();
     collapseIfPrivateSession();
-    bindCopyButton();
-    bindCopyEvents();
 
     window.doPageSpecificOnload = selectDefaultTimeOptions();
-
+    $("#ajaxForSessions").trigger('submit');
     bindUncommonSettingsEvents();
     updateUncommonSettingsInfo();
     hideUncommonPanels();
+}
+
+function bindEventsAfterAjax() {
+    bindCopyButton();
+    bindCopyEvents();
+    linkAjaxForResponseRate();
 }
 
 function bindUncommonSettingsEvents(){
@@ -367,7 +371,7 @@ function isDefaultSetting(){
         $('#sendreminderemail_published').prop('checked')){
         return true;
     } else {
-        return false;   
+        return false;
     }
 }
 
@@ -392,7 +396,7 @@ function hideUncommonPanels(){
 }
 
 /**
- * Hides / shows the "Submissions Opening/Closing Time" and "Grace Period" options 
+ * Hides / shows the "Submissions Opening/Closing Time" and "Grace Period" options
  * depending on whether a private session is selected.<br>
  * Toggles whether custom fields are enabled or not for session visible time based
  * on checkbox selection.
@@ -401,7 +405,7 @@ function hideUncommonPanels(){
 function formatSessionVisibilityGroup() {
     var $sessionVisibilityBtnGroup = $('[name='+FEEDBACK_SESSION_SESSIONVISIBLEBUTTON+']');
     $sessionVisibilityBtnGroup.change(function() {
-        collapseIfPrivateSession();		
+        collapseIfPrivateSession();
         if ($sessionVisibilityBtnGroup.filter(':checked').val() == "custom") {
             toggleDisabledAndStoreLast(FEEDBACK_SESSION_VISIBLEDATE, false);
             toggleDisabledAndStoreLast(FEEDBACK_SESSION_VISIBLETIME, false);
@@ -419,7 +423,7 @@ function formatSessionVisibilityGroup() {
  */
 function formatResponsesVisibilityGroup() {
     var $responsesVisibilityBtnGroup = $('[name='+FEEDBACK_SESSION_RESULTSVISIBLEBUTTON+']');
-    
+
     $responsesVisibilityBtnGroup.change(function() {
         if ($responsesVisibilityBtnGroup.filter(':checked').val() == "custom") {
             toggleDisabledAndStoreLast(FEEDBACK_SESSION_PUBLISHDATE, false);

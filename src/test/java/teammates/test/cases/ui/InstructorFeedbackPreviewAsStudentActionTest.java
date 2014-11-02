@@ -4,14 +4,13 @@ import static org.junit.Assert.assertEquals;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.controller.InstructorFeedbackPreviewAsStudentAction;
 import teammates.ui.controller.ShowPageResult;
@@ -30,7 +29,9 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends
     @Test
     public void testExecuteAndPostProcess() throws Exception{
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructorHelper = dataBundle.instructors.get("helperOfCourse1");
         String idOfInstructor = instructor.googleId;
+        String idOfInstructorHelper = instructorHelper.googleId;
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
 
         gaeSimulation.loginAsInstructor(idOfInstructor);
@@ -62,8 +63,33 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends
                 + "Session Name: First feedback session<br>Course ID: idOfTypicalCourse1|||"
                 + "/page/instructorFeedbackPreviewAsStudent"
                 , paia.getLogMessage());
+        
+        gaeSimulation.loginAsInstructor(idOfInstructorHelper);
+        
+        ______TS("failure: not enough privilege");
+        
+        feedbackSessionName = "First feedback session";
+        courseId = "idOfTypicalCourse1";
+        previewAsEmail = student.email;
+        
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.PREVIEWAS, previewAsEmail
+        };
+        
+        try {
+            paia = getAction(submissionParams);
+            showPageResult = (ShowPageResult) paia.executeAndPostProcess();
+        } catch (UnauthorizedAccessException e) {
+            assertEquals("Feedback session [First feedback session] is not accessible to instructor [" + 
+                    instructorHelper.email + "] for privilege [canmodifysession]", e.getMessage());
+        }
+        
+        gaeSimulation.loginAsInstructor(idOfInstructor);
 
         ______TS("failure: non-existent previewas email");
+        
         previewAsEmail = "non-exIstentEmail@gsail.tmt";
 
         submissionParams = new String[] {

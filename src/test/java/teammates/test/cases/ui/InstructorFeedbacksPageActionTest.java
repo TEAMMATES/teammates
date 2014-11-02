@@ -31,7 +31,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        String[] submissionParams = new String[]{};
+        String[] submissionParams = new String[]{Const.ParamsNames.IS_USING_AJAX, "true"};
         
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         
@@ -66,7 +66,8 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         
         FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourse(instructor1ofCourse1.courseId);
         
-        submissionParams = new String[]{Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId};
+        submissionParams = new String[]{Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId, 
+                Const.ParamsNames.IS_USING_AJAX, "true"};
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         r = (ShowPageResult) a.executeAndPostProcess();
         
@@ -91,7 +92,8 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         
         EvaluationsLogic.inst().deleteEvaluationsForCourse(instructor1ofCourse1.courseId);
         
-        submissionParams = new String[]{Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId};
+        submissionParams = new String[]{Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId, 
+                Const.ParamsNames.IS_USING_AJAX, "true"};
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         r = (ShowPageResult) a.executeAndPostProcess();
         
@@ -122,7 +124,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         CoursesLogic.inst().deleteCourseCascade(instructor1ofCourse1.courseId);
         CoursesLogic.inst().deleteCourseCascade("new-course");
         
-        submissionParams = new String[]{};
+        submissionParams = new String[]{Const.ParamsNames.IS_USING_AJAX, "true"};
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         r = (ShowPageResult) a.executeAndPostProcess();
         
