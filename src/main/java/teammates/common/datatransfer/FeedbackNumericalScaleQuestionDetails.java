@@ -459,7 +459,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         csv += "Recipient, Average, Minimum, Maximum" ;
         if (!userGaveResponseToSelf.keySet().isEmpty()) {
-            csv += "Average excluding student's own response";
+            csv += ", Average excluding student's own response";
         }
         csv += Const.EOL;
         
@@ -474,14 +474,14 @@ public class FeedbackNumericalScaleQuestionDetails extends
             }
             
             csv += Sanitizer.sanitizeForCsv(recipientName) + ",";
-            csv += Sanitizer.sanitizeForCsv(userAverage.toString()) + "," + Sanitizer.sanitizeForCsv(min.get(recipient).toString()) + "," + Sanitizer.sanitizeForCsv(max.get(recipient).toString());
+            csv += userAverage.toString() + "," + min.get(recipient).toString() + "," + max.get(recipient).toString();
             if (userGaveResponseToSelf.containsKey(recipientName)) {
                 double userAverageExcludingSelfResponse = totalExcludingSelfResponse.get(recipient) / 
                         (numResponses.get(recipient) - 1);
                 String userAverageWithoutSelfResponse = df.format(userAverageExcludingSelfResponse); 
                 csv += userAverageWithoutSelfResponse;
             } else {
-                csv += "-";
+                csv += ",-";
             }
             csv += Const.EOL;
         }
