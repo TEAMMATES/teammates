@@ -1324,8 +1324,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         */
         
         exportLines = export.split(Const.EOL);
-        for (String s: exportLines)
-            System.out.println(":::" + s);
         assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
         assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
         assertEquals(exportLines[2], "");

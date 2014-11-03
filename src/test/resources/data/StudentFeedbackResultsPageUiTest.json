@@ -1434,7 +1434,7 @@
             }
 
         },
-        "numscaleResponse11b":{
+        "numscaleResponse12":{
             "feedbackSessionName":"NUMSCALE Session",
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"6",
@@ -1446,7 +1446,7 @@
             }
 
         },
-        "numscaleResponse11c":{
+        "numscaleResponse13":{
             "feedbackSessionName":"NUMSCALE Session",
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"6",
@@ -1458,7 +1458,7 @@
             }
 
         },
-        "numscaleResponse12":{
+        "numscaleResponse14":{
             "feedbackSessionName":"NUMSCALE Session",
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"7",
@@ -1471,7 +1471,7 @@
             
         },
         
-        "numscaleResponse13":{
+        "numscaleResponse15":{
             "feedbackSessionName":"NUMSCALE Session",
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"7",
@@ -1484,7 +1484,7 @@
 
         },
 
-        "numscaleResponse14":{
+        "numscaleResponse16":{
             "feedbackSessionName":"NUMSCALE Session",
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"7",
@@ -1496,7 +1496,7 @@
             }
 
         },
-        "numscaleResponse15":{
+        "numscaleResponse17":{
             "feedbackSessionName":"NUMSCALE Session",
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"7",
