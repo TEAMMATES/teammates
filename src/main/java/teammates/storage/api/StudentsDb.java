@@ -382,6 +382,7 @@ public class StudentsDb extends EntitiesDb {
             putDocument(new StudentAttributes(student));   
         }
         
+        log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
         getPM().close();
     }
 

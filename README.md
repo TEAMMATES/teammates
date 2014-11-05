@@ -47,7 +47,7 @@ Here are some documents important for TEAMMATES developers:
     [UI design](https://docs.google.com/document/d/1Vj59--sCYUfxgg-iLI53hMfc6YY1gguATTN_KXTQVUo/pub?embedded=true), 
     [Coding](https://docs.google.com/document/d/14EFJzdhp10qQ9iZ-FwsS1FAf42voe4exrlbefo_zYaU/pub?embedded=true), 
     [Testing](https://docs.google.com/document/d/1aK-1ubIA59fbNsEujwvWKqx7itwLPTD6mzFo4F_oEoI/pub?embedded=true)
-  * [**Version History**](https://docs.google.com/document/pub?id=1b9UmcYz8NU2TJ6Kt8i6pCcj064B98sbrM0MMEYVWs0Q&embedded=true)
+  * [**Version History**](https://github.com/TEAMMATES/repo/milestones?direction=desc&sort=due_date&state=closed)
   
    
   * **Technical reports** about TEAMMATES : In-depth descriptions about various aspects of the project
@@ -55,4 +55,7 @@ Here are some documents important for TEAMMATES developers:
       * [Measuring Scalability and Performance](https://docs.google.com/document/pub?id=1C7fn11fKsgGUx0AT_nH9ZQBi3G7o5zpYqwIIAC40CxU&embedded=true) - by James Dam Tuan Long 
       * [Improving Scalability and Performance](https://docs.google.com/document/pub?id=1v_RYw_Hu1-TExVi0A7d3kxX0CTgFaUtfV1_qYXBhwWs&embedded=true) - by James Dam Tuan Long
       * [Entity Search Facility](https://docs.google.com/document/pub?id=1Ns7NJzHFlwMQaN3LzOdSLb80SaRhN2-2OzrDgwDMIRg&embedded=true) - by Wang Sha
-
+      * [Data Backup and Disaster Recovery](https://docs.google.com/document/d/1ECDOy2JUXKLz8t44lXj2t0nvqDtJCjyHM7_HA8DV1fA/pub?embedded=true) - by Lee Shaw Wei Shawn
+      * [Dealing with Eventual Consistency](https://docs.google.com/document/d/11HUDa-PlzEEk4-liWlsjC9UbicbfYO1hJMxx_cCEEVE/pub?embedded=true) - by Lee Shaw Wei Shawn
+      * [Dealing with Intermittent Null Pointer Exceptions](https://docs.google.com/document/d/1A_QtW8uDFGeeu2KOiWwyuvgm7Jm9pS7nOvmy9B42v_I/pub?embedded=true) - by Lee Shaw Wei Shawn	  
+      * [Using Task Queues](https://docs.google.com/document/d/1phgT2hhQ9KkI6jYf6a7N-51CVrLBDmsGapTt_7m3Sp8/pub?embedded=true) - by Hunar Khanna, Lee Shaw Wei Shawn	  

@@ -86,7 +86,7 @@ public class EvaluationAttributes extends EntityAttributes implements SessionAtt
         evaluation.setPublished(published);
         return evaluation;
     }
-
+    
     public EvalStatus getStatus() {
         Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         TimeHelper.convertToUserTimeZone(now, timeZone);
@@ -255,6 +255,16 @@ public class EvaluationAttributes extends EntityAttributes implements SessionAtt
         return "Evaluation";
     }
 
+    @Override
+    public String getBackupIdentifier() {
+        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
+    }
+    
+    @Override
+    public String getJsonString() {
+        return Utils.getTeammatesGson().toJson(this, EvaluationAttributes.class);
+    }
+    
     public boolean isSimilar(EvaluationAttributes e) {
         if(e==null){
             return false;

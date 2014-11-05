@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.Utils;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.Course;
 
@@ -82,6 +84,16 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
         return "Course";
     }
 
+    @Override
+    public String getBackupIdentifier() {
+        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + id;
+    }
+    
+    @Override
+    public String getJsonString() {
+        return Utils.getTeammatesGson().toJson(this, CourseAttributes.class);
+    }
+    
     @Override
     public void sanitizeForSaving() {
         this.id = Sanitizer.sanitizeForHtml(id);
