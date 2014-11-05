@@ -114,6 +114,17 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         String prevPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
         verifyPictureIsPresent(prevPictureKey);
         
+        ______TS("repeated edit");
+        
+        profilePage.showPictureEditor();
+        profilePage.editProfilePhoto();
+        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality", 
+                "female", "this is enough!$%&*</>");
+        profilePage.verifyPhotoSize(150, 150);
+        
+        prevPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
+        verifyPictureIsPresent(prevPictureKey);
+        
         ______TS("not a picture");
         
         profilePage.fillProfilePic("src/test/resources/images/not_a_picture.txt");
