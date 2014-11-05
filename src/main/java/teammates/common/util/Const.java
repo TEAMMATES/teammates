@@ -18,7 +18,8 @@ public class Const {
         public static final String ENCODING = "UTF8";
         public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
         
-        /** This is the limit after which TEAMMATES will send error message */
+        /** This is the limit after which TEAMMATES will send error message.
+         * Must be within the range of int */
         public static final int MAX_PROFILE_PIC_SIZE = 5000000;
         /** This is the limit given to Blobstore API, beyond which an ugly error page is shown */
         public static final long MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI = 11000000;

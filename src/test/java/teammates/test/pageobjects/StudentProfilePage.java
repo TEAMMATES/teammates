@@ -74,10 +74,14 @@ public class StudentProfilePage extends AppPage {
     }
     
     public void fillProfilePic(String fileName) throws Exception {
-        uploadPopupButton.click();
-        waitForElementToBecomeVisible("studentPhotoUploader");
+        showPictureEditor();
         RemoteWebElement ele = (RemoteWebElement) browser.driver.findElement(By.id("studentPhoto"));
         fillFileBox(ele, fileName);
+    }
+
+    public void showPictureEditor() throws Exception {
+        uploadPopupButton.click();
+        waitForElementToBecomeVisible("studentPhotoUploader");
     }
     
     public void fillShortName(String shortName) {
