@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
@@ -8,11 +9,8 @@ import java.util.Map;
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
+import com.google.appengine.api.blobstore.BlobstoreInputStream;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-import com.google.appengine.api.images.CompositeTransform;
-import com.google.appengine.api.images.Image;
-import com.google.appengine.api.images.ImagesServiceFactory;
-import com.google.appengine.api.images.Transform;
 import com.google.appengine.tools.cloudstorage.GcsFileOptions;
 import com.google.appengine.tools.cloudstorage.GcsFilename;
 import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
@@ -40,12 +38,14 @@ public class StudentProfilePictureUploadAction extends Action {
         
         String pictureKey = "";
         BlobKey blobKey = new BlobKey("");
+        BlobInfo blobInfo = null;
         RedirectResult r = createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);
         
         try {
-            blobKey = extractProfilePictureKey();
+            blobInfo = extractProfilePictureKey();
             if (!isError) {
-                pictureKey = renameFileToGoogleId(blobKey);
+                blobKey = blobInfo.getBlobKey();
+                pictureKey = renameFileToGoogleId(blobInfo);
                 logic.updateStudentProfilePicture(account.googleId, pictureKey);
                 statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
                 r.addResponseParam(Const.ParamsNames.STUDENT_PROFILE_PHOTOEDIT, "true");
@@ -66,17 +66,17 @@ public class StudentProfilePictureUploadAction extends Action {
         return r;
     }
 
-    private String renameFileToGoogleId(BlobKey blobKey) throws IOException {
-        Assumption.assertNotNull(blobKey);
+    private String renameFileToGoogleId(BlobInfo blobInfo) throws IOException {
+        Assumption.assertNotNull(blobInfo);
         
-        Image oldImage = ImagesServiceFactory.makeImageFromBlob(blobKey);
-        Transform flip = ImagesServiceFactory.makeHorizontalFlip();
-        CompositeTransform transform = ImagesServiceFactory.makeCompositeTransform();
-        transform.concatenate(flip).concatenate(flip);
-        Image newImage = ImagesServiceFactory.getImagesService().applyTransform(transform, oldImage);
-        String newKey = uploadFileToGcs(newImage.getImageData());
+        BlobKey blobKey = blobInfo.getBlobKey();
+        InputStream blobStream = new BlobstoreInputStream(blobKey);
+        byte[] imageData = new byte[(int) blobInfo.getSize()];
+        blobStream.read(imageData);
+        blobStream.close();
+        
+        String newKey = uploadFileToGcs(imageData);
         deletePicture(blobKey);
-        blobKey = new BlobKey("");
         return newKey;
     }
     
@@ -107,7 +107,7 @@ public class StudentProfilePictureUploadAction extends Action {
                 .createGsBlobKey("/gs/"+Config.GCS_BUCKETNAME + "/" + account.googleId).getKeyString();
     }
 
-    private BlobKey extractProfilePictureKey() {
+    private BlobInfo extractProfilePictureKey() {
         try {
             Map<String, List<BlobInfo>> blobsMap = BlobstoreServiceFactory.getBlobstoreService().getBlobInfos(request);
             List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.STUDENT_PROFILE_PHOTO);
@@ -118,28 +118,28 @@ public class StudentProfilePictureUploadAction extends Action {
             } else{
                 statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_NO_PICTURE_GIVEN);
                 isError = true;
-                return new BlobKey("");
+                return null;
             }
         } catch (IllegalStateException e) {
             // this means the action was called directly (and not via BlobStore API callback)
             // simply redirect to ProfilePage
-            return new BlobKey("");
+            return null;
         }
     }
 
-    private BlobKey validateProfilePicture (BlobInfo profilePic) {
+    private BlobInfo validateProfilePicture (BlobInfo profilePic) {
         if (profilePic.getSize() > Const.SystemParams.MAX_PROFILE_PIC_SIZE) {
             deletePicture(profilePic.getBlobKey());
             isError = true;
             statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
-            return new BlobKey("");
+            return null;
         } else if(!profilePic.getContentType().contains("image/")) {
             deletePicture(profilePic.getBlobKey());
             isError = true;
             statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
-            return new BlobKey("");
+            return null;
         } else {
-            return profilePic.getBlobKey();
+            return profilePic;
         }
         
     }
