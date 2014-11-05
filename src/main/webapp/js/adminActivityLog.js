@@ -1,10 +1,3 @@
-function submitForm(offset, ifShowAll, isShowTestData) {
-	$('input[name=offset]').val(offset);
-	$('input[name=pageChange]').val("true");
-	$('input[name=all]').val(ifShowAll);
-	$('input[name=testdata]').val(isShowTestData);
-	$("#activityLogFilter").submit();
-}
 
 function toggleReference() {
 	$("#filterReference").toggle("slow");
@@ -27,8 +20,7 @@ $(function() {
 
 function submitFormAjax(offset) {
 	$('input[name=offset]').val(offset);
-	$('input[name=pageChange]').val("true");
-	var formObject = $("#activityLogFilter");
+	var formObject = $("#ajaxLoaderDataForm");
 	var formData = formObject.serialize();
 	var button = $('#button_older');
 	var lastLogRow = $('#logsTable tr:last');

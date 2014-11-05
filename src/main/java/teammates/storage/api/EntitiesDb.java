@@ -90,6 +90,9 @@ public abstract class EntitiesDb {
                         + entityToAdd.getIdentificationString());
             }
         }
+        
+        log.info(entityToAdd.getBackupIdentifier());
+        
         return entity;
     }
     
@@ -113,12 +116,15 @@ public abstract class EntitiesDb {
             } else {
                 entities.add(entityToAdd.toEntity());
             }
+            
+            log.info(entityToAdd.getBackupIdentifier());
         }
-        
+       
         getPM().makePersistentAll(entities);
         getPM().flush();
  
         return entitiesToUpdate;
+
     }
 
     
@@ -163,6 +169,7 @@ public abstract class EntitiesDb {
                         + entityToAdd.getIdentificationString());
             }
         }
+        log.info(entityToAdd.getBackupIdentifier());
     }
     
     // TODO: use this method for subclasses.
@@ -203,6 +210,7 @@ public abstract class EntitiesDb {
                         + entityToDelete.getIdentificationString());
             }
         }
+        log.info(entityToDelete.getBackupIdentifier());
     }
     
     public void deleteEntities(Collection<? extends EntityAttributes> entitiesToDelete) {
@@ -213,6 +221,7 @@ public abstract class EntitiesDb {
             Object entity = getEntity(entityToDelete);
             if (entity != null) {
                 entities.add(entity);
+                log.info(entityToDelete.getBackupIdentifier());
             }
         }
         

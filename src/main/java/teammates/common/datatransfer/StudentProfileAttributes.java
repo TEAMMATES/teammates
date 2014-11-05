@@ -117,7 +117,17 @@ public class StudentProfileAttributes extends EntityAttributes {
     public String getEntityTypeAsString() {
         return "StudentProfile";
     }
-
+    
+    @Override
+    public String getBackupIdentifier() {
+        return "Student profile modified";
+    }
+    
+    @Override
+    public String getJsonString() {
+        return Utils.getTeammatesGson().toJson(this, StudentProfileAttributes.class);
+    }
+    
     @Override
     public void sanitizeForSaving() {
         this.googleId = Sanitizer.sanitizeGoogleId(this.googleId);

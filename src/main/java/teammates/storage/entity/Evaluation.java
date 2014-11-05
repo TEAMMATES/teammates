@@ -108,6 +108,10 @@ public class Evaluation {
         this.setTimeZone(timeZone);
     }
 
+    public Long getId() {
+        return id;
+    }
+    
     public String getCourseId() {
         return courseID;
     }

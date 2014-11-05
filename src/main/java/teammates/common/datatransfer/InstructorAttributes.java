@@ -217,6 +217,16 @@ public class InstructorAttributes extends EntityAttributes {
     }
 
     @Override
+    public String getBackupIdentifier() {
+        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
+    }
+    
+    @Override
+    public String getJsonString() {
+        return Utils.getTeammatesGson().toJson(this, InstructorAttributes.class);
+    }
+    
+    @Override
     public void sanitizeForSaving() {
         this.googleId = Sanitizer.sanitizeGoogleId(this.googleId);
         this.name = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(this.name));

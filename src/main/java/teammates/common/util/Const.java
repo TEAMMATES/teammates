@@ -70,6 +70,8 @@ public class Const {
         public static final List<String> LEGACY_PAGES_WITH_REDUCED_SECURITY = Arrays.asList(
                 ActionURIs.STUDENT_COURSE_JOIN
         );
+        
+        public static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
     }
 
     /* Text displayed to the user when the mouse hover over certain elements in
@@ -283,6 +285,8 @@ public class Const {
     }
 
     public class ParamsNames{
+        
+        public static final String IS_USING_AJAX = "isusingAjax";
         
         public static final String BLOB_KEY = "blob-key";
         
@@ -915,7 +919,7 @@ public class Const {
                 + "<br>Updating of the course data on our servers is currently in progress and will be completed in a few minutes. "
                 + "<br>Please refresh this page in a few minutes to see the course %1$s in the list below.";
         
-        public static final String NULL_POST_PARAMETER_MESSAGE = "?message=You have been redirected to this page due to a possible expiry of the previous login."
+        public static final String NULL_POST_PARAMETER_MESSAGE = "You have been redirected to this page due to a possible expiry of the previous login."
                 + "<br>If you have previously typed some data and wish to retrieve it, you may use the 'Back' button of your Browser to navigate to the"
                 + " previous page containing the data you typed in.";
         

@@ -22,24 +22,26 @@ public class InstructorFeedbacksPageData extends PageData {
     public FeedbackSessionAttributes newFeedbackSession;
     public List<CourseAttributes> courses;
     public List<EvaluationAttributes> existingEvalSessions;
-    public List<FeedbackSessionAttributes> existingFeedbackSessions;        
+    public List<FeedbackSessionAttributes> existingFeedbackSessions;
     public HashMap<String, InstructorAttributes> instructors;
-    
+    public boolean isUsingAjax;
+    public static final int MAX_CLOSED_SESSION_STATS = 5;
+
     public ArrayList<String> getTimeZoneOptionsAsHtml(){
         return getTimeZoneOptionsAsHtml(
                 newFeedbackSession == null
-                    ? Const.DOUBLE_UNINITIALIZED 
+                    ? Const.DOUBLE_UNINITIALIZED
                     : newFeedbackSession.timeZone);
     }
-    
-    
+
+
     public ArrayList<String> getGracePeriodOptionsAsHtml(){
         return getGracePeriodOptionsAsHtml(
-                newFeedbackSession == null 
+                newFeedbackSession == null
                     ? Const.INT_UNINITIALIZED
                     : newFeedbackSession.gracePeriod);
     }
-    
+
     public ArrayList<String> getCourseIdOptions() {
         ArrayList<String> result = new ArrayList<String>();
 
@@ -50,7 +52,7 @@ public class InstructorFeedbacksPageData extends PageData {
             boolean isFilledFormForSessionInThisCourse = (newFeedbackSession != null)
                     && course.id.equals(newFeedbackSession.courseId);
 
-            // True if this is for displaying an empty form for creating a 
+            // True if this is for displaying an empty form for creating a
             // session for this course:
             boolean isEmptyFormForSessionInThisCourse = (courseIdForNewSession != null)
                     && course.id.equals(courseIdForNewSession);
@@ -58,7 +60,7 @@ public class InstructorFeedbacksPageData extends PageData {
             String selectedAttribute = isFilledFormForSessionInThisCourse
                     || isEmptyFormForSessionInThisCourse ? " selected=\"selected\""
                     : "";
-            
+
             if (instructors.get(course.id).isAllowedForPrivilege(
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
                 result.add("<option value=\"" + course.id + "\""
@@ -67,6 +69,6 @@ public class InstructorFeedbacksPageData extends PageData {
         }
         return result;
     }
-        
+
 
 }

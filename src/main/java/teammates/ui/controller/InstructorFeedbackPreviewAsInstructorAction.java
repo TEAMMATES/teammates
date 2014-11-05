@@ -24,11 +24,10 @@ public class InstructorFeedbackPreviewAsInstructorAction extends Action {
                                                Const.ParamsNames.PREVIEWAS),
                                  previewInstructorEmail);
 
-        // Verify access level
         new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId),
+                logic.getInstructorForGoogleId(courseId, account.googleId), 
                 logic.getFeedbackSession(feedbackSessionName, courseId),
-                true);
+                false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         InstructorAttributes previewInstructor = logic.getInstructorForEmail(courseId, previewInstructorEmail);
         

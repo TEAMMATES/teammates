@@ -9,8 +9,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.Utils;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.Comment;
 
@@ -173,6 +175,16 @@ public class CommentAttributes extends EntityAttributes
         return "Comment";
     }
 
+    @Override
+    public String getJsonString() {
+        return Utils.getTeammatesGson().toJson(this, CommentAttributes.class);
+    }
+    
+    @Override
+    public String getBackupIdentifier() {
+        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
+    }
+    
     @Override
     public void sanitizeForSaving() {
         this.courseId = this.courseId.trim();
