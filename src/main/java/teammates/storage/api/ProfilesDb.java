@@ -104,11 +104,6 @@ public class ProfilesDb extends EntitiesDb {
                 && !newSpa.pictureKey.equals(profileToUpdate.getPictureKey().getKeyString());
         
         if (hasNewNonEmptyPictureKey) {
-            boolean profileHasExistingPicture = !profileToUpdate.getPictureKey().equals(new BlobKey(""));
-            
-            if (profileHasExistingPicture) {
-                deletePicture(profileToUpdate.getPictureKey());
-            }
             profileToUpdate.setPictureKey(new BlobKey(newSpa.pictureKey));
         }
     }
@@ -129,12 +124,10 @@ public class ProfilesDb extends EntitiesDb {
         validateParametersForUpdatePicture(googleId, newPictureKey);
         StudentProfile profileToUpdate = getCurrentProfileFromDb(googleId);
         
-        boolean newKeyGiven = !newPictureKey.equals(profileToUpdate.getPictureKey().getKeyString());
+        boolean hasNewNonEmptyPictureKey = !newPictureKey.isEmpty()
+                && !newPictureKey.equals(profileToUpdate.getPictureKey().getKeyString());
         
-        if (newKeyGiven) {
-            if (!profileToUpdate.getPictureKey().equals(new BlobKey(""))) {
-                deletePicture(profileToUpdate.getPictureKey());
-            }
+        if (hasNewNonEmptyPictureKey) {
             profileToUpdate.setPictureKey(new BlobKey(newPictureKey));
             profileToUpdate.setModifiedDate(new Date());
         }
