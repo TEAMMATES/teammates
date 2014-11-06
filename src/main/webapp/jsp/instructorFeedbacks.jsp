@@ -84,8 +84,7 @@
                     </div>
                     <h4 class="label-control col-md-1 text-md">Or: </h4>
                     <div class="col-md-3">
-                        <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy
-                            from previous feedback sessions</a>
+                        <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Loading...</a>
                     </div>
                 </div>
                 <br>
@@ -584,8 +583,8 @@
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         <br>
 
+        <div id="sessionList" class="align-center">
         <% if(data.isUsingAjax) { %>
-        <div id="sessionList">
         <table class="table-responsive table table-striped table-bordered" id="table-sessions"> 
             <thead>
                 <tr class="fill-primary">
@@ -683,10 +682,11 @@
         <%
                 }
         %>
-         </div>
         <%
             }
         %>
+        </div>
+        
 
         <!-- Modal -->
         <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalTitle" aria-hidden="true">

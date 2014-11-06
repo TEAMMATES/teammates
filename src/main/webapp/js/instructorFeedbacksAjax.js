@@ -7,7 +7,7 @@ $(document).ready(function(){
             cache: false,
             url :   $(this).attr('action') + "?" + formData,
             beforeSend : function() {
-                console.log('Before sending');
+                $('#sessionList').html("<img height='75' width='75' class='margin-center-horizontal' src='/images/ajax-preload.gif'/>");
             },
             error : function() {
                 console.log('Error');
@@ -16,8 +16,10 @@ $(document).ready(function(){
                 var appendedModalBody = $(data).find('#copySessionsBody').html();
                 var appendedSessionTable = $(data).find('#sessionList').html();
 
+                $('#button_copy').text("Copy from previous feedback sessions");
                 $('#copySessionsBody').html(appendedModalBody);
-                $('#frameBodyWrapper').append(appendedSessionTable);
+                $('#sessionList').removeClass('align-center');
+                $('#sessionList').html(appendedSessionTable);
                 bindEventsAfterAjax();
             }
         });

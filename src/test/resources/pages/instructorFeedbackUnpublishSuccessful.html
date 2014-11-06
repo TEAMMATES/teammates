@@ -23,8 +23,7 @@
                     </div>
                     <h4 class="label-control col-md-1 text-md">Or: </h4>
                     <div class="col-md-3">
-                        <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy
-                            from previous feedback sessions</a>
+                        <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy from previous feedback sessions</a>
                     </div>
                 </div>
                 <br>
@@ -436,136 +435,8 @@
 
         <br>
 
+        <div id="sessionList" class="">
         
-
-        <!-- Modal -->
-        <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalTitle" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="copyModalTitle">Creating a new session by copying a previous session</h4>
-              </div>
-              <div class="modal-body" id="copySessionsBody">
-                    <form class="form" id="copyModalForm" role="form" method="post" action="/page/instructorFeedbackCopy">
-                    <!-- Course -->
-                    <div class="form-group">
-                        <label for="modalCopiedCourseId" class="control-label">Create in course</label>
-                        <select class="form-control" name="copiedcourseid" id="modalCopiedCourseId">
-                            <option value="CFeedbackUiT.CS1101">CFeedbackUiT.CS1101</option>
-<option value="CFeedbackUiT.CS2104">CFeedbackUiT.CS2104</option>
-
-                        </select>
-                    </div>
-                    <!-- Session Name -->
-                    <div class="form-group">
-                        <label for="modalCopiedSessionName" class="control-label">Name for new session</label>
-                        <input class="form-control" name="copiedfsname" id="modalCopiedSessionName" maxlength="38" value="" placeholder="e.g. Feedback for Project Presentation 1" type="text">
-                    </div>
-                    <!-- Previous Session -->
-                    <label>Copy sessions/questions from</label>
-                    <table class="table-responsive table table-bordered table-hover margin-0" id="copyTableModal">
-                        <thead class="fill-primary">
-                            <tr><th style="width:20px;">&nbsp;</th>
-                            <th> Course ID </th>
-                            <th> Feedback Session Name </th>
-                        </tr></thead>
-
-                        
-                            <tbody>
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                            
-                        
-                    <tr style="cursor:pointer;">
-                                <td><input type="radio"></td>
-                                <td>CFeedbackUiT.CS1101</td>
-                                <td>
-                                    responses cant be seen my students 1
-                                </td>
-                            </tr><tr style="cursor:pointer;">
-                                <td><input type="radio"></td>
-                                <td>CFeedbackUiT.CS1101</td>
-                                <td>
-                                    Allow Early Viewing Session
-                                </td>
-                            </tr><tr style="cursor:pointer;">
-                                <td><input type="radio"></td>
-                                <td>CFeedbackUiT.CS2104</td>
-                                <td>
-                                    private session of characters123456789
-                                </td>
-                            </tr><tr style="cursor:pointer;">
-                                <td><input type="radio"></td>
-                                <td>CFeedbackUiT.CS1101</td>
-                                <td>
-                                    New Session
-                                </td>
-                            </tr><tr style="cursor:pointer;">
-                                <td><input type="radio"></td>
-                                <td>CFeedbackUiT.CS1101</td>
-                                <td>
-                                    Copied Session
-                                </td>
-                            </tr><tr style="cursor:pointer;">
-                                <td><input type="radio"></td>
-                                <td>CFeedbackUiT.CS2104</td>
-                                <td>
-                                    Awaiting Session
-                                </td>
-                            </tr><tr style="cursor:pointer;">
-                                <td><input type="radio"></td>
-                                <td>CFeedbackUiT.CS2104</td>
-                                <td>
-                                    Private Session
-                                </td>
-                            </tr><tr style="cursor:pointer;">
-                                <td><input type="radio"></td>
-                                <td>CFeedbackUiT.CS1101</td>
-                                <td>
-                                    Open Session
-                                </td>
-                            </tr><tr style="cursor:pointer;">
-                                <td><input type="radio"></td>
-                                <td>CFeedbackUiT.CS2104</td>
-                                <td>
-                                    First Session
-                                </td>
-                            </tr><tr style="cursor:pointer;">
-                                <td><input type="radio"></td>
-                                <td>CFeedbackUiT.CS1101</td>
-                                <td>
-                                    Manual Session
-                                </td>
-                            </tr></tbody></table>
-                            <input name="fsname" value="" id="modalSessionName" type="hidden">
-                            <input name="courseid" value="" id="modalCourseId" type="hidden">
-                            <input name="user" value="CFeedbackUiT.instructor" type="hidden">
-                    </form>
-              </div>
-              <div class="modal-footer margin-0">
-                <button type="button" class="btn btn-primary" id="button_copy_submit" disabled="disabled">Copy</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-              </div>
-            </div>
-          </div>
-        </div>
-    
         <table class="table-responsive table table-striped table-bordered" id="table-sessions"> 
             <thead>
                 <tr class="fill-primary">
@@ -710,4 +581,135 @@
             </tr></tbody></table>
         <br> <br> <br>
         
-         </div>
+        
+        </div>
+        
+
+        <!-- Modal -->
+        <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalTitle" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="copyModalTitle">Creating a new session by copying a previous session</h4>
+              </div>
+              <div class="modal-body" id="copySessionsBody">
+                    <form class="form" id="copyModalForm" role="form" method="post" action="/page/instructorFeedbackCopy">
+                    <!-- Course -->
+                    <div class="form-group">
+                        <label for="modalCopiedCourseId" class="control-label">Create in course</label>
+                        <select class="form-control" name="copiedcourseid" id="modalCopiedCourseId">
+                            <option value="CFeedbackUiT.CS1101">CFeedbackUiT.CS1101</option>
+<option value="CFeedbackUiT.CS2104">CFeedbackUiT.CS2104</option>
+
+                        </select>
+                    </div>
+                    <!-- Session Name -->
+                    <div class="form-group">
+                        <label for="modalCopiedSessionName" class="control-label">Name for new session</label>
+                        <input class="form-control" name="copiedfsname" id="modalCopiedSessionName" maxlength="38" value="" placeholder="e.g. Feedback for Project Presentation 1" type="text">
+                    </div>
+                    <!-- Previous Session -->
+                    <label>Copy sessions/questions from</label>
+                    <table class="table-responsive table table-bordered table-hover margin-0" id="copyTableModal">
+                        <thead class="fill-primary">
+                            <tr><th style="width:20px;">&nbsp;</th>
+                            <th> Course ID </th>
+                            <th> Feedback Session Name </th>
+                        </tr></thead>
+
+                        
+                            <tbody>
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    <tr style="cursor:pointer;">
+                                <td><input type="radio"></td>
+                                <td>CFeedbackUiT.CS1101</td>
+                                <td>
+                                    responses cant be seen my students 1
+                                </td>
+                            </tr><tr style="cursor:pointer;">
+                                <td><input type="radio"></td>
+                                <td>CFeedbackUiT.CS1101</td>
+                                <td>
+                                    Allow Early Viewing Session
+                                </td>
+                            </tr><tr style="cursor:pointer;">
+                                <td><input type="radio"></td>
+                                <td>CFeedbackUiT.CS2104</td>
+                                <td>
+                                    private session of characters123456789
+                                </td>
+                            </tr><tr style="cursor:pointer;">
+                                <td><input type="radio"></td>
+                                <td>CFeedbackUiT.CS1101</td>
+                                <td>
+                                    New Session
+                                </td>
+                            </tr><tr style="cursor:pointer;">
+                                <td><input type="radio"></td>
+                                <td>CFeedbackUiT.CS1101</td>
+                                <td>
+                                    Copied Session
+                                </td>
+                            </tr><tr style="cursor:pointer;">
+                                <td><input type="radio"></td>
+                                <td>CFeedbackUiT.CS2104</td>
+                                <td>
+                                    Awaiting Session
+                                </td>
+                            </tr><tr style="cursor:pointer;">
+                                <td><input type="radio"></td>
+                                <td>CFeedbackUiT.CS2104</td>
+                                <td>
+                                    Private Session
+                                </td>
+                            </tr><tr style="cursor:pointer;">
+                                <td><input type="radio"></td>
+                                <td>CFeedbackUiT.CS1101</td>
+                                <td>
+                                    Open Session
+                                </td>
+                            </tr><tr style="cursor:pointer;">
+                                <td><input type="radio"></td>
+                                <td>CFeedbackUiT.CS2104</td>
+                                <td>
+                                    First Session
+                                </td>
+                            </tr><tr style="cursor:pointer;">
+                                <td><input type="radio"></td>
+                                <td>CFeedbackUiT.CS1101</td>
+                                <td>
+                                    Manual Session
+                                </td>
+                            </tr></tbody></table>
+                            <input name="fsname" value="" id="modalSessionName" type="hidden">
+                            <input name="courseid" value="" id="modalCourseId" type="hidden">
+                            <input name="user" value="CFeedbackUiT.instructor" type="hidden">
+                    </form>
+              </div>
+              <div class="modal-footer margin-0">
+                <button type="button" class="btn btn-primary" id="button_copy_submit" disabled="disabled">Copy</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
