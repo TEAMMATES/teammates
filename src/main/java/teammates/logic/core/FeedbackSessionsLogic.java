@@ -628,9 +628,7 @@ public class FeedbackSessionsLogic {
                                      + "," + Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.recipientEmail))
                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFulltName))
                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
-                                     + "," + response.getResponseDetails().getAnswerCsv(questionDetails) + Const.EOL);
-           
-            
+                                     + "," + results.getResponseAnswerCsv(response, question) + Const.EOL);
             }
             exportBuilder.append(Const.EOL + Const.EOL);
         }

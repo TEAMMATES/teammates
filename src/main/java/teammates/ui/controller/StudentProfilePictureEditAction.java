@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.images.CompositeTransform;
 import com.google.appengine.api.images.Image;
 import com.google.appengine.api.images.ImagesService;
@@ -51,8 +50,7 @@ public class StudentProfilePictureEditAction extends Action {
             if (!isError) {
                 // this branch is covered in UiTests 
                 // (look at todo in transformImage())
-                String newPictureKey = uploadFileToGcs(transformedImage);
-                logic.updateStudentProfilePicture(account.googleId, newPictureKey);
+                uploadFileToGcs(transformedImage);
             }
         } catch (IOException e) {
             // Happens when GCS Service is down
@@ -76,13 +74,12 @@ public class StudentProfilePictureEditAction extends Action {
      * @param transformedImage
      * @return BlobKey
      * @throws IOException
+     * TODO: use the function 'writeDataToGcs' in GoogleCloudStorageHelper to achieve this 
      */
-    private String uploadFileToGcs(byte[] transformedImage)
+    private void uploadFileToGcs(byte[] transformedImage)
             throws IOException {
         
         GcsFilename fileName = new GcsFilename(Config.GCS_BUCKETNAME, account.googleId);
-        String newPictureKey = BlobstoreServiceFactory.getBlobstoreService()
-                .createGsBlobKey("/gs/"+Config.GCS_BUCKETNAME + "/" + account.googleId).getKeyString();
         
         GcsService gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
         GcsOutputChannel outputChannel =
@@ -90,8 +87,6 @@ public class StudentProfilePictureEditAction extends Action {
         
         outputChannel.write(ByteBuffer.wrap(transformedImage));
         outputChannel.close();
-        
-        return newPictureKey;
     }
     
     private byte[] transformImage() {

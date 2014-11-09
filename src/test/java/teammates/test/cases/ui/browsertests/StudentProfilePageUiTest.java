@@ -114,6 +114,17 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         String prevPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
         verifyPictureIsPresent(prevPictureKey);
         
+        ______TS("repeated edit");
+        
+        profilePage.showPictureEditor();
+        profilePage.editProfilePhoto();
+        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality", 
+                "female", "this is enough!$%&*</>");
+        profilePage.verifyPhotoSize(150, 150);
+        
+        prevPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
+        verifyPictureIsPresent(prevPictureKey);
+        
         ______TS("not a picture");
         
         profilePage.fillProfilePic("src/test/resources/images/not_a_picture.txt");
@@ -137,7 +148,6 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.isElementVisible("studentPhotoUploader");
         
         String currentPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
-        verifyPictureIsDeleted(prevPictureKey);
         verifyPictureIsPresent(currentPictureKey);        
 
     }
@@ -205,10 +215,6 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                 .withParam(Const.ParamsNames.BLOB_KEY, pictureKey);
         
         return loginAdminToPage(browser, profileUrl, StudentProfilePicturePage.class);
-    }
-
-    private void verifyPictureIsDeleted(String pictureKey) {
-        assertEquals(BackDoorServlet.RETURN_VALUE_FALSE, BackDoor.getWhetherPictureIsPresentInGcs(pictureKey));
     }
 
     private void verifyPictureIsPresent(String pictureKey) {

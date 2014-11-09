@@ -1485,10 +1485,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[12], "");
         assertEquals(exportLines[13], "");
         assertEquals(exportLines[14], "Team,Giver's Full Name,Giver's Last Name,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Feedback");
-        assertEquals(exportLines[15], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Equal share\"");
-        assertEquals(exportLines[16], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"Equal share - 20%\"");
-        assertEquals(exportLines[17], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"Equal share + 10%\"");
-        assertEquals(exportLines[18], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"Equal share + 30%\"");
+        assertEquals(exportLines[15], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Equal share - 5%\"");
+        assertEquals(exportLines[16], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"Equal share - 25%\"");
+        assertEquals(exportLines[17], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"Equal share + 3%\"");
+        assertEquals(exportLines[18], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"Equal share + 22%\"");
 
         
         ______TS("Non-existent Course/Session");
