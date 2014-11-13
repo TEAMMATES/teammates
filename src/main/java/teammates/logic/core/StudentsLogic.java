@@ -292,22 +292,22 @@ public class StudentsLogic {
 
     public List<StudentAttributes> enrollStudents(String enrollLines,
             String courseId)
-            throws EntityDoesNotExistException, EnrollException, InvalidParametersException {
+            throws EntityDoesNotExistException, EnrollException, InvalidParametersException, EntityAlreadyExistsException {
 
         return enrollStudents(enrollLines, courseId, true);
     }
 
     public List<StudentAttributes> enrollStudentsWithoutDocument(String enrollLines,
             String courseId)
-            throws EntityDoesNotExistException, EnrollException, InvalidParametersException {
+            throws EntityDoesNotExistException, EnrollException, InvalidParametersException, EntityAlreadyExistsException {
 
         return enrollStudents(enrollLines, courseId, false);
     }
 
     public List<StudentAttributes> enrollStudents(String enrollLines,
             String courseId, boolean hasDocument)
-            throws EntityDoesNotExistException, EnrollException, InvalidParametersException {
-
+            throws EntityDoesNotExistException, EnrollException, InvalidParametersException, EntityAlreadyExistsException {
+        
         if (!coursesLogic.isCoursePresent(courseId)) {
             throw new EntityDoesNotExistException("Course does not exist :"
                     + courseId);
@@ -321,7 +321,7 @@ public class StudentsLogic {
         if (!invalidityInfo.isEmpty()) {
             throw new EnrollException(StringHelper.toString(invalidityInfo, "<br>"));
         }
-
+        
         ArrayList<StudentAttributes> returnList = new ArrayList<StudentAttributes>();
         ArrayList<StudentEnrollDetails> enrollmentList = new ArrayList<StudentEnrollDetails>();
         ArrayList<StudentAttributes> studentList = new ArrayList<StudentAttributes>();
@@ -656,7 +656,8 @@ public class StudentsLogic {
         studentsDb.putDocument(student);
     }
     
-    private StudentEnrollDetails enrollStudent(StudentAttributes validStudentAttributes, Boolean hasDocument) {
+    private StudentEnrollDetails enrollStudent(StudentAttributes validStudentAttributes, Boolean hasDocument) 
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         StudentAttributes originalStudentAttributes = getStudentForEmail(
                 validStudentAttributes.course, validStudentAttributes.email);
         
@@ -666,34 +667,23 @@ public class StudentsLogic {
         enrollmentDetails.newTeam = validStudentAttributes.team;
         enrollmentDetails.newSection = validStudentAttributes.section;
 
-        try {
-            if (validStudentAttributes.isEnrollInfoSameAs(originalStudentAttributes)) {
-                enrollmentDetails.updateStatus = UpdateStatus.UNMODIFIED;
-            } else if (originalStudentAttributes != null) {
-                updateStudentCascadeWithSubmissionAdjustmentScheduled(originalStudentAttributes.email, validStudentAttributes, true);
-                enrollmentDetails.updateStatus = UpdateStatus.MODIFIED;
-                
-                if(!originalStudentAttributes.team.equals(validStudentAttributes.team)) {
-                    enrollmentDetails.oldTeam = originalStudentAttributes.team;
-                }
-                if(!originalStudentAttributes.section.equals(validStudentAttributes.section)) {
-                    enrollmentDetails.oldSection = originalStudentAttributes.section;
-                }
-            } else {
-                createStudentCascadeWithSubmissionAdjustmentScheduled(validStudentAttributes, hasDocument);
-                enrollmentDetails.updateStatus = UpdateStatus.NEW;
+        if (validStudentAttributes.isEnrollInfoSameAs(originalStudentAttributes)) {
+            enrollmentDetails.updateStatus = UpdateStatus.UNMODIFIED;
+        } else if (originalStudentAttributes != null) {
+            updateStudentCascadeWithSubmissionAdjustmentScheduled(originalStudentAttributes.email, validStudentAttributes, true);
+            enrollmentDetails.updateStatus = UpdateStatus.MODIFIED;
+            
+            if(!originalStudentAttributes.team.equals(validStudentAttributes.team)) {
+                enrollmentDetails.oldTeam = originalStudentAttributes.team;
             }
-        } catch (Exception e) {
-            //TODO: need better error handling here. This error is not 'unexpected'. e.g., invalid student data
-            /* Note: If this method is only called by the public method enrollStudents(String,String),
-            * then there won't be any invalid student data, since validity check has been done in that method
-            */
-            enrollmentDetails.updateStatus = UpdateStatus.ERROR;
-            String errorMessage = "Exception thrown unexpectedly while enrolling student: " 
-                    + validStudentAttributes.toString() + Const.EOL + TeammatesException.toStringWithStackTrace(e);
-            log.severe(errorMessage);
+            if(!originalStudentAttributes.section.equals(validStudentAttributes.section)) {
+                enrollmentDetails.oldSection = originalStudentAttributes.section;
+            }
+        } else {
+            createStudentCascadeWithSubmissionAdjustmentScheduled(validStudentAttributes, hasDocument);
+            enrollmentDetails.updateStatus = UpdateStatus.NEW;
         }
-        
+
         return enrollmentDetails;
     }
     

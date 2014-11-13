@@ -7,6 +7,7 @@ import java.util.List;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EnrollException;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -51,6 +52,14 @@ public class InstructorCourseEnrollSaveAction extends Action {
             pageData.enrollStudents = studentsInfo;
             
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
+        } catch (EntityAlreadyExistsException e) {
+            statusToUser.add("An error has occurred while updating the students. Please try again later.");
+            
+            InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account);
+            pageData.courseId = courseId;
+            pageData.enrollStudents = studentsInfo;
+            
+            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
         }
     }
 
@@ -66,7 +75,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
     }
 
     private List<StudentAttributes>[] enrollAndProcessResultForDisplay(String studentsInfo, String courseId)
-            throws EnrollException, EntityDoesNotExistException, InvalidParametersException {
+            throws EnrollException, EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
         List<StudentAttributes> students = logic.enrollStudents(studentsInfo, courseId);
         Collections.sort(students, new Comparator<StudentAttributes>() {
             @Override
