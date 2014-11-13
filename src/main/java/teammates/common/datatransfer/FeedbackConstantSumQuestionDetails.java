@@ -366,7 +366,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
                     "${optionRecipientDisplayName}", "Recipient",
                     "${fragments}", fragments);
         } else {
-            html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS,
+            html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_OPTION_STATS,
                     "${optionRecipientDisplayName}", "Option",
                     "${fragments}", fragments);
         }
