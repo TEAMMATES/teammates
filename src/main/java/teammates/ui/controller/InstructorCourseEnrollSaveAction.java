@@ -53,7 +53,9 @@ public class InstructorCourseEnrollSaveAction extends Action {
             
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
         } catch (EntityAlreadyExistsException e) {
-            statusToUser.add("An error has occurred while updating the students. Please try again later.");
+            statusToUser.add("The enrollment failed, possibly because some students were re-enrolled before the previous "
+                    + "enrollment action was still being processed by TEAMMATES database servers. "
+                    + "Please try again after about 10 minutes. If the problem persists, please contact TEAMMATES support");
             
             InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account);
             pageData.courseId = courseId;
