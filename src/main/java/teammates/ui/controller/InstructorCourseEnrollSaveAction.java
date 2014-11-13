@@ -53,6 +53,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
             
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
         } catch (EntityAlreadyExistsException e) {
+            setStatusForException(e);
             statusToUser.add("The enrollment failed, possibly because some students were re-enrolled before the previous "
                     + "enrollment action was still being processed by TEAMMATES database servers. "
                     + "Please try again after about 10 minutes. If the problem persists, please contact TEAMMATES support");
