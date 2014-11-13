@@ -32,6 +32,8 @@ public class FeedbackQuestionFormTemplates {
     public static String CONSTSUM_EDIT_FORM_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionConstSumEditFormOptionFragment.html");
     public static String CONSTSUM_RESULT_STATS = FileHelper.readResourseFile("feedbackQuestionConstSumResultStatsTemplate.html");
     public static String CONSTSUM_RESULT_STATS_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionConstSumResultStatsOptionFragment.html");
+    public static String CONSTSUM_RESULT_RECIPIENT_STATS = FileHelper.readResourseFile("feedbackQuestionConstSumResultStatsRecipientTemplate.html");
+    public static String CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT = FileHelper.readResourseFile("feedbackQuestionConstSumResultStatsRecipientFragment.html");
     
     public static String CONTRIB_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionContribSubmissionFormTemplate.html");
     public static String CONTRIB_RESULT_STATS = FileHelper.readResourseFile("feedbackQuestionContribResultStatsTemplate.html");
