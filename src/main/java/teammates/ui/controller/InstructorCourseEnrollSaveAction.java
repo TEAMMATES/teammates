@@ -62,6 +62,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
             pageData.courseId = courseId;
             pageData.enrollStudents = studentsInfo;
             
+            log.severe("Entity already exists exception occurred when updating student: " + e.getMessage());
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
         }
     }
