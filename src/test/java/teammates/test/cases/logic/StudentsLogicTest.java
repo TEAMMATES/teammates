@@ -6,6 +6,7 @@ import static org.testng.AssertJUnit.assertTrue;
 import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -206,9 +207,15 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("error during enrollment");
 
         StudentAttributes student5 = new StudentAttributes("sect 1", "", "n6", "e6@g@", "", instructorCourse);
-        enrollmentResult = invokeEnrollStudent(student5);
-        assertEquals (StudentAttributes.UpdateStatus.ERROR, enrollmentResult.updateStatus);
-        assertEquals(4, studentsLogic.getStudentsForCourse(instructorCourse).size());
+        try {
+            enrollmentResult = invokeEnrollStudent(student5);
+            signalFailureToDetectException();
+        } catch (InvocationTargetException exception) {
+            //Verify student with error was not enrolled
+            TestHelper.verifySubmissionsExistForCurrentTeamStructureInEvaluation(e.name,
+                    studentDetailsBeforeModification, submissionsLogic.getSubmissionsForCourse(instructorCourse));
+        }
+
     }
     
     public void testGetStudentProfile() throws Exception {
