@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
@@ -171,8 +172,13 @@
                     					recipientName = data.bundle
                     							.getNameForEmail(singleResponse.recipientEmail);
                     				}
+                                    
+                                    String panelHeaderClass = giverName.equals("You")
+                                                              ? "panel-info"
+                                                              : "panel-primary";
+               
                     %>
-                    <div class="panel panel-primary">
+                    <div class="panel <%= panelHeaderClass %>">
                         <div class="panel-heading"><b>To:</b> <%=recipientName%></div>
                         <table class="table">
                             <tbody>    
