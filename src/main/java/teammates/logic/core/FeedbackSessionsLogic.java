@@ -1852,6 +1852,7 @@ public class FeedbackSessionsLogic {
             for(StudentAttributes student : students){
                 studentNoResponses.add(student.email);
                 responseStatus.emailNameTable.put(student.email, student.name);
+				responseStatus.emailTeamNameTable.put(student.email, student.team);
             }
         }
         studentNoResponses.removeAll(fsa.respondingStudentList);
@@ -1865,6 +1866,7 @@ public class FeedbackSessionsLogic {
                 if(responseStatus.emailNameTable.get(instructor.email) == null){
                     instructorNoResponses.add(instructor.email);
                     responseStatus.emailNameTable.put(instructor.email, instructor.name);
+                    responseStatus.emailTeamNameTable.put(instructor.email, "Teaching Team");
                 }
             }
         }
