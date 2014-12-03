@@ -211,7 +211,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         Map<String, Double> totalExcludingSelfResponse = new HashMap<String, Double>();
         Map<String, Boolean> userGaveResponseToSelf = new HashMap<String, Boolean>();
         
-        //Check visibility of recipient
+        // Check visibility of recipient
         List<String> hiddenRecipients = new ArrayList<String>(); // List of recipients to hide
         FeedbackParticipantType type = question.recipientType;
         for(FeedbackResponseAttributes response : responses){
@@ -329,7 +329,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
         boolean isAbleToSeeAllResponses = false;
         
         for (Entry<String, Integer> entry: numResponses.entrySet()) {
-            if (entry.getValue() > 1 && !entry.getKey().equals(currentUser.email)) {
+            String recipient = entry.getKey();
+            int numOfResponse = entry.getValue();
+            if (numOfResponse > 1 && !recipient.equals(currentUserRecipient)) {
                 isAbleToSeeAllResponses = true;
                 break;
             }
@@ -420,7 +422,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         csv += "Recipient, Average, Minimum, Maximum" ;
         
         if (showAvgExcludingSelfResponse) {
-            csv += ", Average excluding student's own response";
+            csv += ", Average excluding self response";
         }
         csv += Const.EOL;
         
@@ -438,7 +440,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
             csv += String.valueOf(userAverage) + "," + min.get(recipient).toString() + "," + max.get(recipient).toString();
             
             if (showAvgExcludingSelfResponse) {
-               if (userGaveResponseToSelf.containsKey(recipient) && totalExcludingSelfResponse.containsKey(recipient)) {
+                if (userGaveResponseToSelf.containsKey(recipient) && numResponses.get(recipient) == 1) {
+                    csv += ",-";
+                } else if (userGaveResponseToSelf.containsKey(recipient) && totalExcludingSelfResponse.containsKey(recipient)) {
                     double userAverageExcludingSelfResponse = totalExcludingSelfResponse.get(recipient) / 
                                                        (numResponses.get(recipient) - 1);
                     csv += "," + df.format(userAverageExcludingSelfResponse);
