@@ -470,7 +470,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
                 userGaveResponseToSelf.put(response.recipientEmail, true);
             }
             
-            if (numOfResponses > 1 && userGaveResponseToSelf.containsKey(response.recipientEmail)) {
+            if (userGaveResponseToSelf.containsKey(response.recipientEmail)) {
                 showAvgExcludingSelfResponse = true;
             }
         }
