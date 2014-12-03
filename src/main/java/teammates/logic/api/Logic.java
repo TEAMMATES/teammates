@@ -1152,9 +1152,10 @@ public class Logic {
      * @return StudentData objects in the return value contains the status of
      *         enrollment. It also includes data for other students in the
      *         course that were not touched by the operation.
+     * @throws EntityAlreadyExistsException 
      */
     public List<StudentAttributes> enrollStudents(String enrollLines, String courseId)
-            throws EnrollException, EntityDoesNotExistException, InvalidParametersException {
+            throws EnrollException, EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, enrollLines);
