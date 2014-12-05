@@ -139,9 +139,20 @@ public class FeedbackNumericalScaleQuestionDetails extends
         Map<String, Double> totalExcludingSelfResponse = new HashMap<String, Double>();
         Map<String, Boolean> userGaveResponseToSelf = new HashMap<String, Boolean>();
 
-        boolean showAvgExcludingSelfResponse = populateSummaryStatisticsFromResponses(
-                responses, min, max, numResponses, total,
-                totalExcludingSelfResponse, userGaveResponseToSelf);
+        List<String> hiddenRecipients = new ArrayList<String>(); // List of recipients to hide
+        FeedbackParticipantType type = question.recipientType;
+        for(FeedbackResponseAttributes response : responses){
+            if (bundle.visibilityTable.get(response.getId())[1] == false &&
+                type != FeedbackParticipantType.SELF &&
+                type != FeedbackParticipantType.NONE) {
+                
+                hiddenRecipients.add(response.recipientEmail);
+            }
+        }
+        
+        boolean showAvgExcludingSelfResponse = populateSummaryStatisticsFromResponsesHidingRecipients(
+                                               responses, min, max, numResponses, total, totalExcludingSelfResponse, 
+                                               userGaveResponseToSelf, hiddenRecipients);
         
         String statsTitle = "Response Summary";
         
@@ -184,6 +195,10 @@ public class FeedbackNumericalScaleQuestionDetails extends
                                     "${AverageExcludingSelfResponse}", userAverageWithoutSelfResponse));
         }
         
+        if (fragmentHtml.length() == 0) {
+            return "";
+        }
+        
         html = FeedbackQuestionFormTemplates.populateTemplate(
                 templateToUse,
                 "${summaryTitle}", statsTitle,
@@ -206,6 +221,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         Map<String, Boolean> userGaveResponseToSelf = new HashMap<String, Boolean>();
         
         // Check visibility of recipient
+        // This information is required as anonymised recipients will not appear in the summary
         List<String> hiddenRecipients = new ArrayList<String>(); // List of recipients to hide
         FeedbackParticipantType type = question.recipientType;
         for(FeedbackResponseAttributes response : responses){
@@ -280,16 +296,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         
         StringBuilder otherUsersFragmentsHtml = new StringBuilder();
-        boolean isAbleToSeeAllResponses = false;
-        
-        for (Entry<String, Integer> entry: numResponses.entrySet()) {
-            String recipient = entry.getKey();
-            int numOfResponse = entry.getValue();
-            if (numOfResponse > 1 && !recipient.equals(currentUserRecipient)) {
-                isAbleToSeeAllResponses = true;
-                break;
-            }
-        }
+        boolean isAbleToSeeAllResponses = checkIfAllResponsesAreVisible(numResponses, currentUserRecipient);
         
         if (isAbleToSeeAllResponses) {
             for (String recipient : numResponses.keySet()) {
@@ -320,14 +327,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             return "";
         }
         
-        String statsTitle;
-        if (isDirectedAtGeneral || isAbleToSeeAllResponses) {
-            statsTitle = "Response Summary";
-        } else if (isDirectedAtTeams) {
-            statsTitle = "Summary of responses received by your team";
-        } else {
-            statsTitle = "Summary of responses received by you";
-        }
+        String statsTitle = getStatsTitle(isDirectedAtGeneral, isDirectedAtTeams, isAbleToSeeAllResponses);
         
         html = FeedbackQuestionFormTemplates.populateTemplate(
                         templateToUse,
@@ -336,6 +336,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         return html;
     }
+
     
     @Override
     public String getQuestionResultStatisticsCsv(
@@ -356,9 +357,20 @@ public class FeedbackNumericalScaleQuestionDetails extends
         Map<String, Boolean> userGaveResponseToSelf = new HashMap<String, Boolean>();
         
         
-        boolean showAvgExcludingSelfResponse = populateSummaryStatisticsFromResponses(
-                responses, min, max, numResponses, total,
-                totalExcludingSelfResponse, userGaveResponseToSelf);
+        List<String> hiddenRecipients = new ArrayList<String>(); // List of recipients to hide
+        FeedbackParticipantType type = question.recipientType;
+        for(FeedbackResponseAttributes response : responses){
+            if (bundle.visibilityTable.get(response.getId())[1] == false &&
+                type != FeedbackParticipantType.SELF &&
+                type != FeedbackParticipantType.NONE) {
+                
+                hiddenRecipients.add(response.recipientEmail);
+            }
+        }
+        
+        boolean showAvgExcludingSelfResponse = populateSummaryStatisticsFromResponsesHidingRecipients(
+                                               responses, min, max, numResponses, total, totalExcludingSelfResponse, 
+                                               userGaveResponseToSelf, hiddenRecipients);
         
         DecimalFormat df = new DecimalFormat();
         df.setMinimumFractionDigits(0);
@@ -403,6 +415,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
             Map<String, Boolean> userGaveResponseToSelf, DecimalFormat df,
             String recipient, double userAverage) {
         String userAverageWithoutSelfResponse;
+        
         if (userGaveResponseToSelf.containsKey(recipient) && numResponses.get(recipient) == 1) {
             userAverageWithoutSelfResponse = "-";
         } else if (userGaveResponseToSelf.containsKey(recipient) && totalExcludingSelfResponse.containsKey(recipient)) {
@@ -413,20 +426,11 @@ public class FeedbackNumericalScaleQuestionDetails extends
             double userAverageExcludingSelfResponse = userAverage;
             userAverageWithoutSelfResponse = df.format(userAverageExcludingSelfResponse);
         }
+        
         return userAverageWithoutSelfResponse;
     }
     
     
-    private boolean populateSummaryStatisticsFromResponses(
-            List<FeedbackResponseAttributes> responses,
-            Map<String, Double> min, Map<String, Double> max,
-            Map<String, Integer> numResponses, Map<String, Double> total,
-            Map<String, Double> totalExcludingSelfResponse,
-            Map<String, Boolean> userGaveResponseToSelf) {
-        
-        return populateSummaryStatisticsFromResponsesHidingRecipients(
-                responses, min, max, numResponses, total, totalExcludingSelfResponse, userGaveResponseToSelf, null);
-    }
     
     private boolean populateSummaryStatisticsFromResponsesHidingRecipients(
             List<FeedbackResponseAttributes> responses,
@@ -438,6 +442,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         boolean showAvgExcludingSelfResponse = false;
         for(FeedbackResponseAttributes response : responses){
+            // hidden recipients do not appear in the summary table, so ignore responses with hidden recipients
             if (hiddenRecipients != null && hiddenRecipients.contains(response.recipientEmail)) {
                 continue;
             }
@@ -476,6 +481,34 @@ public class FeedbackNumericalScaleQuestionDetails extends
         }
         
         return showAvgExcludingSelfResponse; 
+    }
+    
+    private String getStatsTitle(boolean isDirectedAtGeneral,
+            boolean isDirectedAtTeams, boolean isAbleToSeeAllResponses) {
+        String statsTitle;
+        if (isDirectedAtGeneral || isAbleToSeeAllResponses) {
+            statsTitle = "Response Summary";
+        } else if (isDirectedAtTeams) {
+            statsTitle = "Summary of responses received by your team";
+        } else {
+            statsTitle = "Summary of responses received by you";
+        }
+        return statsTitle;
+    }
+
+    private boolean checkIfAllResponsesAreVisible(
+            Map<String, Integer> numResponses, String currentUserRecipient) {
+        boolean isAbleToSeeAllResponses = false;
+        
+        for (Entry<String, Integer> entry: numResponses.entrySet()) {
+            String recipient = entry.getKey();
+            int numOfResponse = entry.getValue();
+            if (numOfResponse > 1 && !recipient.equals(currentUserRecipient)) {
+                isAbleToSeeAllResponses = true;
+                break;
+            }
+        }
+        return isAbleToSeeAllResponses;
     }
     
     
