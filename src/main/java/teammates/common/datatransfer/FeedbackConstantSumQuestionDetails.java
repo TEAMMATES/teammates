@@ -350,13 +350,13 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
                 fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
                         "${constSumOptionValue}", option,
                         "${team}", teamName,
-                        "$(pointsReceived)", pointsReceived,
+                        "${pointsReceived}", pointsReceived,
                         "${averagePoints}", df.format(average));
             
             } else {
                 fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
                                     "${constSumOptionValue}", option,
-                                    "$(pointsReceived)", pointsReceived,
+                                    "${pointsReceived}", pointsReceived,
                                     "${averagePoints}", df.format(average));
             }
         }
