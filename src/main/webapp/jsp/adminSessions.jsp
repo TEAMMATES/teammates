@@ -255,7 +255,7 @@
                             <th>Status
                            </th>
                             <th onclick="toggleSort(this,2)"
-                            	class="button-sort-non">Session Name &nbsp; <span
+                            	class="button-sort-non">[Course ID]Session Name &nbsp; <span
                                 class="icon-sort unsorted"></span>
                             </th>
                             <th> Response Rate 
@@ -287,7 +287,7 @@
                         <tr>
                              <td><%=data.getSessionStatusForShow(fs)%>  
                             </td>
-                            <td><%=fs.feedbackSessionName%></td>
+                            <td><strong>[<%=fs.courseId%>]</strong>&nbsp;<%=fs.feedbackSessionName%></td>
                             
                             <%
                             String googleId = data.sessionToInstructorIdMap.get(fs.getIdentificationString());
