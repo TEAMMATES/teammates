@@ -617,6 +617,30 @@
                 "INSTRUCTORS"
             ]
         },
+        "qn17InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "creatorEmail":"CFResultsUiT.instr@gmail.tmt",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"Rate you and your team members work.\", \"questionType\":\"NUMSCALE\", \"minScale\" : 1, \"maxScale\" : 5,\"step\" : 0.5}"
+            },
+            "questionNumber":"17",
+            "questionType":"NUMSCALE",
+            "giverType":"STUDENTS",
+            "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+            
+        },
+        
         "qn1InSession2":{
             "feedbackSessionName":"Second Session",
             "courseId":"CFResultsUiT.CS2104",
@@ -985,6 +1009,37 @@
             },
             "giverSection":"Section A",
             "recipientSection":"Section A"
+        },
+        "response17":{
+            "feedbackSessionName":"First Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"17",
+            "feedbackQuestionType":"NUMSCALE",
+            "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"CFResultsUiT.alice.b@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 3}"
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
+        },
+        "response18":{
+            "feedbackSessionName":"First Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"17",
+            "feedbackQuestionType":"NUMSCALE",
+            "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"CFResultsUiT.benny.c@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 4}"
+            },
+            "giverSection":"Section A",
+            "recipientSection":"Section A"
         }
+        
+        
+        
+
+        
     }
 }
