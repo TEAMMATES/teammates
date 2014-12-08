@@ -685,9 +685,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
      */
     public static String convertToEqualShareFormatHtml(int i) {
         if(i==Const.POINTS_NOT_SUBMITTED || i==Const.INT_UNINITIALIZED)
-            return "<span class=\"color-negative\"\">N/A</span>";
+            return "<span class=\"color-negative\">N/A</span>";
         else if(i==Const.POINTS_NOT_SURE)
-            return "<span class=\"color-negative\"\">Not Sure</span>";
+            return "<span class=\"color-negative\">Not Sure</span>";
         else if(i==0)
             return "<span class=\"color-negative\">0%</span>";
         else if(i>100)
