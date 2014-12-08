@@ -650,6 +650,10 @@ public class EmailsTest extends BaseComponentTestCase {
         assertFalse(emailBody.contains("$"));
     }
 
+    @Test
+    public void testNoExceptionThrownWhenNoMessagesToSend() {
+        new Emails().sendEmails(new ArrayList<MimeMessage>());
+    }
 
     @AfterClass()
     public static void classTearDown() throws Exception {
