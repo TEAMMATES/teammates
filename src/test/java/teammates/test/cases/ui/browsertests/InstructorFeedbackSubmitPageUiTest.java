@@ -246,6 +246,20 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(18, 1, 0, "110");
         submitPage.fillResponseTextBox(18, 2, 0, "100");
         
+        submitPage.fillResponseTextBox(19, 0, 0, "85");
+        submitPage.fillResponseTextBox(19, 1, 0, "110");
+        submitPage.fillResponseTextBox(19, 2, 0, "105");
+        
+        submitPage.fillResponseTextBox(20, 0, 0, "35");
+        submitPage.fillResponseTextBox(20, 0, 1, "40");
+        submitPage.fillResponseTextBox(20, 0, 2, "25");
+        submitPage.fillResponseTextBox(20, 1, 0, "10");
+        submitPage.fillResponseTextBox(20, 1, 1, "50");
+        submitPage.fillResponseTextBox(20, 1, 2, "40");
+        submitPage.fillResponseTextBox(20, 2, 0, "15");
+        submitPage.fillResponseTextBox(20, 2, 1, "35");
+        submitPage.fillResponseTextBox(20, 2, 2, "50");
+        
         // Just check the edited responses, and two new response.
         assertNull(BackDoor.getFeedbackResponse(fq.getId(),
                 "IFSubmitUiT.instr@gmail.tmt",
@@ -439,6 +453,42 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals("Please fix the errors for distribution questions."
                 + " To skip a distribution question, leave the boxes blank.",
                 submitPage.getStatus());
+        
+        //Test error message for const sum (to recipient) qn with uneven distribution
+        qnNumber = 19;
+        assertEquals("100 points left to distribute.",submitPage.getConstSumMessage(qnNumber, 3));
+        submitPage.fillResponseTextBox(qnNumber, 0, 0, "105");
+        assertEquals("80 points left to distribute. The same amount of points should not given multiple times.",submitPage.getConstSumMessage(qnNumber, 3));
+        submitPage.fillResponseTextBox(qnNumber, 0, 0, "106");
+        assertEquals("79 points left to distribute.",submitPage.getConstSumMessage(qnNumber, 3));
+        submitPage.fillResponseTextBox(qnNumber, 0, 0, "155");
+        submitPage.fillResponseTextBox(qnNumber, 1, 0, "155");
+        assertEquals("Over allocated 15 points. The same amount of points should not given multiple times.",submitPage.getConstSumMessage(qnNumber, 3));
+        submitPage.fillResponseTextBox(qnNumber, 1, 0, "154");
+        assertEquals("Over allocated 14 points.",submitPage.getConstSumMessage(qnNumber, 3));
+        
+        submitPage.fillResponseTextBox(qnNumber, 0, 0, "50");
+        submitPage.fillResponseTextBox(qnNumber, 1, 0, "50");
+        submitPage.fillResponseTextBox(qnNumber, 2, 0, "200");
+        submitPage.fillResponseTextBox(qnNumber, 3, 0, "100");
+        assertEquals("The same amount of points should not given multiple times.",submitPage.getConstSumMessage(qnNumber, 3));
+        
+        submitPage.clickSubmitButton();
+        assertEquals("Please fix the errors for distribution questions."
+                + " To skip a distribution question, leave the boxes blank.",
+                submitPage.getStatus());
+        
+        //Test error message for const sum (to options) qn with uneven distribution
+        qnNumber = 20;
+        assertEquals("All points distributed!",submitPage.getConstSumMessage(qnNumber, 0));
+        submitPage.fillResponseTextBox(qnNumber, 0, 0, "25");
+        assertEquals("10 points left to distribute. The same amount of points should not be given multiple times.",submitPage.getConstSumMessage(qnNumber, 0));
+        submitPage.fillResponseTextBox(qnNumber, 0, 0, "26");
+        assertEquals("9 points left to distribute.",submitPage.getConstSumMessage(qnNumber, 0));
+        submitPage.fillResponseTextBox(qnNumber, 0, 0, "50");
+        assertEquals("Over allocated 15 points.",submitPage.getConstSumMessage(qnNumber, 0));
+        submitPage.fillResponseTextBox(qnNumber, 0, 1, "50");
+        assertEquals("Over allocated 25 points. The same amount of points should not be given multiple times.",submitPage.getConstSumMessage(qnNumber, 0));
         
         //For other const sum question, just test one message.
         qnNumber = 18;
