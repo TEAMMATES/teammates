@@ -516,7 +516,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
         }
         numRecipients = numOfResponseSpecific;
         
-        Set<Integer> answerSet = new HashSet<Integer>();
         int numOptions = distributeToRecipients? numRecipients : constSumOptions.size();
         int totalPoints = pointsPerOption? points*numOptions: points;
         int sum = 0;
@@ -545,6 +544,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
                 }
             }
             
+            Set<Integer> answerSet = new HashSet<Integer>();
             if (this.forceUnevenDistribution) {
                 for(int i : frd.getAnswerList()){
                     if (answerSet.contains(i)) {
