@@ -119,6 +119,7 @@ function updateConstSumMessageQn(qnNum){
 	            message = "All points distributed!";
 	            $(messageElement).addClass("text-color-green");
 	            $(messageElement).removeClass("text-color-red");
+	            $(messageElement).removeClass("text-color-blue");
         	}
         } else if(remainingPoints > 0){
             message = remainingPoints + " points left to distribute.";
@@ -174,10 +175,12 @@ function updateConstSumMessageQn(qnNum){
                 message = remainingPoints + " points left to distribute.";
                 $(messageElement).addClass("text-color-red");
                 $(messageElement).removeClass("text-color-green");
+                $(messageElement).removeClass("text-color-blue");
             } else {
                 message = "Over allocated " + (-remainingPoints) + " points.";
                 $(messageElement).addClass("text-color-red");
                 $(messageElement).removeClass("text-color-green");
+                $(messageElement).removeClass("text-color-blue");
             }
             if (!allNotNumbers && forceUnevenDistribution && !allUnique) {
             	message += " The same amount of points should not be given multiple times.";
@@ -193,7 +196,7 @@ function updateConstSumMessageQn(qnNum){
 function validateConstSumQuestions(){
     updateConstSumMessages();
     if($("p[id^='constSumMessage-'].text-color-red").length > 0){
-        setStatusMessage("Please distribute all the points for distribution questions. To skip a distribution question, leave the boxes blank.", true)
+        setStatusMessage("Please fix the errors for distribution questions. To skip a distribution question, leave the boxes blank.", true)
         return false;
     }
     return true;

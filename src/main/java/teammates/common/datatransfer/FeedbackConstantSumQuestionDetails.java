@@ -211,6 +211,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
                 "${selectedConstSumPointsPerOption}", (pointsPerOption == true) ? "selected=\"selected\"" : "",
                 "${constSumOptionTableVisibility}", (distributeToRecipients == true) ? "style=\"display:none\"" : "",
                 "${constSumPoints}", (points == 0) ? "100" : new Integer(points).toString(),
+                "${optionRecipientDisplayName}", (distributeToRecipients) ? "recipient": "option",
                 "${distributeUnevenly}", (forceUnevenDistribution) ? "checked=\"checked\"" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,

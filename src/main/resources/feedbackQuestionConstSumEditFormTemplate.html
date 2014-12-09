@@ -44,8 +44,8 @@
         </div>
     </div>
     <div class="col-sm-6">
-        <div class="form-inline col-sm-12">
-            <label class="control-label">Every option to receive a different number of points  <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}" ${distributeUnevenly}></label>
+        <div class="form-inline col-sm-12" data-toggle="tooltip" data-placement="top" data-container="body" title="Checking this prevents a giver from distributing the same number of points to multiple ${optionRecipientDisplayName}s">
+            <label class="control-label"> Every ${optionRecipientDisplayName} to receive a different number of points  <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}" ${distributeUnevenly}></label>
         </div>
     </div>
     <br>
