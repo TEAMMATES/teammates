@@ -425,7 +425,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         qnNumber = 17;
         assertEquals("All points distributed!",submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "80");
-        assertEquals("Over allocated 10 points",submitPage.getConstSumMessage(qnNumber, 0));
+        assertEquals("Over allocated 10 points.",submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "");
         assertEquals("70 points left to distribute.",submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 1, "");
@@ -436,7 +436,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals("90 points left to distribute.",submitPage.getConstSumMessage(qnNumber, 0));
         
         submitPage.clickSubmitButton();
-        assertEquals("Please distribute all the points for distribution questions."
+        assertEquals("Please fix the errors for distribution questions."
                 + " To skip a distribution question, leave the boxes blank.",
                 submitPage.getStatus());
         
