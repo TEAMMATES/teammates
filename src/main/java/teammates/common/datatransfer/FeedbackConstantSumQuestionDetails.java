@@ -456,6 +456,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
             return true;
         }
         
+        if(this.forceUnevenDistribution != newConstSumDetails.forceUnevenDistribution) {
+            return true;
+        }
+        
         return false;
     }
 
