@@ -165,6 +165,7 @@ function enableQuestion(number){
         $("#constSumOptionTable-"+number).show();
         $("#constSumOption_Recipient-"+number).hide();
     }
+    $("#constSumOption_distributeUnevenly-"+number).prop("disabled", false);
 
     if($('#questionTable'+number).parent().find('input[name="questiontype"]').val()=='CONTRIB'){
         fixContribQnGiverRecipient(number);
