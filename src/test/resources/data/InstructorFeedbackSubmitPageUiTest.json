@@ -760,7 +760,7 @@
             },
             "questionNumber":"21",
             "questionType":"CONTRIB",
-            "giverType":"INSTRUCTORS",
+            "giverType":"STUDENTS",
             "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
             "numberOfEntitiesToGiveFeedbackTo":-100,
             "showResponsesTo":[
