@@ -723,7 +723,7 @@ if(sessionResult instanceof FeedbackSessionResultsBundle){
                         FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "giver-"+giverIndex+"-session-"+fbIndex));
                     %></div>
-                <div class="panel-body"><%=singleResponse.getResponseDetails().getAnswerHtml(questionDetails)%>
+                <div class="panel-body"><span class="text-preserve-space"><%=feedback.getResponseAnswerHtml(singleResponse, question)%></span>
             <%
                 List<FeedbackResponseCommentAttributes> responseComments = feedback.responseComments.get(singleResponse.getId());
                 if (responseComments != null) {
