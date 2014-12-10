@@ -1,0 +1,30 @@
+<div class="panel-body">
+    <div class="row">
+        <div class="col-sm-4 text-color-gray">
+            <strong>
+                Response Summary
+            </strong>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-bordered table-responsive margin-0">
+                <thead>
+                <tr>
+                    <td class="button-sort-ascending" id="button_sortteamname" onclick="toggleSort(this,1);" style="width: 35%;">${optionRecipientDisplayName}
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" onclick="toggleSort(this,2);">Team
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortname" onclick="toggleSort(this,3);" style="width:15%;">Points Received
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,4);" style="width:15%;">Average Points
+                        <span class="icon-sort unsorted"></span></td>
+                </tr>
+                </thead>
+                <tbody>
+                    ${fragments}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

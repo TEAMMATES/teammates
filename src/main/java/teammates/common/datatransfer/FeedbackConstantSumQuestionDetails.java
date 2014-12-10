@@ -359,15 +359,32 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
                 }
             }
             
-            fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
-                                "${constSumOptionValue}", option,
-                                "$(pointsReceived)", pointsReceived,
-                                "${averagePoints}", df.format(average));
+            if (distributeToRecipients) {
+                String teamName = bundle.getTeamNameForEmail(entry.getKey());
+                fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
+                        "${constSumOptionValue}", option,
+                        "${team}", teamName,
+                        "${pointsReceived}", pointsReceived,
+                        "${averagePoints}", df.format(average));
+            
+            } else {
+                fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
+                                    "${constSumOptionValue}", option,
+                                    "${pointsReceived}", pointsReceived,
+                                    "${averagePoints}", df.format(average));
+            }
         }
         
-        html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS,
-                "${optionRecipientDisplayName}", distributeToRecipients? "Recipient":"Option",
-                "${fragments}", fragments);
+        if (distributeToRecipients) {
+            html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_RECIPIENT_STATS,
+                    "${optionRecipientDisplayName}", "Recipient",
+                    "${fragments}", fragments);
+        } else {
+            html = FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_OPTION_STATS,
+                    "${optionRecipientDisplayName}", "Option",
+                    "${fragments}", fragments);
+        }
+        
         
         return html;
     }
