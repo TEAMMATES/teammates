@@ -103,7 +103,7 @@ function updateConstSumMessageQn(qnNum){
             }
             sum += p;
             if (p in answerSet) {
-            	allUnique = false;
+                allUnique = false;
             }
             answerSet[p] = true;
         }
@@ -115,12 +115,12 @@ function updateConstSumMessageQn(qnNum){
             $(messageElement).removeClass("text-color-red");
             $(messageElement).removeClass("text-color-green");
         } else if(remainingPoints === 0){
-        	if (!forceUnevenDistribution || allUnique) {
-	            message = "All points distributed!";
-	            $(messageElement).addClass("text-color-green");
-	            $(messageElement).removeClass("text-color-red");
-	            $(messageElement).removeClass("text-color-blue");
-        	}
+            if (!forceUnevenDistribution || allUnique) {
+                message = "All points distributed!";
+                $(messageElement).addClass("text-color-green");
+                $(messageElement).removeClass("text-color-red");
+                $(messageElement).removeClass("text-color-blue");
+            }
         } else if(remainingPoints > 0){
             message = remainingPoints + " points left to distribute.";
             $(messageElement).addClass("text-color-red");
@@ -133,7 +133,7 @@ function updateConstSumMessageQn(qnNum){
             $(messageElement).removeClass("text-color-blue");
         }
         if (!allNotNumbers && forceUnevenDistribution && !allUnique) {
-        	message += " The same amount of points should not given multiple times.";
+            message += " The same amount of points should not given multiple times.";
             $(messageElement).addClass("text-color-red");
             $(messageElement).removeClass("text-color-green");
         } 
@@ -154,7 +154,7 @@ function updateConstSumMessageQn(qnNum){
                 }
                 sum += p;
                 if (p in answerSet) {
-                	allUnique = false;
+                    allUnique = false;
                 }
                 answerSet[p] = true;
             }
@@ -166,11 +166,11 @@ function updateConstSumMessageQn(qnNum){
                 $(messageElement).removeClass("text-color-red");
                 $(messageElement).removeClass("text-color-green");
             } else if(remainingPoints === 0){
-            	if (!forceUnevenDistribution || allUnique) {
-	                message = "All points distributed!";
-	                $(messageElement).addClass("text-color-green");
-	                $(messageElement).removeClass("text-color-red");
-            	}
+                if (!forceUnevenDistribution || allUnique) {
+                    message = "All points distributed!";
+                    $(messageElement).addClass("text-color-green");
+                    $(messageElement).removeClass("text-color-red");
+                }
             } else if(remainingPoints > 0){
                 message = remainingPoints + " points left to distribute.";
                 $(messageElement).addClass("text-color-red");
@@ -183,7 +183,7 @@ function updateConstSumMessageQn(qnNum){
                 $(messageElement).removeClass("text-color-blue");
             }
             if (!allNotNumbers && forceUnevenDistribution && !allUnique) {
-            	message += " The same amount of points should not be given multiple times.";
+                message += " The same amount of points should not be given multiple times.";
                 $(messageElement).addClass("text-color-red");
                 $(messageElement).removeClass("text-color-green");
             }
