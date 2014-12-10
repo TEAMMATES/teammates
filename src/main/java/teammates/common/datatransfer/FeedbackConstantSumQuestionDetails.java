@@ -4,10 +4,12 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
@@ -20,6 +22,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
     public List<String> constSumOptions;
     public boolean distributeToRecipients;
     public boolean pointsPerOption;
+    public boolean forceUnevenDistribution;
     public int points;
     
     public FeedbackConstantSumQuestionDetails() {
@@ -30,11 +33,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
         this.distributeToRecipients = false;
         this.pointsPerOption = false;
         this.points = 100;
+        this.forceUnevenDistribution = false;
     }
 
     public FeedbackConstantSumQuestionDetails(String questionText,
             int numOfConstSumOptions, List<String> constSumOptions,
-            boolean pointsPerOption, int points) {
+            boolean pointsPerOption, int points, boolean unevenDistribution) {
         super(FeedbackQuestionType.CONSTSUM, questionText);
         
         this.numOfConstSumOptions = constSumOptions.size();
@@ -42,10 +46,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
         this.distributeToRecipients = false;
         this.pointsPerOption = pointsPerOption;
         this.points = points;
+        this.forceUnevenDistribution = unevenDistribution;
+        
     }
 
     public FeedbackConstantSumQuestionDetails(String questionText,
-            boolean pointsPerOption, int points) {
+            boolean pointsPerOption, int points, boolean unevenDistribution) {
         super(FeedbackQuestionType.CONSTSUM, questionText);
         
         this.numOfConstSumOptions = 0;
@@ -53,6 +59,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
         this.distributeToRecipients = true;
         this.pointsPerOption = pointsPerOption;
         this.points = points;
+        this.forceUnevenDistribution = unevenDistribution;
     }
 
     @Override
@@ -112,10 +119,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
                 "${constSumPointsPerOptionValue}", (pointsPerOption == true) ? "true" : "false",
                 "${constSumNumOptionValue}", Integer.toString(constSumOptions.size()),
                 "${constSumPointsValue}", Integer.toString(points),
+                "${constSumUnevenDistributionValue}", Boolean.toString(forceUnevenDistribution),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
-                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
                 );
         
         return html;
@@ -167,10 +176,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
                 "${constSumPointsPerOptionValue}", (pointsPerOption == true) ? "true" : "false",
                 "${constSumNumOptionValue}", Integer.toString(constSumOptions.size()),
                 "${constSumPointsValue}", Integer.toString(points),
+                "${constSumUnevenDistributionValue}", Boolean.toString(forceUnevenDistribution),
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMNUMOPTION,
-                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY
                 );
         
         return html;
@@ -200,9 +211,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
                 "${selectedConstSumPointsPerOption}", (pointsPerOption == true) ? "selected=\"selected\"" : "",
                 "${constSumOptionTableVisibility}", (distributeToRecipients == true) ? "style=\"display:none\"" : "",
                 "${constSumPoints}", (points == 0) ? "100" : new Integer(points).toString(),
+                "${optionRecipientDisplayName}", (distributeToRecipients) ? "recipient": "option",
+                "${distributeUnevenly}", (forceUnevenDistribution) ? "checked=\"checked\"" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS,
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION,
-                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS);
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS,
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
         
         return html;
     }
@@ -459,6 +473,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
             return true;
         }
         
+        if(this.forceUnevenDistribution != newConstSumDetails.forceUnevenDistribution) {
+            return true;
+        }
+        
         return false;
     }
 
@@ -493,6 +511,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
 
     final String ERROR_CONST_SUM_MISMATCH = "Please distribute all the points for distribution questions. To skip a distribution question, leave the boxes blank.";
     final String ERROR_CONST_SUM_NEGATIVE = "Points given must be 0 or more.";
+    final String ERROR_CONST_SUM_UNIQUE = "Every option must be given a different number of points.";
     
     
     @Override
@@ -545,11 +564,24 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
                     return errors;
                 }
             }
+            
+            Set<Integer> answerSet = new HashSet<Integer>();
+            if (this.forceUnevenDistribution) {
+                for(int i : frd.getAnswerList()){
+                    if (answerSet.contains(i)) {
+                        errors.add(ERROR_CONST_SUM_UNIQUE);
+                        return errors;
+                    }
+                    answerSet.add(i);
+                }
+            }
         }
         if(distributeToRecipients && sum != totalPoints){
             errors.add(ERROR_CONST_SUM_MISMATCH + sum + "/" + totalPoints);
             return errors;
         }
+        
+        
         return errors;
     }
 

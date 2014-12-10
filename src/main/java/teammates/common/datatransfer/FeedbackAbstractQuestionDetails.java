@@ -150,18 +150,22 @@ public abstract class FeedbackAbstractQuestionDetails {
             String distributeToRecipientsString = null;
             String pointsPerOptionString = null;
             String pointsString = null;
+            String forceUnevenDistributionString = null;
             boolean distributeToRecipients = false;
             boolean pointsPerOption = false;
+            boolean forceUnevenDistribution = false;
             int points = 0;
             
             distributeToRecipientsString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS);
             pointsPerOptionString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION);
             pointsString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS);
             Assumption.assertNotNull("Null points", pointsString);
+            forceUnevenDistributionString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
             
             distributeToRecipients = (distributeToRecipientsString == null) ? false : (distributeToRecipientsString.equals("true")? true : false);
             pointsPerOption = (pointsPerOptionString == null) ? false : pointsPerOptionString.equals("true") ? true : false;
             points = Integer.parseInt(pointsString);
+            forceUnevenDistribution = (forceUnevenDistributionString == null) ? false : (forceUnevenDistributionString.equals("on") ? true : false); 
             
             if (!distributeToRecipients) {
                 String numConstSumOptionsCreatedString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
@@ -175,9 +179,9 @@ public abstract class FeedbackAbstractQuestionDetails {
                         numOfConstSumOptions++;
                     }
                 }
-                questionDetails = new FeedbackConstantSumQuestionDetails(questionText, numOfConstSumOptions, constSumOptions, pointsPerOption, points);
+                questionDetails = new FeedbackConstantSumQuestionDetails(questionText, numOfConstSumOptions, constSumOptions, pointsPerOption, points, forceUnevenDistribution);
             } else {
-                questionDetails = new FeedbackConstantSumQuestionDetails(questionText, pointsPerOption, points);
+                questionDetails = new FeedbackConstantSumQuestionDetails(questionText, pointsPerOption, points, forceUnevenDistribution);
             }
             break;
         case CONTRIB:
