@@ -112,9 +112,10 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         constSumOptions.add("Option 2");
         boolean pointsPerOption = false;
         int points = 100;
+        boolean forceUnevenDistribution = false;
         FeedbackConstantSumQuestionDetails constantSumQuestionDetails =
                 new FeedbackConstantSumQuestionDetails(questionText, numOfConstSumOptions, 
-                                                    constSumOptions, pointsPerOption, points);
+                                                    constSumOptions, pointsPerOption, points, forceUnevenDistribution);
         
         responseDetails = 
                 FeedbackAbstractResponseDetails.createResponseDetails(
