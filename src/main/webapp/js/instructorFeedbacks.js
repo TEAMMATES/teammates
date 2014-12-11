@@ -359,7 +359,6 @@ function uncommonSettingsButtonClick(){
     var button_edit = $(button).attr('data-edit');
     if($(button).text() == button_edit){
         showUncommonPanels();
-        $('#uncommonSettingsInfo').hide();
     }
 }
 
@@ -376,22 +375,18 @@ function isDefaultSetting(){
 }
 
 function showUncommonPanels(){
-    //Hide panels only if they do not match the default values.
-    if(isDefaultSetting()){
-        $('#sessionResponsesVisiblePanel').show();
-        $('#sendEmailsForPanel').show();
-    } else {
-        $('#uncommonSettingsInfo').hide();
-    }
+    $('#sessionResponsesVisiblePanel').show();
+    $('#sendEmailsForPanel').show();
+    $('#uncommonSettingsInfo').hide();
 }
 
 function hideUncommonPanels(){
-    //Hide panels only if they do not match the default values.
+    //Hide panels only if they match the default values.
     if(isDefaultSetting()){
         $('#sessionResponsesVisiblePanel').hide();
         $('#sendEmailsForPanel').hide();
     } else {
-        $('#uncommonSettingsInfo').hide();
+        showUncommonPanels();
     }
 }
 
