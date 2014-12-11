@@ -241,11 +241,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 if (studentResult != null) {
                     //For CONTRIB qns, We want to show PC if giver == recipient.
                     int pc = studentResult.perceivedToInstructor;
-                    String pcHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(pc);
-                    responseAnswerHtml += "<span>&nbsp;&nbsp;["
-                            + "Perceived Contribution: "
-                            + pcHtml
-                            + "]</span>";
+                    responseAnswerHtml += FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
                 }
             }
         }
@@ -269,11 +265,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 studentResult.claimedToInstructor);
         
         int pc = studentResult.perceivedToInstructor;
-        String pcHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(pc);
-        responseAnswerHtml += "<span>&nbsp;&nbsp;["
-                + "Perceived Contribution: "
-                + pcHtml
-                + "]</span>";
+        responseAnswerHtml += FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
         
         return responseAnswerHtml;
     }

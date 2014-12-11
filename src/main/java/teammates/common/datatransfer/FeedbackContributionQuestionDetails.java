@@ -658,6 +658,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         return result;
     }
     
+    public static String getPerceivedContributionInEqualShareFormatHtml(int i) {
+        return "<span>&nbsp;&nbsp;["
+                + "Perceived Contribution: "
+                + convertToEqualShareFormatHtml(i)
+                + "]</span>";
+    }
+    
     /**
      * Converts points in integer to String.
      * @param i
