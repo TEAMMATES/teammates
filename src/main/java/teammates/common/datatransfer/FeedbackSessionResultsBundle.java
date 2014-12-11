@@ -241,8 +241,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 if (studentResult != null) {
                     //For CONTRIB qns, We want to show PC if giver == recipient.
                     int pc = studentResult.perceivedToInstructor;
-                    @SuppressWarnings("static-access")
-                    String pcHtml = ((FeedbackContributionQuestionDetails) questionDetails).convertToEqualShareFormatHtml(pc);
+                    String pcHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(pc);
                     responseAnswerHtml += "<span>&nbsp;&nbsp;["
                             + "Perceived Contribution: "
                             + pcHtml
@@ -263,7 +262,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     
     public String getContributionQuestionPerceivedContributionHtml(FeedbackQuestionAttributes question,
             String targetEmail) {
-        FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
         Map<String, StudentResultSummary> stats = getContribQnStudentResultSummary(question);
         
         StudentResultSummary studentResult = stats.get(targetEmail);
@@ -271,8 +269,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 studentResult.claimedToInstructor);
         
         int pc = studentResult.perceivedToInstructor;
-        @SuppressWarnings("static-access")
-        String pcHtml = ((FeedbackContributionQuestionDetails) questionDetails).convertToEqualShareFormatHtml(pc);
+        String pcHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(pc);
         responseAnswerHtml += "<span>&nbsp;&nbsp;["
                 + "Perceived Contribution: "
                 + pcHtml
