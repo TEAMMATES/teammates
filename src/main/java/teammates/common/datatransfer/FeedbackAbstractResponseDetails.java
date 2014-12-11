@@ -37,6 +37,35 @@ public abstract class FeedbackAbstractResponseDetails {
     
     public abstract String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails);
     
+    /**
+     * getAnswerHtml with an additional parameter (FeedbackSessionResultsBundle)
+     * 
+     * default action is to call getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails)
+     * override in child class if necessary.
+     * 
+     * @param questionDetails
+     * @param feedbackSessionResultsBundle
+     * @return
+     */
+    public String getAnswerHtml(FeedbackResponseAttributes response, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
+        return getAnswerHtml(question.getQuestionDetails());
+    }
+    
+    /**
+     * getAnswerCsv with an additional parameter (FeedbackSessionResultsBundle)
+     * 
+     * default action is to call getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails)
+     * override in child class if necessary.
+     * 
+     * @param questionDetails
+     * @param feedbackSessionResultsBundle
+     * @return
+     */
+    public String getAnswerCsv(FeedbackResponseAttributes response, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
+        return getAnswerCsv(question.getQuestionDetails());
+    }
+    
+    
     
     public static FeedbackAbstractResponseDetails createResponseDetails(
             String[] answer, FeedbackQuestionType questionType,
