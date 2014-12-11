@@ -11,6 +11,7 @@
 <%@ page import="teammates.ui.controller.InstructorFeedbackResultsPageData"%>
 <%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionType"%>
 <%
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData) request.getAttribute("data");
     FieldValidator validator = new FieldValidator();
@@ -411,9 +412,40 @@
                                             <td class="middlealign"><%=giverName%></td>
                                             <td class="middlealign"><%=giverTeamName%></td>
                                             <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
-                                        </tr>        
+                                        </tr>
+                                        
                                         <%
                                             }
+                                                                                                                            
+                                            if (question.questionType == FeedbackQuestionType.CONTRIB && !data.bundle.hasTargetGivenResponseToSelfInContributionQuestion(question, targetEmail)) {
+                                        %>
+                                            <tr>   
+                                                <% 
+                                                    if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) {
+                                                %>
+                                                        <td class="middlealign">
+                                                            <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
+                                                                <a class="student-profile-pic-view-link btn-link">
+                                                                    View Photo
+                                                                </a>
+                                                                <img src="" alt="No Image Given" class="hidden">
+                                                            </div>
+                                                        </td>
+                                                <% } else { %>
+                                                        <td class="middlealign">
+                                                            <div class="align-center" data-link="">
+                                                                <a class="btn-link">
+                                                                    View Photo
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                <% } %>
+                                                <td class="middlealign"><%=data.bundle.getNameForEmail(targetEmail)%></td>
+                                                <td class="middlealign"><%=data.bundle.getTeamNameForEmail(targetEmail)%></td>
+                                                <td class="text-preserve-space"><%=data.bundle.getContributionQuestionPerceivedContributionHtml(question, targetEmail)%></td>
+                                            </tr> 
+                                        <% 
+                                        } 
                                         %>
                                     </tbody>
                                 </table>

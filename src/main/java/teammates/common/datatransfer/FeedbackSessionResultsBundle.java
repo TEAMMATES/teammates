@@ -241,17 +241,35 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 if (studentResult != null) {
                     //For CONTRIB qns, We want to show PC if giver == recipient.
                     int pc = studentResult.perceivedToInstructor;
-                    @SuppressWarnings("static-access")
-                    String pcHtml = ((FeedbackContributionQuestionDetails) questionDetails).convertToEqualShareFormatHtml(pc);
-                    responseAnswerHtml += "<span>&nbsp;&nbsp;["
-                            + "Perceived Contribution: "
-                            + pcHtml
-                            + "]</span>";
+                    responseAnswerHtml += FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
                 }
             }
         }
         return responseAnswerHtml;
     }
+    
+    public boolean hasTargetGivenResponseToSelfInContributionQuestion(FeedbackQuestionAttributes question, String targetEmail) {
+        Map<String, StudentResultSummary> stats = getContribQnStudentResultSummary(question);
+        StudentResultSummary studentResult = stats.get(targetEmail);
+        
+        return studentResult.claimedFromStudent != Const.INT_UNINITIALIZED && 
+               studentResult.claimedFromStudent != Const.POINTS_NOT_SUBMITTED;
+    }
+    
+    public String getContributionQuestionPerceivedContributionHtml(FeedbackQuestionAttributes question,
+            String targetEmail) {
+        Map<String, StudentResultSummary> stats = getContribQnStudentResultSummary(question);
+        
+        StudentResultSummary studentResult = stats.get(targetEmail);
+        String responseAnswerHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
+                studentResult.claimedToInstructor);
+        
+        int pc = studentResult.perceivedToInstructor;
+        responseAnswerHtml += FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
+        
+        return responseAnswerHtml;
+    }
+    
     
     private String getContributionQuestionResponseAnswerCsv(
             FeedbackResponseAttributes response,
