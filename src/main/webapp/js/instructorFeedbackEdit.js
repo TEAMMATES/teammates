@@ -165,6 +165,7 @@ function enableQuestion(number){
         $("#constSumOptionTable-"+number).show();
         $("#constSumOption_Recipient-"+number).hide();
     }
+    $("#constSumOption_distributeUnevenly-"+number).prop("disabled", false);
 
     if($('#questionTable'+number).parent().find('input[name="questiontype"]').val()=='CONTRIB'){
         fixContribQnGiverRecipient(number);
@@ -385,6 +386,10 @@ function prepareQuestionForm(type) {
         $('#constSumForm').show();
         $('#questionTypeChoice').find('option').prop('disabled', false);
         $('#questionTypeChoice').val('CONSTSUM');
+        var optionText = $("#constSum_labelText-" + "-1").text();
+        $("#constSum_labelText-"+"-1").text(optionText.replace("option", "recipient"));
+        var tooltipText = $("#constSum_tooltipText-" + "-1").attr("data-original-title");
+        $("#constSum_tooltipText-" + "-1").attr("data-original-title", tooltipText.replace("option", "recipient"));
         break;
     case "CONTRIB":
         $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_CONTRIB);
