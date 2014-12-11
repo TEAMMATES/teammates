@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.Utils;
 import teammates.logic.core.TeamEvalResult;
 import teammates.ui.controller.InstructorEvalResultsPageData;
 import teammates.ui.controller.PageData;
@@ -636,6 +638,41 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
             }
         }
         return errors;
+    }
+    
+    final static public String ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH = 
+            Const.FeedbackQuestionTypeNames.CONTRIB + " must have "
+            + FeedbackParticipantType.STUDENTS.toDisplayGiverName()
+            + " and " + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF.toDisplayRecipientName()
+            + " as the feedback giver and recipient respectively."
+            + " These values will be used instead.";
+    
+    @Override
+    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        String errorMsg = "";
+        
+        // giver type can only be STUDENTS
+        if(feedbackQuestionAttributes.giverType != FeedbackParticipantType.STUDENTS) {
+            Utils.getLogger().severe("Unexpected giverType for contribution question: " + feedbackQuestionAttributes.giverType + " (forced to :" + FeedbackParticipantType.STUDENTS + ")");
+            feedbackQuestionAttributes.giverType = FeedbackParticipantType.STUDENTS;
+            errorMsg = ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH;
+        }
+        
+        // recipient type can only be OWN_TEAM_MEMBERS_INCLUDING_SELF
+        if(feedbackQuestionAttributes.recipientType != FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
+            Utils.getLogger().severe("Unexpected recipientType for contribution question: " + feedbackQuestionAttributes.recipientType + " (forced to :" + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF + ")");
+            feedbackQuestionAttributes.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
+            errorMsg = ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH;
+        }
+        
+        // restrictions on visibility options
+        Assumption.assertTrue("Contrib Qn Invalid visibility options",
+                (feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
+                == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) &&
+                (feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))));
+        
+        return errorMsg;
     }
     
     /*

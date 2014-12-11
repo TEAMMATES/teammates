@@ -2,7 +2,6 @@ package teammates.common.datatransfer;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -69,6 +68,20 @@ public abstract class FeedbackAbstractQuestionDetails {
      * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an empty list if question responses are valid.
      */
     public abstract List<String> validateResponseAttributes(List<FeedbackResponseAttributes> responses, int numRecipients);
+    
+    /**
+     * Validates if giverType and recipientType are valid for the question type.
+     * Validates visibility options as well.
+     * 
+     * Override in Feedback*QuestionDetails if necessary.
+     * @param giverType
+     * @param recipientType
+     * @return error message detailing the error, or an empty string if valid.
+     */
+    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        // All giver/recipient types and visibility options are valid by default, so return ""
+        return "";
+    }
     
     /**
      * Extract question details and sets details accordingly

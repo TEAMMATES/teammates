@@ -1,5 +1,8 @@
 package teammates.ui.controller;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +68,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
     private void editQuestion(FeedbackQuestionAttributes updatedQuestion)
             throws InvalidParametersException, EntityDoesNotExistException {
         
-        String err = validateContribQnGiverRecipient(updatedQuestion);
+        String err = validateQuestionGiverRecipientVisibility(updatedQuestion);
         if(!err.isEmpty()){
             statusToUser.add(err);
             isError = true;
@@ -97,37 +100,29 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         }
     }
     
-    final static public String ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH = 
-            Const.FeedbackQuestionTypeNames.CONTRIB + " must have "
-            + FeedbackParticipantType.STUDENTS.toDisplayGiverName()
-            + " and " + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF.toDisplayRecipientName()
-            + " as the feedback giver and recipient respectively."
-            + " These values will be used instead.";
-
-    public static String validateContribQnGiverRecipient(
-            FeedbackQuestionAttributes updatedQuestion) {
-        if(updatedQuestion.questionType != FeedbackQuestionType.CONTRIB){
-            return "";
-        }
-        
+    /**
+     * Validates that the giver and recipient for the given FeedbackQuestionAttributes is valid for its question type.
+     * Validates that the visibility for the given FeedbackQuestionAttributes is valid for its question type.
+     * 
+     * @param feedbackQuestionAttributes
+     * @return error message detailing the error, or an empty string if valid.
+     */
+    public static String validateQuestionGiverRecipientVisibility(
+            FeedbackQuestionAttributes feedbackQuestionAttributes) {
         String errorMsg = "";
         
-        if(FeedbackParticipantType.STUDENTS != updatedQuestion.giverType) {
-            log.severe("Unexpected giverType for contribution question: " + updatedQuestion.giverType + " (forced to :" + FeedbackParticipantType.STUDENTS + ")");
-            updatedQuestion.giverType = FeedbackParticipantType.STUDENTS;
-            errorMsg = ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH;
+        FeedbackAbstractQuestionDetails questionDetails = null;
+        Class<? extends FeedbackAbstractQuestionDetails> questionDetailsClass = feedbackQuestionAttributes.questionType.getQuestionDetailsClass();
+        Constructor<? extends FeedbackAbstractQuestionDetails> questionDetailsClassConstructor;
+        try {
+            questionDetailsClassConstructor = questionDetailsClass.getConstructor();
+            questionDetails = questionDetailsClassConstructor.newInstance();
+            Method m = questionDetailsClass.getMethod("validateGiverRecipientVisibility", FeedbackQuestionAttributes.class);
+            errorMsg = (String) m.invoke(questionDetails, feedbackQuestionAttributes);
+        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
+            e.printStackTrace();
+            Assumption.fail("Failed to instantiate Feedback*QuestionDetails instance for " + feedbackQuestionAttributes.questionType.toString() + " question type.");
         }
-        if(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF != updatedQuestion.recipientType) {
-            log.severe("Unexpected recipientType for contribution question: " + updatedQuestion.recipientType + " (forced to :" + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF + ")");
-            updatedQuestion.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
-            errorMsg = ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH;
-        }
-        
-        Assumption.assertTrue("Contrib Qn Invalid visibility options",
-                (updatedQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
-                == updatedQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) &&
-                (updatedQuestion.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                == updatedQuestion.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))));
         
         return errorMsg;
     }
