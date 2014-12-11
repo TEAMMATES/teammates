@@ -334,7 +334,6 @@ function readyFeedbackPage() {
     $("#ajaxForSessions").trigger('submit');
     bindUncommonSettingsEvents();
     updateUncommonSettingsInfo();
-    
     hideUncommonPanels();
 }
 
@@ -390,7 +389,6 @@ function hideUncommonPanels(){
         showUncommonPanels();
     }
 }
-
 
 /**
  * Hides / shows the "Submissions Opening/Closing Time" and "Grace Period" options

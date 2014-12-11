@@ -418,6 +418,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                         FieldValidator.REASON_CONTAINS_INVALID_CHAR,
                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME),
                     feedbackPage.getStatus());
+        
     }
     
     public void testCopyAction() throws Exception{
