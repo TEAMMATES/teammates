@@ -418,7 +418,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                         FieldValidator.REASON_CONTAINS_INVALID_CHAR,
                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME),
                     feedbackPage.getStatus());
-
     }
     
     public void testCopyAction() throws Exception{
@@ -747,7 +746,34 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals("TEAMEVALUATION", feedbackPage.getSessionType());
         assertEquals("10", feedbackPage.getStartTime());
         assertEquals("22", feedbackPage.getEndTime());
-        assertEquals("-2", feedbackPage.getTimeZone());             
+        assertEquals("-2", feedbackPage.getTimeZone()); 
+        
+        ______TS("failure case: test that advanced options are still available after input is rejected");
+        
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+        
+        newSession.feedbackSessionName = "";
+        newSession.endTime = Const.TIME_REPRESENTS_LATER;
+        feedbackPage.clickEditUncommonSettingsButton();
+        feedbackPage.clickNeverPublishTimeButton();
+        feedbackPage.addFeedbackSession(
+                newSession.feedbackSessionName, newSession.courseId,
+                newSession.startTime, newSession.endTime,
+                null, null,
+                newSession.instructions,
+                newSession.gracePeriod );
+        assertEquals(String.format(
+                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
+                        "",
+                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                        FieldValidator.REASON_EMPTY,
+                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                        FieldValidator.EVALUATION_NAME_MAX_LENGTH,
+                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME),
+                    feedbackPage.getStatus());
+        assertTrue(feedbackPage.verifyVisible(By.id("timeFramePanel")));
+        assertTrue(feedbackPage.verifyVisible(By.id("responsesVisibleFromColumn")));
+        assertTrue(feedbackPage.verifyVisible(By.id("instructionsRow")));
     }
 
     @AfterClass
