@@ -513,7 +513,6 @@ public class EmailsTest extends BaseComponentTestCase {
         verifyEmail(s2, emails.get(1), prefix, status);
         verifyEmail(i1, emails.get(2), prefix, status);
         verifyEmail(i2, emails.get(3), prefix, status);
-
     }
     
     @Test
@@ -577,6 +576,9 @@ public class EmailsTest extends BaseComponentTestCase {
 
         prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING;
         status = "is closing soon";
+        verifyEmail(s1, emails.get(0), prefix, status);
+        verifyEmail(s3, emails.get(1), prefix, status);
+        status = "Ignore this email if you have already submitted feedback.";
         verifyEmail(s1, emails.get(0), prefix, status);
         verifyEmail(s3, emails.get(1), prefix, status);
 
