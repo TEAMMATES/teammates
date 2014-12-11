@@ -3,7 +3,6 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Utils;
@@ -482,32 +481,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes
      * @return The Feedback*QuestionDetails class type appropriate for this question.
      */
     private Class<? extends FeedbackAbstractQuestionDetails> getFeedbackQuestionDetailsClass(){
-        Class<? extends FeedbackAbstractQuestionDetails> questionDetailsClass = null;
-        
-        switch(questionType){
-        case TEXT:
-            questionDetailsClass = FeedbackTextQuestionDetails.class;
-            break;
-        case MCQ:
-            questionDetailsClass = FeedbackMcqQuestionDetails.class;
-            break;
-        case MSQ:
-            questionDetailsClass = FeedbackMsqQuestionDetails.class;
-            break;
-        case NUMSCALE:
-            questionDetailsClass = FeedbackNumericalScaleQuestionDetails.class;
-            break;
-        case CONSTSUM:
-            questionDetailsClass = FeedbackConstantSumQuestionDetails.class;
-            break;
-        case CONTRIB:
-            questionDetailsClass = FeedbackContributionQuestionDetails.class;
-            break;
-        default:
-            Assumption.fail("FeedbackQuestionType " + questionType + " unsupported by FeedbackQuestionAttributes");
-            break;
-        }
-        
-        return questionDetailsClass;
+        return questionType.getQuestionDetailsClass();
     }
 }

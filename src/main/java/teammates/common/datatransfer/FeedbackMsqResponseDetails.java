@@ -1,6 +1,7 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import teammates.common.util.Sanitizer;
@@ -14,11 +15,12 @@ public class FeedbackMsqResponseDetails extends FeedbackAbstractResponseDetails 
         this.answers = new ArrayList<String>();
     }
     
-    public FeedbackMsqResponseDetails(List<String> answers) {
-        super(FeedbackQuestionType.MSQ);
-        this.answers = answers;
+    @Override
+    public boolean extractResponseDetails(FeedbackQuestionType questionType,
+            FeedbackAbstractQuestionDetails questionDetails, String[] answer) {
+        this.answers = Arrays.asList(answer);
+        return true;
     }
-    
 
     public boolean contains(String candidateAnswer) {
         return answers.contains(candidateAnswer);

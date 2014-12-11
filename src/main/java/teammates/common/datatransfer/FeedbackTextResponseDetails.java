@@ -4,9 +4,8 @@ import teammates.common.util.Sanitizer;
 
 public class FeedbackTextResponseDetails extends
         FeedbackAbstractResponseDetails {
-    //TODO use this instead of plain text for essay questions
-    //will involve converting the existing database
     
+    //For essay questions the response is saved as plain-text due to legacy format before there were multiple question types
     public String answer;
     
     public FeedbackTextResponseDetails(){
@@ -17,6 +16,13 @@ public class FeedbackTextResponseDetails extends
     public FeedbackTextResponseDetails(String answer) {
         super(FeedbackQuestionType.TEXT);
         this.answer = answer;
+    }
+
+    @Override
+    public boolean extractResponseDetails(FeedbackQuestionType questionType,
+            FeedbackAbstractQuestionDetails questionDetails, String[] answer) {
+        this.answer = answer[0];
+        return true;
     }
 
     @Override

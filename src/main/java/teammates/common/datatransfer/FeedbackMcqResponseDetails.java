@@ -14,22 +14,18 @@ public class FeedbackMcqResponseDetails extends FeedbackAbstractResponseDetails 
         otherFieldContent = "";
     }
     
-    /** Creates a new FeedbackMcqResponseDetails object
-     * 
-     * @param answer The answer to the question or the content of other field if other is chosen
-     * @param isOther Whether or not other is chosen as the answer
-     */
-    public FeedbackMcqResponseDetails(String answer, boolean isOther) {
-        super(FeedbackQuestionType.MCQ);
-        
-        this.isOther = isOther;
+    @Override
+    public boolean extractResponseDetails(FeedbackQuestionType questionType,
+            FeedbackAbstractQuestionDetails questionDetails, String[] answer) {
+        // TODO: check and set isOther accordingly when it is implemented.
         if(isOther){
             this.answer = "Other";
-            this.otherFieldContent = answer;
+            this.otherFieldContent = answer[0];
         } else {
-            this.answer = answer;
+            this.answer = answer[0];
             this.otherFieldContent = "";
         }
+        return true;
     }
 
     @Override

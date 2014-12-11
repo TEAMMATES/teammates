@@ -1,8 +1,7 @@
 package teammates.common.datatransfer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 import teammates.common.util.Assumption;
 
@@ -19,11 +18,25 @@ public abstract class FeedbackAbstractResponseDetails {
         this.questionType = questionType;
     }
     
+    /**
+     * Extract response details and sets details accordingly.
+     * 
+     * @param questionType
+     * @param questionDetails
+     * @param answer
+     * @return true to indicate success in extracting the details, false otherwise.
+     */
+    public abstract boolean extractResponseDetails(
+            FeedbackQuestionType questionType,
+            FeedbackAbstractQuestionDetails questionDetails,
+            String[] answer);
+    
     public abstract String getAnswerString();
     
     public abstract String getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails);
     
     public abstract String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails);
+    
     
     public static FeedbackAbstractResponseDetails createResponseDetails(
             String[] answer, FeedbackQuestionType questionType,
@@ -31,50 +44,21 @@ public abstract class FeedbackAbstractResponseDetails {
         
         FeedbackAbstractResponseDetails responseDetails = null;
         
-        switch(questionType) {
-        case TEXT:
-            //For essay questions the response is saved as plain-text due to legacy format before there were multiple question types
-            responseDetails = new FeedbackTextResponseDetails(answer[0]);
-            break;
-        case MCQ:
-            //TODO check whether other is chosen and construct accordingly when implementing other field
-            responseDetails = new FeedbackMcqResponseDetails(answer[0], false);
-            break;
-        case MSQ:
-            responseDetails = new FeedbackMsqResponseDetails(Arrays.asList(answer));
-            break;
-        case NUMSCALE:
-            try {
-                double numscaleAnswer = Double.parseDouble(answer[0]);
-                
-                responseDetails = new FeedbackNumericalScaleResponseDetails(numscaleAnswer);
-            } catch (NumberFormatException e) {
-                responseDetails = null;
-            }
-            break;
-        case CONSTSUM:
-            List<Integer> constSumAnswer = new ArrayList<Integer>();
-            for(int i=0 ; i<answer.length ; i++){
-                try{
-                    constSumAnswer.add(Integer.parseInt(answer[i]));
-                } catch (NumberFormatException e) {
-                    constSumAnswer.add(0);
-                }
-            }
-            FeedbackConstantSumQuestionDetails constSumQd = (FeedbackConstantSumQuestionDetails) questionDetails;
-            responseDetails = new FeedbackConstantSumResponseDetails(constSumAnswer, constSumQd.constSumOptions, constSumQd.distributeToRecipients);
-            break;
-        case CONTRIB:
-            try {
-                int contribAnswer = Integer.parseInt(answer[0]);
-                responseDetails = new FeedbackContributionResponseDetails(contribAnswer);
-            } catch (NumberFormatException e) {
-                responseDetails = null;
-            }
-            break;
-        default:
-            Assumption.fail("Question type not supported");
-            break;
+        Class<? extends FeedbackAbstractResponseDetails> responseDetailsClass= questionType.getResponseDetailsClass();
+        Constructor<? extends FeedbackAbstractResponseDetails> responseDetailsClassConstructor;
+        try {
+            responseDetailsClassConstructor = responseDetailsClass.getConstructor();
+            responseDetails = responseDetailsClassConstructor.newInstance();
+        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+            Assumption.fail("Failed to instantiate Feedback*ResponseDetails instance for " + questionType.toString() + " question type.");
+        }
+        
+        //TODO: assert answer is not null, size > 0, etc.
+        
+        if (!responseDetails.extractResponseDetails(questionType, questionDetails, answer)) {
+            // Set response details to null if extracting response details failed.
+            responseDetails = null;
         }
         
         return responseDetails;

@@ -1,5 +1,6 @@
 package teammates.common.datatransfer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.util.Assumption;
@@ -13,14 +14,22 @@ public class FeedbackConstantSumResponseDetails extends
         super(FeedbackQuestionType.CONSTSUM);
     }
     
-    public FeedbackConstantSumResponseDetails(List<Integer> answers, List<String> constSumOptions, boolean distributeToRecipients) {
-        super(FeedbackQuestionType.CONSTSUM);
-        this.answers = answers;
-        if(!distributeToRecipients){
-            Assumption.assertEquals("ConstSum num response does not match num of options. "+ answers.size() + "/" + constSumOptions.size(), answers.size(), constSumOptions.size());
+    @Override
+    public boolean extractResponseDetails(FeedbackQuestionType questionType,
+            FeedbackAbstractQuestionDetails questionDetails, String[] answer) {
+        List<Integer> constSumAnswer = new ArrayList<Integer>();
+        for(int i=0 ; i<answer.length ; i++){
+            try{
+                constSumAnswer.add(Integer.parseInt(answer[i]));
+            } catch (NumberFormatException e) {
+                constSumAnswer.add(0);
+            }
         }
+        FeedbackConstantSumQuestionDetails constSumQd = (FeedbackConstantSumQuestionDetails) questionDetails;
+        this.setConstantSumResponseDetails(constSumAnswer, constSumQd.constSumOptions, constSumQd.distributeToRecipients);
+        return true;
     }
-    
+
     /**
      * @return List of answers (for constant sum to recipients, there will only be one answer.)
      */
@@ -67,6 +76,13 @@ public class FeedbackConstantSumResponseDetails extends
         }
 
         return csvBuilder.toString();
+    }
+
+    private void setConstantSumResponseDetails(List<Integer> answers, List<String> constSumOptions, boolean distributeToRecipients) {
+        this.answers = answers;
+        if(!distributeToRecipients){
+            Assumption.assertEquals("ConstSum num response does not match num of options. "+ answers.size() + "/" + constSumOptions.size(), answers.size(), constSumOptions.size());
+        }
     }
 
 }
