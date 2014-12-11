@@ -2,20 +2,29 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 
-public class FeedbackTextQuestionDetails extends
-        FeedbackAbstractQuestionDetails {
+public class FeedbackTextQuestionDetails extends FeedbackAbstractQuestionDetails {
+    
     public FeedbackTextQuestionDetails() {
         super(FeedbackQuestionType.TEXT);
     }
     
     public FeedbackTextQuestionDetails(String questionText) {
         super(FeedbackQuestionType.TEXT, questionText);
+    }
+
+    @Override
+    public boolean extractQuestionDetails(
+            Map<String, String[]> requestParameters,
+            FeedbackQuestionType questionType) {
+        // Nothing to do here.
+        return true;
     }
 
     @Override

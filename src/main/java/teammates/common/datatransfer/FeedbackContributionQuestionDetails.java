@@ -22,7 +22,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
 
     public FeedbackContributionQuestionDetails(String questionText) {
         super(FeedbackQuestionType.CONTRIB, questionText);
-        
+    }
+       
+    @Override
+    public boolean extractQuestionDetails(
+            Map<String, String[]> requestParameters,
+            FeedbackQuestionType questionType) {
+        // Nothing to do here.
+        return true;
     }
 
     @Override

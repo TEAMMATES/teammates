@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
+import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 
@@ -26,8 +28,29 @@ public class FeedbackNumericalScaleQuestionDetails extends
         this.step = 0.5;
     }
     
-    public FeedbackNumericalScaleQuestionDetails(String questionText, int minScale, int maxScale, double step) {
-        super(FeedbackQuestionType.NUMSCALE, questionText);
+    @Override
+    public boolean extractQuestionDetails(
+            Map<String, String[]> requestParameters,
+            FeedbackQuestionType questionType) {
+        
+        String minScaleString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN);
+        Assumption.assertNotNull("Null minimum scale", minScaleString);
+        int minScale = Integer.parseInt(minScaleString);
+        
+        String maxScaleString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX);
+        Assumption.assertNotNull("Null maximum scale", maxScaleString);
+        int maxScale = Integer.parseInt(maxScaleString);
+        
+        String stepString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP);
+        Assumption.assertNotNull("Null step", stepString);
+        Double step = Double.parseDouble(stepString);
+
+        this.setNumericalScaleQuestionDetails(minScale, maxScale, step);
+        
+        return true;
+    }
+
+    private void setNumericalScaleQuestionDetails(int minScale, int maxScale, double step) {
         this.minScale = minScale;
         this.maxScale = maxScale;
         this.step = step;
