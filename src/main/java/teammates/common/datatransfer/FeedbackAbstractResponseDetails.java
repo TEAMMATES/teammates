@@ -1,9 +1,5 @@
 package teammates.common.datatransfer;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
-import teammates.common.util.Assumption;
 
 /** A class holding the details for the response of a specific question type.
  * This abstract class is inherited by concrete Feedback*ResponseDetails
@@ -71,19 +67,7 @@ public abstract class FeedbackAbstractResponseDetails {
             String[] answer, FeedbackQuestionType questionType,
             FeedbackAbstractQuestionDetails questionDetails) {
         
-        FeedbackAbstractResponseDetails responseDetails = null;
-        
-        Class<? extends FeedbackAbstractResponseDetails> responseDetailsClass= questionType.getResponseDetailsClass();
-        Constructor<? extends FeedbackAbstractResponseDetails> responseDetailsClassConstructor;
-        try {
-            responseDetailsClassConstructor = responseDetailsClass.getConstructor();
-            responseDetails = responseDetailsClassConstructor.newInstance();
-        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
-            Assumption.fail("Failed to instantiate Feedback*ResponseDetails instance for " + questionType.toString() + " question type.");
-        }
-        
-        //TODO: assert answer is not null, size > 0, etc.
+        FeedbackAbstractResponseDetails responseDetails = questionType.getFeedbackResponseDetailsInstance();
         
         if (!responseDetails.extractResponseDetails(questionType, questionDetails, answer)) {
             // Set response details to null if extracting response details failed.

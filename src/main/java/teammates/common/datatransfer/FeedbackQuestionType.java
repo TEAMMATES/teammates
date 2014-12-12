@@ -1,5 +1,7 @@
 package teammates.common.datatransfer;
 
+import teammates.common.util.Assumption;
+
 public enum FeedbackQuestionType {
     
     /**
@@ -12,6 +14,54 @@ public enum FeedbackQuestionType {
     CONSTSUM(FeedbackConstantSumQuestionDetails.class, FeedbackConstantSumResponseDetails.class),
     CONTRIB(FeedbackContributionQuestionDetails.class, FeedbackContributionResponseDetails.class);
     
+    
+    /**
+     * Returns an instance of a corresponding Feedback*QuestionDetails class
+     * @return FeedbackAbstractQuestionDetails
+     */
+    public FeedbackAbstractQuestionDetails getFeedbackQuestionDetailsInstance() {
+        switch (this) {
+        case TEXT:
+            return new FeedbackTextQuestionDetails();
+        case MCQ:
+            return new FeedbackMcqQuestionDetails();
+        case MSQ:
+            return new FeedbackMsqQuestionDetails();
+        case NUMSCALE:
+            return new FeedbackNumericalScaleQuestionDetails();
+        case CONSTSUM:
+            return new FeedbackConstantSumQuestionDetails();
+        case CONTRIB:
+            return new FeedbackContributionQuestionDetails();
+        default:
+            Assumption.fail("Failed to instantiate Feedback*QuestionDetails instance for " + this.toString() + " question type.");
+            return null;
+        }
+    }
+    
+    /**
+     * Returns an instance of a corresponding Feedback*ResponseDetails class
+     * @return FeedbackAbstractResponseDetails
+     */
+    public FeedbackAbstractResponseDetails getFeedbackResponseDetailsInstance() {
+        switch (this) {
+        case TEXT:
+            return new FeedbackTextResponseDetails();
+        case MCQ:
+            return new FeedbackMcqResponseDetails();
+        case MSQ:
+            return new FeedbackMsqResponseDetails();
+        case NUMSCALE:
+            return new FeedbackNumericalScaleResponseDetails();
+        case CONSTSUM:
+            return new FeedbackConstantSumResponseDetails();
+        case CONTRIB:
+            return new FeedbackContributionResponseDetails();
+        default:
+            Assumption.fail("Failed to instantiate Feedback*ResponseDetails instance for " + this.toString() + " question type.");
+            return null;
+        }
+    }
     
     private final Class<? extends FeedbackAbstractQuestionDetails> questionDetailsClass;
     private final Class<? extends FeedbackAbstractResponseDetails> responseDetailsClass;

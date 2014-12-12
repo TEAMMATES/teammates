@@ -1,7 +1,5 @@
 package teammates.common.datatransfer;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 
@@ -96,17 +94,7 @@ public abstract class FeedbackAbstractQuestionDetails {
         Assumption.assertNotNull("Null question text", questionText);
         Assumption.assertNotEmpty("Empty question text", questionText);
         
-        FeedbackAbstractQuestionDetails questionDetails = null;
-        
-        Class<? extends FeedbackAbstractQuestionDetails> questionDetailsClass= questionType.getQuestionDetailsClass();
-        Constructor<? extends FeedbackAbstractQuestionDetails> questionDetailsClassConstructor;
-        try {
-            questionDetailsClassConstructor = questionDetailsClass.getConstructor();
-            questionDetails = questionDetailsClassConstructor.newInstance();
-        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            e.printStackTrace();
-            Assumption.fail("Failed to instantiate Feedback*QuestionDetails instance for " + questionType.toString() + " question type.");
-        }
+        FeedbackAbstractQuestionDetails questionDetails = questionType.getFeedbackQuestionDetailsInstance();
         
         questionDetails.questionText = questionText;
         questionDetails.extractQuestionDetails(requestParameters, questionType);
