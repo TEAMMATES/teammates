@@ -1330,7 +1330,7 @@ public class FeedbackSessionsLogic {
             return new FeedbackSessionResultsBundle(
                     session, responses, relevantQuestions,
                     emailNameTable, emailLastNameTable, emailTeamNameTable,
-                    visibilityTable, responseStatus, responseComments);
+                    visibilityTable, responseStatus, roster, responseComments);
         }
 
         Map<String, FeedbackResponseAttributes> relevantResponse = new HashMap<String, FeedbackResponseAttributes>();
@@ -1415,7 +1415,7 @@ public class FeedbackSessionsLogic {
                 new FeedbackSessionResultsBundle(
                         session, responses, relevantQuestions,
                         emailNameTable, emailLastNameTable, emailTeamNameTable,
-                        visibilityTable, responseStatus, responseComments);
+                        visibilityTable, responseStatus, roster, responseComments);
 
         return results;
     }
@@ -1477,7 +1477,7 @@ public class FeedbackSessionsLogic {
             return new FeedbackSessionResultsBundle(
                     session, responses, relevantQuestions,
                     emailNameTable, emailLastNameTable, emailTeamNameTable,
-                    visibilityTable, responseStatus, responseComments);
+                    visibilityTable, responseStatus, roster, responseComments);
         }
         
         if (params.get("questionNum") != null) {
@@ -1551,7 +1551,7 @@ public class FeedbackSessionsLogic {
                     new FeedbackSessionResultsBundle(
                             session, responses, relevantQuestions,
                             emailNameTable, emailLastNameTable, emailTeamNameTable,
-                            visibilityTable, responseStatus, responseComments, true);
+                            visibilityTable, responseStatus, roster, responseComments, true);
 
             return results;
         }
@@ -1585,7 +1585,7 @@ public class FeedbackSessionsLogic {
                     new FeedbackSessionResultsBundle(
                             session, responses, relevantQuestions,
                             emailNameTable, emailLastNameTable, emailTeamNameTable,
-                            visibilityTable, responseStatus, responseComments, isComplete);
+                            visibilityTable, responseStatus, roster, responseComments, isComplete);
     
                 return results;
             }
@@ -1689,7 +1689,7 @@ public class FeedbackSessionsLogic {
                 new FeedbackSessionResultsBundle(
                         session, responses, relevantQuestions,
                         emailNameTable, emailLastNameTable, emailTeamNameTable,
-                        visibilityTable, responseStatus, responseComments, isComplete);
+                        visibilityTable, responseStatus, roster, responseComments, isComplete);
 
         return results;
     }

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import teammates.common.util.Const;
@@ -28,8 +29,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     public Map<String, String> emailNameTable = null;
     public Map<String, String> emailLastNameTable = null;
     public Map<String, String> emailTeamNameTable = null;
+    public Map<String, Map<String, String>> rosterTeamNameEmailTable = null; 
     public Map<String, boolean[]> visibilityTable = null;
     public FeedbackSessionResponseStatus responseStatus = null;
+    public CourseRoster roster = null;
     public Map<String, List<FeedbackResponseCommentAttributes>> responseComments = null;
     public boolean isComplete;    
 
@@ -57,8 +60,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             Map<String, String> emailTeamNameTable,
             Map<String, boolean[]> visibilityTable,
             FeedbackSessionResponseStatus responseStatus,
+            CourseRoster roster,
             Map<String, List<FeedbackResponseCommentAttributes>> responseComments){
-        this(feedbackSession, responses, questions, emailNameTable, emailLastNameTable, emailTeamNameTable, visibilityTable, responseStatus, responseComments, true);
+        this(feedbackSession, responses, questions, emailNameTable, emailLastNameTable, emailTeamNameTable, visibilityTable, responseStatus, roster, responseComments, true);
     }
 
     public FeedbackSessionResultsBundle (FeedbackSessionAttributes feedbackSession,
@@ -69,6 +73,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             Map<String, String> emailTeamNameTable,
             Map<String, boolean[]> visibilityTable,
             FeedbackSessionResponseStatus responseStatus,
+            CourseRoster roster,
             Map<String, List<FeedbackResponseCommentAttributes>> responseComments,
             boolean isComplete) {
         this.feedbackSession = feedbackSession;
@@ -79,6 +84,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         this.emailTeamNameTable = emailTeamNameTable;
         this.visibilityTable = visibilityTable;
         this.responseStatus = responseStatus;
+        this.roster = roster;
         this.responseComments = responseComments;
         this.actualResponses = new ArrayList<FeedbackResponseAttributes>();
 
@@ -96,6 +102,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         hideResponsesGiverRecipient(responses, questions, emailNameTable,
                 emailTeamNameTable, visibilityTable);
         
+        this.rosterTeamNameEmailTable = getTeamNameToStudentsTableFromRoster(roster);
     }
 
     /**
@@ -171,6 +178,194 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
 
     private String getHashOfName(String name) {
         return Integer.toString(Math.abs(name.hashCode()));
+    }
+    
+    public List<String> getPossibleGivers(FeedbackSessionAttributes fsa) {
+        return null;
+    }
+    public List<String> getPossibleGivers(FeedbackQuestionAttributes fqa, StudentAttributes student) {
+        return null;
+    }
+    public List<String> getPossibleGivers(FeedbackQuestionAttributes fqa, InstructorAttributes instructor) {
+        return null;
+    }
+    public List<String> getPossibleGivers(FeedbackQuestionAttributes fqa) {
+        return null;
+    }
+    
+    public List<String> getPossibleRecipients(FeedbackSessionAttributes fsa) {
+        return null;
+    }
+    
+    public List<String> getPossibleRecipients(FeedbackQuestionAttributes fqa, InstructorAttributes giver) {
+        FeedbackParticipantType type = fqa.recipientType;
+        List<String> possibleRecipients = new ArrayList<String>();
+        switch(type) {
+            case STUDENTS:
+                // all students
+                possibleRecipients = getListOfStudentEmailsSortedBySection();
+                break;
+            case INSTRUCTORS:
+                possibleRecipients = getListOfInstructorEmails();
+                break;
+            case TEAMS:
+                possibleRecipients = getListOfTeams();
+                break;
+            case SELF:
+                possibleRecipients.add(giver.email);
+                break;
+            case NONE:
+            case OWN_TEAM:
+            case OWN_TEAM_MEMBERS:
+            case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+            default:
+                break;
+        }
+        
+        return possibleRecipients;
+    }
+    
+    public List<String> getPossibleRecipients(FeedbackQuestionAttributes fqa, StudentAttributes giver) {
+        FeedbackParticipantType type = fqa.recipientType;
+        List<String> possibleRecipients = new ArrayList<String>();
+        switch(type) {
+            case STUDENTS:
+                // all students
+                possibleRecipients = getListOfStudentEmailsSortedBySection();
+                break;
+            case OWN_TEAM_MEMBERS:
+                possibleRecipients = getListOfTeamMembersExcludingSelf(giver);
+                break;
+            case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+                possibleRecipients = getListOfTeamMembers(giver);
+                break;
+            case INSTRUCTORS:
+                possibleRecipients = getListOfInstructorEmails();
+                break;
+            case TEAMS:
+                possibleRecipients = getListOfTeamsExcludingOwnTeam(giver);
+                break;
+            case OWN_TEAM:
+                possibleRecipients.add(giver.team);
+                break;
+            case SELF:
+                possibleRecipients.add(giver.email);
+                break;
+            case NONE:
+            default:
+                break;
+        }
+        
+        return possibleRecipients;
+    }
+    
+    public List<String> getPossibleRecipients(FeedbackQuestionAttributes fqa) {
+        FeedbackParticipantType type = fqa.recipientType;
+        List<String> possibleRecipients = null;
+        
+        if (fqa.recipientType== FeedbackParticipantType.SELF) {
+            type = fqa.giverType;
+        }
+        
+        switch(type) {
+            case STUDENTS:
+            case OWN_TEAM_MEMBERS:
+            case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+                // all students
+                possibleRecipients = getListOfStudentEmailsSortedBySection();
+                break;
+            case INSTRUCTORS:
+                possibleRecipients = getListOfInstructorEmails();
+                break;
+            case TEAMS:
+            case OWN_TEAM:
+                possibleRecipients = getListOfTeams();
+                break;
+            case NONE:
+                break;
+            default:
+                break;
+        }
+        
+        return possibleRecipients;
+    }
+    
+    public List<String> getListOfTeamsExcludingOwnTeam(StudentAttributes student) {
+        String studentTeam = student.team;
+        Set<String> teams = rosterTeamNameEmailTable.keySet();
+        teams.remove(studentTeam);
+        
+        return new ArrayList<String>(teams);
+    }
+    
+    public List<String> getListOfTeams() {
+        Set<String> teams = rosterTeamNameEmailTable.keySet();
+        
+        return new ArrayList<String>(teams);
+    }
+    
+    public List<String> getListOfTeamMembers(StudentAttributes student) {
+        String teamName = student.team;
+        Map<String, String> teamMembers = rosterTeamNameEmailTable.get(teamName);
+        
+        return new ArrayList<String>(teamMembers.keySet());
+    }
+    
+    public List<String> getListOfTeamMembersExcludingSelf(StudentAttributes student) {
+        List<String> teamMembers = getListOfTeamMembers(student);
+        String currentStudentEmail = student.email;
+        
+        teamMembers.remove(currentStudentEmail);
+        return teamMembers;
+    }
+    
+    public List<String> getListOfCourseEmailsSortedBySection() {
+        List<String> emailList = new ArrayList<String>();
+        List<StudentAttributes> students = roster.getStudents();
+        StudentAttributes.sortBySectionName(students);
+        for (StudentAttributes student : students) {
+            emailList.add(student.email);
+        }
+        
+        List<InstructorAttributes> instructors = roster.getInstructors();
+        for (InstructorAttributes instructor : instructors) {
+            emailList.add(instructor.email);
+        }
+        
+        return emailList;
+    }
+    public List<String> getListOfStudentEmailsSortedBySection() {
+        List<String> emailList = new ArrayList<String>();
+        
+        List<StudentAttributes> students = roster.getStudents();
+        StudentAttributes.sortBySectionName(students);
+        for (StudentAttributes student : students) {
+            emailList.add(student.email);
+        }
+        
+        return emailList;
+    }
+    public List<String> getListOfInstructorEmails() {
+        List<String> emailList = new ArrayList<String>();
+        
+        List<InstructorAttributes> instructors = roster.getInstructors();
+        for (InstructorAttributes instructor : instructors) {
+            emailList.add(instructor.email);
+        }
+        
+        return emailList;
+    }
+    
+    
+    public List<String> getListOfAnonymisedStudentEmailsSortedBySection() {
+        List<String> emailList = new ArrayList<String>();
+        List<StudentAttributes> students = roster.getStudents();
+        for (StudentAttributes student : students) {
+            String anonEmail = getAnonEmail(FeedbackParticipantType.STUDENTS, student.name);
+            emailList.add(anonEmail);
+        }
+        
+        return emailList;
     }
     
     /**
@@ -873,6 +1068,27 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         }
 
         return false;
+    }
+    
+    public Map<String, Map<String, String>> getTeamNameToStudentsTableFromRoster(CourseRoster courseroster) {
+        List<StudentAttributes> students = courseroster.getStudents();
+        Map<String, Map<String, String>> teamNameToStudents = new HashMap<String, Map<String, String>>();
+        
+        for (StudentAttributes student : students) {
+            String studentTeam = student.team;
+            Map<String, String> emailToName;
+            
+            if (teamNameToStudents.containsKey(studentTeam)) {
+                emailToName = teamNameToStudents.get(studentTeam);
+            } else {
+                emailToName = new HashMap<String, String>();
+            }
+            
+            emailToName.put(student.email, student.name);
+            teamNameToStudents.put(studentTeam, emailToName);
+        }
+        
+        return teamNameToStudents;
     }
     
     @SuppressWarnings("unused")
