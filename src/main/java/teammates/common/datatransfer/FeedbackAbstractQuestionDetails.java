@@ -50,9 +50,18 @@ public abstract class FeedbackAbstractQuestionDetails {
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle);
     
+    public abstract String getCsvHeader();
+
     public abstract boolean isChangesRequiresResponseDeletion(FeedbackAbstractQuestionDetails newDetails);
     
-    public abstract String getCsvHeader();
+    /**
+     * Individual responses are shown by default.
+     * Override for specific question types if necessary.
+     * @return boolean indicating if individual responses are to be shown to students.
+     */
+    public boolean isIndividualResponsesShownToStudents() {
+       return true;
+    }
     
     /**
      * Validates the question details

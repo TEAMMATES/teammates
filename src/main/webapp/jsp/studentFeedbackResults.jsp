@@ -130,7 +130,7 @@
                     	ListIterator<FeedbackResponseAttributes> itr = questionWithResponses
                     				.getValue().listIterator();
                     		String previousRecipientEmail = null;
-                    		if (question.questionType != FeedbackQuestionType.CONTRIB) {
+                    		if (questionDetails.isIndividualResponsesShownToStudents()) {
                         		while (itr.hasNext()) {
                         			FeedbackResponseAttributes singleResponse = itr.next();
     

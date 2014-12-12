@@ -43,6 +43,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
     public boolean isChangesRequiresResponseDeletion(FeedbackAbstractQuestionDetails newDetails) {
         return false;
     }
+    
+    @Override
+    public boolean isIndividualResponsesShownToStudents() {
+        return true;
+     }
 
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
