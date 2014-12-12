@@ -16,7 +16,7 @@ import javax.mail.internet.MimeMessage;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -599,7 +599,7 @@ public class FeedbackSessionsLogic {
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : results
                 .getQuestionResponseMap().entrySet()) {
             FeedbackQuestionAttributes question = entry.getKey();
-            FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+            FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
 
             exportBuilder.append("Question " + Integer.toString(entry.getKey().questionNumber) + "," 
                     + Sanitizer.sanitizeForCsv(questionDetails.questionText)

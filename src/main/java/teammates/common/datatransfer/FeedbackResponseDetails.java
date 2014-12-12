@@ -7,10 +7,10 @@ package teammates.common.datatransfer;
  * such that pages can render the correct information depending on the 
  * question type.
  */
-public abstract class FeedbackAbstractResponseDetails {
+public abstract class FeedbackResponseDetails {
     public FeedbackQuestionType questionType;
     
-    public FeedbackAbstractResponseDetails(FeedbackQuestionType questionType){
+    public FeedbackResponseDetails(FeedbackQuestionType questionType) {
         this.questionType = questionType;
     }
     
@@ -20,23 +20,22 @@ public abstract class FeedbackAbstractResponseDetails {
      * @param questionType
      * @param questionDetails
      * @param answer
-     * @return true to indicate success in extracting the details, false otherwise.
      */
-    public abstract boolean extractResponseDetails(
+    public abstract void extractResponseDetails(
             FeedbackQuestionType questionType,
-            FeedbackAbstractQuestionDetails questionDetails,
+            FeedbackQuestionDetails questionDetails,
             String[] answer);
     
     public abstract String getAnswerString();
     
-    public abstract String getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails);
+    public abstract String getAnswerHtml(FeedbackQuestionDetails questionDetails);
     
-    public abstract String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails);
+    public abstract String getAnswerCsv(FeedbackQuestionDetails questionDetails);
     
     /**
      * getAnswerHtml with an additional parameter (FeedbackSessionResultsBundle)
      * 
-     * default action is to call getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails)
+     * default action is to call getAnswerHtml(FeedbackQuestionDetails questionDetails)
      * override in child class if necessary.
      * 
      * @param questionDetails
@@ -50,7 +49,7 @@ public abstract class FeedbackAbstractResponseDetails {
     /**
      * getAnswerCsv with an additional parameter (FeedbackSessionResultsBundle)
      * 
-     * default action is to call getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails)
+     * default action is to call getAnswerCsv(FeedbackQuestionDetails questionDetails)
      * override in child class if necessary.
      * 
      * @param questionDetails
@@ -63,16 +62,11 @@ public abstract class FeedbackAbstractResponseDetails {
     
     
     
-    public static FeedbackAbstractResponseDetails createResponseDetails(
+    public static FeedbackResponseDetails createResponseDetails(
             String[] answer, FeedbackQuestionType questionType,
-            FeedbackAbstractQuestionDetails questionDetails) {
+            FeedbackQuestionDetails questionDetails) {
         
-        FeedbackAbstractResponseDetails responseDetails = questionType.getFeedbackResponseDetailsInstance();
-        
-        if (!responseDetails.extractResponseDetails(questionType, questionDetails, answer)) {
-            // Set response details to null if extracting response details failed.
-            responseDetails = null;
-        }
+        FeedbackResponseDetails responseDetails = questionType.getFeedbackResponseDetailsInstance(questionDetails, answer);
         
         return responseDetails;
     }

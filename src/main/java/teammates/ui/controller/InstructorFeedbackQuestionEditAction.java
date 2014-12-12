@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
@@ -111,9 +111,9 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             FeedbackQuestionAttributes feedbackQuestionAttributes) {
         String errorMsg = "";
         
-        FeedbackAbstractQuestionDetails questionDetails = null;
-        Class<? extends FeedbackAbstractQuestionDetails> questionDetailsClass = feedbackQuestionAttributes.questionType.getQuestionDetailsClass();
-        Constructor<? extends FeedbackAbstractQuestionDetails> questionDetailsClassConstructor;
+        FeedbackQuestionDetails questionDetails = null;
+        Class<? extends FeedbackQuestionDetails> questionDetailsClass = feedbackQuestionAttributes.questionType.getQuestionDetailsClass();
+        Constructor<? extends FeedbackQuestionDetails> questionDetailsClassConstructor;
         try {
             questionDetailsClassConstructor = questionDetailsClass.getConstructor();
             questionDetails = questionDetailsClassConstructor.newInstance();
@@ -195,8 +195,8 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         //Can be null
         String questionText = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
         if (questionText != null && !questionText.isEmpty()) {
-            FeedbackAbstractQuestionDetails questionDetails = 
-                    FeedbackAbstractQuestionDetails.createQuestionDetails(requestParameters, newQuestion.questionType);
+            FeedbackQuestionDetails questionDetails = 
+                    FeedbackQuestionDetails.createQuestionDetails(requestParameters, newQuestion.questionType);
             newQuestion.setQuestionDetails(questionDetails);
         }
         

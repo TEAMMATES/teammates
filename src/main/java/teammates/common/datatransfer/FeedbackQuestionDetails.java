@@ -13,15 +13,15 @@ import teammates.common.util.HttpRequestHelper;
 + * such that pages can render the correct information/forms depending on the 
 + * question type
 + */
-public abstract class FeedbackAbstractQuestionDetails {
+public abstract class FeedbackQuestionDetails {
     public FeedbackQuestionType questionType;
     public String questionText;
     
-    protected FeedbackAbstractQuestionDetails(FeedbackQuestionType questionType){
+    protected FeedbackQuestionDetails(FeedbackQuestionType questionType){
         this.questionType = questionType;
     }
     
-    protected FeedbackAbstractQuestionDetails(FeedbackQuestionType questionType,
+    protected FeedbackQuestionDetails(FeedbackQuestionType questionType,
             String questionText) {
         this.questionType = questionType;
         this.questionText = questionText;
@@ -31,7 +31,7 @@ public abstract class FeedbackAbstractQuestionDetails {
     
     public abstract String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen,
             int qnIdx, int responseIdx, String courseId,
-            FeedbackAbstractResponseDetails existingResponseDetails);
+            FeedbackResponseDetails existingResponseDetails);
     
     public abstract String getQuestionWithoutExistingResponseSubmissionFormHtml(boolean sessionIsOpen,
             int qnIdx, int responseIdx, String courseId);
@@ -50,6 +50,7 @@ public abstract class FeedbackAbstractQuestionDetails {
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle);
     
+    public abstract boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails);
     public abstract String getCsvHeader();
 
     /**
@@ -58,7 +59,6 @@ public abstract class FeedbackAbstractQuestionDetails {
      */
     public abstract String getQuestionTypeChoiceOption();
     
-    public abstract boolean isChangesRequiresResponseDeletion(FeedbackAbstractQuestionDetails newDetails);
     
     /**
      * Individual responses are shown by default.
@@ -104,15 +104,12 @@ public abstract class FeedbackAbstractQuestionDetails {
      */
     public abstract boolean extractQuestionDetails(Map<String, String[]> requestParameters, FeedbackQuestionType questionType);
     
-    public static FeedbackAbstractQuestionDetails createQuestionDetails(Map<String, String[]> requestParameters, FeedbackQuestionType questionType) {
+    public static FeedbackQuestionDetails createQuestionDetails(Map<String, String[]> requestParameters, FeedbackQuestionType questionType) {
         String questionText = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
         Assumption.assertNotNull("Null question text", questionText);
         Assumption.assertNotEmpty("Empty question text", questionText);
         
-        FeedbackAbstractQuestionDetails questionDetails = questionType.getFeedbackQuestionDetailsInstance();
-        
-        questionDetails.questionText = questionText;
-        questionDetails.extractQuestionDetails(requestParameters, questionType);
+        FeedbackQuestionDetails questionDetails = questionType.getFeedbackQuestionDetailsInstance(questionText, requestParameters);
         
         return questionDetails;
     }

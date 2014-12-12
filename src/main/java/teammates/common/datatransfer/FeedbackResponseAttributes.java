@@ -160,7 +160,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     /** This method converts the given Feedback*ResponseDetails object to JSON for storing
      * @param responseDetails
      */
-    public void setResponseDetails(FeedbackAbstractResponseDetails responseDetails) {
+    public void setResponseDetails(FeedbackResponseDetails responseDetails) {
         Gson gson = teammates.common.util.Utils.getTeammatesGson();
         
         if (responseDetails == null) {
@@ -178,8 +178,8 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     /** This method retrieves the Feedback*ResponseDetails object for this response
      * @return The Feedback*ResponseDetails object representing the response's details
      */
-    public FeedbackAbstractResponseDetails getResponseDetails(){
-        Class<? extends FeedbackAbstractResponseDetails> responseDetailsClass = getFeedbackResponseDetailsClass();
+    public FeedbackResponseDetails getResponseDetails(){
+        Class<? extends FeedbackResponseDetails> responseDetailsClass = getFeedbackResponseDetailsClass();
         
         if(responseDetailsClass == FeedbackTextResponseDetails.class) {
             // For Text questions, the questionText simply contains the question, not a JSON
@@ -195,7 +195,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
      * for this response.
      * @return The Feedback*ResponseDetails class type appropriate for this response.
      */
-    private Class<? extends FeedbackAbstractResponseDetails> getFeedbackResponseDetailsClass() {
+    private Class<? extends FeedbackResponseDetails> getFeedbackResponseDetailsClass() {
         return feedbackQuestionType.getResponseDetailsClass();
     }
     

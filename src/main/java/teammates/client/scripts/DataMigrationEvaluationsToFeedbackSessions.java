@@ -7,7 +7,7 @@ import java.util.List;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
+import teammates.common.datatransfer.FeedbackResponseDetails;
 import teammates.common.datatransfer.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.FeedbackContributionResponseDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -207,7 +207,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
             
             q1Response.feedbackQuestionType = FeedbackQuestionType.CONTRIB;
             q1Response.feedbackQuestionId = fqIds.get(0);
-            FeedbackAbstractResponseDetails responseDetails1 = new FeedbackContributionResponseDetails(sub.points);
+            FeedbackResponseDetails responseDetails1 = new FeedbackContributionResponseDetails(sub.points);
             q1Response.setResponseDetails(responseDetails1);
         }
         
@@ -224,7 +224,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
             
             q2Response.feedbackQuestionType = FeedbackQuestionType.TEXT;
             q2Response.feedbackQuestionId = fqIds.get(1);
-            FeedbackAbstractResponseDetails responseDetails2 = new FeedbackTextResponseDetails(sub.justification.getValue());
+            FeedbackResponseDetails responseDetails2 = new FeedbackTextResponseDetails(sub.justification.getValue());
             q2Response.setResponseDetails(responseDetails2);
         } else {
             //Question 3 Response: Essay Question "My comments about this teammate(confidential and only shown to instructor)"
@@ -239,7 +239,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
             
             q3Response.feedbackQuestionType = FeedbackQuestionType.TEXT;
             q3Response.feedbackQuestionId = fqIds.get(2);
-            FeedbackAbstractResponseDetails responseDetails3 = new FeedbackTextResponseDetails(sub.justification.getValue());
+            FeedbackResponseDetails responseDetails3 = new FeedbackTextResponseDetails(sub.justification.getValue());
             q3Response.setResponseDetails(responseDetails3);
         }
         
@@ -257,7 +257,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
                 
                 q4Response.feedbackQuestionType = FeedbackQuestionType.TEXT;
                 q4Response.feedbackQuestionId = fqIds.get(3);
-                FeedbackAbstractResponseDetails responseDetails4 = new FeedbackTextResponseDetails(sub.p2pFeedback.getValue());
+                FeedbackResponseDetails responseDetails4 = new FeedbackTextResponseDetails(sub.p2pFeedback.getValue());
                 q4Response.setResponseDetails(responseDetails4);
             } else {
                 //Question 5 Response: Essay Question "My feedback to this teammate(shown anonymously to the teammate)"
@@ -272,7 +272,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
                 
                 q5Response.feedbackQuestionType = FeedbackQuestionType.TEXT;
                 q5Response.feedbackQuestionId = fqIds.get(4);
-                FeedbackAbstractResponseDetails responseDetails5 = new FeedbackTextResponseDetails(sub.p2pFeedback.getValue());
+                FeedbackResponseDetails responseDetails5 = new FeedbackTextResponseDetails(sub.p2pFeedback.getValue());
                 q5Response.setResponseDetails(responseDetails5);
             }
         }

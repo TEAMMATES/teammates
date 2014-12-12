@@ -9,7 +9,7 @@ import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 
-public class FeedbackTextQuestionDetails extends FeedbackAbstractQuestionDetails {
+public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     
     public FeedbackTextQuestionDetails() {
         super(FeedbackQuestionType.TEXT);
@@ -33,13 +33,13 @@ public class FeedbackTextQuestionDetails extends FeedbackAbstractQuestionDetails
     }
     
     @Override
-    public boolean isChangesRequiresResponseDeletion(FeedbackAbstractQuestionDetails newDetails) {
+    public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
         return false;
     }
 
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
-            int responseIdx, String courseId, FeedbackAbstractResponseDetails existingResponseDetails) {
+            int responseIdx, String courseId, FeedbackResponseDetails existingResponseDetails) {
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.TEXT_SUBMISSION_FORM,
                 "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",

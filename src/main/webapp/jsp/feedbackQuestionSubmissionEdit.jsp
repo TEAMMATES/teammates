@@ -3,12 +3,12 @@
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
-<%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.ui.controller.FeedbackQuestionSubmissionEditPageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 <%
-    FeedbackQuestionSubmissionEditPageData data = (FeedbackQuestionSubmissionEditPageData)request.getAttribute("data");
+	FeedbackQuestionSubmissionEditPageData data = (FeedbackQuestionSubmissionEditPageData)request.getAttribute("data");
 %>    
     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>"/>
     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>"/>
@@ -58,12 +58,12 @@
     <br>
     <form class="form-horizontal" role="form">
 <%
-    int qnIndx = 1;
+	int qnIndx = 1;
 
     FeedbackQuestionAttributes question = data.bundle.question;
     int numOfResponseBoxes = question.numberOfEntitiesToGiveFeedbackTo;
     int maxResponsesPossible = data.bundle.recipientList.size();
-    FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+    FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
 
     if (numOfResponseBoxes == Const.MAX_POSSIBLE_RECIPIENTS ||
             numOfResponseBoxes > maxResponsesPossible) {

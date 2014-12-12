@@ -9,7 +9,7 @@
 <%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionResponseStatus" %>
 <%@ page import="teammates.ui.controller.InstructorFeedbackResultsPageData"%>
-<%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionType"%>
 <%
@@ -279,7 +279,7 @@
                                     int numStatsShown = 0;
                                     for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> teamResponseEntries : currentTeamResponses.entrySet()) {
                                         FeedbackQuestionAttributes question = questions.get(teamResponseEntries.getKey().getId());
-                                        FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+                                        FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
                                         String statsHtml = questionDetails.getQuestionResultStatisticsHtml(teamResponseEntries.getValue(), question, data.account, data.bundle, "recipient-question-giver");
                                         if(statsHtml != ""){
                                             numStatsShown++;
@@ -350,7 +350,7 @@
                     for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesForRecipientForQuestion : responsesForRecipient.getValue().entrySet()) {
                         questionIndex++;
                         FeedbackQuestionAttributes question = responsesForRecipientForQuestion.getKey();
-                        FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+                        FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
                         List<FeedbackResponseAttributes> responseEntries = responsesForRecipientForQuestion.getValue();
                 %>
                         <div class="panel panel-info">

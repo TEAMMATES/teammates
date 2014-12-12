@@ -16,7 +16,7 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 
 public class FeedbackNumericalScaleQuestionDetails extends
-        FeedbackAbstractQuestionDetails {
+        FeedbackQuestionDetails {
     public int minScale;
     public int maxScale;
     public double step;
@@ -64,7 +64,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
-            FeedbackAbstractResponseDetails existingResponseDetails) {
+            FeedbackResponseDetails existingResponseDetails) {
         FeedbackNumericalScaleResponseDetails numscaleResponseDetails = 
                 (FeedbackNumericalScaleResponseDetails) existingResponseDetails;
         
@@ -562,7 +562,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
     
     @Override
     public boolean isChangesRequiresResponseDeletion(
-            FeedbackAbstractQuestionDetails newDetails) {
+            FeedbackQuestionDetails newDetails) {
         FeedbackNumericalScaleQuestionDetails newNumScaleDetails = 
                 (FeedbackNumericalScaleQuestionDetails) newDetails;
         

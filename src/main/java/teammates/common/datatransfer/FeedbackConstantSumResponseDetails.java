@@ -7,7 +7,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Sanitizer;
 
 public class FeedbackConstantSumResponseDetails extends
-        FeedbackAbstractResponseDetails {
+        FeedbackResponseDetails {
     private List<Integer> answers;
 
     public FeedbackConstantSumResponseDetails() {
@@ -15,8 +15,8 @@ public class FeedbackConstantSumResponseDetails extends
     }
     
     @Override
-    public boolean extractResponseDetails(FeedbackQuestionType questionType,
-            FeedbackAbstractQuestionDetails questionDetails, String[] answer) {
+    public void extractResponseDetails(FeedbackQuestionType questionType,
+            FeedbackQuestionDetails questionDetails, String[] answer) {
         List<Integer> constSumAnswer = new ArrayList<Integer>();
         for(int i=0 ; i<answer.length ; i++){
             try{
@@ -27,7 +27,6 @@ public class FeedbackConstantSumResponseDetails extends
         }
         FeedbackConstantSumQuestionDetails constSumQd = (FeedbackConstantSumQuestionDetails) questionDetails;
         this.setConstantSumResponseDetails(constSumAnswer, constSumQd.constSumOptions, constSumQd.distributeToRecipients);
-        return true;
     }
 
     /**
@@ -44,7 +43,7 @@ public class FeedbackConstantSumResponseDetails extends
     }
 
     @Override
-    public String getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails) {
+    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         FeedbackConstantSumQuestionDetails csQd = (FeedbackConstantSumQuestionDetails) questionDetails;
         if(csQd.distributeToRecipients){
             return getAnswerString();
@@ -65,7 +64,7 @@ public class FeedbackConstantSumResponseDetails extends
     }
 
     @Override
-    public String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails) {
+    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         StringBuilder csvBuilder = new StringBuilder();
         
         for(int i=0 ; i<answers.size() ; i++) {

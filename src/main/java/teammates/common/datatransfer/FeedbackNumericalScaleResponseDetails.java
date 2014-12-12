@@ -4,7 +4,7 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 
 public class FeedbackNumericalScaleResponseDetails extends
-        FeedbackAbstractResponseDetails {
+        FeedbackResponseDetails {
     private double answer;
     
     public FeedbackNumericalScaleResponseDetails() {
@@ -12,15 +12,14 @@ public class FeedbackNumericalScaleResponseDetails extends
     }
     
     @Override
-    public boolean extractResponseDetails(FeedbackQuestionType questionType,
-            FeedbackAbstractQuestionDetails questionDetails, String[] answer) {
+    public void extractResponseDetails(FeedbackQuestionType questionType,
+            FeedbackQuestionDetails questionDetails, String[] answer) {
         try {
             double numscaleAnswer = Double.parseDouble(answer[0]);
             setAnswer(numscaleAnswer);
-            return true;
         } catch (NumberFormatException e) {
             Utils.getLogger().severe("Failed to parse numscale answer to double - " + answer[0]);
-            return false;
+            throw e;
         }
     }
 
@@ -37,12 +36,12 @@ public class FeedbackNumericalScaleResponseDetails extends
     }
 
     @Override
-    public String getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails) {
+    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         return getAnswerString();
     }
 
     @Override
-    public String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails) {
+    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         return getAnswerString();
     }
 

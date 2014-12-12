@@ -7,8 +7,8 @@ import java.util.Set;
 
 import com.google.appengine.api.datastore.Text;
 
-import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
-import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
+import teammates.common.datatransfer.FeedbackResponseDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionBundle;
@@ -61,7 +61,7 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         
         int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);
         List<FeedbackResponseAttributes> responsesForQuestion = new ArrayList<FeedbackResponseAttributes>();
-        FeedbackAbstractQuestionDetails questionDetails  = data.bundle.question.getQuestionDetails();
+        FeedbackQuestionDetails questionDetails  = data.bundle.question.getQuestionDetails();
            
         Set<String> emailSet = data.bundle.getRecipientEmails(feedbackQuestionId);
         emailSet.add("");
@@ -137,7 +137,7 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         }
     }
     
-    private FeedbackResponseAttributes extractFeedbackResponseData(Map<String, String[]> requestParameters, int questionIndx, int responseIndx, FeedbackAbstractQuestionDetails questionDetails) {
+    private FeedbackResponseAttributes extractFeedbackResponseData(Map<String, String[]> requestParameters, int questionIndx, int responseIndx, FeedbackQuestionDetails questionDetails) {
         FeedbackResponseAttributes response = new FeedbackResponseAttributes();
         
         //This field can be null if the response is new
@@ -184,8 +184,8 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         }
         
         if(answer != null && !allAnswersEmpty) {
-            FeedbackAbstractResponseDetails responseDetails = 
-                    FeedbackAbstractResponseDetails.createResponseDetails(
+            FeedbackResponseDetails responseDetails = 
+                    FeedbackResponseDetails.createResponseDetails(
                             answer,
                             questionDetails.questionType,
                             questionDetails);
