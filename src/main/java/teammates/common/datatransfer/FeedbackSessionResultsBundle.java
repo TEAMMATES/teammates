@@ -395,7 +395,16 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             return PageData.sanitizeForHtml(teamName);
         }
     }
-    
+    public String getValidEmail(String email) {
+        String name = emailNameTable.get(email);
+        String teamName = emailTeamNameTable.get(email);
+        if (name == null || name.equals(email) || teamName==null || teamName.equals(email)
+                || name.equals(Const.USER_IS_NOBODY) || name.equals(Const.USER_IS_TEAM)) {
+            return Const.USER_NOBODY_TEXT;
+        } else {
+            return PageData.sanitizeForHtml(email);
+        }
+    }
     public String getRecipientNameForResponse(FeedbackQuestionAttributes question,
             FeedbackResponseAttributes response) {
         String name = emailNameTable.get(response.recipientEmail);
