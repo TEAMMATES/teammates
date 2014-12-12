@@ -67,6 +67,11 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     }
     
     @Override
+    public String getNewQuestionSpecificEditFormHtml() {
+        return "";
+    }
+
+    @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
         return "";
     }
@@ -117,6 +122,11 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getCsvHeader() {
         return "Feedback";
+    }
+
+    @Override
+    public String getQuestionTypeChoiceOption() {
+        return "<option value = \"TEXT\">"+Const.FeedbackQuestionTypeNames.TEXT+"</option>";
     }
 
     @Override

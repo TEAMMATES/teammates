@@ -295,6 +295,18 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     }
 
     @Override
+    public String getNewQuestionSpecificEditFormHtml() {
+        // Add two empty options by default
+        this.numOfConstSumOptions = 2;
+        this.constSumOptions.add("");
+        this.constSumOptions.add("");
+
+        return "<div id=\"constSumForm\">" +
+                    this.getQuestionSpecificEditFormHtml(-1) + 
+               "</div>";
+    }
+
+    @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber,
             String additionalInfoId) {
         StringBuilder optionListHtml = new StringBuilder();
@@ -561,6 +573,14 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             List<String> sanitizedOptions = Sanitizer.sanitizeListForCsv(constSumOptions);
             return "Feedbacks:," + StringHelper.toString(sanitizedOptions, ",");
         }
+    }
+
+    @Override
+    public String getQuestionTypeChoiceOption() {
+        // Constant sum has two options for user to select, and one hidden option.
+        return "<option value = \"CONSTSUM_OPTION\">"+Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION+"</option>" +
+               "<option value = \"CONSTSUM_RECIPIENT\">"+Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT+"</option>" + 
+               "<option value = \"CONSTSUM\" disabled=\"disabled\" style=\"display:none\"></option>";
     }
 
     final int MIN_NUM_OF_CONST_SUM_OPTIONS = 2;

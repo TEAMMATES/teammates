@@ -243,6 +243,18 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
+    public String getNewQuestionSpecificEditFormHtml() {
+        // Add two empty options by default
+        this.numOfMcqChoices = 2;
+        this.mcqChoices.add("");
+        this.mcqChoices.add("");
+        
+        return "<div id=\"mcqForm\">" + 
+                    this.getQuestionSpecificEditFormHtml(-1) +
+               "</div>";
+    }
+
+    @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MCQ_ADDITIONAL_INFO_FRAGMENT;
@@ -376,6 +388,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getCsvHeader() {
         return "Feedback";
+    }
+
+    @Override
+    public String getQuestionTypeChoiceOption() {
+        return "<option value = \"MCQ\">"+Const.FeedbackQuestionTypeNames.MCQ+"</option>";
     }
 
     final int MIN_NUM_OF_MCQ_CHOICES = 2;

@@ -43,6 +43,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
         return false;
     }
+    
+    @Override
+    public boolean isIndividualResponsesShownToStudents() {
+        return false;
+    }
 
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
@@ -82,6 +87,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
+        return "";
+    }
+
+    @Override
+    public String getNewQuestionSpecificEditFormHtml() {
         return "";
     }
 
@@ -605,6 +615,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     @Override
     public String getCsvHeader() {
         return "Feedback";
+    }
+
+    @Override
+    public String getQuestionTypeChoiceOption() {
+        return "<option value = \"CONTRIB\">"+Const.FeedbackQuestionTypeNames.CONTRIB+"</option>";
     }
 
     @Override

@@ -38,6 +38,8 @@ public abstract class FeedbackQuestionDetails {
     
     public abstract String getQuestionSpecificEditFormHtml(int questionNumber);
     
+    public abstract String getNewQuestionSpecificEditFormHtml();
+    
     public abstract String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId);
     
     public abstract String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
@@ -51,8 +53,23 @@ public abstract class FeedbackQuestionDetails {
             FeedbackSessionResultsBundle bundle);
     
     public abstract boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails);
-    
     public abstract String getCsvHeader();
+
+    /**
+     * Returns a HTML option for selecting question type.
+     * Used in instructorFeedbackEdit.jsp for selecting the question type for a new question.
+     */
+    public abstract String getQuestionTypeChoiceOption();
+    
+    
+    /**
+     * Individual responses are shown by default.
+     * Override for specific question types if necessary.
+     * @return boolean indicating if individual responses are to be shown to students.
+     */
+    public boolean isIndividualResponsesShownToStudents() {
+       return true;
+    }
     
     /**
      * Validates the question details
@@ -94,7 +111,7 @@ public abstract class FeedbackQuestionDetails {
         Assumption.assertNotNull("Null question text", questionText);
         Assumption.assertNotEmpty("Empty question text", questionText);
         
-        FeedbackQuestionDetails questionDetails = questionType.getFeedbackQuestionDetailsInstance(questionText, requestParameters, questionType);
+        FeedbackQuestionDetails questionDetails = questionType.getFeedbackQuestionDetailsInstance(questionText, requestParameters);
         
         return questionDetails;
     }

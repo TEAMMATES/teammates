@@ -246,6 +246,18 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
     
     @Override
+    public String getNewQuestionSpecificEditFormHtml() {
+        // Add two empty options by default
+        this.numOfMsqChoices = 2;
+        this.msqChoices.add("");
+        this.msqChoices.add("");
+        
+        return "<div id=\"msqForm\">" + 
+                    this.getQuestionSpecificEditFormHtml(-1) +
+               "</div>";
+    }
+
+    @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
@@ -390,6 +402,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return "Feedbacks:," + StringHelper.toString(sanitizedChoices, ",");
     }
     
+    @Override
+    public String getQuestionTypeChoiceOption() {
+        return "<option value = \"MSQ\">"+Const.FeedbackQuestionTypeNames.MSQ+"</option>";
+    }
+
     final int MIN_NUM_OF_MSQ_CHOICES = 2;
     final String ERROR_NOT_ENOUGH_MSQ_CHOICES = "Too little choices for "+Const.FeedbackQuestionTypeNames.MSQ+". Minimum number of options is: ";
     

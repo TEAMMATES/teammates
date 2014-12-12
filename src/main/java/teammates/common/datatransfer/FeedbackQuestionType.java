@@ -22,7 +22,11 @@ public enum FeedbackQuestionType {
      * Returns an instance of a corresponding Feedback*QuestionDetails class
      * @return FeedbackQuestionDetails
      */
-    public FeedbackQuestionDetails getFeedbackQuestionDetailsInstance(String questionText, Map<String, String[]> requestParameters, FeedbackQuestionType questionType) {
+    public FeedbackQuestionDetails getFeedbackQuestionDetailsInstance() {
+        return getFeedbackQuestionDetailsInstance(null, null);
+    }
+    
+    public FeedbackQuestionDetails getFeedbackQuestionDetailsInstance(String questionText, Map<String, String[]> requestParameters) {
         FeedbackQuestionDetails feedbackQuestionDetails = null;
         switch (this) {
         case TEXT:
@@ -47,8 +51,10 @@ public enum FeedbackQuestionType {
             Assumption.fail("Failed to instantiate Feedback*QuestionDetails instance for " + this.toString() + " question type.");
             return null;
         }
-        feedbackQuestionDetails.questionText = questionText;
-        feedbackQuestionDetails.extractQuestionDetails(requestParameters, questionType);
+        if (questionText != null && requestParameters != null) {
+            feedbackQuestionDetails.questionText = questionText;
+            feedbackQuestionDetails.extractQuestionDetails(requestParameters, this);
+        }
         return feedbackQuestionDetails;
     }
     

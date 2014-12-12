@@ -121,6 +121,18 @@ public class FeedbackNumericalScaleQuestionDetails extends
     }
 
     @Override
+    public String getNewQuestionSpecificEditFormHtml() {
+        // Set default values
+        this.minScale = 1;
+        this.maxScale = 5;
+        this.step = 1;
+        
+        return "<div id=\"numScaleForm\">" + 
+                    this.getQuestionSpecificEditFormHtml(-1) +
+               "</div>";
+    }
+
+    @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber,
             String additionalInfoId) {
         String additionalInfo = getQuestionTypeDisplayName() + ":<br/>";
@@ -577,6 +589,11 @@ public class FeedbackNumericalScaleQuestionDetails extends
     @Override
     public String getCsvHeader() {
         return "Feedback";
+    }
+
+    @Override
+    public String getQuestionTypeChoiceOption() {
+        return "<option value = \"NUMSCALE\">"+Const.FeedbackQuestionTypeNames.NUMSCALE+"</option>";
     }
 
     private String getPossibleValuesStringEdit() {
