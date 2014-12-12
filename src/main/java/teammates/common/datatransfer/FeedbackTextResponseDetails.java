@@ -3,7 +3,7 @@ package teammates.common.datatransfer;
 import teammates.common.util.Sanitizer;
 
 public class FeedbackTextResponseDetails extends
-        FeedbackAbstractResponseDetails {
+        FeedbackResponseDetails {
     
     //For essay questions the response is saved as plain-text due to legacy format before there were multiple question types
     public String answer;
@@ -20,7 +20,7 @@ public class FeedbackTextResponseDetails extends
 
     @Override
     public boolean extractResponseDetails(FeedbackQuestionType questionType,
-            FeedbackAbstractQuestionDetails questionDetails, String[] answer) {
+            FeedbackQuestionDetails questionDetails, String[] answer) {
         this.answer = answer[0];
         return true;
     }
@@ -31,12 +31,12 @@ public class FeedbackTextResponseDetails extends
     }
 
     @Override
-    public String getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails) {
+    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         return Sanitizer.sanitizeForHtml(answer);
     }
 
     @Override
-    public String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails) {
+    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         return Sanitizer.sanitizeForCsv(answer);
     }
 

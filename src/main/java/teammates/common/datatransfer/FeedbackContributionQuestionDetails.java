@@ -16,7 +16,7 @@ import teammates.logic.core.TeamEvalResult;
 import teammates.ui.controller.InstructorEvalResultsPageData;
 import teammates.ui.controller.PageData;
 
-public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestionDetails {
+public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
     
     public FeedbackContributionQuestionDetails() {
         super(FeedbackQuestionType.CONTRIB);
@@ -40,13 +40,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
     }
     
     @Override
-    public boolean isChangesRequiresResponseDeletion(FeedbackAbstractQuestionDetails newDetails) {
+    public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
         return false;
     }
 
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
-            int responseIdx, String courseId, FeedbackAbstractResponseDetails existingResponseDetails) {
+            int responseIdx, String courseId, FeedbackResponseDetails existingResponseDetails) {
 
         FeedbackContributionResponseDetails frd = (FeedbackContributionResponseDetails) existingResponseDetails;
         int points = frd.getAnswer();

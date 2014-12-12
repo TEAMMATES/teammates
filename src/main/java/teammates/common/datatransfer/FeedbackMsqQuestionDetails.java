@@ -20,7 +20,7 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 
-public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails {
+public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public int numOfMsqChoices;
     public List<String> msqChoices;
     public boolean otherEnabled;
@@ -92,7 +92,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
     }
     
     @Override
-    public boolean isChangesRequiresResponseDeletion(FeedbackAbstractQuestionDetails newDetails) {
+    public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackMsqQuestionDetails newMsqDetails = (FeedbackMsqQuestionDetails) newDetails;
 
         if (this.numOfMsqChoices != newMsqDetails.numOfMsqChoices ||
@@ -112,7 +112,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
-            FeedbackAbstractResponseDetails existingResponseDetails) {
+            FeedbackResponseDetails existingResponseDetails) {
         FeedbackMsqResponseDetails existingMsqResponse = (FeedbackMsqResponseDetails) existingResponseDetails;
         List<String> choices = generateOptionList(courseId);
         

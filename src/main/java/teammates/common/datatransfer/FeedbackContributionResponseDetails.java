@@ -8,7 +8,7 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.logic.core.TeamEvalResult;
 
-public class FeedbackContributionResponseDetails extends FeedbackAbstractResponseDetails {
+public class FeedbackContributionResponseDetails extends FeedbackResponseDetails {
     /**This is the claimed points from giver to recipient.
     */
     private int answer;
@@ -25,7 +25,7 @@ public class FeedbackContributionResponseDetails extends FeedbackAbstractRespons
     
     @Override
     public boolean extractResponseDetails(FeedbackQuestionType questionType,
-            FeedbackAbstractQuestionDetails questionDetails, String[] answer) {
+            FeedbackQuestionDetails questionDetails, String[] answer) {
         try {
             int contribAnswer = Integer.parseInt(answer[0]);
             setAnswer(contribAnswer);
@@ -51,13 +51,13 @@ public class FeedbackContributionResponseDetails extends FeedbackAbstractRespons
     
     // Not used for contribution question, due to calculations required. See corresponding function below.
     @Override
-    public String getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails) {
+    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         return FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(getAnswer());
     }
 
     // Not used for contribution question, due to calculations required. See corresponding function below.
     @Override
-    public String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails) {
+    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         return Sanitizer.sanitizeForCsv(FeedbackContributionQuestionDetails.convertToEqualShareFormat(getAnswer()));
     }
     

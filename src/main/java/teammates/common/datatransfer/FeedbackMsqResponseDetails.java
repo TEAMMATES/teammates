@@ -7,7 +7,7 @@ import java.util.List;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 
-public class FeedbackMsqResponseDetails extends FeedbackAbstractResponseDetails {
+public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
     public List<String> answers;
     
     public FeedbackMsqResponseDetails() {
@@ -17,7 +17,7 @@ public class FeedbackMsqResponseDetails extends FeedbackAbstractResponseDetails 
     
     @Override
     public boolean extractResponseDetails(FeedbackQuestionType questionType,
-            FeedbackAbstractQuestionDetails questionDetails, String[] answer) {
+            FeedbackQuestionDetails questionDetails, String[] answer) {
         this.answers = Arrays.asList(answer);
         return true;
     }
@@ -36,7 +36,7 @@ public class FeedbackMsqResponseDetails extends FeedbackAbstractResponseDetails 
     }
 
     @Override
-    public String getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails) {
+    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         StringBuilder htmlBuilder = new StringBuilder();
         
         htmlBuilder.append("<ul class=\"selectedOptionsList\">");
@@ -51,7 +51,7 @@ public class FeedbackMsqResponseDetails extends FeedbackAbstractResponseDetails 
     }
 
     @Override
-    public String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails) {
+    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         FeedbackMsqQuestionDetails msqDetails = (FeedbackMsqQuestionDetails) questionDetails;
         StringBuilder csvBuilder = new StringBuilder();
         

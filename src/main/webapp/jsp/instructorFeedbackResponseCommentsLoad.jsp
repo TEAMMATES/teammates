@@ -20,7 +20,7 @@
 <%@ page
     import="teammates.common.datatransfer.FeedbackSessionResultsBundle"%>
 <%@ page
-    import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+    import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
 <%@ page
     import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.SessionResultsBundle"%>
@@ -32,10 +32,12 @@
     import="teammates.ui.controller.InstructorFeedbackResponseCommentsLoadPageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForJs"%>
 
-<%  InstructorFeedbackResponseCommentsLoadPageData data = (InstructorFeedbackResponseCommentsLoadPageData) request.getAttribute("data"); %>
+<%
+	InstructorFeedbackResponseCommentsLoadPageData data = (InstructorFeedbackResponseCommentsLoadPageData) request.getAttribute("data");
+%>
 <div class="hidden number-of-pending-comments"><%=data.numberOfPendingComments%></div>
 <%
-    int fsIndx = 0;
+	int fsIndx = 0;
     for (String fsName : data.feedbackResultBundles.keySet()) {//FeedbackSession loop starts
         FeedbackSessionResultsBundle bundle = data.feedbackResultBundles.get(fsName);
         fsIndx++;
@@ -50,10 +52,10 @@
         <b>Question <%=responseEntries.getKey().questionNumber%></b>:
         <%=bundle.getQuestionText(responseEntries.getKey().getId())%>
         <%
-            Map<String, FeedbackQuestionAttributes> questions = bundle.questions;
-                    FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
-                    FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
-                    out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
+        	Map<String, FeedbackQuestionAttributes> questions = bundle.questions;
+                            FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
+                            FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+                            out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
         %>
     </div>
     <table class="table">

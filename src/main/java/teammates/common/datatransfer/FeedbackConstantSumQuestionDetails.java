@@ -20,7 +20,7 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.FeedbackQuestionsLogic;
 
-public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestionDetails {
+public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails {
     public int numOfConstSumOptions;
     public List<String> constSumOptions;
     public boolean distributeToRecipients;
@@ -147,7 +147,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
-            FeedbackAbstractResponseDetails existingResponseDetails) {
+            FeedbackResponseDetails existingResponseDetails) {
         
         FeedbackConstantSumResponseDetails existingConstSumResponse = (FeedbackConstantSumResponseDetails) existingResponseDetails;
         StringBuilder optionListHtml = new StringBuilder();
@@ -525,7 +525,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
 
     @Override
     public boolean isChangesRequiresResponseDeletion(
-            FeedbackAbstractQuestionDetails newDetails) {
+            FeedbackQuestionDetails newDetails) {
         FeedbackConstantSumQuestionDetails newConstSumDetails = (FeedbackConstantSumQuestionDetails) newDetails;
 
         if (this.numOfConstSumOptions != newConstSumDetails.numOfConstSumOptions ||

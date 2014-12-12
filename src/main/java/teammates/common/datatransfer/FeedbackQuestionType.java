@@ -17,9 +17,9 @@ public enum FeedbackQuestionType {
     
     /**
      * Returns an instance of a corresponding Feedback*QuestionDetails class
-     * @return FeedbackAbstractQuestionDetails
+     * @return FeedbackQuestionDetails
      */
-    public FeedbackAbstractQuestionDetails getFeedbackQuestionDetailsInstance() {
+    public FeedbackQuestionDetails getFeedbackQuestionDetailsInstance() {
         switch (this) {
         case TEXT:
             return new FeedbackTextQuestionDetails();
@@ -41,9 +41,9 @@ public enum FeedbackQuestionType {
     
     /**
      * Returns an instance of a corresponding Feedback*ResponseDetails class
-     * @return FeedbackAbstractResponseDetails
+     * @return FeedbackResponseDetails
      */
-    public FeedbackAbstractResponseDetails getFeedbackResponseDetailsInstance() {
+    public FeedbackResponseDetails getFeedbackResponseDetailsInstance() {
         switch (this) {
         case TEXT:
             return new FeedbackTextResponseDetails();
@@ -63,8 +63,8 @@ public enum FeedbackQuestionType {
         }
     }
     
-    private final Class<? extends FeedbackAbstractQuestionDetails> questionDetailsClass;
-    private final Class<? extends FeedbackAbstractResponseDetails> responseDetailsClass;
+    private final Class<? extends FeedbackQuestionDetails> questionDetailsClass;
+    private final Class<? extends FeedbackResponseDetails> responseDetailsClass;
     
     /**
      * Constructor for FeedbackQuestionType.
@@ -72,25 +72,25 @@ public enum FeedbackQuestionType {
      * @param questionDetailsClass
      * @param responseDetailsClass
      */
-    private FeedbackQuestionType(Class<? extends FeedbackAbstractQuestionDetails> questionDetailsClass,
-            Class<? extends FeedbackAbstractResponseDetails> responseDetailsClass) {
+    private FeedbackQuestionType(Class<? extends FeedbackQuestionDetails> questionDetailsClass,
+            Class<? extends FeedbackResponseDetails> responseDetailsClass) {
         this.questionDetailsClass = questionDetailsClass;
         this.responseDetailsClass = responseDetailsClass;
     }
     
     /**
      * Getter for corresponding Feedback*QuestionDetails class
-     * @return Class<? extends FeedbackAbstractQuestionDetails>
+     * @return Class<? extends FeedbackQuestionDetails>
      */
-    public Class<? extends FeedbackAbstractQuestionDetails> getQuestionDetailsClass() {
+    public Class<? extends FeedbackQuestionDetails> getQuestionDetailsClass() {
         return questionDetailsClass;
     }
     
     /**
      * Getter for corresponding Feedback*ResponseDetails class
-     * @return Class<? extends FeedbackAbstractResponseDetails>
+     * @return Class<? extends FeedbackResponseDetails>
      */
-    public Class<? extends FeedbackAbstractResponseDetails> getResponseDetailsClass() {
+    public Class<? extends FeedbackResponseDetails> getResponseDetailsClass() {
         return responseDetailsClass;
     }
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
@@ -113,8 +113,8 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         Assumption.assertNotNull("Null question type", questionType);
         newQuestion.questionType = FeedbackQuestionType.valueOf(questionType);
         
-        FeedbackAbstractQuestionDetails questionDetails =
-                FeedbackAbstractQuestionDetails.createQuestionDetails(requestParameters, newQuestion.questionType);
+        FeedbackQuestionDetails questionDetails =
+                FeedbackQuestionDetails.createQuestionDetails(requestParameters, newQuestion.questionType);
         newQuestion.setQuestionDetails(questionDetails);
         
         return newQuestion;

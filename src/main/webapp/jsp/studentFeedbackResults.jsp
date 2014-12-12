@@ -12,18 +12,18 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
-<%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackTextQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackMcqQuestionDetails"%>
-<%@ page import="teammates.common.datatransfer.FeedbackAbstractResponseDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackResponseDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackTextResponseDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackMcqResponseDetails"%>
 <%@ page import="teammates.ui.controller.StudentFeedbackResultsPageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 <%
-    StudentFeedbackResultsPageData data = (StudentFeedbackResultsPageData)request.getAttribute("data");
+	StudentFeedbackResultsPageData data = (StudentFeedbackResultsPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -61,17 +61,20 @@
             <div id="topOfPage"></div>
             <h1>Feedback Results - Student</h1>
             <br />
-            <% if (data.account.googleId == null) { 
-                String joinUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
-                            .withRegistrationKey(request.getParameter(Const.ParamsNames.REGKEY))
-                            .withStudentEmail(request.getParameter(Const.ParamsNames.STUDENT_EMAIL))
-                            .withCourseId(request.getParameter(Const.ParamsNames.COURSE_ID))
-                            .toString();
+            <%
+            	if (data.account.googleId == null) { 
+                            String joinUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+                                        .withRegistrationKey(request.getParameter(Const.ParamsNames.REGKEY))
+                                        .withStudentEmail(request.getParameter(Const.ParamsNames.STUDENT_EMAIL))
+                                        .withCourseId(request.getParameter(Const.ParamsNames.COURSE_ID))
+                                        .toString();
             %>
                 <div id="registerMessage" class="alert alert-info">
                     <%=String.format(Const.StatusMessages.UNREGISTERED_STUDENT, joinUrl)%>
                 </div>
-            <% } %>
+            <%
+            	}
+            %>
             <div class="well well-plain">
                 <div class="panel-body">
                     <div class="form-horizontal">
@@ -108,16 +111,16 @@
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
             <br />
             <%
-                int qnIndx = 0;
-                Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses = data.bundle
-                        .getQuestionResponseMap();
+            	int qnIndx = 0;
+                            Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses = data.bundle
+                                    .getQuestionResponseMap();
 
-                for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionWithResponses : questionsWithResponses
-                        .entrySet()) {
-                    qnIndx++;
-                    
-                    FeedbackQuestionAttributes question = questionWithResponses.getKey();
-                    FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+                            for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionWithResponses : questionsWithResponses
+                                    .entrySet()) {
+                                qnIndx++;
+                                
+                                FeedbackQuestionAttributes question = questionWithResponses.getKey();
+                                FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
             %>
                 <div class="panel panel-default">
                     <div class="panel-heading">
