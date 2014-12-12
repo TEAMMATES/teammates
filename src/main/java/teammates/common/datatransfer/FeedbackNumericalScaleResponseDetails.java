@@ -12,15 +12,14 @@ public class FeedbackNumericalScaleResponseDetails extends
     }
     
     @Override
-    public boolean extractResponseDetails(FeedbackQuestionType questionType,
+    public void extractResponseDetails(FeedbackQuestionType questionType,
             FeedbackQuestionDetails questionDetails, String[] answer) {
         try {
             double numscaleAnswer = Double.parseDouble(answer[0]);
             setAnswer(numscaleAnswer);
-            return true;
         } catch (NumberFormatException e) {
             Utils.getLogger().severe("Failed to parse numscale answer to double - " + answer[0]);
-            return false;
+            throw e;
         }
     }
 

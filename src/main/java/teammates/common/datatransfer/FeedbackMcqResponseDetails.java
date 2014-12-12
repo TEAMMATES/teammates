@@ -15,7 +15,7 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
     }
     
     @Override
-    public boolean extractResponseDetails(FeedbackQuestionType questionType,
+    public void extractResponseDetails(FeedbackQuestionType questionType,
             FeedbackQuestionDetails questionDetails, String[] answer) {
         // TODO: check and set isOther accordingly when it is implemented.
         if(isOther){
@@ -25,7 +25,6 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
             this.answer = answer[0];
             this.otherFieldContent = "";
         }
-        return true;
     }
 
     @Override

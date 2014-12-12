@@ -16,10 +16,9 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
     }
     
     @Override
-    public boolean extractResponseDetails(FeedbackQuestionType questionType,
+    public void extractResponseDetails(FeedbackQuestionType questionType,
             FeedbackQuestionDetails questionDetails, String[] answer) {
         this.answers = Arrays.asList(answer);
-        return true;
     }
 
     public boolean contains(String candidateAnswer) {

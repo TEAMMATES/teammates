@@ -94,10 +94,7 @@ public abstract class FeedbackQuestionDetails {
         Assumption.assertNotNull("Null question text", questionText);
         Assumption.assertNotEmpty("Empty question text", questionText);
         
-        FeedbackQuestionDetails questionDetails = questionType.getFeedbackQuestionDetailsInstance();
-        
-        questionDetails.questionText = questionText;
-        questionDetails.extractQuestionDetails(requestParameters, questionType);
+        FeedbackQuestionDetails questionDetails = questionType.getFeedbackQuestionDetailsInstance(questionText, requestParameters, questionType);
         
         return questionDetails;
     }

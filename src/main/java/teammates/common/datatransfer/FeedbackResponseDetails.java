@@ -20,9 +20,8 @@ public abstract class FeedbackResponseDetails {
      * @param questionType
      * @param questionDetails
      * @param answer
-     * @return true to indicate success in extracting the details, false otherwise.
      */
-    public abstract boolean extractResponseDetails(
+    public abstract void extractResponseDetails(
             FeedbackQuestionType questionType,
             FeedbackQuestionDetails questionDetails,
             String[] answer);
@@ -67,12 +66,7 @@ public abstract class FeedbackResponseDetails {
             String[] answer, FeedbackQuestionType questionType,
             FeedbackQuestionDetails questionDetails) {
         
-        FeedbackResponseDetails responseDetails = questionType.getFeedbackResponseDetailsInstance();
-        
-        if (!responseDetails.extractResponseDetails(questionType, questionDetails, answer)) {
-            // Set response details to null if extracting response details failed.
-            responseDetails = null;
-        }
+        FeedbackResponseDetails responseDetails = questionType.getFeedbackResponseDetailsInstance(questionDetails, answer);
         
         return responseDetails;
     }

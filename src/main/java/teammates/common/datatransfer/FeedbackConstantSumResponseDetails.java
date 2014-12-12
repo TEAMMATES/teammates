@@ -15,7 +15,7 @@ public class FeedbackConstantSumResponseDetails extends
     }
     
     @Override
-    public boolean extractResponseDetails(FeedbackQuestionType questionType,
+    public void extractResponseDetails(FeedbackQuestionType questionType,
             FeedbackQuestionDetails questionDetails, String[] answer) {
         List<Integer> constSumAnswer = new ArrayList<Integer>();
         for(int i=0 ; i<answer.length ; i++){
@@ -27,7 +27,6 @@ public class FeedbackConstantSumResponseDetails extends
         }
         FeedbackConstantSumQuestionDetails constSumQd = (FeedbackConstantSumQuestionDetails) questionDetails;
         this.setConstantSumResponseDetails(constSumAnswer, constSumQd.constSumOptions, constSumQd.distributeToRecipients);
-        return true;
     }
 
     /**

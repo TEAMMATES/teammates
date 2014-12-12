@@ -19,10 +19,9 @@ public class FeedbackTextResponseDetails extends
     }
 
     @Override
-    public boolean extractResponseDetails(FeedbackQuestionType questionType,
+    public void extractResponseDetails(FeedbackQuestionType questionType,
             FeedbackQuestionDetails questionDetails, String[] answer) {
         this.answer = answer[0];
-        return true;
     }
 
     @Override

@@ -24,15 +24,14 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
     }    
     
     @Override
-    public boolean extractResponseDetails(FeedbackQuestionType questionType,
+    public void extractResponseDetails(FeedbackQuestionType questionType,
             FeedbackQuestionDetails questionDetails, String[] answer) {
         try {
             int contribAnswer = Integer.parseInt(answer[0]);
             setAnswer(contribAnswer);
-            return true;
         } catch (NumberFormatException e) {
             Utils.getLogger().severe("Failed to parse contrib answer to integer - " + answer[0]);
-            return false;
+            throw e;
         }
     }
 
