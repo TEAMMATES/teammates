@@ -8,7 +8,7 @@
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
-<%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackMcqQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackMsqQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackNumericalScaleQuestionDetails"%>
@@ -18,7 +18,7 @@
 <%@ page import="teammates.logic.core.Emails.EmailType"%>
 <%@ page import="teammates.ui.controller.InstructorFeedbackEditPageData"%>
 <%
-    InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.getAttribute("data");
+	InstructorFeedbackEditPageData data = (InstructorFeedbackEditPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -121,8 +121,8 @@
                                                 name="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>"
                                                 id="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>">
                                                 <%
-                                                    for (String opt : data.getTimeZoneOptionsAsHtml())
-                                                        out.println(opt);
+                                                	for (String opt : data.getTimeZoneOptionsAsHtml())
+                                                                                                        out.println(opt);
                                                 %>
                                             </select>
                                         </div>
@@ -164,8 +164,7 @@
                                                     rows="4" cols="100%"
                                                     name="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>"
                                                     id="<%=Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS%>"
-                                                    ><%=InstructorFeedbacksPageData.sanitizeForHtml(data.session.instructions.getValue())
-                                                    %></textarea>
+                                                    ><%=InstructorFeedbacksPageData.sanitizeForHtml(data.session.instructions.getValue())%></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -202,7 +201,7 @@
                                                 name="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTTIME%>"
                                                 id="<%=Const.ParamsNames.FEEDBACK_SESSION_STARTTIME%>">
                                                 <%
-                                                    for(String opt: data.getTimeOptionsAsHtml(data.session.startTime)) out.println(opt);
+                                                	for(String opt: data.getTimeOptionsAsHtml(data.session.startTime)) out.println(opt);
                                                 %>
                                             </select>
                                         </div>
@@ -234,8 +233,8 @@
                                                 name="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDTIME%>"
                                                 id="<%=Const.ParamsNames.FEEDBACK_SESSION_ENDTIME%>">
                                                 <%
-                                                    for (String opt : data.getTimeOptionsAsHtml(data.session.endTime))
-                                                        out.println(opt);
+                                                	for (String opt : data.getTimeOptionsAsHtml(data.session.endTime))
+                                                                                                        out.println(opt);
                                                 %>
                                             </select>
                                         </div>
@@ -259,8 +258,8 @@
                                                 name="<%=Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD%>"
                                                 id="<%=Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD%>">
                                                 <%
-                                                    for (String opt : data.getGracePeriodOptionsAsHtml())
-                                                        out.println(opt);
+                                                	for (String opt : data.getGracePeriodOptionsAsHtml())
+                                                                                                        out.println(opt);
                                                 %>
                                             </select>
                                         </div>
@@ -319,11 +318,11 @@
                                                 <%if(TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime))
                                                     out.print("disabled=\"disabled\"");%>>
                                                 <%
-                                                    Date date = TimeHelper.isSpecialTime(
-                                                            data.session.sessionVisibleFromTime) ? null
-                                                            : data.session.sessionVisibleFromTime;
-                                                    for (String opt : data.getTimeOptionsAsHtml(date))
-                                                        out.println(opt);
+                                                	Date date = TimeHelper.isSpecialTime(
+                                                                                                            data.session.sessionVisibleFromTime) ? null
+                                                                                                            : data.session.sessionVisibleFromTime;
+                                                                                                    for (String opt : data.getTimeOptionsAsHtml(date))
+                                                                                                        out.println(opt);
                                                 %>
                                             </select>
                                         </div>
@@ -407,11 +406,11 @@
                                                 <%if(TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime))
                                                     out.print("disabled=\"disabled\"");%>>
                                                 <%
-                                                    date = ((TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime)) ? null
-                                                            : data.session.resultsVisibleFromTime);
-                                                    for (String opt : data.getTimeOptionsAsHtml(date)){
-                                                        out.println(opt);
-                                                    }
+                                                	date = ((TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime)) ? null
+                                                                                                            : data.session.resultsVisibleFromTime);
+                                                                                                    for (String opt : data.getTimeOptionsAsHtml(date)){
+                                                                                                        out.println(opt);
+                                                                                                    }
                                                 %>
                                             </select>
                                         </div>
@@ -544,21 +543,21 @@
             <br>
 
             <%
-                            if (data.questions.isEmpty()) {
+            	if (data.questions.isEmpty()) {
             %>
                 <div class="align-center bold" id="empty_message"><%=Const.StatusMessages.FEEDBACK_QUESTION_EMPTY%></div><br><br>
             <%
-                }
+            	}
             %>
 
             <%
-                            for(FeedbackQuestionAttributes question : data.questions) {
-                                FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+            	for(FeedbackQuestionAttributes question : data.questions) {
+                                            FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
             %>
             <form class="form-horizontal form_question" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT%>"
             id="form_editquestion-<%=question.questionNumber%>" name="form_editquestions"
             onsubmit="tallyCheckboxes(<%=question.questionNumber%>)"
-            <%=data.questionHasResponses.get(question.getId()) ? "editStatus=\"hasResponses\"" : "" %>
+            <%=data.questionHasResponses.get(question.getId()) ? "editStatus=\"hasResponses\"" : ""%>
             >
             <div class="panel panel-primary questionTable" id="questionTable<%=question.questionNumber%>">
             <div class="panel-heading">
@@ -568,9 +567,9 @@
                             <strong>Question</strong>
                             <select class="questionNumber nonDestructive text-primary" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>-<%=question.questionNumber%>">
                             <%
-                                for(int opt = 1; opt < data.questions.size()+1; opt++){
-                                    out.println("<option value=" + opt +">" + opt + "</option>");
-                                }
+                            	for(int opt = 1; opt < data.questions.size()+1; opt++){
+                                                                out.println("<option value=" + opt +">" + opt + "</option>");
+                                                            }
                             %>
                             </select>
                             &nbsp;
@@ -613,7 +612,7 @@
                             <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>-<%=question.questionNumber%>" disabled="disabled"
                                         onchange="feedbackGiverUpdateVisibilityOptions(this)">
                                 <%
-                                    for(String opt: data.getParticipantOptions(question, true)) out.println(opt);
+                                	for(String opt: data.getParticipantOptions(question, true)) out.println(opt);
                                 %>
                             </select>
                         </div>
@@ -626,7 +625,7 @@
                             <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>-<%=question.questionNumber%>"
                                 disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                                 <%
-                                    for(String opt: data.getParticipantOptions(question, false)) out.println(opt);
+                                	for(String opt: data.getParticipantOptions(question, false)) out.println(opt);
                                 %>
                             </select>
                         </div>
@@ -667,12 +666,12 @@
                         This is the visibility as seen by the feedback giver.
                         <ul class="background-color-warning">
                         <%
-                            List<String> visibilityMessage = question.getVisibilityMessage();
-                            for(String message : visibilityMessage){
+                        	List<String> visibilityMessage = question.getVisibilityMessage();
+                                                    for(String message : visibilityMessage){
                         %>
                                 <li><%=message%></li>
                         <%
-                            }
+                        	}
                         %>
                         </ul>
                     </div>
@@ -806,7 +805,7 @@
             </form>
             <br><br>
             <%
-                }
+            	}
             %>
 
             <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD%>" name="form_addquestions" class="form-horizontal form_question" role="form" onsubmit="tallyCheckboxes('')" >
@@ -820,14 +819,10 @@
                             <select class="form-control questionType"
                                     name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>"
                                     id="questionTypeChoice">
-                                <option value = "TEXT"><%=Const.FeedbackQuestionTypeNames.TEXT%></option>
-                                <option value = "MCQ"><%=Const.FeedbackQuestionTypeNames.MCQ%></option>
-                                <option value = "MSQ"><%=Const.FeedbackQuestionTypeNames.MSQ%></option>
-                                <option value = "NUMSCALE"><%=Const.FeedbackQuestionTypeNames.NUMSCALE%></option>
-                                <option value = "CONSTSUM_OPTION"><%=Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION%></option>
-                                <option value = "CONSTSUM_RECIPIENT"><%=Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT%></option>
-                                <option value = "CONSTSUM" disabled="disabled" style="display:none"></option>
-                                <option value = "CONTRIB"><%=Const.FeedbackQuestionTypeNames.CONTRIB%></option>
+                                <%
+                                    for(String opt: data.getQuestionTypeChoiceOptions())
+                                        out.println(opt);
+                                %>
                             </select>
                         </div>
                         <div class="col-sm-1">
@@ -843,7 +838,7 @@
                         <a id="button_copy" class="btn btn-primary" value="Copy Question">&nbsp;&nbsp;&nbsp;Copy Question&nbsp;&nbsp;&nbsp;</a>
                     </div>
                     <div class="col-sm-2">
-                        <a class="btn btn-primary" href="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + "?" + Const.ParamsNames.USER_ID + "=" + data.account.googleId + "&" + Const.ParamsNames.COURSE_ID + "=" + data.session.courseId%>" class="button">&nbsp;&nbsp;&nbsp;Done Editing&nbsp;&nbsp;&nbsp;</a>
+                        <a class="btn btn-primary" href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + "?" + Const.ParamsNames.USER_ID + "=" + data.account.googleId + "&" + Const.ParamsNames.COURSE_ID + "=" + data.session.courseId%>" class="button">&nbsp;&nbsp;&nbsp;Done Editing&nbsp;&nbsp;&nbsp;</a>
                     </div>
                 </div>
             </div>
@@ -853,9 +848,9 @@
                     <strong>Question</strong>
                     <select class="questionNumber nonDestructive text-primary" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>">
                     <%
-                        for(int opt = 1; opt < data.questions.size()+2; opt++){
-                            out.println("<option value=" + opt +">" + opt + "</option>");
-                        }
+                    	for(int opt = 1; opt < data.questions.size()+2; opt++){
+                                                out.println("<option value=" + opt +">" + opt + "</option>");
+                                            }
                     %>
                     </select>
                     &nbsp;
@@ -875,42 +870,9 @@
                             tabindex="9"
                             disabled="disabled"></textarea>
                     </div>
-                    <div id="mcqForm">
-                        <%
-                            FeedbackMcqQuestionDetails fMcqQd = new FeedbackMcqQuestionDetails();
-                            fMcqQd.numOfMcqChoices = 2;
-                            fMcqQd.mcqChoices.add("");
-                            fMcqQd.mcqChoices.add("");
-                        %>
-                        <%=fMcqQd.getQuestionSpecificEditFormHtml(-1)%>
-                    </div>
-                    <div id="msqForm">
-                        <%
-                            FeedbackMsqQuestionDetails fMsqQd = new FeedbackMsqQuestionDetails();
-                            fMsqQd.numOfMsqChoices = 2;
-                            fMsqQd.msqChoices.add("");
-                            fMsqQd.msqChoices.add("");
-                        %>
-                        <%=fMsqQd.getQuestionSpecificEditFormHtml(-1)%>
-                    </div>
-                    <div id="numScaleForm">
-                        <%
-                            FeedbackNumericalScaleQuestionDetails fNumQd = new FeedbackNumericalScaleQuestionDetails();
-                            fNumQd.minScale = 1;
-                            fNumQd.maxScale = 5;
-                            fNumQd.step = 1;
-                        %>
-                        <%=fNumQd.getQuestionSpecificEditFormHtml(-1)%>
-                    </div>
-                    <div id="constSumForm">
-                        <%
-                            FeedbackConstantSumQuestionDetails fConstSumQd = new FeedbackConstantSumQuestionDetails();
-                            fConstSumQd.numOfConstSumOptions = 2;
-                            fConstSumQd.constSumOptions.add("");
-                            fConstSumQd.constSumOptions.add("");
-                        %>
-                        <%=fConstSumQd.getQuestionSpecificEditFormHtml(-1)%>
-                    </div>
+                    <%=
+                        data.getNewQuestionSpecificEditFormHtml()
+                    %>
                     <br>
                     <div>
                         <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>">
@@ -920,7 +882,7 @@
                             <div class="col-sm-8">
                                 <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>" onchange="feedbackGiverUpdateVisibilityOptions(this)">
                                     <%
-                                        for(String opt: data.getParticipantOptions(null, true)) out.println(opt);
+                                    	for(String opt: data.getParticipantOptions(null, true)) out.println(opt);
                                     %>
                                 </select>
                             </div>
@@ -932,7 +894,7 @@
                             <div class="col-sm-8">
                                 <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                                     <%
-                                        for(String opt: data.getParticipantOptions(null, false)) out.println(opt);
+                                    	for(String opt: data.getParticipantOptions(null, false)) out.println(opt);
                                     %>
                                 </select>
                             </div>
@@ -1115,10 +1077,10 @@
                                 </th>
                             </thead>
 
-                            <% 
-                                if(data.instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)){
-                                    for (FeedbackQuestionAttributes question : data.copiableQuestions) {
-                                        FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+                            <%
+                            	if(data.instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)){
+                                                                for (FeedbackQuestionAttributes question : data.copiableQuestions) {
+                                                                    FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
                             %>
                                 <tr style="cursor:pointer;">
                                     <td><input type="checkbox"></td>
