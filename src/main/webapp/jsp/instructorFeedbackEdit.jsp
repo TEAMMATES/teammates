@@ -870,42 +870,9 @@
                             tabindex="9"
                             disabled="disabled"></textarea>
                     </div>
-                    <div id="mcqForm">
-                        <%
-                        	FeedbackMcqQuestionDetails fMcqQd = new FeedbackMcqQuestionDetails();
-                                                    fMcqQd.numOfMcqChoices = 2;
-                                                    fMcqQd.mcqChoices.add("");
-                                                    fMcqQd.mcqChoices.add("");
-                        %>
-                        <%=fMcqQd.getQuestionSpecificEditFormHtml(-1)%>
-                    </div>
-                    <div id="msqForm">
-                        <%
-                        	FeedbackMsqQuestionDetails fMsqQd = new FeedbackMsqQuestionDetails();
-                                                    fMsqQd.numOfMsqChoices = 2;
-                                                    fMsqQd.msqChoices.add("");
-                                                    fMsqQd.msqChoices.add("");
-                        %>
-                        <%=fMsqQd.getQuestionSpecificEditFormHtml(-1)%>
-                    </div>
-                    <div id="numScaleForm">
-                        <%
-                        	FeedbackNumericalScaleQuestionDetails fNumQd = new FeedbackNumericalScaleQuestionDetails();
-                                                    fNumQd.minScale = 1;
-                                                    fNumQd.maxScale = 5;
-                                                    fNumQd.step = 1;
-                        %>
-                        <%=fNumQd.getQuestionSpecificEditFormHtml(-1)%>
-                    </div>
-                    <div id="constSumForm">
-                        <%
-                        	FeedbackConstantSumQuestionDetails fConstSumQd = new FeedbackConstantSumQuestionDetails();
-                                                    fConstSumQd.numOfConstSumOptions = 2;
-                                                    fConstSumQd.constSumOptions.add("");
-                                                    fConstSumQd.constSumOptions.add("");
-                        %>
-                        <%=fConstSumQd.getQuestionSpecificEditFormHtml(-1)%>
-                    </div>
+                    <%=
+                        data.getNewQuestionSpecificEditFormHtml()
+                    %>
                     <br>
                     <div>
                         <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>">

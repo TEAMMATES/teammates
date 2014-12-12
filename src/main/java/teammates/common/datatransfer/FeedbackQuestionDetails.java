@@ -38,6 +38,8 @@ public abstract class FeedbackQuestionDetails {
     
     public abstract String getQuestionSpecificEditFormHtml(int questionNumber);
     
+    public abstract String getNewQuestionSpecificEditFormHtml();
+    
     public abstract String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId);
     
     public abstract String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,

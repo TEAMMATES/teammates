@@ -91,6 +91,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     @Override
+    public String getNewQuestionSpecificEditFormHtml() {
+        return "";
+    }
+
+    @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
         String additionalInfo = this.getQuestionTypeDisplayName();
         

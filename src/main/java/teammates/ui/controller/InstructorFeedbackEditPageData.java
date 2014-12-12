@@ -61,6 +61,19 @@ public class InstructorFeedbackEditPageData extends PageData {
         return options;
     }
     
+    /**
+     * Get all question specific edit forms
+     * Used in instructorFeedbackEdit.jsp for new question 
+     * @return
+     */
+    public String getNewQuestionSpecificEditFormHtml() {
+        String newQuestionSpecificEditForms = "";
+        for (FeedbackQuestionType feedbackQuestionType : FeedbackQuestionType.values()) {
+            newQuestionSpecificEditForms += feedbackQuestionType.getFeedbackQuestionDetailsInstance().getNewQuestionSpecificEditFormHtml();
+        }
+        return newQuestionSpecificEditForms;
+    }
+    
     public ArrayList<String> getTimeZoneOptionsAsHtml(){
         return getTimeZoneOptionsAsHtml(session == null? Const.DOUBLE_UNINITIALIZED : session.timeZone);
     }

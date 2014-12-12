@@ -295,6 +295,18 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     }
 
     @Override
+    public String getNewQuestionSpecificEditFormHtml() {
+        // Add two empty options by default
+        this.numOfConstSumOptions = 2;
+        this.constSumOptions.add("");
+        this.constSumOptions.add("");
+
+        return "<div id=\"constSumForm\">" +
+                    this.getQuestionSpecificEditFormHtml(-1) + 
+               "</div>";
+    }
+
+    @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber,
             String additionalInfoId) {
         StringBuilder optionListHtml = new StringBuilder();
