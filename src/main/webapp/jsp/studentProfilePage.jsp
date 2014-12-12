@@ -126,7 +126,7 @@
             <form class="form center-block" role="form" method="post"
                   action="<%=Const.ActionURIs.STUDENT_PROFILE_EDIT_SAVE %>">
                 <div class="form-group" title="<%=Const.Tooltips.STUDENT_PROFILE_SHORTNAME %>" data-toggle="tooltip" data-placement="top">
-                    <label for="studentNickname">Short Name</label>
+                    <label for="studentNickname">The name you prefer to be called by Instructors</label>
                     <input id="studentShortname" name="<%=Const.ParamsNames.STUDENT_SHORT_NAME %>" class="form-control" type="text" data-actual-value="<%=data.account.studentProfile.shortName == null ? "" : data.account.studentProfile.shortName %>" value="<%=data.account.studentProfile.shortName == null ? "" : data.account.studentProfile.shortName %>" placeholder="How the instructor should call you" />
                 </div>
                 <div class="form-group" title="<%=Const.Tooltips.STUDENT_PROFILE_EMAIL %>" data-toggle="tooltip" data-placement="top">
