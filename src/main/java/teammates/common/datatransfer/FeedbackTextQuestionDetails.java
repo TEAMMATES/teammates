@@ -120,6 +120,11 @@ public class FeedbackTextQuestionDetails extends FeedbackAbstractQuestionDetails
     }
 
     @Override
+    public String getQuestionTypeChoiceOption() {
+        return "<option value = \"TEXT\">"+Const.FeedbackQuestionTypeNames.TEXT+"</option>";
+    }
+
+    @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
         return errors;

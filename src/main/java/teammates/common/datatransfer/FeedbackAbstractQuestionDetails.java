@@ -52,6 +52,12 @@ public abstract class FeedbackAbstractQuestionDetails {
     
     public abstract String getCsvHeader();
 
+    /**
+     * Returns a HTML option for selecting question type.
+     * Used in instructorFeedbackEdit.jsp for selecting the question type for a new question.
+     */
+    public abstract String getQuestionTypeChoiceOption();
+    
     public abstract boolean isChangesRequiresResponseDeletion(FeedbackAbstractQuestionDetails newDetails);
     
     /**

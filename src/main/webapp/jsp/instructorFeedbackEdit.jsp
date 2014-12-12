@@ -820,14 +820,10 @@
                             <select class="form-control questionType"
                                     name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>"
                                     id="questionTypeChoice">
-                                <option value = "TEXT"><%=Const.FeedbackQuestionTypeNames.TEXT%></option>
-                                <option value = "MCQ"><%=Const.FeedbackQuestionTypeNames.MCQ%></option>
-                                <option value = "MSQ"><%=Const.FeedbackQuestionTypeNames.MSQ%></option>
-                                <option value = "NUMSCALE"><%=Const.FeedbackQuestionTypeNames.NUMSCALE%></option>
-                                <option value = "CONSTSUM_OPTION"><%=Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION%></option>
-                                <option value = "CONSTSUM_RECIPIENT"><%=Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT%></option>
-                                <option value = "CONSTSUM" disabled="disabled" style="display:none"></option>
-                                <option value = "CONTRIB"><%=Const.FeedbackQuestionTypeNames.CONTRIB%></option>
+                                <%
+                                    for(String opt: data.getQuestionTypeChoiceOptions())
+                                        out.println(opt);
+                                %>
                             </select>
                         </div>
                         <div class="col-sm-1">

@@ -563,6 +563,14 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
         }
     }
 
+    @Override
+    public String getQuestionTypeChoiceOption() {
+        // Constant sum has two options for user to select, and one hidden option.
+        return "<option value = \"CONSTSUM_OPTION\">"+Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION+"</option>" +
+               "<option value = \"CONSTSUM_RECIPIENT\">"+Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT+"</option>" + 
+               "<option value = \"CONSTSUM\" disabled=\"disabled\" style=\"display:none\"></option>";
+    }
+
     final int MIN_NUM_OF_CONST_SUM_OPTIONS = 2;
     final int MIN_NUM_OF_CONST_SUM_POINTS = 1;
     final String ERROR_NOT_ENOUGH_CONST_SUM_OPTIONS = "Too little options for "+ this.getQuestionTypeDisplayName()+". Minimum number of options is: ";

@@ -390,6 +390,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
         return "Feedbacks:," + StringHelper.toString(sanitizedChoices, ",");
     }
     
+    @Override
+    public String getQuestionTypeChoiceOption() {
+        return "<option value = \"MSQ\">"+Const.FeedbackQuestionTypeNames.MSQ+"</option>";
+    }
+
     final int MIN_NUM_OF_MSQ_CHOICES = 2;
     final String ERROR_NOT_ENOUGH_MSQ_CHOICES = "Too little choices for "+Const.FeedbackQuestionTypeNames.MSQ+". Minimum number of options is: ";
     

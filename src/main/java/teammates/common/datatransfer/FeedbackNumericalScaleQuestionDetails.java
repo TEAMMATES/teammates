@@ -579,6 +579,11 @@ public class FeedbackNumericalScaleQuestionDetails extends
         return "Feedback";
     }
 
+    @Override
+    public String getQuestionTypeChoiceOption() {
+        return "<option value = \"NUMSCALE\">"+Const.FeedbackQuestionTypeNames.NUMSCALE+"</option>";
+    }
+
     private String getPossibleValuesStringEdit() {
         return "[Based on the above settings, acceptable responses are: " + getPossibleValuesString();
     }

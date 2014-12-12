@@ -46,8 +46,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
     
     @Override
     public boolean isIndividualResponsesShownToStudents() {
-        return true;
-     }
+        return false;
+    }
 
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
@@ -610,6 +610,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
     @Override
     public String getCsvHeader() {
         return "Feedback";
+    }
+
+    @Override
+    public String getQuestionTypeChoiceOption() {
+        return "<option value = \"CONTRIB\">"+Const.FeedbackQuestionTypeNames.CONTRIB+"</option>";
     }
 
     @Override

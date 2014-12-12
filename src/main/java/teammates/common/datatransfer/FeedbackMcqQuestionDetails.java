@@ -378,6 +378,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackAbstractQuestionDetails 
         return "Feedback";
     }
 
+    @Override
+    public String getQuestionTypeChoiceOption() {
+        return "<option value = \"MCQ\">"+Const.FeedbackQuestionTypeNames.MCQ+"</option>";
+    }
+
     final int MIN_NUM_OF_MCQ_CHOICES = 2;
     final String ERROR_NOT_ENOUGH_MCQ_CHOICES = "Too little choices for "+Const.FeedbackQuestionTypeNames.MCQ+". Minimum number of options is: ";
     
