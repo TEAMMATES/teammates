@@ -852,10 +852,14 @@ public class PageData {
             "title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
             (hasRemind ? "onclick=\"return toggleRemindStudents('" + session.feedbackSessionName + "');\" " : "") +
             disableRemindSessionStr + ">Remind</a>" +
-            "<button type=\"button\" class=\"btn btn-default btn-xs btn-tm-actions dropdown-toggle\" "
-            + "data-toggle=\"dropdown\" aria-expanded=\"false\"> <span class=\"caret\"></span></button> "
-            + "<ul class=\"dropdown-menu\" role=\"menu\">" +
-            "<li><a href=\"#\">Remind all students</a></li><li><a href=\"#\">Remind particulat students</a></li></ul></div> "
+            "<button type=\"button\" class=\"btn btn-default btn-xs btn-tm-actions dropdown-toggle" + (hasRemind ? "\"" : DISABLED) +
+            "data-toggle=\"dropdown\" aria-expanded=\"false\"> <span class=\"caret\"></span></button> " +
+            "<ul class=\"dropdown-menu\" role=\"menu\">" +
+            "<li><a href=\"" + getInstructorFeedbackSessionRemindLink(session.courseId,session.feedbackSessionName) + "\" " +
+            "title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
+            (hasRemind ? "onclick=\"return toggleRemindStudents('" + session.feedbackSessionName + "');\" " : "") +
+            disableRemindSessionStr + ">Remind all students</a></li>" +
+            "<li><a href=\"#\">Remind particulat students</a></li></ul></div> "
         );
         
         if (hasUnpublish) {
