@@ -578,9 +578,9 @@ public class EmailsTest extends BaseComponentTestCase {
         status = "is closing soon";
         verifyEmail(s1, emails.get(0), prefix, status);
         verifyEmail(s3, emails.get(1), prefix, status);
-        status = "Ignore this email if you have already submitted feedback.";
-        verifyEmail(s1, emails.get(0), prefix, status);
-        verifyEmail(s3, emails.get(1), prefix, status);
+        String ignoreEmailMsg = "Ignore this email if you have already submitted feedback.";
+        verifyEmail(s1, emails.get(0), prefix, ignoreEmailMsg);
+        verifyEmail(s3, emails.get(1), prefix, ignoreEmailMsg);
 
         ______TS("feedback session published alerts");
 
@@ -633,22 +633,22 @@ public class EmailsTest extends BaseComponentTestCase {
     }
 
     private void verifyEmail(StudentAttributes s, MimeMessage email,
-            String prefix, String status) throws MessagingException,
+            String prefix, String string) throws MessagingException,
             IOException {
         assertEquals(s.email, email.getAllRecipients()[0].toString());
         assertTrue(email.getSubject().contains(prefix));
         String emailBody = email.getContent().toString();
-        assertTrue(emailBody.contains(status));
+        assertTrue(emailBody.contains(string));
         assertFalse(emailBody.contains("$"));
     }
     
     private void verifyEmail(InstructorAttributes i, MimeMessage email,
-            String prefix, String status) throws MessagingException,
+            String prefix, String string) throws MessagingException,
             IOException {
         assertEquals(i.email, email.getAllRecipients()[0].toString());
         assertTrue(email.getSubject().contains(prefix));
         String emailBody = email.getContent().toString();
-        assertTrue(emailBody.contains(status));
+        assertTrue(emailBody.contains(string));
         assertFalse(emailBody.contains("$"));
     }
 
