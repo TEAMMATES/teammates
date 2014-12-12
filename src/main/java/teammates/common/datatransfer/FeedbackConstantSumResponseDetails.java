@@ -1,26 +1,34 @@
 package teammates.common.datatransfer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Sanitizer;
 
 public class FeedbackConstantSumResponseDetails extends
-        FeedbackAbstractResponseDetails {
+        FeedbackResponseDetails {
     private List<Integer> answers;
 
     public FeedbackConstantSumResponseDetails() {
         super(FeedbackQuestionType.CONSTSUM);
     }
     
-    public FeedbackConstantSumResponseDetails(List<Integer> answers, List<String> constSumOptions, boolean distributeToRecipients) {
-        super(FeedbackQuestionType.CONSTSUM);
-        this.answers = answers;
-        if(!distributeToRecipients){
-            Assumption.assertEquals("ConstSum num response does not match num of options. "+ answers.size() + "/" + constSumOptions.size(), answers.size(), constSumOptions.size());
+    @Override
+    public void extractResponseDetails(FeedbackQuestionType questionType,
+            FeedbackQuestionDetails questionDetails, String[] answer) {
+        List<Integer> constSumAnswer = new ArrayList<Integer>();
+        for(int i=0 ; i<answer.length ; i++){
+            try{
+                constSumAnswer.add(Integer.parseInt(answer[i]));
+            } catch (NumberFormatException e) {
+                constSumAnswer.add(0);
+            }
         }
+        FeedbackConstantSumQuestionDetails constSumQd = (FeedbackConstantSumQuestionDetails) questionDetails;
+        this.setConstantSumResponseDetails(constSumAnswer, constSumQd.constSumOptions, constSumQd.distributeToRecipients);
     }
-    
+
     /**
      * @return List of answers (for constant sum to recipients, there will only be one answer.)
      */
@@ -35,7 +43,7 @@ public class FeedbackConstantSumResponseDetails extends
     }
 
     @Override
-    public String getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails) {
+    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         FeedbackConstantSumQuestionDetails csQd = (FeedbackConstantSumQuestionDetails) questionDetails;
         if(csQd.distributeToRecipients){
             return getAnswerString();
@@ -56,7 +64,7 @@ public class FeedbackConstantSumResponseDetails extends
     }
 
     @Override
-    public String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails) {
+    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         StringBuilder csvBuilder = new StringBuilder();
         
         for(int i=0 ; i<answers.size() ; i++) {
@@ -67,6 +75,13 @@ public class FeedbackConstantSumResponseDetails extends
         }
 
         return csvBuilder.toString();
+    }
+
+    private void setConstantSumResponseDetails(List<Integer> answers, List<String> constSumOptions, boolean distributeToRecipients) {
+        this.answers = answers;
+        if(!distributeToRecipients){
+            Assumption.assertEquals("ConstSum num response does not match num of options. "+ answers.size() + "/" + constSumOptions.size(), answers.size(), constSumOptions.size());
+        }
     }
 
 }

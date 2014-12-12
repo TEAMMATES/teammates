@@ -2,14 +2,15 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 
-public class FeedbackTextQuestionDetails extends
-        FeedbackAbstractQuestionDetails {
+public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
+    
     public FeedbackTextQuestionDetails() {
         super(FeedbackQuestionType.TEXT);
     }
@@ -19,18 +20,26 @@ public class FeedbackTextQuestionDetails extends
     }
 
     @Override
+    public boolean extractQuestionDetails(
+            Map<String, String[]> requestParameters,
+            FeedbackQuestionType questionType) {
+        // Nothing to do here.
+        return true;
+    }
+
+    @Override
     public String getQuestionTypeDisplayName() {
         return Const.FeedbackQuestionTypeNames.TEXT;
     }
     
     @Override
-    public boolean isChangesRequiresResponseDeletion(FeedbackAbstractQuestionDetails newDetails) {
+    public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
         return false;
     }
 
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
-            int responseIdx, String courseId, FeedbackAbstractResponseDetails existingResponseDetails) {
+            int responseIdx, String courseId, FeedbackResponseDetails existingResponseDetails) {
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.TEXT_SUBMISSION_FORM,
                 "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",

@@ -170,6 +170,8 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         StudentAttributes student2 = testData.students.get("Student3Course3");
         
         viewPage.clickShowPhoto(student2.course, student2.name);
+        // wait for previous pop-over to disappear.
+        ThreadHelper.waitFor(500);
 
         // in this page, the 'top' and 'left' attributes of div with class 'popover' 
         // must be set to {*}

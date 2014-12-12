@@ -3,10 +3,9 @@ package teammates.common.datatransfer;
 import teammates.common.util.Sanitizer;
 
 public class FeedbackTextResponseDetails extends
-        FeedbackAbstractResponseDetails {
-    //TODO use this instead of plain text for essay questions
-    //will involve converting the existing database
+        FeedbackResponseDetails {
     
+    //For essay questions the response is saved as plain-text due to legacy format before there were multiple question types
     public String answer;
     
     public FeedbackTextResponseDetails(){
@@ -20,17 +19,23 @@ public class FeedbackTextResponseDetails extends
     }
 
     @Override
+    public void extractResponseDetails(FeedbackQuestionType questionType,
+            FeedbackQuestionDetails questionDetails, String[] answer) {
+        this.answer = answer[0];
+    }
+
+    @Override
     public String getAnswerString() {
         return answer;
     }
 
     @Override
-    public String getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails) {
+    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         return Sanitizer.sanitizeForHtml(answer);
     }
 
     @Override
-    public String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails) {
+    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         return Sanitizer.sanitizeForCsv(answer);
     }
 

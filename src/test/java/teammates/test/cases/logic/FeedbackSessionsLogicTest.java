@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
@@ -350,9 +350,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(questions1.size(), questions2.size());
         for(int i = 0; i < questions1.size(); i++){
             FeedbackQuestionAttributes question1 = questions1.get(i);
-            FeedbackAbstractQuestionDetails questionDetails1 = question1.getQuestionDetails();
+            FeedbackQuestionDetails questionDetails1 = question1.getQuestionDetails();
             FeedbackQuestionAttributes question2 = questions2.get(i);
-            FeedbackAbstractQuestionDetails questionDetails2 = question2.getQuestionDetails();
+            FeedbackQuestionDetails questionDetails2 = question2.getQuestionDetails();
             
             assertEquals(questionDetails1.questionText, questionDetails2.questionText);
             assertEquals(question1.giverType, question2.giverType);

@@ -9,10 +9,10 @@
 <%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionResponseStatus" %>
 <%@ page import="teammates.ui.controller.InstructorFeedbackResultsPageData"%>
-<%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%
-    InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData) request.getAttribute("data");
+	InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData) request.getAttribute("data");
     FieldValidator validator = new FieldValidator();
     boolean showAll = data.bundle.isComplete;
     boolean shouldCollapsed = data.bundle.responses.size() > 500;
@@ -61,10 +61,11 @@
             <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
             <br>
 
-            <% if(!showAll) {
-                    if(data.selectedSection.equals("All")){
-                    int sectionIndex = 0; 
-                    for(String section: data.sections){
+            <%
+            	if(!showAll) {
+                                if(data.selectedSection.equals("All")){
+                                int sectionIndex = 0; 
+                                for(String section: data.sections){
             %>
                         <div class="panel panel-success">
                                 <div class="panel-heading ajax_submit">
@@ -74,9 +75,9 @@
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="pull-right">
-                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%= groupByTeamEnabled == true ? "team" : "student" %> panels. You can also click on the panel heading to toggle each one individually.' style="display:none;">
+                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%=groupByTeamEnabled == true ? "team" : "student"%> panels. You can also click on the panel heading to toggle each one individually.' style="display:none;">
                                                     Expand
-                                                    <%= groupByTeamEnabled == true ? " Teams" : " Students" %>
+                                                    <%=groupByTeamEnabled == true ? " Teams" : " Students"%>
                                                 </a>
                                                 &nbsp;
                                                 <div class="display-icon" style="display:inline;">
@@ -87,10 +88,10 @@
                                     </div>
 
                                     <form style="display:none;" id="seeMore-<%=sectionIndex%>" class="seeMoreForm-<%=sectionIndex%>" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
-                                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=data.bundle.feedbackSession.courseId %>">
-                                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=data.bundle.feedbackSession.feedbackSessionName %>">
-                                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION %>" value="<%=section%>">
-                                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">
+                                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>">
+                                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" value="<%=section%>">
+                                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
                                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" value="<%=data.groupByTeam%>">
                                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="<%=data.sortType%>">
                                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>" value="on" id="showStats-<%=sectionIndex%>">
@@ -103,8 +104,8 @@
                                 </div>
                         </div>
             <%
-                    sectionIndex++;
-                    }
+            	sectionIndex++;
+                                }
             %>
                     <div class="panel panel-success">
                             <div class="panel-heading ajax_submit">
@@ -114,9 +115,9 @@
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="pull-right">
-                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%= groupByTeamEnabled == true ? "team" : "student" %> panels. You can also click on the panel heading to toggle each one individually.' style="display:none;">
+                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%=groupByTeamEnabled == true ? "team" : "student"%> panels. You can also click on the panel heading to toggle each one individually.' style="display:none;">
                                                     Expand
-                                                    <%= groupByTeamEnabled == true ? " Teams" : " Students" %>
+                                                    <%=groupByTeamEnabled == true ? " Teams" : " Students"%>
                                                 </a>
                                                 &nbsp;
                                                 <div class="display-icon" style="display:inline;">
@@ -126,10 +127,10 @@
                                          </div>
                                     </div>
                                 <form style="display:none;" id="seeMore-<%=sectionIndex%>" class="seeMoreForm-<%=sectionIndex%>" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
-                                    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=data.bundle.feedbackSession.courseId %>">
-                                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=data.bundle.feedbackSession.feedbackSessionName %>">
-                                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION %>" value="None">
-                                    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                                    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">
+                                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>">
+                                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" value="None">
+                                    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
                                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" value="<%=data.groupByTeam%>">
                                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="<%=data.sortType%>">
                                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>" value="on">
@@ -142,7 +143,7 @@
                             </div>
                     </div>
             <%
-                    } else {
+            	} else {
             %>
                      <div class="panel panel-success">
                         <div class="panel-heading">
@@ -164,68 +165,69 @@
                         </div>
                     </div>
             <%
-                    }
-                } else {
+            	}
+                            } else {
             %>
 
         <%
-            String currentTeam = null;
-            boolean newTeam = false;
-            String currentSection = null;
-            boolean newSection = false;
-            int sectionIndex = -1;
-            int teamIndex = 0;
+        	String currentTeam = null;
+                    boolean newTeam = false;
+                    String currentSection = null;
+                    boolean newSection = false;
+                    int sectionIndex = -1;
+                    int teamIndex = 0;
         %>
         <%
-            Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByGiverQuestionRecipient(groupByTeamEnabled);
-            Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> teamResponses = data.bundle.getQuestionResponseMapByGiverTeam();
-            Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
-            int giverIndex = data.startIndex;
-            for (Map.Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesFromGiver : allResponses.entrySet()) {
-                giverIndex++;
-                
-                Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> giverData = responsesFromGiver.getValue();
-                Object[] giverDataArray =  giverData.keySet().toArray();
-                FeedbackResponseAttributes firstResponse = giverData.get(giverDataArray[0]).get(0);
-                String giverEmail = firstResponse.giverEmail;
+        	Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByGiverQuestionRecipient(groupByTeamEnabled);
+                    Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> teamResponses = data.bundle.getQuestionResponseMapByGiverTeam();
+                    Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
+                    int giverIndex = data.startIndex;
+                    for (Map.Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesFromGiver : allResponses.entrySet()) {
+                        giverIndex++;
+                        
+                        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> giverData = responsesFromGiver.getValue();
+                        Object[] giverDataArray =  giverData.keySet().toArray();
+                        FeedbackResponseAttributes firstResponse = giverData.get(giverDataArray[0]).get(0);
+                        String giverEmail = firstResponse.giverEmail;
 
-                FeedbackParticipantType firstQuestionGiverType = questions.get(firstResponse.feedbackQuestionId).giverType;
-                String mailtoStyleAttr = (firstQuestionGiverType == FeedbackParticipantType.NONE || 
-                                firstQuestionGiverType == FeedbackParticipantType.TEAMS || 
-                                giverEmail.contains("@@"))?"style=\"display:none;\"":"";
+                        FeedbackParticipantType firstQuestionGiverType = questions.get(firstResponse.feedbackQuestionId).giverType;
+                        String mailtoStyleAttr = (firstQuestionGiverType == FeedbackParticipantType.NONE || 
+                                        firstQuestionGiverType == FeedbackParticipantType.TEAMS || 
+                                        giverEmail.contains("@@"))?"style=\"display:none;\"":"";
         %>
 
         <%
-            if(currentTeam != null && !(data.bundle.getTeamNameForEmail(giverEmail)=="" ? currentTeam.equals(data.bundle.getNameForEmail(giverEmail)): currentTeam.equals(data.bundle.getTeamNameForEmail(giverEmail)))) {
-                currentTeam = data.bundle.getTeamNameForEmail(giverEmail);
-                newTeam = true;
-                if(currentTeam.equals("")){
-                    currentTeam = data.bundle.getNameForEmail(giverEmail);
-                }
+        	if(currentTeam != null && !(data.bundle.getTeamNameForEmail(giverEmail)=="" ? currentTeam.equals(data.bundle.getNameForEmail(giverEmail)): currentTeam.equals(data.bundle.getTeamNameForEmail(giverEmail)))) {
+                        currentTeam = data.bundle.getTeamNameForEmail(giverEmail);
+                        newTeam = true;
+                        if(currentTeam.equals("")){
+                            currentTeam = data.bundle.getNameForEmail(giverEmail);
+                        }
         %>
                 </div>
                 </div>
             </div>
         <%
-            }
+        	}
         %>
 
-        <% 
-            if(currentSection != null && !firstResponse.giverSection.equals(currentSection)){
-                currentSection = firstResponse.giverSection;
-                newSection = true;
+        <%
+        	if(currentSection != null && !firstResponse.giverSection.equals(currentSection)){
+                        currentSection = firstResponse.giverSection;
+                        newSection = true;
         %>
                 </div>
                 </div>
             </div>
-        <% 
-            }
+        <%
+        	}
         %>
 
-        <% if(currentSection == null || newSection == true){
-                    currentSection = firstResponse.giverSection;
-                    newSection = false;
-                    sectionIndex++;
+        <%
+        	if(currentSection == null || newSection == true){
+                            currentSection = firstResponse.giverSection;
+                            newSection = false;
+                            sectionIndex++;
         %>
                 <div class="panel panel-success">
                     <div class="panel-heading">
@@ -235,9 +237,9 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="pull-right">
-                                    <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%= groupByTeamEnabled == true ? "team" : "student" %> panels. You can also click on the panel heading to toggle each one individually.'>
-                                        <%= shouldCollapsed ? "Expand " : "Collapse " %>
-                                        <%= groupByTeamEnabled == true ? "Teams" : "Students" %>
+                                    <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%=groupByTeamEnabled == true ? "team" : "student"%> panels. You can also click on the panel heading to toggle each one individually.'>
+                                        <%=shouldCollapsed ? "Expand " : "Collapse "%>
+                                        <%=groupByTeamEnabled == true ? "Teams" : "Students"%>
                                     </a>
                                     &nbsp;
                                     <span class="glyphicon glyphicon-chevron-up"></span>
@@ -248,45 +250,45 @@
                     <div class="panel-collapse collapse in">
                     <div class="panel-body" id="sectionBody-<%=sectionIndex%>">
         <%
-            }
+        	}
         %>
 
 
         <%
-            if(groupByTeamEnabled == true && (currentTeam==null || newTeam==true)) {
-                currentTeam = data.bundle.getTeamNameForEmail(giverEmail);
-                if(currentTeam.equals("")){
-                    currentTeam = data.bundle.getNameForEmail(giverEmail);
-                }
-                newTeam = false;
-                Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> currentTeamResponses = teamResponses.get(currentTeam);
+        	if(groupByTeamEnabled == true && (currentTeam==null || newTeam==true)) {
+                        currentTeam = data.bundle.getTeamNameForEmail(giverEmail);
+                        if(currentTeam.equals("")){
+                            currentTeam = data.bundle.getNameForEmail(giverEmail);
+                        }
+                        newTeam = false;
+                        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> currentTeamResponses = teamResponses.get(currentTeam);
         %>
                 <div class="panel panel-warning">
                     <div class="panel-heading">
                         <strong><%=currentTeam%></strong>
-                        <span class='glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right'></span>
+                        <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
                     </div>
-                    <div class='panel-collapse collapse <%= shouldCollapsed ? "" : "in" %>'>
+                    <div class='panel-collapse collapse <%=shouldCollapsed ? "" : "in"%>'>
                     <div class="panel-body background-color-warning">
                         <div class="resultStatistics">
                             <%
-                                if(currentTeamResponses.size() > 0){
+                            	if(currentTeamResponses.size() > 0){
                             %>
                                 <h3><%=currentTeam%> Given Responses Statistics </h3>
                                 <hr class="margin-top-0">
                                 <%
-                                    int numStatsShown = 0;
-                                    for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> teamResponseEntries : currentTeamResponses.entrySet()) {
-                                        FeedbackQuestionAttributes question = questions.get(teamResponseEntries.getKey().getId());
-                                        FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
-                                        String statsHtml = questionDetails.getQuestionResultStatisticsHtml(teamResponseEntries.getValue(), question, data.account, data.bundle, "giver-question-recipient");
-                                        if(statsHtml != ""){
-                                            numStatsShown++;
+                                	int numStatsShown = 0;
+                                                                    for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> teamResponseEntries : currentTeamResponses.entrySet()) {
+                                                                        FeedbackQuestionAttributes question = questions.get(teamResponseEntries.getKey().getId());
+                                                                        FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+                                                                        String statsHtml = questionDetails.getQuestionResultStatisticsHtml(teamResponseEntries.getValue(), question, data.account, data.bundle, "giver-question-recipient");
+                                                                        if(statsHtml != ""){
+                                                                            numStatsShown++;
                                 %>
                                             <div class="panel panel-info">
                                                 <div class="panel-heading">
                                                     <strong>Question <%=teamResponseEntries.getKey().questionNumber%>: </strong><span class="text-preserve-space"><%=data.bundle.getQuestionText(teamResponseEntries.getKey().getId())%><%
-                                                        out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
+                                                    	out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
                                                     %></span>
                                                 </div>
                                                 <div class="panel-body padding-0">                
@@ -296,17 +298,17 @@
                                                 </div>
                                             </div>
                                 <%
-                                        }
-                                    }
-                                    if(numStatsShown == 0){
+                                	}
+                                                                    }
+                                                                    if(numStatsShown == 0){
                                 %>
                                         <p class="text-color-gray"><i>No statistics available.</i></p>
                             <%
-                                    }
-                                }
+                            	}
+                                                            }
                             %>
                             <%
-                                if(currentTeamResponses.size() > 0){
+                            	if(currentTeamResponses.size() > 0){
                             %>
                                 <div class="row">
                                     <div class="col-sm-9">
@@ -314,43 +316,49 @@
                                     </div>
                                     <div class="col-sm-3 h3">
                                         <a class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-<%=teamIndex%>" data-toggle="tooltip" title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">
-                                            <%= shouldCollapsed ? "Expand " : "Collapse " %> Students
+                                            <%=shouldCollapsed ? "Expand " : "Collapse "%> Students
                                         </a>
                                     </div>
                                 </div>
                                 <hr class="margin-top-0">
                             <%
-                                }
+                            	}
                             %>
                         </div>
         <%
-            }
+        	}
         %>
 
 
                 <div class="panel panel-primary">
                 <div class="panel-heading">
                     From: 
-                    <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, giverEmail).isEmpty()) { %>
+                    <%
+                	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, giverEmail).isEmpty()) {
+                %>
                         <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(giverEmail)%>">
                             <strong><%=responsesFromGiver.getKey()%></strong>
                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                            <a class="link-in-dark-bg" href="mailTo:<%= giverEmail%> " <%=mailtoStyleAttr%>>[<%=giverEmail%>]</a>
+                            <a class="link-in-dark-bg" href="mailTo:<%=giverEmail%> " <%=mailtoStyleAttr%>>[<%=giverEmail%>]</a>
                         </div>
-                    <% } else {%>
+                    <%
+                    	} else {
+                    %>
                         <strong><%=responsesFromGiver.getKey()%></strong>
-                        <a class="link-in-dark-bg" href="mailTo:<%= giverEmail%> " <%=mailtoStyleAttr%>>[<%=giverEmail%>]</a>
-                    <% } %>
-                    <span class='glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right'></span>                </div>
-                <div class='panel-collapse collapse <%= shouldCollapsed ? "" : "in"%>'>
+                        <a class="link-in-dark-bg" href="mailTo:<%=giverEmail%> " <%=mailtoStyleAttr%>>[<%=giverEmail%>]</a>
+                    <%
+                    	}
+                    %>
+                    <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>                </div>
+                <div class='panel-collapse collapse <%=shouldCollapsed ? "" : "in"%>'>
                 <div class="panel-body">
                 <%
-                    int questionIndex = 0;
-                    for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesFromGiverForQuestion : responsesFromGiver.getValue().entrySet()) {
-                        questionIndex++;
-                        FeedbackQuestionAttributes question = responsesFromGiverForQuestion.getKey();
-                        FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
-                        List<FeedbackResponseAttributes> responseEntries = responsesFromGiverForQuestion.getValue();
+                	int questionIndex = 0;
+                                    for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesFromGiverForQuestion : responsesFromGiver.getValue().entrySet()) {
+                                        questionIndex++;
+                                        FeedbackQuestionAttributes question = responsesFromGiverForQuestion.getKey();
+                                        FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+                                        List<FeedbackResponseAttributes> responseEntries = responsesFromGiverForQuestion.getValue();
                 %>
                         <div class="panel panel-info">
                             <div class="panel-heading">Question <%=question.questionNumber%>: <span class="text-preserve-space"><%
