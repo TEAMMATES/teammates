@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
@@ -36,7 +36,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
             statusToUser.addAll(questionDetailsErrors);
             isError = true;
         } else {
-            String err = validateContribQnGiverRecipient(feedbackQuestion);
+            String err = validateQuestionGiverRecipientVisibility(feedbackQuestion);
             if(!err.isEmpty()){
                 statusToUser.add(err);
                 isError = true;
@@ -60,9 +60,9 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(courseId,feedbackSessionName));
     }
 
-    private String validateContribQnGiverRecipient(
+    private String validateQuestionGiverRecipientVisibility(
             FeedbackQuestionAttributes feedbackQuestion) {
-        return InstructorFeedbackQuestionEditAction.validateContribQnGiverRecipient(feedbackQuestion);
+        return InstructorFeedbackQuestionEditAction.validateQuestionGiverRecipientVisibility(feedbackQuestion);
     }
 
     private static FeedbackQuestionAttributes extractFeedbackQuestionData(Map<String, String[]> requestParameters, String creatorEmail) {
@@ -113,8 +113,8 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         Assumption.assertNotNull("Null question type", questionType);
         newQuestion.questionType = FeedbackQuestionType.valueOf(questionType);
         
-        FeedbackAbstractQuestionDetails questionDetails =
-                FeedbackAbstractQuestionDetails.createQuestionDetails(requestParameters, newQuestion.questionType);
+        FeedbackQuestionDetails questionDetails =
+                FeedbackQuestionDetails.createQuestionDetails(requestParameters, newQuestion.questionType);
         newQuestion.setQuestionDetails(questionDetails);
         
         return newQuestion;

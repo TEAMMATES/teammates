@@ -1032,26 +1032,66 @@
         </div>
     </div>
     <div class="row">
-        <form class="form-horizontal col-sm-12" role="form">
-            <div class="form-group margin-0">
-                <label class="col-sm-2 control-label font-weight-normal">Average:</label>
-                <div class="col-sm-3">
-                    <p class="form-control-static">3.5</p>
-                </div>
-            </div>
-            <div class="form-group margin-0">
-                <label class="col-sm-2 control-label font-weight-normal">Minimum:</label>
-                <div class="col-sm-3">
-                    <p class="form-control-static">3.5</p>
-                </div>
-            </div>
-            <div class="form-group margin-0">
-                <label class="col-sm-2 control-label font-weight-normal">Maximum:</label>
-                <div class="col-sm-3">
-                    <p class="form-control-static">3.5</p>
-                </div>
-            </div>
-        </form>
+        <div class="col-sm-12">
+          <table class="table table-bordered table-responsive margin-0">
+             <thead>
+                <tr>
+                   <td class="button-sort-ascending" id="button_sortreceivername" onclick="toggleSort(this,1);">
+                      Recipient
+                      <span class="icon-sort unsorted">
+                      </span>
+                   </td>
+                   <td class="button-sort-none" data-container="body" data-placement="top" data-toggle="tooltip" id="button_sortavg" onclick="toggleSort(this,2,sortByPoint)" title="Average of the visible responses">
+                      <abbr title="Average of the visible responses">
+                         Average
+                      </abbr>
+                      <span class="icon-sort unsorted">
+                      </span>
+                   </td>
+                   <td class="button-sort-none" data-container="body" data-placement="top" data-toggle="tooltip" id="button_sortmax" onclick="toggleSort(this,3,sortByPoint)" title="Maximum of the visible responses">
+                      <abbr title="Maximum of the visible responses">
+                         Max
+                      </abbr>
+                      <span class="icon-sort unsorted">
+                      </span>
+                   </td>
+                   <td class="button-sort-none" data-container="body" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,4,sortByPoint)" title="Minimum of the visible responses">
+                      <abbr title="Minimum of the visible responses">
+                         Min
+                      </abbr>
+                      <span class="icon-sort unsorted">
+                      </span>
+                   </td>
+                   <td class="button-sort-none" data-container="body" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,5,sortByPoint)" title="Average of the visible responses excluding recipient's own response to himself/herself">
+                      <abbr title="Average of the visible responses excluding recipient's own response to himself/herself">
+                         Average excluding self response
+                      </abbr>
+                      <span class="icon-sort unsorted">
+                      </span>
+                   </td>
+                </tr>
+             </thead>
+             <tbody>
+                <tr>
+                   <td>
+                      Alice Betsy
+                   </td>
+                   <td>
+                      3.5
+                   </td>
+                   <td>
+                      3.5
+                   </td>
+                   <td>
+                      3.5
+                   </td>
+                   <td>
+                      -
+                   </td>
+                </tr>
+             </tbody>
+          </table>
+       </div>
     </div>
 </div>
                                 </div>
@@ -1220,9 +1260,11 @@
                 <tr>
                     <td class="button-sort-ascending" id="button_sortteamname" onclick="toggleSort(this,1);" style="width: 35%;">Recipient
                         <span class="icon-sort unsorted"></span></td>
-                    <td class="button-sort-none" id="button_sortname" onclick="toggleSort(this,2);">Points Received
+                    <td class="button-sort-none" onclick="toggleSort(this,2);">Team
                         <span class="icon-sort unsorted"></span></td>
-                    <td class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,3);" style="width:15%;">Average Points
+                    <td class="button-sort-none" id="button_sortname" onclick="toggleSort(this,3);" style="width:15%;">Points Received
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortclaimed" onclick="toggleSort(this,4);" style="width:15%;">Average Points
                         <span class="icon-sort unsorted"></span></td>
                 </tr>
                 </thead>
@@ -1230,6 +1272,9 @@
                     <tr>
     <td>
         Charlie Dávis
+    </td>
+    <td>
+        Team 2
     </td>
     <td>
     	50
@@ -1242,6 +1287,9 @@
         Benny Charles
     </td>
     <td>
+        Team 1
+    </td>
+    <td>
     	90
     </td>
     <td>
@@ -1252,6 +1300,9 @@
         Danny Engrid
     </td>
     <td>
+        Team 2
+    </td>
+    <td>
     	150
     </td>
     <td>
@@ -1260,6 +1311,9 @@
 </tr><tr>
     <td>
         Alice Betsy
+    </td>
+    <td>
+        Team 1
     </td>
     <td>
     	110
@@ -1407,7 +1461,7 @@
                                         
                                             <td class="middlealign">Alice Betsy</td>
                                             <td class="middlealign">Team 1</td>
-                                            <td class="text-preserve-space"><span class="color-positive">Equal Share +11%</span><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color-negative" "="">N/A</span>]</span></td>
+                                            <td class="text-preserve-space"><span class="color-positive">Equal Share +11%</span><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color-negative" >N/A</span>]</span></td>
                                         </tr>        
                                         
                                         <tr>
@@ -1430,7 +1484,183 @@
                                 </table>
                             </div>
                         </div>
-                
+                                           <div class="panel panel-info">
+                           <div class="panel-heading">
+                              Question 17:
+                              <span class="text-preserve-space">
+                                 Rate you and your team members work. 
+                                 <span style=" white-space: normal;">
+                                    <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-17-giver-0-question-13" onclick="toggleAdditionalQuestionInfo('17-giver-0-question-13')">
+                                       [more]
+                                    </a>
+                                    <br/>
+                                                                        <span id="questionAdditionalInfo-17-giver-0-question-13" style="display:none;">
+                                       Numerical-scale question:
+                                       <br/>
+                                                                              Minimum value: 1. Increment: 0.5. Maximum value: 5.
+                                    </span>
+                                 </span>
+                              </span>
+                           </div>
+                           <div class="panel-body padding-0">
+                              <div class="resultStatistics" style="display: none;">
+                                 <div class="panel-body">
+                                    <div class="row">
+                                       <div class="col-sm-4 text-color-gray">
+                                          <strong>
+                                             Response Summary
+                                          </strong>
+                                       </div>
+                                    </div>
+                                    <div class="row">
+                                       <div class="col-sm-12">
+                                          <table class="table table-bordered table-responsive margin-0">
+                                             <thead>
+                                                <tr>
+                                                   <td class="button-sort-ascending" id="button_sortreceivername" onclick="toggleSort(this,1);">
+                                                      Recipient
+                                                      <span class="icon-sort unsorted">
+                                                      </span>
+                                                   </td>
+                                                   <td class="button-sort-none" data-container="body" data-placement="top" data-toggle="tooltip" id="button_sortavg" onclick="toggleSort(this,2,sortByPoint)" title="Average of the visible responses">
+                                                      <abbr title="Average of the visible responses">
+                                                         Average
+                                                      </abbr>
+                                                      <span class="icon-sort unsorted">
+                                                      </span>
+                                                   </td>
+                                                   <td class="button-sort-none" data-container="body" data-placement="top" data-toggle="tooltip" id="button_sortmax" onclick="toggleSort(this,3,sortByPoint)" title="Maximum of the visible responses">
+                                                      <abbr title="Maximum of the visible responses">
+                                                         Max
+                                                      </abbr>
+                                                      <span class="icon-sort unsorted">
+                                                      </span>
+                                                   </td>
+                                                   <td class="button-sort-none" data-container="body" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,4,sortByPoint)" title="Minimum of the visible responses">
+                                                      <abbr title="Minimum of the visible responses">
+                                                         Min
+                                                      </abbr>
+                                                      <span class="icon-sort unsorted">
+                                                      </span>
+                                                   </td>
+                                                   <td class="button-sort-none" data-container="body" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,5,sortByPoint)" title="Average of the visible responses excluding recipient's own response to himself/herself">
+                                                      <abbr title="Average of the visible responses excluding recipient's own response to himself/herself">
+                                                         Average excluding self response
+                                                      </abbr>
+                                                      <span class="icon-sort unsorted">
+                                                      </span>
+                                                   </td>
+                                                </tr>
+                                             </thead>
+                                             <tbody>
+                                                <tr>
+                                                   <td>
+                                                      Benny Charles
+                                                   </td>
+                                                   <td>
+                                                      4
+                                                   </td>
+                                                   <td>
+                                                      4
+                                                   </td>
+                                                   <td>
+                                                      4
+                                                   </td>
+                                                   <td>
+                                                      4
+                                                   </td>
+                                                </tr>
+                                                <tr>
+                                                   <td>
+                                                      Alice Betsy
+                                                   </td>
+                                                   <td>
+                                                      3
+                                                   </td>
+                                                   <td>
+                                                      3
+                                                   </td>
+                                                   <td>
+                                                      3
+                                                   </td>
+                                                   <td>
+                                                      -
+                                                   </td>
+                                                </tr>
+                                             </tbody>
+                                          </table>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <table class="table table-striped table-bordered dataTable margin-0">
+                                 <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                    <tr>
+                                       <th>
+                                          Photo
+                                       </th>
+                                       <th class="button-sort-none" id="button_sortTo" onclick="toggleSort(this,2)" style="width: 15%;">
+                                          Recipient
+                                          <span class="icon-sort unsorted">
+                                          </span>
+                                       </th>
+                                       <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this,3)" style="width: 15%;">
+                                          Team
+                                          <span class="icon-sort unsorted">
+                                          </span>
+                                       </th>
+                                       <th class="button-sort-none" id="button_sortFeedback" onclick="toggleSort(this,4)">
+                                          Feedback
+                                          <span class="icon-sort unsorted">
+                                          </span>
+                                       </th>
+                                    </tr>
+                                 </thead>
+                                 <thead>
+                                 </thead>
+                                 <tbody>
+                                    <tr>
+                                       <td class="middlealign">
+                                          <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
+                                             <a class="student-profile-pic-view-link btn-link">
+                                                View Photo
+                                             </a>
+                                             <img alt="No Image Given" class="hidden" src=""/>
+                                                                                       </div>
+                                       </td>
+                                       <td class="middlealign">
+                                          Alice Betsy
+                                       </td>
+                                       <td class="middlealign">
+                                          Team 1
+                                       </td>
+                                       <td class="text-preserve-space">
+                                          3
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                       <td class="middlealign">
+                                          <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr">
+                                             <a class="student-profile-pic-view-link btn-link">
+                                                View Photo
+                                             </a>
+                                             <img alt="No Image Given" class="hidden" src=""/>
+                                                                                       </div>
+                                       </td>
+                                       <td class="middlealign">
+                                          Benny Charles
+                                       </td>
+                                       <td class="middlealign">
+                                          Team 1
+                                       </td>
+                                       <td class="text-preserve-space">
+                                          4
+                                       </td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
                 </div>
                 </div>
             </div>

@@ -8,6 +8,7 @@ import java.util.Map;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -46,6 +47,31 @@ public class InstructorFeedbackEditPageData extends PageData {
             }
         }        
         return result;
+    }
+    
+    /**
+     * Returns a list of HTML options for selecting question type.
+     * Used in instructorFeedbackEdit.jsp for selecting the question type for a new question.
+     */
+    public List<String> getQuestionTypeChoiceOptions() {
+        List<String> options = new ArrayList<String>();
+        for (FeedbackQuestionType type : FeedbackQuestionType.values()) {
+            options.add(type.getFeedbackQuestionDetailsInstance().getQuestionTypeChoiceOption());
+        }
+        return options;
+    }
+    
+    /**
+     * Get all question specific edit forms
+     * Used in instructorFeedbackEdit.jsp for new question 
+     * @return
+     */
+    public String getNewQuestionSpecificEditFormHtml() {
+        String newQuestionSpecificEditForms = "";
+        for (FeedbackQuestionType feedbackQuestionType : FeedbackQuestionType.values()) {
+            newQuestionSpecificEditForms += feedbackQuestionType.getFeedbackQuestionDetailsInstance().getNewQuestionSpecificEditFormHtml();
+        }
+        return newQuestionSpecificEditForms;
     }
     
     public ArrayList<String> getTimeZoneOptionsAsHtml(){

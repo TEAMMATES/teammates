@@ -9,8 +9,9 @@
 <%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionResponseStatus" %>
 <%@ page import="teammates.ui.controller.InstructorFeedbackResultsPageData"%>
-<%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionType"%>
 <%
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData) request.getAttribute("data");
     FieldValidator validator = new FieldValidator();
@@ -278,7 +279,7 @@
                                     int numStatsShown = 0;
                                     for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> teamResponseEntries : currentTeamResponses.entrySet()) {
                                         FeedbackQuestionAttributes question = questions.get(teamResponseEntries.getKey().getId());
-                                        FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+                                        FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
                                         String statsHtml = questionDetails.getQuestionResultStatisticsHtml(teamResponseEntries.getValue(), question, data.account, data.bundle, "recipient-question-giver");
                                         if(statsHtml != ""){
                                             numStatsShown++;
@@ -349,7 +350,7 @@
                     for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesForRecipientForQuestion : responsesForRecipient.getValue().entrySet()) {
                         questionIndex++;
                         FeedbackQuestionAttributes question = responsesForRecipientForQuestion.getKey();
-                        FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+                        FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
                         List<FeedbackResponseAttributes> responseEntries = responsesForRecipientForQuestion.getValue();
                 %>
                         <div class="panel panel-info">
@@ -411,9 +412,40 @@
                                             <td class="middlealign"><%=giverName%></td>
                                             <td class="middlealign"><%=giverTeamName%></td>
                                             <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
-                                        </tr>        
+                                        </tr>
+                                        
                                         <%
                                             }
+                                                                                                                            
+                                            if (question.questionType == FeedbackQuestionType.CONTRIB && !data.bundle.hasTargetGivenResponseToSelfInContributionQuestion(question, targetEmail)) {
+                                        %>
+                                            <tr>   
+                                                <% 
+                                                    if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) {
+                                                %>
+                                                        <td class="middlealign">
+                                                            <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
+                                                                <a class="student-profile-pic-view-link btn-link">
+                                                                    View Photo
+                                                                </a>
+                                                                <img src="" alt="No Image Given" class="hidden">
+                                                            </div>
+                                                        </td>
+                                                <% } else { %>
+                                                        <td class="middlealign">
+                                                            <div class="align-center" data-link="">
+                                                                <a class="btn-link">
+                                                                    View Photo
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                <% } %>
+                                                <td class="middlealign"><%=data.bundle.getNameForEmail(targetEmail)%></td>
+                                                <td class="middlealign"><%=data.bundle.getTeamNameForEmail(targetEmail)%></td>
+                                                <td class="text-preserve-space"><%=data.bundle.getContributionQuestionPerceivedContributionHtml(question, targetEmail)%></td>
+                                            </tr> 
+                                        <% 
+                                        } 
                                         %>
                                     </tbody>
                                 </table>

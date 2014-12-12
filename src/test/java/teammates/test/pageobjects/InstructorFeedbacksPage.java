@@ -488,6 +488,10 @@ public class InstructorFeedbacksPage extends AppPage {
         return !browser.driver.findElement(locator).isEnabled();
     }
     
+    public boolean verifyVisible (By locator) {
+        return browser.driver.findElement(locator).isDisplayed();
+    }
+    
     public InstructorFeedbackResultsPage loadViewResultsLink (String courseId, String fsName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
         String className = "session-view-for-test";

@@ -8,7 +8,7 @@
 
 <%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.util.TimeHelper" %>
-<%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionResultsBundle"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
@@ -17,7 +17,7 @@
 <%@ page import="teammates.ui.controller.PageData"%>
 <%@ page import="teammates.ui.controller.StudentCommentsPageData"%>
 <%
-    StudentCommentsPageData data = (StudentCommentsPageData)request.getAttribute("data");
+	StudentCommentsPageData data = (StudentCommentsPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -53,11 +53,13 @@
 
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         <br>
-            <% if(data.coursePaginationList.size() > 0) { %>
+            <%
+            	if(data.coursePaginationList.size() > 0) {
+            %>
             <ul class="pagination">
                 <li><a href="<%=data.previousPageLink%>">«</a></li>
                 <%
-                    for (String courseId : data.coursePaginationList) {
+                	for (String courseId : data.coursePaginationList) {
                 %>
                 <li
                     class="<%=courseId.equals(data.courseId) ? "active" : ""%>">
@@ -65,7 +67,7 @@
                     href="<%=data.getStudentCommentsLink(false) + "&courseid=" + courseId%>"><%=courseId%></a>
                 </li>
                 <%
-                    }
+                	}
                 %>
                 <li><a href="<%=data.nextPageLink%>">»</a></li>
             </ul>
@@ -84,7 +86,8 @@
                         </div>
                     </div>
                 </div>
-                <%  if(data.comments.size() != 0){// check student comments starts 
+                <%
+                	if(data.comments.size() != 0){// check student comments starts
                 %>
                 <br>
                 <div class="panel panel-primary">
@@ -93,13 +96,13 @@
                     </div>
                     <div class="panel-body">
                         <%
-                            int commentIdx = 0;
-                            int studentIdx = 0;
-                            for (CommentAttributes comment : data.comments) {//comment loop starts
-                                studentIdx++;
+                        	int commentIdx = 0;
+                                                    int studentIdx = 0;
+                                                    for (CommentAttributes comment : data.comments) {//comment loop starts
+                                                        studentIdx++;
                         %>
                         <%
-                            String recipientDisplay = data.getRecipientNames(comment.recipients);
+                        	String recipientDisplay = data.getRecipientNames(comment.recipients);
                         %>
                         <div class="panel panel-info student-record-comments <%=recipientDisplay.equals("you")?"giver_display-to-you":"giver_display-to-others"%>">
                             <div class="panel-heading">
@@ -107,20 +110,21 @@
                             </div>
                             <ul class="list-group comments">
                                 <%
-                                    CommentRecipientType recipientTypeForThisRecipient = CommentRecipientType.PERSON;//default value is PERSON
-                                    commentIdx++;
-                                    recipientTypeForThisRecipient = comment.recipientType;
+                                	CommentRecipientType recipientTypeForThisRecipient = CommentRecipientType.PERSON;//default value is PERSON
+                                                                    commentIdx++;
+                                                                    recipientTypeForThisRecipient = comment.recipientType;
                                 %>
                                 <li class="list-group-item list-group-item-warning"
                                     name="form_commentedit"
                                     class="form_comment"
                                     id="form_commentedit-<%=commentIdx%>">
                                     <div id="commentBar-<%=commentIdx%>">
-                                        <% InstructorAttributes instructor = data.roster.getInstructorForEmail(comment.giverEmail);
-                                           String giverDisplay = comment.giverEmail;
-                                           if(instructor != null){
-                                               giverDisplay = instructor.displayedName + " " + instructor.name;
-                                           }
+                                        <%
+                                        	InstructorAttributes instructor = data.roster.getInstructorForEmail(comment.giverEmail);
+                                                                                   String giverDisplay = comment.giverEmail;
+                                                                                   if(instructor != null){
+                                                                                       giverDisplay = instructor.displayedName + " " + instructor.name;
+                                                                                   }
                                         %>
                                         <span class="text-muted">From <b><%=giverDisplay%></b> on
                                             <%=TimeHelper.formatDate(comment.createdAt)%></span>
@@ -130,16 +134,18 @@
                             </ul>
                         </div>
                         <%
-                            }//comment loop ends
+                        	}//comment loop ends
                         %>
                     </div>
                 </div>
-                <% }// check student comments ends %>
                 <%
-                    int fsIndx = 0;
-                    for (String fsName : data.feedbackResultBundles.keySet()) {//FeedbackSession loop starts
-                        FeedbackSessionResultsBundle bundle = data.feedbackResultBundles.get(fsName);
-                        fsIndx++;
+                	}// check student comments ends
+                %>
+                <%
+                	int fsIndx = 0;
+                                    for (String fsName : data.feedbackResultBundles.keySet()) {//FeedbackSession loop starts
+                                        FeedbackSessionResultsBundle bundle = data.feedbackResultBundles.get(fsName);
+                                        fsIndx++;
                 %>
                 <br>
                 <div class="panel panel-primary">
@@ -148,20 +154,20 @@
                     </div>
                     <div class="panel-body">
                         <%
-                                int qnIndx = 0;
-                                for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries : bundle
-                                        .getQuestionResponseMap().entrySet()) {//FeedbackQuestion loop starts
-                                    qnIndx++;
+                        	int qnIndx = 0;
+                                                        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries : bundle
+                                                                .getQuestionResponseMap().entrySet()) {//FeedbackQuestion loop starts
+                                                            qnIndx++;
                         %>
                         <div class="panel panel-info">
                             <div class="panel-heading">
                                 <b>Question <%=responseEntries.getKey().questionNumber%></b>:
                                 <%=bundle.getQuestionText(responseEntries.getKey().getId())%>
                                 <%
-                                    Map<String, FeedbackQuestionAttributes> questions = bundle.questions;
-                                            FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
-                                            FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
-                                            out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
+                                	Map<String, FeedbackQuestionAttributes> questions = bundle.questions;
+                                                                            FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
+                                                                            FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+                                                                            out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
                                 %>
                             </div>
                             <table class="table">
