@@ -160,7 +160,10 @@ PM:
   * Push to master.
  
 TL:
-  * Create/update milestone 
+  * Create/update milestone
+    * State the release number in the milestone notes
+    * Ensure all issues and PRs included in the release are tagged with the correct milestone
+    * Close the milestone
   * Announce release to dev and contributor groups
    
 
