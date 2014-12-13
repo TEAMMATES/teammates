@@ -148,8 +148,9 @@ Role: committer
   
     
 ###Deploying fixes
-Role: PM
+Roles: PM + TL (Team Lead)
 
+PM: 
   * Pull the latest master.
   * Get dev green.
   * Deploy.
@@ -157,7 +158,10 @@ Role: PM
   * Make the version default.
   * Tag the version. Format `V{major}.{minor}.{build}` e.g. `V5.01.02`.
   * Push to master.
-  * Update milestone.
+ 
+TL:
+  * Create/update milestone 
+  * Announce release to dev and contributor groups
    
 
 ### Issue/PR Lifecycle
