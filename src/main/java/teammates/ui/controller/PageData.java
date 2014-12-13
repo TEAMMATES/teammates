@@ -859,7 +859,7 @@ public class PageData {
             "title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
             (hasRemind ? "onclick=\"return toggleRemindStudents('" + session.feedbackSessionName + "');\" " : "") +
             disableRemindSessionStr + ">Remind all students</a></li>" +
-            "<li><a href=\"#\" data-toggle=\"modal\" data-target=\"#basicModal\">Remind particulat students</a></li></ul></div> "
+            "<li><a href=\"#\" data-toggle=\"modal\" data-target=\"#remindModal\">Remind particulat students</a></li></ul></div> "
         );
         
         if (hasUnpublish) {

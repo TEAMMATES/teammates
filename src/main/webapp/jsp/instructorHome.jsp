@@ -84,6 +84,28 @@
             </div>
             <br>
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+            
+            <div class="modal fade" id="remindModal" tabindex="-1" role="dialog" aria-labelledby="remindModal" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">
+                                Remind Particular Students
+                                <small>(Select the student(s) you want to remind)</small>
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <h3>Student List</h3>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary">Remind</button>
+                    </div>
+                </div>
+              </div>
+            </div>
+            
             <% if (data.account.isInstructor) { %>
             <div class="row<%=countUnarchivedCourses < 2 ? " hidden" : "" %>">
                 <div class="col-md-5 pull-right">
