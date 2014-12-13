@@ -751,7 +751,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      */
     public static String convertToEqualShareFormatHtml(int i) {
         if(i==Const.POINTS_NOT_SUBMITTED || i==Const.INT_UNINITIALIZED)
-            return "<span class=\"color-negative\">N/A</span>";
+            return "<span class=\"color_neutral\">N/A</span>";
         else if(i==Const.POINTS_NOT_SURE)
             return "<span class=\"color-negative\">Not Sure</span>";
         else if(i==0)
