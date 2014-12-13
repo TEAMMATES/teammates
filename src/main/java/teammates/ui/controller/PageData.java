@@ -570,6 +570,14 @@ public class PageData {
         return link;
     }
     
+    public String getInstructorFeedbackSessionRemindParticularStudentsPageLink(String courseID, String feedbackSessionName){
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE;
+        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseID);
+        link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
+        link = addUserIdToUrl(link);
+        return link;
+    }
+    
     public String getInstructorFeedbackSessionPublishLink(String courseID, String feedbackSessionName, boolean isHome){
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH;
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseID);
@@ -859,7 +867,8 @@ public class PageData {
             "title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
             (hasRemind ? "onclick=\"return toggleRemindStudents('" + session.feedbackSessionName + "');\" " : "") +
             disableRemindSessionStr + ">Remind all students</a></li>" +
-            "<li><a href=\"#\" data-toggle=\"modal\" data-target=\"#remindModal\">Remind particulat students</a></li></ul></div> "
+            "<li><a href=\"#\" data-actionlink=" + getInstructorFeedbackSessionRemindParticularStudentsPageLink(session.courseId,session.feedbackSessionName) + "\" " +
+            "data-toggle=\"modal\" data-target=\"#remindModal\">Remind particular students</a></li></ul></div> "
         );
         
         if (hasUnpublish) {

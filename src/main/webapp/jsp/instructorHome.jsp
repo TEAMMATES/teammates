@@ -40,6 +40,7 @@
         <script type="text/javascript" src="/js/instructor.js"></script>
         <script type="text/javascript" src="/js/instructorHome.js"></script>
         <script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
+        <script type="text/javascript" src="/js/remindModal.js"></script>
         <jsp:include page="../enableJS.jsp"></jsp:include>
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -96,7 +97,7 @@
                             </h4>
                         </div>
                         <div class="modal-body">
-                            <h3>Student List</h3>
+                            <div id="studentList"></div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
