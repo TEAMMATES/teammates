@@ -724,6 +724,20 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 + "]</span>";
     }
     
+    public String getContributionQuestionPerceivedContributionHtml(FeedbackQuestionAttributes question,
+            String targetEmail, FeedbackSessionResultsBundle bundle) {
+        Map<String, StudentResultSummary> stats = FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
+        
+        StudentResultSummary studentResult = stats.get(targetEmail);
+        String responseAnswerHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
+                studentResult.claimedToInstructor);
+        
+        int pc = studentResult.perceivedToInstructor;
+        responseAnswerHtml += FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
+        
+        return responseAnswerHtml;
+    }
+    
     /**
      * Converts points in integer to String.
      * @param i
@@ -764,6 +778,15 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             return "<span class=\"color_neutral\">Equal Share</span>";
         else
             return "";
+    }
+    
+    @Override
+    public String getNoResponseText(String giverEmail, String recipientEmail, FeedbackSessionResultsBundle bundle, FeedbackQuestionAttributes question) {
+        if (giverEmail.equals(recipientEmail)) {
+            return getContributionQuestionPerceivedContributionHtml(question, giverEmail, bundle);
+        } else {
+            return "No Response";
+        }
     }
 
 }
