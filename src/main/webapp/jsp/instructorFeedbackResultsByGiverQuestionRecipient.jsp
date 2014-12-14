@@ -2,6 +2,8 @@
 
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
+<%@ page import="java.util.Set"%>
+<%@ page import="java.util.HashSet"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
@@ -176,6 +178,8 @@
                     boolean newSection = false;
                     int sectionIndex = -1;
                     int teamIndex = 0;
+            Set<String> teamMembersEmail = new HashSet<String>(); 
+            Set<String> recipients = new HashSet<String>();
         %>
         <%
         	Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByGiverQuestionRecipient(groupByTeamEnabled);

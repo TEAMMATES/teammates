@@ -2,6 +2,8 @@
 
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
+<%@ page import="java.util.Set"%>
+<%@ page import="java.util.HashSet"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
@@ -178,6 +180,8 @@
                             boolean newSection = false;
                             int sectionIndex = -1;
                             int teamIndex = 0;
+                Set<String> teamMembersEmail = new HashSet<String>(); 
+                Set<String> givers = new HashSet<String>();
             %>
 
             <%
@@ -257,11 +261,15 @@
             %>
 
             <%
+                
             	if(groupByTeamEnabled == true && (currentTeam==null || newTeam==true)) {
                                 currentTeam = data.bundle.getTeamNameForEmail(targetEmail);
                                 if(currentTeam.equals("")){
                                     currentTeam = data.bundle.getNameForEmail(targetEmail);
                                 }
+                                givers = new HashSet<String>();                                
+                                teamMembersEmail = data.bundle.getTeamMembersFromRoster(currentTeam);
+
                                 teamIndex++;
                                 newTeam = false;
             %>
@@ -293,8 +301,8 @@
                 <div class="panel-heading">
                     To: 
                     <%
-                	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) {
-                %>
+                	    if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) {
+                    %>
                         <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
                             <strong><%=responsesForRecipient.getKey()%></strong>
                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
@@ -306,6 +314,7 @@
                         <strong><%=responsesForRecipient.getKey()%></strong>
                     <%
                     	}
+                        givers.add(targetEmail);
                     %>
                     <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
                 </div>
@@ -316,6 +325,7 @@
                                     for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesForRecipientFromGiver : responsesForRecipient.getValue().entrySet()) {
                                         giverIndex++;
                                         String giverEmail = responsesForRecipientFromGiver.getValue().get(0).giverEmail;
+                                        
                 %>
                         <div class="row <%=giverIndex == 1? "": "border-top-gray"%>">
                             <div class="col-md-2">
@@ -822,9 +832,35 @@
             </div>
         <%
             }
+                    
+            Set<String> teamMembersWithoutReceivingResponses = new HashSet<String>(teamMembersEmail);
+            teamMembersWithoutReceivingResponses.removeAll(givers);
+            
+            for (String email : teamMembersWithoutReceivingResponses) {
         %>
+            <div class="panel panel-primary">
+            <div class="panel-heading">
+                To: 
+                <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
+                    <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(email)%>">
+                        <strong><%=data.bundle.getNameFromRoster(email)%></strong>
+                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                    </div>
+                <% } else {%>
+                    <strong><%=data.bundle.getNameFromRoster(email)%></strong>
+                <% } %>
+                    <a class="link-in-dark-bg" href="mailTo:<%= email%>"  >[<%=email%>]</a>
+                <span class='glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right'></span>
+            </div>
+            <div class='panel-collapse collapse'>
+                <div class="panel-body"> There are no responses received by this user 
+                </div>
+            </div>
+            </div>
+        <%     
+            }
+        
 
-        <%
             //close the last team panel.
             if(groupByTeamEnabled==true) {
         %>

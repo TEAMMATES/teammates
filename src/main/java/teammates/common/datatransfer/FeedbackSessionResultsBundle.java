@@ -29,6 +29,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     public Map<String, String> emailLastNameTable = null;
     public Map<String, String> emailTeamNameTable = null;
     public Map<String, Map<String, String>> rosterTeamNameEmailTable = null; 
+    public Map<String, Set<String>> rosterSectionTeamNameTable = null;
     public Map<String, boolean[]> visibilityTable = null;
     public FeedbackSessionResponseStatus responseStatus = null;
     public CourseRoster roster = null;
@@ -102,8 +103,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 emailTeamNameTable, visibilityTable);
         
         // unlike emailTeamNameTable, emailLastNameTable and emailTeamNameTable,
-        // rosterTeamNameEmailTable is populated using the CourseRoster data directly
+        // roster.*Table is populated using the CourseRoster data directly
         this.rosterTeamNameEmailTable = getTeamNameToStudentsTableFromRoster(roster);
+        this.rosterSectionTeamNameTable = getSectionToTeamNamesFromRoster(roster);
     }
 
     /**
@@ -1099,7 +1101,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         Map<String, Map<String, String>> teamNameToStudents = new HashMap<String, Map<String, String>>();
         
         for (StudentAttributes student : students) {
-            String studentTeam = student.team;
+            String studentTeam = student.team; 
             Map<String, String> emailToName;
             
             if (teamNameToStudents.containsKey(studentTeam)) {
@@ -1128,6 +1130,28 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         }
         
         return teamNameToStudents;
+    }
+    
+    public Map<String, Set<String>> getSectionToTeamNamesFromRoster(CourseRoster courseroster) {
+        List<StudentAttributes> students = courseroster.getStudents();
+        Map<String, Set<String>> sectionToTeam = new HashMap<String, Set<String>>();
+        
+        for (StudentAttributes student : students) {
+            String studentSection = student.section;
+            String studentTeam = student.team; 
+            Set<String> teamNames; 
+            
+            if (sectionToTeam.containsKey(studentSection)) {
+                teamNames = sectionToTeam.get(studentSection);
+            } else {
+                teamNames = new HashSet<String>();
+            }
+            
+            teamNames.add(studentTeam);
+            sectionToTeam.put(studentSection, teamNames);
+        }
+        
+        return sectionToTeam;
     }
     
     @SuppressWarnings("unused")
