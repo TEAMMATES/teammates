@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
@@ -288,7 +288,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         TestHelper.verifyPresentInDatastore(modifiedQuestion, true);
         
         modifiedQuestion = fqDb.getFeedbackQuestion(modifiedQuestion.feedbackSessionName, modifiedQuestion.courseId, modifiedQuestion.questionNumber);
-        FeedbackAbstractQuestionDetails fqd = modifiedQuestion.getQuestionDetails();
+        FeedbackQuestionDetails fqd = modifiedQuestion.getQuestionDetails();
         fqd.questionText = "New question text!";
         modifiedQuestion.setQuestionDetails(fqd);
         fqDb.updateFeedbackQuestion(modifiedQuestion);

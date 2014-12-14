@@ -6,18 +6,21 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
+import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.FeedbackQuestionsLogic;
 
-public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestionDetails {
+public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails {
     public int numOfConstSumOptions;
     public List<String> constSumOptions;
     public boolean distributeToRecipients;
@@ -61,6 +64,76 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
         this.points = points;
         this.forceUnevenDistribution = unevenDistribution;
     }
+    
+    @Override
+    public boolean extractQuestionDetails(
+            Map<String, String[]> requestParameters,
+            FeedbackQuestionType questionType) {
+        
+        int numOfConstSumOptions = 0;
+        List<String> constSumOptions = new LinkedList<String>();
+        String distributeToRecipientsString = null;
+        String pointsPerOptionString = null;
+        String pointsString = null;
+        String forceUnevenDistributionString = null;
+        boolean distributeToRecipients = false;
+        boolean pointsPerOption = false;
+        boolean forceUnevenDistribution = false;
+        int points = 0;
+        
+        distributeToRecipientsString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS);
+        pointsPerOptionString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION);
+        pointsString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS);
+        Assumption.assertNotNull("Null points", pointsString);
+        forceUnevenDistributionString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
+        
+        distributeToRecipients = (distributeToRecipientsString == null) ? false : (distributeToRecipientsString.equals("true")? true : false);
+        pointsPerOption = (pointsPerOptionString == null) ? false : pointsPerOptionString.equals("true") ? true : false;
+        points = Integer.parseInt(pointsString);
+        forceUnevenDistribution = (forceUnevenDistributionString == null) ? false : (forceUnevenDistributionString.equals("on") ? true : false); 
+        
+        if (!distributeToRecipients) {
+            String numConstSumOptionsCreatedString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
+            Assumption.assertNotNull("Null number of choice for ConstSum", numConstSumOptionsCreatedString);
+            int numConstSumOptionsCreated = Integer.parseInt(numConstSumOptionsCreatedString);
+            
+            for(int i = 0; i < numConstSumOptionsCreated; i++) {
+                String constSumOption = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION + "-" + i);
+                if(constSumOption != null && !constSumOption.trim().isEmpty()) {
+                    constSumOptions.add(constSumOption);
+                    numOfConstSumOptions++;
+                }
+            }
+            this.setConstantSumQuestionDetails(numOfConstSumOptions, constSumOptions, pointsPerOption, points, forceUnevenDistribution);
+        } else {
+            this.setConstantSumQuestionDetails(pointsPerOption, points, forceUnevenDistribution);
+        }
+        return true;
+    }
+
+    private void setConstantSumQuestionDetails(int numOfConstSumOptions,
+            List<String> constSumOptions, boolean pointsPerOption,
+            int points, boolean unevenDistribution) {
+        
+        this.numOfConstSumOptions = constSumOptions.size();
+        this.constSumOptions = constSumOptions;
+        this.distributeToRecipients = false;
+        this.pointsPerOption = pointsPerOption;
+        this.points = points;
+        this.forceUnevenDistribution = unevenDistribution;
+        
+    }
+
+    private void setConstantSumQuestionDetails(boolean pointsPerOption,
+            int points, boolean unevenDistribution) {
+        
+        this.numOfConstSumOptions = 0;
+        this.constSumOptions = new ArrayList<String>();
+        this.distributeToRecipients = true;
+        this.pointsPerOption = pointsPerOption;
+        this.points = points;
+        this.forceUnevenDistribution = unevenDistribution;
+    }
 
     @Override
     public String getQuestionTypeDisplayName() {
@@ -74,7 +147,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
-            FeedbackAbstractResponseDetails existingResponseDetails) {
+            FeedbackResponseDetails existingResponseDetails) {
         
         FeedbackConstantSumResponseDetails existingConstSumResponse = (FeedbackConstantSumResponseDetails) existingResponseDetails;
         StringBuilder optionListHtml = new StringBuilder();
@@ -219,6 +292,18 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY);
         
         return html;
+    }
+
+    @Override
+    public String getNewQuestionSpecificEditFormHtml() {
+        // Add two empty options by default
+        this.numOfConstSumOptions = 2;
+        this.constSumOptions.add("");
+        this.constSumOptions.add("");
+
+        return "<div id=\"constSumForm\">" +
+                    this.getQuestionSpecificEditFormHtml(-1) + 
+               "</div>";
     }
 
     @Override
@@ -452,7 +537,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
 
     @Override
     public boolean isChangesRequiresResponseDeletion(
-            FeedbackAbstractQuestionDetails newDetails) {
+            FeedbackQuestionDetails newDetails) {
         FeedbackConstantSumQuestionDetails newConstSumDetails = (FeedbackConstantSumQuestionDetails) newDetails;
 
         if (this.numOfConstSumOptions != newConstSumDetails.numOfConstSumOptions ||
@@ -488,6 +573,14 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackAbstractQuestion
             List<String> sanitizedOptions = Sanitizer.sanitizeListForCsv(constSumOptions);
             return "Feedbacks:," + StringHelper.toString(sanitizedOptions, ",");
         }
+    }
+
+    @Override
+    public String getQuestionTypeChoiceOption() {
+        // Constant sum has two options for user to select, and one hidden option.
+        return "<option value = \"CONSTSUM_OPTION\">"+Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION+"</option>" +
+               "<option value = \"CONSTSUM_RECIPIENT\">"+Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT+"</option>" + 
+               "<option value = \"CONSTSUM\" disabled=\"disabled\" style=\"display:none\"></option>";
     }
 
     final int MIN_NUM_OF_CONST_SUM_OPTIONS = 2;

@@ -3,22 +3,28 @@
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
-<%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.ui.controller.FeedbackSubmissionEditPageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 
 <%
-    FeedbackSubmissionEditPageData data = (FeedbackSubmissionEditPageData)request.getAttribute("data");
+	FeedbackSubmissionEditPageData data = (FeedbackSubmissionEditPageData)request.getAttribute("data");
 %>    
     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>"/>
     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>"/>
-    <% if (data.account.googleId != null) { %>
+    <%
+    	if (data.account.googleId != null) {
+    %>
         <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-    <% } else { %>
+    <%
+    	} else {
+    %>
         <input type="hidden" name="<%=Const.ParamsNames.REGKEY%>" value="<%=data.student.key%>">
         <input type="hidden" name="<%=Const.ParamsNames.STUDENT_EMAIL%>" value="<%=data.account.email%>">
-    <% } %>
+    <%
+    	}
+    %>
     <div class="well well-plain" id="course1">
             <div class="panel-body">
                 <div class="form-horizontal">
@@ -60,12 +66,12 @@
     <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
     <br />
 <%
-    int qnIndx = 1;
+	int qnIndx = 1;
     List<FeedbackQuestionAttributes> questions = data.bundle.getSortedQuestions();
     for (FeedbackQuestionAttributes question : questions) {
         int numOfResponseBoxes = question.numberOfEntitiesToGiveFeedbackTo;
         int maxResponsesPossible = data.bundle.recipientList.get(question.getId()).size();
-        FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+        FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
 
         if (numOfResponseBoxes == Const.MAX_POSSIBLE_RECIPIENTS ||
                 numOfResponseBoxes > maxResponsesPossible) {
