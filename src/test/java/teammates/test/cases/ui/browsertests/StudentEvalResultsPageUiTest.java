@@ -52,17 +52,17 @@ public class StudentEvalResultsPageUiTest extends BaseUiTestCase {
         
         //extreme case: 1
         //My view:         of me: E +100%  of others: E , 0%
-        //Teams's view:    of me: E +2%    of others: E +48% , E -50%
+        //Team's view:    of me: E +2%    of others: E +48% , E -50%
         verifyResultContent("Second Eval", "SEvalRUiT.charlie.d", "/studentEvalResultsExtreme1HTML.html");
 
         //extreme case: 2
         //My view:         of me: E        of others: E +10% , E
-        //Teams's view:    of me: E -48%   of others: E +53% , E +6%
+        //Team's view:    of me: E -48%   of others: E +53% , E +6%
         verifyResultContent("Second Eval", "SEvalRUiT.danny.e", "/studentEvalResultsExtreme2HTML.html");
 
         //extreme case: 3
         //My view:         of me: E        of others: E , E
-        //Teams's view:    of me: E +48%   of others: E +2% , E -50%
+        //Team's view:    of me: E +48%   of others: E +2% , E -50%
         verifyResultContent("Second Eval", "SEvalRUiT.emily.f", "/studentEvalResultsExtreme3HTML.html");
 
         //student did not submit
