@@ -281,6 +281,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         StudentProfilePage spp = studentHomePage.loadProfileTab();
         spp.verifyContains("Student Profile");
+        spp.verifyContains("AHPUiT Instrúctör");
         
         studentHomePage.logout();
         
