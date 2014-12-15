@@ -40,7 +40,7 @@
         <script type="text/javascript" src="/js/instructor.js"></script>
         <script type="text/javascript" src="/js/instructorHome.js"></script>
         <script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
-        <script type="text/javascript" src="/js/remindModal.js"></script>
+        <script type="text/javascript" src="/js/instructorFeedbackAjaxRemindModal.js"></script>
         <jsp:include page="../enableJS.jsp"></jsp:include>
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
