@@ -195,6 +195,18 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return "";
     }
     
+    public String getTeamNameFromRoster(String email) {
+        StudentAttributes student = roster.getStudentForEmail(email);
+        InstructorAttributes instructor = roster.getInstructorForEmail(email);
+        if (student != null) {
+            return student.team;
+        } else if (instructor != null) {
+            return "Instructors";
+        }
+        
+        return "";
+    }
+    
     public Set<String> getTeamMembersFromRoster(String teamName) {
         if (rosterTeamNameEmailTable.get(teamName) != null) {
             return rosterTeamNameEmailTable.get(teamName).keySet();
@@ -206,6 +218,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     
     public List<String> getPossibleGivers(FeedbackQuestionAttributes fqa, String recipientEmail) {
         boolean recipientIsAnonymous = recipientEmail.contains("@@");
+       
         if (recipientEmail == null || recipientIsAnonymous) {
             return new ArrayList<String>();
         }

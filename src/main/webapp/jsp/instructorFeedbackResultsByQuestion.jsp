@@ -125,23 +125,30 @@
                             <thead>
                             <tbody>
                                 <%
-                                    for(FeedbackResponseAttributes responseEntry: responseEntries.getValue()) {
+                                    if (responseEntries.getValue().size() > 0) {
+                                      for(FeedbackResponseAttributes responseEntry: responseEntries.getValue()) {
                                 %>
-                                <tr>
+                                            <tr>
                                 <%
-                                    String giverName = data.bundle.getGiverNameForResponse(question, responseEntry);
-                                    String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
-
-                                    String recipientName = data.bundle.getRecipientNameForResponse(question, responseEntry);
-                                    String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
+                                                String giverName = data.bundle.getGiverNameForResponse(question, responseEntry);
+                                                String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
+            
+                                                String recipientName = data.bundle.getRecipientNameForResponse(question, responseEntry);
+                                                String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
                                 %>
-                                    <td class="middlealign"><%=giverName%></td>
-                                    <td class="middlealign"><%=giverTeamName%></td>
-                                    <td class="middlealign"><%=recipientName%></td>
-                                    <td class="middlealign"><%=recipientTeamName%></td>
-                                    <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
-                                </tr>        
+                                                <td class="middlealign"><%=giverName%></td>
+                                                <td class="middlealign"><%=giverTeamName%></td>
+                                                <td class="middlealign"><%=recipientName%></td>
+                                                <td class="middlealign"><%=recipientTeamName%></td>
+                                                <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
+                                            </tr>        
                                 <%
+                                      }
+                                    } else {
+                                %>
+                                        <p> There are no responses for this question </p>
+                                    
+                                <%         
                                     }
                                 %>
                             </tbody>

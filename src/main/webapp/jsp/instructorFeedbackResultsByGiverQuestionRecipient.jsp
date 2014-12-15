@@ -179,13 +179,20 @@
                     int sectionIndex = -1;
                     int teamIndex = 0;
             Set<String> teamMembersEmail = new HashSet<String>(); 
-            Set<String> recipients = new HashSet<String>();
+            Set<String> givers = new HashSet<String>();
         %>
         <%
         	Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByGiverQuestionRecipient(groupByTeamEnabled);
                     Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> teamResponses = data.bundle.getQuestionResponseMapByGiverTeam();
                     Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
                     int giverIndex = data.startIndex;
+                    
+                    Set<String> teamsInSection = new HashSet<String>();
+                    Set<String> receivingTeams = new HashSet<String>();
+                    
+                    Set<String> sectionsInCourse = data.bundle.rosterSectionTeamNameTable.keySet();
+                    Set<String> receivingSections = new HashSet<String>();
+                    
                     for (Map.Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesFromGiver : allResponses.entrySet()) {
                         giverIndex++;
                         
@@ -232,6 +239,10 @@
                             currentSection = firstResponse.giverSection;
                             newSection = false;
                             sectionIndex++;
+                            
+                            receivingSections.add(currentSection);
+                            teamsInSection = data.bundle.rosterSectionTeamNameTable.get(currentSection);
+                            receivingTeams = new HashSet<String>();
         %>
                 <div class="panel panel-success">
                     <div class="panel-heading">
@@ -264,6 +275,12 @@
                         if(currentTeam.equals("")){
                             currentTeam = data.bundle.getNameForEmail(giverEmail);
                         }
+                        
+                        givers = new HashSet<String>();                                
+                        teamMembersEmail = data.bundle.getTeamMembersFromRoster(currentTeam);
+                        
+                        receivingTeams.add(currentTeam);
+                        
                         newTeam = false;
                         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> currentTeamResponses = teamResponses.get(currentTeam);
         %>
@@ -352,6 +369,7 @@
                         <a class="link-in-dark-bg" href="mailTo:<%=giverEmail%> " <%=mailtoStyleAttr%>>[<%=giverEmail%>]</a>
                     <%
                     	}
+                        givers.add(giverEmail);
                     %>
                     <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>                </div>
                 <div class='panel-collapse collapse <%=shouldCollapsed ? "" : "in"%>'>
@@ -440,6 +458,32 @@
         %>
 
         <%
+                Set<String> teamMembersWithoutReceivingResponses = new HashSet<String>(teamMembersEmail);
+                teamMembersWithoutReceivingResponses.removeAll(givers);
+                
+                for (String email : teamMembersWithoutReceivingResponses) {
+            %>
+                <div class="panel panel-primary">
+                <div class="panel-heading">
+                    To: 
+                    <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
+                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(email)%>">
+                            <strong><%=data.bundle.getNameFromRoster(email)%></strong>
+                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                        </div>
+                    <% } else {%>
+                        <strong><%=data.bundle.getNameFromRoster(email)%></strong>
+                    <% } %>
+                        <a class="link-in-dark-bg" href="mailTo:<%= email%>"  >[<%=email%>]</a>
+                    <span class='glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right'></span>
+                </div>
+                <div class='panel-collapse collapse'>
+                    <div class="panel-body"> There are no responses received by this user 
+                    </div>
+                </div>
+                </div>
+            <%     
+            }
             //close the last team panel.
             if(groupByTeamEnabled==true) {
         %>
@@ -448,12 +492,51 @@
                 </div>
         <%
             }
+            
+            Set<String> teamsWithNoResponseReceived = new HashSet<String>(teamsInSection);
+            teamsWithNoResponseReceived.removeAll(receivingTeams);
+            
+            if (groupByTeamEnabled) {
+              for (String teamWithNoResponseReceived: teamsWithNoResponseReceived) {
+                 %>
+                      <div class="panel panel-warning">
+                          <div class="panel-heading">
+                              <strong> <%=teamWithNoResponseReceived %></strong>
+                              <span class="glyphicon pull-right glyphicon-chevron-up"></span>
+                          </div>
+                          <div class="panel-collapse collapse" id="panelBodyCollapse-2" style="height: auto;">
+                              <div class="panel-body background-color-warning">
+                                  No responses received
+                              </div>
+                          </div>
+                      </div>                
+                  <% 
+              }    
+          }
         %>
                 </div>
                 </div>
             </div>
 
         <%
+            Set<String> sectionsWithNoResponseReceived = new HashSet<String>(sectionsInCourse);
+            sectionsWithNoResponseReceived.removeAll(receivingSections);
+            
+            for (String sectionWithNoResponseReceived: sectionsWithNoResponseReceived) {
+               %>
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <strong> <%=sectionWithNoResponseReceived %></strong>
+                            <span class="glyphicon pull-right glyphicon-chevron-up"></span>
+                        </div>
+                        <div class="panel-collapse collapse" id="panelBodyCollapse-2" style="height: auto;">
+                            <div class="panel-body">
+                                No responses received
+                            </div>
+                        </div>
+                    </div>                
+                <% 
+            }
             }
         %>
 

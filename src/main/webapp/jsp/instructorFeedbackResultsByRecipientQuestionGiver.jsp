@@ -188,7 +188,7 @@
             int recipientIndex = data.startIndex;
             
             Set<String> teamMembersEmail = new HashSet<String>(); 
-            Set<String> givers = new HashSet<String>();
+            Set<String> teamMembersWithResponses = new HashSet<String>();
             
             Set<String> teamsInSection = new HashSet<String>();
             Set<String> receivingTeams = new HashSet<String>();
@@ -376,7 +376,7 @@
                 <div class='panel-collapse collapse <%= shouldCollapsed ? "" : "in" %>'>
                 <div class="panel-body">
                 <%
-                    givers.add(targetEmail);
+                    teamMembersWithResponses.add(targetEmail);
                    
                     int questionIndex = 0;
                     
@@ -427,6 +427,10 @@
                                             String giverName = data.bundle.getGiverNameForResponse(question, responseEntry);
                                             String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
                                             
+                                            if (responseEntry.giverEmail.contains("@@")) {
+                                                // do not show possible givers if givers are anonymised
+                                            	possibleGiversToRecipient.clear();
+                                            }
                                             possibleGiversToRecipient.remove(responseEntry.giverEmail);
                                             
                                             if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, responseEntry.giverEmail).isEmpty()) {
@@ -482,7 +486,7 @@
                                                 }
                                         %>        
                                             <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleGiverWithNoResponse)%></td>
-                                                <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleGiverWithNoResponse)%></td>
+                                                <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(possibleGiverWithNoResponse)%></td>
                                                 <td class="text-preserve-space"><%=questionDetails.getNoResponseText(possibleGiverWithNoResponse, targetEmail, data.bundle, question)%> </td>
                                             </tr>
                                         <%  
@@ -503,7 +507,7 @@
             }
             
             Set<String> teamMembersWithNoReceivedResponses = new HashSet<String>(teamMembersEmail);
-            teamMembersWithNoReceivedResponses.removeAll(givers);
+            teamMembersWithNoReceivedResponses.removeAll(teamMembersWithResponses);
             
             for (String email : teamMembersWithNoReceivedResponses) {
         %>
@@ -546,21 +550,23 @@
             Set<String> teamsWithNoResponseReceived = new HashSet<String>(teamsInSection);
             teamsWithNoResponseReceived.removeAll(receivingTeams);
             
-            for (String teamWithNoResponseReceived: teamsWithNoResponseReceived) {
-               %>
-                    <div class="panel panel-warning">
-                        <div class="panel-heading">
-                            <strong> <%=teamWithNoResponseReceived %></strong>
-                            <span class="glyphicon pull-right glyphicon-chevron-up"></span>
-                        </div>
-                        <div class="panel-collapse collapse" id="panelBodyCollapse-2" style="height: auto;">
-                            <div class="panel-body background-color-warning">
-                                No responses received
+            if (groupByTeamEnabled) {
+                for (String teamWithNoResponseReceived: teamsWithNoResponseReceived) {
+                   %>
+                        <div class="panel panel-warning">
+                            <div class="panel-heading">
+                                <strong> <%=teamWithNoResponseReceived %></strong>
+                                <span class="glyphicon pull-right glyphicon-chevron-up"></span>
                             </div>
-                        </div>
-                    </div>                
-                <% 
-            }    
+                            <div class="panel-collapse collapse" id="panelBodyCollapse-2" style="height: auto;">
+                                <div class="panel-body background-color-warning">
+                                    No responses received
+                                </div>
+                            </div>
+                        </div>                
+                    <% 
+                }    
+            }
         %>
         
                 </div>
@@ -581,7 +587,7 @@
                             <span class="glyphicon pull-right glyphicon-chevron-up"></span>
                         </div>
                         <div class="panel-collapse collapse" id="panelBodyCollapse-2" style="height: auto;">
-                            <div class="panel-body background-color-warning">
+                            <div class="panel-body">
                                 No responses received
                             </div>
                         </div>

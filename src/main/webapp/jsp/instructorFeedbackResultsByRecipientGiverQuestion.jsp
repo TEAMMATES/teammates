@@ -189,6 +189,14 @@
                             Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
 
                             int recipientIndex = data.startIndex;
+                            
+                            Set<String> teamsInSection = new HashSet<String>();
+                            Set<String> receivingTeams = new HashSet<String>();
+                            
+                            Set<String> sectionsInCourse = data.bundle.rosterSectionTeamNameTable.keySet();
+                            Set<String> receivingSections = new HashSet<String>();
+                            
+                            
                             for (Map.Entry<String, Map<String, List<FeedbackResponseAttributes>>> responsesForRecipient : allResponses.entrySet()) {
                                 recipientIndex++;
                                 
@@ -235,6 +243,10 @@
                                 currentSection = firstResponse.recipientSection;
                                 newSection = false;
                                 sectionIndex++;
+                                
+                                receivingSections.add(currentSection);
+                                teamsInSection = data.bundle.rosterSectionTeamNameTable.get(currentSection);
+                                receivingTeams = new HashSet<String>();
             %>
                     <div class="panel panel-success">
                         <div class="panel-heading">
@@ -272,6 +284,8 @@
 
                                 teamIndex++;
                                 newTeam = false;
+                                
+                                receivingTeams.add(currentTeam);
             %>
                     <div class="panel panel-warning">
                         <div class="panel-heading">
@@ -869,12 +883,51 @@
                 </div>
         <%
             }
+            Set<String> teamsWithNoResponseReceived = new HashSet<String>(teamsInSection);
+            teamsWithNoResponseReceived.removeAll(receivingTeams);
+            
+            if (groupByTeamEnabled) {
+                for (String teamWithNoResponseReceived: teamsWithNoResponseReceived) {
+                   %>
+                        <div class="panel panel-warning">
+                            <div class="panel-heading">
+                                <strong> <%=teamWithNoResponseReceived %></strong>
+                                <span class="glyphicon pull-right glyphicon-chevron-up"></span>
+                            </div>
+                            <div class="panel-collapse collapse" id="panelBodyCollapse-2" style="height: auto;">
+                                <div class="panel-body background-color-warning">
+                                    No responses received
+                                </div>
+                            </div>
+                        </div>                
+                    <% 
+                }    
+            }
         %>
 
             </div>
                 </div>
             </div>
         <%
+            Set<String> sectionsWithNoResponseReceived = new HashSet<String>(sectionsInCourse);
+            sectionsWithNoResponseReceived.removeAll(receivingSections);
+            
+            for (String sectionWithNoResponseReceived: sectionsWithNoResponseReceived) {
+               %>
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <strong> <%=sectionWithNoResponseReceived %></strong>
+                            <span class="glyphicon pull-right glyphicon-chevron-up"></span>
+                        </div>
+                        <div class="panel-collapse collapse" id="panelBodyCollapse-2" style="height: auto;">
+                            <div class="panel-body">
+                                No responses received
+                            </div>
+                        </div>
+                    </div>                
+                <% 
+            }
+        
             }
         %>
 
