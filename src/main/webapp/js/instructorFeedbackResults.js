@@ -80,9 +80,9 @@ function showHideStats(){
 // Show/Hide rows that indicate no response between the giver and recipient
 function showHideNoResponseRows() {
 	if ($("#show-noresponses-checkbox").is(":checked")) {
-		$(".no_response_rows").show();
+		$(".pending_response_row").show();
 	} else {
-		$(".no_response_rows").hide();
+		$(".pending_response_row").hide();
 	}
 	
 }

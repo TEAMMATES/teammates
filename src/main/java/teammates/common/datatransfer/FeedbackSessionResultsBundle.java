@@ -207,6 +207,18 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return "";
     }
     
+    public String getSectionFromRoster(String email) {
+        StudentAttributes student = roster.getStudentForEmail(email);
+        InstructorAttributes instructor = roster.getInstructorForEmail(email);
+        if (student != null) {
+            return student.section;
+        } else if (instructor != null) {
+            return "Not in a section";
+        }
+        
+        return "";
+    }
+    
     public Set<String> getTeamMembersFromRoster(String teamName) {
         if (rosterTeamNameEmailTable.get(teamName) != null) {
             return rosterTeamNameEmailTable.get(teamName).keySet();
@@ -1173,7 +1185,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return false;
     }
     
-    public Map<String, Map<String, String>> getTeamNameToStudentsTableFromRoster(CourseRoster courseroster) {
+    private Map<String, Map<String, String>> getTeamNameToStudentsTableFromRoster(CourseRoster courseroster) {
         List<StudentAttributes> students = courseroster.getStudents();
         Map<String, Map<String, String>> teamNameToStudents = new HashMap<String, Map<String, String>>();
         
@@ -1209,7 +1221,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return teamNameToStudents;
     }
     
-    public Map<String, Set<String>> getSectionToTeamNamesFromRoster(CourseRoster courseroster) {
+    private Map<String, Set<String>> getSectionToTeamNamesFromRoster(CourseRoster courseroster) {
         List<StudentAttributes> students = courseroster.getStudents();
         Map<String, Set<String>> sectionToTeam = new HashMap<String, Set<String>>();
         

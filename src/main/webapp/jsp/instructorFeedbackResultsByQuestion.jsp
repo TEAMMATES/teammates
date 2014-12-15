@@ -131,11 +131,11 @@
                                       List<String> possibleReceivers = null;
                                       boolean isNewGiver = true;
                                       String prevGiver = "";
-                                      String currentGiver = "";
                                       for(FeedbackResponseAttributes responseEntry: responseEntries.getValue()) {
-                                            if (!prevGiver.isEmpty() && !prevGiver.equals(currentGiver)) {
-                                               isNewGiver = true;   
-                                            }
+                                         if (!prevGiver.isEmpty() && !prevGiver.equals(responseEntry.giverEmail)) {
+                                            isNewGiver = true;   
+                                         }
+                                      	 
                                       
                                 %>
                                             <tr>
@@ -151,12 +151,12 @@
                                                   if (possibleReceivers != null && !possibleReceivers.isEmpty()) {
                                                      for (String possibleReceiver : possibleReceivers) {
                                                          %>
-                                                         <tr>
-                                                    	<td class="middlealign"><%=giverName%></td>
-                                                        <td class="middlealign"><%=giverTeamName%></td>
+                                                         <tr class="pending_response_row">
+                                                    	<td class="middlealign"><%=data.bundle.getNameFromRoster(prevGiver)%></td>
+                                                        <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(prevGiver)%></td>
                                                         <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleReceiver)%></td>
                                                         <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
-                                                        <td class="text-preserve-space"><%=questionDetails.getNoResponseText(currentGiver, possibleReceiver, data.bundle, question) %></td>
+                                                        <td class="text-preserve-space"><%=questionDetails.getNoResponseText(prevGiver, possibleReceiver, data.bundle, question) %></td>
                                                     	 </tr>
                                                          <% 
                                                      }
@@ -176,20 +176,23 @@
                                             </tr>        
                                 <%
                                                possibleReceivers.remove(responseEntry.recipientEmail);
-                                                prevGiver = currentGiver;
-                                                currentGiver = responseEntry.giverEmail;
+                                                prevGiver = responseEntry.giverEmail;
+                                                
                                       }
                                       
                                       if (possibleReceivers != null && !possibleReceivers.isEmpty()) {
                                       	for (String possibleReceiver : possibleReceivers) {
-                                      		if (questionDetails.shouldShowNoResponseText(currentGiver, possibleReceiver, question)) {
+                                            if (!data.selectedSection.equals("All") && !data.bundle.getSectionFromRoster(possibleReceiver).equals(data.selectedSection)) {
+                                                continue;
+                                            }
+                                      		if (questionDetails.shouldShowNoResponseText(prevGiver, possibleReceiver, question)) {
                                               %>
-                                                  <tr class="no_response_rows">
-                                                 <td class="middlealign"><%=data.bundle.getNameFromRoster(currentGiver)%></td>
-                                                 <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(currentGiver)%></td>
+                                                  <tr class="pending_response_row">
+                                                 <td class="middlealign"><%=data.bundle.getNameFromRoster(prevGiver) %></td>
+                                                 <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(prevGiver)%></td>
                                                  <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleReceiver)%></td>
                                                  <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
-                                                 <td class="text-preserve-space"><%=questionDetails.getNoResponseText(currentGiver, possibleReceiver, data.bundle, question) %></td>
+                                                 <td class="text-preserve-space"><%=questionDetails.getNoResponseText(prevGiver, possibleReceiver, data.bundle, question) %></td>
                                                   </tr>
                                               <% 
                                       		}
@@ -198,10 +201,16 @@
                                       
                                       if (possibleGivers != null && !possibleGivers.isEmpty()) {
                                         for (String possibleGiver : possibleGivers){
+                                        	if (!data.selectedSection.equals("All") && !data.bundle.getSectionFromRoster(possibleGiver).equals(data.selectedSection)) {
+                                                continue;
+                                            }
                                           	possibleReceivers = data.bundle.getPossibleRecipients(question, possibleGiver);
                                           	for (String possibleReceiver : possibleReceivers) {
+                                          		if (!data.selectedSection.equals("All") && !data.bundle.getSectionFromRoster(possibleReceiver).equals(data.selectedSection)) {
+                                          	       continue;
+                                                }
                                           		%>
-                                              <tr class="no_response_rows">
+                                              <tr class="pending_response_row">
                                               <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleGiver)%></td>
                                               <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(possibleGiver)%></td>
                                               <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleReceiver)%></td>
