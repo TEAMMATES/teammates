@@ -67,11 +67,12 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
 
     @Override
     protected RedirectResult createSpecificRedirectResult() {
-        if (regkey == null && !isError) {
+        boolean isUserLoggedIn = regkey == null;
+        if (isUserLoggedIn && !isError) {
             // Return to student home page when there is no error
             return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
         } else {
-            // Retain at student feedback submission page with there is a error
+            // Remain at student feedback submission page with there is an error
             RedirectResult redirect = createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);
             
             if(student != null){
