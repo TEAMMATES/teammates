@@ -739,7 +739,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             
             return responseAnswerHtml;
         } else {
-            return "No Response";
+            return convertToEqualShareFormatHtml(Const.POINTS_NOT_SUBMITTED);
         }
     }
     

@@ -128,6 +128,7 @@
                                     if (responseEntries.getValue().size() > 0) {
                                         
                                       List<String> possibleGivers = data.bundle.getPossibleGivers(question);
+                                      
                                       List<String> possibleReceivers = null;
                                       boolean isNewGiver = true;
                                       String prevGiver = "";
@@ -176,8 +177,8 @@
                                             </tr>        
                                 <%
                                                possibleReceivers.remove(responseEntry.recipientEmail);
-                                                prevGiver = responseEntry.giverEmail;
-                                                
+                                               prevGiver = responseEntry.giverEmail;
+                                               
                                       }
                                       
                                       if (possibleReceivers != null && !possibleReceivers.isEmpty()) {
@@ -185,6 +186,7 @@
                                             if (!data.selectedSection.equals("All") && !data.bundle.getSectionFromRoster(possibleReceiver).equals(data.selectedSection)) {
                                                 continue;
                                             }
+                                            
                                       		if (questionDetails.shouldShowNoResponseText(prevGiver, possibleReceiver, question)) {
                                               %>
                                                   <tr class="pending_response_row">
@@ -197,10 +199,12 @@
                                               <% 
                                       		}
                                         }
+                                        possibleGivers.remove(prevGiver);
                                       }
                                       
                                       if (possibleGivers != null && !possibleGivers.isEmpty()) {
                                         for (String possibleGiver : possibleGivers){
+                                            
                                         	if (!data.selectedSection.equals("All") && !data.bundle.getSectionFromRoster(possibleGiver).equals(data.selectedSection)) {
                                                 continue;
                                             }

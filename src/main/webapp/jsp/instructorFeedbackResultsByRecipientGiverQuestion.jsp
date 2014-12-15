@@ -866,7 +866,7 @@
                     <a class="link-in-dark-bg" href="mailTo:<%= email%>"  >[<%=email%>]</a>
                 <span class='glyphicon glyphicon-chevron-up pull-right'></span>
             </div>
-            <div class='panel-collapse collapse'>
+            <div class='panel-collapse collapse in'>
                 <div class="panel-body"> There are no responses received by this user 
                 </div>
             </div>

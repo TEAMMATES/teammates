@@ -195,6 +195,18 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return "";
     }
     
+    public String getLastNameFromRoster(String email) {
+        StudentAttributes student = roster.getStudentForEmail(email);
+        InstructorAttributes instructor = roster.getInstructorForEmail(email);
+        if (student != null) {
+            return student.lastName;
+        } else if (instructor != null) {
+            return instructor.name;
+        }
+        
+        return "";
+    }
+    
     public String getTeamNameFromRoster(String email) {
         StudentAttributes student = roster.getStudentForEmail(email);
         InstructorAttributes instructor = roster.getInstructorForEmail(email);
@@ -412,18 +424,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             return new ArrayList<String>();
         }
         
-        //if (emailNameTable.containsKey(giverEmail)) {
-            StudentAttributes student = roster.getStudentForEmail(giverEmail);
-            InstructorAttributes instructor = roster.getInstructorForEmail(giverEmail);
-            
-            if (student != null) {
-                return getPossibleRecipients(fqa, student);
-            } else if (instructor != null) {
-                return getPossibleRecipients(fqa, instructor);
-            } else {
-                return getPossibleRecipientsForTeam(fqa, giverEmail);
-            }
-        //}
+
+        StudentAttributes student = roster.getStudentForEmail(giverEmail);
+        InstructorAttributes instructor = roster.getInstructorForEmail(giverEmail);
+        
+        if (student != null) {
+            return getPossibleRecipients(fqa, student);
+        } else if (instructor != null) {
+            return getPossibleRecipients(fqa, instructor);
+        } else {
+            return getPossibleRecipientsForTeam(fqa, giverEmail);
+        }
         
     }
     
@@ -534,10 +545,13 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             break;
         case INSTRUCTORS:
             possibleRecipients = getListOfInstructorEmails();
+            break;
         case STUDENTS:
             possibleRecipients = getListOfStudentEmailsSortedBySection();
+            break;
         case SELF:
             possibleRecipients.add(team);
+            break;
         case OWN_TEAM_MEMBERS:
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
             if (rosterTeamNameEmailTable.containsKey(team)) {

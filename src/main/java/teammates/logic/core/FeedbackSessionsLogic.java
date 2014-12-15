@@ -615,12 +615,38 @@ public class FeedbackSessionsLogic {
             exportBuilder.append("Team" + "," + "Giver's Full Name" + "," + "Giver's Last Name" + "," + "Recipient's Team" + ","
                     + "Recipient's Full Name" + "," + "Recipient's Last Name" + "," + questionDetails.getCsvHeader() + Const.EOL);
 
+            List<String> allPossibleGivers = results.getPossibleGivers(entry.getKey());
+            List<String> possibleRecipientsForGiver = null;
+            String prevGiver = "";
+            
             for (FeedbackResponseAttributes response : entry.getValue()) {
              
                 String giverLastName = results.getLastNameForEmail(response.giverEmail);
                 String giverFullName = results.getNameForEmail(response.giverEmail);
                 String recipientLastName = results.getLastNameForEmail(response.recipientEmail);
                 String recipientFulltName = results.getNameForEmail(response.recipientEmail);
+                
+                allPossibleGivers.remove(response.giverEmail);
+                
+                if (!prevGiver.equals(response.giverEmail)) {
+                    if (possibleRecipientsForGiver != null) {
+                        for (String possibleRecipient : possibleRecipientsForGiver) {
+                            String prevGiverLastName = results.roster.getStudentForEmail(prevGiver).lastName;
+                            String possibleRecipientLastName = results.roster.getStudentForEmail(possibleRecipient).lastName;
+                            
+                            exportBuilder.append(Sanitizer.sanitizeForCsv(results.getTeamNameFromRoster(prevGiver)) 
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(results.getNameFromRoster(prevGiver)))
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(prevGiverLastName))
+                                    + "," + Sanitizer.sanitizeForCsv(results.getTeamNameFromRoster(possibleRecipient))
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(results.getNameFromRoster(possibleRecipient)))
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientLastName))
+                                    + "," + Sanitizer.sanitizeForCsv(
+                                            questionDetails.getNoResponseText(prevGiver, possibleRecipient, results, question)) + Const.EOL);
+                        }
+                    }
+                    
+                    possibleRecipientsForGiver = results.getPossibleRecipients(entry.getKey(), prevGiver);
+                }
                 
                 exportBuilder.append(Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.giverEmail)) 
                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) 
@@ -629,6 +655,42 @@ public class FeedbackSessionsLogic {
                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFulltName))
                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
                                      + "," + results.getResponseAnswerCsv(response, question) + Const.EOL);
+                prevGiver = response.giverEmail;
+            }
+            
+            if (possibleRecipientsForGiver != null) {
+                for (String possibleRecipient : possibleRecipientsForGiver) {
+                    String prevGiverLastName = results.roster.getStudentForEmail(prevGiver).lastName;
+                    String possibleRecipientLastName = results.roster.getStudentForEmail(possibleRecipient).lastName;
+                    
+                    exportBuilder.append(Sanitizer.sanitizeForCsv(results.getTeamNameFromRoster(prevGiver)) 
+                            + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(results.getNameFromRoster(prevGiver)))
+                            + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(prevGiverLastName))
+                            + "," + Sanitizer.sanitizeForCsv(results.getTeamNameFromRoster(possibleRecipient))
+                            + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(results.getNameFromRoster(possibleRecipient)))
+                            + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientLastName))
+                            + "," + Sanitizer.sanitizeForCsv(
+                                    questionDetails.getNoResponseText(prevGiver, possibleRecipient, results, question)) + Const.EOL);
+                }
+                allPossibleGivers.remove(prevGiver);
+            }
+            
+            for (String possibleGiver : allPossibleGivers) {
+                possibleRecipientsForGiver = results.getPossibleRecipients(entry.getKey(), possibleGiver);
+                
+                for (String possibleRecipient : possibleRecipientsForGiver) {
+                    String possibleGiverLastName = results.getLastNameFromRoster(possibleGiver);
+                    String possibleRecipientLastName = results.getLastNameFromRoster(possibleRecipient);
+                    
+                    exportBuilder.append(Sanitizer.sanitizeForCsv(results.getTeamNameFromRoster(possibleGiver)) 
+                            + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(results.getNameFromRoster(possibleGiver)))
+                            + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(possibleGiverLastName))
+                            + "," + Sanitizer.sanitizeForCsv(results.getTeamNameFromRoster(possibleRecipient))
+                            + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(results.getNameFromRoster(possibleRecipient)))
+                            + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientLastName))
+                            + "," + Sanitizer.sanitizeForCsv(
+                                    questionDetails.getNoResponseText(possibleGiver, possibleRecipient, results, question)) + Const.EOL);
+                }
             }
             exportBuilder.append(Const.EOL + Const.EOL);
         }
