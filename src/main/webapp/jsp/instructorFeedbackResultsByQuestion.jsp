@@ -179,10 +179,10 @@
                                                 prevGiver = currentGiver;
                                                 currentGiver = responseEntry.giverEmail;
                                       }
+                                      
                                       if (possibleReceivers != null && !possibleReceivers.isEmpty()) {
-                                        
                                       	for (String possibleReceiver : possibleReceivers) {
-                                      		if (questionDetails.shouldShowNoResponseText(currentGiver, possibleReceiver)) {
+                                      		if (questionDetails.shouldShowNoResponseText(currentGiver, possibleReceiver, question)) {
                                               %>
                                                   <tr class="no_response_rows">
                                                  <td class="middlealign"><%=data.bundle.getNameFromRoster(currentGiver)%></td>

@@ -728,14 +728,19 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String targetEmail, FeedbackSessionResultsBundle bundle) {
         Map<String, StudentResultSummary> stats = FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
         
-        StudentResultSummary studentResult = stats.get(targetEmail);
-        String responseAnswerHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
-                studentResult.claimedToInstructor);
-        
-        int pc = studentResult.perceivedToInstructor;
-        responseAnswerHtml += FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
-        
-        return responseAnswerHtml;
+        if (stats.containsKey(targetEmail)) {
+            StudentResultSummary studentResult = stats.get(targetEmail);
+            
+            String responseAnswerHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
+                    studentResult.claimedToInstructor);
+            
+            int pc = studentResult.perceivedToInstructor;
+            responseAnswerHtml += FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
+            
+            return responseAnswerHtml;
+        } else {
+            return "No Response";
+        }
     }
     
     /**
@@ -785,13 +790,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         if (giverEmail.equals(recipientEmail)) {
             return getContributionQuestionPerceivedContributionHtml(question, giverEmail, bundle);
         } else {
-            return "No Response";
+            return convertToEqualShareFormatHtml(Const.POINTS_NOT_SUBMITTED);
         }
     }
     
-    @Override
-    public boolean shouldShowNoResponseText(String giverEmail, String recipientEmail) {
-            return true;
-    }
 
 }

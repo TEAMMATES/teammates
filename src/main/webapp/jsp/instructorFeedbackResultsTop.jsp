@@ -189,6 +189,13 @@
                           </label>
                       </div>
                   </div>
+                  <div class="col-sm-12" data-toggle="tooltip" title="Show rows indicating that there is no response between the giver and recipient">
+                      <div class="checkbox padding-top-0 min-height-0">
+                          <label <%=(data.sortType.equals("recipient-giver-question") || data.sortType.equals("giver-recipient-question")) ? "class=\"text-strike\"" : ""%>>
+                              <input type="checkbox" id="show-noresponses-checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWNORESPONSE%>" <%=(data.showNoResponse==null) ? "" : "checked=\"checked\""%>> Show Pending Responses
+                          </label>
+                      </div>  
+                  </div>
                 </div>
             </div>
             <div class="row">

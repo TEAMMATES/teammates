@@ -215,6 +215,14 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         }
     }
     
+    public Set<String> getTeamsInSectionFromRoster(String sectionName) {
+        if (rosterSectionTeamNameTable.containsKey(sectionName)) {
+            Set<String> teams = rosterSectionTeamNameTable.get(sectionName);
+            return teams;
+        }
+        return new HashSet<String>();
+    }
+    
     
     public List<String> getPossibleGivers(FeedbackQuestionAttributes fqa, String recipientEmail) {
         boolean recipientIsAnonymous = recipientEmail.contains("@@");

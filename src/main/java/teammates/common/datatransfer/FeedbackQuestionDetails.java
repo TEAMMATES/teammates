@@ -123,7 +123,10 @@ public abstract class FeedbackQuestionDetails {
         return "No Response";
     }
     
-    public boolean shouldShowNoResponseText(String giverEmail, String recipientEmail) {
+    public boolean shouldShowNoResponseText(String giverEmail, String recipientEmail, FeedbackQuestionAttributes question) {
+        if (question.recipientType == FeedbackParticipantType.STUDENTS) {
             return false;
+        }
+        return true;
     }
 }

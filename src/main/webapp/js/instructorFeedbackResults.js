@@ -77,6 +77,16 @@ function showHideStats(){
     }
 }
 
+// Show/Hide rows that indicate no response between the giver and recipient
+function showHideNoResponseRows() {
+	if ($("#show-noresponses-checkbox").is(":checked")) {
+		$(".no_response_rows").show();
+	} else {
+		$(".no_response_rows").hide();
+	}
+	
+}
+
 //Search functionality
 
 function filterResults(searchText){
@@ -233,7 +243,9 @@ $(document).ready(function(){
 
     //Show/Hide statistics
     showHideStats();
+    showHideNoResponseRows();
     $("#show-stats-checkbox").change(showHideStats);
+    $("#show-noresponses-checkbox").change(showHideNoResponseRows);
     
     //auto select the html table when modal is shown
     $('#fsResultsTableWindow').on('shown.bs.modal', function (e) {

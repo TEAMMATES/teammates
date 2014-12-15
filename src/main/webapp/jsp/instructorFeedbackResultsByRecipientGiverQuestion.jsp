@@ -896,7 +896,35 @@
                             </div>
                             <div class="panel-collapse collapse" id="panelBodyCollapse-2" style="height: auto;">
                                 <div class="panel-body background-color-warning">
-                                    No responses received
+                                    <%
+                                      Set<String> teamMembers = data.bundle.getTeamMembersFromRoster(teamWithNoResponseReceived);
+                                  
+                                      for (String teamMember : teamMembers) {
+                                         %>
+                                             <div class="panel panel-primary">
+                                                <div class="panel-heading">
+                                                    To: 
+                                                    <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) { %>
+                                                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(teamMember)%>">
+                                                            <strong><%=data.bundle.getNameFromRoster(teamMember)%></strong>
+                                                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                        </div>
+                                                    <% } else {%>
+                                                        <strong><%=data.bundle.getNameFromRoster(teamMember)%></strong>
+                                                    <% } %>
+                                                        <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
+                                                    <span class='glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right'></span>
+                                                </div>
+                                                <div class='panel-collapse collapse'>
+                                                    <div class="panel-body"> There are no responses received by this user 
+                                                    </div>
+                                                </div>
+                                             </div>
+                                        
+                                         <% 
+                                      }
+                                  
+                                  %>
                                 </div>
                             </div>
                         </div>                
@@ -908,7 +936,7 @@
             </div>
                 </div>
             </div>
-        <%
+         <%
             Set<String> sectionsWithNoResponseReceived = new HashSet<String>(sectionsInCourse);
             sectionsWithNoResponseReceived.removeAll(receivingSections);
             
@@ -921,13 +949,57 @@
                         </div>
                         <div class="panel-collapse collapse" id="panelBodyCollapse-2" style="height: auto;">
                             <div class="panel-body">
-                                No responses received
+                                <%
+                                Set<String> teamsFromSection = data.bundle.getTeamsInSectionFromRoster(sectionWithNoResponseReceived);
+                                
+                                for (String team : teamsFromSection) {
+                                    Set<String> teamMembers = data.bundle.getTeamMembersFromRoster(team);
+                                  %>
+                                    <div class="panel panel-warning">
+                                      <div class="panel-heading">
+                                          <strong> <%=team %></strong>
+                                          <span class="glyphicon pull-right glyphicon-chevron-up"></span>
+                                      </div>
+                                      <div class="panel-collapse collapse" id="panelBodyCollapse-2" style="height: auto;">
+                                          <div class="panel-body background-color-warning">
+                                  <%   
+                                      for (String teamMember : teamMembers) {
+                                         %>
+                                             <div class="panel panel-primary">
+                                                <div class="panel-heading">
+                                                    To: 
+                                                    <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) { %>
+                                                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(teamMember)%>">
+                                                            <strong><%=data.bundle.getNameFromRoster(teamMember)%></strong>
+                                                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                        </div>
+                                                    <% } else {%>
+                                                        <strong><%=data.bundle.getNameFromRoster(teamMember)%></strong>
+                                                    <% } %>
+                                                        <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
+                                                    <span class='glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right'></span>
+                                                </div>
+                                                <div class='panel-collapse collapse'>
+                                                    <div class="panel-body"> There are no responses received by this user 
+                                                    </div>
+                                                </div>
+                                             </div>
+                                        
+                                         <% 
+                                      }
+                                    %>
+                                    </div>
+                                      </div>
+                                  </div>    
+                                    <% 
+                                }
+                                
+                                %>
                             </div>
                         </div>
                     </div>                
                 <% 
             }
-        
             }
         %>
 
