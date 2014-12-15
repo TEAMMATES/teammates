@@ -395,7 +395,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             return PageData.sanitizeForHtml(teamName);
         }
     }
-    public String getValidEmail(String email) {
+    
+    // Return the given email if it belongs to a user but not a team or anonymous
+    public String getUserOnlyEmail(String email) {
         String name = emailNameTable.get(email);
         String teamName = emailTeamNameTable.get(email);
         if (name == null || name.equals(email) || teamName==null || teamName.equals(email)
