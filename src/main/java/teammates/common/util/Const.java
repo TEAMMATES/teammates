@@ -269,6 +269,7 @@ public class Const {
         public static final String CONSTSUM_OPTION = "Distribute points (among options) question";
         public static final String CONSTSUM_RECIPIENT = "Distribute points (among recipients) question";
         public static final String CONTRIB = "Team contribution question";
+        public static final String RUBRIC = "Rubric question";
     }
     
     public class InstructorPermissionRoleNames {
