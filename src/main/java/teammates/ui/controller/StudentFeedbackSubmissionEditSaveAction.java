@@ -67,10 +67,21 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
 
     @Override
     protected RedirectResult createSpecificRedirectResult() {
-        if (regkey == null) {
+        if (regkey == null && !isError) {
+            // Return to student home page when there is no error
             return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
         } else {
-            return createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);
+            // Retain at student feedback submission page with there is a error
+            RedirectResult redirect = createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);
+            
+            if(student != null){
+                redirect.responseParams.put(Const.ParamsNames.STUDENT_EMAIL, student.email);
+                redirect.responseParams.put(Const.ParamsNames.COURSE_ID, student.course);
+            }
+            
+            redirect.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, 
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME));
+            return redirect;
         }
     }
 
