@@ -381,6 +381,8 @@
                                         FeedbackQuestionAttributes question = responsesFromGiverForQuestion.getKey();
                                         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
                                         List<FeedbackResponseAttributes> responseEntries = responsesFromGiverForQuestion.getValue();
+                                        
+                                        List<String> possibleRecipientsForQuestion = data.bundle.getPossibleRecipients(question, giverEmail);
                 %>
                         <div class="panel panel-info">
                             <div class="panel-heading">Question <%=question.questionNumber%>: <span class="text-preserve-space"><%
@@ -417,6 +419,9 @@
                                         <%
                                             String recipientName = data.bundle.getRecipientNameForResponse(question, responseEntry);
                                             String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
+                                            
+                                            possibleRecipientsForQuestion.remove(responseEntry.recipientEmail);
+                                            
                                             if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, responseEntry.recipientEmail).isEmpty()) { 
                                         %>
                                                 <td class="middlealign">
@@ -441,6 +446,38 @@
                                             <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
                                         </tr>        
                                         <%
+                                            }
+                                        
+                                            for (String possibleRecipient : possibleRecipientsForQuestion) {
+                                            	if (questionDetails.shouldShowNoResponseText(giverEmail, possibleRecipient)) {
+                                               %>
+                                               <tr class="no_response_rows">
+                                               <%
+                                            	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, possibleRecipient).isEmpty()) { 
+                                                    %>
+                                                            <td class="middlealign">
+                                                                <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(possibleRecipient)%>">
+                                                                    <a class="student-profile-pic-view-link btn-link">
+                                                                        View Photo
+                                                                    </a>
+                                                                    <img src="" alt="No Image Given" class="hidden">
+                                                                </div>
+                                                            </td>
+                                                    <% } else { %>
+                                                            <td class="middlealign">
+                                                                <div class="align-center" data-link="">
+                                                                    <a class="student-profile-pic-view-link btn-link">
+                                                                        No Photo
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                    <% } %>
+                                                        <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleRecipient)%></td>
+                                                        <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(possibleRecipient)%></td>
+                                                        <td class="text-preserve-space"><%=questionDetails.getNoResponseText(giverEmail, possibleRecipient, data.bundle, question)%></td>
+                                                    </tr>
+                                                    <%   
+                                            	}
                                             }
                                         %>
                                     </tbody>

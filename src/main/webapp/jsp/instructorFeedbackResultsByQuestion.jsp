@@ -85,7 +85,7 @@
                 <div class="panel-collapse collapse <%= showAll && !shouldCollapsed ? "in" : "" %>">
                 <div class="panel-body padding-0" id="questionBody-<%=questionIndex%>">
                     <%
-                        if(responseEntries.getValue().size() == 0){
+                        if (responseEntries.getValue().size() == 0){
                     %>
                         <div class="col-sm-12">
                             <i class="text-muted">There are no responses for this question.</i>
@@ -126,7 +126,17 @@
                             <tbody>
                                 <%
                                     if (responseEntries.getValue().size() > 0) {
+                                        
+                                      List<String> possibleGivers = data.bundle.getPossibleGivers(question);
+                                      List<String> possibleReceivers = null;
+                                      boolean isNewGiver = true;
+                                      String prevGiver = "";
+                                      String currentGiver = "";
                                       for(FeedbackResponseAttributes responseEntry: responseEntries.getValue()) {
+                                            if (!prevGiver.isEmpty() && !prevGiver.equals(currentGiver)) {
+                                               isNewGiver = true;   
+                                            }
+                                      
                                 %>
                                             <tr>
                                 <%
@@ -135,6 +145,28 @@
             
                                                 String recipientName = data.bundle.getRecipientNameForResponse(question, responseEntry);
                                                 String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
+                                                
+                                                if (isNewGiver) {
+                                                   
+                                                  if (possibleReceivers != null && !possibleReceivers.isEmpty()) {
+                                                     for (String possibleReceiver : possibleReceivers) {
+                                                         %>
+                                                         <tr>
+                                                    	<td class="middlealign"><%=giverName%></td>
+                                                        <td class="middlealign"><%=giverTeamName%></td>
+                                                        <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleReceiver)%></td>
+                                                        <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
+                                                        <td class="text-preserve-space"><%=questionDetails.getNoResponseText(currentGiver, possibleReceiver, data.bundle, question) %></td>
+                                                    	 </tr>
+                                                         <% 
+                                                     }
+                                                  }
+                                                    
+                                                  possibleGivers.remove(responseEntry.giverEmail);
+                                                  
+                                                  possibleReceivers = data.bundle.getPossibleRecipients(question, responseEntry.giverEmail);
+                                                  isNewGiver = false;
+                                                }
                                 %>
                                                 <td class="middlealign"><%=giverName%></td>
                                                 <td class="middlealign"><%=giverTeamName%></td>
@@ -143,13 +175,45 @@
                                                 <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
                                             </tr>        
                                 <%
+                                               possibleReceivers.remove(responseEntry.recipientEmail);
+                                                prevGiver = currentGiver;
+                                                currentGiver = responseEntry.giverEmail;
                                       }
-                                    } else {
-                                %>
-                                        <p> There are no responses for this question </p>
-                                    
-                                <%         
-                                    }
+                                      if (possibleReceivers != null && !possibleReceivers.isEmpty()) {
+                                        
+                                      	for (String possibleReceiver : possibleReceivers) {
+                                      		if (questionDetails.shouldShowNoResponseText(currentGiver, possibleReceiver)) {
+                                              %>
+                                                  <tr class="no_response_rows">
+                                                 <td class="middlealign"><%=data.bundle.getNameFromRoster(currentGiver)%></td>
+                                                 <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(currentGiver)%></td>
+                                                 <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleReceiver)%></td>
+                                                 <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
+                                                 <td class="text-preserve-space"><%=questionDetails.getNoResponseText(currentGiver, possibleReceiver, data.bundle, question) %></td>
+                                                  </tr>
+                                              <% 
+                                      		}
+                                        }
+                                      }
+                                      
+                                      if (possibleGivers != null && !possibleGivers.isEmpty()) {
+                                        for (String possibleGiver : possibleGivers){
+                                          	possibleReceivers = data.bundle.getPossibleRecipients(question, possibleGiver);
+                                          	for (String possibleReceiver : possibleReceivers) {
+                                          		%>
+                                              <tr class="no_response_rows">
+                                              <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleGiver)%></td>
+                                              <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(possibleGiver)%></td>
+                                              <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleReceiver)%></td>
+                                              <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
+                                              <td class="text-preserve-space"><%=questionDetails.getNoResponseText(possibleGiver, possibleReceiver, data.bundle, question) %></td>
+                                              </tr>
+                                               <% 
+                                          	}
+                                        }
+                                      }
+                                    } 
+                                
                                 %>
                             </tbody>
                         </table>
@@ -200,7 +264,7 @@
                     } else {
             %>
                     <div class="panel-body">
-                        All students have responsed to some questions in this session.
+                        All students have responded to some questions in this session.
                     </div>
             <%
                     }

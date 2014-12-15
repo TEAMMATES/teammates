@@ -385,6 +385,28 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     }
     
     
+    public List<String> getPossibleRecipients(FeedbackQuestionAttributes fqa, String giverEmail) {
+        boolean giverIsAnonymous = giverEmail.contains("@@");
+       
+        if (giverEmail == null || giverIsAnonymous) {
+            return new ArrayList<String>();
+        }
+        
+        //if (emailNameTable.containsKey(giverEmail)) {
+            StudentAttributes student = roster.getStudentForEmail(giverEmail);
+            InstructorAttributes instructor = roster.getInstructorForEmail(giverEmail);
+            
+            if (student != null) {
+                return getPossibleRecipients(fqa, student);
+            } else if (instructor != null) {
+                return getPossibleRecipients(fqa, instructor);
+            } else {
+                return getPossibleRecipientsForTeam(fqa, giverEmail);
+            }
+        //}
+        
+    }
+    
     public List<String> getPossibleRecipients(FeedbackQuestionAttributes fqa, InstructorAttributes giver) {
         FeedbackParticipantType type = fqa.recipientType;
         List<String> possibleRecipients = new ArrayList<String>();
@@ -473,6 +495,40 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 break;
             default:
                 break;
+        }
+        
+        return possibleRecipients;
+    }
+    
+    public List<String> getPossibleRecipientsForTeam(FeedbackQuestionAttributes fqa, String team) {
+        
+        FeedbackParticipantType recipienttype = fqa.recipientType;
+        List<String> possibleRecipients = new ArrayList<String>();
+        
+        switch(recipienttype) {
+        case TEAMS:
+            possibleRecipients = getListOfTeams();
+            break;
+        case OWN_TEAM:
+            possibleRecipients.add(team);
+            break;
+        case INSTRUCTORS:
+            possibleRecipients = getListOfInstructorEmails();
+        case STUDENTS:
+            possibleRecipients = getListOfStudentEmailsSortedBySection();
+        case SELF:
+            possibleRecipients.add(team);
+        case OWN_TEAM_MEMBERS:
+        case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+            if (rosterTeamNameEmailTable.containsKey(team)) {
+                Map<String, String> teamToEmails = rosterTeamNameEmailTable.get(team);
+                if (teamToEmails != null) {
+                    possibleRecipients = new ArrayList<String>(teamToEmails.keySet());
+                }
+            }
+        case NONE:
+        default:
+            break;
         }
         
         return possibleRecipients;

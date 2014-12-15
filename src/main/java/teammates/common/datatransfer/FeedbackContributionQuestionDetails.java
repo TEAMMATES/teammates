@@ -788,5 +788,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             return "No Response";
         }
     }
+    
+    @Override
+    public boolean shouldShowNoResponseText(String giverEmail, String recipientEmail) {
+            return true;
+    }
 
 }

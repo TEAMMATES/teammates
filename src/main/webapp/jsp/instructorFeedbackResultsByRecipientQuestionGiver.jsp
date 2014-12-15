@@ -461,35 +461,37 @@
                                             }
                                                                                                                             
                                             for (String possibleGiverWithNoResponse : possibleGiversToRecipient) {
-                                            	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, possibleGiverWithNoResponse).isEmpty()) {
+                                                if (questionDetails.shouldShowNoResponseText(possibleGiverWithNoResponse, targetEmail)) {
+                                                    if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, possibleGiverWithNoResponse).isEmpty()) {
                                         %>
-                                            <tr>
-                                                <td class="middlealign">
-                                                    <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(possibleGiverWithNoResponse)%>">
-                                                        <a class="student-profile-pic-view-link btn-link">
-                                                            View Photo
-                                                        </a>
-                                                        <img src="" alt="No Image Given" class="hidden">
-                                                    </div>
-                                                </td>
+                                                    <tr class="no_response_rows">
+                                                        <td class="middlealign">
+                                                            <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(possibleGiverWithNoResponse)%>">
+                                                                <a class="student-profile-pic-view-link btn-link">
+                                                                    View Photo
+                                                                </a>
+                                                                <img src="" alt="No Image Given" class="hidden">
+                                                            </div>
+                                                        </td>
                                         <%
-                                            	} else { 
+                                            	    } else { 
                                         %>
-                                                    <td class="middlealign">
-                                                        <div class="align-center" data-link="">
-                                                            <a class="btn-link">
-                                                                View Photo
-                                                            </a>
-                                                        </div>
-                                                    </td>   
+                                                        <td class="middlealign">
+                                                            <div class="align-center" data-link="">
+                                                                <a class="btn-link">
+                                                                    View Photo
+                                                                </a>
+                                                            </div>
+                                                        </td>   
                                         <%     		
-                                                }
+                                                    }
                                         %>        
-                                            <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleGiverWithNoResponse)%></td>
-                                                <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(possibleGiverWithNoResponse)%></td>
-                                                <td class="text-preserve-space"><%=questionDetails.getNoResponseText(possibleGiverWithNoResponse, targetEmail, data.bundle, question)%> </td>
-                                            </tr>
+                                                    <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleGiverWithNoResponse)%></td>
+                                                        <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(possibleGiverWithNoResponse)%></td>
+                                                        <td class="text-preserve-space"><%=questionDetails.getNoResponseText(possibleGiverWithNoResponse, targetEmail, data.bundle, question)%> </td>
+                                                    </tr>
                                         <%  
+                                                }
                                             }
                                         %>
                                     </tbody>
