@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
@@ -1210,11 +1212,15 @@ public class FeedbackSessionsLogic {
                     "Session is already published.");
         }
 
-        sessionToPublish.resultsVisibleFromTime = Const.TIME_REPRESENTS_NOW;
-
+        sessionToPublish.resultsVisibleFromTime = currentDateTime(sessionToPublish);
         updateFeedbackSession(sessionToPublish);
 
         sendFeedbackSessionPublishedEmail(sessionToPublish);
+    }
+
+    private Date currentDateTime(FeedbackSessionAttributes sessionToPublish) {
+        Calendar now = TimeHelper.now(sessionToPublish.timeZone);
+        return now.getTime();
     }
 
     /**

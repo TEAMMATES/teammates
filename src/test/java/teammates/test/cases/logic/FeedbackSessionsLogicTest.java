@@ -1605,13 +1605,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
                 sessionUnderTest.feedbackSessionName, sessionUnderTest.courseId);
         FeedbackSessionPublishedCallback.waitForTaskQueueExecution(1,0);
         sessionUnderTest.sentPublishedEmail = true;
-        sessionUnderTest.resultsVisibleFromTime = Const.TIME_REPRESENTS_NOW;
+
+        // Set real time of publishing
+        FeedbackSessionAttributes sessionPublished = fsLogic.getFeedbackSession(sessionUnderTest.feedbackSessionName,sessionUnderTest.courseId);
+        sessionUnderTest.resultsVisibleFromTime = sessionPublished.resultsVisibleFromTime;
         
-        assertEquals(
-                sessionUnderTest.toString(),
-                fsLogic.getFeedbackSession(
-                        sessionUnderTest.feedbackSessionName,
-                        sessionUnderTest.courseId).toString());
+        assertEquals(sessionUnderTest.toString(), sessionPublished.toString());
 
         ______TS("failure: already published");
         
