@@ -22,7 +22,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public String sortType = null;
     public String groupByTeam = null;
     public String showStats = null;
-    public String showNoResponse = null;
+    public String showPendingResponse = null;
     public int startIndex;
     
     //used for html table ajax loading 

@@ -621,6 +621,13 @@ public class FeedbackSessionsLogic {
             
             for (FeedbackResponseAttributes response : entry.getValue()) {
              
+                if (response.giverEmail.contains("@@") || response.recipientEmail.contains("@@")) {
+                    allPossibleGivers.clear();
+                    if (possibleRecipientsForGiver != null) {
+                        possibleRecipientsForGiver.clear();
+                    }
+                  }
+                
                 String giverLastName = results.getLastNameForEmail(response.giverEmail);
                 String giverFullName = results.getNameForEmail(response.giverEmail);
                 String recipientLastName = results.getLastNameForEmail(response.recipientEmail);

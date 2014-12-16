@@ -286,7 +286,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return new ArrayList<String>();
     }
     
-    public List<String> getPossibleGiversForTeam(FeedbackQuestionAttributes fqa, String team) {
+    private List<String> getPossibleGiversForTeam(FeedbackQuestionAttributes fqa, String team) {
         FeedbackParticipantType givertype = fqa.giverType;
         FeedbackParticipantType recipienttype = fqa.recipientType;
         List<String> possibleGivers = new ArrayList<String>();
@@ -323,7 +323,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return possibleGivers;
     }
     
-    public List<String> getPossibleGivers(FeedbackQuestionAttributes fqa, StudentAttributes recipient) {
+    private List<String> getPossibleGivers(FeedbackQuestionAttributes fqa, StudentAttributes recipient) {
         FeedbackParticipantType givertype = fqa.giverType;
         FeedbackParticipantType recipienttype = fqa.recipientType;
         List<String> possibleGivers = new ArrayList<String>();
@@ -374,7 +374,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return possibleGivers;
     }
     
-    public List<String> getPossibleGivers(FeedbackQuestionAttributes fqa, InstructorAttributes recipient) {
+    private List<String> getPossibleGivers(FeedbackQuestionAttributes fqa, InstructorAttributes recipient) {
         FeedbackParticipantType givertype = fqa.giverType;
         List<String> possibleGivers = new ArrayList<String>();
         
@@ -453,7 +453,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         
     }
     
-    public List<String> getPossibleRecipients(FeedbackQuestionAttributes fqa, InstructorAttributes giver) {
+    private List<String> getPossibleRecipients(FeedbackQuestionAttributes fqa, InstructorAttributes giver) {
         FeedbackParticipantType type = fqa.recipientType;
         List<String> possibleRecipients = new ArrayList<String>();
         switch(type) {
@@ -481,7 +481,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return possibleRecipients;
     }
     
-    public List<String> getPossibleRecipients(FeedbackQuestionAttributes fqa, StudentAttributes giver) {
+    private List<String> getPossibleRecipients(FeedbackQuestionAttributes fqa, StudentAttributes giver) {
         FeedbackParticipantType type = fqa.recipientType;
         List<String> possibleRecipients = new ArrayList<String>();
         switch(type) {
@@ -546,7 +546,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return possibleRecipients;
     }
     
-    public List<String> getPossibleRecipientsForTeam(FeedbackQuestionAttributes fqa, String team) {
+    private List<String> getPossibleRecipientsForTeam(FeedbackQuestionAttributes fqa, String team) {
         
         FeedbackParticipantType recipienttype = fqa.recipientType;
         List<String> possibleRecipients = new ArrayList<String>();
@@ -585,17 +585,18 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return possibleRecipients;
     }
     
-    public List<String> getListOfTeamsExcludingOwnTeam(StudentAttributes student) {
+    private List<String> getListOfTeamsExcludingOwnTeam(StudentAttributes student) {
         String studentTeam = student.team;
         Set<String> teams = rosterTeamNameEmailTable.keySet();
         teams.remove(studentTeam);
+        teams.remove("Instructors");
         
         return new ArrayList<String>(teams);
     }
     
-    public List<String> getListOfTeams() {
+    private List<String> getListOfTeams() {
         Set<String> teams = rosterTeamNameEmailTable.keySet();
-        
+        teams.remove("Instructors");
         return new ArrayList<String>(teams);
     }
     
@@ -606,7 +607,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return new ArrayList<String>(teamMembers.keySet());
     }
     
-    public List<String> getListOfTeamMembersExcludingSelf(StudentAttributes student) {
+    private List<String> getListOfTeamMembersExcludingSelf(StudentAttributes student) {
         List<String> teamMembers = getListOfTeamMembers(student);
         String currentStudentEmail = student.email;
         
@@ -614,7 +615,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return teamMembers;
     }
     
-    public List<String> getListOfCourseEmailsSortedBySection() {
+    private List<String> getListOfCourseEmailsSortedBySection() {
         List<String> emailList = new ArrayList<String>();
         List<StudentAttributes> students = roster.getStudents();
         StudentAttributes.sortBySectionName(students);
@@ -629,7 +630,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         
         return emailList;
     }
-    public List<String> getListOfStudentEmailsSortedBySection() {
+    private List<String> getListOfStudentEmailsSortedBySection() {
         List<String> emailList = new ArrayList<String>();
         
         List<StudentAttributes> students = roster.getStudents();
@@ -640,7 +641,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         
         return emailList;
     }
-    public List<String> getListOfInstructorEmails() {
+    private List<String> getListOfInstructorEmails() {
         List<String> emailList = new ArrayList<String>();
         
         List<InstructorAttributes> instructors = roster.getInstructors();
@@ -662,14 +663,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     
     public String getResponseAnswerCsv(FeedbackResponseAttributes response, FeedbackQuestionAttributes question){
         return response.getResponseDetails().getAnswerCsv(response, question, this);
-    }
-
-    public boolean hasTargetGivenResponseToSelfInContributionQuestion(FeedbackQuestionAttributes question, String targetEmail) {
-        Map<String, StudentResultSummary> stats = FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, this);
-        StudentResultSummary studentResult = stats.get(targetEmail);
-        
-        return studentResult.claimedFromStudent != Const.INT_UNINITIALIZED && 
-               studentResult.claimedFromStudent != Const.POINTS_NOT_SUBMITTED;
     }
     
     

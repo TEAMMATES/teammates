@@ -56,7 +56,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
         
         data.instructor = instructor;
         data.showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
-        data.showNoResponse = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWNORESPONSE);
+        data.showPendingResponse = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWPENDINGRESPONSE);
         data.groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
         data.sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
         data.courseId = courseId;

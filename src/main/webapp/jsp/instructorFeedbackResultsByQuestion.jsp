@@ -148,6 +148,13 @@
                                                 String recipientName = data.bundle.getRecipientNameForResponse(question, responseEntry);
                                                 String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
                                                 
+                                                if (responseEntry.giverEmail.contains("@@") || responseEntry.recipientEmail.contains("@@")) {
+                                                  possibleGivers.clear();
+                                                  if (possibleReceivers != null) {
+                                                    possibleReceivers.clear();
+                                                  }
+                                                }
+                                                
                                                 if (isNewGiver) {
                                                    
                                                   if (possibleReceivers != null && !possibleReceivers.isEmpty()) {
@@ -171,7 +178,6 @@
                                                     possibleGivers.remove(responseEntry.giverEmail);
                                                     possibleReceivers = data.bundle.getPossibleRecipients(question, responseEntry.giverEmail);
                                                   }
-                                                  
                                                   
                                                   
                                                   isNewGiver = false;
