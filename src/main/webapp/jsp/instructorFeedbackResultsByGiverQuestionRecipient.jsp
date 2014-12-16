@@ -179,7 +179,7 @@
                     int sectionIndex = -1;
                     int teamIndex = 0;
             Set<String> teamMembersEmail = new HashSet<String>(); 
-            Set<String> givers = new HashSet<String>();
+            Set<String> teamMembersWithResponses = new HashSet<String>();
         %>
         <%
         	Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByGiverQuestionRecipient(groupByTeamEnabled);
@@ -276,7 +276,7 @@
                             currentTeam = data.bundle.getNameForEmail(giverEmail);
                         }
                         
-                        givers = new HashSet<String>();                                
+                        teamMembersWithResponses = new HashSet<String>();                                
                         teamMembersEmail = data.bundle.getTeamMembersFromRoster(currentTeam);
                         
                         receivingTeams.add(currentTeam);
@@ -369,7 +369,7 @@
                         <a class="link-in-dark-bg" href="mailTo:<%=giverEmail%> " <%=mailtoStyleAttr%>>[<%=giverEmail%>]</a>
                     <%
                     	}
-                        givers.add(giverEmail);
+                        teamMembersWithResponses.add(giverEmail);
                     %>
                     <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>                </div>
                 <div class='panel-collapse collapse <%=shouldCollapsed ? "" : "in"%>'>
@@ -420,7 +420,12 @@
                                             String recipientName = data.bundle.getRecipientNameForResponse(question, responseEntry);
                                             String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
                                             
-                                            possibleRecipientsForQuestion.remove(responseEntry.recipientEmail);
+                                            if (question.recipientType == FeedbackParticipantType.TEAMS) {
+                                              possibleRecipientsForQuestion.remove(data.bundle.getNameFromRoster(responseEntry.recipientEmail));
+                                            } else {
+                                              possibleRecipientsForQuestion.remove(responseEntry.recipientEmail);
+                                            }
+                                            
                                             if (responseEntry.recipientEmail.contains("@@")) {
                                               // do not show possible recipients if recipients are anonymised
                                               possibleRecipientsForQuestion.clear();
@@ -452,15 +457,15 @@
                                         <%
                                             }
                                         
-                                            for (String possibleRecipient : possibleRecipientsForQuestion) {
-                                            	if (questionDetails.shouldShowNoResponseText(giverEmail, possibleRecipient, question)) {
+                                            for (String possibleRecipientWithNoResponse : possibleRecipientsForQuestion) {
+                                            	if (questionDetails.shouldShowNoResponseText(giverEmail, possibleRecipientWithNoResponse, question)) {
                                                %>
                                                <tr class="pending_response_row">
                                                <%
-                                            	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, possibleRecipient).isEmpty()) { 
+                                            	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, possibleRecipientWithNoResponse).isEmpty()) { 
                                                     %>
                                                             <td class="middlealign">
-                                                                <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(possibleRecipient)%>">
+                                                                <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(possibleRecipientWithNoResponse)%>">
                                                                     <a class="student-profile-pic-view-link btn-link">
                                                                         View Photo
                                                                     </a>
@@ -476,9 +481,9 @@
                                                                 </div>
                                                             </td>
                                                     <% } %>
-                                                        <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleRecipient)%></td>
-                                                        <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(possibleRecipient) %></td>
-                                                        <td class="text-preserve-space"><%=questionDetails.getNoResponseText(giverEmail, possibleRecipient, data.bundle, question) %></td>
+                                                        <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleRecipientWithNoResponse)%></td>
+                                                        <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(possibleRecipientWithNoResponse) %></td>
+                                                        <td class="text-preserve-space"><%=questionDetails.getNoResponseText(giverEmail, possibleRecipientWithNoResponse, data.bundle, question) %></td>
                                                     </tr>
                                                     <%   
                                             	}
@@ -500,7 +505,7 @@
 
         <%
                 Set<String> teamMembersWithoutReceivingResponses = new HashSet<String>(teamMembersEmail);
-                teamMembersWithoutReceivingResponses.removeAll(givers);
+                teamMembersWithoutReceivingResponses.removeAll(teamMembersWithResponses);
                 
                 for (String email : teamMembersWithoutReceivingResponses) {
             %>

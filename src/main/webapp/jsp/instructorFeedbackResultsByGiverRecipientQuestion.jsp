@@ -183,7 +183,7 @@
                             int sectionIndex = -1;
                             int teamIndex = -1;
                 Set<String> teamMembersEmail = new HashSet<String>(); 
-                Set<String> givers = new HashSet<String>();
+                Set<String> teamMembersWithNoResponses = new HashSet<String>();
             %>
             <%
             	Map<String, Map<String, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByGiver(groupByTeamEnabled);
@@ -192,10 +192,10 @@
                             int giverIndex = data.startIndex;
                             
                             Set<String> teamsInSection = new HashSet<String>();
-                            Set<String> receivingTeams = new HashSet<String>();
+                            Set<String> givingTeams = new HashSet<String>();
                             
                             Set<String> sectionsInCourse = data.bundle.rosterSectionTeamNameTable.keySet();
-                            Set<String> receivingSections = new HashSet<String>();
+                            Set<String> givingSections = new HashSet<String>();
                             
                             
                             for (Map.Entry<String, Map<String, List<FeedbackResponseAttributes>>> responsesFromGiver : allResponses.entrySet()) {
@@ -242,9 +242,9 @@
                                 newSection = false;
                                 sectionIndex++;
                                 
-                                receivingSections.add(currentSection);
+                                givingSections.add(currentSection);
                                 teamsInSection = data.bundle.rosterSectionTeamNameTable.get(currentSection);
-                                receivingTeams = new HashSet<String>();
+                                givingTeams = new HashSet<String>();
             %>
                     <div class="panel panel-success">
                         <div class="panel-heading">
@@ -277,13 +277,13 @@
                                     currentTeam = data.bundle.getNameForEmail(targetEmail);
                                 }
                                 
-                                givers = new HashSet<String>();                                
+                                teamMembersWithNoResponses = new HashSet<String>();                                
                                 teamMembersEmail = data.bundle.getTeamMembersFromRoster(currentTeam);
                                 
                                 teamIndex++;
                                 newTeam = false;
                                 
-                                receivingTeams.add(currentTeam);
+                                givingTeams.add(currentTeam);
             %>
                     <div class="panel panel-warning">
                         <div class="panel-heading">
@@ -326,7 +326,7 @@
                         <strong><%=responsesFromGiver.getKey()%></strong>
                     <%
                     	}
-                        givers.add(targetEmail);
+                        teamMembersWithNoResponses.add(targetEmail);
                         
                     %>
 			 <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
@@ -846,7 +846,7 @@
 
             <%
                 Set<String> teamMembersWithoutReceivingResponses = new HashSet<String>(teamMembersEmail);
-                teamMembersWithoutReceivingResponses.removeAll(givers);
+                teamMembersWithoutReceivingResponses.removeAll(teamMembersWithNoResponses);
                 
                 for (String email : teamMembersWithoutReceivingResponses) {
             %>
@@ -881,7 +881,7 @@
                 }
             
                 Set<String> teamsWithNoResponseReceived = new HashSet<String>(teamsInSection);
-                teamsWithNoResponseReceived.removeAll(receivingTeams);
+                teamsWithNoResponseReceived.removeAll(givingTeams);
                 
                 if (groupByTeamEnabled) {
                   for (String teamWithNoResponseReceived: teamsWithNoResponseReceived) {
@@ -935,7 +935,7 @@
                 </div>
             <%
             Set<String> sectionsWithNoResponseReceived = new HashSet<String>(sectionsInCourse);
-            sectionsWithNoResponseReceived.removeAll(receivingSections);
+            sectionsWithNoResponseReceived.removeAll(givingSections);
             
             if (data.selectedSection.equals("All")) {
             for (String sectionWithNoResponseReceived: sectionsWithNoResponseReceived) {

@@ -120,7 +120,7 @@ public abstract class FeedbackQuestionDetails {
     public String getNoResponseText(String giverEmail, String recipientEmail,
             FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
-        return "No Response";
+        return "<span class=\"color_neutral\"><i>No Response</i></span>";
     }
     
     public boolean shouldShowNoResponseText(String giverEmail, String recipientEmail, FeedbackQuestionAttributes question) {

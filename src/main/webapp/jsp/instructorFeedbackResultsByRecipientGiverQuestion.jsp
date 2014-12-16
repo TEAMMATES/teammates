@@ -181,7 +181,7 @@
                             int sectionIndex = -1;
                             int teamIndex = 0;
                 Set<String> teamMembersEmail = new HashSet<String>(); 
-                Set<String> givers = new HashSet<String>();
+                Set<String> teamMembersWithNoResponses = new HashSet<String>();
             %>
 
             <%
@@ -279,7 +279,7 @@
                                 if(currentTeam.equals("")){
                                     currentTeam = data.bundle.getNameForEmail(targetEmail);
                                 }
-                                givers = new HashSet<String>();                                
+                                teamMembersWithNoResponses = new HashSet<String>();                                
                                 teamMembersEmail = data.bundle.getTeamMembersFromRoster(currentTeam);
 
                                 teamIndex++;
@@ -328,7 +328,7 @@
                         <strong><%=responsesForRecipient.getKey()%></strong>
                     <%
                     	}
-                        givers.add(targetEmail);
+                        teamMembersWithNoResponses.add(targetEmail);
                     %>
                     <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
                 </div>
@@ -848,7 +848,7 @@
             }
                     
             Set<String> teamMembersWithoutReceivingResponses = new HashSet<String>(teamMembersEmail);
-            teamMembersWithoutReceivingResponses.removeAll(givers);
+            teamMembersWithoutReceivingResponses.removeAll(teamMembersWithNoResponses);
             
             for (String email : teamMembersWithoutReceivingResponses) {
         %>

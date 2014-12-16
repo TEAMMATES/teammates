@@ -433,7 +433,7 @@
                                             	possibleGiversToRecipient.clear();
                                             }
                                             if (question.giverType == FeedbackParticipantType.TEAMS) {
-                                              possibleGiversToRecipient.remove(data.bundle.getTeamNameFromRoster(responseEntry.giverEmail));
+                                              possibleGiversToRecipient.remove(data.bundle.getNameFromRoster(responseEntry.giverEmail));
                                             } else {
                                               possibleGiversToRecipient.remove(responseEntry.giverEmail);
                                             }

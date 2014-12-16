@@ -790,7 +790,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         if (giverEmail.equals(recipientEmail)) {
             return getContributionQuestionPerceivedContributionHtml(question, giverEmail, bundle);
         } else {
-            return convertToEqualShareFormatHtml(Const.POINTS_NOT_SUBMITTED);
+            return super.getNoResponseText(giverEmail, recipientEmail, bundle, question);
         }
     }
     
