@@ -159,11 +159,12 @@
                                                    
                                                   if (possibleReceivers != null && !possibleReceivers.isEmpty()) {
                                                      for (String possibleReceiver : possibleReceivers) {
+                                                         
                                                          %>
                                                          <tr class="pending_response_row">
                                                     	<td class="middlealign"><%=data.bundle.getNameFromRoster(prevGiver)%></td>
                                                         <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(prevGiver)%></td>
-                                                        <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleReceiver) + possibleReceiver%></td>
+                                                        <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleReceiver)%></td>
                                                         <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
                                                         <td class="text-preserve-space"><%=questionDetails.getNoResponseText(prevGiver, possibleReceiver, data.bundle, question) %></td>
                                                     	 </tr>
@@ -182,6 +183,7 @@
                                                   
                                                   isNewGiver = false;
                                                 }
+                                                
                                 %>
                                                 <td class="middlealign"><%=giverName%></td>
                                                 <td class="middlealign"><%=giverTeamName%></td>
@@ -190,6 +192,8 @@
                                                 <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
                                             </tr>        
                                 <%
+                                                
+                                                
                                                 if (question.recipientType == FeedbackParticipantType.TEAMS) {
                                                 	possibleReceivers.remove(data.bundle.getNameFromRoster(responseEntry.recipientEmail)); 
                                                 } else {
@@ -236,6 +240,7 @@
                                           		if (!data.selectedSection.equals("All") && !data.bundle.getSectionFromRoster(possibleReceiver).equals(data.selectedSection)) {
                                           	       continue;
                                                 }
+                                          		if (questionDetails.shouldShowNoResponseText(possibleGiver, possibleReceiver, question)) {
                                           		%>
                                               <tr class="pending_response_row">
                                               <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleGiver)%></td>
@@ -245,6 +250,7 @@
                                               <td class="text-preserve-space"><%=questionDetails.getNoResponseText(possibleGiver, possibleReceiver, data.bundle, question) %></td>
                                               </tr>
                                                <% 
+                                          		}
                                           	}
                                         }
                                       }

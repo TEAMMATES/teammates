@@ -270,18 +270,31 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             return new ArrayList<String>();
         }
         
-        if (emailNameTable.containsKey(recipientEmail)) {
-            StudentAttributes student = roster.getStudentForEmail(recipientEmail);
-            InstructorAttributes instructor = roster.getInstructorForEmail(recipientEmail);
-            
-            if (student != null) {
-                return getPossibleGivers(fqa, student);
-            } else if (instructor != null) {
-                return getPossibleGivers(fqa, instructor);
-            } else {
-                return getPossibleGiversForTeam(fqa, recipientEmail);
-            }
+        StudentAttributes student = roster.getStudentForEmail(recipientEmail);
+        InstructorAttributes instructor = roster.getInstructorForEmail(recipientEmail);
+        
+        if (student != null) {
+            return getPossibleGivers(fqa, student);
+        } else if (instructor != null) {
+            return getPossibleGivers(fqa, instructor);
+        } else if (recipientEmail.equals("%GENERAL%")) {
+            if (fqa.giverType == FeedbackParticipantType.STUDENTS) {
+                return getListOfStudentEmailsSortedBySection();
+            } else if (fqa.giverType == FeedbackParticipantType.TEAMS) {
+                List<String> teams = getListOfTeams();
+                teams.remove("Instructors");
+                return teams;
+            } else if (fqa.giverType == FeedbackParticipantType.INSTRUCTORS) {
+                return getListOfInstructorEmails();
+            } else if (fqa.giverType == FeedbackParticipantType.SELF) {
+                List<String> creatorEmailList = new ArrayList<String>();
+                creatorEmailList.add(fqa.creatorEmail);
+                return creatorEmailList;
+            } 
+        } else {
+            return getPossibleGiversForTeam(fqa, recipientEmail);
         }
+        
         
         return new ArrayList<String>();
     }

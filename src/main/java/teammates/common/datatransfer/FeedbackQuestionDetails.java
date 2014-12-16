@@ -124,7 +124,7 @@ public abstract class FeedbackQuestionDetails {
     }
     
     public boolean shouldShowNoResponseText(String giverEmail, String recipientEmail, FeedbackQuestionAttributes question) {
-        if (question.recipientType == FeedbackParticipantType.STUDENTS) {
+        if (question.recipientType == FeedbackParticipantType.STUDENTS || question.recipientType == FeedbackParticipantType.TEAMS) {
             return false;
         }
         return true;

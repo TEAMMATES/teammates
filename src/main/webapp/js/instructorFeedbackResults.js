@@ -77,16 +77,6 @@ function showHideStats(){
     }
 }
 
-// Show/Hide rows that indicate no response between the giver and recipient
-function showHideNoResponseRows() {
-	if ($("#show-noresponses-checkbox").is(":checked")) {
-		$(".pending_response_row").show();
-	} else {
-		$(".pending_response_row").hide();
-	}
-	
-}
-
 //Search functionality
 
 function filterResults(searchText){
