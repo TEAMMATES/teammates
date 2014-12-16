@@ -246,20 +246,24 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return "";
     }
     
-    public Set<String> getTeamMembersFromRoster(String teamName) {
+    public List<String> getTeamMembersFromRoster(String teamName) {
         if (rosterTeamNameEmailTable.get(teamName) != null) {
-            return rosterTeamNameEmailTable.get(teamName).keySet();
+            List<String> teamMembers = new ArrayList<String>(rosterTeamNameEmailTable.get(teamName).keySet());
+            Collections.sort(teamMembers);
+            return teamMembers;
         } else {
-            return new HashSet<String>();
+            return new ArrayList<String>();
         }
     }
     
-    public Set<String> getTeamsInSectionFromRoster(String sectionName) {
+    public List<String> getTeamsInSectionFromRoster(String sectionName) {
         if (rosterSectionTeamNameTable.containsKey(sectionName)) {
-            Set<String> teams = rosterSectionTeamNameTable.get(sectionName);
+            List<String> teams = new ArrayList<String>(rosterSectionTeamNameTable.get(sectionName));
+            Collections.sort(teams);
+            
             return teams;
         }
-        return new HashSet<String>();
+        return new ArrayList<String>();
     }
     
     
@@ -608,16 +612,20 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     }
     
     private List<String> getListOfTeams() {
-        Set<String> teams = rosterTeamNameEmailTable.keySet();
+        List<String> teams = new ArrayList<String>(rosterTeamNameEmailTable.keySet());
+        
         teams.remove("Instructors");
+        Collections.sort(teams);
+        
         return new ArrayList<String>(teams);
     }
     
     public List<String> getListOfTeamMembers(StudentAttributes student) {
         String teamName = student.team;
-        Map<String, String> teamMembers = rosterTeamNameEmailTable.get(teamName);
-        
-        return new ArrayList<String>(teamMembers.keySet());
+        Map<String, String> teamMembersEmailsToNames = rosterTeamNameEmailTable.get(teamName);
+        List<String> teamMembers = new ArrayList<String>(teamMembersEmailsToNames.keySet());
+        Collections.sort(teamMembers);
+        return teamMembers;
     }
     
     private List<String> getListOfTeamMembersExcludingSelf(StudentAttributes student) {
@@ -628,21 +636,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return teamMembers;
     }
     
-    private List<String> getListOfCourseEmailsSortedBySection() {
-        List<String> emailList = new ArrayList<String>();
-        List<StudentAttributes> students = roster.getStudents();
-        StudentAttributes.sortBySectionName(students);
-        for (StudentAttributes student : students) {
-            emailList.add(student.email);
-        }
-        
-        List<InstructorAttributes> instructors = roster.getInstructors();
-        for (InstructorAttributes instructor : instructors) {
-            emailList.add(instructor.email);
-        }
-        
-        return emailList;
-    }
     private List<String> getListOfStudentEmailsSortedBySection() {
         List<String> emailList = new ArrayList<String>();
         
@@ -661,6 +654,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         for (InstructorAttributes instructor : instructors) {
             emailList.add(instructor.email);
         }
+        Collections.sort(emailList);
         
         return emailList;
     }

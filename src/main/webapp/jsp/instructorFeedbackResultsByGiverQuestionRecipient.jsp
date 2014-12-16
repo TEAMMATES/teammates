@@ -4,6 +4,8 @@
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Set"%>
 <%@ page import="java.util.HashSet"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.Collections"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
@@ -187,7 +189,7 @@
                     Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
                     int giverIndex = data.startIndex;
                     
-                    Set<String> teamsInSection = new HashSet<String>();
+                    List<String> teamsInSection = new ArrayList<String>();
                     Set<String> receivingTeams = new HashSet<String>();
                     
                     Set<String> sectionsInCourse = data.bundle.rosterSectionTeamNameTable.keySet();
@@ -277,7 +279,7 @@
                         }
                         
                         teamMembersWithResponses = new HashSet<String>();                                
-                        teamMembersEmail = data.bundle.getTeamMembersFromRoster(currentTeam);
+                        teamMembersEmail = new HashSet<String>(data.bundle.getTeamMembersFromRoster(currentTeam));
                         
                         receivingTeams.add(currentTeam);
                         
@@ -481,9 +483,9 @@
                                                                 </div>
                                                             </td>
                                                     <% } %>
-                                                        <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleRecipientWithNoResponse)%></td>
-                                                        <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(possibleRecipientWithNoResponse) %></td>
-                                                        <td class="text-preserve-space"><%=questionDetails.getNoResponseText(giverEmail, possibleRecipientWithNoResponse, data.bundle, question) %></td>
+                                                        <td class="middlealign color_neutral"><%=data.bundle.getNameFromRoster(possibleRecipientWithNoResponse)%></td>
+                                                        <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleRecipientWithNoResponse) %></td>
+                                                        <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseText(giverEmail, possibleRecipientWithNoResponse, data.bundle, question) %></td>
                                                     </tr>
                                                     <%   
                                             	}
@@ -507,7 +509,9 @@
                 Set<String> teamMembersWithoutReceivingResponses = new HashSet<String>(teamMembersEmail);
                 teamMembersWithoutReceivingResponses.removeAll(teamMembersWithResponses);
                 
-                for (String email : teamMembersWithoutReceivingResponses) {
+                List<String> teamMembersList = new ArrayList<String>(teamMembersWithoutReceivingResponses);
+                Collections.sort(teamMembersList);
+                for (String email : teamMembersList) {
             %>
                 <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -553,7 +557,7 @@
                           <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
                               <div class="panel-body background-color-warning">
                                   <%
-                                      Set<String> teamMembers = data.bundle.getTeamMembersFromRoster(teamWithNoResponseReceived);
+                                      List<String> teamMembers = data.bundle.getTeamMembersFromRoster(teamWithNoResponseReceived);
                                   
                                       for (String teamMember : teamMembers) {
                                          %>
@@ -608,10 +612,10 @@
                         <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
                             <div class="panel-body">
                                 <%
-                                Set<String> teamsFromSection = data.bundle.getTeamsInSectionFromRoster(sectionWithNoResponseReceived);
+                                List<String> teamsFromSection = data.bundle.getTeamsInSectionFromRoster(sectionWithNoResponseReceived);
                                 
                                 for (String team : teamsFromSection) {
-                                	Set<String> teamMembers = data.bundle.getTeamMembersFromRoster(team);
+                                	List<String> teamMembers = data.bundle.getTeamMembersFromRoster(team);
                                   %>
                                     <div class="panel panel-warning">
                                       <div class="panel-heading">

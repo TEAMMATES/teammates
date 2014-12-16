@@ -4,6 +4,8 @@
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Set"%>
 <%@ page import="java.util.HashSet"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.Collections"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
@@ -182,7 +184,7 @@
                             boolean newSection = false;
                             int sectionIndex = -1;
                             int teamIndex = -1;
-                Set<String> teamMembersEmail = new HashSet<String>(); 
+                List<String> teamMembersEmail = new ArrayList<String>(); 
                 Set<String> teamMembersWithNoResponses = new HashSet<String>();
             %>
             <%
@@ -894,7 +896,7 @@
                               <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
                                   <div class="panel-body background-color-warning">
                                       <%
-                                      Set<String> teamMembers = data.bundle.getTeamMembersFromRoster(teamWithNoResponseReceived);
+                                      List<String> teamMembers = data.bundle.getTeamMembersFromRoster(teamWithNoResponseReceived);
                                   
                                       for (String teamMember : teamMembers) {
                                          %>
@@ -938,6 +940,8 @@
             sectionsWithNoResponseReceived.removeAll(givingSections);
             
             if (data.selectedSection.equals("All")) {
+                List<String> sectionsList = new ArrayList<String>(sectionsWithNoResponseReceived);
+                Collections.sort(sectionsList);
             for (String sectionWithNoResponseReceived: sectionsWithNoResponseReceived) {
                %>
                     <div class="panel panel-success">
@@ -948,10 +952,10 @@
                         <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
                             <div class="panel-body">
                                 <%
-                                Set<String> teamsFromSection = data.bundle.getTeamsInSectionFromRoster(sectionWithNoResponseReceived);
+                                List<String> teamsFromSection = data.bundle.getTeamsInSectionFromRoster(sectionWithNoResponseReceived);
                                 
                                 for (String team : teamsFromSection) {
-                                    Set<String> teamMembers = data.bundle.getTeamMembersFromRoster(team);
+                                    List<String> teamMembers = data.bundle.getTeamMembersFromRoster(team);
                                   %>
                                     <div class="panel panel-warning">
                                       <div class="panel-heading">

@@ -160,15 +160,17 @@
                                                   if (possibleReceivers != null && !possibleReceivers.isEmpty()) {
                                                      for (String possibleReceiver : possibleReceivers) {
                                                          
+                                                    	 if (questionDetails.shouldShowNoResponseText(prevGiver, possibleReceiver, question)) {
                                                          %>
-                                                         <tr class="pending_response_row">
-                                                    	<td class="middlealign"><%=data.bundle.getNameFromRoster(prevGiver)%></td>
-                                                        <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(prevGiver)%></td>
-                                                        <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleReceiver)%></td>
-                                                        <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
-                                                        <td class="text-preserve-space"><%=questionDetails.getNoResponseText(prevGiver, possibleReceiver, data.bundle, question) %></td>
-                                                    	 </tr>
+                                                             <tr class="pending_response_row">
+                                                        	<td class="middlealign color_neutral"><%=data.bundle.getNameFromRoster(prevGiver)%></td>
+                                                            <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(prevGiver)%></td>
+                                                            <td class="middlealign color_neutral"><%=data.bundle.getNameFromRoster(possibleReceiver)%></td>
+                                                            <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
+                                                            <td class="text-preserve-space"><%=questionDetails.getNoResponseText(prevGiver, possibleReceiver, data.bundle, question) %></td>
+                                                        	 </tr>
                                                          <% 
+                                                    	 }
                                                      }
                                                   }
                                                   
@@ -212,10 +214,10 @@
                                       		if (questionDetails.shouldShowNoResponseText(prevGiver, possibleReceiver, question)) {
                                               %>
                                                   <tr class="pending_response_row">
-                                                 <td class="middlealign"><%=data.bundle.getNameFromRoster(prevGiver)%></td>
-                                                 <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(prevGiver)%></td>
-                                                 <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleReceiver)%></td>
-                                                 <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
+                                                 <td class="middlealign color_neutral"><%=data.bundle.getNameFromRoster(prevGiver)%></td>
+                                                 <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(prevGiver)%></td>
+                                                 <td class="middlealign color_neutral"><%=data.bundle.getNameFromRoster(possibleReceiver)%></td>
+                                                 <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
                                                  <td class="text-preserve-space"><%=questionDetails.getNoResponseText(prevGiver, possibleReceiver, data.bundle, question) %></td>
                                                   </tr>
                                               <% 
@@ -243,10 +245,10 @@
                                           		if (questionDetails.shouldShowNoResponseText(possibleGiver, possibleReceiver, question)) {
                                           		%>
                                               <tr class="pending_response_row">
-                                              <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleGiver)%></td>
-                                              <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(possibleGiver)%></td>
-                                              <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleReceiver)%></td>
-                                              <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
+                                              <td class="middlealign color_neutral"><%=data.bundle.getNameFromRoster(possibleGiver)%></td>
+                                              <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleGiver)%></td>
+                                              <td class="middlealign color_neutral"><%=data.bundle.getNameFromRoster(possibleReceiver)%></td>
+                                              <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
                                               <td class="text-preserve-space"><%=questionDetails.getNoResponseText(possibleGiver, possibleReceiver, data.bundle, question) %></td>
                                               </tr>
                                                <% 

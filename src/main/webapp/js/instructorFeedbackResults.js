@@ -233,9 +233,7 @@ $(document).ready(function(){
 
     //Show/Hide statistics
     showHideStats();
-    showHideNoResponseRows();
     $("#show-stats-checkbox").change(showHideStats);
-    $("#show-noresponses-checkbox").change(showHideNoResponseRows);
     
     //auto select the html table when modal is shown
     $('#fsResultsTableWindow').on('shown.bs.modal', function (e) {
