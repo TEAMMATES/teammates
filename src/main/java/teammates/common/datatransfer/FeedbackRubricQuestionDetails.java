@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.GsonBuilder;
+
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
+import teammates.common.util.HttpRequestHelper;
 
 public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     public int numOfRubricChoices;
@@ -27,7 +31,73 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     public boolean extractQuestionDetails(
             Map<String, String[]> requestParameters,
             FeedbackQuestionType questionType) {
+        String numOfRubricChoicesString = HttpRequestHelper.getValueFromParamMap(requestParameters, "rubricNumCols");
+        String numOfRubricSubQuestionsString = HttpRequestHelper.getValueFromParamMap(requestParameters, "rubricNumRows");
         
+        int numOfRubricChoices = Integer.parseInt(numOfRubricChoicesString);
+        int numOfRubricSubQuestions = Integer.parseInt(numOfRubricSubQuestionsString);
+        List<String> rubricChoices = new ArrayList<String>();
+        List<String> rubricSubQuestions = new ArrayList<String>();
+        List<List<String>> rubricDescriptions = new ArrayList<List<String>>();
+        
+        int numActualChoices = 0;
+        int numActualSubQuestions = 0;
+        
+        // Get list of choices
+        for(int i = 0 ; i<numOfRubricChoices ; i++) {
+            String choice = HttpRequestHelper.getValueFromParamMap(requestParameters, "rubricChoice" + "-" + i);
+            if(choice != null) {
+                rubricChoices.add(choice);
+                numActualChoices++;
+            }
+        }
+        
+        // Get list of sub-questions
+        for(int i = 0 ; i<numOfRubricSubQuestions ; i++) {
+            String subQuestion = HttpRequestHelper.getValueFromParamMap(requestParameters, "rubricSubQn" + "-" + i);
+            if(subQuestion != null) {
+                rubricSubQuestions.add(subQuestion);
+                numActualSubQuestions++;
+            }
+        }
+        
+        // Get descriptions
+        for(int i = 0 ; i<numOfRubricSubQuestions ; i++) {
+            rubricDescriptions.add(new ArrayList<String>());
+            for(int j = 0 ; j<numOfRubricChoices ; j++) {
+                String description = HttpRequestHelper.getValueFromParamMap(requestParameters, "rubricDesc" + "-" + i + "-" + j);
+                if(description != null) {
+                    rubricDescriptions.get(i).add(description);
+                }
+            }
+        }
+        
+        // Set details
+        setRubricQuestionDetails(numActualChoices, rubricChoices,
+                numActualSubQuestions, rubricSubQuestions, rubricDescriptions);
+        
+        // Assert sizes of description, choices, sub-qns
+        // TODO: move this to validateQuestionDetails and handle properly.
+        Assumption.assertTrue(validDescriptionSize());
+        
+        
+        return true;
+    }
+    
+    /**
+     * Checks if the dimensions of rubricDescription is valid according
+     * to numOfRubricSubQuestions and numOfRubricChoices.
+     * @return
+     */
+    private boolean validDescriptionSize() {
+        if (this.rubricDescriptions.size() != this.numOfRubricSubQuestions) {
+            return false;
+        }
+        for (int i=0 ; i<this.rubricDescriptions.size() ; i++) {
+            if (this.rubricDescriptions.get(i).size() != this.numOfRubricChoices) {
+                return false;
+            }
+        }
         return true;
     }
 
@@ -36,6 +106,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             int numOfRubricSubQuestions,
             List<String> rubricSubQuestions,
             List<List<String>> rubricDescriptions) {
+        this.numOfRubricChoices = numOfRubricChoices;
+        this.rubricChoices = rubricChoices;
+        this.numOfRubricSubQuestions = numOfRubricSubQuestions;
+        this.rubricSubQuestions = rubricSubQuestions;
+        this.rubricDescriptions = rubricDescriptions;
     }
 
     @Override

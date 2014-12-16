@@ -1175,7 +1175,7 @@ function addRubricRow(questionNumber) {
     var newRubricRow = rubricRowTemplate;
     newRubricRow = replaceAll(newRubricRow, "${qnIndex}", questionNumber);
     newRubricRow = replaceAll(newRubricRow, "${row}", newRowNumber-1);
-    newRubricRow = replaceAll(newRubricRow, "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}", "rubricDesc");
+    newRubricRow = replaceAll(newRubricRow, "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}", "rubricSubQn");
     newRubricRow = replaceAll(newRubricRow, "${subQuestion}", "");
     newRubricRow = replaceAll(newRubricRow, "${rubricRowBodyFragments}", rubricRowBodyFragments);
 
