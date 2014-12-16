@@ -192,6 +192,14 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             return instructor.name;
         }
         
+        if (rosterTeamNameEmailTable.containsKey(email)) {
+            return email;
+        }
+        if (email.contains(Const.TEAM_OF_EMAIL_OWNER)) {
+            int index = email.indexOf(Const.TEAM_OF_EMAIL_OWNER);
+            return getTeamNameFromRoster(email.substring(0, index));
+        }
+        
         return "";
     }
     
@@ -202,6 +210,13 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             return student.lastName;
         } else if (instructor != null) {
             return instructor.name;
+        }
+        if (rosterTeamNameEmailTable.containsKey(email)) {
+            return email;
+        }
+        if (email.contains(Const.TEAM_OF_EMAIL_OWNER)) {
+            int index = email.indexOf(Const.TEAM_OF_EMAIL_OWNER);
+            return getTeamNameFromRoster(email.substring(0, index));
         }
         
         return "";
@@ -539,6 +554,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         switch(recipienttype) {
         case TEAMS:
             possibleRecipients = getListOfTeams();
+            possibleRecipients.remove(team);
+            possibleRecipients.remove("Instructors");
             break;
         case OWN_TEAM:
             possibleRecipients.add(team);
@@ -634,17 +651,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return emailList;
     }
     
-    
-    public List<String> getListOfAnonymisedStudentEmailsSortedBySection() {
-        List<String> emailList = new ArrayList<String>();
-        List<StudentAttributes> students = roster.getStudents();
-        for (StudentAttributes student : students) {
-            String anonEmail = getAnonEmail(FeedbackParticipantType.STUDENTS, student.name);
-            emailList.add(anonEmail);
-        }
-        
-        return emailList;
-    }
+   
     
     /**
      * Used for instructor feedback results views.

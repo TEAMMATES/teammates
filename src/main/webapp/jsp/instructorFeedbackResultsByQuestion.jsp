@@ -1,3 +1,4 @@
+<%@page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%@ page import="java.util.Map"%>
@@ -155,17 +156,24 @@
                                                          <tr class="pending_response_row">
                                                     	<td class="middlealign"><%=data.bundle.getNameFromRoster(prevGiver)%></td>
                                                         <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(prevGiver)%></td>
-                                                        <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleReceiver)%></td>
+                                                        <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleReceiver) + possibleReceiver%></td>
                                                         <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
                                                         <td class="text-preserve-space"><%=questionDetails.getNoResponseText(prevGiver, possibleReceiver, data.bundle, question) %></td>
                                                     	 </tr>
                                                          <% 
                                                      }
                                                   }
-                                                    
-                                                  possibleGivers.remove(responseEntry.giverEmail);
                                                   
-                                                  possibleReceivers = data.bundle.getPossibleRecipients(question, responseEntry.giverEmail);
+                                                  if (question.giverType == FeedbackParticipantType.TEAMS) {
+                                                    possibleGivers.remove(data.bundle.getNameFromRoster(responseEntry.giverEmail));
+                                                    possibleReceivers = data.bundle.getPossibleRecipients(question, data.bundle.getNameFromRoster(responseEntry.giverEmail));
+                                                  } else {
+                                                    possibleGivers.remove(responseEntry.giverEmail);
+                                                    possibleReceivers = data.bundle.getPossibleRecipients(question, responseEntry.giverEmail);
+                                                  }
+                                                  
+                                                  
+                                                  
                                                   isNewGiver = false;
                                                 }
                                 %>
@@ -176,8 +184,12 @@
                                                 <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
                                             </tr>        
                                 <%
-                                               possibleReceivers.remove(responseEntry.recipientEmail);
-                                               prevGiver = responseEntry.giverEmail;
+                                                if (question.recipientType == FeedbackParticipantType.TEAMS) {
+                                                	possibleReceivers.remove(data.bundle.getNameFromRoster(responseEntry.recipientEmail)); 
+                                                } else {
+                                                	possibleReceivers.remove(responseEntry.recipientEmail);
+                                                }
+                                                prevGiver = responseEntry.giverEmail;
                                                
                                       }
                                       
@@ -190,7 +202,7 @@
                                       		if (questionDetails.shouldShowNoResponseText(prevGiver, possibleReceiver, question)) {
                                               %>
                                                   <tr class="pending_response_row">
-                                                 <td class="middlealign"><%=data.bundle.getNameFromRoster(prevGiver) %></td>
+                                                 <td class="middlealign"><%=data.bundle.getNameFromRoster(prevGiver)%></td>
                                                  <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(prevGiver)%></td>
                                                  <td class="middlealign"><%=data.bundle.getNameFromRoster(possibleReceiver)%></td>
                                                  <td class="middlealign"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
@@ -199,7 +211,12 @@
                                               <% 
                                       		}
                                         }
-                                        possibleGivers.remove(prevGiver);
+                                      	if (question.giverType == FeedbackParticipantType.TEAMS) {
+                                          possibleGivers.remove(data.bundle.getNameForEmail(prevGiver)); 
+                                        } else {
+                                          possibleGivers.remove(prevGiver);
+                                        }
+                                        
                                       }
                                       
                                       if (possibleGivers != null && !possibleGivers.isEmpty()) {
