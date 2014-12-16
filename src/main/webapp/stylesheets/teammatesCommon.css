@@ -60,6 +60,10 @@ body {
     color: #e74c3c;
 }
 
+.color_neutral {
+    color: gray;
+}
+
 .cursor-pointer {
     cursor: pointer;
     cursor: hand;

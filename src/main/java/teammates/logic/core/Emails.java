@@ -457,7 +457,7 @@ public class Emails {
         CoursesLogic coursesLogic = CoursesLogic.inst();
         InstructorsLogic instructorsLogic = InstructorsLogic.inst();
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-        String template = EmailTemplates.USER_FEEDBACK_SESSION;
+        String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSING;
         List<MimeMessage> emails = null;
         
         CourseAttributes course = coursesLogic
