@@ -1120,6 +1120,142 @@ function fixContribQnGiverRecipient(questionNumber){
  * ----------------------------------------------------------------------------
  */
 
+
+function addRubricRow(questionNumber) {
+    idOfQuestion = '#form_editquestion-' + questionNumber;
+    idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+    
+    var numberOfRows = parseInt($("#"+"rubricNumRows"+idSuffix).val());
+    var numberOfCols = parseInt($("#"+"rubricNumCols"+idSuffix).val());
+    
+    // var curNumberOfRows = $('#rubricEditTable'+idSuffix+' tr').length;
+    // var curNumberOfCols = $('#rubricEditTable'+idSuffix+' tr:last').children('td').length - 1;
+
+
+    var newRowNumber = numberOfRows + 1;
+
+    var rubricRowTemplate =
+        "<tr id=\"rubricRow-${qnIndex}-${row}\">"
+      +     "<td>"
+      +         "<div class=\"input-group\">"
+      +             "<span class=\"input-group-addon btn btn-default\" id=\"rubricRemoveSubQuestionLink\" onclick=\"removeRubricRow(${row},${qnIndex})\">"
+      +                 "<span class=\"glyphicon glyphicon-remove\"></span>"
+      +             "</span>"
+      +             "<textarea class=\"form-control resize-vert\" rows=\"1\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${row}\">${subQuestion}</textarea>"
+      +         "</div>"
+      +     "</td>"
+      +     "${rubricRowBodyFragments}"
+      + "</tr>";
+
+    var rubricRowFragmentTemplate =
+        "<td class=\"align-center rubricCol-${qnIndex}-${col}\">"
+      +   "<textarea class=\"form-control resize-vert\" rows=\"1\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}\">${description}</textarea>"
+      + "</td>";
+
+    var rubricRowBodyFragments = "";
+    // Create numberOfCols of <td>'s 
+    for (var cols=0 ; cols<numberOfCols ; cols++) {
+        if ($('.rubricCol'+idSuffix+'-'+cols).length == 0) {
+            continue;
+        }
+        var fragment = rubricRowFragmentTemplate;
+        fragment = replaceAll(fragment, "${qnIndex}", questionNumber);
+        fragment = replaceAll(fragment, "${row}", newRowNumber-1);
+        fragment = replaceAll(fragment, "${col}", cols);
+        fragment = replaceAll(fragment, "${description}", "");
+        fragment = replaceAll(fragment, "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}", "rubricDesc");
+        rubricRowBodyFragments += fragment;
+    }
+
+    
+    // Create new rubric row
+    var newRubricRow = rubricRowTemplate;
+    newRubricRow = replaceAll(newRubricRow, "${qnIndex}", questionNumber);
+    newRubricRow = replaceAll(newRubricRow, "${row}", newRowNumber-1);
+    newRubricRow = replaceAll(newRubricRow, "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}", "rubricDesc");
+    newRubricRow = replaceAll(newRubricRow, "${subQuestion}", "");
+    newRubricRow = replaceAll(newRubricRow, "${rubricRowBodyFragments}", rubricRowBodyFragments);
+
+    // Row to insert new row after
+    var lastRow = $('#rubricEditTable'+idSuffix+' tr:last');
+    $(newRubricRow).insertAfter(lastRow);
+
+    // Increment
+    $("#"+"rubricNumRows"+idSuffix).val(newRowNumber);
+    
+    if($(idOfQuestion).attr('editStatus') == "hasResponses") {
+        $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+    }
+}
+
+function addRubricCol(questionNumber) {
+    idOfQuestion = '#form_editquestion-' + questionNumber;
+    idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+    
+    var numberOfRows = parseInt($("#"+"rubricNumRows"+idSuffix).val());
+    var numberOfCols = parseInt($("#"+"rubricNumCols"+idSuffix).val());
+    
+    var newColNumber = numberOfCols + 1;
+
+    //Insert header <th>
+    var rubricHeaderFragmentTemplate = 
+       "<th class=\"rubricCol-${qnIndex}-${col}\">"
+      +     "<div class=\"input-group\">"
+      +         "<input type=\"text\" class=\"form-control\" value=\"${rubricChoiceValue}\" name =\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}-${col}\">"
+      +         "<span class=\"input-group-addon btn btn-default\" id=\"rubricRemoveChoiceLink\" onclick=\"removeRubricCol(${col}, ${qnIndex})\">"
+      +             "<span class=\"glyphicon glyphicon-remove\"></span>"
+      +         "</span>"
+      +     "</div>"
+      + "</th>";
+
+    var rubricHeaderFragment = rubricHeaderFragmentTemplate;
+    rubricHeaderFragment = replaceAll(rubricHeaderFragment, "${qnIndex}", questionNumber);
+    rubricHeaderFragment = replaceAll(rubricHeaderFragment, "${col}", newColNumber-1);
+    rubricHeaderFragment = replaceAll(rubricHeaderFragment, "${rubricChoiceValue}", "");
+    rubricHeaderFragment = replaceAll(rubricHeaderFragment, "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", "rubricChoice");
+
+    // Insert after last <th>
+    var lastTh = $('#rubricEditTable'+idSuffix+' th:last');
+    $(rubricHeaderFragment).insertAfter(lastTh);
+
+    // Insert body <td>'s
+    var rubricRowFragmentTemplate =
+        "<td class=\"align-center rubricCol-${qnIndex}-${col}\">"
+      +   "<textarea class=\"form-control resize-vert\" rows=\"1\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}\">${description}</textarea>"
+      + "</td>";
+
+    var rubricRowBodyFragments = "";
+    // Create numberOfRows of <td>'s
+    for (var rows=0 ; rows<numberOfRows ; rows++) {
+        if ($('#rubricRow'+idSuffix+'-'+rows).length == 0) {
+            continue;
+        }
+        var fragment = rubricRowFragmentTemplate;
+        fragment = replaceAll(fragment, "${qnIndex}", questionNumber);
+        fragment = replaceAll(fragment, "${row}", rows);
+        fragment = replaceAll(fragment, "${col}", newColNumber-1);
+        fragment = replaceAll(fragment, "${description}", "");
+        fragment = replaceAll(fragment, "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}", "rubricDesc");
+        
+        // Insert after previous <td>
+        var lastTd = $('#rubricRow'+idSuffix+'-'+rows+' td:last');
+        $(fragment).insertAfter(lastTd);
+    }
+
+    // Increment
+    $("#"+"rubricNumCols"+idSuffix).val(newColNumber);
+    
+    if($(idOfQuestion).attr('editStatus') == "hasResponses") {
+        $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+    }
+}
+
 function removeRubricRow(index, questionNumber) {
     idOfQuestion = '#form_editquestion-' + questionNumber;
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";

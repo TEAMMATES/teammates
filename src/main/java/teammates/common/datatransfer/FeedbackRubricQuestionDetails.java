@@ -111,7 +111,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${qnIndex}", questionNumberString,
                                 "${col}", Integer.toString(i),
                                 "${row}", Integer.toString(j),
-                                "${description}", "",//TODO: populate this.
+                                "${description}", this.getDescription(j, i),
                                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION);
                 tableBodyFragmentHtml.append(optionFragment + Const.EOL);
             }
@@ -139,6 +139,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.RUBRIC_EDIT_FORM,
                 "${qnIndex}", questionNumberString,
+                "${currRows}", Integer.toString(this.numOfRubricSubQuestions),
+                "${currCols}", Integer.toString(this.numOfRubricChoices),
                 "${tableHeaderRowFragmentHtml}", tableHeaderFragmentHtml.toString(),
                 "${tableBodyHtml}", tableBodyHtml.toString());
         
@@ -157,9 +159,31 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         this.rubricSubQuestions.add("sub-question 1");
         this.rubricSubQuestions.add("sub-question 2");
         
+        initializeRubricDescriptions();
+        
         return "<div id=\"rubricForm\">" + 
                     this.getQuestionSpecificEditFormHtml(-1) +
                "</div>";
+    }
+    
+    private void initializeRubricDescriptions() {
+        rubricDescriptions = new ArrayList<List<String>>();
+        for (int subQns=0 ; subQns<this.numOfRubricSubQuestions ; subQns++) {
+            List<String> descList = new ArrayList<String>();
+            for (int ch=0 ; ch<this.numOfRubricChoices ; ch++) {
+                descList.add("");
+            }
+            rubricDescriptions.add(descList);
+        }
+    }
+    
+    /**
+     * Gets the description for given sub-question and choice
+     * @param subQuestion
+     * @param choice
+     */
+    public String getDescription(int subQuestion, int choice) {
+        return this.rubricDescriptions.get(subQuestion).get(choice);
     }
 
     @Override
