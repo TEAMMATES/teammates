@@ -160,6 +160,10 @@ Apply to thead to make headers not bold.
     padding-top: 0;
 }
 
+.resize-vert {
+    resize: vertical;
+}
+
 .text-bold {
     font-weight: bold;
 }

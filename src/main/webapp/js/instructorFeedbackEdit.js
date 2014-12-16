@@ -336,6 +336,7 @@ function hideAllNewQuestionForms() {
     $('#msqForm').hide();
     $('#numScaleForm').hide();
     $('#constSumForm').hide();
+    $('#rubricForm').hide();
 }
 
 function prepareQuestionForm(type) {
@@ -392,6 +393,11 @@ function prepareQuestionForm(type) {
         fixContribQnGiverRecipient();
         setDefaultContribQnVisibility();
         setContribQnVisibilityFormat();
+        break;
+    case "RUBRIC":
+        $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_RUBRIC);
+        hideAllNewQuestionForms();
+        $('#rubricForm').show();
         break;
     }
 }
@@ -743,6 +749,49 @@ function addMcqOption(questionNumber) {
     }
 }
 
+function removeMcqOption(index, questionNumber) {
+    idOfQuestion = '#form_editquestion-' + questionNumber;
+    idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
+    $("#mcqOptionRow-"+index+idSuffix).remove();
+    
+    if($(idOfQuestion).attr('editStatus') == "hasResponses") {
+        $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+    }
+}
+
+function toggleMcqGeneratedOptions(checkbox, questionNumber) {
+    idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
+    if (checkbox.checked) {
+        $("#mcqChoiceTable"+idSuffix).find("input[type=text]").prop('disabled', true);
+        $("#mcqChoiceTable"+idSuffix).hide();
+        $("#mcqGenerateForSelect"+idSuffix).prop("disabled", false);
+        $("#generatedOptions"+idSuffix).attr("value", 
+                $("#mcqGenerateForSelect"+idSuffix).prop("value"));
+    } else {
+        $("#mcqChoiceTable"+idSuffix).find("input[type=text]").prop("disabled", false);
+        $("#mcqChoiceTable"+idSuffix).show();
+        $("#mcqGenerateForSelect"+idSuffix).prop("disabled", true);
+        $("#generatedOptions"+idSuffix).attr("value", "NONE");
+    }
+}
+
+function changeMcqGenerateFor(questionNumber) {
+    idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
+    $("#generatedOptions"+idSuffix).attr("value", 
+            $("#mcqGenerateForSelect"+idSuffix).prop("value"));
+}
 
 /**
  * ----------------------------------------------------------------------------
@@ -783,19 +832,6 @@ function addMsqOption(questionNumber) {
     }
 }
 
-function removeMcqOption(index, questionNumber) {
-    idOfQuestion = '#form_editquestion-' + questionNumber;
-    idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    if(questionNumber == -1){
-        idSuffix = "--1";
-    }
-
-    $("#mcqOptionRow-"+index+idSuffix).remove();
-    
-    if($(idOfQuestion).attr('editStatus') == "hasResponses") {
-        $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
-    }
-}
 
 function removeMsqOption(index, questionNumber) {
     idOfQuestion = '#form_editquestion-' + questionNumber;
@@ -809,37 +845,6 @@ function removeMsqOption(index, questionNumber) {
     if($(idOfQuestion).attr('editStatus') == "hasResponses") {
         $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
     }
-}
-
-
-function toggleMcqGeneratedOptions(checkbox, questionNumber) {
-    idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    if(questionNumber == -1){
-        idSuffix = "--1";
-    }
-
-    if (checkbox.checked) {
-        $("#mcqChoiceTable"+idSuffix).find("input[type=text]").prop('disabled', true);
-        $("#mcqChoiceTable"+idSuffix).hide();
-        $("#mcqGenerateForSelect"+idSuffix).prop("disabled", false);
-        $("#generatedOptions"+idSuffix).attr("value", 
-                $("#mcqGenerateForSelect"+idSuffix).prop("value"));
-    } else {
-        $("#mcqChoiceTable"+idSuffix).find("input[type=text]").prop("disabled", false);
-        $("#mcqChoiceTable"+idSuffix).show();
-        $("#mcqGenerateForSelect"+idSuffix).prop("disabled", true);
-        $("#generatedOptions"+idSuffix).attr("value", "NONE");
-    }
-}
-
-function changeMcqGenerateFor(questionNumber) {
-    idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    if(questionNumber == -1){
-        idSuffix = "--1";
-    }
-
-    $("#generatedOptions"+idSuffix).attr("value", 
-            $("#mcqGenerateForSelect"+idSuffix).prop("value"));
 }
 
 function toggleMsqGeneratedOptions(checkbox, questionNumber) {
@@ -1107,4 +1112,44 @@ function fixContribQnGiverRecipient(questionNumber){
 
     $('#givertype'+idSuffix).find('option').filter('[value="STUDENTS"]').attr('selected','selected');
     $('#recipienttype'+idSuffix).find('option').filter('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').attr('selected','selected');
+}
+
+/**
+ * ----------------------------------------------------------------------------
+ * Rubric Question
+ * ----------------------------------------------------------------------------
+ */
+
+function removeRubricRow(index, questionNumber) {
+    idOfQuestion = '#form_editquestion-' + questionNumber;
+    idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
+    //TODO: ensure at least one row?
+
+    //Remove row
+    $('#rubricRow' + idSuffix + '-' + index).remove();
+    
+    if($(idOfQuestion).attr('editStatus') == "hasResponses") {
+        $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+    }
+}
+
+function removeRubricCol(index, questionNumber) {
+    idOfQuestion = '#form_editquestion-' + questionNumber;
+    idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
+    //TODO: ensure at least two cols?
+
+    //Remove col
+    $('.rubricCol' + idSuffix + '-' + index).remove();
+    
+    if($(idOfQuestion).attr('editStatus') == "hasResponses") {
+        $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+    }
 }

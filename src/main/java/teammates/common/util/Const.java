@@ -408,6 +408,9 @@ public class Const {
         public static final String FEEDBACK_QUESTION_NUMSCALE_MIN = "numscalemin";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MAX = "numscalemax";
         public static final String FEEDBACK_QUESTION_NUMSCALE_STEP = "numscalestep";
+        public static final String FEEDBACK_QUESTION_RUBRICSUBQUESTION = "rubricSubQn";
+        public static final String FEEDBACK_QUESTION_RUBRICCHOICE = "rubricChoice";
+        public static final String FEEDBACK_QUESTION_RUBRICDESCRIPTION = "rubricDesc";
     
         public static final String FEEDBACK_RESPONSE_ID = "responseid";
         public static final String FEEDBACK_RESPONSE_RECIPIENT = "responserecipient";
