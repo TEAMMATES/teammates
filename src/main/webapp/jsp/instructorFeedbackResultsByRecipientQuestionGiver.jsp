@@ -376,8 +376,9 @@
                 <div class='panel-collapse collapse <%= shouldCollapsed ? "" : "in" %>'>
                 <div class="panel-body">
                 <%
+                    
                     teamMembersWithResponses.add(targetEmail);
-                   
+                       
                     int questionIndex = 0;
                     
                     for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesForRecipientForQuestion : responsesForRecipient.getValue().entrySet()) {
@@ -431,7 +432,11 @@
                                                 // do not show possible givers if givers are anonymised
                                             	possibleGiversToRecipient.clear();
                                             }
-                                            possibleGiversToRecipient.remove(responseEntry.giverEmail);
+                                            if (question.giverType == FeedbackParticipantType.TEAMS) {
+                                              possibleGiversToRecipient.remove(data.bundle.getTeamNameFromRoster(responseEntry.giverEmail));
+                                            } else {
+                                              possibleGiversToRecipient.remove(responseEntry.giverEmail);
+                                            }
                                             
                                             if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, responseEntry.giverEmail).isEmpty()) {
                                         %>

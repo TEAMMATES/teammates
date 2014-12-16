@@ -421,6 +421,10 @@
                                             String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
                                             
                                             possibleRecipientsForQuestion.remove(responseEntry.recipientEmail);
+                                            if (responseEntry.recipientEmail.contains("@@")) {
+                                              // do not show possible recipients if recipients are anonymised
+                                              possibleRecipientsForQuestion.clear();
+                                          }
                                             
                                             if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, responseEntry.recipientEmail).isEmpty()) { 
                                         %>
@@ -515,7 +519,7 @@
                     <span class='glyphicon glyphicon-chevron-up pull-right'></span>
                 </div>
                 <div class='panel-collapse collapse in'>
-                    <div class="panel-body"> There are no responses received by this user 
+                    <div class="panel-body"> There are no responses given by this user 
                     </div>
                 </div>
                 </div>
@@ -563,7 +567,7 @@
                                                     <span class='glyphicon glyphicon-chevron-up pull-right'></span>
                                                 </div>
                                                 <div class='panel-collapse collapse in'>
-                                                    <div class="panel-body"> There are no responses received by this user 
+                                                    <div class="panel-body"> There are no responses given by this user 
                                                     </div>
                                                 </div>
                                              </div>
@@ -629,7 +633,7 @@
                                                     <span class='glyphicon glyphicon-chevron-up" %> pull-right'></span>
                                                 </div>
                                                 <div class='panel-collapse collapse in'>
-                                                    <div class="panel-body"> There are no responses received by this user 
+                                                    <div class="panel-body"> There are no responses given by this user 
                                                     </div>
                                                 </div>
                                              </div>
