@@ -867,7 +867,9 @@ public class PageData {
             "title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
             (hasRemind ? "onclick=\"return toggleRemindStudents('" + session.feedbackSessionName + "');\" " : "") +
             disableRemindSessionStr + ">Remind all students</a></li>" +
-            "<li><a href=\"#\" data-actionlink=\"" + getInstructorFeedbackSessionRemindParticularStudentsPageLink(session.courseId,session.feedbackSessionName) + "\" " +
+            "<li><a href=\"#\" data-actionlink=\"" + 
+            getInstructorFeedbackSessionRemindParticularStudentsPageLink(session.courseId, session.feedbackSessionName) + "\" " +
+            "data-courseid=\"" + session.courseId + "\" data-fsname=\"" + session.feedbackSessionName + "\" " +
             "data-toggle=\"modal\" data-target=\"#remindModal\">Remind particular students</a></li></ul></div> "
         );
         

@@ -46,6 +46,7 @@ public class Const {
         public static final String EVAL_PUBLISH_EMAIL_TASK_QUEUE = "evaluation-publish-email-queue";
         public static final String EVAL_REMIND_EMAIL_TASK_QUEUE = "evaluation-remind-email-queue";
         public static final String FEEDBACK_REMIND_EMAIL_TASK_QUEUE = "feedback-remind-email-queue";
+        public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USER_TASK_QUEUE = "feedback-remind-email-particular-user-queue";
         public static final String SEND_EMAIL_TASK_QUEUE = "send-email-queue";
         
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
@@ -607,7 +608,8 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACK_COPY = "/page/instructorFeedbackCopy";
         public static final String INSTRUCTOR_FEEDBACK_DELETE = "/page/instructorFeedbackDelete";
         public static final String INSTRUCTOR_FEEDBACK_REMIND = "/page/instructorFeedbackRemind";
-        public static final String INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE = "/page/instructorFeedbackRemindParticularStudents";
+        public static final String INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE = "/page/instructorFeedbackRemindParticularStudentsPage";
+        public static final String INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS = "/page/instructorFeedbackRemindParticularStudents";
         public static final String INSTRUCTOR_FEEDBACK_PUBLISH = "/page/instructorFeedbackPublish";
         public static final String INSTRUCTOR_FEEDBACK_UNPUBLISH = "/page/instructorFeedbackUnpublish";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "/page/instructorFeedbackEditPage";
