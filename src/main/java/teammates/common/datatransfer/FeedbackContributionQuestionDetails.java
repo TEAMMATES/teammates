@@ -690,6 +690,52 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return errorMsg;
     }
     
+
+    public static String getPerceivedContributionInEqualShareFormatHtml(int i) {
+        return "<span>&nbsp;&nbsp;["
+                + "Perceived Contribution: "
+                + convertToEqualShareFormatHtml(i)
+                + "]</span>";
+    }
+    
+    public String getPerceivedContributionHtml(FeedbackQuestionAttributes question,
+            String targetEmail, FeedbackSessionResultsBundle bundle) {
+        Map<String, StudentResultSummary> stats = FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
+        
+        if (stats.containsKey(targetEmail)) {
+            StudentResultSummary studentResult = stats.get(targetEmail);
+            
+            String responseAnswerHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
+                    studentResult.claimedToInstructor);
+            
+            int pc = studentResult.perceivedToInstructor;
+            responseAnswerHtml += FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
+            
+            return responseAnswerHtml;
+        } else {
+            return FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(Const.POINTS_NOT_SUBMITTED);
+        }
+    }
+    
+    private boolean hasPerceivedContribution(String email, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
+        Map<String, StudentResultSummary> stats = FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
+        if (stats.containsKey(email)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    @Override
+    public String getNoResponseTextInHtml(String giverEmail, String recipientEmail, FeedbackSessionResultsBundle bundle, FeedbackQuestionAttributes question) {
+        if (giverEmail.equals(recipientEmail) && hasPerceivedContribution(recipientEmail, question, bundle)) {
+            return getPerceivedContributionHtml(question, recipientEmail, bundle);
+        } else {
+            return super.getNoResponseTextInHtml(giverEmail, recipientEmail, bundle, question);
+        }
+    }
+    
+    
     /*
      * The functions below are taken and modified from EvalSubmissionEditPageData.java
      * -------------------------------------------------------------------------------
@@ -717,31 +763,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return result;
     }
     
-    public static String getPerceivedContributionInEqualShareFormatHtml(int i) {
-        return "<span>&nbsp;&nbsp;["
-                + "Perceived Contribution: "
-                + convertToEqualShareFormatHtml(i)
-                + "]</span>";
-    }
-    
-    public String getContributionQuestionPerceivedContributionHtml(FeedbackQuestionAttributes question,
-            String targetEmail, FeedbackSessionResultsBundle bundle) {
-        Map<String, StudentResultSummary> stats = FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
-        
-        if (stats.containsKey(targetEmail)) {
-            StudentResultSummary studentResult = stats.get(targetEmail);
-            
-            String responseAnswerHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
-                    studentResult.claimedToInstructor);
-            
-            int pc = studentResult.perceivedToInstructor;
-            responseAnswerHtml += FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
-            
-            return responseAnswerHtml;
-        } else {
-            return super.getNoResponseTextInHtml("", targetEmail, bundle, question);
-        }
-    }
     
     /**
      * Converts points in integer to String.
@@ -783,15 +804,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             return "<span class=\"color_neutral\">Equal Share</span>";
         else
             return "";
-    }
-    
-    @Override
-    public String getNoResponseTextInHtml(String giverEmail, String recipientEmail, FeedbackSessionResultsBundle bundle, FeedbackQuestionAttributes question) {
-        if (giverEmail.equals(recipientEmail)) {
-            return getContributionQuestionPerceivedContributionHtml(question, giverEmail, bundle);
-        } else {
-            return super.getNoResponseTextInHtml(giverEmail, recipientEmail, bundle, question);
-        }
     }
     
 

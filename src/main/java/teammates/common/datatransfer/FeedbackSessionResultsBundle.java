@@ -592,9 +592,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             case OWN_TEAM_MEMBERS:
             case OWN_TEAM_MEMBERS_INCLUDING_SELF:
                 if (rosterTeamNameEmailTable.containsKey(team)) {
-                    Map<String, String> teamToEmails = rosterTeamNameEmailTable.get(team);
-                    if (teamToEmails != null) {
-                        possibleRecipients = new ArrayList<String>(teamToEmails.keySet());
+                    Map<String, String> studentEmailsToNames = rosterTeamNameEmailTable.get(team);
+                    if (studentEmailsToNames != null) {
+                        possibleRecipients = new ArrayList<String>(studentEmailsToNames.keySet());
                     }
                 }
             case NONE:
