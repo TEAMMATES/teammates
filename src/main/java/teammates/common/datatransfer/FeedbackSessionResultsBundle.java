@@ -589,8 +589,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 possibleRecipients = getSortedListOfStudentEmails();
                 break;
             case SELF:
-                possibleRecipients.add(team);
-                break;
             case OWN_TEAM_MEMBERS:
             case OWN_TEAM_MEMBERS_INCLUDING_SELF:
                 if (rosterTeamNameEmailTable.containsKey(team)) {
