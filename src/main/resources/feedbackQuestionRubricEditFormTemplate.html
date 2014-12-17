@@ -1,7 +1,7 @@
 <div class="row">
     <br>
     <div class="col-sm-12 table-responsive">
-        <table class="table table-striped table-bordered dataTable margin-0" id="rubricEditTable-${qnIndex}">
+        <table class="table table-striped table-bordered margin-0" id="rubricEditTable-${qnIndex}">
             <thead>
                 <tr>
                     <th></th>
@@ -17,12 +17,11 @@
     <input type="hidden" name="rubricNumCols" id="rubricNumCols-${qnIndex}" value="${currCols}">
 </div>
 <div class="row">
-    <br>
-    <div class="col-sm-6 align-center">
-        <a class="btn btn-sm btn-primary" id="rubricRemoveSubQuestionLink" onclick="addRubricRow(${qnIndex})"><span class="glyphicon glyphicon-plus"> </span> add sub-question</a>
+    <div class="col-sm-6 align-left">
+        <a class="btn btn-xs btn-primary" id="rubricAddSubQuestionLink-${qnIndex}" onclick="addRubricRow(${qnIndex})"><span class="glyphicon glyphicon-arrow-down"> </span> add row</a>
     </div>
-    <div class="col-sm-6 align-center">
-        <a class="btn btn-sm btn-primary" id="rubricRemoveSubQuestionLink" onclick="addRubricCol(${qnIndex})"><span class="glyphicon glyphicon-plus"> </span> add choice</a>
+    <div class="col-sm-6 align-right">
+        <a class="btn btn-xs btn-primary" id="rubricAddChoiceLink-${qnIndex}" onclick="addRubricCol(${qnIndex})"><span class="glyphicon glyphicon-arrow-right"> </span> add column</a>
     </div>
     <br>
 </div>

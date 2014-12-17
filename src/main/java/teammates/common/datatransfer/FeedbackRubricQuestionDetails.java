@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gson.GsonBuilder;
-
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
@@ -201,14 +199,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION);
             tableBodyHtml.append(optionFragment2 + Const.EOL);
         }
-        
-        // Append last row of table body
-        String addRowFragment = FeedbackQuestionFormTemplates.RUBRIC_EDIT_FORM_BODY_ADD_ROW_FRAGMENT;
-        for(int i = 0 ; i < numOfRubricChoices + 1 ; i++) {
-            //addRowFragment += "<td></td>";
-        }
-        tableBodyHtml.append(addRowFragment);
-        
         
         // Create edit form
         String html = FeedbackQuestionFormTemplates.populateTemplate(

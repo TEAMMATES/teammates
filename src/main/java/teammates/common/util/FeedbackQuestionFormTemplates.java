@@ -49,9 +49,7 @@ public class FeedbackQuestionFormTemplates {
     public static String RUBRIC_EDIT_FORM_HEADER_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricEditFormHeaderFragment.html");
     public static String RUBRIC_EDIT_FORM_BODY_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricEditFormBodyFragment.html");
     public static String RUBRIC_EDIT_FORM_BODY = FileHelper.readResourseFile("feedbackQuestionRubricEditFormBody.html");
-    public static String RUBRIC_EDIT_FORM_BODY_ADD_ROW_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricEditFormAddRowFragment.html");
-    
-    
+
     
     /** Populates the feedback question form html templates by replacing 
      * variables in the template string with the given value string.

@@ -3,6 +3,9 @@
  * This function is called on edit page load.
  */
 function readyFeedbackEditPage(){
+    // Disable all questions
+    disableAllQuestions();
+
     // Hide option tables
     $('.visibilityOptions').hide();
     
@@ -61,6 +64,16 @@ function disableEditFS(){
     });
     $('#form_editfeedbacksession').
         find("text,input,button,textarea,select").prop('disabled', true);
+}
+
+/**
+ * Disables all questions
+ */
+function disableAllQuestions() {
+    var numQuestions = $(".questionTable").length;
+    for (var i=0 ; i<numQuestions ; i++) {
+        disableQuestion(i);
+    }
 }
 
 /**
@@ -146,6 +159,11 @@ function enableQuestion(number){
         removeAttr("disabled", "disabled");
     $('#questionTable'+number).find('.removeOptionLink').show();
     $('#questionTable'+number).find('.addOptionLink').show();
+
+    $('#questionTable'+number).find('#rubricAddChoiceLink-'+number).show();
+    $('#questionTable'+number).find('#rubricAddSubQuestionLink-'+number).show();
+    $('#questionTable'+number).find('.rubricRemoveChoiceLink-'+number).show();
+    $('#questionTable'+number).find('.rubricRemoveSubQuestionLink-'+number).show();
     
     if($("#generateOptionsCheckbox-"+number).prop("checked")){
         $("#mcqChoiceTable-"+number).hide();
@@ -189,7 +207,11 @@ function enableNewQuestion(){
         removeAttr("disabled", "disabled");
     $('#questionTable'+newQnSuffix).find('.removeOptionLink').show();
     $('#questionTable'+newQnSuffix).find('.addOptionLink').show();
-    
+
+    $('#questionTable'+number).find('#rubricAddChoiceLink-'+number).show();
+    $('#questionTable'+number).find('#rubricAddSubQuestionLink-'+number).show();
+    $('#questionTable'+number).find('.rubricRemoveChoiceLink-'+number).show();
+    $('#questionTable'+number).find('.rubricRemoveSubQuestionLink-'+number).show();
 
 
     if($("#generateOptionsCheckbox-"+number).prop("checked")){
@@ -216,11 +238,19 @@ function enableNewQuestion(){
  * and shows the edit link.
  * @param number
  */
-function disableQuestion(number){
+function disableQuestion(number) {
+
     $('#questionTable'+number).find('text,button,textarea,select,input').attr("disabled", "disabled");
+    
     $('#questionTable'+number).find('#mcqAddOptionLink').hide();
     $('#questionTable'+number).find('#msqAddOptionLink').hide();
     $('#questionTable'+number).find('.removeOptionLink').hide();
+
+    $('#questionTable'+number).find('#rubricAddChoiceLink-'+number).hide();
+    $('#questionTable'+number).find('#rubricAddSubQuestionLink-'+number).hide();
+    $('#questionTable'+number).find('.rubricRemoveChoiceLink-'+number).hide();
+    $('#questionTable'+number).find('.rubricRemoveSubQuestionLink-'+number).hide();
+
     $('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).show();
     $('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).hide();
     $('#'+'button_question_submit-'+number).hide();
@@ -1140,11 +1170,11 @@ function addRubricRow(questionNumber) {
     var rubricRowTemplate =
         "<tr id=\"rubricRow-${qnIndex}-${row}\">"
       +     "<td>"
-      +         "<div class=\"input-group\">"
-      +             "<span class=\"input-group-addon btn btn-default\" id=\"rubricRemoveSubQuestionLink\" onclick=\"removeRubricRow(${row},${qnIndex})\">"
+      +         "<div class=\"col-sm-12 input-group\">"
+      +             "<span class=\"input-group-addon btn btn-default rubricRemoveSubQuestionLink-${qnIndex}\" onclick=\"removeRubricRow(${row},${qnIndex})\">"
       +                 "<span class=\"glyphicon glyphicon-remove\"></span>"
       +             "</span>"
-      +             "<textarea class=\"form-control resize-vert\" rows=\"1\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${row}\">${subQuestion}</textarea>"
+      +             "<textarea class=\"form-control\" rows=\"1\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${row}\">${subQuestion}</textarea>"
       +         "</div>"
       +     "</td>"
       +     "${rubricRowBodyFragments}"
@@ -1152,7 +1182,7 @@ function addRubricRow(questionNumber) {
 
     var rubricRowFragmentTemplate =
         "<td class=\"align-center rubricCol-${qnIndex}-${col}\">"
-      +   "<textarea class=\"form-control resize-vert\" rows=\"1\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}\">${description}</textarea>"
+      +   "<textarea class=\"form-control\" rows=\"1\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}\">${description}</textarea>"
       + "</td>";
 
     var rubricRowBodyFragments = "";
@@ -1207,8 +1237,8 @@ function addRubricCol(questionNumber) {
     var rubricHeaderFragmentTemplate = 
        "<th class=\"rubricCol-${qnIndex}-${col}\">"
       +     "<div class=\"input-group\">"
-      +         "<input type=\"text\" class=\"form-control\" value=\"${rubricChoiceValue}\" name =\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}-${col}\">"
-      +         "<span class=\"input-group-addon btn btn-default\" id=\"rubricRemoveChoiceLink\" onclick=\"removeRubricCol(${col}, ${qnIndex})\">"
+      +         "<input type=\"text\" class=\"col-sm-12 form-control\" value=\"${rubricChoiceValue}\" name =\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}-${col}\">"
+      +         "<span class=\"input-group-addon btn btn-default rubricRemoveChoiceLink-${qnIndex}\" onclick=\"removeRubricCol(${col}, ${qnIndex})\">"
       +             "<span class=\"glyphicon glyphicon-remove\"></span>"
       +         "</span>"
       +     "</div>"
@@ -1227,7 +1257,7 @@ function addRubricCol(questionNumber) {
     // Insert body <td>'s
     var rubricRowFragmentTemplate =
         "<td class=\"align-center rubricCol-${qnIndex}-${col}\">"
-      +   "<textarea class=\"form-control resize-vert\" rows=\"1\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}\">${description}</textarea>"
+      +   "<textarea class=\"form-control\" rows=\"1\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}\">${description}</textarea>"
       + "</td>";
 
     var rubricRowBodyFragments = "";

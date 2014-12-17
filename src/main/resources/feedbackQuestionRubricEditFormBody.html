@@ -1,10 +1,10 @@
 <tr id="rubricRow-${qnIndex}-${row}">
     <td>
-    	<div class="input-group">
-    		<span class="input-group-addon btn btn-default" id="rubricRemoveSubQuestionLink" onclick="removeRubricRow(${row},${qnIndex})">
+    	<div class="col-sm-12 input-group">
+    		<span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-${qnIndex}" onclick="removeRubricRow(${row},${qnIndex})">
 				<span class="glyphicon glyphicon-remove"></span>
 			</span>
-	    	<textarea class="form-control resize-vert" rows="1" name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${row}">${subQuestion}</textarea>
+	    	<textarea class="form-control" rows="1" name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${row}">${subQuestion}</textarea>
 		</div>
     </td>
     ${rubricRowBodyFragments}

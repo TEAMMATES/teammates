@@ -15,6 +15,10 @@ body {
     text-align: left;
 }
 
+.align-right {
+    text-align: right;
+}
+
 .align-justify {
     text-align: justify;
 }
@@ -158,10 +162,6 @@ Apply to thead to make headers not bold.
 
 .padding-top-0.checkbox,.padding-top-0 {
     padding-top: 0;
-}
-
-.resize-vert {
-    resize: vertical;
 }
 
 .text-bold {

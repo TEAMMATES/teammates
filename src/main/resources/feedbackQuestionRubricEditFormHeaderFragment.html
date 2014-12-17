@@ -1,7 +1,7 @@
 <th class="rubricCol-${qnIndex}-${col}">
-	<div class="input-group">
+	<div class="col-sm-12 input-group">
 		<input type="text" class="form-control" value="${rubricChoiceValue}" name ="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}-${col}">
-		<span class="input-group-addon btn btn-default" id="rubricRemoveChoiceLink" onclick="removeRubricCol(${col}, ${qnIndex})">
+		<span class="input-group-addon btn btn-default rubricRemoveChoiceLink-${qnIndex}" onclick="removeRubricCol(${col}, ${qnIndex})">
 			<span class="glyphicon glyphicon-remove"></span>
 		</span>
 	</div>
