@@ -139,15 +139,131 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
             int responseIdx, String courseId, FeedbackResponseDetails existingResponseDetails) {
+
+        String questionNumberString = Integer.toString(qnIdx);
+        String responseNumberString = Integer.toString(responseIdx);
         
-        return "";
+        // Create table row header fragments
+        StringBuilder tableHeaderFragmentHtml = new StringBuilder();
+        String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_HEADER_FRAGMENT;
+        for(int i = 0 ; i < numOfRubricChoices ; i++) {
+            String optionFragment = 
+                    FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
+                            "${qnIndex}", questionNumberString,
+                            "${respIndex}", responseNumberString,
+                            "${col}", Integer.toString(i),
+                            "${rubricChoiceValue}", rubricChoices.get(i));
+            tableHeaderFragmentHtml.append(optionFragment + Const.EOL);
+        }
+        
+        // Create table body
+        StringBuilder tableBodyHtml = new StringBuilder();
+        
+        String tableBodyFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_BODY_FRAGMENT;
+        String tableBodyTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_BODY;
+        
+        for(int j = 0 ; j < numOfRubricSubQuestions ; j++) {
+            StringBuilder tableBodyFragmentHtml = new StringBuilder();
+            for(int i = 0 ; i < numOfRubricChoices ; i++) {
+                String optionFragment = 
+                        FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate,
+                                "${qnIndex}", questionNumberString,
+                                "${respIndex}", responseNumberString,
+                                "${col}", Integer.toString(i),
+                                "${row}", Integer.toString(j),
+                                "${description}", this.getDescription(j, i),
+                                "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE);
+                tableBodyFragmentHtml.append(optionFragment + Const.EOL);
+            }
+            
+            // Get entire row
+            String optionFragment2 = 
+                    FeedbackQuestionFormTemplates.populateTemplate(tableBodyTemplate,
+                            "${qnIndex}", questionNumberString,
+                            "${respIndex}", responseNumberString,
+                            "${row}", Integer.toString(j),
+                            "${subQuestion}", rubricSubQuestions.get(j),
+                            "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString());
+            tableBodyHtml.append(optionFragment2 + Const.EOL);
+        }
+        
+        // Create edit form
+        String html = FeedbackQuestionFormTemplates.populateTemplate(
+                FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM,
+                "${qnIndex}", questionNumberString,
+                "${respIndex}", responseNumberString,
+                "${currRows}", Integer.toString(this.numOfRubricSubQuestions),
+                "${currCols}", Integer.toString(this.numOfRubricChoices),
+                "${tableHeaderRowFragmentHtml}", tableHeaderFragmentHtml.toString(),
+                "${tableBodyHtml}", tableBodyHtml.toString(),
+                "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT);
+        
+        return html;
     }
 
     @Override
     public String getQuestionWithoutExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId) {
+
+        String questionNumberString = Integer.toString(qnIdx);
+        String responseNumberString = Integer.toString(responseIdx);
         
-        return "";
+        // Create table row header fragments
+        StringBuilder tableHeaderFragmentHtml = new StringBuilder();
+        String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_HEADER_FRAGMENT;
+        for(int i = 0 ; i < numOfRubricChoices ; i++) {
+            String optionFragment = 
+                    FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
+                            "${qnIndex}", questionNumberString,
+                            "${respIndex}", responseNumberString,
+                            "${col}", Integer.toString(i),
+                            "${rubricChoiceValue}", rubricChoices.get(i));
+            tableHeaderFragmentHtml.append(optionFragment + Const.EOL);
+        }
+        
+        // Create table body
+        StringBuilder tableBodyHtml = new StringBuilder();
+        
+        String tableBodyFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_BODY_FRAGMENT;
+        String tableBodyTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_BODY;
+        
+        for(int j = 0 ; j < numOfRubricSubQuestions ; j++) {
+            StringBuilder tableBodyFragmentHtml = new StringBuilder();
+            for(int i = 0 ; i < numOfRubricChoices ; i++) {
+                String optionFragment = 
+                        FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate,
+                                "${qnIndex}", questionNumberString,
+                                "${respIndex}", responseNumberString,
+                                "${col}", Integer.toString(i),
+                                "${row}", Integer.toString(j),
+                                "${description}", this.getDescription(j, i),
+                                "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE);
+                tableBodyFragmentHtml.append(optionFragment + Const.EOL);
+            }
+            
+            // Get entire row
+            String optionFragment2 = 
+                    FeedbackQuestionFormTemplates.populateTemplate(tableBodyTemplate,
+                            "${qnIndex}", questionNumberString,
+                            "${respIndex}", responseNumberString,
+                            "${row}", Integer.toString(j),
+                            "${subQuestion}", rubricSubQuestions.get(j),
+                            "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString());
+            tableBodyHtml.append(optionFragment2 + Const.EOL);
+        }
+        
+        // Create edit form
+        String html = FeedbackQuestionFormTemplates.populateTemplate(
+                FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM,
+                "${qnIndex}", questionNumberString,
+                "${respIndex}", responseNumberString,
+                "${currRows}", Integer.toString(this.numOfRubricSubQuestions),
+                "${currCols}", Integer.toString(this.numOfRubricChoices),
+                "${tableHeaderRowFragmentHtml}", tableHeaderFragmentHtml.toString(),
+                "${tableBodyHtml}", tableBodyHtml.toString(),
+                "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT);
+        
+        return html;
     }
 
     @Override
