@@ -396,8 +396,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         }
     }
     
-    // Return the given email if it belongs to a user but not a team or anonymous
-    public String getUserOnlyEmail(String email) {
+    // Return the given email if it belongs to a user but not a team or anonymous.
+    // Otherwise, Const.USER_NOBODY_TEXT is returned
+    public String getCsvDisplayEmail(String email) {
         String name = emailNameTable.get(email);
         String teamName = emailTeamNameTable.get(email);
         if (name == null || name.equals(email) || teamName==null || teamName.equals(email)
