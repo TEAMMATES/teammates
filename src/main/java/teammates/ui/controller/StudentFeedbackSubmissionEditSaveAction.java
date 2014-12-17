@@ -5,7 +5,6 @@ import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -67,23 +66,27 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
 
     @Override
     protected RedirectResult createSpecificRedirectResult() {
-        boolean isUserLoggedIn = regkey == null;
-        if (isUserLoggedIn && !isError) {
-            // Return to student home page when there is no error
-            return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
-        } else {
-            // Remain at student feedback submission page with there is an error
-            RedirectResult redirect = createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);
-            
-            if(student != null){
-                redirect.responseParams.put(Const.ParamsNames.STUDENT_EMAIL, student.email);
-                redirect.responseParams.put(Const.ParamsNames.COURSE_ID, student.course);
+        RedirectResult result = null;
+        
+        if(isRegisteredStudent()){
+            if(isError){
+                // Return to student feedback submission page if there is an error
+                result =  createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);
+                
+                // Provide course id and session name for the redirected page
+                result.responseParams.put(Const.ParamsNames.COURSE_ID, student.course);
+                result.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, 
+                            getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME));
+            }else{
+                // Return to student home page if there is no error
+                result =  createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
             }
-            
-            redirect.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, 
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME));
-            return redirect;
+        }else{
+            // Always remain at student feedback submission page
+            // Link given to unregistered student already contains course id & session name
+            result = createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE); 
         }
+        return result;
     }
 
     protected StudentAttributes getStudent() {
@@ -92,5 +95,14 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
         }
         
         return student;
+    }
+    
+    protected boolean isRegisteredStudent(){
+        // a registered student must have an associated google Id
+        if(student != null){
+            return student.googleId != null  && !student.googleId.isEmpty();
+        }else{
+            return false;   
+        }
     }
 }
