@@ -494,7 +494,7 @@
                                         %>        
                                                     <td class="middlealign color_neutral"><%=data.bundle.getNameFromRoster(possibleGiverWithNoResponse)%></td>
                                                         <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleGiverWithNoResponse)%></td>
-                                                        <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseText(possibleGiverWithNoResponse, targetEmail, data.bundle, question)%> </td>
+                                                        <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(possibleGiverWithNoResponse, targetEmail, data.bundle, question)%> </td>
                                                     </tr>
                                         <%  
                                                 }

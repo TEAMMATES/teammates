@@ -485,7 +485,7 @@
                                                     <% } %>
                                                         <td class="middlealign color_neutral"><%=data.bundle.getNameFromRoster(possibleRecipientWithNoResponse)%></td>
                                                         <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleRecipientWithNoResponse) %></td>
-                                                        <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseText(giverEmail, possibleRecipientWithNoResponse, data.bundle, question) %></td>
+                                                        <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(giverEmail, possibleRecipientWithNoResponse, data.bundle, question)%></td>
                                                     </tr>
                                                     <%   
                                             	}
@@ -639,7 +639,7 @@
                                                         <strong><%=data.bundle.getNameFromRoster(teamMember)%></strong>
                                                     <% } %>
                                                         <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
-                                                    <span class='glyphicon glyphicon-chevron-up" %> pull-right'></span>
+                                                    <span class='glyphicon glyphicon-chevron-up pull-right'></span>
                                                 </div>
                                                 <div class='panel-collapse collapse in'>
                                                     <div class="panel-body"> There are no responses given by this user 

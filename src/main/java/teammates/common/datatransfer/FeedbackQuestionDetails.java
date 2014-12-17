@@ -117,10 +117,12 @@ public abstract class FeedbackQuestionDetails {
     }
     
     
-    public String getNoResponseText(String giverEmail, String recipientEmail,
+    public String getNoResponseTextInHtml(String giverEmail, String recipientEmail,
             FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
-        return "<span class=\"color_neutral\"><i>No Response</i></span>";
+        return "<span class=\"color_neutral\"><i>" + 
+               getNoResponseText(giverEmail, recipientEmail, bundle, question) + 
+               "</i></span>";
     }
     
     public boolean shouldShowNoResponseText(String giverEmail, String recipientEmail, FeedbackQuestionAttributes question) {
@@ -129,4 +131,18 @@ public abstract class FeedbackQuestionDetails {
         }
         return true;
     }
+    
+    public String getNoResponseTextInCsv(String giverEmail, String recipientEmail,
+            FeedbackSessionResultsBundle bundle,
+            FeedbackQuestionAttributes question) {
+       return getNoResponseText(giverEmail, recipientEmail, bundle, question);
+    }
+    
+    public String getNoResponseText(String giverEmail, String recipientEmail,
+            FeedbackSessionResultsBundle bundle,
+            FeedbackQuestionAttributes question) {
+        return "No Response";
+    }
+    
+    
 }

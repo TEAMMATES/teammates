@@ -167,26 +167,25 @@
                                                             <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(prevGiver)%></td>
                                                             <td class="middlealign color_neutral"><%=data.bundle.getNameFromRoster(possibleReceiver)%></td>
                                                             <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
-                                                            <td class="text-preserve-space"><%=questionDetails.getNoResponseText(prevGiver, possibleReceiver, data.bundle, question) %></td>
+                                                            <td class="text-preserve-space"><%=questionDetails.getNoResponseTextInHtml(prevGiver, possibleReceiver, data.bundle, question)%></td>
                                                         	 </tr>
-                                                         <% 
-                                                    	 }
-                                                     }
-                                                  }
-                                                  
-                                                  if (question.giverType == FeedbackParticipantType.TEAMS) {
-                                                    possibleGivers.remove(data.bundle.getNameFromRoster(responseEntry.giverEmail));
-                                                    possibleReceivers = data.bundle.getPossibleRecipients(question, data.bundle.getNameFromRoster(responseEntry.giverEmail));
-                                                  } else {
-                                                    possibleGivers.remove(responseEntry.giverEmail);
-                                                    possibleReceivers = data.bundle.getPossibleRecipients(question, responseEntry.giverEmail);
-                                                  }
-                                                  
-                                                  
-                                                  isNewGiver = false;
-                                                }
-                                                
-                                %>
+                                                         <%
+                                                         	}
+                                                                                                              }
+                                                                                                           }
+                                                                                                           
+                                                                                                           if (question.giverType == FeedbackParticipantType.TEAMS) {
+                                                                                                             possibleGivers.remove(data.bundle.getNameFromRoster(responseEntry.giverEmail));
+                                                                                                             possibleReceivers = data.bundle.getPossibleRecipients(question, data.bundle.getNameFromRoster(responseEntry.giverEmail));
+                                                                                                           } else {
+                                                                                                             possibleGivers.remove(responseEntry.giverEmail);
+                                                                                                             possibleReceivers = data.bundle.getPossibleRecipients(question, responseEntry.giverEmail);
+                                                                                                           }
+                                                                                                           
+                                                                                                           
+                                                                                                           isNewGiver = false;
+                                                                                                         }
+                                                         %>
                                                 <td class="middlealign"><%=giverName%></td>
                                                 <td class="middlealign"><%=giverTeamName%></td>
                                                 <td class="middlealign"><%=recipientName%></td>
@@ -194,62 +193,60 @@
                                                 <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
                                             </tr>        
                                 <%
-                                                
-                                                
-                                                if (question.recipientType == FeedbackParticipantType.TEAMS) {
-                                                	possibleReceivers.remove(data.bundle.getNameFromRoster(responseEntry.recipientEmail)); 
-                                                } else {
-                                                	possibleReceivers.remove(responseEntry.recipientEmail);
-                                                }
-                                                prevGiver = responseEntry.giverEmail;
-                                               
-                                      }
-                                      
-                                      if (possibleReceivers != null && !possibleReceivers.isEmpty()) {
-                                      	for (String possibleReceiver : possibleReceivers) {
-                                            if (!data.selectedSection.equals("All") && !data.bundle.getSectionFromRoster(possibleReceiver).equals(data.selectedSection)) {
-                                                continue;
-                                            }
-                                            
-                                      		if (questionDetails.shouldShowNoResponseText(prevGiver, possibleReceiver, question)) {
-                                              %>
+                                        	if (question.recipientType == FeedbackParticipantType.TEAMS) {
+                                                                                        	possibleReceivers.remove(data.bundle.getNameFromRoster(responseEntry.recipientEmail)); 
+                                                                                        } else {
+                                                                                        	possibleReceivers.remove(responseEntry.recipientEmail);
+                                                                                        }
+                                                                                        prevGiver = responseEntry.giverEmail;
+                                                                                       
+                                                                              }
+                                                                              
+                                                                              if (possibleReceivers != null && !possibleReceivers.isEmpty()) {
+                                                                              	for (String possibleReceiver : possibleReceivers) {
+                                                                                    if (!data.selectedSection.equals("All") && !data.bundle.getSectionFromRoster(possibleReceiver).equals(data.selectedSection)) {
+                                                                                        continue;
+                                                                                    }
+                                                                                    
+                                                                              		if (questionDetails.shouldShowNoResponseText(prevGiver, possibleReceiver, question)) {
+                                        %>
                                                   <tr class="pending_response_row">
                                                  <td class="middlealign color_neutral"><%=data.bundle.getNameFromRoster(prevGiver)%></td>
                                                  <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(prevGiver)%></td>
                                                  <td class="middlealign color_neutral"><%=data.bundle.getNameFromRoster(possibleReceiver)%></td>
                                                  <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
-                                                 <td class="text-preserve-space"><%=questionDetails.getNoResponseText(prevGiver, possibleReceiver, data.bundle, question) %></td>
+                                                 <td class="text-preserve-space"><%=questionDetails.getNoResponseTextInHtml(prevGiver, possibleReceiver, data.bundle, question)%></td>
                                                   </tr>
-                                              <% 
-                                      		}
-                                        }
-                                      	if (question.giverType == FeedbackParticipantType.TEAMS) {
-                                          possibleGivers.remove(data.bundle.getNameForEmail(prevGiver)); 
-                                        } else {
-                                          possibleGivers.remove(prevGiver);
-                                        }
-                                        
-                                      }
-                                      
-                                      if (possibleGivers != null && !possibleGivers.isEmpty()) {
-                                        for (String possibleGiver : possibleGivers){
-                                            
-                                        	if (!data.selectedSection.equals("All") && !data.bundle.getSectionFromRoster(possibleGiver).equals(data.selectedSection)) {
-                                                continue;
-                                            }
-                                          	possibleReceivers = data.bundle.getPossibleRecipients(question, possibleGiver);
-                                          	for (String possibleReceiver : possibleReceivers) {
-                                          		if (!data.selectedSection.equals("All") && !data.bundle.getSectionFromRoster(possibleReceiver).equals(data.selectedSection)) {
-                                          	       continue;
-                                                }
-                                          		if (questionDetails.shouldShowNoResponseText(possibleGiver, possibleReceiver, question)) {
-                                          		%>
+                                              <%
+                                              	}
+                                                                                      }
+                                                                                    	if (question.giverType == FeedbackParticipantType.TEAMS) {
+                                                                                        possibleGivers.remove(data.bundle.getNameForEmail(prevGiver)); 
+                                                                                      } else {
+                                                                                        possibleGivers.remove(prevGiver);
+                                                                                      }
+                                                                                      
+                                                                                    }
+                                                                                    
+                                                                                    if (possibleGivers != null && !possibleGivers.isEmpty()) {
+                                                                                      for (String possibleGiver : possibleGivers){
+                                                                                          
+                                                                                      	if (!data.selectedSection.equals("All") && !data.bundle.getSectionFromRoster(possibleGiver).equals(data.selectedSection)) {
+                                                                                              continue;
+                                                                                          }
+                                                                                        	possibleReceivers = data.bundle.getPossibleRecipients(question, possibleGiver);
+                                                                                        	for (String possibleReceiver : possibleReceivers) {
+                                                                                        		if (!data.selectedSection.equals("All") && !data.bundle.getSectionFromRoster(possibleReceiver).equals(data.selectedSection)) {
+                                                                                        	       continue;
+                                                                                              }
+                                                                                        		if (questionDetails.shouldShowNoResponseText(possibleGiver, possibleReceiver, question)) {
+                                              %>
                                               <tr class="pending_response_row">
                                               <td class="middlealign color_neutral"><%=data.bundle.getNameFromRoster(possibleGiver)%></td>
                                               <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleGiver)%></td>
                                               <td class="middlealign color_neutral"><%=data.bundle.getNameFromRoster(possibleReceiver)%></td>
                                               <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
-                                              <td class="text-preserve-space"><%=questionDetails.getNoResponseText(possibleGiver, possibleReceiver, data.bundle, question) %></td>
+                                              <td class="text-preserve-space"><%=questionDetails.getNoResponseTextInHtml(possibleGiver, possibleReceiver, data.bundle, question)%></td>
                                               </tr>
                                                <% 
                                           		}

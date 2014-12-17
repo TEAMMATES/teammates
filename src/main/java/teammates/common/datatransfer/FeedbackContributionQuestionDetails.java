@@ -739,7 +739,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             
             return responseAnswerHtml;
         } else {
-            return super.getNoResponseText("", targetEmail, bundle, question);
+            return super.getNoResponseTextInHtml("", targetEmail, bundle, question);
         }
     }
     
@@ -786,11 +786,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
     
     @Override
-    public String getNoResponseText(String giverEmail, String recipientEmail, FeedbackSessionResultsBundle bundle, FeedbackQuestionAttributes question) {
+    public String getNoResponseTextInHtml(String giverEmail, String recipientEmail, FeedbackSessionResultsBundle bundle, FeedbackQuestionAttributes question) {
         if (giverEmail.equals(recipientEmail)) {
             return getContributionQuestionPerceivedContributionHtml(question, giverEmail, bundle);
         } else {
-            return super.getNoResponseText(giverEmail, recipientEmail, bundle, question);
+            return super.getNoResponseTextInHtml(giverEmail, recipientEmail, bundle, question);
         }
     }
     
