@@ -1479,7 +1479,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[6], "Summary Statistics,");
         assertEquals(exportLines[7], "In the points given below, an equal share is equal to 100 points. e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".");
         assertEquals(exportLines[8], "Claimed Contribution (CC) = the contribution claimed by the student.");
-        assertEquals(exportLines[9], "Perceived Contribution (PC) = the avereged contributions given by the peers.");
+        assertEquals(exportLines[9], "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.");
         assertEquals(exportLines[10], "Team, Name, CC, PC, Ratings Recieved");
         assertEquals(exportLines[11], "\"Team 1.1\",\"student1 In Course1\",\"95\",\"N/A\",\"N/A, N/A, N/A\"");
         assertEquals(exportLines[12], "\"Team 1.1\",\"student2 In Course1\",\"Not Submitted\",\"75\",\"75, N/A, N/A\"");
