@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.HttpRequestHelper;
@@ -74,11 +73,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         setRubricQuestionDetails(numActualChoices, rubricChoices,
                 numActualSubQuestions, rubricSubQuestions, rubricDescriptions);
         
-        // Assert sizes of description, choices, sub-qns
-        // TODO: move this to validateQuestionDetails and handle properly.
-        Assumption.assertTrue(validDescriptionSize());
-        
-        
         return true;
     }
     
@@ -87,7 +81,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
      * to numOfRubricSubQuestions and numOfRubricChoices.
      * @return
      */
-    private boolean validDescriptionSize() {
+    private boolean isValidDescriptionSize() {
         if (this.rubricDescriptions.size() != this.numOfRubricSubQuestions) {
             return false;
         }
@@ -287,14 +281,56 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     final int MIN_NUM_OF_RUBRIC_CHOICES = 2;
     final String ERROR_NOT_ENOUGH_RUBRIC_CHOICES = "Too little choices for "+Const.FeedbackQuestionTypeNames.RUBRIC+". Minimum number of options is: ";
+
+    final int MIN_NUM_OF_RUBRIC_SUB_QUESTIONS = 1;
+    final String ERROR_NOT_ENOUGH_RUBRIC_SUB_QUESTIONS = "Too little sub-questions for "+Const.FeedbackQuestionTypeNames.RUBRIC+". Minimum number of sub-questions is: ";
     
+    final String ERROR_RUBRIC_DESC_INVALID_SIZE = "Invalid number of descriptions for "+Const.FeedbackQuestionTypeNames.RUBRIC;
+    
+    final String ERROR_RUBRIC_EMPTY_CHOICE = "Choices for "+Const.FeedbackQuestionTypeNames.RUBRIC + " cannot be empty.";
+    final String ERROR_RUBRIC_EMPTY_SUB_QUESTION = "Sub-questions for "+Const.FeedbackQuestionTypeNames.RUBRIC + " cannot be empty.";
+    
+    /**
+     * For rubric questions,
+     *      1) Description size should be valid
+     *      2) At least 2 choices
+     *      3) At least 1 sub-question
+     *      4) Choices and sub-questions should not be empty
+     */
     @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
+        
+        if (!isValidDescriptionSize()) {
+            errors.add(ERROR_RUBRIC_DESC_INVALID_SIZE);
+        }
+        
+        if (this.numOfRubricChoices < MIN_NUM_OF_RUBRIC_CHOICES) {
+            errors.add(ERROR_NOT_ENOUGH_RUBRIC_CHOICES + MIN_NUM_OF_RUBRIC_CHOICES);
+        }
+        
+        if (this.numOfRubricChoices < MIN_NUM_OF_RUBRIC_SUB_QUESTIONS) {
+            errors.add(ERROR_NOT_ENOUGH_RUBRIC_SUB_QUESTIONS + MIN_NUM_OF_RUBRIC_SUB_QUESTIONS);
+        }
+        
+        for (String choice : this.rubricChoices) {
+            if (choice.trim().isEmpty()) {
+                errors.add(ERROR_RUBRIC_EMPTY_CHOICE);
+                break;
+            }
+        }
+        
+        for (String subQn : this.rubricSubQuestions) {
+            if (subQn.trim().isEmpty()) {
+                errors.add(ERROR_RUBRIC_EMPTY_SUB_QUESTION);
+                break;
+            }
+        }
+        
         return errors;
     }
 
-    final String ERROR_INVALID_OPTION = " is not a valid option for the " + Const.FeedbackQuestionTypeNames.RUBRIC + ".";
+    final String ERROR_INVALID_CHOICE = "An invalid choice was chosen for the " + Const.FeedbackQuestionTypeNames.RUBRIC + ".";
     
     @Override
     public List<String> validateResponseAttributes(
