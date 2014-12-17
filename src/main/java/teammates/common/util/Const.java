@@ -46,7 +46,7 @@ public class Const {
         public static final String EVAL_PUBLISH_EMAIL_TASK_QUEUE = "evaluation-publish-email-queue";
         public static final String EVAL_REMIND_EMAIL_TASK_QUEUE = "evaluation-remind-email-queue";
         public static final String FEEDBACK_REMIND_EMAIL_TASK_QUEUE = "feedback-remind-email-queue";
-        public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USER_TASK_QUEUE = "feedback-remind-email-particular-user-queue";
+        public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_TASK_QUEUE = "feedback-remind-email-particular-users-queue";
         public static final String SEND_EMAIL_TASK_QUEUE = "send-email-queue";
         
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
@@ -690,8 +690,8 @@ public class Const {
         public static final String EVAL_PUBLISH_EMAIL_WORKER = "/evalPublishEmailWorker";
         public static final String EVAL_REMIND_EMAIL_WORKER = "/evalRemindEmailWorker";
         public static final String FEEDBACK_REMIND_EMAIL_WORKER = "/feedbackRemindEmailWorker";
-        public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USER_WORKER = 
-                                    "/feedbackRemindEmailParticularUserWorker";
+        public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_WORKER = 
+                                    "/feedbackRemindEmailParticularUsersWorker";
         public static final String SEND_EMAIL_WORKER = "/sendEmailWorker";
     }
     

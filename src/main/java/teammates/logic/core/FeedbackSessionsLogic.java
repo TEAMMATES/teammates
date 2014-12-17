@@ -1126,6 +1126,51 @@ public class FeedbackSessionsLogic {
 
         return emails;
     }
+    
+    public List<MimeMessage> sendReminderForFeedbackSessionParticularUsers(String courseId,
+            String feedbackSessionName, String[] usersToRemind) throws EntityDoesNotExistException {
+        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
+            throw new EntityDoesNotExistException(
+                    "Trying to remind non-existent feedback session "
+                            + courseId + "/" + feedbackSessionName);
+        }
+
+        FeedbackSessionAttributes session = getFeedbackSession(
+                feedbackSessionName, courseId);
+        
+        List<InstructorAttributes> instructorList = instructorsLogic
+                .getInstructorsForCourse(courseId);
+        List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
+        List<InstructorAttributes> instructorsToRemindList = new ArrayList<InstructorAttributes>();
+
+        for (String userEmail : usersToRemind) {
+            StudentAttributes student = studentsLogic
+                    .getStudentForEmail(courseId, userEmail);
+            if (student != null) {
+                studentsToRemindList.add(student);
+            }
+
+            InstructorAttributes instructor = instructorsLogic
+                    .getInstructorForEmail(courseId, userEmail);
+            if (instructor != null) {
+                instructorsToRemindList.add(instructor);
+            }
+        }
+
+        CourseAttributes course = coursesLogic.getCourse(courseId);
+        List<MimeMessage> emails;
+        Emails emailMgr = new Emails();
+        try {
+            emails = emailMgr.generateFeedbackSessionReminderEmails(course,
+                    session, studentsToRemindList, instructorsToRemindList,
+                    instructorList);
+            emailMgr.sendEmails(emails);
+        } catch (Exception e) {
+            throw new RuntimeException("Error while sending emails :", e);
+        }
+
+        return emails;
+    }
 
     public void scheduleFeedbackRemindEmails(String courseId, String feedbackSessionName) {
         
@@ -1147,8 +1192,8 @@ public class FeedbackSessionsLogic {
         paramMap.put(ParamsNames.SUBMISSION_REMIND_USERLIST, usersToRemind);
         
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTaskMultisetParam(SystemParams.FEEDBACK_REMIND_EMAIL_PARTICULAR_USER_TASK_QUEUE,
-                Const.ActionURIs.FEEDBACK_REMIND_EMAIL_PARTICULAR_USER_WORKER, paramMap);
+        taskQueueLogic.createAndAddTaskMultisetParam(SystemParams.FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_TASK_QUEUE,
+                Const.ActionURIs.FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_WORKER, paramMap);
     }
 
     public void scheduleFeedbackSessionOpeningEmails() {

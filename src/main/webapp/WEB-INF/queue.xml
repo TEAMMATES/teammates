@@ -73,7 +73,7 @@
   </retry-parameters>
 </queue>
 <queue>
-  <name>feedback-remind-email-particular-user-queue</name>
+  <name>feedback-remind-email-particular-users-queue</name>
    <!-- Configuration allows for 5 feedback reminder to particular 
        users emails to be queued when the bucket is not full
   -->
