@@ -184,8 +184,8 @@
                             boolean newSection = false;
                             int sectionIndex = -1;
                             int teamIndex = -1;
-                List<String> teamMembersEmail = new ArrayList<String>(); 
-                Set<String> teamMembersWithNoResponses = new HashSet<String>();
+                Set<String> teamMembersEmail = new HashSet<String>(); 
+                Set<String> teamMembersWithResponses = new HashSet<String>();
             %>
             <%
             	Map<String, Map<String, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByGiver(groupByTeamEnabled);
@@ -279,7 +279,7 @@
                                     currentTeam = data.bundle.getNameForEmail(targetEmail);
                                 }
                                 
-                                teamMembersWithNoResponses = new HashSet<String>();                                
+                                teamMembersWithResponses = new HashSet<String>();                                
                                 teamMembersEmail = data.bundle.getTeamMembersFromRoster(currentTeam);
                                 
                                 teamIndex++;
@@ -328,7 +328,7 @@
                         <strong><%=responsesFromGiver.getKey()%></strong>
                     <%
                     	}
-                        teamMembersWithNoResponses.add(targetEmail);
+                        teamMembersWithResponses.add(targetEmail);
                         
                     %>
 			 <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
@@ -847,10 +847,12 @@
             %>
 
             <%
-                Set<String> teamMembersWithoutReceivingResponses = new HashSet<String>(teamMembersEmail);
-                teamMembersWithoutReceivingResponses.removeAll(teamMembersWithNoResponses);
+                Set<String> teamMembersWithoutReceivingResponses = teamMembersEmail;
+                teamMembersWithoutReceivingResponses.removeAll(teamMembersWithResponses);
+                List<String> teamMembersWithNoResponses = new ArrayList<String>(teamMembersWithoutReceivingResponses);
+                Collections.sort(teamMembersWithNoResponses);
                 
-                for (String email : teamMembersWithoutReceivingResponses) {
+                for (String email : teamMembersWithNoResponses) {
             %>
                 <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -896,7 +898,7 @@
                               <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
                                   <div class="panel-body background-color-warning">
                                       <%
-                                      List<String> teamMembers = data.bundle.getTeamMembersFromRoster(teamWithNoResponseReceived);
+                                      List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(teamWithNoResponseReceived));
                                   
                                       for (String teamMember : teamMembers) {
                                          %>
@@ -955,7 +957,8 @@
                                 List<String> teamsFromSection = data.bundle.getTeamsInSectionFromRoster(sectionWithNoResponseReceived);
                                 
                                 for (String team : teamsFromSection) {
-                                    List<String> teamMembers = data.bundle.getTeamMembersFromRoster(team);
+                                    List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(team));
+                                    Collections.sort(teamMembers);
                                   %>
                                     <div class="panel panel-warning">
                                       <div class="panel-heading">

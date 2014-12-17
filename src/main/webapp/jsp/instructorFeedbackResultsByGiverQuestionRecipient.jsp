@@ -557,7 +557,8 @@
                           <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
                               <div class="panel-body background-color-warning">
                                   <%
-                                      List<String> teamMembers = data.bundle.getTeamMembersFromRoster(teamWithNoResponseReceived);
+                                      List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(teamWithNoResponseReceived));
+                                      Collections.sort(teamMembers);
                                   
                                       for (String teamMember : teamMembers) {
                                          %>
@@ -615,7 +616,7 @@
                                 List<String> teamsFromSection = data.bundle.getTeamsInSectionFromRoster(sectionWithNoResponseReceived);
                                 
                                 for (String team : teamsFromSection) {
-                                	List<String> teamMembers = data.bundle.getTeamMembersFromRoster(team);
+                                	List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(team));
                                   %>
                                     <div class="panel panel-warning">
                                       <div class="panel-heading">

@@ -5,6 +5,7 @@
 <%@ page import="java.util.Set"%>
 <%@ page import="java.util.HashSet"%>
 <%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.Collections"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
@@ -181,8 +182,8 @@
                             boolean newSection = false;
                             int sectionIndex = -1;
                             int teamIndex = 0;
-                List<String> teamMembersEmail = new ArrayList<String>(); 
-                Set<String> teamMembersWithNoResponses = new HashSet<String>();
+                Set<String> teamMembersEmail = new HashSet<String>(); 
+                Set<String> teamMembersWithResponses = new HashSet<String>();
             %>
 
             <%
@@ -280,7 +281,7 @@
                                 if(currentTeam.equals("")){
                                     currentTeam = data.bundle.getNameForEmail(targetEmail);
                                 }
-                                teamMembersWithNoResponses = new HashSet<String>();                                
+                                teamMembersWithResponses = new HashSet<String>();                                
                                 teamMembersEmail = data.bundle.getTeamMembersFromRoster(currentTeam);
 
                                 teamIndex++;
@@ -329,7 +330,7 @@
                         <strong><%=responsesForRecipient.getKey()%></strong>
                     <%
                     	}
-                        teamMembersWithNoResponses.add(targetEmail);
+                        teamMembersWithResponses.add(targetEmail);
                     %>
                     <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
                 </div>
@@ -848,10 +849,12 @@
         <%
             }
                     
-            Set<String> teamMembersWithoutReceivingResponses = new HashSet<String>(teamMembersEmail);
-            teamMembersWithoutReceivingResponses.removeAll(teamMembersWithNoResponses);
+            Set<String> teamMembersWithoutReceivingResponses = teamMembersEmail;
+            teamMembersWithoutReceivingResponses.removeAll(teamMembersWithResponses);
             
-            for (String email : teamMembersWithoutReceivingResponses) {
+            List<String> teamMembersWithNoResponses = new ArrayList<String>(teamMembersWithoutReceivingResponses);
+            Collections.sort(teamMembersWithNoResponses);
+            for (String email : teamMembersWithNoResponses) {
         %>
             <div class="panel panel-primary">
             <div class="panel-heading">
@@ -898,7 +901,8 @@
                             <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
                                 <div class="panel-body background-color-warning">
                                     <%
-                                      List<String> teamMembers = data.bundle.getTeamMembersFromRoster(teamWithNoResponseReceived);
+                                      List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(teamWithNoResponseReceived));
+                                      Collections.sort(teamMembers);
                                   
                                       for (String teamMember : teamMembers) {
                                          %>
@@ -955,7 +959,8 @@
                                 List<String> teamsFromSection = data.bundle.getTeamsInSectionFromRoster(sectionWithNoResponseReceived);
                                 
                                 for (String team : teamsFromSection) {
-                                    List<String> teamMembers = data.bundle.getTeamMembersFromRoster(team);
+                                    List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(team));
+                                    Collections.sort(teamMembers);
                                   %>
                                     <div class="panel panel-warning">
                                       <div class="panel-heading">

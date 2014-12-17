@@ -21,10 +21,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
         
         String needAjax = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX);
         
-        
         //this is for ajax loading of the htm table in the modal
         boolean isHtmlTableNeeded = getRequestParamAsBoolean(Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED);
-        //isHtmlTableNeeded = true;
         
         int queryRange;
         if(needAjax != null){
@@ -56,7 +54,6 @@ public class InstructorFeedbackResultsPageAction extends Action {
         
         data.instructor = instructor;
         data.showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
-        data.showPendingResponse = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWPENDINGRESPONSE);
         data.groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
         data.sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
         data.courseId = courseId;
