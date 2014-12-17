@@ -59,12 +59,16 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
         
         // Get descriptions
+        int descRows = -1;
         for(int i = 0 ; i<numOfRubricSubQuestions ; i++) {
-            rubricDescriptions.add(new ArrayList<String>());
             for(int j = 0 ; j<numOfRubricChoices ; j++) {
                 String description = HttpRequestHelper.getValueFromParamMap(requestParameters, "rubricDesc" + "-" + i + "-" + j);
                 if(description != null) {
-                    rubricDescriptions.get(i).add(description);
+                    if (j==0) {
+                        descRows++;
+                        rubricDescriptions.add(new ArrayList<String>());
+                    }
+                    rubricDescriptions.get(descRows).add(description);
                 }
             }
         }
@@ -309,7 +313,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             errors.add(ERROR_NOT_ENOUGH_RUBRIC_CHOICES + MIN_NUM_OF_RUBRIC_CHOICES);
         }
         
-        if (this.numOfRubricChoices < MIN_NUM_OF_RUBRIC_SUB_QUESTIONS) {
+        if (this.numOfRubricSubQuestions < MIN_NUM_OF_RUBRIC_SUB_QUESTIONS) {
             errors.add(ERROR_NOT_ENOUGH_RUBRIC_SUB_QUESTIONS + MIN_NUM_OF_RUBRIC_SUB_QUESTIONS);
         }
         
