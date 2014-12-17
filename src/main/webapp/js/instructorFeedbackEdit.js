@@ -1287,6 +1287,13 @@ function addRubricCol(questionNumber) {
 }
 
 function removeRubricRow(index, questionNumber) {
+
+    // Get confirmation from user
+    if (!confirm("Are you sure you want to delete the row?")) {
+        return;
+    }
+
+
     idOfQuestion = '#form_editquestion-' + questionNumber;
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
     if(questionNumber == -1){
@@ -1304,6 +1311,12 @@ function removeRubricRow(index, questionNumber) {
 }
 
 function removeRubricCol(index, questionNumber) {
+
+    // Get confirmation from user
+    if (!confirm("Are you sure you want to delete the column?")) {
+        return;
+    }
+
     idOfQuestion = '#form_editquestion-' + questionNumber;
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
     if(questionNumber == -1){
