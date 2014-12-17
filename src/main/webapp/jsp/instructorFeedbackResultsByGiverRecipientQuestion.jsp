@@ -856,7 +856,7 @@
             %>
                 <div class="panel panel-primary">
                 <div class="panel-heading">
-                    To: 
+                    From: 
                     <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
                         <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(email)%>">
                             <strong><%=data.bundle.getNameFromRoster(email)%></strong>
@@ -904,7 +904,7 @@
                                          %>
                                              <div class="panel panel-primary">
                                                 <div class="panel-heading">
-                                                    To: 
+                                                    From: 
                                                     <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) { %>
                                                         <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(teamMember)%>">
                                                             <strong><%=data.bundle.getNameFromRoster(teamMember)%></strong>
@@ -972,7 +972,7 @@
                                          %>
                                              <div class="panel panel-primary">
                                                 <div class="panel-heading">
-                                                    To: 
+                                                    From: 
                                                     <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) { %>
                                                         <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(teamMember)%>">
                                                             <strong><%=data.bundle.getNameFromRoster(teamMember)%></strong>
