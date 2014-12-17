@@ -17,8 +17,13 @@ public class InstructorFeedbackRemindParticularStudentsAction extends Action {
                 false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         String[] usersToRemind = getRequestParamValues("usersToRemind");
+        if (usersToRemind == null || usersToRemind.length == 0) {
+            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
+            return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+        }
         
-        logic.sendReminderForFeedbackSession(courseId,feedbackSessionName);
+        logic.sendReminderForFeedbackSessionParticularUsers(courseId,
+                feedbackSessionName, usersToRemind);
         
         statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         statusToAdmin = "Email sent out to the selected student(s) in " +

@@ -1137,6 +1137,19 @@ public class FeedbackSessionsLogic {
         taskQueueLogic.createAndAddTask(SystemParams.FEEDBACK_REMIND_EMAIL_TASK_QUEUE,
                 Const.ActionURIs.FEEDBACK_REMIND_EMAIL_WORKER, paramMap);
     }
+    
+    public void scheduleFeedbackRemindEmailsForParticularUsers(String courseId,
+            String feedbackSessionName, String[] usersToRemind) {
+    
+        HashMap<String, String[]> paramMap = new HashMap<String, String[]>();
+        paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, new String[]{feedbackSessionName});
+        paramMap.put(ParamsNames.SUBMISSION_COURSE, new String[]{courseId});
+        paramMap.put(ParamsNames.SUBMISSION_REMIND_USERLIST, usersToRemind);
+        
+        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        taskQueueLogic.createAndAddTaskMultisetParam(SystemParams.FEEDBACK_REMIND_EMAIL_PARTICULAR_USER_TASK_QUEUE,
+                Const.ActionURIs.FEEDBACK_REMIND_EMAIL_PARTICULAR_USER_WORKER, paramMap);
+    }
 
     public void scheduleFeedbackSessionOpeningEmails() {
         List<FeedbackSessionAttributes> sessions = getFeedbackSessionsWhichNeedOpenEmailsToBeSent();

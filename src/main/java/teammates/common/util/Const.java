@@ -493,6 +493,7 @@ public class Const {
         public static final String SUBMISSION_COURSE = "course";
         public static final String SUBMISSION_EVAL = "evaluation";
         public static final String SUBMISSION_FEEDBACK = "feedback";
+        public static final String SUBMISSION_REMIND_USERLIST = "usersToRemind";
         
         public static final String ENROLLMENT_DETAILS = "enrollmentdetails";
         
@@ -689,8 +690,9 @@ public class Const {
         public static final String EVAL_PUBLISH_EMAIL_WORKER = "/evalPublishEmailWorker";
         public static final String EVAL_REMIND_EMAIL_WORKER = "/evalRemindEmailWorker";
         public static final String FEEDBACK_REMIND_EMAIL_WORKER = "/feedbackRemindEmailWorker";
+        public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USER_WORKER = 
+                                    "/feedbackRemindEmailParticularUserWorker";
         public static final String SEND_EMAIL_WORKER = "/sendEmailWorker";
-        
     }
     
     public class AutomatedActionNames{
@@ -890,6 +892,7 @@ public class Const {
         public static final String FEEDBACK_SESSION_PUBLISHED = "The feedback session has been published. Please allow up to 1 hour for all the notification emails to be sent out.";
         public static final String FEEDBACK_SESSION_UNPUBLISHED = "The feedback session has been unpublished.";
         public static final String FEEDBACK_SESSION_REMINDERSSENT = "Reminder e-mails have been sent out to those students and instructors. Please allow up to 1 hour for all the notification emails to be sent out.";
+        public static final String FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT = "You have not selected any student to remind.";
         public static final String FEEDBACK_SESSION_EXISTS = "A feedback session by this name already exists under this course";        
         public static final String FEEDBACK_SESSION_EMPTY = "You have not created any sessions yet. Use the form above to create a session.";
     
