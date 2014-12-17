@@ -405,7 +405,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 || name.equals(Const.USER_IS_NOBODY) || name.equals(Const.USER_IS_TEAM)) {
             return Const.USER_NOBODY_TEXT;
         } else {
-            return PageData.sanitizeForHtml(email);
+            return Sanitizer.sanitizeForCsv(email);
         }
     }
     public String getRecipientNameForResponse(FeedbackQuestionAttributes question,
