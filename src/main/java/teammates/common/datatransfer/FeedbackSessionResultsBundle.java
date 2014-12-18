@@ -396,18 +396,34 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         }
     }
     
-    // Return the given email if it belongs to a user but not a team or anonymous.
-    // Otherwise, Const.USER_NOBODY_TEXT is returned
-    public String getCsvDisplayEmail(String email) {
-        String name = emailNameTable.get(email);
-        String teamName = emailTeamNameTable.get(email);
-        if (name == null || name.equals(email) || teamName==null || teamName.equals(email)
-                || name.equals(Const.USER_IS_NOBODY) || name.equals(Const.USER_IS_TEAM)) {
-            return Const.USER_NOBODY_TEXT;
+    /**
+     * Returns the displayable email from the given email if it belongs to a user but not a team or anonymous.
+     * @return  The given email it is displayable. Otherwise, "-" is returned.
+     */
+    public String getDisplayableEmail(String email) {
+        if (isEmailOfPerson(email) && !isAnonymousEmail(email)) {
+            return email;
         } else {
-            return Sanitizer.sanitizeForCsv(email);
+            return "-";
         }
     }
+    
+    private boolean isEmailOfPerson(String email){
+        String name = emailNameTable.get(email);
+        String teamName = emailTeamNameTable.get(email);
+        
+        boolean isNameForEmail = name == null ? false : name.equals(email);
+        boolean isTeamNameForEmail = teamName == null ? false : teamName.equals(email);
+        boolean isTeamForName = name == null ? false : name.equals(Const.USER_IS_TEAM);
+
+        return !(isNameForEmail || isTeamNameForEmail || isTeamForName);
+    }
+    
+    private boolean isAnonymousEmail(String email){
+        String name = emailNameTable.get(email);
+        return name != null && name.equals(Const.USER_IS_NOBODY);
+    }
+    
     public String getRecipientNameForResponse(FeedbackQuestionAttributes question,
             FeedbackResponseAttributes response) {
         String name = emailNameTable.get(response.recipientEmail);

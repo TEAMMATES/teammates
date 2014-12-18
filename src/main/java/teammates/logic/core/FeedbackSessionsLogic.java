@@ -622,11 +622,11 @@ public class FeedbackSessionsLogic {
                 String giverLastName = results.getLastNameForEmail(response.giverEmail);
                 String giverFullName = results.getNameForEmail(response.giverEmail);
                 String giverTeamName =results.getTeamNameForEmail(response.giverEmail);
-                String giverEmail = results.getCsvDisplayEmail(response.giverEmail);
+                String giverEmail = results.getDisplayableEmail(response.giverEmail);
                 String recipientLastName = results.getLastNameForEmail(response.recipientEmail);
                 String recipientFulltName = results.getNameForEmail(response.recipientEmail);
                 String recipientTeamName =results.getTeamNameForEmail(response.recipientEmail);
-                String recipientEmail = results.getCsvDisplayEmail(response.recipientEmail);
+                String recipientEmail = results.getDisplayableEmail(response.recipientEmail);
                 
                 exportBuilder.append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) 
                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) 
