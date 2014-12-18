@@ -372,7 +372,34 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
-        return "";
+        StringBuilder subQuestionListHtml = new StringBuilder();
+        
+        if(numOfRubricSubQuestions > 0){
+            subQuestionListHtml.append("<p>");
+            for(int i = 0; i < numOfRubricSubQuestions; i++) {
+                String subQuestionFragment = 
+                        StringHelper.integerToBase26String(i+1) + ") "+ rubricSubQuestions.get(i);
+                subQuestionListHtml.append(subQuestionFragment);
+                subQuestionListHtml.append("<br>");
+            }
+            subQuestionListHtml.append("</p>");
+        }
+        
+        
+        String additionalInfo = FeedbackQuestionFormTemplates.populateTemplate(
+                FeedbackQuestionFormTemplates.RUBRIC_ADDITIONAL_INFO,
+                "${questionTypeName}", this.getQuestionTypeDisplayName(),
+                "${rubricAdditionalInfoFragments}", subQuestionListHtml.toString());
+        
+        String html = FeedbackQuestionFormTemplates.populateTemplate(
+                FeedbackQuestionFormTemplates.FEEDBACK_QUESTION_ADDITIONAL_INFO,
+                "${more}", "[more]",
+                "${less}", "[less]",
+                "${questionNumber}", Integer.toString(questionNumber),
+                "${additionalInfoId}", additionalInfoId,
+                "${questionAdditionalInfo}", additionalInfo);
+        
+        return html;
     }
     
     @Override
