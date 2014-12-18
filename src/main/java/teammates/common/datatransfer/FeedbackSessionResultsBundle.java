@@ -183,30 +183,37 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return Integer.toString(Math.abs(name.hashCode()));
     }
     
-    private String getNameFromRoster(String emailFromResponse, boolean isFullName) {
-        StudentAttributes student = roster.getStudentForEmail(emailFromResponse);
-        InstructorAttributes instructor = roster.getInstructorForEmail(emailFromResponse);
+    private String getNameFromRoster(String participantIdentifier, boolean isFullName) {
+        //return person name if participant is a student
+        StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
+        
         if (student != null) {
             if (isFullName) {
                 return student.name;
             } else {
                 return student.lastName;
             }
-            
-        } else if (instructor != null) {
+        }
+        
+        //return person name if participant is an instructor
+        InstructorAttributes instructor = roster.getInstructorForEmail(participantIdentifier);
+        
+        if (instructor != null) {
             return instructor.name;
             
-        } else {
-            boolean isTeamName = rosterTeamNameEmailTable.containsKey(emailFromResponse);
-            if (isTeamName) {
-                return emailFromResponse;
-            }
-            
-            boolean isNameRepresentingStudentsTeam = emailFromResponse.contains(Const.TEAM_OF_EMAIL_OWNER);
-            if (isNameRepresentingStudentsTeam) {
-                int index = emailFromResponse.indexOf(Const.TEAM_OF_EMAIL_OWNER);
-                return getTeamNameFromRoster(emailFromResponse.substring(0, index));
-            }
+        }
+        
+        //return team name if participantIdentifier is a team name
+        boolean isTeamName = rosterTeamNameEmailTable.containsKey(participantIdentifier);
+        if (isTeamName) {
+            return participantIdentifier;
+        }
+    
+        //return team name if participant is team identified by a member            
+        boolean isNameRepresentingStudentsTeam = participantIdentifier.contains(Const.TEAM_OF_EMAIL_OWNER);
+        if (isNameRepresentingStudentsTeam) {
+            int index = participantIdentifier.indexOf(Const.TEAM_OF_EMAIL_OWNER);
+            return getTeamNameFromRoster(participantIdentifier.substring(0, index));
         }
         
         return "";
@@ -292,31 +299,34 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         }
         
         StudentAttributes student = roster.getStudentForEmail(recipientEmail);
-        InstructorAttributes instructor = roster.getInstructorForEmail(recipientEmail);
-        
-        if (student != null) {
+        boolean isRecipientStudent = (student != null); 
+        if (isRecipientStudent) {
             return getPossibleGivers(fqa, student);
-            
-        } else if (instructor != null) {
+        }  
+        
+        InstructorAttributes instructor = roster.getInstructorForEmail(recipientEmail);
+        boolean isRecipientInstructor = (instructor != null);
+        if (isRecipientInstructor) {
             return getPossibleGivers(fqa, instructor);
-            
-        } else if (recipientEmail.equals(Const.GENERAL_QUESTION)) {
+        }
+        
+        if (recipientEmail.equals(Const.GENERAL_QUESTION)) {
             switch(fqa.giverType) {
-            case STUDENTS:
-                return getSortedListOfStudentEmails();
-                
-            case TEAMS:
-                return getSortedListOfTeams();
-                
-            case INSTRUCTORS:
-                return getSortedListOfInstructorEmails();
-                
-            case SELF:
-                List<String> creatorEmail = new ArrayList<String>();
-                creatorEmail.add(fqa.creatorEmail);
-                return creatorEmail;
-             default:
-                return new ArrayList<String>();
+                case STUDENTS:
+                    return getSortedListOfStudentEmails();
+                    
+                case TEAMS:
+                    return getSortedListOfTeams();
+                    
+                case INSTRUCTORS:
+                    return getSortedListOfInstructorEmails();
+                    
+                case SELF:
+                    List<String> creatorEmail = new ArrayList<String>();
+                    creatorEmail.add(fqa.creatorEmail);
+                    return creatorEmail;
+                 default:
+                    return new ArrayList<String>();
             }
         } else {
             return getPossibleGiversForTeam(fqa, recipientEmail);
@@ -484,7 +494,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         FeedbackParticipantType recipientType = fqa.recipientType;
         List<String> possibleRecipients = null;
         
-        if (fqa.recipientType== FeedbackParticipantType.SELF) {
+        if (fqa.recipientType == FeedbackParticipantType.SELF) {
             recipientType = fqa.giverType;
         }
         
