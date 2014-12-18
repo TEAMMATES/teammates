@@ -723,11 +723,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
     private boolean hasPerceivedContribution(String email, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
         Map<String, StudentResultSummary> stats = FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
-        if (stats.containsKey(email)) {
-            return true;
-        } else {
-            return false;
-        }
+        return stats.containsKey(email);
     }
     
     @Override

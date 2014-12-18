@@ -183,9 +183,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return Integer.toString(Math.abs(name.hashCode()));
     }
     
-    public String getNameFromRoster(String emailInResponse, boolean isFullName) {
-        StudentAttributes student = roster.getStudentForEmail(emailInResponse);
-        InstructorAttributes instructor = roster.getInstructorForEmail(emailInResponse);
+    private String getNameFromRoster(String emailFromResponse, boolean isFullName) {
+        StudentAttributes student = roster.getStudentForEmail(emailFromResponse);
+        InstructorAttributes instructor = roster.getInstructorForEmail(emailFromResponse);
         if (student != null) {
             if (isFullName) {
                 return student.name;
@@ -197,15 +197,15 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             return instructor.name;
             
         } else {
-            boolean isTeamName = rosterTeamNameEmailTable.containsKey(emailInResponse);
+            boolean isTeamName = rosterTeamNameEmailTable.containsKey(emailFromResponse);
             if (isTeamName) {
-                return emailInResponse;
+                return emailFromResponse;
             }
             
-            boolean isNameRepresentingStudentsTeam = emailInResponse.contains(Const.TEAM_OF_EMAIL_OWNER);
+            boolean isNameRepresentingStudentsTeam = emailFromResponse.contains(Const.TEAM_OF_EMAIL_OWNER);
             if (isNameRepresentingStudentsTeam) {
-                int index = emailInResponse.indexOf(Const.TEAM_OF_EMAIL_OWNER);
-                return getTeamNameFromRoster(emailInResponse.substring(0, index));
+                int index = emailFromResponse.indexOf(Const.TEAM_OF_EMAIL_OWNER);
+                return getTeamNameFromRoster(emailFromResponse.substring(0, index));
             }
         }
         
@@ -213,26 +213,35 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     }
     
     /**
-     * Gets the displayable full name from the email.
+     * Gets the displayable full name from an email.
      * 
      * This function is different from getNameForEmail as it obtains the name
      * using the class roster, instead of from the responses. 
-     * @param emailInResponse
-     * @return the full name of a student, if emailInResponse is the email of a student, <br>
-     *         the name of an instructor, if emailInResponse is the email of an instructor, <br>
-     *         or the team name, if emailInResponse represents a team.
+     * @param emailFromResponse
+     * @return the full name of a student, if emailFromResponse is the email of a student, <br>
+     *         the name of an instructor, if emailFromResponse is the email of an instructor, <br>
+     *         or the team name, if emailFromResponse represents a team. <br>
+     *         Otherwise, return an empty string
      */
-    public String getNameFromRoster(String emailInResponse) {
-        return getNameFromRoster(emailInResponse, true);
+    public String getNameFromRoster(String emailFromResponse) {
+        return getNameFromRoster(emailFromResponse, true);
     }
     
-    public String getLastNameFromRoster(String emailInResponse) {
-        return getNameFromRoster(emailInResponse, false);
+    public String getLastNameFromRoster(String emailFromResponse) {
+        return getNameFromRoster(emailFromResponse, false);
     }
     
-    public String getTeamNameFromRoster(String email) {
-        StudentAttributes student = roster.getStudentForEmail(email);
-        InstructorAttributes instructor = roster.getInstructorForEmail(email);
+    /**
+     * Gets the displayable team name from an email.
+     * If the email is not an email of someone in the class roster, an empty string is returned.
+     * 
+     * This function is different from getTeamNameForEmail as it obtains the name
+     * using the class roster, instead of from the responses. 
+     * @param emailInResponse
+     */
+    public String getTeamNameFromRoster(String emailFromResponse) {
+        StudentAttributes student = roster.getStudentForEmail(emailFromResponse);
+        InstructorAttributes instructor = roster.getInstructorForEmail(emailFromResponse);
         if (student != null) {
             return student.team;
         } else if (instructor != null) {
@@ -242,9 +251,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return "";
     }
     
-    public String getSectionFromRoster(String email) {
-        StudentAttributes student = roster.getStudentForEmail(email);
-        InstructorAttributes instructor = roster.getInstructorForEmail(email);
+    public String getSectionFromRoster(String emailFromResponse) {
+        StudentAttributes student = roster.getStudentForEmail(emailFromResponse);
+        InstructorAttributes instructor = roster.getInstructorForEmail(emailFromResponse);
         if (student != null) {
             return student.section;
         } else if (instructor != null) {
@@ -257,8 +266,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     public Set<String> getTeamMembersFromRoster(String teamName) {
         if (rosterTeamNameEmailTable.get(teamName) != null) {
             Set<String> teamMembers = new HashSet<String>(rosterTeamNameEmailTable.get(teamName).keySet());
-            
             return teamMembers;
+            
         } else {
             return new HashSet<String>();
         }
@@ -268,6 +277,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         if (rosterSectionTeamNameTable.containsKey(sectionName)) {
             Set<String> teams = new HashSet<String>(rosterSectionTeamNameTable.get(sectionName));
             return teams;
+            
         } else {
             return new HashSet<String>();
         }
