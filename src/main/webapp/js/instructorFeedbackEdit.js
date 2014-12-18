@@ -182,7 +182,7 @@ function enableQuestion(number){
 
 function enableNewQuestion(){
     var newQnSuffix = "New";
-    var number = "-1"
+    var number = "-1";
     $('#questionTable'+newQnSuffix).find('text,button,textarea,select,input').
         not('[name="receiverFollowerCheckbox"]').
         not('.disabled_radio').
@@ -299,21 +299,30 @@ function formatNumberBox(value, qnNumber) {
  * @returns qnNumber
  */
 function tallyCheckboxes(qnNumber){
-    var checked = [];
+
+	// update hidden parameter FEEDBACK_QUESTION_SHOWRESPONSESTO
+	var checked = [];
     $('.answerCheckbox'+qnNumber+':checked').each(function () {
         checked.push($(this).val());
     });
     $("[name="+FEEDBACK_QUESTION_SHOWRESPONSESTO+"]").val(checked.toString());
+    storeVisibilityOption(qnNumber, FEEDBACK_QUESTION_SHOWRESPONSESTO);
+    
+    // update hidden parameter FEEDBACK_QUESTION_SHOWGIVERTO
     checked = [];
     $('.giverCheckbox'+qnNumber+":checked").each(function () {
          checked.push($(this).val());
     });
     $("[name="+FEEDBACK_QUESTION_SHOWGIVERTO+"]").val(checked.toString());
+    storeVisibilityOption(qnNumber, FEEDBACK_QUESTION_SHOWGIVERTO);
+    
+    // update hidden parameter FEEDBACK_QUESTION_SHOWRECIPIENTTO
     checked = [];
     $('.recipientCheckbox'+qnNumber+':checked').each(function () {
          checked.push($(this).val());
     });
     $("[name="+FEEDBACK_QUESTION_SHOWRECIPIENTTO+"]").val(checked.toString());
+    storeVisibilityOption(qnNumber, FEEDBACK_QUESTION_SHOWRECIPIENTTO);
 }
 
 /**
@@ -634,6 +643,89 @@ function bindCopyEvents() {
     });
 }
 
+globalResponseVisibilityString = {};
+globalGiverVisibilityString = {};
+globalRecipientVisibilityString = {};
+
+function storeVisibilityOption(qnNumber, parameterName){
+	
+	// get hidden parameter value from html
+	var visibilityString = $("[name="+parameterName+"]").val();
+	
+	// store visibility string of response	
+	if(parameterName == FEEDBACK_QUESTION_SHOWRESPONSESTO){
+		globalResponseVisibilityString[qnNumber] = visibilityString;
+		return;
+	}
+
+	// store visibility string of giver
+	if(parameterName == FEEDBACK_QUESTION_SHOWGIVERTO){
+		globalGiverVisibilityString[qnNumber] = visibilityString;
+		return;
+	}
+	
+	// store visibility string of recipient
+	if(parameterName == FEEDBACK_QUESTION_SHOWRECIPIENTTO){
+		globalRecipientVisibilityString[qnNumber] = visibilityString;
+		return;
+	}
+}
+
+function getPreviousVisibilityOptionString(qnNumber, parameterName){
+	
+	// get previously stored visibility option string 
+	switch(parameterName){
+	case FEEDBACK_QUESTION_SHOWRESPONSESTO:
+		return globalResponseVisibilityString[qnNumber];	
+	case FEEDBACK_QUESTION_SHOWGIVERTO:
+		return globalGiverVisibilityString[qnNumber];
+	case FEEDBACK_QUESTION_SHOWRECIPIENTTO:
+		return globalRecipientVisibilityString[qnNumber];
+	default:
+		return "";
+	}
+}
+
+/**
+ * Return boolean result of whether the visibility options of qnNumber has changed
+ */
+function isVisibilityOptionsChanged(qnNumber){
+	
+	// Verify changes of the hidden value, FEEDBACK_QUESTION_SHOWRESPONSESTO, in the form of qnNumber
+	var checked = [];
+	// Obtain checkboxes' values from checkboxes objects
+    $('.answerCheckbox'+qnNumber+':checked').each(function () {
+        checked.push($(this).val());
+    });
+    // Obtain checkboxes' values from hidden values in form
+    var checkedString = getPreviousVisibilityOptionString(qnNumber, FEEDBACK_QUESTION_SHOWRESPONSESTO); 
+    var isResponsesChanged = checkedString !== checked.toString();
+    
+    
+    // Verify changes of the hidden value, FEEDBACK_QUESTION_SHOWGIVERTO, in the form of qnNumber
+    checked = [];
+    // Obtain checkboxes' values from checkboxes objects
+    $('.giverCheckbox'+qnNumber+":checked").each(function () {
+         checked.push($(this).val());
+    });
+    // Obtain checkboxes' values from hidden values in form
+    var checkedString = getPreviousVisibilityOptionString(qnNumber, FEEDBACK_QUESTION_SHOWGIVERTO);
+    var isGiverChanged = checkedString !== checked.toString(); 
+   
+    
+    // Verify changes of the hidden value, FEEDBACK_QUESTION_SHOWRECIPIENTTO, in the form of qnNumber
+    checked = [];
+    // Obtain checkboxes' values from checkboxes objects
+    $('.recipientCheckbox'+qnNumber+':checked').each(function () {
+         checked.push($(this).val());
+    });
+    // Obtain checkboxes' values from hidden values in form
+    var checkedString = getPreviousVisibilityOptionString(qnNumber, FEEDBACK_QUESTION_SHOWRECIPIENTTO);
+    var isRecipientChanged = checkedString !== checked.toString(); 
+    
+    return isResponsesChanged || isGiverChanged || isRecipientChanged;
+}
+
 function toggleVisibilityMessage(elem){
     $elementParent = $(elem).closest('form');
     $options = $elementParent.find('.visibilityOptions');
@@ -643,7 +735,6 @@ function toggleVisibilityMessage(elem){
     recipientType = $elementParent.find("select[name='recipienttype']");
 
     $options.hide();
-    $visibilityMessage.html("");
     $disabledInputs = $elementParent.find('input:disabled, select:disabled');
     $disabledInputs.prop('disabled', false);
 
@@ -656,26 +747,31 @@ function toggleVisibilityMessage(elem){
 
 function getVisibilityMessage(buttonElem){
     var form = $(buttonElem).closest("form");
-    var url = "/page/instructorFeedbackQuestionvisibilityMessage";
+    var qnNumber = $(form).find("[name=questionnum]").val();
 
-    eval($(form).attr('onsubmit'));
-    
-    $.ajax({
-            type: "POST",
-            url: url,
-            data: $(form[0]).serialize(),
-            success: function(data)
-            {
-                $(form).find('.visibilityMessage').html(formatVisibilityMessageHtml(data.visibilityMessage));
-                $(form).find('.visibilityOptions').hide();
-                $(form).find('.visibilityMessage').show();
-            },
-            error: function(jqXHR, textStatus, errorThrown) 
-            {
-                console.log('AJAX request failed');
-            }
-        });
-
+    if(isVisibilityOptionsChanged(qnNumber)){
+    	// trigger onsubmit event of the qnNumber which has already binded with 
+    	eval($(form).attr('onsubmit'));
+    	
+    	$(form).find('.visibilityMessage').html("");
+    	var url = "/page/instructorFeedbackQuestionvisibilityMessage";
+	    
+    	$.ajax({
+	            type: "POST",
+	            url: url,
+	            data: $(form[0]).serialize(),
+	            success: function(data)
+	            {
+	                $(form).find('.visibilityMessage').html(formatVisibilityMessageHtml(data.visibilityMessage));
+	            },
+	            error: function(jqXHR, textStatus, errorThrown) 
+	            {
+	                console.log('AJAX request failed');
+	            }
+	        });
+    }    
+    $(form).find('.visibilityOptions').hide();
+    $(form).find('.visibilityMessage').show();
 }
 
 function getVisibilityMessageIfPreviewIsActive(buttonElem) {
