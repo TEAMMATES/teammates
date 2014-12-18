@@ -28,7 +28,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     public Map<String, String> emailNameTable = null;
     public Map<String, String> emailLastNameTable = null;
     public Map<String, String> emailTeamNameTable = null;
-    public Map<String, Map<String, String>> rosterTeamNameEmailTable = null; 
+    public Map<String, Set<String>> rosterTeamNameMembersTable = null; 
     public Map<String, Set<String>> rosterSectionTeamNameTable = null;
     public Map<String, boolean[]> visibilityTable = null;
     public FeedbackSessionResponseStatus responseStatus = null;
@@ -104,7 +104,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         
         // unlike emailTeamNameTable, emailLastNameTable and emailTeamNameTable,
         // roster.*Table is populated using the CourseRoster data directly
-        this.rosterTeamNameEmailTable = getTeamNameToStudentsTableFromRoster(roster);
+        this.rosterTeamNameMembersTable = getTeamNameToEmailsTableFromRoster(roster);
         this.rosterSectionTeamNameTable = getSectionToTeamNamesFromRoster(roster);
     }
 
@@ -204,7 +204,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         }
         
         //return team name if participantIdentifier is a team name
-        boolean isTeamName = rosterTeamNameEmailTable.containsKey(participantIdentifier);
+        boolean isTeamName = rosterTeamNameMembersTable.containsKey(participantIdentifier);
         if (isTeamName) {
             return participantIdentifier;
         }
@@ -224,18 +224,18 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
      * 
      * This function is different from getNameForEmail as it obtains the name
      * using the class roster, instead of from the responses. 
-     * @param emailFromResponse
-     * @return the full name of a student, if emailFromResponse is the email of a student, <br>
-     *         the name of an instructor, if emailFromResponse is the email of an instructor, <br>
-     *         or the team name, if emailFromResponse represents a team. <br>
+     * @param participantIdentifier
+     * @return the full name of a student, if participantIdentifier is the email of a student, <br>
+     *         the name of an instructor, if participantIdentifier is the email of an instructor, <br>
+     *         or the team name, if participantIdentifier represents a team. <br>
      *         Otherwise, return an empty string
      */
-    public String getNameFromRoster(String emailFromResponse) {
-        return getNameFromRoster(emailFromResponse, true);
+    public String getNameFromRoster(String participantIdentifier) {
+        return getNameFromRoster(participantIdentifier, true);
     }
     
-    public String getLastNameFromRoster(String emailFromResponse) {
-        return getNameFromRoster(emailFromResponse, false);
+    public String getLastNameFromRoster(String participantIdentifier) {
+        return getNameFromRoster(participantIdentifier, false);
     }
     
     /**
@@ -246,9 +246,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
      * using the class roster, instead of from the responses. 
      * @param emailInResponse
      */
-    public String getTeamNameFromRoster(String emailFromResponse) {
-        StudentAttributes student = roster.getStudentForEmail(emailFromResponse);
-        InstructorAttributes instructor = roster.getInstructorForEmail(emailFromResponse);
+    public String getTeamNameFromRoster(String participantIdentifier) {
+        StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
+        InstructorAttributes instructor = roster.getInstructorForEmail(participantIdentifier);
         if (student != null) {
             return student.team;
         } else if (instructor != null) {
@@ -258,21 +258,21 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return "";
     }
     
-    public String getSectionFromRoster(String emailFromResponse) {
-        StudentAttributes student = roster.getStudentForEmail(emailFromResponse);
-        InstructorAttributes instructor = roster.getInstructorForEmail(emailFromResponse);
+    public String getSectionFromRoster(String participantIdentifier) {
+        StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
+        InstructorAttributes instructor = roster.getInstructorForEmail(participantIdentifier);
         if (student != null) {
             return student.section;
         } else if (instructor != null) {
-            return "Not in a section";
+            return Const.USER_NOT_IN_A_SECTION;
         }
         
         return "";
     }
     
     public Set<String> getTeamMembersFromRoster(String teamName) {
-        if (rosterTeamNameEmailTable.get(teamName) != null) {
-            Set<String> teamMembers = new HashSet<String>(rosterTeamNameEmailTable.get(teamName).keySet());
+        if (rosterTeamNameMembersTable.get(teamName) != null) {
+            Set<String> teamMembers = new HashSet<String>(rosterTeamNameMembersTable.get(teamName));
             return teamMembers;
             
         } else {
@@ -291,26 +291,26 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     }
     
     
-    public List<String> getPossibleGivers(FeedbackQuestionAttributes fqa, String recipientEmail) {
-        boolean recipientIsAnonymous = recipientEmail.contains("@@");
+    public List<String> getPossibleGivers(FeedbackQuestionAttributes fqa, String recipientParticipantIdentifier) {
+        boolean recipientIsAnonymous = recipientParticipantIdentifier.contains("@@");
        
-        if (recipientEmail == null || recipientIsAnonymous) {
+        if (recipientParticipantIdentifier == null || recipientIsAnonymous) {
             return new ArrayList<String>();
         }
         
-        StudentAttributes student = roster.getStudentForEmail(recipientEmail);
+        StudentAttributes student = roster.getStudentForEmail(recipientParticipantIdentifier);
         boolean isRecipientStudent = (student != null); 
         if (isRecipientStudent) {
             return getPossibleGivers(fqa, student);
         }  
         
-        InstructorAttributes instructor = roster.getInstructorForEmail(recipientEmail);
+        InstructorAttributes instructor = roster.getInstructorForEmail(recipientParticipantIdentifier);
         boolean isRecipientInstructor = (instructor != null);
         if (isRecipientInstructor) {
             return getPossibleGivers(fqa, instructor);
         }
         
-        if (recipientEmail.equals(Const.GENERAL_QUESTION)) {
+        if (recipientParticipantIdentifier.equals(Const.GENERAL_QUESTION)) {
             switch(fqa.giverType) {
                 case STUDENTS:
                     return getSortedListOfStudentEmails();
@@ -329,12 +329,12 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                     return new ArrayList<String>();
             }
         } else {
-            return getPossibleGiversForTeam(fqa, recipientEmail);
+            return getPossibleGiversForTeam(fqa, recipientParticipantIdentifier);
         }
         
     }
     
-    private List<String> getPossibleGiversForTeam(FeedbackQuestionAttributes fqa, String team) {
+    private List<String> getPossibleGiversForTeam(FeedbackQuestionAttributes fqa, String recipientTeam) {
         FeedbackParticipantType giverType = fqa.giverType;
         FeedbackParticipantType recipientType = fqa.recipientType;
         List<String> possibleGivers = new ArrayList<String>();
@@ -354,18 +354,15 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                     case SELF:
                         possibleGivers.add(fqa.creatorEmail);
                         break;
-                    case NONE:
-                    case OWN_TEAM_MEMBERS:
-                    case OWN_TEAM_MEMBERS_INCLUDING_SELF:
                     default:
                         break;
                 }
                 break;
             case OWN_TEAM:
                 if (giverType == FeedbackParticipantType.TEAMS) {
-                    possibleGivers.add(team);
+                    possibleGivers.add(recipientTeam);
                 } else {
-                    possibleGivers = new ArrayList<String>(getTeamMembersFromRoster(team));
+                    possibleGivers = new ArrayList<String>(getTeamMembersFromRoster(recipientTeam));
                 }
                 break;
             case INSTRUCTORS:
@@ -398,10 +395,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             case SELF:
                 possibleGivers.add(fqa.creatorEmail);
                 break;
-            case NONE:
-            case OWN_TEAM:
-            case OWN_TEAM_MEMBERS:
-            case OWN_TEAM_MEMBERS_INCLUDING_SELF:
             default:
                 break;
         }
@@ -409,22 +402,16 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         switch(recipientType) {
             case STUDENTS:
                 break;
-            case INSTRUCTORS:
-                break;
             case TEAMS:
                 break;
             case SELF:
                 possibleGivers = new ArrayList<String>();
                 possibleGivers.add(recipient.email);
                 break;
-            case NONE:
-                break;
-            case OWN_TEAM:
-                possibleGivers.retainAll(getSortedListOfTeamMembers(recipient));
             case OWN_TEAM_MEMBERS:
-                possibleGivers.retainAll(getSortedListOfTeamMembersExcludingSelf(recipient));
+                possibleGivers.retainAll(getSortedListOfTeamMembersEmailsExcludingSelf(recipient));
             case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-                possibleGivers.retainAll(getSortedListOfTeamMembers(recipient));
+                possibleGivers.retainAll(getSortedListOfTeamMembersEmails(recipient));
             default:
                 break;
         }
@@ -449,10 +436,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             case SELF:
                 possibleGivers.add(fqa.creatorEmail);
                 break;
-            case NONE:
-            case OWN_TEAM:
-            case OWN_TEAM_MEMBERS:
-            case OWN_TEAM_MEMBERS_INCLUDING_SELF:
             default:
                 break;
         }
@@ -494,6 +477,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         FeedbackParticipantType recipientType = fqa.recipientType;
         List<String> possibleRecipients = null;
         
+        // use giver type to determine recipients if recipient is "self"
         if (fqa.recipientType == FeedbackParticipantType.SELF) {
             recipientType = fqa.giverType;
         }
@@ -528,13 +512,15 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             return new ArrayList<String>();
         }
         
-
         StudentAttributes student = roster.getStudentForEmail(giverEmail);
-        InstructorAttributes instructor = roster.getInstructorForEmail(giverEmail);
-        
-        if (student != null) {
+        boolean isStudent = (student != null); 
+        if (isStudent) {
             return getPossibleRecipients(fqa, student);
-        } else if (instructor != null) {
+        }
+        
+        InstructorAttributes instructor = roster.getInstructorForEmail(giverEmail);
+        boolean isInstructor = (instructor != null); 
+        if (isInstructor) {
             return getPossibleRecipients(fqa, instructor);
         } else {
             return getPossibleRecipientsForTeam(fqa, giverEmail);
@@ -542,7 +528,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         
     }
     
-    private List<String> getPossibleRecipients(FeedbackQuestionAttributes fqa, InstructorAttributes giver) {
+    private List<String> getPossibleRecipients(FeedbackQuestionAttributes fqa, InstructorAttributes instructorGiver) {
         FeedbackParticipantType recipientType = fqa.recipientType;
         List<String> possibleRecipients = new ArrayList<String>();
         switch(recipientType) {
@@ -556,12 +542,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 possibleRecipients = getSortedListOfTeams();
                 break;
             case SELF:
-                possibleRecipients.add(giver.email);
+                possibleRecipients.add(instructorGiver.email);
                 break;
-            case NONE:
             case OWN_TEAM:
-            case OWN_TEAM_MEMBERS:
-            case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+                possibleRecipients.add(Const.USER_TEAM_FOR_INSTRUCTOR);
             default:
                 break;
         }
@@ -569,7 +553,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return possibleRecipients;
     }
     
-    private List<String> getPossibleRecipients(FeedbackQuestionAttributes fqa, StudentAttributes giver) {
+    private List<String> getPossibleRecipients(FeedbackQuestionAttributes fqa, StudentAttributes studentGiver) {
         FeedbackParticipantType recipientType = fqa.recipientType;
         List<String> possibleRecipients = new ArrayList<String>();
         switch(recipientType) {
@@ -578,22 +562,22 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 possibleRecipients = getSortedListOfStudentEmails();
                 break;
             case OWN_TEAM_MEMBERS:
-                possibleRecipients = getSortedListOfTeamMembersExcludingSelf(giver);
+                possibleRecipients = getSortedListOfTeamMembersEmailsExcludingSelf(studentGiver);
                 break;
             case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-                possibleRecipients = getSortedListOfTeamMembers(giver);
+                possibleRecipients = getSortedListOfTeamMembersEmails(studentGiver);
                 break;
             case INSTRUCTORS:
                 possibleRecipients = getSortedListOfInstructorEmails();
                 break;
             case TEAMS:
-                possibleRecipients = getSortedListOfTeamsExcludingOwnTeam(giver);
+                possibleRecipients = getSortedListOfTeamsExcludingOwnTeam(studentGiver);
                 break;
             case OWN_TEAM:
-                possibleRecipients.add(giver.team);
+                possibleRecipients.add(studentGiver.team);
                 break;
             case SELF:
-                possibleRecipients.add(giver.email);
+                possibleRecipients.add(studentGiver.email);
                 break;
             case NONE:
             default:
@@ -604,7 +588,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     }
     
     
-    private List<String> getPossibleRecipientsForTeam(FeedbackQuestionAttributes fqa, String team) {
+    private List<String> getPossibleRecipientsForTeam(FeedbackQuestionAttributes fqa, String givingTeam) {
         
         FeedbackParticipantType recipientType = fqa.recipientType;
         List<String> possibleRecipients = new ArrayList<String>();
@@ -612,10 +596,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         switch(recipientType) {
             case TEAMS:
                 possibleRecipients = getSortedListOfTeams();
-                possibleRecipients.remove(team);
+                possibleRecipients.remove(givingTeam);
                 break;
             case OWN_TEAM:
-                possibleRecipients.add(team);
+                possibleRecipients.add(givingTeam);
                 break;
             case INSTRUCTORS:
                 possibleRecipients = getSortedListOfInstructorEmails();
@@ -623,14 +607,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             case STUDENTS:
                 possibleRecipients = getSortedListOfStudentEmails();
                 break;
-            case SELF:
-            case OWN_TEAM_MEMBERS:
+            case SELF: //TODO: SELF should give same behaviour to OWN_TEAM 
             case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-                if (rosterTeamNameEmailTable.containsKey(team)) {
-                    Map<String, String> studentEmailsToNames = rosterTeamNameEmailTable.get(team);
-                    if (studentEmailsToNames != null) {
-                        possibleRecipients = new ArrayList<String>(studentEmailsToNames.keySet());
-                    }
+                if (rosterTeamNameMembersTable.containsKey(givingTeam)) {
+                    Set<String> studentEmailsToNames = rosterTeamNameMembersTable.get(givingTeam);
+                    possibleRecipients = new ArrayList<String>(studentEmailsToNames);
                 }
             case NONE:
             default:
@@ -642,17 +623,14 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     
     private List<String> getSortedListOfTeamsExcludingOwnTeam(StudentAttributes student) {
         String studentTeam = student.team;
-        Set<String> teams = rosterTeamNameEmailTable.keySet();
-        teams.remove(studentTeam);
-        teams.remove(Const.USER_TEAM_FOR_INSTRUCTOR);
+        List<String> listOfTeams = getSortedListOfTeams();
+        listOfTeams.remove(studentTeam);
         
-        List<String> listOfTeams = new ArrayList<String>(teams);
-        Collections.sort(listOfTeams);
         return listOfTeams;
     }
     
     private List<String> getSortedListOfTeams() {
-        List<String> teams = new ArrayList<String>(rosterTeamNameEmailTable.keySet());
+        List<String> teams = new ArrayList<String>(rosterTeamNameMembersTable.keySet());
         
         teams.remove(Const.USER_TEAM_FOR_INSTRUCTOR);
         Collections.sort(teams);
@@ -660,16 +638,16 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return new ArrayList<String>(teams);
     }
     
-    public List<String> getSortedListOfTeamMembers(StudentAttributes student) {
+    public List<String> getSortedListOfTeamMembersEmails(StudentAttributes student) {
         String teamName = student.team;
-        Map<String, String> teamMembersEmailsToNames = rosterTeamNameEmailTable.get(teamName);
-        List<String> teamMembers = new ArrayList<String>(teamMembersEmailsToNames.keySet());
+        Set<String> teamMembersEmailsToNames = rosterTeamNameMembersTable.get(teamName);
+        List<String> teamMembers = new ArrayList<String>(teamMembersEmailsToNames);
         Collections.sort(teamMembers);
         return teamMembers;
     }
     
-    private List<String> getSortedListOfTeamMembersExcludingSelf(StudentAttributes student) {
-        List<String> teamMembers = getSortedListOfTeamMembers(student);
+    private List<String> getSortedListOfTeamMembersEmailsExcludingSelf(StudentAttributes student) {
+        List<String> teamMembers = getSortedListOfTeamMembersEmails(student);
         String currentStudentEmail = student.email;
         
         teamMembers.remove(currentStudentEmail);
@@ -1237,40 +1215,34 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return false;
     }
     
-    private Map<String, Map<String, String>> getTeamNameToStudentsTableFromRoster(CourseRoster courseroster) {
+    private Map<String, Set<String>> getTeamNameToEmailsTableFromRoster(CourseRoster courseroster) {
         List<StudentAttributes> students = courseroster.getStudents();
-        Map<String, Map<String, String>> teamNameToStudents = new HashMap<String, Map<String, String>>();
+        Map<String, Set<String>> teamNameToEmails = new HashMap<String, Set<String>>();
         
         for (StudentAttributes student : students) {
             String studentTeam = student.team; 
-            Map<String, String> emailToName;
+            Set<String> studentEmails;
             
-            if (teamNameToStudents.containsKey(studentTeam)) {
-                emailToName = teamNameToStudents.get(studentTeam);
+            if (teamNameToEmails.containsKey(studentTeam)) {
+                studentEmails = teamNameToEmails.get(studentTeam);
             } else {
-                emailToName = new HashMap<String, String>();
+                studentEmails = new HashSet<String>();
             }
             
-            emailToName.put(student.email, student.name);
-            teamNameToStudents.put(studentTeam, emailToName);
+            studentEmails.add(student.email);
+            teamNameToEmails.put(studentTeam, studentEmails);
         }
         
         List<InstructorAttributes> instructors = courseroster.getInstructors();
         String instructorsTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
+        Set<String> instructorEmails = new HashSet<String>();
+        
         for (InstructorAttributes instructor : instructors) {
-            Map<String, String> emailToName;
-            
-            if (teamNameToStudents.containsKey(instructorsTeam)) {
-                emailToName = teamNameToStudents.get(instructorsTeam);
-            } else {
-                emailToName = new HashMap<String, String>();
-            }
-            
-            emailToName.put(instructor.email, instructor.name);
-            teamNameToStudents.put(instructorsTeam, emailToName);
+            instructorEmails.add(instructor.email);
+            teamNameToEmails.put(instructorsTeam, instructorEmails);
         }
         
-        return teamNameToStudents;
+        return teamNameToEmails;
     }
     
     private Map<String, Set<String>> getSectionToTeamNamesFromRoster(CourseRoster courseroster) {

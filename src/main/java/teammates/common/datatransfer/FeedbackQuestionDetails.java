@@ -116,6 +116,8 @@ public abstract class FeedbackQuestionDetails {
         return questionDetails;
     }
     
+    // The following function handle the display of rows between possible givers 
+    // and recipients who did not respond to a question in feedback sessions
     
     public String getNoResponseTextInHtml(String giverEmail, String recipientEmail,
             FeedbackSessionResultsBundle bundle,
@@ -126,6 +128,7 @@ public abstract class FeedbackQuestionDetails {
     }
     
     public boolean shouldShowNoResponseText(String giverEmail, String recipientEmail, FeedbackQuestionAttributes question) {
+        // we do not show all possible responses 
         if (question.recipientType == FeedbackParticipantType.STUDENTS || question.recipientType == FeedbackParticipantType.TEAMS) {
             return false;
         }
@@ -138,6 +141,17 @@ public abstract class FeedbackQuestionDetails {
        return getNoResponseText(giverEmail, recipientEmail, bundle, question);
     }
     
+    /**
+     * Returns text to indicate that there is no response between the giver and recipient.
+     * 
+     * Used in instructorFeedbackResultsPage to show possible givers and recipients who did 
+     * not respond to the question in the feedback session.
+     * @param giverEmail
+     * @param recipientEmail
+     * @param bundle
+     * @param question
+     * @return
+     */
     public String getNoResponseText(String giverEmail, String recipientEmail,
             FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {

@@ -728,6 +728,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
     @Override
     public String getNoResponseTextInHtml(String giverEmail, String recipientEmail, FeedbackSessionResultsBundle bundle, FeedbackQuestionAttributes question) {
+        // if giver did not give a response to himself, we still show his perceived contribution in a row
         if (giverEmail.equals(recipientEmail) && hasPerceivedContribution(recipientEmail, question, bundle)) {
             return getPerceivedContributionHtml(question, recipientEmail, bundle);
         } else {
