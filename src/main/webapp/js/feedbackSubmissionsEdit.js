@@ -11,6 +11,7 @@ $(document).ready(function () {
         if(!validateConstSumQuestions()){
             return false;
         }
+        formatRubricQuestions();
         reenableFieldsForSubmission();
     });
     
@@ -26,13 +27,35 @@ $(document).ready(function () {
     $('input.pointsBox').off('keydown');
     disallowNonNumericEntries($('input.pointsBox'), false, false);
 
-    formatConstSumQuestions();
+    readyConstSumQuestions();
     updateConstSumMessages();
 });
 
-//Ready constant sum questions for submission
-function formatConstSumQuestions(){
-    var constSumQuestionNums = getConstSumQuestionNums();
+//Format rubric question for form submission
+function formatRubricQuestions() {
+    var rubricQuestionNums = getQuestionTypeNumbers("RUBRIC");
+    for(var i=0 ; i<rubricQuestionNums.length ; i++) {
+        var qnNum = rubricQuestionNums[i];
+        var numResponses = $("[name='questionresponsetotal-"+qnNum+"']").val();
+        numResponses = parseInt(numResponses);
+
+        for (var j=0 ; j<numResponses ; j++) {
+            var responsetext = [];
+
+            var responses = $("[name^='rubricChoice-"+qnNum+"-"+j+"-']:checked");
+            for (var k=0 ; k<responses.length ; k++) {
+                responsetext.push($(responses[k]).val());
+            }
+
+            $("[name='responsetext-"+qnNum+"-"+j+"']").val(responsetext);
+            console.log("[name='responsetext-"+qnNum+"-"+j+"'] - " + responsetext.toString());
+        }
+    }
+}
+
+//Ready constant sum questions for answering by user
+function readyConstSumQuestions() {
+    var constSumQuestionNums = getQuestionTypeNumbers("CONSTSUM");
 
     for(var i=0 ; i<constSumQuestionNums.length ; i++){
         var qnNum = constSumQuestionNums[i];
@@ -49,20 +72,20 @@ function formatConstSumQuestions(){
     }
 }
 
-function getConstSumQuestionNums(){
-    var constSumQuestions = $("input[name^='questiontype-']").filter(function( index ) {
-                                    return $(this).val() === "CONSTSUM";
+function getQuestionTypeNumbers(qnType){
+    var questions = $("input[name^='questiontype-']").filter(function( index ) {
+                                    return $(this).val() === qnType;
                                 });
-    var constSumQuestionNums = [];
-    for(var i=0 ; i<constSumQuestions.length ; i++){
-        constSumQuestionNums[i] = constSumQuestions[i].name.substring('questiontype-'.length,constSumQuestions[i].name.length);
+    var questionNums = [];
+    for(var i=0 ; i<questions.length ; i++){
+        questionNums[i] = questions[i].name.substring('questiontype-'.length,questions[i].name.length);
     }
-    return constSumQuestionNums;
+    return questionNums;
 }
 
 //Updates all const sum messages
 function updateConstSumMessages(){
-    var constSumQuestionNums = getConstSumQuestionNums();
+    var constSumQuestionNums = getQuestionTypeNumbers("CONSTSUM");
     for(var i=0 ; i<constSumQuestionNums.length ; i++){
         var qnNum = constSumQuestionNums[i];
         updateConstSumMessageQn(qnNum);

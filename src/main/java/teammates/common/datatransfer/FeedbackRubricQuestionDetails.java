@@ -139,6 +139,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
             int responseIdx, String courseId, FeedbackResponseDetails existingResponseDetails) {
+        
+        FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) existingResponseDetails;
+        System.out.println(frd.getAnswerString());
 
         String questionNumberString = Integer.toString(qnIdx);
         String responseNumberString = Integer.toString(responseIdx);
@@ -172,6 +175,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${col}", Integer.toString(i),
                                 "${row}", Integer.toString(j),
                                 "${description}", this.getDescription(j, i),
+                                "${checked}", (frd.getAnswer(j) == i)? "checked":"", //Check if existing choice for sub-question == current choice
                                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE);
                 tableBodyFragmentHtml.append(optionFragment + Const.EOL);
             }
@@ -237,6 +241,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${col}", Integer.toString(i),
                                 "${row}", Integer.toString(j),
                                 "${description}", this.getDescription(j, i),
+                                "${checked}", "",
                                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE);
                 tableBodyFragmentHtml.append(optionFragment + Const.EOL);
             }
