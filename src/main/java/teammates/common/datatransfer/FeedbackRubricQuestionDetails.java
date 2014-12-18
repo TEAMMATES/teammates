@@ -7,6 +7,7 @@ import java.util.Map;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.StringHelper;
 
 public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     public int numOfRubricChoices;
@@ -128,7 +129,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         // Responses requires deletion if sub-questions change
         if (this.numOfRubricSubQuestions != newRubricDetails.numOfRubricSubQuestions ||
-            this.rubricSubQuestions.containsAll(newRubricDetails.rubricChoices) == false ||
+            this.rubricSubQuestions.containsAll(newRubricDetails.rubricSubQuestions) == false ||
             newRubricDetails.rubricSubQuestions.containsAll(this.rubricSubQuestions) == false) {
             return true;
         }
@@ -141,8 +142,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             int responseIdx, String courseId, FeedbackResponseDetails existingResponseDetails) {
         
         FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) existingResponseDetails;
-        System.out.println(frd.getAnswerString());
-
+        
         String questionNumberString = Integer.toString(qnIdx);
         String responseNumberString = Integer.toString(responseIdx);
         
@@ -186,7 +186,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${qnIndex}", questionNumberString,
                             "${respIndex}", responseNumberString,
                             "${row}", Integer.toString(j),
-                            "${subQuestion}", rubricSubQuestions.get(j),
+                            "${subQuestion}", StringHelper.integerToBase26String(j+1) + ") "+ rubricSubQuestions.get(j),
                             "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString());
             tableBodyHtml.append(optionFragment2 + Const.EOL);
         }
@@ -252,7 +252,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${qnIndex}", questionNumberString,
                             "${respIndex}", responseNumberString,
                             "${row}", Integer.toString(j),
-                            "${subQuestion}", rubricSubQuestions.get(j),
+                            "${subQuestion}", StringHelper.integerToBase26String(j+1) + ") "+ rubricSubQuestions.get(j),
                             "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString());
             tableBodyHtml.append(optionFragment2 + Const.EOL);
         }
