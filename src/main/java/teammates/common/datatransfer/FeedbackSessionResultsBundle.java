@@ -520,7 +520,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return possibleRecipients;
     }
     
-    
+    //TODO code duplication between this function and in FeedbackQuestionsLogic getRecipientsForQuestion
     public List<String> getPossibleRecipients(FeedbackQuestionAttributes fqa, String giverEmail) {
         boolean giverIsAnonymous = giverEmail.contains("@@");
        
