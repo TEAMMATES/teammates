@@ -245,7 +245,7 @@
                                 sectionIndex++;
                                 
                                 givingSections.add(currentSection);
-                                teamsInSection = data.bundle.rosterSectionTeamNameTable.get(currentSection);
+                                teamsInSection = data.bundle.getTeamsInSectionFromRoster(currentSection);
                                 givingTeams = new HashSet<String>();
             %>
                     <div class="panel panel-success">
@@ -884,22 +884,24 @@
             <%
                 }
             
-                Set<String> teamsWithNoResponseReceived = new HashSet<String>(teamsInSection);
-                teamsWithNoResponseReceived.removeAll(givingTeams);
+                Set<String> teamsWithNoResponseGiven = new HashSet<String>(teamsInSection);
+                teamsWithNoResponseGiven.removeAll(givingTeams);
                 
                 if (groupByTeamEnabled) {
-                  for (String teamWithNoResponseReceived: teamsWithNoResponseReceived) {
+                  List<String> teamsWithNoResponseGivenList = new ArrayList<String>(teamsWithNoResponseGiven);
+                  Collections.sort(teamsWithNoResponseGivenList);
+                  for (String teamWithNoResponseGiven: teamsWithNoResponseGivenList) {
                      %>
                           <div class="panel panel-warning">
                               <div class="panel-heading">
-                                  <strong> <%=teamWithNoResponseReceived %></strong>
+                                  <strong> <%=teamWithNoResponseGiven %></strong>
                                   <span class="glyphicon pull-right glyphicon-chevron-up"></span>
                               </div>
                               <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
                                   <div class="panel-body background-color-warning">
                                       <%
-                                      List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(teamWithNoResponseReceived));
-                                  
+                                      List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(teamWithNoResponseGiven));
+                                      Collections.sort(teamMembers);
                                       for (String teamMember : teamMembers) {
                                          %>
                                              <div class="panel panel-primary">
@@ -954,9 +956,11 @@
                         <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
                             <div class="panel-body">
                                 <%
-                                List<String> teamsFromSection = data.bundle.getTeamsInSectionFromRoster(sectionWithNoResponseReceived);
+                                Set<String> teamsFromSection = data.bundle.getTeamsInSectionFromRoster(sectionWithNoResponseReceived);
+                                List<String> teamsFromSectionList = new ArrayList<String>(teamsFromSection);
+                                Collections.sort(teamsFromSectionList);
                                 
-                                for (String team : teamsFromSection) {
+                                for (String team : teamsFromSectionList) {
                                     List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(team));
                                     Collections.sort(teamMembers);
                                   %>

@@ -189,7 +189,7 @@
                     Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
                     int giverIndex = data.startIndex;
                     
-                    List<String> teamsInSection = new ArrayList<String>();
+                    Set<String> teamsInSection = new HashSet<String>();
                     Set<String> receivingTeams = new HashSet<String>();
                     
                     Set<String> sectionsInCourse = data.bundle.rosterSectionTeamNameTable.keySet();
@@ -543,21 +543,23 @@
         <%
             }
             
-            Set<String> teamsWithNoResponseReceived = new HashSet<String>(teamsInSection);
-            teamsWithNoResponseReceived.removeAll(receivingTeams);
+            Set<String> teamsWithNoResponseGiven = new HashSet<String>(teamsInSection);
+            teamsWithNoResponseGiven.removeAll(receivingTeams);
             
             if (groupByTeamEnabled) {
-              for (String teamWithNoResponseReceived: teamsWithNoResponseReceived) {
+                List<String> teamsWithNoResponseGivenList = new ArrayList<String>(teamsWithNoResponseGiven);
+                Collections.sort(teamsWithNoResponseGivenList);
+              for (String teamWithNoResponseGiven: teamsWithNoResponseGivenList) {
                  %>
                       <div class="panel panel-warning">
                           <div class="panel-heading">
-                              <strong> <%=teamWithNoResponseReceived %></strong>
+                              <strong> <%=teamWithNoResponseGiven %></strong>
                               <span class="glyphicon pull-right glyphicon-chevron-up"></span>
                           </div>
                           <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
                               <div class="panel-body background-color-warning">
                                   <%
-                                      List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(teamWithNoResponseReceived));
+                                      List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(teamWithNoResponseGiven));
                                       Collections.sort(teamMembers);
                                   
                                       for (String teamMember : teamMembers) {
@@ -603,7 +605,9 @@
             sectionsWithNoResponseReceived.removeAll(receivingSections);
             
             if (data.selectedSection.equals("All")) {
-            for (String sectionWithNoResponseReceived: sectionsWithNoResponseReceived) {
+            List<String> sectionsWithNoResponseReceivedList = new ArrayList<String>(sectionsWithNoResponseReceived);
+            Collections.sort(sectionsWithNoResponseReceivedList);
+            for (String sectionWithNoResponseReceived: sectionsWithNoResponseReceivedList) {
                %>
                     <div class="panel panel-success">
                         <div class="panel-heading">
@@ -613,10 +617,12 @@
                         <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
                             <div class="panel-body">
                                 <%
-                                List<String> teamsFromSection = data.bundle.getTeamsInSectionFromRoster(sectionWithNoResponseReceived);
-                                
-                                for (String team : teamsFromSection) {
+                                Set<String> teamsFromSection = data.bundle.getTeamsInSectionFromRoster(sectionWithNoResponseReceived);
+                                List<String> teamsFromSectionList = new ArrayList<String>(teamsFromSection);
+                                Collections.sort(teamsFromSectionList);
+                                for (String team : teamsFromSectionList) {
                                 	List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(team));
+                                    Collections.sort(teamMembers);
                                   %>
                                     <div class="panel panel-warning">
                                       <div class="panel-heading">
