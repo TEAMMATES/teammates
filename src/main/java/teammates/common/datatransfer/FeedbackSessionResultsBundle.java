@@ -410,18 +410,18 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     
     private boolean isEmailOfPerson(String email){
         String name = emailNameTable.get(email);
+        boolean isNameForEmail = ( name == null ? false : name.equals(email) );
+        boolean isTeamForName = ( name == null ? false : name.equals(Const.USER_IS_TEAM) );
+       
         String teamName = emailTeamNameTable.get(email);
+        boolean isTeamNameForEmail = ( teamName == null ? false : teamName.equals(email) );
         
-        boolean isNameForEmail = name == null ? false : name.equals(email);
-        boolean isTeamNameForEmail = teamName == null ? false : teamName.equals(email);
-        boolean isTeamForName = name == null ? false : name.equals(Const.USER_IS_TEAM);
-
         return !(isNameForEmail || isTeamNameForEmail || isTeamForName);
     }
     
     private boolean isAnonymousEmail(String email){
         String name = emailNameTable.get(email);
-        return name != null && name.equals(Const.USER_IS_NOBODY);
+        return ( name != null && name.equals(Const.USER_IS_NOBODY) );
     }
     
     public String getRecipientNameForResponse(FeedbackQuestionAttributes question,
