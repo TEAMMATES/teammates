@@ -134,7 +134,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         
         Question 1,"What is the best selling point of your product?"
         
-        Team,Giver's Full Name,Giver's Last Name,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Feedback
+        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
         "Team 1.1","student1 In Course1","Course1","Team 1.1","student1 In Course1","Course1","Student 1 self feedback."
         "Team 1.1","student2 In Course1","Course1","Team 1.1","student2 In Course1","Course1","I'm cool'"
         ...
@@ -156,11 +156,11 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 exportLines[4]);
         assertEquals("",
                 exportLines[5]);
-        assertEquals("Team,Giver's Full Name,Giver's Last Name,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Feedback",
+        assertEquals("Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
                 exportLines[6]);
-        assertEquals("\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Student 1 self feedback.\"",
+        assertEquals("\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
                 exportLines[7]);
-        assertEquals("\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"I'm cool'\"",
+        assertEquals("\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
                 exportLines[8]);
     }
     
@@ -174,14 +174,15 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         
         Question 1,"What is the best selling point of your product?"
         
-        Team,Giver's Full Name,Giver's Last Name,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Feedback
-        "Team 1.1","new name","new last name","Team 1.1","new name","new last name","Student 1 self feedback."
-        "Team 1.1","student2 In Course1","Course1","Team 1.1","student2 In Course1","Course1","I'm cool'"
+        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+        "Team 1.1","new name","new last name","student1InCourse1@gmail.tmt","Team 1.1","new name","new last name","student1InCourse1@gmail.tmt","Student 1 self feedback."
+        "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","I'm cool'"
         ...
         ==================================
         full testing of file content is 
         in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
         */
+        System.out.println(fileContent);
         
         String[] exportLines = fileContent.split(Const.EOL);
         assertEquals("Course,\"" + session.courseId + "\"", 
@@ -196,11 +197,11 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 exportLines[4]);
         assertEquals("",
                 exportLines[5]);
-        assertEquals("Team,Giver's Full Name,Giver's Last Name,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Feedback",
+        assertEquals("Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
                 exportLines[6]);
-        assertEquals("\"Team 1.1\",\"new name new last name\",\"new last name\",\"Team 1.1\",\"new name new last name\",\"new last name\",\"Student 1 self feedback.\"",
+        assertEquals("\"Team 1.1\",\"new name new last name\",\"new last name\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"new name new last name\",\"new last name\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
                 exportLines[7]);
-        assertEquals("\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"I'm cool'\"",
+        assertEquals("\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
                 exportLines[8]);
     }
     
@@ -214,9 +215,9 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         
         Question 1,"What is the best selling point of your product?"
         
-        Team,Giver's Full Name,Giver's Last Name,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Feedback
-        "Team 1.1","student1 In Course1","Course1","Team 1.1","student1 In Course1","Course1","Student 1 self feedback."
-        "Team 1.1","student2 In Course1","Course1","Team 1.1","student2 In Course1","Course1","I'm cool'"
+        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Student 1 self feedback."
+        "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","I'm cool'"
         ...
         ==================================
         full testing of file content is 
@@ -238,11 +239,11 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
                 exportLines[5]);
         assertEquals("",
                 exportLines[6]);
-        assertEquals("Team,Giver's Full Name,Giver's Last Name,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Feedback",
+        assertEquals("Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback",
                 exportLines[7]);
-        assertEquals("\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"Student 1 self feedback.\"",
+        assertEquals("\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Student 1 self feedback.\"",
                 exportLines[8]);
-        assertEquals("\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"I'm cool'\"",
+        assertEquals("\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"I'm cool'\"",
                 exportLines[9]);
     }
     

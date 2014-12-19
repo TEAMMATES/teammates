@@ -612,22 +612,33 @@ public class FeedbackSessionsLogic {
                 exportBuilder.append(statistics + Const.EOL);
             }
             
-            exportBuilder.append("Team" + "," + "Giver's Full Name" + "," + "Giver's Last Name" + "," + "Recipient's Team" + ","
-                    + "Recipient's Full Name" + "," + "Recipient's Last Name" + "," + questionDetails.getCsvHeader() + Const.EOL);
+            exportBuilder.append("Team" + "," + "Giver's Full Name" + "," + "Giver's Last Name" + ","+"Giver's Email" + "," + "Recipient's Team" + ","
+                    + "Recipient's Full Name" + "," + "Recipient's Last Name"
+                    + "," + "Recipient's Email" + ","
+                    + questionDetails.getCsvHeader() + Const.EOL);
 
             for (FeedbackResponseAttributes response : entry.getValue()) {
              
+                // Retrieve giver details
                 String giverLastName = results.getLastNameForEmail(response.giverEmail);
                 String giverFullName = results.getNameForEmail(response.giverEmail);
+                String giverTeamName =results.getTeamNameForEmail(response.giverEmail);
+                String giverEmail = results.getDisplayableEmailGiver(response);
+                
+                // Retrieve recipient details
                 String recipientLastName = results.getLastNameForEmail(response.recipientEmail);
                 String recipientFulltName = results.getNameForEmail(response.recipientEmail);
+                String recipientTeamName =results.getTeamNameForEmail(response.recipientEmail);
+                String recipientEmail = results.getDisplayableEmailRecipient(response);
                 
-                exportBuilder.append(Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.giverEmail)) 
+                exportBuilder.append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) 
                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) 
                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
-                                     + "," + Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.recipientEmail))
+                                     + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
+                                     + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName))
                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFulltName))
                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
+                                     + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
                                      + "," + results.getResponseAnswerCsv(response, question) + Const.EOL);
             }
             exportBuilder.append(Const.EOL + Const.EOL);

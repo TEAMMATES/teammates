@@ -91,40 +91,26 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         }
         this.isComplete = isComplete;
         
-        hideResponsesGiverRecipient(responses, questions, emailNameTable,
-                emailTeamNameTable, visibilityTable);
-        
+        hideResponsesGiverRecipient();       
     }
 
     /**
      * Hides response names/emails and teams that are not visible to the current user.
      * Replaces the giver/recipient email in responses to an email with two "@@"s, to
      * indicate it is invalid and should not be displayed.
-     * 
-     * @param responses
-     * @param questions
-     * @param emailNameTable
-     * @param emailTeamNameTable
-     * @param visibilityTable
      */
-    private void hideResponsesGiverRecipient(
-            List<FeedbackResponseAttributes> responses,
-            Map<String, FeedbackQuestionAttributes> questions,
-            Map<String, String> emailNameTable,
-            Map<String, String> emailTeamNameTable,
-            Map<String, boolean[]> visibilityTable) {
+    private void hideResponsesGiverRecipient() {
         
         for (FeedbackResponseAttributes response : responses) {
-            FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
-            FeedbackParticipantType type = question.recipientType;
-            
-            //Recipient
+                        
+            // Hide recipient details if its not visible to the current user
             String name = emailNameTable.get(response.recipientEmail);
-            if (visibilityTable.get(response.getId())[1] == false &&
-                    type != FeedbackParticipantType.SELF &&
-                    type != FeedbackParticipantType.NONE) {
-                String anonEmail = getAnonEmail(type, name);
-                name = getAnonName(type, name);
+            FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
+            FeedbackParticipantType participantType = question.recipientType;
+            
+            if (!isRecipientVisible(response)) {
+                String anonEmail = getAnonEmail(participantType, name);
+                name = getAnonName(participantType, name);
                 
                 emailNameTable.put(anonEmail, name);
                 emailTeamNameTable.put(anonEmail, name + Const.TEAM_OF_EMAIL_OWNER);
@@ -132,22 +118,63 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 response.recipientEmail = anonEmail;
             }
 
-            //Giver
+            // Hide giver details if its not visible to the current user
             name = emailNameTable.get(response.giverEmail);
-            type = question.giverType;
-            if (visibilityTable.get(response.getId())[0] == false &&
-                    type != FeedbackParticipantType.SELF) {
-                String anonEmail = getAnonEmail(type, name);
-                name = getAnonName(type, name);
+            participantType = question.giverType;
+            
+            if (!isGiverVisible(response)) {
+                String anonEmail = getAnonEmail(participantType, name);
+                name = getAnonName(participantType, name);
                 
                 emailNameTable.put(anonEmail, name);
                 emailTeamNameTable.put(anonEmail, name + Const.TEAM_OF_EMAIL_OWNER);
-                if(type == FeedbackParticipantType.TEAMS){
+                if(participantType == FeedbackParticipantType.TEAMS){
                     emailTeamNameTable.put(anonEmail, name);
                 }
                 response.giverEmail = anonEmail;
             }
         }
+    }
+
+    /**
+     * Checks if the giver/recipient for a response is
+     * visible/hidden from the current user.
+     */
+    public boolean isFeedbackParticipantVisible(boolean isGiver, FeedbackResponseAttributes response) {
+             
+        FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
+        FeedbackParticipantType participantType;
+        String responseId = response.getId(); 
+        boolean isVisible;
+        
+        if(isGiver){                   
+            isVisible = visibilityTable.get(responseId)[Const.VISIBILITY_TABLE_GIVER];
+            participantType = question.giverType;
+        }else{
+            isVisible = visibilityTable.get(responseId)[Const.VISIBILITY_TABLE_RECIPIENT];
+            participantType = question.recipientType;
+        }
+        
+        boolean isTypeSelf = (participantType == FeedbackParticipantType.SELF);
+        boolean isTypeNone = (participantType == FeedbackParticipantType.NONE);
+        
+        return isVisible || isTypeSelf || isTypeNone;
+    }
+    
+    /**
+     * Returns true if the recipient from a response is visible to the current user
+     * Returns false otherwise.
+     */
+    public boolean isRecipientVisible(FeedbackResponseAttributes response){
+        return isFeedbackParticipantVisible(false, response);
+    }
+    
+    /**
+     * Returns true if the giver from a response is visible to the current user
+     * Returns false otherwise.
+     */
+    public boolean isGiverVisible(FeedbackResponseAttributes response){
+        return isFeedbackParticipantVisible(true, response);
     }
 
     private String getAnonEmail(FeedbackParticipantType type, String name) {
@@ -204,9 +231,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return responseAnswerHtml;
     }
     
-    
-    
-
     public FeedbackResponseAttributes getActualResponse(
             FeedbackResponseAttributes response) {
         FeedbackResponseAttributes actualResponse = null;
@@ -248,6 +272,64 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         } else {
             return PageData.sanitizeForHtml(teamName);
         }
+    }
+    
+    /**
+     * Returns displayable email if the email of a giver/recipient in the course and it is allowed to be displayed. 
+     * Returns Const.USER_NOBODY_TEXT otherwise.
+     */
+    public String getDisplayableEmail(boolean isGiver, FeedbackResponseAttributes response) {
+        
+        String participantIdentifier;
+        if(isGiver){
+            participantIdentifier = response.giverEmail;
+        }else{
+            participantIdentifier = response.recipientEmail;
+        }
+        
+        if (isEmailOfPerson(participantIdentifier) && isFeedbackParticipantVisible(isGiver, response)) {
+            return participantIdentifier;
+        } else {
+            return Const.USER_NOBODY_TEXT;
+        }
+    }
+    
+    /**
+     * Returns displayable email if the email of a recipient in the course and it is allowed to be displayed. 
+     * Returns Const.USER_NOBODY_TEXT otherwise.
+     */
+    public String getDisplayableEmailRecipient(FeedbackResponseAttributes response) {
+        return getDisplayableEmail(false, response);
+    }
+    
+    /**
+     * Returns displayable email if the email of a giver in the course and it is allowed to be displayed. 
+     * Returns Const.USER_NOBODY_TEXT otherwise.
+     */
+    public String getDisplayableEmailGiver(FeedbackResponseAttributes response) {
+        return getDisplayableEmail(true, response);
+    }
+    
+    /**
+     * Returns true if the given identifier is an email of a person in the course.
+     * Returns false otherwise.
+     */
+    public boolean isEmailOfPerson(String participantIdentifier){
+               
+        // An email must at least contains '@' character
+        boolean isIdentifierEmail = participantIdentifier.contains("@");
+        
+        // However, a team name may also contains '@'
+        // To differentiate a team name and an email of a person
+        // We check against the name & team name associated by the participant identifier
+        String name = emailNameTable.get(participantIdentifier);
+        boolean isIdentifierName = ( name == null ? false : name.equals(participantIdentifier) );
+        boolean isIdentifierTeam = ( name == null ? false : name.equals(Const.USER_IS_TEAM) );
+       
+        String teamName = emailTeamNameTable.get(participantIdentifier);
+        boolean isIdentifierTeamName = ( teamName == null ? false : teamName.equals(participantIdentifier) );
+
+        return isIdentifierEmail && !(isIdentifierName || isIdentifierTeamName || isIdentifierTeam);
     }
     
     public String getRecipientNameForResponse(FeedbackQuestionAttributes question,
