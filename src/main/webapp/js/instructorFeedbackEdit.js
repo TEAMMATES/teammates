@@ -299,14 +299,13 @@ function formatNumberBox(value, qnNumber) {
  * @returns qnNumber
  */
 function tallyCheckboxes(qnNumber){
-
+	
 	// update hidden parameter FEEDBACK_QUESTION_SHOWRESPONSESTO
 	var checked = [];
     $('.answerCheckbox'+qnNumber+':checked').each(function () {
         checked.push($(this).val());
     });
     $("[name="+FEEDBACK_QUESTION_SHOWRESPONSESTO+"]").val(checked.toString());
-    storeVisibilityOption(qnNumber, FEEDBACK_QUESTION_SHOWRESPONSESTO);
     
     // update hidden parameter FEEDBACK_QUESTION_SHOWGIVERTO
     checked = [];
@@ -314,7 +313,6 @@ function tallyCheckboxes(qnNumber){
          checked.push($(this).val());
     });
     $("[name="+FEEDBACK_QUESTION_SHOWGIVERTO+"]").val(checked.toString());
-    storeVisibilityOption(qnNumber, FEEDBACK_QUESTION_SHOWGIVERTO);
     
     // update hidden parameter FEEDBACK_QUESTION_SHOWRECIPIENTTO
     checked = [];
@@ -322,7 +320,14 @@ function tallyCheckboxes(qnNumber){
          checked.push($(this).val());
     });
     $("[name="+FEEDBACK_QUESTION_SHOWRECIPIENTTO+"]").val(checked.toString());
-    storeVisibilityOption(qnNumber, FEEDBACK_QUESTION_SHOWRECIPIENTTO);
+    
+    
+    // Concatenate visibility options of response, giver, recipient into string
+	var visibilityOptionString ="";
+	visibilityOptionString += $("[name="+FEEDBACK_QUESTION_SHOWRESPONSESTO+"]").val();
+	visibilityOptionString += $("[name="+FEEDBACK_QUESTION_SHOWGIVERTO+"]").val();
+    visibilityOptionString += $("[name="+FEEDBACK_QUESTION_SHOWRECIPIENTTO+"]").val();
+    storeVisibilityOption(qnNumber, visibilityOptionString);
 }
 
 /**
@@ -643,47 +648,15 @@ function bindCopyEvents() {
     });
 }
 
-globalResponseVisibilityString = {};
-globalGiverVisibilityString = {};
-globalRecipientVisibilityString = {};
+globalVisibilityOptionsString = {};
 
-function storeVisibilityOption(qnNumber, parameterName){
-	
-	// get hidden parameter value from html
-	var visibilityString = $("[name="+parameterName+"]").val();
-	
+function storeVisibilityOption(qnNumber,  visibilityOptionString){
 	// store visibility string of response	
-	if(parameterName == FEEDBACK_QUESTION_SHOWRESPONSESTO){
-		globalResponseVisibilityString[qnNumber] = visibilityString;
-		return;
-	}
-
-	// store visibility string of giver
-	if(parameterName == FEEDBACK_QUESTION_SHOWGIVERTO){
-		globalGiverVisibilityString[qnNumber] = visibilityString;
-		return;
-	}
-	
-	// store visibility string of recipient
-	if(parameterName == FEEDBACK_QUESTION_SHOWRECIPIENTTO){
-		globalRecipientVisibilityString[qnNumber] = visibilityString;
-		return;
-	}
+	globalVisibilityOptionsString[qnNumber] = visibilityOptionString;
 }
 
 function getPreviousVisibilityOptionString(qnNumber, parameterName){
-	
-	// get previously stored visibility option string 
-	switch(parameterName){
-	case FEEDBACK_QUESTION_SHOWRESPONSESTO:
-		return globalResponseVisibilityString[qnNumber];	
-	case FEEDBACK_QUESTION_SHOWGIVERTO:
-		return globalGiverVisibilityString[qnNumber];
-	case FEEDBACK_QUESTION_SHOWRECIPIENTTO:
-		return globalRecipientVisibilityString[qnNumber];
-	default:
-		return "";
-	}
+	return globalVisibilityOptionsString[qnNumber];	
 }
 
 /**
@@ -753,19 +726,18 @@ function getVisibilityMessage(buttonElem){
     	// trigger onsubmit event of the qnNumber which has already binded with 
     	eval($(form).attr('onsubmit'));
     	
+    	// empty current visibility message in the form
     	$(form).find('.visibilityMessage').html("");
+    	
     	var url = "/page/instructorFeedbackQuestionvisibilityMessage";
-	    
     	$.ajax({
 	            type: "POST",
 	            url: url,
 	            data: $(form[0]).serialize(),
-	            success: function(data)
-	            {
+	            success: function(data){
 	                $(form).find('.visibilityMessage').html(formatVisibilityMessageHtml(data.visibilityMessage));
 	            },
-	            error: function(jqXHR, textStatus, errorThrown) 
-	            {
+	            error: function(jqXHR, textStatus, errorThrown){
 	                console.log('AJAX request failed');
 	            }
 	        });
