@@ -1,5 +1,6 @@
 package teammates.common.datatransfer;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -192,7 +193,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             tableBodyHtml.append(optionFragment2 + Const.EOL);
         }
         
-        // Create edit form
+        // Create submission form
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM,
                 "${qnIndex}", questionNumberString,
@@ -258,7 +259,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             tableBodyHtml.append(optionFragment2 + Const.EOL);
         }
         
-        // Create edit form
+        // Create submission form
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM,
                 "${qnIndex}", questionNumberString,
@@ -410,9 +411,114 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             FeedbackSessionResultsBundle bundle,
             String view) {
         
-        return "";
+        float[][] rubricStats = calculateRubricStats(responses, question);
+        
+        
+        // Create table row header fragments
+        StringBuilder tableHeaderFragmentHtml = new StringBuilder();
+        String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_HEADER_FRAGMENT;
+        for(int i = 0 ; i < numOfRubricChoices ; i++) {
+            String optionFragment = 
+                    FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
+                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)));
+            tableHeaderFragmentHtml.append(optionFragment + Const.EOL);
+        }
+        
+        // Create table body
+        StringBuilder tableBodyHtml = new StringBuilder();
+        
+        String tableBodyFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_BODY_FRAGMENT;
+        String tableBodyTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_BODY;
+        DecimalFormat df = new DecimalFormat("#"); 
+        
+        for(int j = 0 ; j < numOfRubricSubQuestions ; j++) {
+            StringBuilder tableBodyFragmentHtml = new StringBuilder();
+            for(int i = 0 ; i < numOfRubricChoices ; i++) {
+                String optionFragment = 
+                        FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate,
+                                "${percentageFrequency}", df.format(rubricStats[j][i]*100) + "%");
+                tableBodyFragmentHtml.append(optionFragment + Const.EOL);
+            }
+            
+            // Get entire row
+            String optionFragment2 = 
+                    FeedbackQuestionFormTemplates.populateTemplate(tableBodyTemplate,
+                            "${subQuestion}", StringHelper.integerToBase26String(j+1) + ") "+ Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
+                            "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString());
+            tableBodyHtml.append(optionFragment2 + Const.EOL);
+        }
+        
+        // Create edit form
+        String html = FeedbackQuestionFormTemplates.populateTemplate(
+                FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS,
+                "${tableHeaderRowFragmentHtml}", tableHeaderFragmentHtml.toString(),
+                "${tableBodyHtml}", tableBodyHtml.toString());
+        
+        return html;
     }
     
+    /**
+     * Calculates the statistics for rubric question
+     * 
+     * Returns a 2D float array to indicate the percentage frequency
+     * a choice is selected for each sub-question.
+     * 
+     * e.g.
+     * pecentageFrequency[subQuestionIndex][choiceIndex]
+     *  -> is the percentage choiceIndex is chosen for subQuestionIndex, for the given question/responses.
+     * 
+     * @return
+     */
+    private float[][] calculateRubricStats(List<FeedbackResponseAttributes> responses,
+            FeedbackQuestionAttributes question) {
+        FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) question.getQuestionDetails();
+        
+        // Initialize response frequency variable, used to store frequency each choice is selected.
+        int[][] responseFrequency = new int[fqd.numOfRubricSubQuestions][];
+        for (int i=0 ; i<responseFrequency.length ; i++) {
+            responseFrequency[i] = new int[fqd.numOfRubricChoices];
+            for (int j=0 ; j<responseFrequency[i].length ; j++) {
+                responseFrequency[i][j] = 0;
+            }
+        }
+        
+        // Count frequencies
+        for (FeedbackResponseAttributes response : responses) {
+            FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) response.getResponseDetails();
+            for (int i=0 ; i<fqd.numOfRubricSubQuestions ; i++) {
+                int chosenChoice = frd.getAnswer(i);
+                if (chosenChoice != -1) {
+                    responseFrequency[i][chosenChoice]+=1;
+                }
+            }
+        }
+        
+        // Initialize percentage frequencies
+        float[][] pecentageFrequency = new float[fqd.numOfRubricSubQuestions][];
+        for (int i=0 ; i<pecentageFrequency.length ; i++) {
+            pecentageFrequency[i] = new float[fqd.numOfRubricChoices];
+            for (int j=0 ; j<pecentageFrequency[i].length ; j++) {
+                // Initialize to be number of responses
+                pecentageFrequency[i][j] = responseFrequency[i][j];
+            }
+        }
+        
+        // Calculate percentage frequencies
+        for (int i=0 ; i<pecentageFrequency.length ; i++) {
+            // Count total number of responses for each sub-question
+            int totalForSubQuestion = 0;
+            for (int j=0 ; j<pecentageFrequency[i].length ; j++) {
+                totalForSubQuestion += responseFrequency[i][j];
+            }
+            
+            // Divide by totalForSubQuestion to get percentage.
+            for (int j=0 ; j<pecentageFrequency[i].length ; j++) {
+                pecentageFrequency[i][j] /= totalForSubQuestion;
+            }
+        }
+        
+        return pecentageFrequency;
+    }
 
     @Override
     public String getQuestionResultStatisticsCsv(

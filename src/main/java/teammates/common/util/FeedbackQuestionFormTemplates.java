@@ -53,7 +53,12 @@ public class FeedbackQuestionFormTemplates {
     public static String RUBRIC_EDIT_FORM_HEADER_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricEditFormHeaderFragment.html");
     public static String RUBRIC_EDIT_FORM_BODY_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricEditFormBodyFragment.html");
     public static String RUBRIC_EDIT_FORM_BODY = FileHelper.readResourseFile("feedbackQuestionRubricEditFormBody.html");
+    public static String RUBRIC_RESULT_STATS = FileHelper.readResourseFile("feedbackQuestionRubricResultStatsTemplate.html");
+    public static String RUBRIC_RESULT_STATS_HEADER_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricResultStatsHeaderFragment.html");
+    public static String RUBRIC_RESULT_STATS_BODY_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricResultStatsBodyFragment.html");
+    public static String RUBRIC_RESULT_STATS_BODY = FileHelper.readResourseFile("feedbackQuestionRubricResultStatsBody.html");
     public static String RUBRIC_ADDITIONAL_INFO = FileHelper.readResourseFile("feedbackQuestionRubricAdditionalInfoTemplate.html");
+    
     
     
     /** Populates the feedback question form html templates by replacing 
