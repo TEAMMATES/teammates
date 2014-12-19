@@ -410,7 +410,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             AccountAttributes currentUser,
             FeedbackSessionResultsBundle bundle,
             String view) {
-        
+
+        FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) question.getQuestionDetails();
+        int[][] responseFrequency = calculateResponseFrequency(responses, fqd);
         float[][] rubricStats = calculateRubricStats(responses, question);
         
         
@@ -436,7 +438,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             for(int i = 0 ; i < numOfRubricChoices ; i++) {
                 String optionFragment = 
                         FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate,
-                                "${percentageFrequency}", df.format(rubricStats[j][i]*100) + "%");
+                                "${percentageFrequency}", df.format(rubricStats[j][i]*100) + "% (" + responseFrequency[j][i] +")");
                 tableBodyFragmentHtml.append(optionFragment + Const.EOL);
             }
             
@@ -451,6 +453,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // Create edit form
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS,
+                "${statsTitle}", (view=="student")?"Response Summary (of visible responses)":"Response Summary",
                 "${tableHeaderRowFragmentHtml}", tableHeaderFragmentHtml.toString(),
                 "${tableBodyHtml}", tableBodyHtml.toString());
         
@@ -474,24 +477,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) question.getQuestionDetails();
         
         // Initialize response frequency variable, used to store frequency each choice is selected.
-        int[][] responseFrequency = new int[fqd.numOfRubricSubQuestions][];
-        for (int i=0 ; i<responseFrequency.length ; i++) {
-            responseFrequency[i] = new int[fqd.numOfRubricChoices];
-            for (int j=0 ; j<responseFrequency[i].length ; j++) {
-                responseFrequency[i][j] = 0;
-            }
-        }
-        
-        // Count frequencies
-        for (FeedbackResponseAttributes response : responses) {
-            FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) response.getResponseDetails();
-            for (int i=0 ; i<fqd.numOfRubricSubQuestions ; i++) {
-                int chosenChoice = frd.getAnswer(i);
-                if (chosenChoice != -1) {
-                    responseFrequency[i][chosenChoice]+=1;
-                }
-            }
-        }
+        int[][] responseFrequency = calculateResponseFrequency(responses, fqd);
         
         // Initialize percentage frequencies
         float[][] pecentageFrequency = new float[fqd.numOfRubricSubQuestions][];
@@ -518,6 +504,30 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         }
         
         return pecentageFrequency;
+    }
+
+    private int[][] calculateResponseFrequency(
+            List<FeedbackResponseAttributes> responses,
+            FeedbackRubricQuestionDetails fqd) {
+        int[][] responseFrequency = new int[fqd.numOfRubricSubQuestions][];
+        for (int i=0 ; i<responseFrequency.length ; i++) {
+            responseFrequency[i] = new int[fqd.numOfRubricChoices];
+            for (int j=0 ; j<responseFrequency[i].length ; j++) {
+                responseFrequency[i][j] = 0;
+            }
+        }
+        
+        // Count frequencies
+        for (FeedbackResponseAttributes response : responses) {
+            FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) response.getResponseDetails();
+            for (int i=0 ; i<fqd.numOfRubricSubQuestions ; i++) {
+                int chosenChoice = frd.getAnswer(i);
+                if (chosenChoice != -1) {
+                    responseFrequency[i][chosenChoice]+=1;
+                }
+            }
+        }
+        return responseFrequency;
     }
 
     @Override
