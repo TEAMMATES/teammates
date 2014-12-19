@@ -14,7 +14,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
+import teammates.common.datatransfer.FeedbackResponseDetails;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackTextResponseDetails;
@@ -720,7 +720,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         modifiedResponse = frDb.getFeedbackResponse(modifiedResponse.feedbackQuestionId, 
                 modifiedResponse.giverEmail, modifiedResponse.recipientEmail);
-        FeedbackAbstractResponseDetails frd = modifiedResponse.getResponseDetails();
+        FeedbackResponseDetails frd = modifiedResponse.getResponseDetails();
         String answer[] = {"New answer text!"};
         frd = frd.createResponseDetails(
                     answer, FeedbackQuestionType.TEXT,
@@ -746,7 +746,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         fra.recipientSection = "None";
         fra.feedbackQuestionId = "testFeedbackQuestionId";
         
-        FeedbackAbstractResponseDetails responseDetails = new FeedbackTextResponseDetails("Text response");
+        FeedbackResponseDetails responseDetails = new FeedbackTextResponseDetails("Text response");
         fra.setResponseDetails(responseDetails);
         
         return fra;

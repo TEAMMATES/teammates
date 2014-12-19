@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
@@ -350,9 +350,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(questions1.size(), questions2.size());
         for(int i = 0; i < questions1.size(); i++){
             FeedbackQuestionAttributes question1 = questions1.get(i);
-            FeedbackAbstractQuestionDetails questionDetails1 = question1.getQuestionDetails();
+            FeedbackQuestionDetails questionDetails1 = question1.getQuestionDetails();
             FeedbackQuestionAttributes question2 = questions2.get(i);
-            FeedbackAbstractQuestionDetails questionDetails2 = question2.getQuestionDetails();
+            FeedbackQuestionDetails questionDetails2 = question2.getQuestionDetails();
             
             assertEquals(questionDetails1.questionText, questionDetails2.questionText);
             assertEquals(question1.giverType, question2.giverType);
@@ -1476,18 +1476,21 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[4], "Question 1,\"How much has each team member including yourself, contributed to the project?\"");
         assertEquals(exportLines[5], "");
         assertEquals(exportLines[6], "Summary Statistics,");
-        assertEquals(exportLines[7], "Team, Name, Email, CC, PC, Ratings Recieved");
-        assertEquals(exportLines[8], "\"Team 1.1\",\"student1 In Course1\",\"student1InCourse1@gmail.tmt\",\"95\",\"N/A\",\"N/A, N/A, N/A\"");
-        assertEquals(exportLines[9], "\"Team 1.1\",\"student2 In Course1\",\"student2InCourse1@gmail.tmt\",\"Not Submitted\",\"75\",\"75, N/A, N/A\"");
-        assertEquals(exportLines[10], "\"Team 1.1\",\"student3 In Course1\",\"student3InCourse1@gmail.tmt\",\"Not Submitted\",\"103\",\"103, N/A, N/A\"");
-        assertEquals(exportLines[11], "\"Team 1.1\",\"student4 In Course1\",\"student4InCourse1@gmail.tmt\",\"Not Submitted\",\"122\",\"122, N/A, N/A\"");
-        assertEquals(exportLines[12], "");
-        assertEquals(exportLines[13], "");
-        assertEquals(exportLines[14], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
-        assertEquals(exportLines[15], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Equal share - 5%\"");
-        assertEquals(exportLines[16], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Equal share - 25%\"");
-        assertEquals(exportLines[17], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Equal share + 3%\"");
-        assertEquals(exportLines[18], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Equal share + 22%\"");
+        assertEquals(exportLines[7], "In the points given below, an equal share is equal to 100 points. e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\".");
+        assertEquals(exportLines[8], "Claimed Contribution (CC) = the contribution claimed by the student.");
+        assertEquals(exportLines[9], "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.");
+        assertEquals(exportLines[10], "Team, Name, Email, CC, PC, Ratings Recieved");
+        assertEquals(exportLines[11], "\"Team 1.1\",\"student1 In Course1\",\"student1InCourse1@gmail.tmt\",\"95\",\"N/A\",\"N/A, N/A, N/A\"");
+        assertEquals(exportLines[12], "\"Team 1.1\",\"student2 In Course1\",\"student2InCourse1@gmail.tmt\",\"Not Submitted\",\"75\",\"75, N/A, N/A\"");
+        assertEquals(exportLines[13], "\"Team 1.1\",\"student3 In Course1\",\"student3InCourse1@gmail.tmt\",\"Not Submitted\",\"103\",\"103, N/A, N/A\"");
+        assertEquals(exportLines[14], "\"Team 1.1\",\"student4 In Course1\",\"student4InCourse1@gmail.tmt\",\"Not Submitted\",\"122\",\"122, N/A, N/A\"");
+        assertEquals(exportLines[15], "");
+        assertEquals(exportLines[16], "");
+        assertEquals(exportLines[17], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
+        assertEquals(exportLines[18], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Equal share - 5%\"");
+        assertEquals(exportLines[19], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Equal share - 25%\"");
+        assertEquals(exportLines[20], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Equal share + 3%\"");
+        assertEquals(exportLines[21], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Equal share + 22%\"");
 
         
         ______TS("Non-existent Course/Session");

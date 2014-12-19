@@ -7,14 +7,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.Utils;
 import teammates.logic.core.TeamEvalResult;
 import teammates.ui.controller.InstructorEvalResultsPageData;
 import teammates.ui.controller.PageData;
 
-public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestionDetails {
+public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
     
     public FeedbackContributionQuestionDetails() {
         super(FeedbackQuestionType.CONTRIB);
@@ -22,7 +24,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
 
     public FeedbackContributionQuestionDetails(String questionText) {
         super(FeedbackQuestionType.CONTRIB, questionText);
-        
+    }
+       
+    @Override
+    public boolean extractQuestionDetails(
+            Map<String, String[]> requestParameters,
+            FeedbackQuestionType questionType) {
+        // Nothing to do here.
+        return true;
     }
 
     @Override
@@ -31,13 +40,18 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
     }
     
     @Override
-    public boolean isChangesRequiresResponseDeletion(FeedbackAbstractQuestionDetails newDetails) {
+    public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
+        return false;
+    }
+    
+    @Override
+    public boolean isIndividualResponsesShownToStudents() {
         return false;
     }
 
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(boolean sessionIsOpen, int qnIdx,
-            int responseIdx, String courseId, FeedbackAbstractResponseDetails existingResponseDetails) {
+            int responseIdx, String courseId, FeedbackResponseDetails existingResponseDetails) {
 
         FeedbackContributionResponseDetails frd = (FeedbackContributionResponseDetails) existingResponseDetails;
         int points = frd.getAnswer();
@@ -73,6 +87,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
 
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
+        return "";
+    }
+
+    @Override
+    public String getNewQuestionSpecificEditFormHtml() {
         return "";
     }
 
@@ -376,6 +395,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
         String csv = "";
         
         //Header
+        csv += "In the points given below, an equal share is equal to 100 points. ";
+        csv += "e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\"." + Const.EOL;
+        csv += "Claimed Contribution (CC) = the contribution claimed by the student." + Const.EOL;
+        csv += "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members." + Const.EOL;
         csv += "Team, Name, Email, CC, PC, Ratings Recieved" + Const.EOL;
         //Data
         csv += contribFragments + Const.EOL;
@@ -600,6 +623,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
     }
 
     @Override
+    public String getQuestionTypeChoiceOption() {
+        return "<option value = \"CONTRIB\">"+Const.FeedbackQuestionTypeNames.CONTRIB+"</option>";
+    }
+
+    @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<String>();
         return errors;
@@ -630,6 +658,41 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
             }
         }
         return errors;
+    }
+    
+    final static public String ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH = 
+            Const.FeedbackQuestionTypeNames.CONTRIB + " must have "
+            + FeedbackParticipantType.STUDENTS.toDisplayGiverName()
+            + " and " + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF.toDisplayRecipientName()
+            + " as the feedback giver and recipient respectively."
+            + " These values will be used instead.";
+    
+    @Override
+    public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        String errorMsg = "";
+        
+        // giver type can only be STUDENTS
+        if(feedbackQuestionAttributes.giverType != FeedbackParticipantType.STUDENTS) {
+            Utils.getLogger().severe("Unexpected giverType for contribution question: " + feedbackQuestionAttributes.giverType + " (forced to :" + FeedbackParticipantType.STUDENTS + ")");
+            feedbackQuestionAttributes.giverType = FeedbackParticipantType.STUDENTS;
+            errorMsg = ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH;
+        }
+        
+        // recipient type can only be OWN_TEAM_MEMBERS_INCLUDING_SELF
+        if(feedbackQuestionAttributes.recipientType != FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
+            Utils.getLogger().severe("Unexpected recipientType for contribution question: " + feedbackQuestionAttributes.recipientType + " (forced to :" + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF + ")");
+            feedbackQuestionAttributes.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
+            errorMsg = ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH;
+        }
+        
+        // restrictions on visibility options
+        Assumption.assertTrue("Contrib Qn Invalid visibility options",
+                (feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
+                == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) &&
+                (feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))));
+        
+        return errorMsg;
     }
     
     /*
@@ -693,7 +756,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackAbstractQuestio
      */
     public static String convertToEqualShareFormatHtml(int i) {
         if(i==Const.POINTS_NOT_SUBMITTED || i==Const.INT_UNINITIALIZED)
-            return "<span class=\"color-negative\">N/A</span>";
+            return "<span class=\"color_neutral\">N/A</span>";
         else if(i==Const.POINTS_NOT_SURE)
             return "<span class=\"color-negative\">Not Sure</span>";
         else if(i==0)

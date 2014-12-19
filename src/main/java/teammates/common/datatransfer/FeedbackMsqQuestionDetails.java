@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -12,13 +13,14 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
+import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 
-public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails {
+public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     public int numOfMsqChoices;
     public List<String> msqChoices;
     public boolean otherEnabled;
@@ -33,11 +35,38 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
         this.generateOptionsFor = FeedbackParticipantType.NONE;
     }
 
-    public FeedbackMsqQuestionDetails(String questionText,
-            int numOfMsqChoices,
+    @Override
+    public boolean extractQuestionDetails(
+            Map<String, String[]> requestParameters,
+            FeedbackQuestionType questionType) {
+        int numOfMsqChoices = 0;
+        List<String> msqChoices = new LinkedList<String>();
+        boolean msqOtherEnabled = false; // TODO change this when implementing "other, please specify" field
+            
+        String generatedMsqOptions = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS);
+        if (generatedMsqOptions.equals(FeedbackParticipantType.NONE.toString())) {
+            String numMsqChoicesCreatedString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED);
+            Assumption.assertNotNull("Null number of choice for MSQ", numMsqChoicesCreatedString);
+            int numMsqChoicesCreated = Integer.parseInt(numMsqChoicesCreatedString);
+            
+            for(int i = 0; i < numMsqChoicesCreated; i++) {
+                String msqChoice = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE + "-" + i);
+                if(msqChoice != null && !msqChoice.trim().isEmpty()) {
+                    msqChoices.add(msqChoice);
+                    numOfMsqChoices++;
+                }
+            }
+        
+            this.setMsqQuestionDetails(numOfMsqChoices, msqChoices, msqOtherEnabled);
+        } else {
+            this.setMsqQuestionDetails(FeedbackParticipantType.valueOf(generatedMsqOptions));
+        }
+        return true;
+    }
+
+    private void setMsqQuestionDetails(int numOfMsqChoices,
             List<String> msqChoices,
             boolean otherEnabled) {
-        super(FeedbackQuestionType.MSQ, questionText);
         
         this.numOfMsqChoices = numOfMsqChoices;
         this.msqChoices = msqChoices;
@@ -45,9 +74,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
         this.generateOptionsFor = FeedbackParticipantType.NONE;
     }
     
-    public FeedbackMsqQuestionDetails(String questionText,
-            FeedbackParticipantType generateOptionsFor) {
-        super(FeedbackQuestionType.MSQ, questionText);
+    private void setMsqQuestionDetails(FeedbackParticipantType generateOptionsFor) {
         
         this.numOfMsqChoices = 0;
         this.msqChoices = new ArrayList<String>();
@@ -65,7 +92,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
     }
     
     @Override
-    public boolean isChangesRequiresResponseDeletion(FeedbackAbstractQuestionDetails newDetails) {
+    public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackMsqQuestionDetails newMsqDetails = (FeedbackMsqQuestionDetails) newDetails;
 
         if (this.numOfMsqChoices != newMsqDetails.numOfMsqChoices ||
@@ -85,7 +112,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
     @Override
     public String getQuestionWithExistingResponseSubmissionFormHtml(
             boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
-            FeedbackAbstractResponseDetails existingResponseDetails) {
+            FeedbackResponseDetails existingResponseDetails) {
         FeedbackMsqResponseDetails existingMsqResponse = (FeedbackMsqResponseDetails) existingResponseDetails;
         List<String> choices = generateOptionList(courseId);
         
@@ -99,7 +126,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
                             "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
                             "${checked}", existingMsqResponse.contains(choices.get(i)) ? "checked=\"checked\"" : "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            "${msqChoiceValue}", choices.get(i));
+                            "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment + Const.EOL);
         }
         
@@ -125,7 +152,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
                             "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
                             "${checked}", "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            "${msqChoiceValue}", choices.get(i));
+                            "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment + Const.EOL);
         }
         
@@ -194,7 +221,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
             String optionFragment = 
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                             "${i}", Integer.toString(i),
-                            "${msqChoiceValue}", msqChoices.get(i),
+                            "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(msqChoices.get(i)),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE);
 
             optionListHtml.append(optionFragment + Const.EOL);
@@ -219,6 +246,18 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
     }
     
     @Override
+    public String getNewQuestionSpecificEditFormHtml() {
+        // Add two empty options by default
+        this.numOfMsqChoices = 2;
+        this.msqChoices.add("");
+        this.msqChoices.add("");
+        
+        return "<div id=\"msqForm\">" + 
+                    this.getQuestionSpecificEditFormHtml(-1) +
+               "</div>";
+    }
+
+    @Override
     public String getQuestionAdditionalInfoHtml(int questionNumber, String additionalInfoId) {
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_ADDITIONAL_INFO_FRAGMENT;
@@ -236,7 +275,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
             for(int i = 0; i < numOfMsqChoices; i++) {
                 String optionFragment = 
                         FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
-                                "${msqChoiceValue}", msqChoices.get(i));
+                                "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(msqChoices.get(i)));
                 
                 optionListHtml.append(optionFragment);
             }
@@ -363,6 +402,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackAbstractQuestionDetails 
         return "Feedbacks:," + StringHelper.toString(sanitizedChoices, ",");
     }
     
+    @Override
+    public String getQuestionTypeChoiceOption() {
+        return "<option value = \"MSQ\">"+Const.FeedbackQuestionTypeNames.MSQ+"</option>";
+    }
+
     final int MIN_NUM_OF_MSQ_CHOICES = 2;
     final String ERROR_NOT_ENOUGH_MSQ_CHOICES = "Too little choices for "+Const.FeedbackQuestionTypeNames.MSQ+". Minimum number of options is: ";
     
