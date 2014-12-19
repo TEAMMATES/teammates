@@ -732,7 +732,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         if (giverEmail.equals(recipientEmail) && hasPerceivedContribution(recipientEmail, question, bundle)) {
             return getPerceivedContributionHtml(question, recipientEmail, bundle);
         } else {
-            return super.getNoResponseTextInHtml(giverEmail, recipientEmail, bundle, question);
+            return convertToEqualShareFormatHtml(Const.POINTS_NOT_SUBMITTED);
         }
     }
     

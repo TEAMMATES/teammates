@@ -155,7 +155,7 @@ public abstract class FeedbackQuestionDetails {
     public String getNoResponseText(String giverEmail, String recipientEmail,
             FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
-        return "No Response";
+        return Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE;
     }
     
     
