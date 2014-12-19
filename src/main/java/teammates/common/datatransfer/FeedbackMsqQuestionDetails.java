@@ -126,7 +126,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
                             "${checked}", existingMsqResponse.contains(choices.get(i)) ? "checked=\"checked\"" : "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            "${msqChoiceValue}", choices.get(i));
+                            "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment + Const.EOL);
         }
         
@@ -152,7 +152,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
                             "${checked}", "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            "${msqChoiceValue}", choices.get(i));
+                            "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment + Const.EOL);
         }
         
@@ -221,7 +221,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             String optionFragment = 
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                             "${i}", Integer.toString(i),
-                            "${msqChoiceValue}", msqChoices.get(i),
+                            "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(msqChoices.get(i)),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_MSQCHOICE);
 
             optionListHtml.append(optionFragment + Const.EOL);
@@ -275,7 +275,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             for(int i = 0; i < numOfMsqChoices; i++) {
                 String optionFragment = 
                         FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
-                                "${msqChoiceValue}", msqChoices.get(i));
+                                "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(msqChoices.get(i)));
                 
                 optionListHtml.append(optionFragment);
             }

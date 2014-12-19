@@ -36,6 +36,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.FileHelper;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
+import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.SubmissionsLogic;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.CoursesDb;
@@ -69,6 +70,8 @@ public class UploadBackupData extends RemoteApiClient {
     private static String jsonString;
     
     private static Set<String> coursesPersisted = new HashSet<String>();
+    private static HashMap<String, FeedbackQuestionAttributes> feedbackQuestionsPersisted = new HashMap<String, FeedbackQuestionAttributes>();
+    private static HashMap<String, String> feedbackQuestionIds = new HashMap<String, String>();
     
     private static Logic logic = new Logic();
     private static SubmissionsLogic submissionsLogic = new SubmissionsLogic();
@@ -81,6 +84,7 @@ public class UploadBackupData extends RemoteApiClient {
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private static final FeedbackResponseCommentsDb fcDb = new FeedbackResponseCommentsDb();
     private static final ProfilesDb profilesDb = new ProfilesDb();
+    private static final FeedbackQuestionsLogic feedbackQuestionsLogic = new FeedbackQuestionsLogic();
     
     public static void main(String args[]) throws Exception {
         UploadBackupData uploadBackupData = new UploadBackupData();
@@ -138,6 +142,9 @@ public class UploadBackupData extends RemoteApiClient {
                 
                 jsonString = FileHelper.readFile(folderName + "/" + backupFile);
                 data = gson.fromJson(jsonString, DataBundle.class);  
+                
+                feedbackQuestionsPersisted = new HashMap<String, FeedbackQuestionAttributes>();
+                feedbackQuestionIds = new HashMap<String, String>();
                 
                 if (!data.accounts.isEmpty()) {                  // Accounts
                     persistAccounts(data.accounts);
@@ -242,6 +249,11 @@ public class UploadBackupData extends RemoteApiClient {
 
         try {
             fqDb.createFeedbackQuestions(questions.values());
+            
+            for(FeedbackQuestionAttributes question: questions.values()) {
+                feedbackQuestionsPersisted.put(question.getId(), question);
+            }
+            
         } catch (InvalidParametersException e) {
             System.out.println("Error in uploading feedback questions: " + e.getMessage());
         }
@@ -251,6 +263,10 @@ public class UploadBackupData extends RemoteApiClient {
         HashMap<String, FeedbackResponseAttributes> responses = map;
         
         try {
+            for (FeedbackResponseAttributes response : responses.values()) {
+                response = adjustFeedbackResponseId(response);
+            }
+            
             frDb.createFeedbackResponses(responses.values());  
         } catch (InvalidParametersException e) {
             System.out.println("Error in uploading feedback responses: " + e.getMessage());
@@ -261,6 +277,10 @@ public class UploadBackupData extends RemoteApiClient {
         HashMap<String, FeedbackResponseCommentAttributes> responseComments = map;
 
         try {
+            for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
+                responseComment = adjustFeedbackResponseCommentId(responseComment);
+            }
+            
             fcDb.createFeedbackResponseComments(responseComments.values());
         } catch (InvalidParametersException e) {
             System.out.println("Error in uploading feedback response comments: " + e.getMessage());
@@ -296,5 +316,37 @@ public class UploadBackupData extends RemoteApiClient {
         } catch (InvalidParametersException e) {
             System.out.println("Error in uploading profiles: " + e.getMessage());
         }
+    }
+    
+    private static FeedbackResponseAttributes adjustFeedbackResponseId(FeedbackResponseAttributes response) {
+        FeedbackQuestionAttributes question = feedbackQuestionsPersisted.get(response.feedbackQuestionId);
+        
+        if(feedbackQuestionIds.containsKey(question.getId())) {
+            response.feedbackQuestionId = feedbackQuestionIds.get(question.getId());
+        } else {
+            String newId = feedbackQuestionsLogic.getFeedbackQuestion(
+                    response.feedbackSessionName, response.courseId,
+                    question.questionNumber).getId();
+            response.feedbackQuestionId = newId;
+            feedbackQuestionIds.put(question.getId(), newId);
+        }
+        
+        return response;
+    }
+    
+    private static FeedbackResponseCommentAttributes adjustFeedbackResponseCommentId(FeedbackResponseCommentAttributes response) {
+        FeedbackQuestionAttributes question = feedbackQuestionsPersisted.get(response.feedbackQuestionId);
+        
+        if(feedbackQuestionIds.containsKey(question.getId())) {
+            response.feedbackQuestionId = feedbackQuestionIds.get(question.getId());
+        } else {
+            String newId = feedbackQuestionsLogic.getFeedbackQuestion(
+                    response.feedbackSessionName, response.courseId,
+                    question.questionNumber).getId();
+            response.feedbackQuestionId = newId;
+            feedbackQuestionIds.put(question.getId(), newId);
+        }
+        
+        return response;
     }
 }
