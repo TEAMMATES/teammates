@@ -735,13 +735,11 @@ public class FeedbackSessionsLogic {
             exportBuilder.append(getRowsOfPossibleRecipientsInCsvFormat(results,
                     question, questionDetails, possibleRecipientsForGiver,
                     prevGiver));
-            remainingPossibleGivers.remove(prevGiver);
-            if (question.giverType == FeedbackParticipantType.TEAMS) {
-                remainingPossibleGivers.remove(results.getNameFromRoster(prevGiver)); 
-            } else {
-                remainingPossibleGivers.remove(prevGiver);
-            }
+            
         }
+        
+        removeParticipantIdentifierFromList(question.giverType, possibleRecipientsForGiver, prevGiver, results);
+            
         
         for (String possibleGiverWithNoResponses : remainingPossibleGivers) {
             possibleRecipientsForGiver = results.getPossibleRecipients(entry.getKey(), possibleGiverWithNoResponses);

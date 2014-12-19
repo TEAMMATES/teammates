@@ -238,6 +238,31 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return getNameFromRoster(participantIdentifier, false);
     }
     
+    public boolean isEmailOfPersonFromRoster(String participantIdentifier) {
+        StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
+        boolean isStudent = (student != null);
+        if (isStudent) {
+            return true;
+        }
+        
+        InstructorAttributes instructor = roster.getInstructorForEmail(participantIdentifier);
+        boolean isInstructor = (instructor != null);
+        if (isInstructor) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public String getDisplayableEmailFromRoster(String participantIdentifier) {
+        if (isEmailOfPersonFromRoster(participantIdentifier)) {
+            return participantIdentifier;
+        } else {
+            return Const.USER_NOBODY_TEXT;
+        }
+        
+    }
+    
     /**
      * Get the displayable team name from an email.
      * If the email is not an email of someone in the class roster, an empty string is returned.
