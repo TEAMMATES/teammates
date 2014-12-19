@@ -619,14 +619,19 @@ public class FeedbackSessionsLogic {
 
             for (FeedbackResponseAttributes response : entry.getValue()) {
              
+                // Giver
                 String giverLastName = results.getLastNameForEmail(response.giverEmail);
                 String giverFullName = results.getNameForEmail(response.giverEmail);
                 String giverTeamName =results.getTeamNameForEmail(response.giverEmail);
-                String giverEmail = results.getDisplayableEmail(response.giverEmail);
+                boolean isGiver = true;
+                String giverEmail = results.getDisplayableEmail(isGiver, response);
+                
+                // Recipient
                 String recipientLastName = results.getLastNameForEmail(response.recipientEmail);
                 String recipientFulltName = results.getNameForEmail(response.recipientEmail);
                 String recipientTeamName =results.getTeamNameForEmail(response.recipientEmail);
-                String recipientEmail = results.getDisplayableEmail(response.recipientEmail);
+                isGiver = false;
+                String recipientEmail = results.getDisplayableEmail(isGiver, response);
                 
                 exportBuilder.append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) 
                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) 
