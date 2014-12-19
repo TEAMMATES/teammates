@@ -176,7 +176,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                                 "${constSumOptionVisibility}", "",
                                 "${constSumOptionPoint}", Integer.toString(existingConstSumResponse.getAnswerList().get(i)),
                                 "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                                "${constSumOptionValue}", constSumOptions.get(i));
+                                "${constSumOptionValue}",  Sanitizer.sanitizeForHtml(constSumOptions.get(i)));
                 optionListHtml.append(optionFragment + Const.EOL);
             }
         }
@@ -233,7 +233,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                                 "${constSumOptionVisibility}", "",
                                 "${constSumOptionPoint}", "",
                                 "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                                "${constSumOptionValue}", constSumOptions.get(i));
+                                "${constSumOptionValue}",  Sanitizer.sanitizeForHtml(constSumOptions.get(i)));
                 optionListHtml.append(optionFragment + Const.EOL);
             }
         }
@@ -268,7 +268,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             String optionFragment = 
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                             "${i}", Integer.toString(i),
-                            "${constSumOptionValue}", constSumOptions.get(i),
+                            "${constSumOptionValue}",  Sanitizer.sanitizeForHtml(constSumOptions.get(i)),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION}", Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMOPTION);
 
             optionListHtml.append(optionFragment + Const.EOL);
@@ -447,14 +447,14 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             if (distributeToRecipients) {
                 String teamName = bundle.getTeamNameForEmail(entry.getKey());
                 fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
-                        "${constSumOptionValue}", option,
+                        "${constSumOptionValue}",  Sanitizer.sanitizeForHtml(option),
                         "${team}", teamName,
                         "${pointsReceived}", pointsReceived,
                         "${averagePoints}", df.format(average));
             
             } else {
                 fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
-                                    "${constSumOptionValue}", option,
+                                    "${constSumOptionValue}",  Sanitizer.sanitizeForHtml(option),
                                     "${pointsReceived}", pointsReceived,
                                     "${averagePoints}", df.format(average));
             }
