@@ -380,7 +380,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             subQuestionListHtml.append("<p>");
             for(int i = 0; i < numOfRubricSubQuestions; i++) {
                 String subQuestionFragment = 
-                        StringHelper.integerToBase26String(i+1) + ") "+ rubricSubQuestions.get(i);
+                        StringHelper.integerToBase26String(i+1) + ") "+ Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i));
                 subQuestionListHtml.append(subQuestionFragment);
                 subQuestionListHtml.append("<br>");
             }
