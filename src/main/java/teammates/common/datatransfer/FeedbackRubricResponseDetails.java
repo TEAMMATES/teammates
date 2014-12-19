@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
 
 public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     /**
@@ -69,7 +70,21 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
 
     @Override
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
-        return Sanitizer.sanitizeForHtml(getAnswerString());
+        FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) questionDetails;
+        String html = "";
+        for (int i=0 ; i<answer.size() ; i++) {
+            String subQuestion = Sanitizer.sanitizeForHtml(fqd.rubricSubQuestions.get(i));
+            int chosenIndex = answer.get(i);
+            String chosenChoice = "";
+            if (chosenIndex == -1) {
+                chosenChoice = "<i>No Response</i>";
+            } else {
+                chosenChoice = Sanitizer.sanitizeForHtml(fqd.rubricChoices.get(answer.get(i)));
+            }
+            html += StringHelper.integerToBase26String(i+1) + ") " + subQuestion + " : " + chosenChoice + "<br>";
+        }
+        
+        return html;
     }
 
     @Override
