@@ -140,7 +140,7 @@
                                       	 
                                       
                                 %>
-                                            <tr>
+                                            
                                 <%
                                                 String giverName = data.bundle.getGiverNameForResponse(question, responseEntry);
                                                 String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
@@ -186,6 +186,7 @@
                                                                                                            isNewGiver = false;
                                                                                                          }
                                                          %>
+                                            <tr>
                                                 <td class="middlealign"><%=giverName%></td>
                                                 <td class="middlealign"><%=giverTeamName%></td>
                                                 <td class="middlealign"><%=recipientName%></td>

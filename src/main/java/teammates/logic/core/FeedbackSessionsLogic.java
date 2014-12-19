@@ -598,103 +598,136 @@ public class FeedbackSessionsLogic {
 
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : results
                 .getQuestionResponseMap().entrySet()) {
-            FeedbackQuestionAttributes question = entry.getKey();
-            FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-
-            exportBuilder.append("Question " + Integer.toString(entry.getKey().questionNumber) + "," 
-                    + Sanitizer.sanitizeForCsv(questionDetails.questionText)
-                    + Const.EOL + Const.EOL);
-            
-            String statistics = questionDetails.getQuestionResultStatisticsCsv(entry.getValue(),
-                                        question, results);
-            if(statistics != ""){
-                exportBuilder.append("Summary Statistics," + Const.EOL);
-                exportBuilder.append(statistics + Const.EOL);
-            }
-            
-            exportBuilder.append("Team" + "," + "Giver's Full Name" + "," + "Giver's Last Name" + "," + "Recipient's Team" + ","
-                    + "Recipient's Full Name" + "," + "Recipient's Last Name" + "," + questionDetails.getCsvHeader() + Const.EOL);
-
-            List<String> allPossibleGivers = results.getPossibleGivers(entry.getKey());
-            List<String> possibleRecipientsForGiver = null;
-            String prevGiver = null;
-            
-            for (FeedbackResponseAttributes response : entry.getValue()) {
-             
-                if (response.giverEmail.contains("@@") || response.recipientEmail.contains("@@")) {
-                    allPossibleGivers.clear();
-                    if (possibleRecipientsForGiver != null) {
-                        possibleRecipientsForGiver.clear();
-                    }
-                }
-                
-                String giverLastName = results.getLastNameForEmail(response.giverEmail);
-                String giverFullName = results.getNameForEmail(response.giverEmail);
-                String recipientLastName = results.getLastNameForEmail(response.recipientEmail);
-                String recipientFullName = results.getNameForEmail(response.recipientEmail);
-                
-                
-                if (question.giverType == FeedbackParticipantType.TEAMS) {
-                    allPossibleGivers.remove(results.getNameFromRoster(response.giverEmail)); 
-                } else {
-                    allPossibleGivers.remove(response.giverEmail);
-                }
-                
-                boolean isNewGiver = (prevGiver == null) || !prevGiver.equals(response.giverEmail);
-                if (isNewGiver) {
-                    if (possibleRecipientsForGiver != null) {
-                        exportBuilder.append(getRowsOfPossibleRecipientsInCsvFormat(results,
-                                question, questionDetails,
-                                possibleRecipientsForGiver, prevGiver));
-                    }
-                    
-                    String giverEmail = (question.giverType == FeedbackParticipantType.TEAMS)? 
-                                        results.getNameFromRoster(response.giverEmail):
-                                        response.giverEmail;
-                    
-                    possibleRecipientsForGiver = results.getPossibleRecipients(entry.getKey(), giverEmail);
-                }
-                
-                exportBuilder.append(Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.giverEmail)) 
-                                     + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) 
-                                     + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
-                                     + "," + Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.recipientEmail))
-                                     + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName))
-                                     + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
-                                     + "," + results.getResponseAnswerCsv(response, question) + Const.EOL);
-                
-                if (question.recipientType == FeedbackParticipantType.TEAMS) {
-                    possibleRecipientsForGiver.remove(results.getNameFromRoster(response.recipientEmail)); 
-                } else {
-                    possibleRecipientsForGiver.remove(response.recipientEmail);
-                }
-                prevGiver = response.giverEmail;
-            }
-            
-            if (possibleRecipientsForGiver != null) {
-                exportBuilder.append(getRowsOfPossibleRecipientsInCsvFormat(results,
-                        question, questionDetails, possibleRecipientsForGiver,
-                        prevGiver));
-                allPossibleGivers.remove(prevGiver);
-                if (question.giverType == FeedbackParticipantType.TEAMS) {
-                    allPossibleGivers.remove(results.getNameFromRoster(prevGiver)); 
-                } else {
-                    allPossibleGivers.remove(prevGiver);
-                }
-            }
-            
-            for (String possibleGiverWithNoResponses : allPossibleGivers) {
-                possibleRecipientsForGiver = results.getPossibleRecipients(entry.getKey(), possibleGiverWithNoResponses);
-                
-                exportBuilder.append(getRowsOfPossibleRecipientsInCsvFormat(results,
-                        question, questionDetails, possibleRecipientsForGiver,
-                        possibleGiverWithNoResponses));
-            }
-            exportBuilder.append(Const.EOL + Const.EOL);
+            exportBuilder.append(getFeedbackSessionResultsForQuestionInCsvFormat(results, entry));
         }
         return exportBuilder.toString();
         
     }
+
+    private StringBuilder getFeedbackSessionResultsForQuestionInCsvFormat(
+            FeedbackSessionResultsBundle results,
+            Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry) {
+        FeedbackQuestionAttributes question = entry.getKey();
+        FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+        List<FeedbackResponseAttributes> allResponses = entry.getValue();
+        
+        StringBuilder exportBuilder = new StringBuilder();
+        
+        exportBuilder.append("Question " + Integer.toString(question.questionNumber) + "," 
+                + Sanitizer.sanitizeForCsv(questionDetails.questionText)
+                + Const.EOL + Const.EOL);
+        
+        String statistics = questionDetails.getQuestionResultStatisticsCsv(allResponses,
+                                    question, results);
+        if(statistics != ""){
+            exportBuilder.append("Summary Statistics," + Const.EOL);
+            exportBuilder.append(statistics + Const.EOL);
+        }
+        
+        exportBuilder.append("Team" + "," + "Giver's Full Name" + "," + "Giver's Last Name" + "," + "Recipient's Team" + ","
+                + "Recipient's Full Name" + "," + "Recipient's Last Name" + "," + questionDetails.getCsvHeader() + Const.EOL);
+
+        List<String> possibleGiversWithoutResponses = results.getPossibleGivers(question);
+        List<String> possibleRecipientsForGiver = new ArrayList<String>();
+        String prevGiver = "";
+        
+        for (FeedbackResponseAttributes response : allResponses) {
+
+            // do not show all possible givers and recipients if there are anonymous givers and recipients 
+            if (response.giverEmail.contains("@@") || response.recipientEmail.contains("@@")) {
+                possibleGiversWithoutResponses.clear();
+                possibleRecipientsForGiver.clear();
+            }
+            
+            String giverLastName = results.getLastNameForEmail(response.giverEmail);
+            String giverFullName = results.getNameForEmail(response.giverEmail);
+            String recipientLastName = results.getLastNameForEmail(response.recipientEmail);
+            String recipientFullName = results.getNameForEmail(response.recipientEmail);
+            
+            
+            // keep track of possible recipients with no responses
+            removeParticipantIdentifierFromList(question.giverType,
+                    possibleGiversWithoutResponses, response.giverEmail, results);
+            
+            boolean isNewGiver = !prevGiver.equals(response.giverEmail);
+            // print missing responses from the current giver
+            if (isNewGiver) {
+                exportBuilder.append(getRowsOfPossibleRecipientsInCsvFormat(results,
+                        question, questionDetails,
+                        possibleRecipientsForGiver, prevGiver));
+                
+                String giverEmail = (question.giverType == FeedbackParticipantType.TEAMS)? 
+                                    results.getNameFromRoster(response.giverEmail):
+                                    response.giverEmail;
+                
+                possibleRecipientsForGiver = results.getPossibleRecipients(entry.getKey(), giverEmail);
+            }
+            
+            removeParticipantIdentifierFromList(question.giverType, possibleRecipientsForGiver, response.giverEmail, results);
+            prevGiver = response.giverEmail;
+            
+            
+            exportBuilder.append(Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.giverEmail)) 
+                                 + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) 
+                                 + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
+                                 + "," + Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.recipientEmail))
+                                 + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName))
+                                 + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
+                                 + "," + results.getResponseAnswerCsv(response, question) + Const.EOL);
+            
+        }
+        
+        // add the rows for the possible givers and recipients who have missing responses
+        exportBuilder.append(getRemainingRowsInCsvFormat(results, entry, question, questionDetails,
+                possibleGiversWithoutResponses, possibleRecipientsForGiver, prevGiver));
+        exportBuilder.append(Const.EOL + Const.EOL);
+        
+        return exportBuilder;
+    }
+
+    private void removeParticipantIdentifierFromList(
+            FeedbackParticipantType participantIdentifierType,
+            List<String> participantIdentifierList, String participantIdentifier,
+            FeedbackSessionResultsBundle results) {
+        if (participantIdentifierType == FeedbackParticipantType.TEAMS) {
+            participantIdentifierList.remove(results.getNameFromRoster(participantIdentifier)); 
+        } else {
+            participantIdentifierList.remove(participantIdentifier);
+        }
+    }
+
+    private StringBuilder getRemainingRowsInCsvFormat(
+            FeedbackSessionResultsBundle results,
+            Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry,
+            FeedbackQuestionAttributes question,
+            FeedbackQuestionDetails questionDetails,
+            List<String> allPossibleGivers,
+            List<String> possibleRecipientsForGiver, String prevGiver) {
+        StringBuilder exportBuilder = new StringBuilder();
+        if (possibleRecipientsForGiver != null) {
+            exportBuilder.append(getRowsOfPossibleRecipientsInCsvFormat(results,
+                    question, questionDetails, possibleRecipientsForGiver,
+                    prevGiver));
+            allPossibleGivers.remove(prevGiver);
+            if (question.giverType == FeedbackParticipantType.TEAMS) {
+                allPossibleGivers.remove(results.getNameFromRoster(prevGiver)); 
+            } else {
+                allPossibleGivers.remove(prevGiver);
+            }
+        }
+        
+        for (String possibleGiverWithNoResponses : allPossibleGivers) {
+            possibleRecipientsForGiver = results.getPossibleRecipients(entry.getKey(), possibleGiverWithNoResponses);
+            
+            exportBuilder.append(getRowsOfPossibleRecipientsInCsvFormat(results,
+                    question, questionDetails, possibleRecipientsForGiver,
+                    possibleGiverWithNoResponses));
+        }
+        
+        return exportBuilder;
+    }
+
+
 
     private StringBuilder getRowsOfPossibleRecipientsInCsvFormat(
             FeedbackSessionResultsBundle results, 
