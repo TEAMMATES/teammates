@@ -685,38 +685,65 @@ public class FeedbackSessionsLogic {
         return exportBuilder;
     }
 
+    /**
+     * Given a participantIdentifier, remove it from participantIdentifierList. 
+     * 
+     * Before removal, FeedbackSessionResultsBundle.getNameFromRoster is used to 
+     * convert the identifier into a canonical form if the participantIdentifierType is TEAMS. 
+     *  
+     * @param participantIdentifierType
+     * @param participantIdentifierList
+     * @param participantIdentifier
+     * @param bundle
+     */
     private void removeParticipantIdentifierFromList(
             FeedbackParticipantType participantIdentifierType,
             List<String> participantIdentifierList, String participantIdentifier,
-            FeedbackSessionResultsBundle results) {
+            FeedbackSessionResultsBundle bundle) {
         if (participantIdentifierType == FeedbackParticipantType.TEAMS) {
-            participantIdentifierList.remove(results.getNameFromRoster(participantIdentifier)); 
+            participantIdentifierList.remove(bundle.getNameFromRoster(participantIdentifier)); 
         } else {
             participantIdentifierList.remove(participantIdentifier);
         }
     }
 
+    /**
+     * Generate rows of missing responses for the remaining possible givers and recipients.
+     * 
+     * If for the prevGiver, possibleRecipientsForGiver is not empty,
+     * the remaining missing responses for the prevGiver will be generated first.
+     * 
+     * @param results
+     * @param entry
+     * @param question
+     * @param questionDetails
+     * @param remainingPossibleGivers
+     * @param possibleRecipientsForGiver
+     * @param prevGiver
+     * @return the remaining rows of missing responses in csv format
+     */
     private StringBuilder getRemainingRowsInCsvFormat(
             FeedbackSessionResultsBundle results,
             Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry,
             FeedbackQuestionAttributes question,
             FeedbackQuestionDetails questionDetails,
-            List<String> allPossibleGivers,
+            List<String> remainingPossibleGivers,
             List<String> possibleRecipientsForGiver, String prevGiver) {
         StringBuilder exportBuilder = new StringBuilder();
+        
         if (possibleRecipientsForGiver != null) {
             exportBuilder.append(getRowsOfPossibleRecipientsInCsvFormat(results,
                     question, questionDetails, possibleRecipientsForGiver,
                     prevGiver));
-            allPossibleGivers.remove(prevGiver);
+            remainingPossibleGivers.remove(prevGiver);
             if (question.giverType == FeedbackParticipantType.TEAMS) {
-                allPossibleGivers.remove(results.getNameFromRoster(prevGiver)); 
+                remainingPossibleGivers.remove(results.getNameFromRoster(prevGiver)); 
             } else {
-                allPossibleGivers.remove(prevGiver);
+                remainingPossibleGivers.remove(prevGiver);
             }
         }
         
-        for (String possibleGiverWithNoResponses : allPossibleGivers) {
+        for (String possibleGiverWithNoResponses : remainingPossibleGivers) {
             possibleRecipientsForGiver = results.getPossibleRecipients(entry.getKey(), possibleGiverWithNoResponses);
             
             exportBuilder.append(getRowsOfPossibleRecipientsInCsvFormat(results,
@@ -728,7 +755,17 @@ public class FeedbackSessionsLogic {
     }
 
 
-
+    /**
+     * For a giver and a list of possibleRecipientsForGiver, generate rows 
+     * of missing responses.
+     * 
+     * @param results
+     * @param question
+     * @param questionDetails
+     * @param possibleRecipientsForGiver
+     * @param giver
+     * @return
+     */
     private StringBuilder getRowsOfPossibleRecipientsInCsvFormat(
             FeedbackSessionResultsBundle results, 
             FeedbackQuestionAttributes question,
