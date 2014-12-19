@@ -7,6 +7,7 @@ import java.util.Map;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 
 public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
@@ -155,7 +156,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${qnIndex}", questionNumberString,
                             "${respIndex}", responseNumberString,
                             "${col}", Integer.toString(i),
-                            "${rubricChoiceValue}", rubricChoices.get(i));
+                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)));
             tableHeaderFragmentHtml.append(optionFragment + Const.EOL);
         }
         
@@ -174,7 +175,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${respIndex}", responseNumberString,
                                 "${col}", Integer.toString(i),
                                 "${row}", Integer.toString(j),
-                                "${description}", this.getDescription(j, i),
+                                "${description}", Sanitizer.sanitizeForHtml(this.getDescription(j, i)),
                                 "${checked}", (frd.getAnswer(j) == i)? "checked":"", //Check if existing choice for sub-question == current choice
                                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE);
                 tableBodyFragmentHtml.append(optionFragment + Const.EOL);
@@ -186,7 +187,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${qnIndex}", questionNumberString,
                             "${respIndex}", responseNumberString,
                             "${row}", Integer.toString(j),
-                            "${subQuestion}", StringHelper.integerToBase26String(j+1) + ") "+ rubricSubQuestions.get(j),
+                            "${subQuestion}", StringHelper.integerToBase26String(j+1) + ") "+ Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
                             "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString());
             tableBodyHtml.append(optionFragment2 + Const.EOL);
         }
@@ -240,7 +241,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${respIndex}", responseNumberString,
                                 "${col}", Integer.toString(i),
                                 "${row}", Integer.toString(j),
-                                "${description}", this.getDescription(j, i),
+                                "${description}", Sanitizer.sanitizeForHtml(this.getDescription(j, i)),
                                 "${checked}", "",
                                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE);
                 tableBodyFragmentHtml.append(optionFragment + Const.EOL);
@@ -252,7 +253,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${qnIndex}", questionNumberString,
                             "${respIndex}", responseNumberString,
                             "${row}", Integer.toString(j),
-                            "${subQuestion}", StringHelper.integerToBase26String(j+1) + ") "+ rubricSubQuestions.get(j),
+                            "${subQuestion}", StringHelper.integerToBase26String(j+1) + ") "+ Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
                             "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString());
             tableBodyHtml.append(optionFragment2 + Const.EOL);
         }
@@ -284,7 +285,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
                             "${qnIndex}", questionNumberString,
                             "${col}", Integer.toString(i),
-                            "${rubricChoiceValue}", rubricChoices.get(i),
+                            "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE);
             tableHeaderFragmentHtml.append(optionFragment + Const.EOL);
         }
@@ -303,7 +304,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${qnIndex}", questionNumberString,
                                 "${col}", Integer.toString(i),
                                 "${row}", Integer.toString(j),
-                                "${description}", this.getDescription(j, i),
+                                "${description}", Sanitizer.sanitizeForHtml(this.getDescription(j, i)),
                                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION);
                 tableBodyFragmentHtml.append(optionFragment + Const.EOL);
             }
@@ -313,7 +314,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                     FeedbackQuestionFormTemplates.populateTemplate(tableBodyTemplate,
                             "${qnIndex}", questionNumberString,
                             "${row}", Integer.toString(j),
-                            "${subQuestion}", rubricSubQuestions.get(j),
+                            "${subQuestion}", Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
                             "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString(),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION);
             tableBodyHtml.append(optionFragment2 + Const.EOL);
