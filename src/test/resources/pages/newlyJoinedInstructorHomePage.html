@@ -37,6 +37,36 @@
         document.getElementById( 'statusMessage' ).scrollIntoView();
     </script>
 
+    <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <form action="/page/instructorFeedbackRemindParticularStudents" method="post" name="form_remind_list" role="form">
+                  <div class="modal-header">
+                     <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                        ×
+                     </button>
+                     <h4 class="modal-title">
+                        Remind Particular Students
+                        <small>
+                           (Select the student(s) you want to remind)
+                        </small>
+                     </h4>
+                  </div>
+                  <div class="modal-body">
+                     <div class="form-group" id="studentList">
+                     </div>
+                  </div>
+                  <div class="modal-footer">
+                     <button class="btn btn-default" data-dismiss="modal" type="button">
+                        Cancel
+                     </button>
+                     <input class="btn btn-primary" type="submit" value="Remind"/>
+                                          <input name="user" type="hidden" value="{$test.instructor}"/>
+                                       </div>
+               </form>
+            </div>
+         </div>
+      </div>
             
             <div class="row hidden">
                 <div class="col-md-5 pull-right">
@@ -128,7 +158,29 @@
                                             </span>
                                         </td>
                                         <td class="session-response-for-test recent">{*}</td>
-                                        <td class="no-print"><a data-original-title="View the submitted responses for this feedback session" class="btn btn-default btn-xs btn-tm-actions session-view-for-test" href="/page/instructorFeedbackResultsPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Second+team+feedback+session&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">View Results</a> <a data-original-title="Edit feedback session details" class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" href="/page/instructorFeedbackEditPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Second+team+feedback+session&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">Edit</a> <a data-original-title="Delete the feedback session" class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" href="/page/instructorFeedbackDelete?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Second+team+feedback+session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleDeleteFeedbackSessionConfirmation('AHPUiT.instr1.gma-demo','Second team feedback session');">Delete</a> <a data-original-title="Start submitting feedback" class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="/page/instructorFeedbackSubmissionEditPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Second+team+feedback+session&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">Submit</a> <a data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Second+team+feedback+session&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleRemindStudents('Second team feedback session');">Remind</a> <a data-original-title="Make responses no longer visible" class="btn btn-default btn-xs btn-tm-actions session-unpublish-for-test" href="/page/instructorFeedbackUnpublish?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Second+team+feedback+session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleUnpublishEvaluation('Second team feedback session');">Unpublish</a> </td>
+                                        <td class="no-print"><a data-original-title="View the submitted responses for this feedback session" class="btn btn-default btn-xs btn-tm-actions session-view-for-test" href="/page/instructorFeedbackResultsPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Second+team+feedback+session&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">View Results</a> <a data-original-title="Edit feedback session details" class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" href="/page/instructorFeedbackEditPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Second+team+feedback+session&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">Edit</a> <a data-original-title="Delete the feedback session" class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" href="/page/instructorFeedbackDelete?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Second+team+feedback+session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleDeleteFeedbackSessionConfirmation('AHPUiT.instr1.gma-demo','Second team feedback session');">Delete</a> <a data-original-title="Start submitting feedback" class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="/page/instructorFeedbackSubmissionEditPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Second+team+feedback+session&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">Submit</a> 
+                                        <div class="btn-group">
+                                            <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=Second+team+feedback+session&user={$test.instructor}" onclick="return toggleRemindStudents('Second team feedback session');" title="">
+                                               Remind
+                                            </a>
+                                            <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle" data-toggle="dropdown" type="button">
+                                               <span class="caret">
+                                               </span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                               <li>
+                                                  <a data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=Second+team+feedback+session&user={$test.instructor}" onclick="return toggleRemindStudents('Second team feedback session');" title="">
+                                                     Remind all students
+                                                  </a>
+                                               </li>
+                                               <li>
+                                                  <a data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=AHPUiT.instr1.gma-demo&fsname=Second+team+feedback+session&user={$test.instructor}" data-courseid="AHPUiT.instr1.gma-demo" data-fsname="Second team feedback session" data-target="#remindModal" data-toggle="modal" href="#">
+                                                     Remind particular students
+                                                 </a>
+                                              </li>
+                                           </ul>
+                                        </div>
+                                        <a data-original-title="Make responses no longer visible" class="btn btn-default btn-xs btn-tm-actions session-unpublish-for-test" href="/page/instructorFeedbackUnpublish?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Second+team+feedback+session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleUnpublishEvaluation('Second team feedback session');">Unpublish</a> </td>
                                     </tr><tr id="session1">
                                         <td>First team feedback session</td>
                                         <td>
@@ -139,7 +191,29 @@
                                         <td class="session-response-for-test">
                                             <a oncontextmenu="return false;" href="/page/feedbackSessionStatsPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=First+team+feedback+session&amp;user={$test.instructor}">Show</a>
                                         </td>
-                                        <td class="no-print"><a data-original-title="View the submitted responses for this feedback session" class="btn btn-default btn-xs btn-tm-actions session-view-for-test" href="/page/instructorFeedbackResultsPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=First+team+feedback+session&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">View Results</a> <a data-original-title="Edit feedback session details" class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" href="/page/instructorFeedbackEditPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=First+team+feedback+session&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">Edit</a> <a data-original-title="Delete the feedback session" class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" href="/page/instructorFeedbackDelete?courseid=AHPUiT.instr1.gma-demo&amp;fsname=First+team+feedback+session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleDeleteFeedbackSessionConfirmation('AHPUiT.instr1.gma-demo','First team feedback session');">Delete</a> <a data-original-title="Start submitting feedback" class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="/page/instructorFeedbackSubmissionEditPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=First+team+feedback+session&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">Submit</a> <a data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled" onclick="return false" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&amp;fsname=First+team+feedback+session&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">Remind</a> <a data-original-title="Make responses no longer visible" class="btn btn-default btn-xs btn-tm-actions session-unpublish-for-test" href="/page/instructorFeedbackUnpublish?courseid=AHPUiT.instr1.gma-demo&amp;fsname=First+team+feedback+session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleUnpublishEvaluation('First team feedback session');">Unpublish</a> </td>
+                                        <td class="no-print"><a data-original-title="View the submitted responses for this feedback session" class="btn btn-default btn-xs btn-tm-actions session-view-for-test" href="/page/instructorFeedbackResultsPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=First+team+feedback+session&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">View Results</a> <a data-original-title="Edit feedback session details" class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" href="/page/instructorFeedbackEditPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=First+team+feedback+session&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">Edit</a> <a data-original-title="Delete the feedback session" class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" href="/page/instructorFeedbackDelete?courseid=AHPUiT.instr1.gma-demo&amp;fsname=First+team+feedback+session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleDeleteFeedbackSessionConfirmation('AHPUiT.instr1.gma-demo','First team feedback session');">Delete</a> <a data-original-title="Start submitting feedback" class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="/page/instructorFeedbackSubmissionEditPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=First+team+feedback+session&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">Submit</a> 
+                                        <div class="btn-group">
+                                            <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled" data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&user={$test.instructor}" onclick="return false" title="">
+                                               Remind
+                                            </a>
+                                            <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle disabled" data-toggle="dropdown" onclick="return false" type="button">
+                                               <span class="caret">
+                                               </span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                               <li>
+                                                  <a data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&user={$test.instructor}" title="">
+                                                     Remind all students
+                                                  </a>
+                                               </li>
+                                               <li>
+                                                  <a data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&user={$test.instructor}" data-courseid="AHPUiT.instr1.gma-demo" data-fsname="First team feedback session" data-target="#remindModal" data-toggle="modal" href="#">
+                                                     Remind particular students
+                                                  </a>
+                                               </li>
+                                            </ul>
+                                         </div>
+                                        <a data-original-title="Make responses no longer visible" class="btn btn-default btn-xs btn-tm-actions session-unpublish-for-test" href="/page/instructorFeedbackUnpublish?courseid=AHPUiT.instr1.gma-demo&amp;fsname=First+team+feedback+session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleUnpublishEvaluation('First team feedback session');">Unpublish</a> </td>
                                     </tr><tr id="session2">
                                         <td>Session with different question types</td>
                                         <td>
@@ -150,7 +224,29 @@
                                         <td class="session-response-for-test">
                                             <a oncontextmenu="return false;" href="/page/feedbackSessionStatsPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Session+with+different+question+types&amp;user={$test.instructor}">Show</a>
                                         </td>
-                                        <td class="no-print"><a data-original-title="View the submitted responses for this feedback session" class="btn btn-default btn-xs btn-tm-actions session-view-for-test" href="/page/instructorFeedbackResultsPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Session+with+different+question+types&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">View Results</a> <a data-original-title="Edit feedback session details" class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" href="/page/instructorFeedbackEditPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Session+with+different+question+types&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">Edit</a> <a data-original-title="Delete the feedback session" class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" href="/page/instructorFeedbackDelete?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Session+with+different+question+types&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleDeleteFeedbackSessionConfirmation('AHPUiT.instr1.gma-demo','Session with different question types');">Delete</a> <a data-original-title="Start submitting feedback" class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="/page/instructorFeedbackSubmissionEditPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Session+with+different+question+types&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">Submit</a> <a data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled" onclick="return false" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Session+with+different+question+types&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">Remind</a> <a data-original-title="Make responses no longer visible" class="btn btn-default btn-xs btn-tm-actions session-unpublish-for-test" href="/page/instructorFeedbackUnpublish?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Session+with+different+question+types&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleUnpublishEvaluation('Session with different question types');">Unpublish</a> </td>
+                                        <td class="no-print"><a data-original-title="View the submitted responses for this feedback session" class="btn btn-default btn-xs btn-tm-actions session-view-for-test" href="/page/instructorFeedbackResultsPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Session+with+different+question+types&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">View Results</a> <a data-original-title="Edit feedback session details" class="btn btn-default btn-xs btn-tm-actions session-edit-for-test" href="/page/instructorFeedbackEditPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Session+with+different+question+types&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">Edit</a> <a data-original-title="Delete the feedback session" class="btn btn-default btn-xs btn-tm-actions session-delete-for-test" href="/page/instructorFeedbackDelete?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Session+with+different+question+types&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleDeleteFeedbackSessionConfirmation('AHPUiT.instr1.gma-demo','Session with different question types');">Delete</a> <a data-original-title="Start submitting feedback" class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" href="/page/instructorFeedbackSubmissionEditPage?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Session+with+different+question+types&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">Submit</a> 
+                                        <div class="btn-group">
+                                            <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled" data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&user={$test.instructor}" onclick="return false" title="">
+                                               Remind
+                                            </a>
+                                            <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle disabled" data-toggle="dropdown" onclick="return false" type="button">
+                                               <span class="caret">
+                                               </span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                               <li>
+                                                  <a data-original-title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&user={$test.instructor}" title="">
+                                                     Remind all students
+                                                  </a>
+                                               </li>
+                                               <li>
+                                                  <a data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&user={$test.instructor}" data-courseid="AHPUiT.instr1.gma-demo" data-fsname="Session with different question types" data-target="#remindModal" data-toggle="modal" href="#">
+                                                     Remind particular students
+                                                  </a>
+                                               </li>
+                                            </ul>
+                                         </div>
+                                        <a data-original-title="Make responses no longer visible" class="btn btn-default btn-xs btn-tm-actions session-unpublish-for-test" href="/page/instructorFeedbackUnpublish?courseid=AHPUiT.instr1.gma-demo&amp;fsname=Session+with+different+question+types&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleUnpublishEvaluation('Session with different question types');">Unpublish</a> </td>
                                     </tr></tbody></table>
                         
                     </div>
