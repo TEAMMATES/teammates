@@ -365,12 +365,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                     possibleGivers = new ArrayList<String>(getTeamMembersFromRoster(recipientTeam));
                 }
                 break;
-            case INSTRUCTORS:
-            case STUDENTS:
-            case SELF:
-            case NONE:
-            case OWN_TEAM_MEMBERS:
-            case OWN_TEAM_MEMBERS_INCLUDING_SELF:
             default:
                 break;
         }
@@ -537,6 +531,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 break;
             case INSTRUCTORS:
                 possibleRecipients = getSortedListOfInstructorEmails();
+                possibleRecipients.remove(instructorGiver.email);
                 break;
             case TEAMS:
                 possibleRecipients = getSortedListOfTeams();
@@ -558,8 +553,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         List<String> possibleRecipients = new ArrayList<String>();
         switch(recipientType) {
             case STUDENTS:
-                // all students
                 possibleRecipients = getSortedListOfStudentEmails();
+                possibleRecipients.remove(studentGiver.email);
                 break;
             case OWN_TEAM_MEMBERS:
                 possibleRecipients = getSortedListOfTeamMembersEmailsExcludingSelf(studentGiver);
