@@ -638,7 +638,7 @@ public class FeedbackSessionsLogic {
         for (FeedbackResponseAttributes response : allResponses) {
 
             // do not show all possible givers and recipients if there are anonymous givers and recipients 
-            if (response.giverEmail.contains("@@") || response.recipientEmail.contains("@@")) {
+            if (!results.isRecipientVisible(response) || !results.isGiverVisible(response)) {
                 possibleGiversWithoutResponses.clear();
                 possibleRecipientsForGiver.clear();
             }

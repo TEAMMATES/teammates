@@ -265,6 +265,14 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return getNameFromRoster(participantIdentifier, false);
     }
     
+    /**
+     * Return true if the participantIdentifier is an email of either a student
+     * or instructor in the course roster. Otherwise, return false.
+     * 
+     * @param participantIdentifier
+     * @return true if the participantIdentifier is an email of either a student
+     * or instructor in the course roster. Otherwise, return false.
+     */
     public boolean isEmailOfPersonFromRoster(String participantIdentifier) {
         StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
         boolean isStudent = (student != null);
@@ -281,6 +289,15 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return false;
     }
     
+    /**
+     * If the participantIdentifier identifies a student or instructor, 
+     * the participantIdentifier is returned.
+     * 
+     * Otherwise, Const.USER_NOBODY_TEXT is returned.
+     * @see getDisplayableEmail
+     * @param participantIdentifier
+     * @return
+     */
     public String getDisplayableEmailFromRoster(String participantIdentifier) {
         if (isEmailOfPersonFromRoster(participantIdentifier)) {
             return participantIdentifier;

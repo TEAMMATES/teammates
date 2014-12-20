@@ -428,7 +428,7 @@
                                               possibleRecipientsForQuestion.remove(responseEntry.recipientEmail);
                                             }
                                             
-                                            if (responseEntry.recipientEmail.contains("@@")) {
+                                            if (!data.bundle.isRecipientVisible(responseEntry)) {
                                               // do not show possible recipients if recipients are anonymised
                                               possibleRecipientsForQuestion.clear();
                                           }

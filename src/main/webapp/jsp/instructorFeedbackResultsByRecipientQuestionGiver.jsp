@@ -429,7 +429,7 @@
                                             String giverName = data.bundle.getGiverNameForResponse(question, responseEntry);
                                             String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
                                             
-                                            if (responseEntry.giverEmail.contains("@@")) {
+                                            if (!data.bundle.isGiverVisible(responseEntry)) {
                                                 // do not show possible givers if givers are anonymised
                                             	possibleGiversToRecipient.clear();
                                             }
