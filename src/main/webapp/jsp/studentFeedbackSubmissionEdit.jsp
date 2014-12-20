@@ -36,17 +36,18 @@
 
 <body>
     <%
-        if (!data.isPreview) {
+        if (!data.isPreview && !data.isModeration) {
     %>
             <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
     <%    
         } else { 
+            String viewType = (data.isPreview) ? "Previewing" : "Moderating" ;
     %>
         <nav class="navbar navbar-default navbar-fixed-top">
-            <h3 class="text-center">Previewing Session as Student <%=data.previewStudent.name %> (<%=data.previewStudent.email%>)</h3>
+            <h3 class="text-center"><%=viewType%> Session as Student <%=data.previewStudent.name %> (<%=data.previewStudent.email%>)</h3>
         </nav>
     <% 
-        }
+        } 
     %>
     <div id="frameBody">
     <div id="frameBodyWrapper" class="container">

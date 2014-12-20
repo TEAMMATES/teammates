@@ -611,6 +611,8 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACK_UNPUBLISH = "/page/instructorFeedbackUnpublish";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "/page/instructorFeedbackEditPage";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_SAVE = "/page/instructorFeedbackEditSave";
+        public static final String INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE = "/page/instructorFeedbackEditStudentPage";
+        public static final String INSTRUCTOR_FEEDBACK_EDIT_STUDENT_SAVE = "/page/instructorFeedbackEditStudentSave";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_PAGE = "/page/instructorFeedbackResultsPage";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD = "/page/instructorFeedbackResultsDownload";
         public static final String INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT = "/page/instructorFeedbackPreviewAsStudent";
