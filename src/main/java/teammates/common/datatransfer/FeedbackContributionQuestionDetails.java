@@ -727,6 +727,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return stats.containsKey(email);
     }
     
+    /**
+     * Used to display missing responses between a possible giver and a possible recipient.
+     * Returns "N/A" with the Perceived Contribution if the giver is the recipient.
+     * Otherwise, returns "N/A".
+     */
     @Override
     public String getNoResponseTextInHtml(String giverEmail, String recipientEmail, FeedbackSessionResultsBundle bundle, FeedbackQuestionAttributes question) {
         // if giver did not give a response to himself, we still show his perceived contribution in a row

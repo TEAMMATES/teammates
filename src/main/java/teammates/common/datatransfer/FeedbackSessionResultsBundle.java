@@ -261,6 +261,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return getNameFromRoster(participantIdentifier, true);
     }
     
+    /**
+     * Get the displayable last name from an email.
+     * 
+     * This function is different from getLastNameForEmail as it obtains the name
+     * using the class roster, instead of from the responses. 
+     * @param participantIdentifier
+     * @return the last name of a student, if participantIdentifier is the email of a student, <br>
+     *         the name of an instructor, if participantIdentifier is the email of an instructor, <br>
+     *         or the team name, if participantIdentifier represents a team. <br>
+     *         Otherwise, return an empty string
+     */
     public String getLastNameFromRoster(String participantIdentifier) {
         return getNameFromRoster(participantIdentifier, false);
     }
@@ -304,7 +315,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         } else {
             return Const.USER_NOBODY_TEXT;
         }
-        
     }
     
     /**
@@ -313,7 +323,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
      * 
      * This function is different from getTeamNameForEmail as it obtains the name
      * using the class roster, instead of from the responses. 
-     * @param emailInResponse
+     * @param participantIdentifier
      */
     public String getTeamNameFromRoster(String participantIdentifier) {
         StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
@@ -327,12 +337,24 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         return "";
     }
     
+    /**
+     * Get the displayable section name from an email.
+     * If the email is not an email of someone in the class roster, an empty string is returned.
+     * 
+     * If the email of an instructor or "%GENERAL%" is passed in, "Not in a section" is returned.
+     * @param emailInResponse
+     */
     public String getSectionFromRoster(String participantIdentifier) {
         StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
-        InstructorAttributes instructor = roster.getInstructorForEmail(participantIdentifier);
-        if (student != null) {
+        boolean isStudent = (student != null); 
+        if (isStudent) {
             return student.section;
-        } else if (instructor != null) {
+        } 
+        
+        InstructorAttributes instructor = roster.getInstructorForEmail(participantIdentifier);
+        boolean isInstructor = (instructor != null);
+        boolean participantIsGeneral = participantIdentifier.equals(Const.GENERAL_QUESTION);
+        if (isInstructor || participantIsGeneral) {
             return Const.USER_NOT_IN_A_SECTION;
         }
         
@@ -776,7 +798,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         teams.remove(Const.USER_TEAM_FOR_INSTRUCTOR);
         Collections.sort(teams);
         
-        return new ArrayList<String>(teams);
+        return teams;
     }
     
     /**
