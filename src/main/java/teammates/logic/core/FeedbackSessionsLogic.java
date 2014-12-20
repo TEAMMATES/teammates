@@ -607,6 +607,7 @@ public class FeedbackSessionsLogic {
     private StringBuilder getFeedbackSessionResultsForQuestionInCsvFormat(
             FeedbackSessionResultsBundle results,
             Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry) {
+        
         FeedbackQuestionAttributes question = entry.getKey();
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
         List<FeedbackResponseAttributes> allResponses = entry.getValue();
@@ -624,8 +625,11 @@ public class FeedbackSessionsLogic {
             exportBuilder.append(statistics + Const.EOL);
         }
         
-        exportBuilder.append("Team" + "," + "Giver's Full Name" + "," + "Giver's Last Name" + "," + "Recipient's Team" + ","
-                + "Recipient's Full Name" + "," + "Recipient's Last Name" + "," + questionDetails.getCsvHeader() + Const.EOL);
+        exportBuilder.append("Team" + "," + "Giver's Full Name" + "," 
+                + "Giver's Last Name" + "," +"Giver's Email" + ","  
+                + "Recipient's Team" + "," + "Recipient's Full Name" + "," 
+                + "Recipient's Last Name" + "," + "Recipient's Email" + ","  
+                + questionDetails.getCsvHeader() + Const.EOL);
 
         List<String> possibleGiversWithoutResponses = results.getPossibleGivers(question);
         List<String> possibleRecipientsForGiver = new ArrayList<String>();
@@ -639,10 +643,17 @@ public class FeedbackSessionsLogic {
                 possibleRecipientsForGiver.clear();
             }
             
+            // Retrieve giver details
             String giverLastName = results.getLastNameForEmail(response.giverEmail);
             String giverFullName = results.getNameForEmail(response.giverEmail);
+            String giverTeamName =results.getTeamNameForEmail(response.giverEmail);
+            String giverEmail = results.getDisplayableEmailGiver(response);
+            
+            // Retrieve recipient details
             String recipientLastName = results.getLastNameForEmail(response.recipientEmail);
             String recipientFullName = results.getNameForEmail(response.recipientEmail);
+            String recipientTeamName =results.getTeamNameForEmail(response.recipientEmail);
+            String recipientEmail = results.getDisplayableEmailRecipient(response);
             
             
             // keep track of possible recipients with no responses
@@ -656,23 +667,26 @@ public class FeedbackSessionsLogic {
                         question, questionDetails,
                         possibleRecipientsForGiver, prevGiver));
                 
-                String giverEmail = (question.giverType == FeedbackParticipantType.TEAMS)? 
+                
+                String giverIdentifier = (question.giverType == FeedbackParticipantType.TEAMS)? 
                                     results.getNameFromRoster(response.giverEmail):
                                     response.giverEmail;
                 
-                possibleRecipientsForGiver = results.getPossibleRecipients(entry.getKey(), giverEmail);
+                possibleRecipientsForGiver = results.getPossibleRecipients(question, giverIdentifier);
             }
             
-            removeParticipantIdentifierFromList(question.giverType, possibleRecipientsForGiver, response.giverEmail, results);
+            removeParticipantIdentifierFromList(question.recipientType, possibleRecipientsForGiver, response.recipientEmail, results);
             prevGiver = response.giverEmail;
             
             
-            exportBuilder.append(Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.giverEmail)) 
+            exportBuilder.append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) 
                                  + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) 
                                  + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
-                                 + "," + Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.recipientEmail))
+                                 + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
+                                 + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName))
                                  + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName))
                                  + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
+                                 + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
                                  + "," + results.getResponseAnswerCsv(response, question) + Const.EOL);
             
         }
@@ -738,7 +752,7 @@ public class FeedbackSessionsLogic {
             
         }
         
-        removeParticipantIdentifierFromList(question.giverType, possibleRecipientsForGiver, prevGiver, results);
+        removeParticipantIdentifierFromList(question.giverType, remainingPossibleGivers, prevGiver, results);
             
         
         for (String possibleGiverWithNoResponses : remainingPossibleGivers) {
@@ -755,7 +769,7 @@ public class FeedbackSessionsLogic {
 
     /**
      * For a giver and a list of possibleRecipientsForGiver, generate rows 
-     * of missing responses.
+     * of missing responses between the giver and the possible recipients
      * 
      * @param results
      * @param question
@@ -773,16 +787,20 @@ public class FeedbackSessionsLogic {
         for (String possibleRecipient : possibleRecipientsForGiver) {
             String giverName = results.getNameFromRoster(giver);
             String giverLastName = results.getLastNameFromRoster(giver);
+            String giverEmail = results.getDisplayableEmailFromRoster(giver);
             String possibleRecipientName = results.getNameFromRoster(possibleRecipient);
             String possibleRecipientLastName = results.getLastNameFromRoster(possibleRecipient);
+            String possibleRecipientEmail = results.getDisplayableEmailFromRoster(possibleRecipient);
             
             if (questionDetails.shouldShowNoResponseText(giver, possibleRecipient, question)) {
                 exportBuilder.append(Sanitizer.sanitizeForCsv(results.getTeamNameFromRoster(giver)) 
                         + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverName))
                         + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
+                        + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
                         + "," + Sanitizer.sanitizeForCsv(results.getTeamNameFromRoster(possibleRecipient))
                         + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientName))
                         + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientLastName))
+                        + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientEmail))
                         + "," + Sanitizer.sanitizeForCsv(
                                 questionDetails.getNoResponseTextInCsv(giver, possibleRecipient, results, question)) + Const.EOL);
             }
