@@ -357,22 +357,23 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             
             String displayName = name;
             String displayTeam = team;
+            String displayEmail = email;
             if(hideRecipient == true && hiddenRecipients.contains(email)){
                 String hash = Integer.toString(Math.abs(name.hashCode()));
                 displayName = type.toSingularFormString();
                 displayName = "Anonymous " + displayName + " " + hash;
                 displayTeam = displayName + Const.TEAM_OF_EMAIL_OWNER;
+                displayEmail = Const.USER_NOBODY_TEXT;
             }
             
             int[] incomingPoints = new int[teamResult.normalizedPeerContributionRatio.length];
             for(int i=0 ; i<incomingPoints.length ; i++){
                 incomingPoints[i] = teamResult.normalizedPeerContributionRatio[i][studentIndx];
             }
-            
-            
-            
+                     
             String contribFragmentString = Sanitizer.sanitizeForCsv(displayTeam) + ","
                              + Sanitizer.sanitizeForCsv(displayName) + ","
+                             + Sanitizer.sanitizeForCsv(displayEmail) + ","
                              + Sanitizer.sanitizeForCsv(Integer.toString(summary.claimedToInstructor)) + ","
                              + Sanitizer.sanitizeForCsv(Integer.toString(summary.perceivedToInstructor)) + ","
                              + Sanitizer.sanitizeForCsv(getNormalizedPointsListDescending(incomingPoints, studentIndx)) + Const.EOL;
@@ -398,7 +399,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         csv += "e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\"." + Const.EOL;
         csv += "Claimed Contribution (CC) = the contribution claimed by the student." + Const.EOL;
         csv += "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members." + Const.EOL;
-        csv += "Team, Name, CC, PC, Ratings Recieved" + Const.EOL;
+        csv += "Team, Name, Email, CC, PC, Ratings Recieved" + Const.EOL;
         //Data
         csv += contribFragments + Const.EOL;
 
