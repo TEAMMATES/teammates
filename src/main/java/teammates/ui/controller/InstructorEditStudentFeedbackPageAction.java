@@ -3,6 +3,8 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.GsonBuilder;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -13,7 +15,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
-public class InstructorEditStudentFeedbackAction extends Action {
+public class InstructorEditStudentFeedbackPageAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -54,7 +56,7 @@ public class InstructorEditStudentFeedbackAction extends Action {
         data.isSessionOpenForSubmission = true;
         data.isModeration = true;
         data.previewStudent = previewStudent;
-        List<String> questionsToHide = hideAnonymousResponses(data.bundle);
+        hideAnonymousResponses(data.bundle);
 
         statusToAdmin = "Moderating feedback session for student (" + previewStudent.email + ")<br>" +
                 "Session Name: " + feedbackSessionName + "<br>" +
@@ -63,17 +65,19 @@ public class InstructorEditStudentFeedbackAction extends Action {
         return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, data);
     }
     
-    private List<String> hideAnonymousResponses(FeedbackSessionQuestionsBundle bundle) {
-        List<String> questionsToHide = new ArrayList<String>();
+    private boolean hideAnonymousResponses(FeedbackSessionQuestionsBundle bundle) {
+        List<FeedbackQuestionAttributes> questionsToHide = new ArrayList<FeedbackQuestionAttributes>();
         
-        for(FeedbackQuestionAttributes question : bundle.questionResponseBundle.keySet()) {
-            boolean instructorsCanSeeGiver = question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
-            if (!instructorsCanSeeGiver) {
-                questionsToHide.add(question.getId());
+        for (FeedbackQuestionAttributes question : bundle.questionResponseBundle.keySet()) {
+            boolean isGiverVisibleToInstructor = question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+            if (!isGiverVisibleToInstructor) {
+                questionsToHide.add(question);
                 bundle.questionResponseBundle.put(question, new ArrayList<FeedbackResponseAttributes>());
             }
         }
-        return questionsToHide;
+        
+        bundle.questionResponseBundle.keySet().removeAll(questionsToHide);
+        return !questionsToHide.isEmpty();
     }
     
 }

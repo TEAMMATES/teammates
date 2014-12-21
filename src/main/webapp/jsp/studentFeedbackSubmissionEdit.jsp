@@ -64,18 +64,25 @@
             <div id="registerMessage" class="alert alert-info">
                 <%=String.format(Const.StatusMessages.UNREGISTERED_STUDENT, joinUrl)%>
             </div>
-        <% } %>
+        <% } 
+           String actionToUse = data.isModeration ? 
+          		                Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_SAVE :
+                                Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
+           
+        %>
         <form method="post" name="form_student_submit_response"
-              action="<%=Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE %>" >
+              action="<%= actionToUse %>" >
             <jsp:include page="<%=Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT%>" />
+            <input name="moderatedstudent" value="<%= data.previewStudent.email %>" type="hidden">
             
             <div class="bold align-center">
             <%
+                boolean isSubmittable = data.isSessionOpenForSubmission || data.isModeration;
                 if (data.bundle.questionResponseBundle.isEmpty()) {
             %>
                     There are no questions for you to answer here!
             <%
-                } else if (data.isPreview || !data.isSessionOpenForSubmission) {
+                } else if (data.isPreview || !isSubmittable) {
             %>
                     <input disabled="disabled" type="submit" class="btn btn-primary" id="response_submit_button" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>" value="Submit Feedback" style="background: #66727A;"/>
             <%
