@@ -424,67 +424,67 @@
                                         <%
                                             for(FeedbackResponseAttributes responseEntry: responseEntries) {
                                         %>
-                                        <tr>
+                                                <tr>
                                         <%
-                                        	String giverName = data.bundle.getGiverNameForResponse(question, responseEntry);
-                                                                                    String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
-                                                                                    
-                                                                                    if (!data.bundle.isGiverVisible(responseEntry)) {
-                                                                                        // do not show possible givers if givers are anonymised
-                                                                                    	possibleGiversToRecipient.clear();
-                                                                                    }
-                                                                                    if (question.giverType == FeedbackParticipantType.TEAMS) {
-                                                                                      possibleGiversToRecipient.remove(data.bundle.getFullNameFromRoster(responseEntry.giverEmail));
-                                                                                    } else {
-                                                                                      possibleGiversToRecipient.remove(responseEntry.giverEmail);
-                                                                                    }
-                                                                                    
-                                                                                    if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, responseEntry.giverEmail).isEmpty()) {
+                                            	String giverName = data.bundle.getGiverNameForResponse(question, responseEntry);
+                                                String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
+                                                
+                                                if (!data.bundle.isGiverVisible(responseEntry)) {
+                                                    // do not show possible givers if givers are anonymised
+                                                	possibleGiversToRecipient.clear();
+                                                }
+                                                if (question.giverType == FeedbackParticipantType.TEAMS) {
+                                                  possibleGiversToRecipient.remove(data.bundle.getFullNameFromRoster(responseEntry.giverEmail));
+                                                } else {
+                                                  possibleGiversToRecipient.remove(responseEntry.giverEmail);
+                                                }
+                                                
+                                                if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, responseEntry.giverEmail).isEmpty()) {
                                         %>
-                                                <td class="middlealign">
-                                                    <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(responseEntry.giverEmail)%>">
-                                                        <a class="student-profile-pic-view-link btn-link">
-                                                            View Photo
-                                                        </a>
-                                                        <img src="" alt="No Image Given" class="hidden">
-                                                    </div>
-                                                </td>
+                                                    <td class="middlealign">
+                                                        <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(responseEntry.giverEmail)%>">
+                                                            <a class="student-profile-pic-view-link btn-link">
+                                                                View Photo
+                                                            </a>
+                                                            <img src="" alt="No Image Given" class="hidden">
+                                                        </div>
+                                                    </td>
                                         <%
-                                        	} else {
+                                        	   } else {
                                         %>
-                                                <td class="middlealign">
-                                                    <div class="align-center" data-link="">
-                                                        <a class="btn-link">
-                                                            View Photo
-                                                        </a>
-                                                    </div>
-                                                </td>
+                                                    <td class="middlealign">
+                                                        <div class="align-center" data-link="">
+                                                            <a class="btn-link">
+                                                                View Photo
+                                                            </a>
+                                                        </div>
+                                                    </td>
                                         <%
-                                        	}
+                                        	   }
                                         %>
-                                            <td class="middlealign"><%=giverName%></td>
-                                            <td class="middlealign"><%=giverTeamName%></td>
-                                            <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
-                                        </tr>
+                                                <td class="middlealign"><%=giverName%></td>
+                                                <td class="middlealign"><%=giverTeamName%></td>
+                                                <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
+                                            </tr>
                                         
                                         <%
-                                                                                	}
+                                            }
                                                                                                                                                                                                             
-                                                                                                                            for (String possibleGiverWithNoResponse : possibleGiversToRecipient) {
-                                                                                                                                if (questionDetails.shouldShowNoResponseText(possibleGiverWithNoResponse, targetEmail, question)) {
-                                                                                                                                    if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, possibleGiverWithNoResponse).isEmpty()) {
-                                                                                %>
-                                                    <tr class="pending_response_row">
-                                                        <td class="middlealign">
-                                                            <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(possibleGiverWithNoResponse)%>">
-                                                                <a class="student-profile-pic-view-link btn-link">
-                                                                    View Photo
-                                                                </a>
-                                                                <img src="" alt="No Image Given" class="hidden">
-                                                            </div>
-                                                        </td>
+                                            for (String possibleGiverWithNoResponse : possibleGiversToRecipient) {
+                                                if (questionDetails.shouldShowNoResponseText(possibleGiverWithNoResponse, targetEmail, question)) {
+                                                    if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, possibleGiverWithNoResponse).isEmpty()) {
+                                                                                    %>
+                                                        <tr class="pending_response_row">
+                                                            <td class="middlealign">
+                                                                <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(possibleGiverWithNoResponse)%>">
+                                                                    <a class="student-profile-pic-view-link btn-link">
+                                                                        View Photo
+                                                                    </a>
+                                                                    <img src="" alt="No Image Given" class="hidden">
+                                                                </div>
+                                                            </td>
                                         <%
-                                        	} else {
+                                        	       } else {
                                         %>
                                                         <td class="middlealign">
                                                             <div class="align-center" data-link="">
@@ -494,15 +494,15 @@
                                                             </div>
                                                         </td>   
                                         <%
-                                           	}
-                                           %>        
+                                           	         }
+                                        %>        
                                                     <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(possibleGiverWithNoResponse)%></td>
                                                         <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleGiverWithNoResponse)%></td>
                                                         <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(possibleGiverWithNoResponse, targetEmail, data.bundle, question)%> </td>
                                                     </tr>
                                         <%
-                                        	}
-                                                                                    }
+                                        	    }
+                                            }
                                         %>
                                     </tbody>
                                 </table>
@@ -517,15 +517,15 @@
         <%
         	}
                     
-                    Set<String> teamMembersWithNoReceivedResponses = new HashSet<String>(teamMembersEmail);
-                    teamMembersWithNoReceivedResponses.removeAll(teamMembersWithResponses);
-                    
-                    for (String email : teamMembersWithNoReceivedResponses) {
+            Set<String> teamMembersWithNoReceivedResponses = new HashSet<String>(teamMembersEmail);
+            teamMembersWithNoReceivedResponses.removeAll(teamMembersWithResponses);
+            
+            for (String email : teamMembersWithNoReceivedResponses) {
         %>
             <div class="panel panel-primary">
             <div class="panel-heading">
                 To: 
-                <%
+            <%
             	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) {
             %>
                     <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(email)%>">
