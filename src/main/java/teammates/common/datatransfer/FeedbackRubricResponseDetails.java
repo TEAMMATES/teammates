@@ -76,7 +76,6 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
         FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) questionDetails;
         String html = "";
         for (int i=0 ; i<answer.size() ; i++) {
-            String subQuestion = Sanitizer.sanitizeForHtml(fqd.rubricSubQuestions.get(i));
             int chosenIndex = answer.get(i);
             String chosenChoice = "";
             if (chosenIndex == -1) {
@@ -84,7 +83,7 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
             } else {
                 chosenChoice = Sanitizer.sanitizeForHtml(fqd.rubricChoices.get(answer.get(i)));
             }
-            html += StringHelper.integerToBase26String(i+1) + ") " + subQuestion + " : " + chosenChoice + "<br>";
+            html += StringHelper.integerToBase26String(i+1) + ") " + chosenChoice + "<br>";
         }
         
         return html;
