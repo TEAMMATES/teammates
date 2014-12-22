@@ -674,26 +674,26 @@ function getVisibilityMessage(buttonElem){
         $(form).find('.visibilityMessage').show();
         return;
     }
-	// update stored form data
+    // update stored form data
     previousFormDataMap[qnNumber] = formData;
 
     // empty current visibility message in the form
     $(form).find('.visibilityMessage').html("");
     
     var url = "/page/instructorFeedbackQuestionvisibilityMessage";
-	$.ajax({
-            type: "POST",
-            url: url,
-            data: formData,
-            success: function(data){
-                $(form).find('.visibilityMessage').html(formatVisibilityMessageHtml(data.visibilityMessage));
-                $(form).find('.visibilityOptions').hide();
-                $(form).find('.visibilityMessage').show();
-            },
-            error: function(jqXHR, textStatus, errorThrown){
-                console.log('AJAX request failed');
-            }
-    	});    
+    $.ajax({
+    	type: "POST",
+    	url: url,
+    	data: formData,
+    	success: function(data){
+    		$(form).find('.visibilityMessage').html(formatVisibilityMessageHtml(data.visibilityMessage));
+    		$(form).find('.visibilityOptions').hide();
+    		$(form).find('.visibilityMessage').show();
+    	},
+    	error: function(jqXHR, textStatus, errorThrown){
+    		console.log('AJAX request failed');
+    	}
+    });    
 }
 
 function getVisibilityMessageIfPreviewIsActive(buttonElem) {
