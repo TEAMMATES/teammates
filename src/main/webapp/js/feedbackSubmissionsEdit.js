@@ -29,7 +29,68 @@ $(document).ready(function () {
 
     readyConstSumQuestions();
     updateConstSumMessages();
+
+    readyRubricQuestions();
 });
+
+//Ready rubric questions for answering by user
+function readyRubricQuestions() {
+    //Set cell to highlight on hover
+    //Set cell to highloght when checked
+    //Bind cell click to click radio
+    
+    var rubricRadioInputs = $("[name^='rubricChoice-']");
+    for (var i=0 ; i<rubricRadioInputs.length ; i++) {
+        var parentCell = $(rubricRadioInputs[i]).parent();
+        // Bind hover events
+        parentCell.hover(
+            function() {
+                // Mouse enter
+                $(this).addClass("cell-hover");
+            }, function() {
+                // Mouse leave
+                $(this).removeClass("cell-hover");
+            }
+        );
+
+        // Bind click
+        parentCell.click(function(){
+                var radioInput = $(this).find("[name^='rubricChoice-']")
+                radioInput.prop("checked", 
+                    !radioInput.prop("checked"));
+                radioInput.trigger("change");
+                event.stopPropagation();
+            });
+
+        // Bind refresh highlights on check
+        $(rubricRadioInputs[i]).on("change", function(){
+                // Update all radio inputs in the same row.
+                var rowRadioInputs = $(this).closest("tr").find("[name^='rubricChoice-']");
+                for (var j=0 ; j<rowRadioInputs.length ; j++) {
+                    updateRubricCellSelectedColor(rowRadioInputs[j]);
+                }
+            });
+
+        // First time update of checked cells
+        for (var j=0 ; j<rubricRadioInputs.length ; j++) {
+            updateRubricCellSelectedColor(rubricRadioInputs[j]);
+        }
+    }
+
+}
+
+/**
+ *  Updates the colour of a rubric cell if it is checked.
+ */
+function updateRubricCellSelectedColor(radioInput) {
+    if ($(radioInput).prop("checked")) {
+        $(radioInput).parent().addClass("cell-selected");
+    } else {
+        if ($(radioInput).parent().hasClass("cell-selected")) {
+            $(radioInput).parent().removeClass("cell-selected");
+        }
+    }
+}
 
 //Format rubric question for form submission
 function formatRubricQuestions() {
@@ -48,7 +109,6 @@ function formatRubricQuestions() {
             }
 
             $("[name='responsetext-"+qnNum+"-"+j+"']").val(responsetext);
-            console.log("[name='responsetext-"+qnNum+"-"+j+"'] - " + responsetext.toString());
         }
     }
 }

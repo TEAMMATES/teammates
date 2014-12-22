@@ -52,6 +52,14 @@ body {
     padding-top: 10px;
 }
 
+.cell-hover {
+    background-color: #aaaaad !important;
+}
+
+.cell-selected {
+    background-color: #BCED91 !important;
+}
+
 .color-white {
     color: white;
 }
