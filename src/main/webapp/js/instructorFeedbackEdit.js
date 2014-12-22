@@ -302,7 +302,7 @@ function tallyCheckboxes(qnNumber){
 	
 	// update hidden parameter FEEDBACK_QUESTION_SHOWRESPONSESTO
 	var checked = [];
-    $('.answerCheckbox'+qnNumber+':checked').each(function () {
+	$('.answerCheckbox'+qnNumber+':checked').each(function () {
         checked.push($(this).val());
     });
     $("[name="+FEEDBACK_QUESTION_SHOWRESPONSESTO+"]").val(checked.toString());
