@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 
@@ -79,7 +80,9 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
             int chosenIndex = answer.get(i);
             String chosenChoice = "";
             if (chosenIndex == -1) {
-                chosenChoice = "<i>No Response</i>";
+                chosenChoice = "<span class=\"color_neutral\"><i>" + 
+                        Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE + 
+                        "</i></span>";
             } else {
                 chosenChoice = Sanitizer.sanitizeForHtml(fqd.rubricChoices.get(answer.get(i)));
             }
