@@ -41,7 +41,10 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
                 try {
                     int subQuestionIndex = Integer.parseInt(subQuestionIndexAndChoice[0]);
                     int subQuestionChoice = Integer.parseInt(subQuestionIndexAndChoice[1]);
-                    setAnswer(subQuestionIndex, subQuestionChoice);
+                    if (subQuestionIndex >=0 && subQuestionIndex <fqd.numOfRubricSubQuestions &&
+                            subQuestionChoice >=0 && subQuestionChoice <fqd.numOfRubricChoices) {
+                        setAnswer(subQuestionIndex, subQuestionChoice);
+                    } // else the indexes are invalid.
                 } catch (NumberFormatException e) {
                     // Failed to parse, ignore response.
                 }

@@ -25,6 +25,17 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         this.rubricChoices = new ArrayList<String>();
         this.numOfRubricSubQuestions = 0;
         this.rubricSubQuestions = new ArrayList<String>();
+        this.initializeRubricDescriptions();
+    }
+    
+    public FeedbackRubricQuestionDetails(String questionText) {
+        super(FeedbackQuestionType.RUBRIC, questionText);
+        
+        this.numOfRubricChoices = 0;
+        this.rubricChoices = new ArrayList<String>();
+        this.numOfRubricSubQuestions = 0;
+        this.rubricSubQuestions = new ArrayList<String>();
+        this.initializeRubricDescriptions();
     }
 
     @Override
