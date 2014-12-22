@@ -335,7 +335,7 @@
                     From: 
                     <%
                 	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, giverEmail).isEmpty()) {
-                %>
+                    %>
                         <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(giverEmail)%>">
                             <strong><%=responsesFromGiver.getKey()%></strong>
                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
@@ -349,7 +349,25 @@
                     <%
                     	}
                     %>
-                    <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>                </div>
+                    <div class="pull-right">
+                    <% if (!giverEmail.contains("@@")) { %>
+                            <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE %>"> 
+                            
+                                <input type="submit" class="btn btn-success btn-xs" value="Edit Responses">
+                                    
+                                
+                            <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                            <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                            
+                            <input type="hidden" name="previewas" value=<%= giverEmail%>>
+                            
+                            </form>
+                        <% } %>
+                        <div class="display-icon" style="display:inline;">
+                            <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
+                        </div>                
+                    </div>
+                    </div>
                 <div class='panel-collapse collapse <%=shouldCollapsed ? "" : "in"%>'>
                 <div class="panel-body">
                 <%
