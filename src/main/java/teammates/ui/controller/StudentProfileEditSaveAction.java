@@ -50,8 +50,18 @@ public class StudentProfileEditSaveAction extends Action {
         editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);
         editedProfile.pictureKey = "";
         
-        validatePostParameters(editedProfile);
+        validatePostParameters(editedProfile);        
+        trimStudentProfileValues(editedProfile);
         
         return editedProfile;
+    }
+
+    private void trimStudentProfileValues(StudentProfileAttributes studentProfile) {
+        studentProfile.shortName = studentProfile.shortName.trim();
+        studentProfile.email = studentProfile.email.trim();
+        studentProfile.gender = studentProfile.gender.trim();
+        studentProfile.nationality = studentProfile.nationality.trim();
+        studentProfile.institute = studentProfile.institute.trim();
+        studentProfile.moreInfo = studentProfile.moreInfo.trim();
     }
 }
