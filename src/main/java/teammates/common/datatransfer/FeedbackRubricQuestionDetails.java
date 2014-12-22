@@ -45,6 +45,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String numOfRubricChoicesString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS);
         String numOfRubricSubQuestionsString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS);
         
+        if (numOfRubricChoicesString == null || numOfRubricSubQuestionsString == null) {
+            System.out.println("Missing Parameter");
+            return false;
+        }
+        
         int numOfRubricChoices = Integer.parseInt(numOfRubricChoicesString);
         int numOfRubricSubQuestions = Integer.parseInt(numOfRubricSubQuestionsString);
         List<String> rubricChoices = new ArrayList<String>();
@@ -90,6 +95,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // Set details
         setRubricQuestionDetails(numActualChoices, rubricChoices,
                 numActualSubQuestions, rubricSubQuestions, rubricDescriptions);
+        
+        if (!this.isValidDescriptionSize()) {
+            // If description sizes are invalid, default to empty descriptions.
+            this.initializeRubricDescriptions();
+        }
         
         return true;
     }
@@ -584,6 +594,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         List<String> errors = new ArrayList<String>();
         
         if (!isValidDescriptionSize()) {
+            // This should not happen.
+            // Set descriptions to empty if the sizes are invalid when extracting question details.
             errors.add(ERROR_RUBRIC_DESC_INVALID_SIZE);
         }
         
