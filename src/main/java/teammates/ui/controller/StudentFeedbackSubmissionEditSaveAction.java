@@ -66,25 +66,24 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
 
     @Override
     protected RedirectResult createSpecificRedirectResult() {
-        RedirectResult result = null;
         
-        if(isRegisteredStudent() && !isError){
-            // Return to student home page if there is no error and user is registered
-            result =  createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
-        }else if(!isRegisteredStudent()){
+        if(!isRegisteredStudent()){
             // Always remains at student feedback submission edit page if user is unregistered
             // Link given to unregistered student already contains course id & session name
-            result = createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE); 
-        }else {
+            return createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE); 
+        }else if(isError){
             // Return to student feedback submission edit page if there is an error and user is registered
-            result =  createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);
+            RedirectResult result =  createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);
             
             // Provide course id and session name for the redirected page
             result.responseParams.put(Const.ParamsNames.COURSE_ID, student.course);
             result.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME,
                     getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME));
+            return result;
+        }else {           
+            // Return to student home page if there is no error and user is registered
+            return  createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
        }
-       return result;
     }
 
     protected StudentAttributes getStudent() {
