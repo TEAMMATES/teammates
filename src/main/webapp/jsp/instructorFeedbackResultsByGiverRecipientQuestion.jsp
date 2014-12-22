@@ -333,7 +333,7 @@
                     %>
 			        <div class="pull-right">
                     <% if (!targetEmail.contains("@@") && data.bundle.isParticipantIdentifierStudent(targetEmail)) { %>
-                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE %>"> 
+                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE %>" target="_blank"> 
                             
                                 <input type="submit" class="btn btn-success btn-xs" value="Edit Responses">
                                 <input type="hidden" name="courseid" value="<%=data.courseId %>">
@@ -887,7 +887,7 @@
                         <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
                     <div class="pull-right">
                     <% if (!email.contains("@@") && data.bundle.isParticipantIdentifierStudent(email)) { %>
-                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE %>"> 
+                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE %>" target="_blank"> 
                             
                                 <input type="submit" class="btn btn-success btn-xs" value="Edit Responses">
                                 <input type="hidden" name="courseid" value="<%=data.courseId %>">
@@ -958,7 +958,7 @@
                                                         <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
                                                     <div class="pull-right">
                                                         <% if (!teamMember.contains("@@") && data.bundle.isParticipantIdentifierStudent(teamMember)) { %>
-                                                                <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE %>"> 
+                                                                <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE %>" target="_blank"> 
                                                                 
                                                                     <input type="submit" class="btn btn-success btn-xs" value="Edit Responses">
                                                                     <input type="hidden" name="courseid" value="<%=data.courseId %>">
@@ -1046,7 +1046,7 @@
                                                                         <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
                                                                     <div class="pull-right">
                                                                         <% if (!teamMember.contains("@@") && data.bundle.isParticipantIdentifierStudent(teamMember)) { %>
-                                                                                <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE %>"> 
+                                                                                <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE %>" target="_blank"> 
                                                                                 
                                                                                     <input type="submit" class="btn btn-success btn-xs" value="Edit Responses">
                                                                                     <input type="hidden" name="courseid" value="<%=data.courseId %>">
@@ -1055,6 +1055,7 @@
                                                                                 
                                                                                 </form>
                                                                             <% } %>
+                                                                            &nbsp;
                                                                             <div class="display-icon" style="display:inline;">
                                                                                 <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
                                                                             </div>                

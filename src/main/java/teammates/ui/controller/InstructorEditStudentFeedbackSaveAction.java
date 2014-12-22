@@ -1,8 +1,5 @@
 package teammates.ui.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -11,7 +8,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.logic.api.GateKeeper;
+
 
 public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionEditSaveAction {
     
@@ -75,7 +72,8 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
     @Override
     protected void setStatusToAdmin() {
         statusToAdmin = "Instructor moderated student session<br>" +
-                        "Instructor: " + 
+                        "Instructor: " + account.email + "<br>" + 
+                        "Moderated Student: " + moderatedStudent + "<br>" +
                         "Session Name: " + feedbackSessionName + "<br>" +
                         "Course ID: " + courseId;
     }

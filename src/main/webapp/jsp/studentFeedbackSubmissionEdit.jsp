@@ -40,14 +40,20 @@
     %>
             <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
     <%    
-        } else { 
-            String viewType = (data.isPreview) ? "Previewing" : "Moderating" ;
+        } else if (data.isPreview) { 
+            
     %>
         <nav class="navbar navbar-default navbar-fixed-top">
-            <h3 class="text-center"><%=viewType%> Session as Student <%=data.previewStudent.name %> (<%=data.previewStudent.email%>)</h3>
+            <h3 class="text-center">Previewing Session as Student <%=data.previewStudent.name %> (<%=data.previewStudent.email%>)</h3>
         </nav>
     <% 
-        } 
+        } else if (data.isModeration) {
+    %>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <h3 class="text-center">Moderating Session for Student <%=data.previewStudent.name %> (<%=data.previewStudent.email%>)</h3>
+        </nav>    
+    <% 
+        }
     %>
     <div id="frameBody">
     <div id="frameBodyWrapper" class="container">
@@ -73,10 +79,14 @@
         <form method="post" name="form_student_submit_response"
               action="<%= actionToUse %>" >
             <jsp:include page="<%=Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT%>" />
-            <input name="moderatedstudent" value="<%= data.previewStudent.email %>" type="hidden">
             
             <div class="bold align-center">
             <%
+                if (data.isModeration) {
+            %>
+                	<input name="moderatedstudent" value="<%= data.previewStudent.email %>" type="hidden">
+            <%  }
+            
                 boolean isSubmittable = data.isSessionOpenForSubmission || data.isModeration;
                 if (data.bundle.questionResponseBundle.isEmpty()) {
             %>
