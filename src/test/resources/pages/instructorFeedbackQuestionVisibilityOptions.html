@@ -651,13 +651,13 @@
                         <div class="col-sm-8">
                             <select class="form-control questionType" name="questiontype" id="questionTypeChoice">
                                 <option value="TEXT">Essay question</option>
-                                <option value="MCQ">Multiple-choice (single answer) question</option>
-                                <option value="MSQ">Multiple-choice (multiple answers) question</option>
-                                <option value="NUMSCALE">Numerical-scale question</option>
-                                <option value="CONSTSUM_OPTION">Distribute points (among options) question</option>
-                                <option value="CONSTSUM_RECIPIENT">Distribute points (among recipients) question</option>
-                                <option value="CONSTSUM" disabled="disabled" style="display:none"></option>
-                                <option value="CONTRIB">Team contribution question</option>
+<option value="MCQ">Multiple-choice (single answer) question</option>
+<option value="MSQ">Multiple-choice (multiple answers) question</option>
+<option value="NUMSCALE">Numerical-scale question</option>
+<option value="CONSTSUM_OPTION">Distribute points (among options) question</option><option value="CONSTSUM_RECIPIENT">Distribute points (among recipients) question</option><option value="CONSTSUM" disabled="disabled" style="display:none"></option>
+<option value="CONTRIB">Team contribution question</option>
+<option value="RUBRIC">Rubric question</option>
+
                             </select>
                         </div>
                         <div class="col-sm-1">
@@ -696,9 +696,7 @@
                     <div>
                         <textarea data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext" data-toggle="tooltip" data-placement="top" title="" tabindex="9" disabled="disabled"></textarea>
                     </div>
-                    <div id="mcqForm">
-                        
-                        <div class="row">
+                    <div id="mcqForm"><div class="row">
     <br>
     <div class="col-sm-6">
         <div id="mcqChoiceTable--1">
@@ -755,11 +753,7 @@
         <input id="generatedOptions--1" name="generatedOptions" value="NONE" type="hidden"> 
     </div>
     <br>
-</div>
-                    </div>
-                    <div id="msqForm">
-                        
-                        <div class="row">
+</div></div><div id="msqForm"><div class="row">
     <br>
     <div class="col-sm-6">
         <div id="msqChoiceTable--1">
@@ -816,11 +810,7 @@
         <input id="generatedOptions--1" name="generatedOptions" value="NONE" type="hidden"> 
     </div>
     <br>
-</div>
-                    </div>
-                    <div id="numScaleForm">
-                        
-                        <div>
+</div></div><div id="numScaleForm"><div>
     <br>
     <div>
         <div>
@@ -843,11 +833,7 @@
             </div>
         </div>
     </div>
-</div>
-                    </div>
-                    <div id="constSumForm">
-                        
-                        <div class="row">
+</div></div><div id="constSumForm"><div class="row">
     <br>
     <div class="col-sm-6" id="constSumOptionTable--1">
         <div id="constSumOptionRow-0--1">
@@ -907,18 +893,88 @@
         </div>
     </div>
     <div class="col-sm-6">
-        <div class="form-inline col-sm-12" data-container="body" data-original-title="Ticking this prevents a giver from distributing the same number of points to multiple options" data-placement="top" data-toggle="tooltip" id="constSum_tooltipText--1" title="">
-           <label class="control-label">
-   
-   <span id="constSum_labelText--1">Every option to receive a different number of points</span>
-
-              <input name="constSumUnevenDistribution" type="checkbox" disabled="disabled" id="constSum_UnevenDistribution--1"/>
-                                         </label>
+        <div data-original-title="Ticking this prevents a giver from distributing the same number of points to multiple options" class="form-inline col-sm-12" id="constSum_tooltipText--1" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+            <label class="control-label"> <span id="constSum_labelText--1">Every option to receive a different number of points  </span><input name="constSumUnevenDistribution" disabled="disabled" id="constSum_UnevenDistribution--1" type="checkbox"></label>
         </div>
     </div>
     <br>
+</div></div><div id="rubricForm"><div class="row">
+    <br>
+    <div class="col-sm-12 table-responsive">
+        <table class="table table-striped table-bordered margin-0" id="rubricEditTable--1">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="rubricCol--1-0">
+	<div class="col-sm-12 input-group">
+		<input class="form-control" value="Choice 1" name="rubricChoice-0" type="text">
+		<span class="input-group-addon btn btn-default rubricRemoveChoiceLink--1" onclick="removeRubricCol(0, -1)">
+			<span class="glyphicon glyphicon-remove"></span>
+		</span>
+	</div>
+</th>
+<th class="rubricCol--1-1">
+	<div class="col-sm-12 input-group">
+		<input class="form-control" value="Choice 2" name="rubricChoice-1" type="text">
+		<span class="input-group-addon btn btn-default rubricRemoveChoiceLink--1" onclick="removeRubricCol(1, -1)">
+			<span class="glyphicon glyphicon-remove"></span>
+		</span>
+	</div>
+</th>
+
+                </tr>
+            </thead>
+            <tbody>                
+                <tr id="rubricRow--1-0">
+    <td>
+    	<div class="col-sm-12 input-group">
+    		<span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink--1" onclick="removeRubricRow(0,-1)">
+				<span class="glyphicon glyphicon-remove"></span>
+			</span>
+	    	<textarea class="form-control" rows="1" name="rubricSubQn-0">sub-question 1</textarea>
+		</div>
+    </td>
+    <td class="align-center rubricCol--1-0">
+	<textarea class="form-control nonDestructive" rows="1" name="rubricDesc-0-0"></textarea>
+</td>
+<td class="align-center rubricCol--1-1">
+	<textarea class="form-control nonDestructive" rows="1" name="rubricDesc-0-1"></textarea>
+</td>
+
+</tr>
+<tr id="rubricRow--1-1">
+    <td>
+    	<div class="col-sm-12 input-group">
+    		<span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink--1" onclick="removeRubricRow(1,-1)">
+				<span class="glyphicon glyphicon-remove"></span>
+			</span>
+	    	<textarea class="form-control" rows="1" name="rubricSubQn-1">sub-question 2</textarea>
+		</div>
+    </td>
+    <td class="align-center rubricCol--1-0">
+	<textarea class="form-control nonDestructive" rows="1" name="rubricDesc-1-0"></textarea>
+</td>
+<td class="align-center rubricCol--1-1">
+	<textarea class="form-control nonDestructive" rows="1" name="rubricDesc-1-1"></textarea>
+</td>
+
+</tr>
+
+            </tbody>
+        </table>
+    </div>
+    <input name="rubricNumRows" id="rubricNumRows--1" value="2" type="hidden">
+    <input name="rubricNumCols" id="rubricNumCols--1" value="2" type="hidden">
 </div>
-                    </div>
+<div class="row">
+    <div class="col-sm-6 align-left">
+        <a class="btn btn-xs btn-primary" id="rubricAddSubQuestionLink--1" onclick="addRubricRow(-1)"><span class="glyphicon glyphicon-arrow-down"> </span> add row</a>
+    </div>
+    <div class="col-sm-6 align-right">
+        <a class="btn btn-xs btn-primary" id="rubricAddChoiceLink--1" onclick="addRubricCol(-1)">add column <span class="glyphicon glyphicon-arrow-right"></span></a>
+    </div>
+    <br>
+</div></div>
                     <br>
                     <div>
                         <div data-original-title="Who will give feedback" class="col-sm-6" data-toggle="tooltip" data-placement="top" title="">
