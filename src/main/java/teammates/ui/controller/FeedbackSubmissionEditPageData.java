@@ -16,8 +16,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
     public boolean isSessionOpenForSubmission;
     public boolean isPreview;
     public boolean isModeration;
-    public StudentAttributes previewStudent;
-    public InstructorAttributes previewInstructor;    
+    public StudentAttributes studentSubmittingFeedback;
+    public InstructorAttributes instructorSubmittingFeedback;    
     
     public FeedbackSubmissionEditPageData(AccountAttributes account, StudentAttributes student) {
         super(account, student);

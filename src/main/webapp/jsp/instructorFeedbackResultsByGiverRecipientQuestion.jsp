@@ -338,7 +338,7 @@
                                 <input type="submit" class="btn btn-success btn-xs" value="Edit Responses">
                                 <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                 <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
-                                <input type="hidden" name="previewas" value=<%= targetEmail%>>
+                                <input type="hidden" name="moderatedstudent" value=<%= targetEmail%>>
                             
                             </form>
                     <% } %>
@@ -892,7 +892,7 @@
                                 <input type="submit" class="btn btn-success btn-xs" value="Edit Responses">
                                 <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                 <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
-                                <input type="hidden" name="previewas" value=<%= email%>>
+                                <input type="hidden" name="moderatedstudent" value=<%= email%>>
                             
                             </form>
                         <% } %>
@@ -963,7 +963,7 @@
                                                                     <input type="submit" class="btn btn-success btn-xs" value="Edit Responses">
                                                                     <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                                     <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
-                                                                    <input type="hidden" name="previewas" value=<%= teamMember%>>
+                                                                    <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>
                                                                 
                                                                 </form>
                                                             <% } %>
@@ -1051,7 +1051,7 @@
                                                                                     <input type="submit" class="btn btn-success btn-xs" value="Edit Responses">
                                                                                     <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                                                     <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
-                                                                                    <input type="hidden" name="previewas" value=<%= teamMember%>>
+                                                                                    <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>
                                                                                 
                                                                                 </form>
                                                                             <% } %>

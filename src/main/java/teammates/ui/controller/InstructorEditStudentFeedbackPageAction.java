@@ -21,7 +21,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        String previewStudentEmail = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
+        String moderatedStudentEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT);
 
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
                                                Const.ParamsNames.COURSE_ID), 
@@ -30,35 +30,35 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
                                                Const.ParamsNames.FEEDBACK_SESSION_NAME),
                                  feedbackSessionName);
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
-                                               Const.ParamsNames.PREVIEWAS),
-                                 previewStudentEmail);
+                                               Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT),
+                                 moderatedStudentEmail);
 
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId), 
                 logic.getFeedbackSession(feedbackSessionName, courseId),
-                false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS); // double check later
+                false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS); 
         
-        StudentAttributes previewStudent = logic.getStudentForEmail(courseId, previewStudentEmail); //rename preview students later
+        StudentAttributes studentUnderModeration = logic.getStudentForEmail(courseId, moderatedStudentEmail); 
         
-        if (previewStudent == null) {
+        if (studentUnderModeration == null) {
             throw new EntityDoesNotExistException("Student Email "
-                    + previewStudentEmail + " does not exist in " + courseId
+                    + moderatedStudentEmail + " does not exist in " + courseId
                     + ".");
         }
         
         FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student);
         
         data.bundle = logic.getFeedbackSessionQuestionsBundleForStudent(
-                feedbackSessionName, courseId, previewStudent.email);
+                feedbackSessionName, courseId, studentUnderModeration.email);
         
         Assumption.assertNotNull(data.bundle);
         
         data.isSessionOpenForSubmission = true;
         data.isModeration = true;
-        data.previewStudent = previewStudent;
+        data.studentSubmittingFeedback = studentUnderModeration;
         hideAnonymousResponses(data.bundle);
 
-        statusToAdmin = "Moderating feedback session for student (" + previewStudent.email + ")<br>" +
+        statusToAdmin = "Moderating feedback session for student (" + studentUnderModeration.email + ")<br>" +
                 "Session Name: " + feedbackSessionName + "<br>" +
                 "Course ID: " + courseId;
         
