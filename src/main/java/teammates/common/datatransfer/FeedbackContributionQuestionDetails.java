@@ -695,6 +695,54 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return errorMsg;
     }
     
+
+    public static String getPerceivedContributionInEqualShareFormatHtml(int i) {
+        return "<span>&nbsp;&nbsp;["
+                + "Perceived Contribution: "
+                + convertToEqualShareFormatHtml(i)
+                + "]</span>";
+    }
+    
+    public String getPerceivedContributionHtml(FeedbackQuestionAttributes question,
+            String targetEmail, FeedbackSessionResultsBundle bundle) {
+        
+        if (hasPerceivedContribution(targetEmail, question, bundle)) {
+            Map<String, StudentResultSummary> stats = FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
+            StudentResultSummary studentResult = stats.get(targetEmail);
+            
+            String responseAnswerHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
+                    studentResult.claimedToInstructor);
+            
+            int pc = studentResult.perceivedToInstructor;
+            responseAnswerHtml += FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
+            
+            return responseAnswerHtml;
+        } else {
+            return FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(Const.POINTS_NOT_SUBMITTED);
+        }
+    }
+    
+    private boolean hasPerceivedContribution(String email, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
+        Map<String, StudentResultSummary> stats = FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
+        return stats.containsKey(email);
+    }
+    
+    /**
+     * Used to display missing responses between a possible giver and a possible recipient.
+     * Returns "N/A" with the Perceived Contribution if the giver is the recipient.
+     * Otherwise, returns "N/A".
+     */
+    @Override
+    public String getNoResponseTextInHtml(String giverEmail, String recipientEmail, FeedbackSessionResultsBundle bundle, FeedbackQuestionAttributes question) {
+        // if giver did not give a response to himself, we still show his perceived contribution in a row
+        if (giverEmail.equals(recipientEmail) && hasPerceivedContribution(recipientEmail, question, bundle)) {
+            return getPerceivedContributionHtml(question, recipientEmail, bundle);
+        } else {
+            return convertToEqualShareFormatHtml(Const.POINTS_NOT_SUBMITTED);
+        }
+    }
+    
+    
     /*
      * The functions below are taken and modified from EvalSubmissionEditPageData.java
      * -------------------------------------------------------------------------------
@@ -722,12 +770,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return result;
     }
     
-    public static String getPerceivedContributionInEqualShareFormatHtml(int i) {
-        return "<span>&nbsp;&nbsp;["
-                + "Perceived Contribution: "
-                + convertToEqualShareFormatHtml(i)
-                + "]</span>";
-    }
     
     /**
      * Converts points in integer to String.
@@ -770,5 +812,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         else
             return "";
     }
+    
 
 }
