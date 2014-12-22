@@ -357,22 +357,23 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             
             String displayName = name;
             String displayTeam = team;
+            String displayEmail = email;
             if(hideRecipient == true && hiddenRecipients.contains(email)){
                 String hash = Integer.toString(Math.abs(name.hashCode()));
                 displayName = type.toSingularFormString();
                 displayName = "Anonymous " + displayName + " " + hash;
                 displayTeam = displayName + Const.TEAM_OF_EMAIL_OWNER;
+                displayEmail = Const.USER_NOBODY_TEXT;
             }
             
             int[] incomingPoints = new int[teamResult.normalizedPeerContributionRatio.length];
             for(int i=0 ; i<incomingPoints.length ; i++){
                 incomingPoints[i] = teamResult.normalizedPeerContributionRatio[i][studentIndx];
             }
-            
-            
-            
+                     
             String contribFragmentString = Sanitizer.sanitizeForCsv(displayTeam) + ","
                              + Sanitizer.sanitizeForCsv(displayName) + ","
+                             + Sanitizer.sanitizeForCsv(displayEmail) + ","
                              + Sanitizer.sanitizeForCsv(Integer.toString(summary.claimedToInstructor)) + ","
                              + Sanitizer.sanitizeForCsv(Integer.toString(summary.perceivedToInstructor)) + ","
                              + Sanitizer.sanitizeForCsv(getNormalizedPointsListDescending(incomingPoints, studentIndx)) + Const.EOL;
@@ -398,7 +399,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         csv += "e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\"." + Const.EOL;
         csv += "Claimed Contribution (CC) = the contribution claimed by the student." + Const.EOL;
         csv += "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members." + Const.EOL;
-        csv += "Team, Name, CC, PC, Ratings Recieved" + Const.EOL;
+        csv += "Team, Name, Email, CC, PC, Ratings Recieved" + Const.EOL;
         //Data
         csv += contribFragments + Const.EOL;
 
@@ -694,6 +695,54 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return errorMsg;
     }
     
+
+    public static String getPerceivedContributionInEqualShareFormatHtml(int i) {
+        return "<span>&nbsp;&nbsp;["
+                + "Perceived Contribution: "
+                + convertToEqualShareFormatHtml(i)
+                + "]</span>";
+    }
+    
+    public String getPerceivedContributionHtml(FeedbackQuestionAttributes question,
+            String targetEmail, FeedbackSessionResultsBundle bundle) {
+        
+        if (hasPerceivedContribution(targetEmail, question, bundle)) {
+            Map<String, StudentResultSummary> stats = FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
+            StudentResultSummary studentResult = stats.get(targetEmail);
+            
+            String responseAnswerHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
+                    studentResult.claimedToInstructor);
+            
+            int pc = studentResult.perceivedToInstructor;
+            responseAnswerHtml += FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
+            
+            return responseAnswerHtml;
+        } else {
+            return FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(Const.POINTS_NOT_SUBMITTED);
+        }
+    }
+    
+    private boolean hasPerceivedContribution(String email, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle bundle) {
+        Map<String, StudentResultSummary> stats = FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
+        return stats.containsKey(email);
+    }
+    
+    /**
+     * Used to display missing responses between a possible giver and a possible recipient.
+     * Returns "N/A" with the Perceived Contribution if the giver is the recipient.
+     * Otherwise, returns "N/A".
+     */
+    @Override
+    public String getNoResponseTextInHtml(String giverEmail, String recipientEmail, FeedbackSessionResultsBundle bundle, FeedbackQuestionAttributes question) {
+        // if giver did not give a response to himself, we still show his perceived contribution in a row
+        if (giverEmail.equals(recipientEmail) && hasPerceivedContribution(recipientEmail, question, bundle)) {
+            return getPerceivedContributionHtml(question, recipientEmail, bundle);
+        } else {
+            return convertToEqualShareFormatHtml(Const.POINTS_NOT_SUBMITTED);
+        }
+    }
+    
+    
     /*
      * The functions below are taken and modified from EvalSubmissionEditPageData.java
      * -------------------------------------------------------------------------------
@@ -721,12 +770,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return result;
     }
     
-    public static String getPerceivedContributionInEqualShareFormatHtml(int i) {
-        return "<span>&nbsp;&nbsp;["
-                + "Perceived Contribution: "
-                + convertToEqualShareFormatHtml(i)
-                + "]</span>";
-    }
     
     /**
      * Converts points in integer to String.
@@ -769,5 +812,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         else
             return "";
     }
+    
 
 }

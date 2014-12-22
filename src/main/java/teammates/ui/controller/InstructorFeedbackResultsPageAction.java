@@ -24,7 +24,6 @@ public class InstructorFeedbackResultsPageAction extends Action {
         //this is for ajax loading of the htm table in the modal
         boolean isHtmlTableNeeded = getRequestParamAsBoolean(Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED);
         
-        
         int queryRange;
         if(needAjax != null){
             queryRange = QUERY_RANGE_FOR_AJAX_TESTING;
