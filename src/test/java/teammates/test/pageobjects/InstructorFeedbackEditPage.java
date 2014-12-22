@@ -435,7 +435,13 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public boolean verifyNewContributionQuestionFormIsDisplayed() {
-        return addNewQuestionButton.isDisplayed();
+        WebElement contribForm = browser.driver.findElement(By.id("contribForm"));
+        return contribForm.isDisplayed() && addNewQuestionButton.isDisplayed();
+    }
+    
+    public boolean verifyNewRubricQuestionFormIsDisplayed() {
+        WebElement contribForm = browser.driver.findElement(By.id("rubricForm"));
+        return contribForm.isDisplayed() && addNewQuestionButton.isDisplayed();
     }
     
     public void selectNewQuestionType(String questionType){
