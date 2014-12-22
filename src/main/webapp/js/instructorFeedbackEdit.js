@@ -659,7 +659,7 @@ function toggleVisibilityMessage(elem){
     $disabledInputs.prop('disabled', true);
 }
 
-var previousFormData = {};
+var previousFormDataMap = {};
 
 function getVisibilityMessage(buttonElem){
     var form = $(buttonElem).closest("form");
@@ -669,13 +669,13 @@ function getVisibilityMessage(buttonElem){
     eval($(form).attr('onsubmit'));
     var formData =  $(form[0]).serialize();
 
-    if(previousFormData[qnNumber] == formData){
+    if(previousFormDataMap[qnNumber] === formData){
         $(form).find('.visibilityOptions').hide();
         $(form).find('.visibilityMessage').show();
         return;
     }
 	// update stored form data
-    previousFormData[qnNumber] = formData;
+    previousFormDataMap[qnNumber] = formData;
 
     // empty current visibility message in the form
     $(form).find('.visibilityMessage').html("");
@@ -693,7 +693,7 @@ function getVisibilityMessage(buttonElem){
             error: function(jqXHR, textStatus, errorThrown){
                 console.log('AJAX request failed');
             }
-    });    
+    	});    
 }
 
 function getVisibilityMessageIfPreviewIsActive(buttonElem) {
