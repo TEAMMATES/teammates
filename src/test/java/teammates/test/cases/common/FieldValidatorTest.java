@@ -72,7 +72,8 @@ public class FieldValidatorTest extends BaseTestCase{
                         emptyValue));
         
         String untrimmedValue = " abc ";
-        assertEquals("invalid: untrimmed","",
+        assertEquals("invalid: untrimmed", 
+                String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, typicalFieldName),
                 validator.getValidityInfoForSizeCappedNonEmptyString(
                         typicalFieldName, 
                         maxLength, 
@@ -117,7 +118,8 @@ public class FieldValidatorTest extends BaseTestCase{
                         emptyValue));
         
         String untrimmedValue = " abc ";
-        assertEquals("invalid: untrimmed", "",
+        assertEquals("invalid: untrimmed", 
+                String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, typicalFieldName),
                 validator.getValidityInfoForSizeCappedPossiblyEmptyString(
                         typicalFieldName, 
                         maxLength, 
@@ -252,9 +254,8 @@ public class FieldValidatorTest extends BaseTestCase{
         ______TS("failure: untrimmed value");
         
         String untrimmedValue = " abc ";
-        assertEquals("invalid: untrimmed", String.format(
-                INVALID_NAME_ERROR_MESSAGE, 
-                untrimmedValue, typicalFieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, typicalFieldName, emptyValue),
+        assertEquals("invalid: untrimmed", 
+                String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, typicalFieldName),
                 validator.getValidityInfoForAllowedName(
                         typicalFieldName, 
                         maxLength, 
@@ -402,19 +403,19 @@ public class FieldValidatorTest extends BaseTestCase{
         testOnce("invalid: empty string", 
                 FieldType.GOOGLE_ID, 
                 emptyValue,
-                String.format(GOOGLE_ID_ERROR_MESSAGE, emptyValue, REASON_EMPTY));
+                String.format(GOOGLE_ID_ERROR_MESSAGE, emptyValue,    REASON_EMPTY));
         
         String untrimmedValue = " e@email.com ";
         testOnce("invalid: untrimmed", 
                 FieldType.GOOGLE_ID, 
                 untrimmedValue,
-                String.format(GOOGLE_ID_ERROR_MESSAGE, untrimmedValue, REASON_INCORRECT_FORMAT));
+                String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "googleID"));
         
         String whitespaceOnlyValue = "    ";
         testOnce("invalid: whitespace only", 
                 FieldType.GOOGLE_ID, 
                 whitespaceOnlyValue,
-                String.format(GOOGLE_ID_ERROR_MESSAGE, whitespaceOnlyValue, REASON_INCORRECT_FORMAT));
+                String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "googleID"));
         
         String tooLongValue = maxLengthValue + "x";
         testOnce("invalid: too long", 
@@ -491,13 +492,13 @@ public class FieldValidatorTest extends BaseTestCase{
         testOnce("invalid: untrimmed", 
                 FieldType.EMAIL, 
                 untrimmedValue,
-                String.format(EMAIL_ERROR_MESSAGE, untrimmedValue, REASON_INCORRECT_FORMAT));
+                String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "email"));
         
         String whitespaceOnlyValue = "    ";
         testOnce("invalid: whitespace only", 
                 FieldType.EMAIL, 
                 whitespaceOnlyValue,
-                String.format(EMAIL_ERROR_MESSAGE, whitespaceOnlyValue, REASON_INCORRECT_FORMAT));
+                String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "email"));
         
         String tooLongValue = maxLengthValue + "x";
         testOnce("invalid: too long", 
@@ -551,19 +552,19 @@ public class FieldValidatorTest extends BaseTestCase{
         testOnce("invalid: empty string", 
                 FieldType.COURSE_ID, 
                 emptyValue, 
-                String.format(COURSE_ID_ERROR_MESSAGE, emptyValue, REASON_EMPTY));
+                String.format(COURSE_ID_ERROR_MESSAGE, emptyValue,    REASON_EMPTY));
         
         String untrimmedValue = " $cs1101-sem1.2_ ";
         testOnce("invalid: untrimmed", 
                 FieldType.COURSE_ID, 
                 untrimmedValue,
-                String.format(COURSE_ID_ERROR_MESSAGE, untrimmedValue, REASON_INCORRECT_FORMAT));
+                String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID"));
         
         String whitespaceOnlyValue = "    ";
         testOnce("invalid: whitespace only", 
                 FieldType.COURSE_ID, 
                 whitespaceOnlyValue,
-                String.format(COURSE_ID_ERROR_MESSAGE, whitespaceOnlyValue, REASON_INCORRECT_FORMAT));
+                String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID"));
         
         String tooLongValue = maxLengthValue + "x";
         testOnce("invalid: too long", 

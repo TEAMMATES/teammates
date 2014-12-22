@@ -113,7 +113,7 @@ public class StudentProfile {
     }
     
     public void setGoogleId(String googleId) {
-        this.googleId = googleId.trim();
+        this.googleId = googleId;
     }
     
     public String getShortName() {
@@ -121,7 +121,7 @@ public class StudentProfile {
     }
     
     public void setShortName(String shortName) {
-        this.shortName =shortName.trim();
+        this.shortName =shortName;
     }
     
     public String getEmail() {
@@ -129,7 +129,7 @@ public class StudentProfile {
     }
     
     public void setEmail(String email) {
-        this.email = email.trim();
+        this.email = email;
     }
     
     public String getInstitute() {
@@ -137,7 +137,7 @@ public class StudentProfile {
     }
     
     public void setInstitute(String institute) {
-        this.institute = institute.trim();
+        this.institute = institute;
     }
     
     public String getNationality() {
@@ -145,7 +145,7 @@ public class StudentProfile {
     }
     
     public void setNationality(String nationality) {
-        this.nationality = nationality.trim();
+        this.nationality = nationality;
     }
     
     public String getGender() {
@@ -153,7 +153,7 @@ public class StudentProfile {
     }
     
     public void setGender(String gender) {
-        this.gender = gender.trim();
+        this.gender = gender;
     }
     
     public Text getMoreInfo() {

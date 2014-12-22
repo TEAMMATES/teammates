@@ -534,6 +534,8 @@ public class FieldValidator {
         
         if (value.isEmpty()) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
+        } else if (!isTrimmed(value)) {
+            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         } else if(value.length()>maxLength){
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_TOO_LONG, fieldName, maxLength);
         } else if (StringHelper.isMatching(value, "^.*[^a-zA-Z0-9 ].*$")){
@@ -563,6 +565,8 @@ public class FieldValidator {
         
         if (value.isEmpty()) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
+        } else if (!isTrimmed(value)) {
+            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         } else if(value.length()>maxLength){
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_TOO_LONG, fieldName, maxLength);
         } 
@@ -590,6 +594,8 @@ public class FieldValidator {
         
         if (value.isEmpty()) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
+        } else if (!isTrimmed(value)) {
+            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         } else if (value.length()>maxLength) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_TOO_LONG, fieldName, maxLength);
         } else if (Character.isLetterOrDigit(value.codePointAt(0)) == false) {           
@@ -625,6 +631,9 @@ public class FieldValidator {
         
         Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
         
+        if (!isTrimmed(value)) {
+            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
+        } 
         if (value.length()>maxLength){
             return String.format(SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_TOO_LONG, fieldName, maxLength);
         } 
@@ -829,6 +838,8 @@ public class FieldValidator {
         
         if (value.isEmpty()) {
             return String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
+        } else if (!isTrimmed(value)) {
+            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "googleID");
         } else if(value.length()>GOOGLE_ID_MAX_LENGTH){
             return String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_TOO_LONG);
         } else if(!StringHelper.isMatching(value, REGEX_EMAIL) && !StringHelper.isMatching(value, REGEX_GOOGLE_ID_NON_EMAIL)){
@@ -843,6 +854,8 @@ public class FieldValidator {
         
         if (value.isEmpty()) {
             return String.format(COURSE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
+        } else if (!isTrimmed(value)) {
+            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID");
         } else if(value.length()>COURSE_ID_MAX_LENGTH){
             return String.format(COURSE_ID_ERROR_MESSAGE, value, REASON_TOO_LONG);
         }else if(!StringHelper.isMatching(value, REGEX_COURSE_ID)){
@@ -857,6 +870,8 @@ public class FieldValidator {
         
         if (value.isEmpty()) {
             return String.format(EMAIL_ERROR_MESSAGE, value, REASON_EMPTY);
+        } else if (!isTrimmed(value)) {
+            return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "email");
         } else if(value.length()>EMAIL_MAX_LENGTH){
             return String.format(EMAIL_ERROR_MESSAGE, value, REASON_TOO_LONG);
         }else if(!StringHelper.isMatching(value, REGEX_EMAIL)){
