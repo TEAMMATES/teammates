@@ -417,58 +417,58 @@
                                         <%
                                             for(FeedbackResponseAttributes responseEntry: responseEntries) {
                                         %>
-                                        <tr>
+                                            <tr>
                                         <%
-                                        	String recipientName = data.bundle.getRecipientNameForResponse(question, responseEntry);
-                                                                                    String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
-                                                                                    
-                                                                                    if (question.recipientType == FeedbackParticipantType.TEAMS) {
-                                                                                      possibleRecipientsForQuestion.remove(data.bundle.getFullNameFromRoster(responseEntry.recipientEmail));
-                                                                                    } else {
-                                                                                      possibleRecipientsForQuestion.remove(responseEntry.recipientEmail);
-                                                                                    }
-                                                                                    
-                                                                                    if (!data.bundle.isRecipientVisible(responseEntry)) {
-                                                                                      // do not show possible recipients if recipients are anonymised
-                                                                                      possibleRecipientsForQuestion.clear();
-                                                                                    }
-                                                                                    
-                                                                                    if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, responseEntry.recipientEmail).isEmpty()) {
+                                            	String recipientName = data.bundle.getRecipientNameForResponse(question, responseEntry);
+                                                String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
+                                                
+                                                if (question.recipientType == FeedbackParticipantType.TEAMS) {
+                                                  possibleRecipientsForQuestion.remove(data.bundle.getFullNameFromRoster(responseEntry.recipientEmail));
+                                                } else {
+                                                  possibleRecipientsForQuestion.remove(responseEntry.recipientEmail);
+                                                }
+                                                
+                                                if (!data.bundle.isRecipientVisible(responseEntry)) {
+                                                  // do not show possible recipients if recipients are anonymised
+                                                  possibleRecipientsForQuestion.clear();
+                                                }
+                                                
+                                                if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, responseEntry.recipientEmail).isEmpty()) {
                                         %>
-                                                <td class="middlealign">
-                                                    <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(responseEntry.recipientEmail)%>">
-                                                        <a class="student-profile-pic-view-link btn-link">
-                                                            View Photo
-                                                        </a>
-                                                        <img src="" alt="No Image Given" class="hidden">
-                                                    </div>
-                                                </td>
+                                                    <td class="middlealign">
+                                                        <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(responseEntry.recipientEmail)%>">
+                                                            <a class="student-profile-pic-view-link btn-link">
+                                                                View Photo
+                                                            </a>
+                                                            <img src="" alt="No Image Given" class="hidden">
+                                                        </div>
+                                                    </td>
                                         <%
-                                        	} else {
+                                        	    } else {
                                         %>
-                                                <td class="middlealign">
-                                                    <div class="align-center" data-link="">
-                                                        <a class="student-profile-pic-view-link btn-link">
-                                                            No Photo
-                                                        </a>
-                                                    </div>
-                                                </td>
+                                                    <td class="middlealign">
+                                                        <div class="align-center" data-link="">
+                                                            <a class="student-profile-pic-view-link btn-link">
+                                                                No Photo
+                                                            </a>
+                                                        </div>
+                                                    </td>
                                         <%
-                                        	}
+                                        	    }
                                         %>
-                                            <td class="middlealign"><%=recipientName%></td>
-                                            <td class="middlealign"><%=recipientTeamName%></td>
-                                            <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
-                                        </tr>        
+                                                <td class="middlealign"><%=recipientName%></td>
+                                                <td class="middlealign"><%=recipientTeamName%></td>
+                                                <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
+                                            </tr>        
                                         <%
-                                                	}
+                                            }
                                                                                         
-                                                                                            for (String possibleRecipientWithNoResponse : possibleRecipientsForQuestion) {
-                                                                                            	if (questionDetails.shouldShowNoResponseText(giverEmail, possibleRecipientWithNoResponse, question)) {
-                                                %>
-                                               <tr class="pending_response_row">
+                                                for (String possibleRecipientWithNoResponse : possibleRecipientsForQuestion) {
+                                                	if (questionDetails.shouldShowNoResponseText(giverEmail, possibleRecipientWithNoResponse, question)) {
+                                        %>
+                                                        <tr class="pending_response_row">
                                                <%
-                                               	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, possibleRecipientWithNoResponse).isEmpty()) {
+                                               	        if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, possibleRecipientWithNoResponse).isEmpty()) {
                                                %>
                                                             <td class="middlealign">
                                                                 <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(possibleRecipientWithNoResponse)%>">
@@ -494,10 +494,10 @@
                                                         <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(possibleRecipientWithNoResponse)%></td>
                                                         <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleRecipientWithNoResponse)%></td>
                                                         <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(giverEmail, possibleRecipientWithNoResponse, data.bundle, question)%></td>
-                                                    </tr>
+                                                        </tr>
                                                     <%
-                                                    	}
-                                                                                                }
+                                                    }
+                                                }
                                                     %>
                                     </tbody>
                                 </table>
@@ -565,13 +565,13 @@
                         Collections.sort(teamsWithNoResponseGivenList);
                         for (String teamWithNoResponseGiven: teamsWithNoResponseGivenList) {
              %>
-                      <div class="panel panel-warning">
-                          <div class="panel-heading">
-                              <strong> <%=teamWithNoResponseGiven%></strong>
-                              <span class="glyphicon pull-right glyphicon-chevron-up"></span>
-                          </div>
-                          <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
-                              <div class="panel-body background-color-warning">
+                          <div class="panel panel-warning">
+                              <div class="panel-heading">
+                                  <strong> <%=teamWithNoResponseGiven%></strong>
+                                  <span class="glyphicon pull-right glyphicon-chevron-up"></span>
+                              </div>
+                              <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
+                                  <div class="panel-body background-color-warning">
                                   <%
                                   	List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(teamWithNoResponseGiven));
                                     Collections.sort(teamMembers);
@@ -582,7 +582,7 @@
                                                 <div class="panel-heading">
                                                     From: 
                                                     <%
-                                                	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) {
+                                                	    if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) {
                                                     %>
                                                         <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(teamMember)%>">
                                                             <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
@@ -608,9 +608,9 @@
                                     }
                                     %>
                                   
+                                  </div>
                               </div>
-                          </div>
-                      </div>                
+                          </div>                
                   <%
                         }    
                     }
@@ -637,37 +637,37 @@
                                 <div class="panel-body">
                                     <%
                                     	Set<String> teamsFromSection = data.bundle.getTeamsInSectionFromRoster(sectionWithNoResponseReceived);
-                                                                    List<String> teamsFromSectionList = new ArrayList<String>(teamsFromSection);
-                                                                    Collections.sort(teamsFromSectionList);
-                                                                    for (String team : teamsFromSectionList) {
-                                                                    	List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(team));
-                                                                        Collections.sort(teamMembers);
+                                        List<String> teamsFromSectionList = new ArrayList<String>(teamsFromSection);
+                                        Collections.sort(teamsFromSectionList);
+                                        for (String team : teamsFromSectionList) {
+                                        	List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(team));
+                                            Collections.sort(teamMembers);
                                     %>
-                                        <div class="panel panel-warning">
-                                          <div class="panel-heading">
-                                              <strong> <%=team%></strong>
-                                              <span class="glyphicon pull-right glyphicon-chevron-up"></span>
-                                          </div>
-                                          <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
-                                              <div class="panel-body background-color-warning">
+                                            <div class="panel panel-warning">
+                                              <div class="panel-heading">
+                                                  <strong> <%=team%></strong>
+                                                  <span class="glyphicon pull-right glyphicon-chevron-up"></span>
+                                              </div>
+                                              <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
+                                                  <div class="panel-body background-color-warning">
                                       <%
-                                      	for (String teamMember : teamMembers) {
+                                      	    for (String teamMember : teamMembers) {
                                       %>
                                                  <div class="panel panel-primary">
                                                     <div class="panel-heading">
                                                         From: 
                                                         <%
-                                                    	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) {
+                                                    	    if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) {
                                                     %>
                                                             <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(teamMember)%>">
                                                                 <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
                                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                             </div>
                                                         <%
-                                                        	} else {
+                                                            } else {
                                                         %>
                                                             <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
-                                                        <% } %>
+                                                        <%  } %>
                                                             <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
                                                         <span class='glyphicon glyphicon-chevron-up pull-right'></span>
                                                     </div>
@@ -678,13 +678,13 @@
                                                  </div>
                                             
                                              <% 
-                                          }
+                                            }
                                     	%>
                                         </div>
                                           </div>
                                       </div>    
                                         <% 
-                                    }
+                                        }
                                     
                                     %>
                                 </div>
