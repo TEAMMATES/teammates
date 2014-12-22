@@ -357,17 +357,20 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getNewQuestionSpecificEditFormHtml() {
-        // Add two empty choices by default
-        this.numOfRubricChoices = 2;
-        this.rubricChoices.add("Choice 1");
-        this.rubricChoices.add("Choice 2");
+        // Add some choices by default
+        this.numOfRubricChoices = 5;
+        this.rubricChoices.add("Strongly Agree");
+        this.rubricChoices.add("Agree");
+        this.rubricChoices.add("Neutral");
+        this.rubricChoices.add("Disagree");
+        this.rubricChoices.add("Strongly Disagree");
         
-        // Add two empty sub-questions by default
+        // Add some sub-questions by default
         this.numOfRubricSubQuestions = 2;
-        this.rubricSubQuestions.add("sub-question 1");
-        this.rubricSubQuestions.add("sub-question 2");
+        this.rubricSubQuestions.add("This student has been active during discussions.");
+        this.rubricSubQuestions.add("This student has contributed to the team.");
         
-        initializeRubricDescriptions();
+        this.initializeRubricDescriptions();
         
         return "<div id=\"rubricForm\">" + 
                     this.getQuestionSpecificEditFormHtml(-1) +
