@@ -374,19 +374,17 @@
                         teamMembersWithResponses.add(giverEmail);
                     %>
                     <div class="pull-right">
-                    <% if (!giverEmail.contains("@@")) { %>
-                            <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE %>"> 
+                    <% if (!giverEmail.contains("@@") && data.bundle.isParticipantIdentifierStudent(giverEmail)) { %>
+                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE %>"> 
                             
                                 <input type="submit" class="btn btn-success btn-xs" value="Edit Responses">
-                                    
-                                
-                            <input type="hidden" name="courseid" value="<%=data.courseId %>">
-                            <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
-                            
-                            <input type="hidden" name="previewas" value=<%= giverEmail%>>
+                                <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                <input type="hidden" name="previewas" value=<%= giverEmail%>>
                             
                             </form>
                         <% } %>
+                        &nbsp;
                         <div class="display-icon" style="display:inline;">
                             <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
                         </div>                
@@ -557,7 +555,22 @@
                     	}
                     %>
                         <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
-                    <span class='glyphicon glyphicon-chevron-up pull-right'></span>
+                    <div class="pull-right">
+                    <% if (!email.contains("@@") && data.bundle.isParticipantIdentifierStudent(email)) { %>
+                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE %>"> 
+                            
+                                <input type="submit" class="btn btn-success btn-xs" value="Edit Responses">
+                                <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                <input type="hidden" name="previewas" value=<%= email%>>
+                            
+                            </form>
+                        <% } %>
+                        &nbsp;
+                        <div class="display-icon" style="display:inline;">
+                            <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
+                        </div>                
+                    </div>
                 </div>
                 <div class='panel-collapse collapse in'>
                     <div class="panel-body"> There are no responses given by this user 
@@ -614,7 +627,22 @@
                                                     	}
                                                     %>
                                                         <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
-                                                    <span class='glyphicon glyphicon-chevron-up pull-right'></span>
+                                                    <div class="pull-right">
+                                                    <% if (!teamMember.contains("@@") && data.bundle.isParticipantIdentifierStudent(teamMember)) { %>
+                                                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE %>"> 
+                                                            
+                                                                <input type="submit" class="btn btn-success btn-xs" value="Edit Responses">
+                                                                <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                                                <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                                <input type="hidden" name="previewas" value=<%= teamMember%>>
+                                                            
+                                                            </form>
+                                                        <% } %>
+                                                        &nbsp;
+                                                        <div class="display-icon" style="display:inline;">
+                                                            <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
+                                                        </div>                
+                                                    </div>
                                                 </div>
                                                 <div class='panel-collapse collapse in'>
                                                     <div class="panel-body"> There are no responses given by this user 

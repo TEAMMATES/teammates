@@ -313,43 +313,14 @@
 
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    
-                        From: 
-                        <%
-                    	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) {
-                    %>
-                            <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
-                                <strong><%=responsesFromGiver.getKey()%></strong>
-                                <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                <a class="link-in-dark-bg" href="mailTo:<%=targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
-                            </div>
-                        <%
-                        	} else {
-                        %>
+                    From: 
+                    <%
+                	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) {
+                %>
+                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
                             <strong><%=responsesFromGiver.getKey()%></strong>
-                        <%
-                        	}
-                        %>
-                    
-                    
-                        <div class="pull-right">
-                        <% if (!targetEmail.contains("@@")) { %>
-                            <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE %>"> 
-                            
-                                <input type="submit" class="btn btn-success btn-xs" value="Edit Responses">
-                                    
-                                
-                            <input type="hidden" name="courseid" value="<%=data.courseId %>">
-                            <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
-                            
-                            <input type="hidden" name="previewas" value=<%= targetEmail%>>
-                            
-                            </form>
-                        <% } %>
-                            &nbsp;
-                            <div class="display-icon" style="display:inline;">
-                                <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
-                            </div>
+                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                            <a class="link-in-dark-bg" href="mailTo:<%=targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
                         </div>
                     <%
                     	} else {
@@ -360,7 +331,22 @@
                         teamMembersWithResponses.add(targetEmail);
                         
                     %>
-			 <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
+			        <div class="pull-right">
+                    <% if (!targetEmail.contains("@@") && data.bundle.isParticipantIdentifierStudent(targetEmail)) { %>
+                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE %>"> 
+                            
+                                <input type="submit" class="btn btn-success btn-xs" value="Edit Responses">
+                                <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                <input type="hidden" name="previewas" value=<%= targetEmail%>>
+                            
+                            </form>
+                    <% } %>
+                        &nbsp;
+                        <div class="display-icon" style="display:inline;">
+                            <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
+                        </div>                
+                    </div>
                </div>
                 <div class='panel-collapse collapse <%=shouldCollapsed ? "" : "in"%>'>
                 <div class="panel-body">
@@ -899,7 +885,22 @@
                     	}
                     %>
                         <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
-                    <span class='glyphicon glyphicon-chevron-up pull-right'></span>
+                    <div class="pull-right">
+                    <% if (!email.contains("@@") && data.bundle.isParticipantIdentifierStudent(email)) { %>
+                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE %>"> 
+                            
+                                <input type="submit" class="btn btn-success btn-xs" value="Edit Responses">
+                                <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                <input type="hidden" name="previewas" value=<%= email%>>
+                            
+                            </form>
+                        <% } %>
+                        &nbsp;
+                        <div class="display-icon" style="display:inline;">
+                            <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
+                        </div>                
+                    </div>
                 </div>
                 <div class='panel-collapse collapse in'>
                     <div class="panel-body"> There are no responses given by this user 
@@ -955,7 +956,22 @@
                                                     	}
                                                     %>
                                                         <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
-                                                    <span class='glyphicon glyphicon-chevron-up pull-right'></span>
+                                                    <div class="pull-right">
+                                                        <% if (!teamMember.contains("@@") && data.bundle.isParticipantIdentifierStudent(teamMember)) { %>
+                                                                <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE %>"> 
+                                                                
+                                                                    <input type="submit" class="btn btn-success btn-xs" value="Edit Responses">
+                                                                    <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                                                    <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                                    <input type="hidden" name="previewas" value=<%= teamMember%>>
+                                                                
+                                                                </form>
+                                                            <% } %>
+                                                            &nbsp;
+                                                            <div class="display-icon" style="display:inline;">
+                                                                <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
+                                                            </div>                
+                                                     </div>
                                                 </div>
                                                 <div class='panel-collapse collapse in'>
                                                     <div class="panel-body"> There are no responses given by this user 
@@ -1028,7 +1044,21 @@
                                                                         <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
                                                                     <% } %>
                                                                         <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
-                                                                    <span class='glyphicon glyphicon-chevron-up pull-right'></span>
+                                                                    <div class="pull-right">
+                                                                        <% if (!teamMember.contains("@@") && data.bundle.isParticipantIdentifierStudent(teamMember)) { %>
+                                                                                <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE %>"> 
+                                                                                
+                                                                                    <input type="submit" class="btn btn-success btn-xs" value="Edit Responses">
+                                                                                    <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                                                                    <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                                                    <input type="hidden" name="previewas" value=<%= teamMember%>>
+                                                                                
+                                                                                </form>
+                                                                            <% } %>
+                                                                            <div class="display-icon" style="display:inline;">
+                                                                                <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
+                                                                            </div>                
+                                                                     </div>
                                                                 </div>
                                                                 <div class='panel-collapse collapse in'>
                                                                     <div class="panel-body"> There are no responses given by this user 
