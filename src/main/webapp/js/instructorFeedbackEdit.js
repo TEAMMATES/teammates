@@ -320,14 +320,6 @@ function tallyCheckboxes(qnNumber){
          checked.push($(this).val());
     });
     $("[name="+FEEDBACK_QUESTION_SHOWRECIPIENTTO+"]").val(checked.toString());
-    
-    
-    // Concatenate visibility options of response, giver, recipient into string
-	var visibilityOptionString ="";
-	visibilityOptionString += $("[name="+FEEDBACK_QUESTION_SHOWRESPONSESTO+"]").val();
-	visibilityOptionString += $("[name="+FEEDBACK_QUESTION_SHOWGIVERTO+"]").val();
-    visibilityOptionString += $("[name="+FEEDBACK_QUESTION_SHOWRECIPIENTTO+"]").val();
-    storeVisibilityOption(qnNumber, visibilityOptionString);
 }
 
 /**
@@ -648,57 +640,6 @@ function bindCopyEvents() {
     });
 }
 
-globalVisibilityOptionsString = {};
-
-function storeVisibilityOption(qnNumber,  visibilityOptionString){
-	// store visibility string of response	
-	globalVisibilityOptionsString[qnNumber] = visibilityOptionString;
-}
-
-function getPreviousVisibilityOptionString(qnNumber, parameterName){
-	return globalVisibilityOptionsString[qnNumber];	
-}
-
-/**
- * Return boolean result of whether the visibility options of qnNumber has changed
- */
-function isVisibilityOptionsChanged(qnNumber){
-	
-	// Verify changes of the hidden value, FEEDBACK_QUESTION_SHOWRESPONSESTO, in the form of qnNumber
-	var checked = [];
-	// Obtain checkboxes' values from checkboxes objects
-    $('.answerCheckbox'+qnNumber+':checked').each(function () {
-        checked.push($(this).val());
-    });
-    // Obtain checkboxes' values from hidden values in form
-    var checkedString = getPreviousVisibilityOptionString(qnNumber, FEEDBACK_QUESTION_SHOWRESPONSESTO); 
-    var isResponsesChanged = checkedString !== checked.toString();
-    
-    
-    // Verify changes of the hidden value, FEEDBACK_QUESTION_SHOWGIVERTO, in the form of qnNumber
-    checked = [];
-    // Obtain checkboxes' values from checkboxes objects
-    $('.giverCheckbox'+qnNumber+":checked").each(function () {
-         checked.push($(this).val());
-    });
-    // Obtain checkboxes' values from hidden values in form
-    var checkedString = getPreviousVisibilityOptionString(qnNumber, FEEDBACK_QUESTION_SHOWGIVERTO);
-    var isGiverChanged = checkedString !== checked.toString(); 
-   
-    
-    // Verify changes of the hidden value, FEEDBACK_QUESTION_SHOWRECIPIENTTO, in the form of qnNumber
-    checked = [];
-    // Obtain checkboxes' values from checkboxes objects
-    $('.recipientCheckbox'+qnNumber+':checked').each(function () {
-         checked.push($(this).val());
-    });
-    // Obtain checkboxes' values from hidden values in form
-    var checkedString = getPreviousVisibilityOptionString(qnNumber, FEEDBACK_QUESTION_SHOWRECIPIENTTO);
-    var isRecipientChanged = checkedString !== checked.toString(); 
-    
-    return isResponsesChanged || isGiverChanged || isRecipientChanged;
-}
-
 function toggleVisibilityMessage(elem){
     $elementParent = $(elem).closest('form');
     $options = $elementParent.find('.visibilityOptions');
@@ -718,32 +659,41 @@ function toggleVisibilityMessage(elem){
     $disabledInputs.prop('disabled', true);
 }
 
+var previousFormData = {};
+
 function getVisibilityMessage(buttonElem){
     var form = $(buttonElem).closest("form");
     var qnNumber = $(form).find("[name=questionnum]").val();
 
-    if(isVisibilityOptionsChanged(qnNumber)){
-    	// trigger onsubmit event of the qnNumber which has already binded with 
-    	eval($(form).attr('onsubmit'));
-    	
-    	// empty current visibility message in the form
-    	$(form).find('.visibilityMessage').html("");
-    	
-    	var url = "/page/instructorFeedbackQuestionvisibilityMessage";
-    	$.ajax({
-	            type: "POST",
-	            url: url,
-	            data: $(form[0]).serialize(),
-	            success: function(data){
-	                $(form).find('.visibilityMessage').html(formatVisibilityMessageHtml(data.visibilityMessage));
-	            },
-	            error: function(jqXHR, textStatus, errorThrown){
-	                console.log('AJAX request failed');
-	            }
-	        });
-    }    
-    $(form).find('.visibilityOptions').hide();
-    $(form).find('.visibilityMessage').show();
+    // trigger onsubmit event of the qnNumber which has already binded with
+    eval($(form).attr('onsubmit'));
+    var formData =  $(form[0]).serialize();
+
+    if(previousFormData[qnNumber] == formData){
+        $(form).find('.visibilityOptions').hide();
+        $(form).find('.visibilityMessage').show();
+        return;
+    }
+	// update stored form data
+    previousFormData[qnNumber] = formData;
+
+    // empty current visibility message in the form
+    $(form).find('.visibilityMessage').html("");
+    
+    var url = "/page/instructorFeedbackQuestionvisibilityMessage";
+	$.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            success: function(data){
+                $(form).find('.visibilityMessage').html(formatVisibilityMessageHtml(data.visibilityMessage));
+                $(form).find('.visibilityOptions').hide();
+                $(form).find('.visibilityMessage').show();
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log('AJAX request failed');
+            }
+    });    
 }
 
 function getVisibilityMessageIfPreviewIsActive(buttonElem) {
