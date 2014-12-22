@@ -64,7 +64,13 @@ public class ControllerServlet extends HttpServlet {
             long timeTaken = System.currentTimeMillis() - startTime;
             // This is the log message that is used to generate the 'activity log' for the admin.
             
-            log.info(c.getLogMessage() + "|||"+ timeTaken);
+            String[] localTime = c.requestParameters.get(Const.ParamsNames.LOCAL_TIME);
+            
+            String localTimeLogMessage = localTime != null && localTime.length > 0 ? 
+                                         "|||" + localTime[0] :
+                                         "";
+            
+            log.info(c.getLogMessage() + "|||"+ timeTaken + localTimeLogMessage);
             
         } catch (PageNotFoundException e) {
             log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));

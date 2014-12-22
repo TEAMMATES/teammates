@@ -60,7 +60,10 @@
                 <div class="well well-plain">
                     <form class="form-horizontal" method="get" action=""
                         id="activityLogFilter" role="form">
-
+                        
+                        
+                        <jsp:include page="<%=Const.ViewURIs.CURRENT_LOCAL_TIME%>" />
+                        
                         <div class="panel-heading" id="filterForm">
 
                             <div class="form-group">

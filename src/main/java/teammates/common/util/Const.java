@@ -287,6 +287,8 @@ public class Const {
 
     public class ParamsNames{
         
+        public static final String LOCAL_TIME = "localTime";
+        
         public static final String IS_USING_AJAX = "isusingAjax";
         
         public static final String BLOB_KEY = "blob-key";
@@ -783,6 +785,7 @@ public class Const {
         public static final String EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp";
         public static final String FEEDBACK_SUBMISSION_EDIT = "/jsp/feedbackSubmissionEdit.jsp";
         public static final String FEEDBACK_QUESTION_SUBMISSION_EDIT = "/jsp/feedbackQuestionSubmissionEdit.jsp"; 
+        public static final String CURRENT_LOCAL_TIME = "/jsp/currentLocalTime.jsp";
     }
 
     /* These are status messages that may be shown to the user */

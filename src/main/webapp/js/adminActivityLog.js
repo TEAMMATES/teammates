@@ -17,6 +17,10 @@ $(function() {
 	$("#filterReference").toggle();
 });
 
+$(function() { 
+    $("[data-toggle='tooltip']").tooltip({html: true, container: 'body'}); 
+});
+
 
 function submitFormAjax(offset) {
 	$('input[name=offset]').val(offset);

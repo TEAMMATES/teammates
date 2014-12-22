@@ -27,6 +27,7 @@ public class ActivityLogEntry {
     private String message;
     private String url;
     private Long timeTaken;
+    private String localTime;
     
     private String logInfoAsHtml;
     
@@ -78,7 +79,7 @@ public class ActivityLogEntry {
         time = appLog.getTimeUsec() / 1000;
         String[] tokens = appLog.getLogMessage().split("\\|\\|\\|", -1);
         
-        //TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||TIME_TAKEN
+        //TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL|||TIME_TAKEN|||LOCAL_TIME
         try{
             servletName = tokens[1];
             action = tokens[2];
@@ -89,7 +90,8 @@ public class ActivityLogEntry {
             email = tokens[7];
             message = tokens[8];
             url = tokens[9];
-            timeTaken = tokens.length == 11? Long.parseLong(tokens[10].trim()) : null;            
+            timeTaken = tokens.length >= 11? Long.parseLong(tokens[10].trim()) : null;   
+            localTime = tokens.length >= 12? tokens[11] : null;
             keyStringsToHighlight = null;
         } catch (ArrayIndexOutOfBoundsException e){
             
@@ -104,6 +106,7 @@ public class ActivityLogEntry {
                     + "System Error: " + e.getMessage() + "<br>" + appLog.getLogMessage();
             url = "Unknown";
             timeTaken = null;
+            localTime = null;
             keyStringsToHighlight = null;
         }
         
@@ -380,6 +383,19 @@ public class ActivityLogEntry {
         return urlToShow;
     }
     
+    
+    
+    public String getLocalTimeToShow(){
+        String localTimeToShow = "";
+        
+        if(localTime == null){
+            localTimeToShow = "No Local Time Available";
+        } else {
+            localTimeToShow = "Local Time is " + localTime;
+        }
+        return localTimeToShow;
+    }
+    
     public void setKeyStringsToHighlight(String[] strings){
         this.keyStringsToHighlight = strings;
     }
@@ -481,13 +497,14 @@ public class ActivityLogEntry {
         link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
         return link;
     }
-    
+
     
     public String getLogInfoForTableRowAsHtml(){
         
         
         String result = "";
-        result += "<tr> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"+ getDateInfo()
+        result += "<tr> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\"" 
+               + "data-toggle=\"tooltip\" data-container=\"body\" data-placement=\"top\" position:absolute data-original-title=\""+ getLocalTimeToShow() + "\">"+ getDateInfo()
                + "<br> <p class=\"" + getColorCode(getTimeTaken()) + "\">"
                + "<strong>" + TimeHelper.convertToStandardDuration(getTimeTaken()) + "</strong>"
                + "</p> </td> <td class=\"" + getTableCellColorCode(timeTaken) + "\">"
