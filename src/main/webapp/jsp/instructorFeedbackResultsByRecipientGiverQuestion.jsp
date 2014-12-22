@@ -915,7 +915,7 @@
                                              <div class="panel panel-primary">
                                                 <div class="panel-heading">
                                                     To: 
-                                                    <%
+                                                <%
                                                 	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) {
                                                 %>
                                                         <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(teamMember)%>">

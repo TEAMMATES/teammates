@@ -913,7 +913,7 @@
                                                     From: 
                                                     <%
                                                 	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) {
-                                                %>
+                                                    %>
                                                         <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(teamMember)%>">
                                                             <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
                                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
@@ -936,14 +936,14 @@
                                         
                                          <%
                                                                                  	}
-                                                                                 %>
+                                         %>
                                   </div>
                               </div>
                           </div>                
                       <%
                                       	}    
                                                     }
-                                      %>
+                      %>
 
                     </div>
                     </div>
