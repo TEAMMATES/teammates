@@ -1064,6 +1064,7 @@ public class Const {
     public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE = "atvisible";
     public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER = "later";
     public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER = "never";
+    public static final String INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE = "No Response";
     
     public static final String STUDENT_COURSE_STATUS_YET_TO_JOIN = "Yet to join";
     public static final String STUDENT_COURSE_STATUS_JOINED = "Joined";
@@ -1071,6 +1072,7 @@ public class Const {
     
     public static final String USER_NAME_FOR_SELF = "Myself";
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
+    public static final String USER_NOT_IN_A_SECTION = "Not in a section";
     
     public static String ACTION_RESULT_FAILURE = "Servlet Action Failure";
     public static String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";
