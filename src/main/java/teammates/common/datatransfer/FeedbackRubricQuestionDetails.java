@@ -42,8 +42,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     public boolean extractQuestionDetails(
             Map<String, String[]> requestParameters,
             FeedbackQuestionType questionType) {
-        String numOfRubricChoicesString = HttpRequestHelper.getValueFromParamMap(requestParameters, "rubricNumCols");
-        String numOfRubricSubQuestionsString = HttpRequestHelper.getValueFromParamMap(requestParameters, "rubricNumRows");
+        String numOfRubricChoicesString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS);
+        String numOfRubricSubQuestionsString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS);
         
         int numOfRubricChoices = Integer.parseInt(numOfRubricChoicesString);
         int numOfRubricSubQuestions = Integer.parseInt(numOfRubricSubQuestionsString);
@@ -56,7 +56,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         // Get list of choices
         for(int i = 0 ; i<numOfRubricChoices ; i++) {
-            String choice = HttpRequestHelper.getValueFromParamMap(requestParameters, "rubricChoice" + "-" + i);
+            String choice = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + i);
             if(choice != null) {
                 rubricChoices.add(choice);
                 numActualChoices++;
@@ -65,7 +65,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         // Get list of sub-questions
         for(int i = 0 ; i<numOfRubricSubQuestions ; i++) {
-            String subQuestion = HttpRequestHelper.getValueFromParamMap(requestParameters, "rubricSubQn" + "-" + i);
+            String subQuestion = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION + "-" + i);
             if(subQuestion != null) {
                 rubricSubQuestions.add(subQuestion);
                 numActualSubQuestions++;
@@ -76,7 +76,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         int descRows = -1;
         for(int i = 0 ; i<numOfRubricSubQuestions ; i++) {
             for(int j = 0 ; j<numOfRubricChoices ; j++) {
-                String description = HttpRequestHelper.getValueFromParamMap(requestParameters, "rubricDesc" + "-" + i + "-" + j);
+                String description = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-" + i + "-" + j);
                 if(description != null) {
                     if (j==0) {
                         descRows++;
@@ -189,7 +189,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${row}", Integer.toString(j),
                                 "${description}", Sanitizer.sanitizeForHtml(this.getDescription(j, i)),
                                 "${checked}", (frd.getAnswer(j) == i)? "checked":"", //Check if existing choice for sub-question == current choice
-                                "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE);
+                                "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
                 tableBodyFragmentHtml.append(optionFragment + Const.EOL);
             }
             
@@ -255,7 +255,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${row}", Integer.toString(j),
                                 "${description}", Sanitizer.sanitizeForHtml(this.getDescription(j, i)),
                                 "${checked}", "",
-                                "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE);
+                                "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
                 tableBodyFragmentHtml.append(optionFragment + Const.EOL);
             }
             
@@ -298,7 +298,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${qnIndex}", questionNumberString,
                             "${col}", Integer.toString(i),
                             "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)),
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE);
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
             tableHeaderFragmentHtml.append(optionFragment + Const.EOL);
         }
         
@@ -317,7 +317,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${col}", Integer.toString(i),
                                 "${row}", Integer.toString(j),
                                 "${description}", Sanitizer.sanitizeForHtml(this.getDescription(j, i)),
-                                "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION);
+                                "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION);
                 tableBodyFragmentHtml.append(optionFragment + Const.EOL);
             }
             
@@ -328,7 +328,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${row}", Integer.toString(j),
                             "${subQuestion}", Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
                             "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString(),
-                            "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION);
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION);
             tableBodyHtml.append(optionFragment2 + Const.EOL);
         }
         
@@ -339,7 +339,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 "${currRows}", Integer.toString(this.numOfRubricSubQuestions),
                 "${currCols}", Integer.toString(this.numOfRubricChoices),
                 "${tableHeaderRowFragmentHtml}", tableHeaderFragmentHtml.toString(),
-                "${tableBodyHtml}", tableBodyHtml.toString());
+                "${tableBodyHtml}", tableBodyHtml.toString(),
+                "${Const.ParamNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS,
+                "${Const.ParamNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS);
         
         return html;
     }
