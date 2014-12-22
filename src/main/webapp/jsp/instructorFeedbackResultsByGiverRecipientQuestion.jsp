@@ -905,8 +905,8 @@
                                   <div class="panel-body background-color-warning">
                                       <%
                                       	List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(teamWithNoResponseGiven));
-                                                                            Collections.sort(teamMembers);
-                                                                            for (String teamMember : teamMembers) {
+                                        Collections.sort(teamMembers);
+                                        for (String teamMember : teamMembers) {
                                       %>
                                              <div class="panel panel-primary">
                                                 <div class="panel-heading">
@@ -935,14 +935,14 @@
                                              </div>
                                         
                                          <%
-                                                                                 	}
+                                        }
                                          %>
                                   </div>
                               </div>
                           </div>                
                       <%
-                                      	}    
-                                                    }
+                              }    
+                            }
                       %>
 
                     </div>
