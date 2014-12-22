@@ -46,7 +46,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String numOfRubricSubQuestionsString = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS);
         
         if (numOfRubricChoicesString == null || numOfRubricSubQuestionsString == null) {
-            System.out.println("Missing Parameter");
             return false;
         }
         
