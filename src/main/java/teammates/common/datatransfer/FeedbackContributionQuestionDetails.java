@@ -705,9 +705,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
     public String getPerceivedContributionHtml(FeedbackQuestionAttributes question,
             String targetEmail, FeedbackSessionResultsBundle bundle) {
-        Map<String, StudentResultSummary> stats = FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
         
-        if (stats.containsKey(targetEmail)) {
+        if (hasPerceivedContribution(targetEmail, question, bundle)) {
+            Map<String, StudentResultSummary> stats = FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
             StudentResultSummary studentResult = stats.get(targetEmail);
             
             String responseAnswerHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(

@@ -211,10 +211,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     }
     
     private String getNameFromRoster(String participantIdentifier, boolean isFullName) {
-        //return person name if participant is a student
-        StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
-        
-        if (student != null) {
+        // return person name if participant is a student
+        if (isParticipantIdentifierStudent(participantIdentifier)) {
+            StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
+            
             if (isFullName) {
                 return student.name;
             } else {
@@ -222,21 +222,19 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             }
         }
         
-        //return person name if participant is an instructor
-        InstructorAttributes instructor = roster.getInstructorForEmail(participantIdentifier);
-        
-        if (instructor != null) {
+        // return person name if participant is an instructor
+        if (isParticipantIdentifierInstructor(participantIdentifier)) {
+            InstructorAttributes instructor = roster.getInstructorForEmail(participantIdentifier);
             return instructor.name;
-            
         }
         
-        //return team name if participantIdentifier is a team name
+        // return team name if participantIdentifier is a team name
         boolean isTeamName = rosterTeamNameMembersTable.containsKey(participantIdentifier);
         if (isTeamName) {
             return participantIdentifier;
         }
     
-        //return team name if participant is team identified by a member            
+        // return team name if participant is team identified by a member            
         boolean isNameRepresentingStudentsTeam = participantIdentifier.contains(Const.TEAM_OF_EMAIL_OWNER);
         if (isNameRepresentingStudentsTeam) {
             int index = participantIdentifier.indexOf(Const.TEAM_OF_EMAIL_OWNER);
@@ -257,7 +255,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
      *         or the team name, if participantIdentifier represents a team. <br>
      *         Otherwise, return an empty string
      */
-    public String getNameFromRoster(String participantIdentifier) {
+    public String getFullNameFromRoster(String participantIdentifier) {
         return getNameFromRoster(participantIdentifier, true);
     }
     
@@ -285,19 +283,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
      * or instructor in the course roster. Otherwise, return false.
      */
     public boolean isEmailOfPersonFromRoster(String participantIdentifier) {
-        StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
-        boolean isStudent = (student != null);
-        if (isStudent) {
-            return true;
-        }
+        boolean isStudent = isParticipantIdentifierStudent(participantIdentifier);
+        boolean isInstructor = isParticipantIdentifierInstructor(participantIdentifier);
         
-        InstructorAttributes instructor = roster.getInstructorForEmail(participantIdentifier);
-        boolean isInstructor = (instructor != null);
-        if (isInstructor) {
-            return true;
-        }
-        
-        return false;
+        return isStudent || isInstructor;
     }
     
     /**
@@ -326,15 +315,16 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
      * @param participantIdentifier
      */
     public String getTeamNameFromRoster(String participantIdentifier) {
-        StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
-        InstructorAttributes instructor = roster.getInstructorForEmail(participantIdentifier);
-        if (student != null) {
+        if (isParticipantIdentifierStudent(participantIdentifier)) {
+            StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
             return student.team;
-        } else if (instructor != null) {
+            
+        } else if (isParticipantIdentifierInstructor(participantIdentifier)) {
             return Const.USER_TEAM_FOR_INSTRUCTOR;
+            
+        } else {
+            return "";
         }
-        
-        return "";
     }
     
     /**
@@ -342,23 +332,23 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
      * If the email is not an email of someone in the class roster, an empty string is returned.
      * 
      * If the email of an instructor or "%GENERAL%" is passed in, "Not in a section" is returned.
-     * @param emailInResponse
+     * @param participantIdentifier
      */
     public String getSectionFromRoster(String participantIdentifier) {
-        StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
-        boolean isStudent = (student != null); 
-        if (isStudent) {
-            return student.section;
-        } 
-        
-        InstructorAttributes instructor = roster.getInstructorForEmail(participantIdentifier);
-        boolean isInstructor = (instructor != null);
+        boolean isStudent = isParticipantIdentifierStudent(participantIdentifier);
+        boolean isInstructor = isParticipantIdentifierInstructor(participantIdentifier);
         boolean participantIsGeneral = participantIdentifier.equals(Const.GENERAL_QUESTION);
-        if (isInstructor || participantIsGeneral) {
-            return Const.USER_NOT_IN_A_SECTION;
-        }
         
-        return "";
+        if (isStudent) {
+            StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
+            return student.section;
+            
+        } else if (isInstructor || participantIsGeneral) {
+            return Const.USER_NOT_IN_A_SECTION;
+            
+        } else {
+            return "";
+        }
     }
     
     /**
@@ -394,6 +384,20 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         }
     }
     
+    public boolean isParticipantIdentifierStudent(String participantIdentifier) {
+        StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
+        boolean isStudent = (student != null); 
+        
+        return isStudent;
+    }
+    
+    public boolean isParticipantIdentifierInstructor(String participantIdentifier) {
+        InstructorAttributes instructor = roster.getInstructorForEmail(participantIdentifier);
+        boolean isInstructor = (instructor != null); 
+        
+        return isInstructor;
+    }
+    
     /**
      * Get the possible givers for a recipient specified by its participant identifier for
      * a question
@@ -410,19 +414,15 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             return new ArrayList<String>();
         }
         
-        StudentAttributes student = roster.getStudentForEmail(recipientParticipantIdentifier);
-        boolean isRecipientStudent = (student != null); 
-        if (isRecipientStudent) {
+        if (isParticipantIdentifierStudent(recipientParticipantIdentifier)) {
+            StudentAttributes student = roster.getStudentForEmail(recipientParticipantIdentifier);
             return getPossibleGivers(fqa, student);
-        }  
-        
-        InstructorAttributes instructor = roster.getInstructorForEmail(recipientParticipantIdentifier);
-        boolean isRecipientInstructor = (instructor != null);
-        if (isRecipientInstructor) {
+            
+        } else if (isParticipantIdentifierInstructor(recipientParticipantIdentifier)) {
+            InstructorAttributes instructor = roster.getInstructorForEmail(recipientParticipantIdentifier);
             return getPossibleGivers(fqa, instructor);
-        }
-        
-        if (recipientParticipantIdentifier.equals(Const.GENERAL_QUESTION)) {
+            
+        } else if (recipientParticipantIdentifier.equals(Const.GENERAL_QUESTION)) {
             switch(fqa.giverType) {
                 case STUDENTS:
                     return getSortedListOfStudentEmails();
@@ -444,7 +444,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
         } else {
             return getPossibleGiversForTeam(fqa, recipientParticipantIdentifier);
         }
-        
     }
     
     /**
@@ -635,30 +634,28 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     /**
      * Get the possible recipients for a giver for the question specified
      * @param fqa
-     * @param participantIdentifier
+     * @param giverParticipantIdentifier
      * @return a list of possible recipients that can receive a response from giver specified by
      *         the participantIdentifier
      */
     public List<String> getPossibleRecipients(FeedbackQuestionAttributes fqa, 
-            String participantIdentifier) {
-        boolean giverIsAnonymous = participantIdentifier.contains("@@");
+            String giverParticipantIdentifier) {
+        boolean giverIsAnonymous = giverParticipantIdentifier.contains("@@");
        
-        if (participantIdentifier == null || giverIsAnonymous) {
+        if (giverParticipantIdentifier == null || giverIsAnonymous) {
             return new ArrayList<String>();
         }
         
-        StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
-        boolean isStudent = (student != null); 
-        if (isStudent) {
+        if (isParticipantIdentifierStudent(giverParticipantIdentifier)) {
+            StudentAttributes student = roster.getStudentForEmail(giverParticipantIdentifier);
             return getPossibleRecipients(fqa, student);
-        }
-        
-        InstructorAttributes instructor = roster.getInstructorForEmail(participantIdentifier);
-        boolean isInstructor = (instructor != null); 
-        if (isInstructor) {
+            
+        } else if (isParticipantIdentifierInstructor(giverParticipantIdentifier)) {
+            InstructorAttributes instructor = roster.getInstructorForEmail(giverParticipantIdentifier);
             return getPossibleRecipients(fqa, instructor);
+            
         } else {
-            return getPossibleRecipientsForTeam(fqa, participantIdentifier);
+            return getPossibleRecipientsForTeam(fqa, giverParticipantIdentifier);
         }
         
     }
@@ -690,6 +687,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 break;
             case OWN_TEAM:
                 possibleRecipients.add(Const.USER_TEAM_FOR_INSTRUCTOR);
+                break;
             default:
                 break;
         }

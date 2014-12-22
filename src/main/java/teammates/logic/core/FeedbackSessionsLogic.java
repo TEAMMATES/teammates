@@ -669,7 +669,7 @@ public class FeedbackSessionsLogic {
                 
                 
                 String giverIdentifier = (question.giverType == FeedbackParticipantType.TEAMS)? 
-                                    results.getNameFromRoster(response.giverEmail):
+                                    results.getFullNameFromRoster(response.giverEmail):
                                     response.giverEmail;
                 
                 possibleRecipientsForGiver = results.getPossibleRecipients(question, giverIdentifier);
@@ -715,7 +715,7 @@ public class FeedbackSessionsLogic {
             List<String> participantIdentifierList, String participantIdentifier,
             FeedbackSessionResultsBundle bundle) {
         if (participantIdentifierType == FeedbackParticipantType.TEAMS) {
-            participantIdentifierList.remove(bundle.getNameFromRoster(participantIdentifier)); 
+            participantIdentifierList.remove(bundle.getFullNameFromRoster(participantIdentifier)); 
         } else {
             participantIdentifierList.remove(participantIdentifier);
         }
@@ -785,10 +785,10 @@ public class FeedbackSessionsLogic {
             List<String> possibleRecipientsForGiver, String giver) {
         StringBuilder exportBuilder = new StringBuilder();
         for (String possibleRecipient : possibleRecipientsForGiver) {
-            String giverName = results.getNameFromRoster(giver);
+            String giverName = results.getFullNameFromRoster(giver);
             String giverLastName = results.getLastNameFromRoster(giver);
             String giverEmail = results.getDisplayableEmailFromRoster(giver);
-            String possibleRecipientName = results.getNameFromRoster(possibleRecipient);
+            String possibleRecipientName = results.getFullNameFromRoster(possibleRecipient);
             String possibleRecipientLastName = results.getLastNameFromRoster(possibleRecipient);
             String possibleRecipientEmail = results.getDisplayableEmailFromRoster(possibleRecipient);
             
