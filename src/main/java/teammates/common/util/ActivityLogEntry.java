@@ -90,8 +90,8 @@ public class ActivityLogEntry {
             email = tokens[7];
             message = tokens[8];
             url = tokens[9];
-            timeTaken = tokens.length >= 11? Long.parseLong(tokens[10].trim()) : null;   
-            localTime = tokens.length >= 12? tokens[11] : null;
+            localTime = tokens[10];
+            timeTaken = tokens.length == 12? Long.parseLong(tokens[11].trim()) : null;   
             keyStringsToHighlight = null;
         } catch (ArrayIndexOutOfBoundsException e){
             
@@ -152,13 +152,17 @@ public class ActivityLogEntry {
     }
     
     public ActivityLogEntry(AccountAttributes userAccount, boolean isMasquerade, String logMessage, 
-                            String requestUrl, StudentAttributes student, UserType userType){
+                            String requestUrl, StudentAttributes student, UserType userType, String[] requestLocalTime){
         time = System.currentTimeMillis();
         servletName = getActionName(requestUrl);
         action = servletName; //TODO: remove this?
         toShow = true;
         message = logMessage;
         url = requestUrl;    
+        
+        localTime = requestLocalTime != null && requestLocalTime.length > 0 ? 
+                    Sanitizer.sanitizeForHtml(requestLocalTime[0]):
+                    "Unavailable";
        
         if(userAccount != null && userAccount.googleId != null){                 
             
@@ -256,9 +260,9 @@ public class ActivityLogEntry {
      * Generates a log message that will be logged in the server
      */
     public String generateLogMessage(){
-        //TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL
+        //TEAMMATESLOG|||SERVLET_NAME|||ACTION|||TO_SHOW|||ROLE|||NAME|||GOOGLE_ID|||EMAIL|||MESSAGE(IN HTML)|||URL ||| LOCAL_TIME
         return "TEAMMATESLOG|||" + servletName + "|||" + action + "|||" + (toShow ? "true" : "false") + "|||" 
-                + role + "|||" + name + "|||" + googleId + "|||" + email + "|||" + message + "|||" + url;
+                + role + "|||" + name + "|||" + googleId + "|||" + email + "|||" + message + "|||" + url + "|||" + localTime;
     }
     
     
@@ -388,8 +392,8 @@ public class ActivityLogEntry {
     public String getLocalTimeToShow(){
         String localTimeToShow = "";
         
-        if(localTime == null){
-            localTimeToShow = "No Local Time Available";
+        if(localTime.contentEquals("Unavailable")){
+            localTimeToShow = "Local Time Unavailable";
         } else {
             localTimeToShow = localTime;
         }
