@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.HttpRequestHelper;
 import teammates.logic.core.Emails;
@@ -79,7 +80,7 @@ public class EvaluationClosingMailAction extends EmailAction {
     }
     
     private void initializeNameAndDescription() {
-        actionName = "evaluationClosingMailAction";
+        actionName = Const.AutomatedActionNames.AUTOMATED_EVAL_CLOSING_MAIL_ACTION;
         actionDescription = "send closing reminders";
     }
 }

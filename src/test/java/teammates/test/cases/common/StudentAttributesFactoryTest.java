@@ -41,7 +41,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
             saf = new StudentAttributesFactory(headerRow);
             signalFailureToDetectException();
         } catch (EnrollException e) {
-            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED, e.getMessage());
+            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ":  <mark>Team</mark>", e.getMessage());
         }
 
         ______TS("fail: missing 'Name' field");
@@ -50,7 +50,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
             saf = new StudentAttributesFactory(headerRow);
             signalFailureToDetectException();
         } catch (EnrollException e) {
-            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED, e.getMessage());
+            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ":  <mark>Name</mark>", e.getMessage());
         }
 
         ______TS("fail: missing 'Team' field");
@@ -59,7 +59,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
             saf = new StudentAttributesFactory(headerRow);
             signalFailureToDetectException();
         } catch (EnrollException e) {
-            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED, e.getMessage());
+            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ":  <mark>Team</mark>", e.getMessage());
         }
 
         ______TS("fail: missing 'Email' field");
@@ -68,7 +68,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
             saf = new StudentAttributesFactory(headerRow);
             signalFailureToDetectException();
         } catch (EnrollException e) {
-            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED, e.getMessage());
+            assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_MISSED + ":  <mark>Email</mark>", e.getMessage());
         }
         
         

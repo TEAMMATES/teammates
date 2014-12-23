@@ -18,7 +18,8 @@ public class Const {
         public static final String ENCODING = "UTF8";
         public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
         
-        /** This is the limit after which TEAMMATES will send error message */
+        /** This is the limit after which TEAMMATES will send error message.
+         * Must be within the range of int */
         public static final int MAX_PROFILE_PIC_SIZE = 5000000;
         /** This is the limit given to Blobstore API, beyond which an ugly error page is shown */
         public static final long MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI = 11000000;
@@ -70,6 +71,8 @@ public class Const {
         public static final List<String> LEGACY_PAGES_WITH_REDUCED_SECURITY = Arrays.asList(
                 ActionURIs.STUDENT_COURSE_JOIN
         );
+        
+        public static final String COURSE_BACKUP_LOG_MSG = "Recently modified course::";
     }
 
     /* Text displayed to the user when the mouse hover over certain elements in
@@ -284,11 +287,15 @@ public class Const {
 
     public class ParamsNames{
         
+        public static final String IS_USING_AJAX = "isusingAjax";
+        
         public static final String BLOB_KEY = "blob-key";
         
         public static final String COPIED_FEEDBACK_SESSION_NAME = "copiedfsname";
         public static final String COPIED_COURSE_ID = "copiedcourseid";
-
+        
+        public static final String CSV_TO_HTML_TABLE_NEEDED = "csvtohtmltable";
+        
         public static final String COURSE_ID = "courseid";
         public static final String COURSE_NAME = "coursename";
         public static final String COURSE_EDIT_MAIN_INDEX = "courseeditmainindex";
@@ -383,6 +390,7 @@ public class Const {
         public static final String FEEDBACK_QUESTION_CONSTSUMNUMOPTION = "constSumNumOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION = "constSumPointsPerOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS = "constSumPoints";
+        public static final String FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY = "constSumUnevenDistribution";
         public static final String FEEDBACK_QUESTION_GENERATEDOPTIONS = "generatedOptions";
         public static final String FEEDBACK_QUESTION_GIVERTYPE = "givertype";
         public static final String FEEDBACK_QUESTION_RECIPIENTTYPE = "recipienttype";
@@ -679,8 +687,25 @@ public class Const {
         public static final String EVAL_REMIND_EMAIL_WORKER = "/evalRemindEmailWorker";
         public static final String FEEDBACK_REMIND_EMAIL_WORKER = "/feedbackRemindEmailWorker";
         public static final String SEND_EMAIL_WORKER = "/sendEmailWorker";
+        
     }
-
+    
+    public class AutomatedActionNames{
+        //real servlet names to be logged for automated actions, not for url pattern recognition
+        public static final String AUTOMATED_LOG_COMILATION = "logCompilation";
+        public static final String AUTOMATED_EVAL_CLOSING_MAIL_ACTION = "evaluationClosingMailAction";
+        public static final String AUTOMATED_EVAL_OPENING_MAIL_ACTION = "evaluationOpeningMailAction";
+        public static final String AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION = "feedbackSessionClosingMailAction";
+        public static final String AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION = "feedbackSessionOpeningMailAction";
+        public static final String AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION = "feedbackSessionPublishedMailAction";
+        public static final String AUTOMATED_PENDING_COMMENT_CLEARED_MAIL_ACTION = "PendingCommentClearedMailAction";
+        public static final String AUTOMATED_EVAL_OPENING_REMINDERS = "evaluationOpeningReminders";
+        public static final String AUTOMATED_EVAL_CLOSING_REMINDERS = "evaluationclosingreminders";        
+        public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "feedbackSessionOpeningReminders";
+        public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "feedbackSessionClosingReminders";
+        public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "feedbackSessionPublishedReminders";
+    }
+    
     public class ViewURIs{
         
         /* We omit adding the 'page' prefix to views because all of them are "pages" */
@@ -896,7 +921,7 @@ public class Const {
                 + "<br>Updating of the course data on our servers is currently in progress and will be completed in a few minutes. "
                 + "<br>Please refresh this page in a few minutes to see the course %1$s in the list below.";
         
-        public static final String NULL_POST_PARAMETER_MESSAGE = "?message=You have been redirected to this page due to a possible expiry of the previous login."
+        public static final String NULL_POST_PARAMETER_MESSAGE = "You have been redirected to this page due to a possible expiry of the previous login."
                 + "<br>If you have previously typed some data and wish to retrieve it, you may use the 'Back' button of your Browser to navigate to the"
                 + " previous page containing the data you typed in.";
         
@@ -1032,6 +1057,7 @@ public class Const {
     public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE = "atvisible";
     public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER = "later";
     public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER = "never";
+    public static final String INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE = "No Response";
     
     public static final String STUDENT_COURSE_STATUS_YET_TO_JOIN = "Yet to join";
     public static final String STUDENT_COURSE_STATUS_JOINED = "Joined";
@@ -1039,6 +1065,7 @@ public class Const {
     
     public static final String USER_NAME_FOR_SELF = "Myself";
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
+    public static final String USER_NOT_IN_A_SECTION = "Not in a section";
     
     public static String ACTION_RESULT_FAILURE = "Servlet Action Failure";
     public static String ACTION_RESULT_SYSTEM_ERROR_REPORT = "System Error Report";

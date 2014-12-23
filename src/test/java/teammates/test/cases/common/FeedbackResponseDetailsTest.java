@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
+import teammates.common.datatransfer.FeedbackResponseDetails;
 import teammates.common.datatransfer.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.FeedbackConstantSumResponseDetails;
 import teammates.common.datatransfer.FeedbackContributionQuestionDetails;
@@ -30,7 +30,7 @@ import teammates.test.cases.BaseTestCase;
  * There is no need to test methods that output string/html/csv 
  * as they are implicitly tested in the UI tests. <br><br>
  * SUT: <br>
- * * {@link FeedbackAbstractResponseDetails} <br>
+ * * {@link FeedbackResponseDetails} <br>
  * * {@link FeedbackTextResponseDetails} <br>
  * * {@link FeedbackMcqResponseDetails} <br>
  * * {@link FeedbackMsqResponseDetails} <br>
@@ -43,8 +43,8 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         ______TS("TEXT Response");
         FeedbackTextQuestionDetails textQuestionDetails = new FeedbackTextQuestionDetails();
         
-        FeedbackAbstractResponseDetails responseDetails =
-                FeedbackAbstractResponseDetails.createResponseDetails(
+        FeedbackResponseDetails responseDetails =
+                FeedbackResponseDetails.createResponseDetails(
                         new String[] { "text answer" },
                         FeedbackQuestionType.TEXT,
                         textQuestionDetails);
@@ -57,7 +57,7 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         FeedbackMcqQuestionDetails mcqQuestionDetails = new FeedbackMcqQuestionDetails();
         
         responseDetails = 
-                FeedbackAbstractResponseDetails.createResponseDetails(
+                FeedbackResponseDetails.createResponseDetails(
                         new String[] { "mcq option" },
                         FeedbackQuestionType.MCQ,
                         mcqQuestionDetails);
@@ -70,7 +70,7 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         FeedbackMsqQuestionDetails msqQuestionDetails = new FeedbackMsqQuestionDetails();
         
         responseDetails = 
-                FeedbackAbstractResponseDetails.createResponseDetails(
+                FeedbackResponseDetails.createResponseDetails(
                         new String[] { "msq option 1", "msq option 2", "msq option 3" },
                         FeedbackQuestionType.MSQ,
                         msqQuestionDetails);
@@ -85,7 +85,7 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         numericalScaleQuestionDetails.minScale = -5;
         
         responseDetails = 
-                FeedbackAbstractResponseDetails.createResponseDetails(
+                FeedbackResponseDetails.createResponseDetails(
                         new String[] { "-3.5" },
                         FeedbackQuestionType.NUMSCALE,
                         numericalScaleQuestionDetails);
@@ -97,7 +97,7 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         ______TS("NUMSCALE Response: wrong format");
         
         responseDetails = 
-                FeedbackAbstractResponseDetails.createResponseDetails(
+                FeedbackResponseDetails.createResponseDetails(
                         new String[] { "-0.5.3" },
                         FeedbackQuestionType.NUMSCALE,
                         numericalScaleQuestionDetails);
@@ -112,12 +112,13 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         constSumOptions.add("Option 2");
         boolean pointsPerOption = false;
         int points = 100;
+        boolean forceUnevenDistribution = false;
         FeedbackConstantSumQuestionDetails constantSumQuestionDetails =
                 new FeedbackConstantSumQuestionDetails(questionText, numOfConstSumOptions, 
-                                                    constSumOptions, pointsPerOption, points);
+                                                    constSumOptions, pointsPerOption, points, forceUnevenDistribution);
         
         responseDetails = 
-                FeedbackAbstractResponseDetails.createResponseDetails(
+                FeedbackResponseDetails.createResponseDetails(
                         new String[] { "20", "80" },
                         FeedbackQuestionType.CONSTSUM,
                         constantSumQuestionDetails);
@@ -132,7 +133,7 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
                 new FeedbackContributionQuestionDetails(questionText);
         
         responseDetails = 
-                FeedbackAbstractResponseDetails.createResponseDetails(
+                FeedbackResponseDetails.createResponseDetails(
                         new String[] { "100" },
                         FeedbackQuestionType.CONTRIB,
                         contribQuestionDetails);

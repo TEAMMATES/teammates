@@ -234,6 +234,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <url-pattern>/compileLogs</url-pattern>
     </servlet-mapping>
     
+	<servlet>
+        <servlet-name>EntityModifiedLogs</servlet-name>
+        <servlet-class>teammates.logic.automated.EntityModifiedLogsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EntityModifiedLogs</servlet-name>
+        <url-pattern>/entityModifiedLogs</url-pattern>
+    </servlet-mapping>
+	
     <servlet>
         <servlet-name>AdminSearchTask</servlet-name>
         <servlet-class>teammates.ui.controller.AdminSearchTaskServlet</servlet-class>

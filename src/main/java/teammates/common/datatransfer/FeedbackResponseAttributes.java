@@ -5,11 +5,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.Sanitizer;
 import teammates.common.util.FieldValidator.FieldType;
+import teammates.common.util.Sanitizer;
+import teammates.common.util.Utils;
 import teammates.storage.entity.FeedbackResponse;
 
 import com.google.appengine.api.datastore.Text;
@@ -127,6 +127,11 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     }
 
     @Override
+    public String getBackupIdentifier() {
+        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
+    }
+    
+    @Override
     public String toString() {
         return "FeedbackResponseAttributes [feedbackSessionName="
                 + feedbackSessionName + ", courseId=" + courseId
@@ -136,6 +141,11 @@ public class FeedbackResponseAttributes extends EntityAttributes {
                 + ", answer=" + responseMetaData + "]";
     }
 
+    @Override
+    public String getJsonString() {
+        return Utils.getTeammatesGson().toJson(this, FeedbackResponseAttributes.class);
+    }
+    
     @Override
     public void sanitizeForSaving() {
         this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
@@ -150,7 +160,7 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     /** This method converts the given Feedback*ResponseDetails object to JSON for storing
      * @param responseDetails
      */
-    public void setResponseDetails(FeedbackAbstractResponseDetails responseDetails) {
+    public void setResponseDetails(FeedbackResponseDetails responseDetails) {
         Gson gson = teammates.common.util.Utils.getTeammatesGson();
         
         if (responseDetails == null) {
@@ -168,8 +178,8 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     /** This method retrieves the Feedback*ResponseDetails object for this response
      * @return The Feedback*ResponseDetails object representing the response's details
      */
-    public FeedbackAbstractResponseDetails getResponseDetails(){
-        Class<? extends FeedbackAbstractResponseDetails> responseDetailsClass = getFeedbackResponseDetailsClass();
+    public FeedbackResponseDetails getResponseDetails(){
+        Class<? extends FeedbackResponseDetails> responseDetailsClass = getFeedbackResponseDetailsClass();
         
         if(responseDetailsClass == FeedbackTextResponseDetails.class) {
             // For Text questions, the questionText simply contains the question, not a JSON
@@ -185,34 +195,8 @@ public class FeedbackResponseAttributes extends EntityAttributes {
      * for this response.
      * @return The Feedback*ResponseDetails class type appropriate for this response.
      */
-    private Class<? extends FeedbackAbstractResponseDetails> getFeedbackResponseDetailsClass(){
-        Class<? extends FeedbackAbstractResponseDetails> responseDetailsClass = null;
-        
-        switch(feedbackQuestionType){
-        case TEXT:
-            responseDetailsClass = FeedbackTextResponseDetails.class;
-            break;
-        case MCQ:
-            responseDetailsClass = FeedbackMcqResponseDetails.class;
-            break;
-        case MSQ:
-            responseDetailsClass = FeedbackMsqResponseDetails.class;
-            break;
-        case NUMSCALE:
-            responseDetailsClass = FeedbackNumericalScaleResponseDetails.class;
-            break;
-        case CONSTSUM:
-            responseDetailsClass = FeedbackConstantSumResponseDetails.class;
-            break;
-        case CONTRIB:
-            responseDetailsClass = FeedbackContributionResponseDetails.class;
-            break;
-        default:
-            Assumption.fail("FeedbackQuestionType " + feedbackQuestionType + " unsupported by FeedbackResponseAttributes");
-            break;
-        }
-        
-        return responseDetailsClass;
+    private Class<? extends FeedbackResponseDetails> getFeedbackResponseDetailsClass() {
+        return feedbackQuestionType.getResponseDetailsClass();
     }
     
     public static void sortFeedbackResponses(List<FeedbackResponseAttributes> frs) {

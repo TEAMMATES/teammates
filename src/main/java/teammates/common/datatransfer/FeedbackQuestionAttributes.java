@@ -3,8 +3,9 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.Utils;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.storage.entity.FeedbackQuestion;
@@ -120,6 +121,16 @@ public class FeedbackQuestionAttributes extends EntityAttributes
     @Override
     public String getEntityTypeAsString() {
         return "Feedback Question";
+    }
+    
+    @Override
+    public String getBackupIdentifier() {
+        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
+    }
+    
+    @Override
+    public String getJsonString() {
+        return Utils.getTeammatesGson().toJson(this, FeedbackQuestionAttributes.class);
     }
     
     public List<String> getInvalidityInfo() {
@@ -440,7 +451,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
     /** This method converts the given Feedback*QuestionDetails object to JSON for storing
      * @param questionDetails
      */
-    public void setQuestionDetails(FeedbackAbstractQuestionDetails questionDetails) {
+    public void setQuestionDetails(FeedbackQuestionDetails questionDetails) {
         // For Text questions, the questionText simply contains the question, not a JSON
         // This is due to legacy data in the data store before there are multiple question types
         if(questionDetails.questionType == FeedbackQuestionType.TEXT) {
@@ -454,7 +465,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
     /** This method retrieves the Feedback*QuestionDetails object for this question
      * @return The Feedback*QuestionDetails object representing the question's details
      */
-    public FeedbackAbstractQuestionDetails getQuestionDetails(){
+    public FeedbackQuestionDetails getQuestionDetails(){
         // For Text questions, the questionText simply contains the question, not a JSON
         // This is due to legacy data in the data store before there are multiple question types
         if(questionType == FeedbackQuestionType.TEXT) {
@@ -469,33 +480,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes
      * for this question.
      * @return The Feedback*QuestionDetails class type appropriate for this question.
      */
-    private Class<? extends FeedbackAbstractQuestionDetails> getFeedbackQuestionDetailsClass(){
-        Class<? extends FeedbackAbstractQuestionDetails> questionDetailsClass = null;
-        
-        switch(questionType){
-        case TEXT:
-            questionDetailsClass = FeedbackTextQuestionDetails.class;
-            break;
-        case MCQ:
-            questionDetailsClass = FeedbackMcqQuestionDetails.class;
-            break;
-        case MSQ:
-            questionDetailsClass = FeedbackMsqQuestionDetails.class;
-            break;
-        case NUMSCALE:
-            questionDetailsClass = FeedbackNumericalScaleQuestionDetails.class;
-            break;
-        case CONSTSUM:
-            questionDetailsClass = FeedbackConstantSumQuestionDetails.class;
-            break;
-        case CONTRIB:
-            questionDetailsClass = FeedbackContributionQuestionDetails.class;
-            break;
-        default:
-            Assumption.fail("FeedbackQuestionType " + questionType + " unsupported by FeedbackQuestionAttributes");
-            break;
-        }
-        
-        return questionDetailsClass;
+    private Class<? extends FeedbackQuestionDetails> getFeedbackQuestionDetailsClass(){
+        return questionType.getQuestionDetailsClass();
     }
 }

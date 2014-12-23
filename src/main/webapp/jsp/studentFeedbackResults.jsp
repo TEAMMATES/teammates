@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
@@ -11,17 +12,18 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
-<%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackTextQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackMcqQuestionDetails"%>
-<%@ page import="teammates.common.datatransfer.FeedbackAbstractResponseDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackResponseDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackTextResponseDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackMcqResponseDetails"%>
 <%@ page import="teammates.ui.controller.StudentFeedbackResultsPageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 <%
-    StudentFeedbackResultsPageData data = (StudentFeedbackResultsPageData)request.getAttribute("data");
+	StudentFeedbackResultsPageData data = (StudentFeedbackResultsPageData)request.getAttribute("data");
 %>
 <!DOCTYPE html>
 <html>
@@ -59,17 +61,20 @@
             <div id="topOfPage"></div>
             <h1>Feedback Results - Student</h1>
             <br />
-            <% if (data.account.googleId == null) { 
-                String joinUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
-                            .withRegistrationKey(request.getParameter(Const.ParamsNames.REGKEY))
-                            .withStudentEmail(request.getParameter(Const.ParamsNames.STUDENT_EMAIL))
-                            .withCourseId(request.getParameter(Const.ParamsNames.COURSE_ID))
-                            .toString();
+            <%
+            	if (data.account.googleId == null) { 
+                            String joinUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+                                        .withRegistrationKey(request.getParameter(Const.ParamsNames.REGKEY))
+                                        .withStudentEmail(request.getParameter(Const.ParamsNames.STUDENT_EMAIL))
+                                        .withCourseId(request.getParameter(Const.ParamsNames.COURSE_ID))
+                                        .toString();
             %>
                 <div id="registerMessage" class="alert alert-info">
                     <%=String.format(Const.StatusMessages.UNREGISTERED_STUDENT, joinUrl)%>
                 </div>
-            <% } %>
+            <%
+            	}
+            %>
             <div class="well well-plain">
                 <div class="panel-body">
                     <div class="form-horizontal">
@@ -106,16 +111,16 @@
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
             <br />
             <%
-                int qnIndx = 0;
-                Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses = data.bundle
-                        .getQuestionResponseMap();
+            	int qnIndx = 0;
+                            Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses = data.bundle
+                                    .getQuestionResponseMap();
 
-                for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionWithResponses : questionsWithResponses
-                        .entrySet()) {
-                    qnIndx++;
-                    
-                    FeedbackQuestionAttributes question = questionWithResponses.getKey();
-                    FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+                            for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionWithResponses : questionsWithResponses
+                                    .entrySet()) {
+                                qnIndx++;
+                                
+                                FeedbackQuestionAttributes question = questionWithResponses.getKey();
+                                FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
             %>
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -128,104 +133,111 @@
                     	ListIterator<FeedbackResponseAttributes> itr = questionWithResponses
                     				.getValue().listIterator();
                     		String previousRecipientEmail = null;
-                    		while (itr.hasNext()) {
-                    			FeedbackResponseAttributes singleResponse = itr.next();
-
-                    			String giverName = data.bundle.getGiverNameForResponse(
-                    					questionWithResponses.getKey(), singleResponse);
-
-                    			if (questionWithResponses.getKey().giverType == FeedbackParticipantType.TEAMS) {
-                    				if (data.student.team.equals(giverName)) {
-                    					giverName = "Your Team (" + giverName + ")";
-                    				}
-                    			} else if (data.student.email
-                    					.equals(singleResponse.giverEmail)) {
-                    				giverName = "You";
-                    			}
-
-                    			// New table if previous recipient != current or is first response                    
-                    			if (previousRecipientEmail == null
-                    					|| previousRecipientEmail
-                    							.equals(singleResponse.recipientEmail) == false) {
-                    				previousRecipientEmail = singleResponse.recipientEmail;
-                    				String recipientName = data.bundle
-                    						.getRecipientNameForResponse(
-                    								questionWithResponses.getKey(),
-                    								singleResponse);
-
-                    				if (questionWithResponses.getKey().recipientType == FeedbackParticipantType.TEAMS) {
-                    					if (data.student.team
-                    							.equals(singleResponse.recipientEmail)) {
-                    						recipientName = "Your Team (" + recipientName
-                    								+ ")";
-                    					}
-                    				} else if (data.student.email
-                    						.equals(singleResponse.recipientEmail)
-                    						&& data.student.name.equals(recipientName)) {
-                    					recipientName = "You";
-                    				}
-
-                    				//if the giver is the same user, show the real name of the receiver. 
-                    				if (giverName.equals("You")
-                    						&& (!recipientName.equals("You"))) {
-                    					recipientName = data.bundle
-                    							.getNameForEmail(singleResponse.recipientEmail);
-                    				}
-                    %>
-                    <div class="panel panel-primary">
-                        <div class="panel-heading"><b>To:</b> <%=recipientName%></div>
-                        <table class="table">
-                            <tbody>    
-                        <%
-                            }
+                    		if (questionDetails.isIndividualResponsesShownToStudents()) {
+                        		while (itr.hasNext()) {
+                        			FeedbackResponseAttributes singleResponse = itr.next();
+    
+                        			String giverName = data.bundle.getGiverNameForResponse(
+                        					questionWithResponses.getKey(), singleResponse);
+    
+                        			if (questionWithResponses.getKey().giverType == FeedbackParticipantType.TEAMS) {
+                        				if (data.student.team.equals(giverName)) {
+                        					giverName = "Your Team (" + giverName + ")";
+                        				}
+                        			} else if (data.student.email
+                        					.equals(singleResponse.giverEmail)) {
+                        				giverName = "You";
+                        			}
+    
+                        			// New table if previous recipient != current or is first response                    
+                        			if (previousRecipientEmail == null
+                        					|| previousRecipientEmail
+                        							.equals(singleResponse.recipientEmail) == false) {
+                        				previousRecipientEmail = singleResponse.recipientEmail;
+                        				String recipientName = data.bundle
+                        						.getRecipientNameForResponse(
+                        								questionWithResponses.getKey(),
+                        								singleResponse);
+    
+                        				if (questionWithResponses.getKey().recipientType == FeedbackParticipantType.TEAMS) {
+                        					if (data.student.team
+                        							.equals(singleResponse.recipientEmail)) {
+                        						recipientName = "Your Team (" + recipientName
+                        								+ ")";
+                        					}
+                        				} else if (data.student.email
+                        						.equals(singleResponse.recipientEmail)
+                        						&& data.student.name.equals(recipientName)) {
+                        					recipientName = "You";
+                        				}
+    
+                        				//if the giver is the same user, show the real name of the receiver. 
+                        				if (giverName.equals("You")
+                        						&& (!recipientName.equals("You"))) {
+                        					recipientName = data.bundle
+                        							.getNameForEmail(singleResponse.recipientEmail);
+                        				}
+                                        
+                                        String panelHeaderClass = giverName.equals("You")
+                                                                  ? "panel-info"
+                                                                  : "panel-primary";
+                   
                         %>
-                            <tr class="resultSubheader">
-                                <td>
-                                    <span class="bold"><b>From:</b></span> <%=giverName%>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-preserve-space"><%=singleResponse.getResponseDetails().getAnswerHtml(questionDetails)%></td>
-                            </tr>
+                        <div class="panel <%= panelHeaderClass %>">
+                            <div class="panel-heading"><b>To:</b> <%=recipientName%></div>
+                            <table class="table">
+                                <tbody>    
+                            <%
+                                }
+                            %>
+                                <tr class="resultSubheader">
+                                    <td>
+                                        <span class="bold"><b>From:</b></span> <%=giverName%>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-preserve-space"><%=singleResponse.getResponseDetails().getAnswerHtml(questionDetails)%></td>
+                                </tr>
+                            <%
+                                List<FeedbackResponseCommentAttributes> responseComments = data.bundle.responseComments.get(singleResponse.getId());
+                                if (responseComments != null) {
+                            %>
+                                <tr>
+                                    <td>
+                                        <ul class="list-group comment-list">
+                                                <%
+                                                    for (FeedbackResponseCommentAttributes comment : responseComments) {
+                                                %>
+                                                        <li class="list-group-item list-group-item-warning">
+                                                            <span class="text-muted">From: <%=comment.giverEmail %> [<%=comment.createdAt %>]</span>
+                                                            <div><%=comment.commentText.getValue() %></div>
+                                                        </li>
+                                                <%
+                                                    }
+                                                %>
+                                        </ul>
+                                     </td>    
+                                </tr>
+                            <%
+                                }
+                                
+                                // Close table if going to be new recipient
+                                boolean closeTable = true;
+                                if(!itr.hasNext()) {
+                                    closeTable = true;
+                                } else if (itr.next().recipientEmail.equals(singleResponse.recipientEmail)) {
+                                    itr.previous();
+                                    closeTable = false;
+                                } else {
+                                    itr.previous();
+                                }
+                                if (closeTable) {
+                            %>
+                                    </tbody>
+                                </table>
+                            </div>
                         <%
-                            List<FeedbackResponseCommentAttributes> responseComments = data.bundle.responseComments.get(singleResponse.getId());
-                            if (responseComments != null) {
-                        %>
-                            <tr>
-                                <td>
-                                    <ul class="list-group comment-list">
-                                            <%
-                                                for (FeedbackResponseCommentAttributes comment : responseComments) {
-                                            %>
-                                                    <li class="list-group-item list-group-item-warning">
-                                                        <span class="text-muted">From: <%=comment.giverEmail %> [<%=comment.createdAt %>]</span>
-                                                        <div><%=comment.commentText.getValue() %></div>
-                                                    </li>
-                                            <%
-                                                }
-                                            %>
-                                    </ul>
-                                 </td>    
-                            </tr>
-                        <%
-                            }
-                            
-                            // Close table if going to be new recipient
-                            boolean closeTable = true;
-                            if(!itr.hasNext()) {
-                                closeTable = true;
-                            } else if (itr.next().recipientEmail.equals(singleResponse.recipientEmail)) {
-                                itr.previous();
-                                closeTable = false;
-                            } else {
-                                itr.previous();
-                            }
-                            if (closeTable) {
-                        %>
-                                </tbody>
-                            </table>
-                        </div>
-                    <%
+                                }
                             }
                         }
                     %>
@@ -240,7 +252,7 @@
             <% 
                 } 
             %>
-        </div>
+        </div>  
     </div>
 
     <div id="frameBottom">

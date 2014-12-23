@@ -60,6 +60,10 @@ body {
     color: #e74c3c;
 }
 
+.color_neutral {
+    color: gray;
+}
+
 .cursor-pointer {
     cursor: pointer;
     cursor: hand;
@@ -126,6 +130,10 @@ Apply to thead to make headers not bold.
 
 .margin-0 {
     margin: 0;
+}
+
+.margin-center-horizontal {
+    margin: 0 auto;
 }
 
 .min-height-0.checkbox,.min-height-0 {

@@ -1,14 +1,26 @@
 package teammates.ui.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
 
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
+import com.google.appengine.api.blobstore.BlobstoreInputStream;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.tools.cloudstorage.GcsFileOptions;
+import com.google.appengine.tools.cloudstorage.GcsFilename;
+import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
+import com.google.appengine.tools.cloudstorage.GcsService;
+import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
+import com.google.appengine.tools.cloudstorage.RetryParams;
 
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -25,22 +37,27 @@ public class StudentProfilePictureUploadAction extends Action {
         new GateKeeper().verifyLoggedInUserPrivileges();
         
         String pictureKey = "";
+        BlobKey blobKey = new BlobKey("");
+        BlobInfo blobInfo = null;
         RedirectResult r = createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);
         
         try {
-            pictureKey = extractProfilePictureKey();
-            if (pictureKey != "") {
+            blobInfo = extractProfilePictureKey();
+            if (!isError) {
+                blobKey = blobInfo.getBlobKey();
+                pictureKey = renameFileToGoogleId(blobInfo);
                 logic.updateStudentProfilePicture(account.googleId, pictureKey);
                 statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
                 r.addResponseParam(Const.ParamsNames.STUDENT_PROFILE_PHOTOEDIT, "true");
             }
-        } catch (BlobstoreFailureException bfe) {
-            deletePicture(new BlobKey(pictureKey));
+        } catch (BlobstoreFailureException | IOException bfe) {
+            deletePicture(blobKey);
             updateStatusesForBlobstoreFailure();
             isError = true;
         } catch (Exception e) {
             // this is for other exceptions like EntityNotFound, IllegalState, etc 
             // that occur rarely and are handled higher up.
+            
             deletePicture(new BlobKey(pictureKey));
             statusToUser.clear();
             throw e;
@@ -49,7 +66,48 @@ public class StudentProfilePictureUploadAction extends Action {
         return r;
     }
 
-    private String extractProfilePictureKey() {
+    private String renameFileToGoogleId(BlobInfo blobInfo) throws IOException {
+        Assumption.assertNotNull(blobInfo);
+        
+        BlobKey blobKey = blobInfo.getBlobKey();
+        InputStream blobStream = new BlobstoreInputStream(blobKey);
+        byte[] imageData = new byte[(int) blobInfo.getSize()];
+        blobStream.read(imageData);
+        blobStream.close();
+        
+        String newKey = uploadFileToGcs(imageData);
+        deletePicture(blobKey);
+        return newKey;
+    }
+    
+    /**
+     * Uploads the given image data to the cloud storage into a file
+     * with the user's googleId as the name. Returns a blobKey that can be used to 
+     * identify the file
+     * 
+     * @param fileName
+     * @param transformedImage
+     * @return BlobKey
+     * @throws IOException
+     * TODO: use the function 'writeDataToGcs' in GoogleCloudStorageHelper to achieve this 
+     */
+    private String uploadFileToGcs(byte[] transformedImage)
+            throws IOException {
+        
+        GcsFilename fileName = new GcsFilename(Config.GCS_BUCKETNAME, account.googleId);
+        
+        GcsService gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
+        GcsOutputChannel outputChannel =
+                gcsService.createOrReplace(fileName, new GcsFileOptions.Builder().mimeType("image/png").build());
+        
+        outputChannel.write(ByteBuffer.wrap(transformedImage));
+        outputChannel.close();
+        
+        return BlobstoreServiceFactory.getBlobstoreService()
+                .createGsBlobKey("/gs/"+Config.GCS_BUCKETNAME + "/" + account.googleId).getKeyString();
+    }
+
+    private BlobInfo extractProfilePictureKey() {
         try {
             Map<String, List<BlobInfo>> blobsMap = BlobstoreServiceFactory.getBlobstoreService().getBlobInfos(request);
             List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.STUDENT_PROFILE_PHOTO);
@@ -60,28 +118,28 @@ public class StudentProfilePictureUploadAction extends Action {
             } else{
                 statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_NO_PICTURE_GIVEN);
                 isError = true;
-                return "";
+                return null;
             }
         } catch (IllegalStateException e) {
             // this means the action was called directly (and not via BlobStore API callback)
             // simply redirect to ProfilePage
-            return "";
+            return null;
         }
     }
 
-    private String validateProfilePicture (BlobInfo profilePic) {
+    private BlobInfo validateProfilePicture (BlobInfo profilePic) {
         if (profilePic.getSize() > Const.SystemParams.MAX_PROFILE_PIC_SIZE) {
             deletePicture(profilePic.getBlobKey());
             isError = true;
             statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
-            return "";
+            return null;
         } else if(!profilePic.getContentType().contains("image/")) {
             deletePicture(profilePic.getBlobKey());
             isError = true;
             statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
-            return "";
+            return null;
         } else {
-            return profilePic.getBlobKey().getKeyString();
+            return profilePic;
         }
         
     }

@@ -280,20 +280,8 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         studentHomePage = scp.loadStudentHomeTab();
         
         StudentProfilePage spp = studentHomePage.loadProfileTab();
-        spp.fillProfilePic("src/test/resources/images/profile_pic.png");
-        spp.uploadPicture();
-        spp.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
-        spp.isElementVisible("studentPhotoUploader");
-        spp.editProfilePhoto();
-        spp.editProfileThroughUi("", "short.name", "e@email.tmt", "inst", "Usual Nationality", 
-                "female", "this is enough!$%&*</>");
-        spp.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality", 
-                "female", "this is enough!$%&*</>");
-        spp.verifyPhotoSize(150, 150);
-        String prevPictureKey = BackDoor.getStudentProfile(TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT).pictureKey;
-        verifyPictureIsPresent(prevPictureKey);
-        
-        spp.verifyHtmlMainContent("/NJIstudentProfilePage.html");
+        spp.verifyContains("Student Profile");
+        spp.verifyContains("AHPUiT Instrúctör");
         
         studentHomePage.logout();
         

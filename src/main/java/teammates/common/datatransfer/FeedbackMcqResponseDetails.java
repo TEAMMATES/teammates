@@ -2,7 +2,7 @@ package teammates.common.datatransfer;
 
 import teammates.common.util.Sanitizer;
 
-public class FeedbackMcqResponseDetails extends FeedbackAbstractResponseDetails {
+public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
     private String answer;
     private boolean isOther;
     private String otherFieldContent; //content of other field if "other" is selected as the answer
@@ -14,20 +14,15 @@ public class FeedbackMcqResponseDetails extends FeedbackAbstractResponseDetails 
         otherFieldContent = "";
     }
     
-    /** Creates a new FeedbackMcqResponseDetails object
-     * 
-     * @param answer The answer to the question or the content of other field if other is chosen
-     * @param isOther Whether or not other is chosen as the answer
-     */
-    public FeedbackMcqResponseDetails(String answer, boolean isOther) {
-        super(FeedbackQuestionType.MCQ);
-        
-        this.isOther = isOther;
+    @Override
+    public void extractResponseDetails(FeedbackQuestionType questionType,
+            FeedbackQuestionDetails questionDetails, String[] answer) {
+        // TODO: check and set isOther accordingly when it is implemented.
         if(isOther){
             this.answer = "Other";
-            this.otherFieldContent = answer;
+            this.otherFieldContent = answer[0];
         } else {
-            this.answer = answer;
+            this.answer = answer[0];
             this.otherFieldContent = "";
         }
     }
@@ -42,12 +37,12 @@ public class FeedbackMcqResponseDetails extends FeedbackAbstractResponseDetails 
     }
 
     @Override
-    public String getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails) {
+    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         return Sanitizer.sanitizeForHtml(getAnswerString());
     }
 
     @Override
-    public String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails) {
+    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         return Sanitizer.sanitizeForCsv(getAnswerString());
     }
 }

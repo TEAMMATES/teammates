@@ -11,7 +11,7 @@
 
 
 <div class="well well-plain padding-0">
-    <form class="form-horizontal" role="form" method="post" action="/page/instructorFeedbackResultsDownload">
+    <div class="form-horizontal">
         <div class="panel-heading">
           <div class="row">
           <div class="col-sm-4">
@@ -51,20 +51,76 @@
               </div>
           </div>
           <div class="col-sm-2">
-              <div id="feedbackDataButtons">
-                  <input id="button_download" class="btn btn-primary pull-right" name="fruploaddownloadbtn" value="Download results" type="submit">
-              </div>
-              <input name="user" value="CFResultsUiT.instr" type="hidden">
-              <input name="fsname" value="First Session" type="hidden">
-              <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-              <input name="sectionname" value="All" type="hidden">
-          </div>
-        </div>
-        </div>
-      </form>
-    
-</div>
-
+                     <div class="form-group">
+                        <form action="/page/instructorFeedbackResultsDownload" method="post">
+                           <div id="feedbackDataButtons">
+                              <input class="btn btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download results"/>
+                                                         </div>
+                           <input name="user" type="hidden" value="CFResultsUiT.instr"/>
+                                                      <input name="fsname" type="hidden" value="First Session"/>
+                                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                      <input name="sectionname" type="hidden" value="All"/>
+                                                   </form>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <span class="help-block align-center">
+                     Non-English characters not displayed properly in the
+                    downloaded file?
+                     <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" onclick="submitFormAjax()">
+                        click here
+                     </span>
+                  </span>
+               </div>
+            </div>
+         </div>
+      </div>
+      <form id="csvToHtmlForm">
+         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                  <input name="fsname" type="hidden" value="First Session"/>
+                  <input name="user" type="hidden" value="CFResultsUiT.instr"/>
+                  <input name="frgroupbysection" type="hidden" value="All"/>
+                  <input name="csvtohtmltable" type="hidden" value="true"/>
+               </form>
+      <div class="modal fade align-center" id="fsResultsTableWindow">
+         <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <span class="help-block" style="display:inline;">
+                     Tips: After
+                    Selecting the table,
+                     <kbd>
+                        Ctrl + C
+                     </kbd>
+                     to COPY and
+                     <kbd>
+                        Ctrl + V
+                     </kbd>
+                     to PASTE to your Excel Workbook.
+                  </span>
+                       
+                  <button class="btn btn-default" data-dismiss="modal" type="button">
+                     Close
+                  </button>
+                  <button class="btn btn-primary" onclick="selectElementContents( document.getElementById('fsModalTable') );" type="button">
+                     Select Table
+                  </button>
+               </div>
+               <div class="modal-body">
+                  <div class="table-responsive">
+                     <div id="fsModalTable">
+                     </div>
+                     <br/>
+                                          <div id="ajaxStatus">
+                     </div>
+                  </div>
+               </div>
+               <div class="modal-footer">
+               </div>
+            </div>
+         </div>
+      </div>
 
 
 <form class="form-horizontal" role="form" method="post" action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&amp;fsname=First+Session&amp;user=CFResultsUiT.instr">
@@ -1293,7 +1349,7 @@
 </span></span></div>
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
-                                                <div class="pull-left text-preserve-space"><span class="color-positive">Equal Share +50%</span><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color-negative" "="">N/A</span>]</span></div>
+                                                <div class="pull-left text-preserve-space"><span class="color-positive">Equal Share +11%</span><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color_neutral" >N/A</span>]</span></div>
                                                 <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,0,11)" data-toggle="tooltip" data-placement="top" title="Add comment">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
@@ -1404,7 +1460,119 @@
                                         </li>
                                     </ul></div></div>
                     
-                </div></div>
+                <div class="panel panel-info">
+                                 <div class="panel-heading">
+                                    Question 17:
+                                    <span class="text-preserve-space">
+                                       Rate you and your team members work. 
+                                       <span style=" white-space: normal;">
+                                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-17-giver-0-recipient-1" onclick="toggleAdditionalQuestionInfo('17-giver-0-recipient-1')">
+                                             [more]
+                                          </a>
+                                          <br/>
+                                                                                    <span id="questionAdditionalInfo-17-giver-0-recipient-1" style="display:none;">
+                                             Numerical-scale question:
+                                             <br/>
+                                                                                          Minimum value: 1. Increment: 0.5. Maximum value: 5.
+                                          </span>
+                                       </span>
+                                    </span>
+                                 </div>
+                                 <div class="panel-body">
+                                    <div style="clear:both; overflow: hidden">
+                                       <div class="pull-left text-preserve-space">
+                                          3
+                                       </div>
+                                       <button class="btn btn-default btn-xs icon-button pull-right" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(1,0,12)" title="Add comment" type="button">
+                                          <span class="glyphicon glyphicon-comment glyphicon-primary">
+                                          </span>
+                                       </button>
+                                    </div>
+                                    <ul class="list-group" id="responseCommentTable-1-0-12" style="display:none">
+                                       <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-1-0-12" style="display:none;">
+                                          <form class="responseCommentAddForm">
+                                             <div class="form-group">
+                                                <div class="form-group form-inline">
+                                                   <div class="form-group text-muted">
+                                                      You may change comment's visibility using the visibility options on the right hand side.
+                                                   </div>
+                                                   <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-1-0-12" onclick="toggleVisibilityEditForm(1,0,12)">
+                                                      <span class="glyphicon glyphicon-eye-close">
+                                                      </span>
+                                                      Show Visibility Options
+                                                   </a>
+                                                </div>
+                                                <div class="panel panel-default" id="visibility-options-1-0-12" style="display: none;">
+                                                   <div class="panel-heading">
+                                                      Visibility Options
+                                                   </div>
+                                                   <table class="table text-center" style="color:#000;">
+                                                      <tbody>
+                                                         <tr>
+                                                            <th class="text-center">
+                                                               User/Group
+                                                            </th>
+                                                            <th class="text-center">
+                                                               Can see
+                                                                        your comment
+                                                            </th>
+                                                            <th class="text-center">
+                                                               Can see
+                                                                        your name
+                                                            </th>
+                                                         </tr>
+                                                         <tr id="response-giver-1-0-12">
+                                                            <td class="text-left">
+                                                               <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
+                                                                  Response Giver
+                                                               </div>
+                                                            </td>
+                                                            <td>
+                                                               <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER"/>
+                                                                                                                           </td>
+                                                            <td>
+                                                               <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER"/>
+                                                                                                                           </td>
+                                                         </tr>
+                                                         <tr id="response-instructors-1-0-12">
+                                                            <td class="text-left">
+                                                               <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                                                                  Instructors
+                                                               </div>
+                                                            </td>
+                                                            <td>
+                                                               <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS"/>
+                                                                                                                           </td>
+                                                            <td>
+                                                               <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS"/>
+                                                                                                                           </td>
+                                                         </tr>
+                                                      </tbody>
+                                                   </table>
+                                                </div>
+                                                <textarea class="form-control" id="responseCommentAddForm-1-0-12" name="responsecommenttext" placeholder="Your comment about this response" rows="3">
+                                                </textarea>
+                                             </div>
+                                             <div class="col-sm-offset-5">
+                                                <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-1-0-12" type="button">
+                                                   Add
+                                                </a>
+                                                <input class="btn btn-default" onclick="hideResponseCommentAddForm(1,0,12)" type="button" value="Cancel"/>
+                                                                                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                                                                <input name="fsname" type="hidden" value="First Session"/>
+                                                                                                <input name="questionid" type="hidden" value="{*}"/>
+                                                                                                <input name="responseid" type="hidden" value="{*}"/>
+                                                                                                <input name="user" type="hidden" value="CFResultsUiT.instr"/>
+                                                                                                <input name="showresponsecommentsto" type="hidden" value="GIVER,INSTRUCTORS"/>
+                                                                                                <input name="showresponsegiverto" type="hidden" value="GIVER,INSTRUCTORS"/>
+                                                                                             </div>
+                                          </form>
+                                       </li>
+                                    </ul>
+                                 </div>
+                              </div>
+                           </div></div>
+                        
                 
                     <div class="row border-top-gray">
                             <div class="col-md-2">
@@ -1760,8 +1928,119 @@
                                         </li>
                                     </ul></div></div>
                     
-                </div></div>
-                
+                <div class="panel panel-info">
+                                 <div class="panel-heading">
+                                    Question 17:
+                                    <span class="text-preserve-space">
+                                       Rate you and your team members work. 
+                                       <span style=" white-space: normal;">
+                                          <a class="color_gray" data-less="[less]" data-more="[more]" href="javascript:;" id="questionAdditionalInfoButton-17-giver-0-recipient-2" onclick="toggleAdditionalQuestionInfo('17-giver-0-recipient-2')">
+                                             [more]
+                                          </a>
+                                          <br/>
+                                                                                    <span id="questionAdditionalInfo-17-giver-0-recipient-2" style="display:none;">
+                                             Numerical-scale question:
+                                             <br/>
+                                                                                          Minimum value: 1. Increment: 0.5. Maximum value: 5.
+                                          </span>
+                                       </span>
+                                    </span>
+                                 </div>
+                                 <div class="panel-body">
+                                    <div style="clear:both; overflow: hidden">
+                                       <div class="pull-left text-preserve-space">
+                                          4
+                                       </div>
+                                       <button class="btn btn-default btn-xs icon-button pull-right" data-placement="top" data-toggle="tooltip" id="button_add_comment" onclick="showResponseCommentAddForm(2,0,4)" title="Add comment" type="button">
+                                          <span class="glyphicon glyphicon-comment glyphicon-primary">
+                                          </span>
+                                       </button>
+                                    </div>
+                                    <ul class="list-group" id="responseCommentTable-2-0-4" style="display:none">
+                                       <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-2-0-4" style="display:none;">
+                                          <form class="responseCommentAddForm">
+                                             <div class="form-group">
+                                                <div class="form-group form-inline">
+                                                   <div class="form-group text-muted">
+                                                      You may change comment's visibility using the visibility options on the right hand side.
+                                                   </div>
+                                                   <a class="btn btn-sm btn-info pull-right" id="frComment-visibility-options-trigger-2-0-4" onclick="toggleVisibilityEditForm(2,0,4)">
+                                                      <span class="glyphicon glyphicon-eye-close">
+                                                      </span>
+                                                      Show Visibility Options
+                                                   </a>
+                                                </div>
+                                                <div class="panel panel-default" id="visibility-options-2-0-4" style="display: none;">
+                                                   <div class="panel-heading">
+                                                      Visibility Options
+                                                   </div>
+                                                   <table class="table text-center" style="color:#000;">
+                                                      <tbody>
+                                                         <tr>
+                                                            <th class="text-center">
+                                                               User/Group
+                                                            </th>
+                                                            <th class="text-center">
+                                                               Can see
+                                                                        your comment
+                                                            </th>
+                                                            <th class="text-center">
+                                                               Can see
+                                                                        your name
+                                                            </th>
+                                                         </tr>
+                                                         <tr id="response-giver-2-0-4">
+                                                            <td class="text-left">
+                                                               <div data-original-title="Control what response giver can view" data-placement="top" data-toggle="tooltip" title="">
+                                                                  Response Giver
+                                                               </div>
+                                                            </td>
+                                                            <td>
+                                                               <input checked="checked" class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="GIVER"/>
+                                                                                                                           </td>
+                                                            <td>
+                                                               <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="GIVER"/>
+                                                                                                                           </td>
+                                                         </tr>
+                                                         <tr id="response-instructors-2-0-4">
+                                                            <td class="text-left">
+                                                               <div data-original-title="Control what instructors can view" data-placement="top" data-toggle="tooltip" title="">
+                                                                  Instructors
+                                                               </div>
+                                                            </td>
+                                                            <td>
+                                                               <input checked="checked" class="visibilityCheckbox answerCheckbox" type="checkbox" value="INSTRUCTORS"/>
+                                                                                                                           </td>
+                                                            <td>
+                                                               <input checked="checked" class="visibilityCheckbox giverCheckbox" type="checkbox" value="INSTRUCTORS"/>
+                                                                                                                           </td>
+                                                         </tr>
+                                                      </tbody>
+                                                   </table>
+                                                </div>
+                                                <textarea class="form-control" id="responseCommentAddForm-2-0-4" name="responsecommenttext" placeholder="Your comment about this response" rows="3">
+                                                </textarea>
+                                             </div>
+                                             <div class="col-sm-offset-5">
+                                                <a class="btn btn-primary" href="/page/instructorFeedbackResponseCommentAdd" id="button_save_comment_for_add-2-0-4" type="button">
+                                                   Add
+                                                </a>
+                                                <input class="btn btn-default" onclick="hideResponseCommentAddForm(2,0,4)" type="button" value="Cancel"/>
+                                                                                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                                                                <input name="fsname" type="hidden" value="First Session"/>
+                                                                                                <input name="questionid" type="hidden" value="{*}"/>
+                                                                                                <input name="responseid" type="hidden" value="{*}"/>
+                                                                                                <input name="user" type="hidden" value="CFResultsUiT.instr"/>
+                                                                                                <input name="showresponsecommentsto" type="hidden" value="GIVER,INSTRUCTORS"/>
+                                                                                                <input name="showresponsegiverto" type="hidden" value="GIVER,INSTRUCTORS"/>
+                                                                                             </div>
+                                          </form>
+                                       </li>
+                                    </ul>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
                     <div class="row border-top-gray">
                             <div class="col-md-2">
                                 <div class="col-md-12">

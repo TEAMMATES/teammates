@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -20,7 +21,10 @@ import teammates.logic.api.Logic;
 public class AdminSearchPageAction extends Action {
     
         
-        
+    
+    private HashMap<String, String> tempCourseIdToInstituteMap = new HashMap<String, String>();
+    private HashMap<String, String> tempCourseIdToInstructorGoogleIdMap = new HashMap<String, String>();
+
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException{
         
@@ -93,6 +97,11 @@ public class AdminSearchPageAction extends Action {
         Logic logic = new Logic();
         for(InstructorAttributes instructor : instructors){
             
+            if(tempCourseIdToInstituteMap.get(instructor.courseId) != null){
+                data.instructorInstituteMap.put(instructor.getIdentificationString(), tempCourseIdToInstituteMap.get(instructor.courseId));
+                continue;
+            }
+            
             String googleId = findAvailableInstructorGoogleIdForCourse(instructor.courseId);
             
             AccountAttributes account = logic.getAccount(googleId);           
@@ -101,6 +110,8 @@ public class AdminSearchPageAction extends Action {
             }
             
             String institute = account.institute.trim().isEmpty() ? "None" : account.institute;
+            
+            tempCourseIdToInstituteMap.put(instructor.courseId, institute);
             data.instructorInstituteMap.put(instructor.getIdentificationString(), institute);
         }
         
@@ -128,20 +139,26 @@ public class AdminSearchPageAction extends Action {
     
     
     private AdminSearchPageData putStudentInsitituteIntoMap(List<StudentAttributes> students, AdminSearchPageData data){
+        
         Logic logic = new Logic();
+        
         for(StudentAttributes student : students){
             
-            InstructorAttributes instructor = logic.getInstructorsForCourse(student.course).get(0); 
-            if(instructor.googleId == null){
+            if(tempCourseIdToInstituteMap.get(student.course) != null){
+                data.studentInstituteMap.put(student.getIdentificationString(), tempCourseIdToInstituteMap.get(student.course));
                 continue;
             }
             
-            AccountAttributes account = logic.getAccount(instructor.googleId);           
+            String instructorForCoursegoogleId = findAvailableInstructorGoogleIdForCourse(student.course);
+            
+            AccountAttributes account = logic.getAccount(instructorForCoursegoogleId);           
             if(account == null){
                 continue;
             }
             
             String institute = account.institute.trim().isEmpty() ? "None" : account.institute;
+            
+            tempCourseIdToInstituteMap.put(student.course, institute);
             
             data.studentInstituteMap.put(student.getIdentificationString(), institute);
         }
@@ -193,26 +210,34 @@ public class AdminSearchPageAction extends Action {
     
     
     /**
-     * This method loops through all instructors for the given course until a registered Instructor is found.
+     * This method loops through all instructors for the given course until a verified (Corresponding Account Exists) and registered Instructor is found.
      * It returns the google id of the found instructor.
      * @param CourseId
      * @return empty string if no available instructor google id is found
      */
     private String findAvailableInstructorGoogleIdForCourse(String courseId){
         
+        if(tempCourseIdToInstructorGoogleIdMap.get(courseId) != null){
+            return tempCourseIdToInstructorGoogleIdMap.get(courseId);
+        }
+        
         String googleId = "";
         
-        if(logic.getInstructorsForCourse(courseId) == null){
+        List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
+        
+        if(instructorList == null || instructorList.isEmpty()){
             return googleId;
         }
         
-        for(InstructorAttributes instructor : logic.getInstructorsForCourse(courseId)){
+        for(InstructorAttributes instructor : instructorList){
           
             if(instructor.googleId != null){
-                googleId = instructor.googleId;
-                break;
+               googleId = instructor.googleId;
+               break;
             }            
         }
+        
+        tempCourseIdToInstructorGoogleIdMap.put(courseId, googleId);
         
         return googleId; 
     }
@@ -268,6 +293,26 @@ public class AdminSearchPageAction extends Action {
              data.feedbackSeesionLinkToNameMap.put(submitUrl, fsa.feedbackSessionName);  
          }
          
+         
+         String viewResultUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+                                    .withCourseId(student.course)
+                                    .withSessionName(fsa.feedbackSessionName)
+                                    .withRegistrationKey(StringHelper.encrypt(student.key))
+                                    .withStudentEmail(student.email)
+                                    .toString();
+             
+         if(fsa.isPublished()){
+             if(data.studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString()) == null){
+                 List<String> viewResultUrlList = new ArrayList<String>();
+                 viewResultUrlList.add(viewResultUrl);
+                 data.studentPublishedFeedbackSessionLinksMap.put(student.getIdentificationString(), viewResultUrlList);
+             } else {
+                 data.studentPublishedFeedbackSessionLinksMap.get(student.getIdentificationString()).add(viewResultUrl);
+             }
+             
+             data.feedbackSeesionLinkToNameMap.put(viewResultUrl, fsa.feedbackSessionName + " (Published)"); 
+         }
+        
            
          return data;
     }

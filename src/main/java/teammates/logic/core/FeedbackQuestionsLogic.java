@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionBundle;
@@ -169,8 +169,8 @@ public class FeedbackQuestionsLogic {
                     return order;
                 }
                 
-                FeedbackAbstractQuestionDetails q1Details = q1.getQuestionDetails();
-                FeedbackAbstractQuestionDetails q2Details = q2.getQuestionDetails();
+                FeedbackQuestionDetails q1Details = q1.getQuestionDetails();
+                FeedbackQuestionDetails q2Details = q2.getQuestionDetails();
                 
                 order = q1Details.getQuestionTypeDisplayName().compareTo(q2Details.getQuestionTypeDisplayName());
                 if(order != 0){

@@ -160,7 +160,7 @@ public class AccountsDb extends EntitiesDb {
                 accountToUpdate.setStudentProfile((StudentProfile) a.studentProfile.toEntity());
             }
         }
-        
+        log.info(a.getBackupIdentifier());
         closePM();
     }
     

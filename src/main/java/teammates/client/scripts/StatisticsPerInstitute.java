@@ -36,7 +36,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     
     private static final int INSTRUCTOR_INDEX = 0;
     private static final int STUDENT_INDEX = 1;
-    private static final String UNKNOWN_INSTITUTE = "Unkonwn Institute";
+    private static final String UNKNOWN_INSTITUTE = "Unknown Institute";
     
     private HashMap<String, String> courseIdToInstituteMap = new HashMap<String, String>();
     
@@ -103,7 +103,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         String result = "===============Unique Student Emails===============\n"
                         + "Format=> Total Unique Emails [Total Emails]\n"
                         + "===================================================\n"
-                        + totalCountOfEmails + " [ " + totalCountOfEmails + " ]\n";
+                        + totalCountOfUniqueEmails + " [ " + totalCountOfEmails + " ]\n";
         return result;
     }
     
@@ -215,9 +215,10 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         String institute = UNKNOWN_INSTITUTE;
         
         for(Instructor instructor : instructorList){
-           
-            if(getInstituteForInstructor(instructor) != null){
-                institute = getInstituteForInstructor(instructor);
+            
+            String tempIns = getInstituteForInstructor(instructor);
+            if(tempIns != null){
+                institute = tempIns;
                 break;
             }
            
@@ -228,7 +229,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
     
     private String getInstituteForInstructor(Instructor instructor){
         
-        String institute = UNKNOWN_INSTITUTE;
+        String institute = null;
         
         if(instructor.getGoogleId() == null){
             return institute;

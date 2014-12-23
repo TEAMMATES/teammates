@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionBundle;
@@ -294,8 +294,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
         FeedbackQuestionAttributes copiedQuestion = fqLogic.copyFeedbackQuestion(question1.getId(), question1.feedbackSessionName, question1.courseId, instructor2OfCourse1.email);
         
-        FeedbackAbstractQuestionDetails question1Details = question1.getQuestionDetails();
-        FeedbackAbstractQuestionDetails copiedQuestionDetails = copiedQuestion.getQuestionDetails();
+        FeedbackQuestionDetails question1Details = question1.getQuestionDetails();
+        FeedbackQuestionDetails copiedQuestionDetails = copiedQuestion.getQuestionDetails();
         
         assertEquals(question1.numberOfEntitiesToGiveFeedbackTo, copiedQuestion.numberOfEntitiesToGiveFeedbackTo);
         assertEquals(question1.questionType, copiedQuestion.questionType);

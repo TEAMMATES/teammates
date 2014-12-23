@@ -1,7 +1,7 @@
 <div id="frameBodyWrapper" class="container theme-showcase">
         <div id="topOfPage"></div>
         <h1>Add New Feedback Session</h1>
-
+        
         <div class="well well-plain">
             <form class="form-group" method="post" action="/page/instructorFeedbackAdd" name="form_addfeedbacksession">
                 <div class="row">
@@ -23,12 +23,11 @@
                     </div>
                     <h4 class="label-control col-md-1 text-md">Or: </h4>
                     <div class="col-md-3">
-                        <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy
-                            from previous feedback sessions</a>
+                        <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy from previous feedback sessions</a>
                     </div>
                 </div>
                 <br>
-            
+
                 <div class="panel panel-primary">
                     <div class="panel-body">
                         <div class="row">
@@ -53,7 +52,8 @@
                                     </h5>
                                     <div class="col-sm-8">
                                         <select class="form-control" name="timezone" id="timezone">
-                                            <option value="-12">(UTC -12:00) Baker Island, Howland Island</option>
+                                            
+<option value="-12">(UTC -12:00) Baker Island, Howland Island</option>
 <option value="-11">(UTC -11:00) American Samoa, Niue</option>
 <option value="-10">(UTC -10:00) Hawaii, Cook Islands, Marquesas Islands</option>
 <option value="-9">(UTC -09:00) Gambier Islands, Alaska</option>
@@ -209,7 +209,7 @@
                             </div>
                             <div data-original-title="Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline." class="col-md-2 border-left-gray" title="" data-toggle="tooltip" data-placement="top">
                                 <div class="row">
-                                    <div class="col-md-12"> 
+                                    <div class="col-md-12">
                                         <label for="graceperiod" class="control-label">
                                             Grace period</label>
                                     </div>
@@ -403,7 +403,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <div class="col-md-offset-5 col-md-3">
                         <button id="button_submit" type="submit" class="btn btn-primary">Create Feedback Session</button>
@@ -411,8 +411,13 @@
                 </div>
                 <input name="user" value="CFeedbackUiT.nosessions" type="hidden">
             </form>
+            <form style="display:none;" id="ajaxForSessions" class="ajaxForSessionsForm" action="/page/instructorFeedbacksPage">
+                <input name="user" value="CFeedbackUiT.nosessions" type="hidden">
+                <input name="isusingAjax" value="on" type="hidden">
+            </form>
             <br> <br>
         </div>
+        
 
         <br>
         
@@ -420,16 +425,13 @@
 
 
 
-    <div id="statusMessage" class="alert alert-warning">
-        You have not created any sessions yet. Use the form above to create a session.
-    </div>
-    <script type="text/javascript">
-        document.getElementById( 'statusMessage' ).scrollIntoView();
-    </script>
+    <div id="statusMessage" style="display: none;"></div>
 
         <br>
 
-        <table class="table-responsive table table-striped table-bordered">
+        <div id="sessionList" class="">
+        
+        <table class="table-responsive table table-striped table-bordered" id="table-sessions"> 
             <thead>
                 <tr class="fill-primary">
                     <th id="button_sortid" onclick="toggleSort(this,1);" class="button-sort-ascending">Course ID <span class="icon-sort unsorted"></span>
@@ -437,10 +439,10 @@
                     <th id="button_sortname" onclick="toggleSort(this,2)" class="button-sort-none">Session Name <span class="icon-sort unsorted"></span>
                     </th>
                     <th>Status</th>
-                    <th><span data-original-title="Number of students submitted / Class size" title="" data-toggle="tooltip" data-placement="top">
+                    <th><span title="Number of students submitted / Class size" data-toggle="tooltip" data-placement="top">
                             Response Rate</span></th>
-                <th class="no-print">Action(s)</th>
-            </tr>
+                    <th class="no-print">Action(s)</th>
+                </tr>
             </thead>
             
             <tbody>
@@ -452,6 +454,15 @@
                 <td></td>
                 <td></td>
             </tr></tbody></table>
+        <br> <br> <br>
+        
+                <div class="align-center">No records found.</div>
+                <br> <br> <br>
+        
+        
+        </div>
+        
+
         <!-- Modal -->
         <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalTitle" aria-hidden="true">
           <div class="modal-dialog">
@@ -460,7 +471,7 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title" id="copyModalTitle">Creating a new session by copying a previous session</h4>
               </div>
-              <div class="modal-body">
+              <div class="modal-body" id="copySessionsBody">
                     <form class="form" id="copyModalForm" role="form" method="post" action="/page/instructorFeedbackCopy">
                     <!-- Course -->
                     <div class="form-group">
@@ -498,9 +509,4 @@
             </div>
           </div>
         </div>
-        <br> <br> <br>
-        
-        <div class="align-center">No records found.</div>
-        <br> <br> <br>
-        
     </div>

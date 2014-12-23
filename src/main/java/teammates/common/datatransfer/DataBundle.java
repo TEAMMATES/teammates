@@ -18,4 +18,5 @@ public class DataBundle {
     public HashMap<String, FeedbackResponseAttributes> feedbackResponses = new HashMap<String, FeedbackResponseAttributes>();
     public HashMap<String, FeedbackResponseCommentAttributes> feedbackResponseComments = new HashMap<String, FeedbackResponseCommentAttributes>();
     public HashMap<String, CommentAttributes> comments = new HashMap<String, CommentAttributes>();
+    public HashMap<String, StudentProfileAttributes> profiles = new HashMap<String, StudentProfileAttributes>();
 }

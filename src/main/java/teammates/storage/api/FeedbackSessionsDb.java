@@ -87,10 +87,12 @@ public class FeedbackSessionsDb extends EntitiesDb {
             Date standardStart = TimeHelper.convertToUserTimeZone(startCal, fs.timeZone - zone).getTime();
             Date standardEnd = TimeHelper.convertToUserTimeZone(endCal, fs.timeZone - zone).getTime();
             
-            if( (fs.startTime.getTime() >= standardStart.getTime() && fs.startTime.getTime() < standardEnd.getTime())                    
-              ||(fs.endTime.getTime() > standardStart.getTime() && fs.endTime.getTime() <= standardEnd.getTime()))
+            if((fs.startTime != null && fs.startTime.getTime() >= standardStart.getTime() && fs.startTime.getTime() < standardEnd.getTime())                    
+                ||(fs.endTime != null && fs.endTime.getTime() > standardStart.getTime() && fs.endTime.getTime() <= standardEnd.getTime())) {
             
-            list.add(fs);
+                list.add(fs);
+            
+            }
       
         }
              
@@ -243,6 +245,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         fs.setSendClosingEmail(newAttributes.isClosingEmailEnabled);
         fs.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled);
                 
+        log.info(newAttributes.getBackupIdentifier());
         getPM().close();
     }
 
@@ -271,7 +274,8 @@ public class FeedbackSessionsDb extends EntitiesDb {
         }
 
         fs.getRespondingInstructorList().addAll(emails);
-
+        
+        log.info(feedbackSession.getBackupIdentifier());
         getPM().close();
     }
 
@@ -298,6 +302,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
             fs.getRespondingInstructorList().add(newEmail);
         }
        
+        log.info(feedbackSession.getBackupIdentifier());
         getPM().close();
     }
 
@@ -319,6 +324,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         fs.getRespondingInstructorList().clear();
 
+        log.info(feedbackSession.getBackupIdentifier());
         getPM().close();
     }
 
@@ -348,6 +354,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         fs.getRespondingInstructorList().remove(email);
 
+        log.info(feedbackSession.getBackupIdentifier());
         getPM().close();
     }
 
@@ -370,6 +377,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         fs.getRespondingStudentList().addAll(emails);
 
+        log.info(feedbackSession.getBackupIdentifier());
         getPM().close();
     }
 
@@ -396,6 +404,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
             fs.getRespondingStudentList().add(newEmail);
         }
         
+        log.info(feedbackSession.getBackupIdentifier());
         getPM().close();
     }
 
@@ -417,6 +426,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
 
         fs.getRespondingStudentList().clear();
 
+        log.info(feedbackSession.getBackupIdentifier());
         getPM().close();
     }
 
@@ -440,6 +450,7 @@ public class FeedbackSessionsDb extends EntitiesDb {
         
         fs.getRespondingStudentList().remove(email);
 
+        log.info(feedbackSession.getBackupIdentifier());
         getPM().close();
     }
     

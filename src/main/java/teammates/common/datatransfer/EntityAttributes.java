@@ -43,6 +43,16 @@ public abstract class EntityAttributes {
     public abstract String getEntityTypeAsString();
 
     /**
+     * @return the identifier used for logging to perform backup 
+     */
+    public abstract String getBackupIdentifier();
+    
+    /**
+     * @return the entity object as a Json formatted string
+     */
+    public abstract String getJsonString();
+    
+    /**
      * Perform any sanitization that needs to be done before saving. 
      * e.g. trim strings
      */

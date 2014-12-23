@@ -23,6 +23,7 @@ import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.AssertHelper;
@@ -124,17 +125,17 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyHtmlAjax("/instructorFeedbackAllSessionTypes.html");
 
         feedbackPage.sortByName()
-            .verifyTablePattern(1,"Awaiting Session{*}Copied Session{*}First Eval{*}First Session{*}Manual Session{*}Open Session{*}Private Session");
+            .verifyTablePattern(0, 1,"Awaiting Session{*}Copied Session{*}First Eval{*}First Session{*}Manual Session{*}Open Session{*}Private Session");
         feedbackPage.sortByName()
-            .verifyTablePattern(1,"Private Session{*}Open Session{*}Manual Session{*}First Session{*}First Eval{*}Copied Session{*}Awaiting Session");
+            .verifyTablePattern(0, 1,"Private Session{*}Open Session{*}Manual Session{*}First Session{*}First Eval{*}Copied Session{*}Awaiting Session");
         
         ______TS("sort by course id");
         
         feedbackPage.sortById()
-            .verifyTablePattern(0,"CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101"
+            .verifyTablePattern(0, 0,"CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101"
                     + "{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104");
         feedbackPage.sortById()
-            .verifyTablePattern(0,"CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104"
+            .verifyTablePattern(0, 0,"CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104"
                     + "{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101");
     
     }
@@ -417,7 +418,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                         FieldValidator.REASON_CONTAINS_INVALID_CHAR,
                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME),
                     feedbackPage.getStatus());
-
+        
     }
     
     public void testCopyAction() throws Exception{
@@ -488,7 +489,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyHtmlAjax ("/instructorFeedbackPublishSuccessful.html");
         
         ______TS("PUBLISHED: publish link hidden");
-        
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         feedbackPage.verifyPublishLinkHidden(courseId, sessionName);
     }
     
@@ -524,7 +525,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyHtmlAjax("/instructorFeedbackUnpublishSuccessful.html");
         
         ______TS("PUBLISHED: unpublish link hidden");
-        
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         feedbackPage.verifyUnpublishLinkHidden(courseId, sessionName);
         
     }
@@ -746,7 +747,34 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals("TEAMEVALUATION", feedbackPage.getSessionType());
         assertEquals("10", feedbackPage.getStartTime());
         assertEquals("22", feedbackPage.getEndTime());
-        assertEquals("-2", feedbackPage.getTimeZone());             
+        assertEquals("-2", feedbackPage.getTimeZone()); 
+        
+        ______TS("failure case: test that advanced options are still available after input is rejected");
+        
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+        
+        newSession.feedbackSessionName = "";
+        newSession.endTime = Const.TIME_REPRESENTS_LATER;
+        feedbackPage.clickEditUncommonSettingsButton();
+        feedbackPage.clickNeverPublishTimeButton();
+        feedbackPage.addFeedbackSession(
+                newSession.feedbackSessionName, newSession.courseId,
+                newSession.startTime, newSession.endTime,
+                null, null,
+                newSession.instructions,
+                newSession.gracePeriod );
+        assertEquals(String.format(
+                        FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE,
+                        "",
+                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                        FieldValidator.REASON_EMPTY,
+                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
+                        FieldValidator.EVALUATION_NAME_MAX_LENGTH,
+                        FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME),
+                    feedbackPage.getStatus());
+        assertTrue(feedbackPage.verifyVisible(By.id("timeFramePanel")));
+        assertTrue(feedbackPage.verifyVisible(By.id("responsesVisibleFromColumn")));
+        assertTrue(feedbackPage.verifyVisible(By.id("instructionsRow")));
     }
 
     @AfterClass
@@ -755,8 +783,10 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     }
 
     private InstructorFeedbacksPage getFeedbackPageForInstructor(String instructorId) {
-        Url feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withUserId(instructorId);
-        return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbacksPage.class);
+        Url feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withUserId(instructorId);        
+        InstructorFeedbacksPage page = loginAdminToPage(browser, feedbackPageLink, InstructorFeedbacksPage.class);
+        page.waitForElementPresence(By.id("table-sessions"), 5);
+        return page;
     }
 
 }

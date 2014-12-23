@@ -90,6 +90,9 @@ public abstract class EntitiesDb {
                         + entityToAdd.getIdentificationString());
             }
         }
+        
+        log.info(entityToAdd.getBackupIdentifier());
+        
         return entity;
     }
     
@@ -113,12 +116,15 @@ public abstract class EntitiesDb {
             } else {
                 entities.add(entityToAdd.toEntity());
             }
+            
+            log.info(entityToAdd.getBackupIdentifier());
         }
-        
+       
         getPM().makePersistentAll(entities);
         getPM().flush();
  
         return entitiesToUpdate;
+
     }
 
     
@@ -163,6 +169,7 @@ public abstract class EntitiesDb {
                         + entityToAdd.getIdentificationString());
             }
         }
+        log.info(entityToAdd.getBackupIdentifier());
     }
     
     // TODO: use this method for subclasses.
@@ -203,6 +210,7 @@ public abstract class EntitiesDb {
                         + entityToDelete.getIdentificationString());
             }
         }
+        log.info(entityToDelete.getBackupIdentifier());
     }
     
     public void deleteEntities(Collection<? extends EntityAttributes> entitiesToDelete) {
@@ -213,6 +221,7 @@ public abstract class EntitiesDb {
             Object entity = getEntity(entityToDelete);
             if (entity != null) {
                 entities.add(entity);
+                log.info(entityToDelete.getBackupIdentifier());
             }
         }
         
@@ -231,11 +240,19 @@ public abstract class EntitiesDb {
     }
     
     public void deletePicture(BlobKey key) throws BlobstoreFailureException {
-        BlobstoreServiceFactory.getBlobstoreService().delete(key);
+        try {
+            BlobstoreServiceFactory.getBlobstoreService().delete(key);
+        } catch(Exception e) {
+            log.warning("tried to delete non-existent picture");
+        }
     }
     
     public void deletePictures(BlobKey[] keys) throws BlobstoreFailureException {
-        BlobstoreServiceFactory.getBlobstoreService().delete(keys);
+        try {
+            BlobstoreServiceFactory.getBlobstoreService().delete(keys);
+        } catch(Exception e) {
+            log.warning("tried to delete non-existent pictures");
+        }
     }
     
     /**

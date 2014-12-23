@@ -773,7 +773,58 @@
                 "INSTRUCTORS"
             ]
         },
-
+        "qn22InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.tmt",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"Split points among the teams, based on how much effort you think the teams have put into the project\",
+                          \"questionType\":\"CONSTSUM\", \"numOfConstSumOptions\" : 0,
+                          \"constSumOptions\" : [],\"distributeToRecipients\" : true,
+                           \"pointsPerOption\" : true, \"points\" : 100, \"forceUnevenDistribution\" : true}"
+            },
+            "questionNumber":"22",
+            "questionType":"CONSTSUM",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"TEAMS",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "RECEIVER",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
+        "qn23InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.tmt",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"How much more time should the teams spend on the following, regarding their product? Give points accordingly.\",
+                          \"questionType\":\"CONSTSUM\", \"numOfConstSumOptions\" : 3,
+                          \"constSumOptions\" : [\"Design\", \"Usability\", \"Algo\"], \"distributeToRecipients\" : false,
+                           \"pointsPerOption\" : false, \"points\" : 100, \"forceUnevenDistribution\" : true}"
+            },
+            "questionNumber":"23",
+            "questionType":"CONSTSUM",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"TEAMS",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "RECEIVER",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
         
         "qn1InSession2":{
             "feedbackSessionName":"Second Session",

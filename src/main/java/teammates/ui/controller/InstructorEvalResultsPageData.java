@@ -11,6 +11,11 @@ import teammates.common.datatransfer.SubmissionAttributes;
 public class InstructorEvalResultsPageData extends PageData {
     public EvaluationResultsBundle evaluationResults;
     public InstructorAttributes instructor;
+    public String summaryReportHtmlTableAsString;
+    
+    //for ajax use
+    public String courseId;
+    public String evalName;
 
     public InstructorEvalResultsPageData(AccountAttributes account) {
         super(account);
