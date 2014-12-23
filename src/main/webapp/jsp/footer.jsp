@@ -31,3 +31,20 @@
         </div>
     </div>
 </div>
+
+
+<script type="text/javascript">
+    
+    $('form').submit( function(eventObj) 
+            {           
+                var now = new Date();     
+                $('<input />').attr('type', 'hidden')
+                .attr('name',  "localTime")
+                .attr('value', now.toLocaleString())
+                .appendTo($(this));
+            return true;
+                
+            }
+    );
+    
+</script>

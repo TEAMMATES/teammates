@@ -39,6 +39,7 @@
 <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/js/adminSearch.js"></script>
 
+
 </head>
 <body>
     <div id="dhtmltooltip"></div>
@@ -52,17 +53,12 @@
                 <div id="topOfPage"></div>
                 <div id="headerOperation" class="page-header">
                     <h1>Admin Search</h1>
-
-
                 </div>
-
 
                 <div class="well well-plain">
                     <form class="form-horizontal" method="get" action=""
                         id="activityLogFilter" role="form">
                         
-                        
-                        <jsp:include page="<%=Const.ViewURIs.CURRENT_LOCAL_TIME%>" />
                         
                         <div class="panel-heading" id="filterForm">
 
