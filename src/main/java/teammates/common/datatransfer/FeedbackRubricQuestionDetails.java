@@ -196,6 +196,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${respIndex}", responseNumberString,
                                 "${col}", Integer.toString(i),
                                 "${row}", Integer.toString(j),
+                                "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
                                 "${description}", Sanitizer.sanitizeForHtml(this.getDescription(j, i)),
                                 "${checked}", (frd.getAnswer(j) == i)? "checked":"", //Check if existing choice for sub-question == current choice
                                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
@@ -262,6 +263,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${respIndex}", responseNumberString,
                                 "${col}", Integer.toString(i),
                                 "${row}", Integer.toString(j),
+                                "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
                                 "${description}", Sanitizer.sanitizeForHtml(this.getDescription(j, i)),
                                 "${checked}", "",
                                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);

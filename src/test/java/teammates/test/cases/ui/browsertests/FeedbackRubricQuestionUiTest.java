@@ -1,6 +1,7 @@
 package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
@@ -15,11 +16,13 @@ import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 
 public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
     private static Browser browser;
     private static InstructorFeedbackEditPage feedbackEditPage;
+    private static FeedbackSubmitPage submitPage;
     private static DataBundle testData;
 
     private static String courseId;
@@ -42,15 +45,72 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
     
     @Test
     public void allTests() throws Exception{
-        testEditPage();
+        //testEditPage();
         
         // Submission
+        testInstructorSubmitPage();
+        testStudentSubmitPage();
+        
         // Student Results
         // Instructor Results (All views)
         
         
     }
     
+    private void testInstructorSubmitPage() {
+        
+        ______TS("test rubric question input disabled for closed session");
+        
+        submitPage = loginToInstructorFeedbackSubmitPage("teammates.test.instructor", "closedSession");
+        int qnNumber = 1;
+        int responseNumber = 0;
+        int rowNumber = 0;
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-"+qnNumber+"-"+responseNumber+"-"+rowNumber));
+        
+
+        ______TS("test rubric question submission");
+        // Done in testStudentSubmitPage
+        
+    }
+
+    private void testStudentSubmitPage() {
+        
+        ______TS("test rubric question input disabled for closed session");
+        
+        submitPage = loginToStudentFeedbackSubmitPage("alice.tmms@FRubricQnUiT.CS2104", "closedSession");
+        int qnNumber = 1;
+        int responseNumber = 0;
+        int rowNumber = 0;
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-"+qnNumber+"-"+responseNumber+"-"+rowNumber));
+
+        ______TS("test rubric question submission");
+        
+        submitPage = loginToStudentFeedbackSubmitPage("alice.tmms@FRubricQnUiT.CS2104", "openSession2");
+        assertTrue(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-"+qnNumber+"-"+responseNumber+"-"+rowNumber));
+        
+        // Select radio input
+        submitPage.clickRubricRadio(1, 0, 0, 0);
+        submitPage.clickRubricRadio(1, 0, 1, 1);
+        submitPage.clickRubricRadio(1, 0, 0, 1);
+        
+        // Select table cell
+        submitPage.clickRubricCell(1, 1, 0, 1);
+        submitPage.clickRubricCell(1, 1, 1, 0);
+        submitPage.clickRubricCell(1, 1, 0, 0);
+        
+        // Check html before submission
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageRubricEdited.html");
+        
+        // Submit
+        submitPage.clickSubmitButton();
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
+        
+        // Go back to submission page and verify html
+        submitPage = loginToStudentFeedbackSubmitPage("alice.tmms@FRubricQnUiT.CS2104", "openSession2");
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageRubricSuccess.html");
+        
+    }
+
     private void testEditPage(){
         
         feedbackEditPage = getFeedbackEditPage();
@@ -193,6 +253,24 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         Url feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE).
                 withUserId(instructorId).withCourseId(courseId).withSessionName(feedbackSessionName);
         return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
+    }
+    
+    private FeedbackSubmitPage loginToInstructorFeedbackSubmitPage(
+            String instructorName, String fsName) {
+        Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                .withUserId(testData.instructors.get(instructorName).googleId)
+                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
+                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+        return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
+    }
+    
+    private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(
+            String studentName, String fsName) {
+        Url editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                .withUserId(testData.students.get(studentName).googleId)
+                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
+                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+        return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
     }
 
     @AfterClass

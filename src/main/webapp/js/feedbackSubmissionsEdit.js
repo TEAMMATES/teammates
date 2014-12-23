@@ -54,7 +54,7 @@ function readyRubricQuestions() {
         );
 
         // Bind click
-        parentCell.click(function(){
+        parentCell.click(function(event){
                 var radioInput = $(this).find("[name^='rubricChoice-']")
 
                 // If input is disabled, do not check.
@@ -62,9 +62,11 @@ function readyRubricQuestions() {
                     return;
                 }
 
-                radioInput.prop("checked", !radioInput.prop("checked"));
-                radioInput.trigger("change");
-                event.stopPropagation();
+                // trigger checkbox manually if cell is clicked.
+                if (event.target==this) {
+                    radioInput.prop("checked", !radioInput.prop("checked"));
+                    radioInput.trigger("change");
+                }
             });
 
         // Bind refresh highlights on check
