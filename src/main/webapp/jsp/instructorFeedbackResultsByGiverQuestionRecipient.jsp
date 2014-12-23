@@ -719,11 +719,11 @@
                             <tbody>
                             <tr>
                             <th id="button_sortFromTeam" class="button-sort-ascending"
-                                onclick="toggleSort(this,2)" style="width: 15%;">Team<span
+                                onclick="toggleSort(this,1)" style="width: 15%;">Team<span
                                 class="icon-sort unsorted"></span>
                             </th>
                             <th id="button_sortTo" class="button-sort-none"
-                                onclick="toggleSort(this,1)" style="width: 15%;">Student Name<span 
+                                onclick="toggleSort(this,2)" style="width: 15%;">Student Name<span 
                                 class="icon-sort unsorted"></span>
                             </th>                            
                             </tr>
