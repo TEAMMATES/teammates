@@ -1174,7 +1174,7 @@ function addRubricRow(questionNumber) {
       +             "<span class=\"input-group-addon btn btn-default rubricRemoveSubQuestionLink-${qnIndex}\" onclick=\"removeRubricRow(${row},${qnIndex})\">"
       +                 "<span class=\"glyphicon glyphicon-remove\"></span>"
       +             "</span>"
-      +             "<textarea class=\"form-control\" rows=\"1\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${row}\">${subQuestion}</textarea>"
+      +             "<textarea class=\"form-control\" rows=\"1\" id=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${qnIndex}-${row}\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${row}\">${subQuestion}</textarea>"
       +         "</div>"
       +     "</td>"
       +     "${rubricRowBodyFragments}"
@@ -1182,7 +1182,7 @@ function addRubricRow(questionNumber) {
 
     var rubricRowFragmentTemplate =
         "<td class=\"align-center rubricCol-${qnIndex}-${col}\">"
-      +   "<textarea class=\"form-control\" rows=\"1\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}\">${description}</textarea>"
+      +   "<textarea class=\"form-control\" rows=\"1\" id=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${qnIndex}-${row}-${col}\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}\">${description}</textarea>"
       + "</td>";
 
     var rubricRowBodyFragments = "";
@@ -1237,7 +1237,7 @@ function addRubricCol(questionNumber) {
     var rubricHeaderFragmentTemplate = 
        "<th class=\"rubricCol-${qnIndex}-${col}\">"
       +     "<div class=\"input-group\">"
-      +         "<input type=\"text\" class=\"col-sm-12 form-control\" value=\"${rubricChoiceValue}\" name =\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}-${col}\">"
+      +         "<input type=\"text\" class=\"col-sm-12 form-control\" value=\"${rubricChoiceValue}\" id=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}-${qnIndex}-${col} name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}-${col}\">"
       +         "<span class=\"input-group-addon btn btn-default rubricRemoveChoiceLink-${qnIndex}\" onclick=\"removeRubricCol(${col}, ${qnIndex})\">"
       +             "<span class=\"glyphicon glyphicon-remove\"></span>"
       +         "</span>"
@@ -1257,7 +1257,7 @@ function addRubricCol(questionNumber) {
     // Insert body <td>'s
     var rubricRowFragmentTemplate =
         "<td class=\"align-center rubricCol-${qnIndex}-${col}\">"
-      +   "<textarea class=\"form-control\" rows=\"1\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}\">${description}</textarea>"
+      +   "<textarea class=\"form-control\" rows=\"1\" id=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${qnIndex}-${row}-${col}\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}\">${description}</textarea>"
       + "</td>";
 
     var rubricRowBodyFragments = "";

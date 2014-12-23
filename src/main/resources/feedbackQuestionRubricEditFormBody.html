@@ -4,7 +4,7 @@
     		<span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-${qnIndex}" onclick="removeRubricRow(${row},${qnIndex})">
 				<span class="glyphicon glyphicon-remove"></span>
 			</span>
-	    	<textarea class="form-control" rows="1" name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${row}">${subQuestion}</textarea>
+	    	<textarea class="form-control" rows="1" id="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${qnIndex}-${row}" name="${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${row}">${subQuestion}</textarea>
 		</div>
     </td>
     ${rubricRowBodyFragments}
