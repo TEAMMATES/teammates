@@ -332,10 +332,16 @@
                         
                     %>
 			        <div class="pull-right">
-                    <% if (!targetEmail.contains("@@") && data.bundle.isParticipantIdentifierStudent(targetEmail)) { %>
-                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE %>" target="_blank"> 
+                    <% 
+                        boolean isAllowedToEdit = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(targetEmail), 
+                                                                                        data.feedbackSessionName, 
+                                                                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                        if (!targetEmail.contains("@@") && 
+                        data.bundle.isParticipantIdentifierStudent(targetEmail)){ 
+                    %>
+                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
                             
-                                <input type="submit" class="btn btn-success btn-xs" value="Edit Responses">
+                                <input type="submit" class="btn btn-success btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) { %> disabled="disabled" <% } %>>
                                 <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                 <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
                                 <input type="hidden" name="moderatedstudent" value=<%= targetEmail%>>
@@ -886,10 +892,16 @@
                     %>
                         <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
                     <div class="pull-right">
-                    <% if (!email.contains("@@") && data.bundle.isParticipantIdentifierStudent(email)) { %>
-                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE %>" target="_blank"> 
+                    <% 
+                        boolean isAllowedToEdit = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(email), 
+                                                                                        data.feedbackSessionName, 
+                                                                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                        if (!email.contains("@@") && 
+                        data.bundle.isParticipantIdentifierStudent(email)){ 
+                    %>
+                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
                             
-                                <input type="submit" class="btn btn-success btn-xs" value="Edit Responses">
+                                <input type="submit" class="btn btn-success btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) { %> disabled="disabled" <% } %>>
                                 <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                 <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
                                 <input type="hidden" name="moderatedstudent" value=<%= email%>>
@@ -957,10 +969,16 @@
                                                     %>
                                                         <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
                                                     <div class="pull-right">
-                                                        <% if (!teamMember.contains("@@") && data.bundle.isParticipantIdentifierStudent(teamMember)) { %>
-                                                                <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE %>" target="_blank"> 
+                                                        <% 
+                                                           boolean isAllowedToEdit = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(teamMember), 
+                                                                                                                           data.feedbackSessionName, 
+                                                                                                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                                                           if (!teamMember.contains("@@") && 
+                                                           data.bundle.isParticipantIdentifierStudent(teamMember)) { 
+                                                        %>
+                                                                <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
                                                                 
-                                                                    <input type="submit" class="btn btn-success btn-xs" value="Edit Responses">
+                                                                    <input type="submit" class="btn btn-success btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) { %> disabled="disabled" <% } %>>
                                                                     <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                                     <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
                                                                     <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>
@@ -1045,10 +1063,16 @@
                                                                     <% } %>
                                                                         <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
                                                                     <div class="pull-right">
-                                                                        <% if (!teamMember.contains("@@") && data.bundle.isParticipantIdentifierStudent(teamMember)) { %>
-                                                                                <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_STUDENT_PAGE %>" target="_blank"> 
+                                                                        <% 
+                                                                             boolean isAllowedToEdit = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(teamMember), 
+                                                                                                                                             data.feedbackSessionName, 
+                                                                                                                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                                                                             if (!teamMember.contains("@@") && 
+                                                                                data.bundle.isParticipantIdentifierStudent(teamMember)) { 
+                                                                        %>
+                                                                                <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
                                                                                 
-                                                                                    <input type="submit" class="btn btn-success btn-xs" value="Edit Responses">
+                                                                                    <input type="submit" class="btn btn-success btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) { %> disabled="disabled" <% } %>>
                                                                                     <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                                                     <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
                                                                                     <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>
