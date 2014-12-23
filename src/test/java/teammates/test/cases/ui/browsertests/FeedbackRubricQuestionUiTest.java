@@ -142,7 +142,7 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         
     }
     
-    private void testDeleteRubricQuestionAction(){
+    private void testDeleteRubricQuestionAction() {
         ______TS("RUBRIC: qn delete then cancel");
 
         feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(1));

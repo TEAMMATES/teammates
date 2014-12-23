@@ -277,6 +277,42 @@ public class InstructorFeedbackEditPage extends AppPage {
         return constSumPointsBox.getAttribute("value");
     }
     
+    public void fillRubricSubQuestionBox(String subQuestion, int qnNumber, int subQnIndex) {
+        String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+        if(qnNumber == -1) {
+            idSuffix = "--1";
+        }
+        
+        String elemName = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION+"-"+idSuffix+"-"+subQnIndex;
+        
+        WebElement subQnBox = browser.driver.findElement(By.name(elemName));
+        fillTextBox(subQnBox, subQuestion);
+    }
+    
+    public void fillRubricChoiceBox(String choice, int qnNumber, int choiceIndex) {
+        String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+        if(qnNumber == -1) {
+            idSuffix = "--1";
+        }
+        
+        String elemName = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-"+idSuffix+"-"+choiceIndex;
+        
+        WebElement subQnBox = browser.driver.findElement(By.name(elemName));
+        fillTextBox(subQnBox, choice);
+    }
+    
+    public void fillRubricDescriptionBox(String description, int qnNumber, int subQnIndex, int choiceIndex) {
+        String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+        if(qnNumber == -1) {
+            idSuffix = "--1";
+        }
+        
+        String elemName = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION+"-"+idSuffix+"-"+subQnIndex+"-"+choiceIndex;
+        
+        WebElement subQnBox = browser.driver.findElement(By.name(elemName));
+        fillTextBox(subQnBox, description);
+    }
+    
     public void clickQuestionEditForQuestion1() {
         questionEditForQuestion1.click();
     }
