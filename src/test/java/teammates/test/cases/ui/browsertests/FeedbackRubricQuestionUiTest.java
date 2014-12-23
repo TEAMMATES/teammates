@@ -57,7 +57,6 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         
         testNewRubricQuestionFrame();
         testInputValidationForRubricQuestion();
-        testCustomizeRubricOptions();
         testAddRubricQuestionAction();
         testEditRubricQuestionAction();
         testDeleteRubricQuestionAction();
@@ -79,20 +78,6 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
 
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID, feedbackEditPage.getStatus());
-        
-    }
-    
-
-    private void testCustomizeRubricOptions() {
-
-        //no question specific options to test
-        
-        ______TS("RUBRIC: set visibility options");
-        
-        feedbackEditPage.clickVisibilityOptionsForQuestion1();
-        //TODO: click and ensure can see answer for recipients,
-        //giver team members, recipient team members
-        //are always the same. (under visibility options)
         
     }
 
@@ -126,10 +111,28 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         ______TS("RUBRIC: edit sub-questions success");
         assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
         
+        // Edit sub-question for row 1
+        feedbackEditPage.fillRubricSubQuestionBox("New(0) sub-question text", 1, 0);
+        
+        // Add new sub-question
+        feedbackEditPage.clickAddRubricRowLink(1);
+        feedbackEditPage.fillRubricSubQuestionBox("New(1) sub-question text", 1, 2);
+        
+        // Remove existing sub-question
+        feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 1);
+ 
+        // Add new sub-question
+        feedbackEditPage.clickAddRubricRowLink(1);
+        feedbackEditPage.fillRubricSubQuestionBox("New(2) sub-question text", 1, 3);
+        
+        // Remove new sub-question
+        feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 2);
+        
+        // Should end up with 2 questions, (0) and (2).
         
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditSubQuestionSuccess.html");
-        
+
         ______TS("RUBRIC: edit choices success");
         
         

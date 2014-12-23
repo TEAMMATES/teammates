@@ -283,9 +283,10 @@ public class InstructorFeedbackEditPage extends AppPage {
             idSuffix = "--1";
         }
         
-        String elemName = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION+"-"+idSuffix+"-"+subQnIndex;
+        String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION+idSuffix+"-"+subQnIndex;
+        System.out.println(elemId);
         
-        WebElement subQnBox = browser.driver.findElement(By.name(elemName));
+        WebElement subQnBox = browser.driver.findElement(By.id(elemId));
         fillTextBox(subQnBox, subQuestion);
     }
     
@@ -295,9 +296,9 @@ public class InstructorFeedbackEditPage extends AppPage {
             idSuffix = "--1";
         }
         
-        String elemName = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-"+idSuffix+"-"+choiceIndex;
+        String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+idSuffix+"-"+choiceIndex;
         
-        WebElement subQnBox = browser.driver.findElement(By.name(elemName));
+        WebElement subQnBox = browser.driver.findElement(By.id(elemId));
         fillTextBox(subQnBox, choice);
     }
     
@@ -307,9 +308,9 @@ public class InstructorFeedbackEditPage extends AppPage {
             idSuffix = "--1";
         }
         
-        String elemName = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION+"-"+idSuffix+"-"+subQnIndex+"-"+choiceIndex;
+        String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION+idSuffix+"-"+subQnIndex+"-"+choiceIndex;
         
-        WebElement subQnBox = browser.driver.findElement(By.name(elemName));
+        WebElement subQnBox = browser.driver.findElement(By.id(elemId));
         fillTextBox(subQnBox, description);
     }
     
@@ -666,6 +667,43 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement msqOptionRow = browser.driver.findElement(By.id("constSumOptionRow-" + optionIndex + idSuffix));
         WebElement removeOptionLink = msqOptionRow.findElement(By.id("constSumRemoveOptionLink"));
         removeOptionLink.click();
+    }
+    
+    public void clickAddRubricRowLink(int qnIndex){
+        String idSuffix = qnIndex > 0 ? "-" + qnIndex : "";
+        if(qnIndex == -1){
+            idSuffix = "--1";
+        }
+        WebElement addRubricRowLink = browser.driver.findElement(By.id("rubricAddSubQuestionLink"+idSuffix));
+        addRubricRowLink.click();
+    }
+    
+    public void clickAddRubricColLink(int qnIndex){
+        String idSuffix = qnIndex > 0 ? "-" + qnIndex : "";
+        if(qnIndex == -1){
+            idSuffix = "--1";
+        }
+        WebElement addRubricColLink = browser.driver.findElement(By.id("rubricAddChoicenLink"+idSuffix));
+        addRubricColLink.click();
+    }
+    
+    public void clickRemoveRubricRowLinkAndConfirm(int qnIndex, int row){
+        String idSuffix = qnIndex > 0 ? "-" + qnIndex : "";
+        if(qnIndex == -1){
+            idSuffix = "--1";
+        }
+        WebElement addRubricRowLink = browser.driver.findElement(By.id("rubricRemoveSubQuestionLink"+idSuffix+"-"+row));
+        //addRubricRowLink.click();
+        clickAndConfirm(addRubricRowLink);
+    }
+    
+    public void clickRemoveRubricColLinkAndConfirm(int qnIndex, int col){
+        String idSuffix = qnIndex > 0 ? "-" + qnIndex : "";
+        if(qnIndex == -1){
+            idSuffix = "--1";
+        }
+        WebElement addRubricColLink = browser.driver.findElement(By.id("rubricRemoveChoicenLink"+idSuffix+"-"+col));
+        clickAndConfirm(addRubricColLink);
     }
     
     public FeedbackSubmitPage clickPreviewAsStudentButton() {

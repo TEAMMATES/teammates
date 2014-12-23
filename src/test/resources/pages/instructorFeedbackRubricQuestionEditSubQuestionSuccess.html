@@ -413,7 +413,7 @@
 
 
     <div id="statusMessage" class="alert alert-warning">
-        The question has been added to this feedback session.
+        The changes to the question has been updated.
     </div>
     <script type="text/javascript">
         document.getElementById( 'statusMessage' ).scrollIntoView();
@@ -431,7 +431,7 @@
                     <div class="col-sm-12">
                         <span>
                             <strong>Question</strong>
-                            <select class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-1">
+                            <select disabled="" class="questionNumber nonDestructive text-primary" name="questionnum" id="questionnum-1">
                             <option value="1">1</option>
 
                             </select>
@@ -440,8 +440,8 @@
                         </span>
                         <span class="pull-right">
                             <a data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time." class="btn btn-primary btn-xs" id="questiongetlink-1" data-toggle="tooltip" data-placement="top" title="" onclick="getQuestionLink(1)">Get Link</a>
-                            <a style="display: none;" data-original-title="Edit this question" class="btn btn-primary btn-xs" id="questionedittext-1" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(1,1)">Edit</a>
-                            <a class="btn btn-primary btn-xs" style="" id="questionsavechangestext-1">Save Changes</a>
+                            <a data-original-title="Edit this question" class="btn btn-primary btn-xs" id="questionedittext-1" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(1,1)">Edit</a>
+                            <a class="btn btn-primary btn-xs" style="display:none" id="questionsavechangestext-1">Save Changes</a>
                             <a data-original-title="Delete this question" class="btn btn-primary btn-xs" onclick="deleteQuestion(1)" data-toggle="tooltip" data-placement="top" title="">Delete</a>
                         </span>
                     </div>
@@ -449,7 +449,7 @@
             </div>
             <div class="panel-body">
                 <div>
-                    <textarea data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-1" data-toggle="tooltip" data-placement="top" title="" tabindex="9">RUBRIC qn</textarea>
+                    <textarea data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?" rows="5" class="form-control textvalue nonDestructive" name="questiontext" id="questiontext-1" data-toggle="tooltip" data-placement="top" title="" tabindex="9" disabled="disabled">edited RUBRIC qn text</textarea>
                 </div>
                 <div class="row">
     <br>
@@ -460,40 +460,40 @@
                     <th></th>
                     <th class="rubricCol-1-0">
 	<div class="col-sm-12 input-group">
-		<input class="form-control" value="Strongly Agree" id="rubricChoice-1-0" name="rubricChoice-0" type="text">
-		<span style="display: table-cell;" class="input-group-addon btn btn-default rubricRemoveChoiceLink-1" id="rubricRemoveChoiceLink-1-0" onclick="removeRubricCol(0, 1)">
+		<input disabled="disabled" class="form-control" value="Strongly Agree" id="rubricChoice-1-0" name="rubricChoice-0" type="text">
+		<span style="display: none;" class="input-group-addon btn btn-default rubricRemoveChoiceLink-1" id="rubricRemoveChoiceLink-1-0" onclick="removeRubricCol(0, 1)">
 			<span class="glyphicon glyphicon-remove"></span>
 		</span>
 	</div>
 </th>
 <th class="rubricCol-1-1">
 	<div class="col-sm-12 input-group">
-		<input class="form-control" value="Agree" id="rubricChoice-1-1" name="rubricChoice-1" type="text">
-		<span style="display: table-cell;" class="input-group-addon btn btn-default rubricRemoveChoiceLink-1" id="rubricRemoveChoiceLink-1-1" onclick="removeRubricCol(1, 1)">
+		<input disabled="disabled" class="form-control" value="Agree" id="rubricChoice-1-1" name="rubricChoice-1" type="text">
+		<span style="display: none;" class="input-group-addon btn btn-default rubricRemoveChoiceLink-1" id="rubricRemoveChoiceLink-1-1" onclick="removeRubricCol(1, 1)">
 			<span class="glyphicon glyphicon-remove"></span>
 		</span>
 	</div>
 </th>
 <th class="rubricCol-1-2">
 	<div class="col-sm-12 input-group">
-		<input class="form-control" value="Neutral" id="rubricChoice-1-2" name="rubricChoice-2" type="text">
-		<span style="display: table-cell;" class="input-group-addon btn btn-default rubricRemoveChoiceLink-1" id="rubricRemoveChoiceLink-1-2" onclick="removeRubricCol(2, 1)">
+		<input disabled="disabled" class="form-control" value="Neutral" id="rubricChoice-1-2" name="rubricChoice-2" type="text">
+		<span style="display: none;" class="input-group-addon btn btn-default rubricRemoveChoiceLink-1" id="rubricRemoveChoiceLink-1-2" onclick="removeRubricCol(2, 1)">
 			<span class="glyphicon glyphicon-remove"></span>
 		</span>
 	</div>
 </th>
 <th class="rubricCol-1-3">
 	<div class="col-sm-12 input-group">
-		<input class="form-control" value="Disagree" id="rubricChoice-1-3" name="rubricChoice-3" type="text">
-		<span style="display: table-cell;" class="input-group-addon btn btn-default rubricRemoveChoiceLink-1" id="rubricRemoveChoiceLink-1-3" onclick="removeRubricCol(3, 1)">
+		<input disabled="disabled" class="form-control" value="Disagree" id="rubricChoice-1-3" name="rubricChoice-3" type="text">
+		<span style="display: none;" class="input-group-addon btn btn-default rubricRemoveChoiceLink-1" id="rubricRemoveChoiceLink-1-3" onclick="removeRubricCol(3, 1)">
 			<span class="glyphicon glyphicon-remove"></span>
 		</span>
 	</div>
 </th>
 <th class="rubricCol-1-4">
 	<div class="col-sm-12 input-group">
-		<input class="form-control" value="Strongly Disagree" id="rubricChoice-1-4" name="rubricChoice-4" type="text">
-		<span style="display: table-cell;" class="input-group-addon btn btn-default rubricRemoveChoiceLink-1" id="rubricRemoveChoiceLink-1-4" onclick="removeRubricCol(4, 1)">
+		<input disabled="disabled" class="form-control" value="Strongly Disagree" id="rubricChoice-1-4" name="rubricChoice-4" type="text">
+		<span style="display: none;" class="input-group-addon btn btn-default rubricRemoveChoiceLink-1" id="rubricRemoveChoiceLink-1-4" onclick="removeRubricCol(4, 1)">
 			<span class="glyphicon glyphicon-remove"></span>
 		</span>
 	</div>
@@ -505,52 +505,52 @@
                 <tr id="rubricRow-1-0">
     <td>
     	<div class="col-sm-12 input-group">
-    		<span style="display: table-cell;" class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-1" id="rubricRemoveSubQuestionLink-1-0" onclick="removeRubricRow(0,1)">
+    		<span style="display: none;" class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-1" id="rubricRemoveSubQuestionLink-1-0" onclick="removeRubricRow(0,1)">
 				<span class="glyphicon glyphicon-remove"></span>
 			</span>
-	    	<textarea class="form-control" rows="1" id="rubricSubQn-1-0" name="rubricSubQn-0">This student has been active during discussions.</textarea>
+	    	<textarea disabled="disabled" class="form-control" rows="1" id="rubricSubQn-1-0" name="rubricSubQn-0">New(0) sub-question text</textarea>
 		</div>
     </td>
     <td class="align-center rubricCol-1-0">
-	<textarea class="form-control nonDestructive" rows="1" id="rubricDesc-1-0-0" name="rubricDesc-0-0"></textarea>
+	<textarea disabled="disabled" class="form-control nonDestructive" rows="1" id="rubricDesc-1-0-0" name="rubricDesc-0-0"></textarea>
 </td>
 <td class="align-center rubricCol-1-1">
-	<textarea class="form-control nonDestructive" rows="1" id="rubricDesc-1-0-1" name="rubricDesc-0-1"></textarea>
+	<textarea disabled="disabled" class="form-control nonDestructive" rows="1" id="rubricDesc-1-0-1" name="rubricDesc-0-1"></textarea>
 </td>
 <td class="align-center rubricCol-1-2">
-	<textarea class="form-control nonDestructive" rows="1" id="rubricDesc-1-0-2" name="rubricDesc-0-2"></textarea>
+	<textarea disabled="disabled" class="form-control nonDestructive" rows="1" id="rubricDesc-1-0-2" name="rubricDesc-0-2"></textarea>
 </td>
 <td class="align-center rubricCol-1-3">
-	<textarea class="form-control nonDestructive" rows="1" id="rubricDesc-1-0-3" name="rubricDesc-0-3"></textarea>
+	<textarea disabled="disabled" class="form-control nonDestructive" rows="1" id="rubricDesc-1-0-3" name="rubricDesc-0-3"></textarea>
 </td>
 <td class="align-center rubricCol-1-4">
-	<textarea class="form-control nonDestructive" rows="1" id="rubricDesc-1-0-4" name="rubricDesc-0-4"></textarea>
+	<textarea disabled="disabled" class="form-control nonDestructive" rows="1" id="rubricDesc-1-0-4" name="rubricDesc-0-4"></textarea>
 </td>
 
 </tr>
 <tr id="rubricRow-1-1">
     <td>
     	<div class="col-sm-12 input-group">
-    		<span style="display: table-cell;" class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-1" id="rubricRemoveSubQuestionLink-1-1" onclick="removeRubricRow(1,1)">
+    		<span style="display: none;" class="input-group-addon btn btn-default rubricRemoveSubQuestionLink-1" id="rubricRemoveSubQuestionLink-1-1" onclick="removeRubricRow(1,1)">
 				<span class="glyphicon glyphicon-remove"></span>
 			</span>
-	    	<textarea class="form-control" rows="1" id="rubricSubQn-1-1" name="rubricSubQn-1">This student has contributed to the team.</textarea>
+	    	<textarea disabled="disabled" class="form-control" rows="1" id="rubricSubQn-1-1" name="rubricSubQn-1">New(2) sub-question text</textarea>
 		</div>
     </td>
     <td class="align-center rubricCol-1-0">
-	<textarea class="form-control nonDestructive" rows="1" id="rubricDesc-1-1-0" name="rubricDesc-1-0"></textarea>
+	<textarea disabled="disabled" class="form-control nonDestructive" rows="1" id="rubricDesc-1-1-0" name="rubricDesc-1-0"></textarea>
 </td>
 <td class="align-center rubricCol-1-1">
-	<textarea class="form-control nonDestructive" rows="1" id="rubricDesc-1-1-1" name="rubricDesc-1-1"></textarea>
+	<textarea disabled="disabled" class="form-control nonDestructive" rows="1" id="rubricDesc-1-1-1" name="rubricDesc-1-1"></textarea>
 </td>
 <td class="align-center rubricCol-1-2">
-	<textarea class="form-control nonDestructive" rows="1" id="rubricDesc-1-1-2" name="rubricDesc-1-2"></textarea>
+	<textarea disabled="disabled" class="form-control nonDestructive" rows="1" id="rubricDesc-1-1-2" name="rubricDesc-1-2"></textarea>
 </td>
 <td class="align-center rubricCol-1-3">
-	<textarea class="form-control nonDestructive" rows="1" id="rubricDesc-1-1-3" name="rubricDesc-1-3"></textarea>
+	<textarea disabled="disabled" class="form-control nonDestructive" rows="1" id="rubricDesc-1-1-3" name="rubricDesc-1-3"></textarea>
 </td>
 <td class="align-center rubricCol-1-4">
-	<textarea class="form-control nonDestructive" rows="1" id="rubricDesc-1-1-4" name="rubricDesc-1-4"></textarea>
+	<textarea disabled="disabled" class="form-control nonDestructive" rows="1" id="rubricDesc-1-1-4" name="rubricDesc-1-4"></textarea>
 </td>
 
 </tr>
@@ -558,15 +558,15 @@
             </tbody>
         </table>
     </div>
-    <input name="rubricNumRows" id="rubricNumRows-1" value="2" type="hidden">
-    <input name="rubricNumCols" id="rubricNumCols-1" value="5" type="hidden">
+    <input disabled="disabled" name="rubricNumRows" id="rubricNumRows-1" value="2" type="hidden">
+    <input disabled="disabled" name="rubricNumCols" id="rubricNumCols-1" value="5" type="hidden">
 </div>
 <div class="row">
     <div class="col-sm-6 align-left">
-        <a style="display: inline-block;" class="btn btn-xs btn-primary" id="rubricAddSubQuestionLink-1" onclick="addRubricRow(1)"><span class="glyphicon glyphicon-arrow-down"> </span> add row</a>
+        <a style="display: none;" class="btn btn-xs btn-primary" id="rubricAddSubQuestionLink-1" onclick="addRubricRow(1)"><span class="glyphicon glyphicon-arrow-down"> </span> add row</a>
     </div>
     <div class="col-sm-6 align-right">
-        <a style="display: inline-block;" class="btn btn-xs btn-primary" id="rubricAddChoiceLink-1" onclick="addRubricCol(1)">add column <span class="glyphicon glyphicon-arrow-right"></span></a>
+        <a style="display: none;" class="btn btn-xs btn-primary" id="rubricAddChoiceLink-1" onclick="addRubricCol(1)">add column <span class="glyphicon glyphicon-arrow-right"></span></a>
     </div>
     <br>
 </div>
@@ -577,7 +577,7 @@
                             Feedback Giver:
                         </label>
                         <div class="col-sm-8">
-                            <select class="form-control participantSelect" name="givertype" id="givertype-1" onchange="feedbackGiverUpdateVisibilityOptions(this)">
+                            <select class="form-control participantSelect" name="givertype" id="givertype-1" disabled="disabled" onchange="feedbackGiverUpdateVisibilityOptions(this)">
                                 <option value="SELF" selected="selected">Me (Session creator)</option>
 <option value="STUDENTS">Students in this course</option>
 <option value="INSTRUCTORS">Instructors in this course</option>
@@ -591,7 +591,7 @@
                             Feedback Recipient:
                         </label>
                         <div class="col-sm-8">
-                            <select class="form-control participantSelect" name="recipienttype" id="recipienttype-1" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
+                            <select class="form-control participantSelect" name="recipienttype" id="recipienttype-1" disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                                 <option value="SELF" selected="selected">Giver (Self feedback)</option>
 <option value="STUDENTS">Other students in the course</option>
 <option value="INSTRUCTORS">Instructors in the course</option>
@@ -609,12 +609,12 @@
                     <br><br>
                     <div class="col-sm-6 btn-group" data-toggle="buttons">
                         <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-1" onchange="toggleVisibilityOptions(this)">
-                            <input type="radio">
+                            <input disabled="disabled" type="radio">
                                 <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
                             
                         </label>
                         <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-1" onchange="toggleVisibilityMessage(this)">
-                            <input type="radio">
+                            <input disabled="disabled" type="radio">
                                 <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
                             
                         </label>
@@ -625,11 +625,11 @@
                         </label>
                         <div class="col-sm-8 form-control-static">
                             <div class="col-sm-6">
-                                <input class="nonDestructive" name="numofrecipientstype" value="custom" type="radio">
-                                    <input class="nonDestructive numberOfEntitiesBox" name="numofrecipients" id="numofrecipients-1" min="1" max="250" value="1" type="number">
+                                <input class="nonDestructive" name="numofrecipientstype" value="custom" disabled="disabled" type="radio">
+                                    <input class="nonDestructive numberOfEntitiesBox" name="numofrecipients" id="numofrecipients-1" min="1" max="250" value="1" disabled="disabled" type="number">
                             </div>
                             <div class="col-sm-6">
-                                <input class="nonDestructive" name="numofrecipientstype" checked="checked" value="max" type="radio">
+                                <input class="nonDestructive" name="numofrecipientstype" checked="checked" value="max" disabled="disabled" type="radio">
                                 <span class="">Unlimited</span>
                             </div>
                         </div>
@@ -663,10 +663,10 @@
                                 </div>
                             </td>
                             <td>
-                                <input class="visibilityCheckbox answerCheckbox1 centered" name="receiverLeaderCheckbox" value="RECEIVER" checked="checked" type="checkbox">
+                                <input class="visibilityCheckbox answerCheckbox1 centered" name="receiverLeaderCheckbox" value="RECEIVER" disabled="disabled" checked="checked" type="checkbox">
                             </td>
                             <td>
-                                <input class="visibilityCheckbox giverCheckbox1" value="RECEIVER" checked="checked" type="checkbox">     
+                                <input class="visibilityCheckbox giverCheckbox1" value="RECEIVER" disabled="disabled" checked="checked" type="checkbox">     
                             </td>
                             <td>
                                 <input class="visibilityCheckbox recipientCheckbox1" name="receiverFollowerCheckbox" value="RECEIVER" disabled="disabled" checked="checked" type="checkbox">
@@ -679,13 +679,13 @@
                                 </div>
                             </td>
                             <td>
-                                <input class="visibilityCheckbox answerCheckbox1" value="OWN_TEAM_MEMBERS" type="checkbox">
+                                <input class="visibilityCheckbox answerCheckbox1" value="OWN_TEAM_MEMBERS" disabled="disabled" type="checkbox">
                             </td>
                             <td>
-                                <input class="visibilityCheckbox giverCheckbox1" value="OWN_TEAM_MEMBERS" type="checkbox">
+                                <input class="visibilityCheckbox giverCheckbox1" value="OWN_TEAM_MEMBERS" disabled="disabled" type="checkbox">
                             </td>
                             <td>
-                                <input class="visibilityCheckbox recipientCheckbox1" value="OWN_TEAM_MEMBERS" type="checkbox">
+                                <input class="visibilityCheckbox recipientCheckbox1" value="OWN_TEAM_MEMBERS" disabled="disabled" type="checkbox">
                             </td>
                         </tr>
                         <tr>
@@ -695,13 +695,13 @@
                                 </div>
                             </td>
                             <td>
-                                <input class="visibilityCheckbox answerCheckbox1" value="RECEIVER_TEAM_MEMBERS" type="checkbox">
+                                <input class="visibilityCheckbox answerCheckbox1" value="RECEIVER_TEAM_MEMBERS" disabled="disabled" type="checkbox">
                             </td>
                             <td>
-                                <input class="visibilityCheckbox giverCheckbox1" value="RECEIVER_TEAM_MEMBERS" type="checkbox">
+                                <input class="visibilityCheckbox giverCheckbox1" value="RECEIVER_TEAM_MEMBERS" disabled="disabled" type="checkbox">
                             </td>
                             <td>
-                                <input class="visibilityCheckbox recipientCheckbox1" value="RECEIVER_TEAM_MEMBERS" type="checkbox">
+                                <input class="visibilityCheckbox recipientCheckbox1" value="RECEIVER_TEAM_MEMBERS" disabled="disabled" type="checkbox">
                             </td>
                         </tr>
                         <tr>
@@ -711,13 +711,13 @@
                                 </div>
                             </td>
                             <td>
-                                <input class="visibilityCheckbox answerCheckbox1" value="STUDENTS" type="checkbox">
+                                <input class="visibilityCheckbox answerCheckbox1" value="STUDENTS" disabled="disabled" type="checkbox">
                             </td>
                             <td>
-                                <input class="visibilityCheckbox giverCheckbox1" value="STUDENTS" type="checkbox">
+                                <input class="visibilityCheckbox giverCheckbox1" value="STUDENTS" disabled="disabled" type="checkbox">
                             </td>
                             <td>
-                                <input class="visibilityCheckbox recipientCheckbox1" value="STUDENTS" type="checkbox">
+                                <input class="visibilityCheckbox recipientCheckbox1" value="STUDENTS" disabled="disabled" type="checkbox">
                             </td>
                         </tr>
                         <tr>
@@ -727,20 +727,20 @@
                                 </div>
                             </td>
                             <td>
-                                <input class="visibilityCheckbox answerCheckbox1" value="INSTRUCTORS" checked="checked" type="checkbox">
+                                <input class="visibilityCheckbox answerCheckbox1" value="INSTRUCTORS" disabled="disabled" checked="checked" type="checkbox">
                             </td>
                             <td>
-                                <input class="visibilityCheckbox giverCheckbox1" value="INSTRUCTORS" checked="checked" type="checkbox">
+                                <input class="visibilityCheckbox giverCheckbox1" value="INSTRUCTORS" disabled="disabled" checked="checked" type="checkbox">
                             </td>
                             <td>
-                                <input class="visibilityCheckbox recipientCheckbox1" value="INSTRUCTORS" checked="checked" type="checkbox">
+                                <input class="visibilityCheckbox recipientCheckbox1" value="INSTRUCTORS" disabled="disabled" checked="checked" type="checkbox">
                             </td>
                         </tr>
                     </tbody></table>
                 </div>
                 <div>
                     <span class="pull-right">
-                        <input id="button_question_submit-1" class="btn btn-primary" value="Save Changes" tabindex="0" style="" type="submit">
+                        <input disabled="disabled" id="button_question_submit-1" class="btn btn-primary" value="Save Changes" tabindex="0" style="display:none" type="submit">
                     </span>
                 </div>
             </div>
