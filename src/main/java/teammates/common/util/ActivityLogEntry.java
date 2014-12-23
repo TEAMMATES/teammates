@@ -391,7 +391,7 @@ public class ActivityLogEntry {
         if(localTime == null){
             localTimeToShow = "No Local Time Available";
         } else {
-            localTimeToShow = "Local Time is " + localTime;
+            localTimeToShow = localTime;
         }
         return localTimeToShow;
     }

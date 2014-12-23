@@ -28,6 +28,7 @@
     <script type="text/javascript" src="/js/feedbackSubmissionsEdit.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/localTime.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 

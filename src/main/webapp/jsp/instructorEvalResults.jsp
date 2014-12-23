@@ -35,6 +35,7 @@
 
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorEvalResults.js"></script>
+    <script type="text/javascript" src="/js/localTime.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->

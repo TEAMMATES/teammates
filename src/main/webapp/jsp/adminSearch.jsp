@@ -38,8 +38,7 @@
     src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/js/adminSearch.js"></script>
-
-
+<script type="text/javascript" src="/js/localTime.js"></script>
 </head>
 <body>
     <div id="dhtmltooltip"></div>
@@ -505,3 +504,5 @@
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
 </html>
+
+

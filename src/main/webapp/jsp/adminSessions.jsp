@@ -43,7 +43,7 @@
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/adminSessions.js"></script>
     <script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
-
+    <script type="text/javascript" src="/js/localTime.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
 
 </head>

@@ -20,6 +20,7 @@
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
         <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/js/feedbackSubmissionsEdit.js"></script>
+    <script type="text/javascript" src="/js/localTime.js"></script>
     <script type="text/javascript" src="/js/student.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
     <!-- Bootstrap core JavaScript ================================================== -->

@@ -24,6 +24,7 @@
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/js/administrator.js"></script>
+    <script type="text/javascript" src="/js/localTime.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
     <!-- Bootstrap core JavaScript ================================================== -->
     <script src="/bootstrap/js/bootstrap.min.js"></script>

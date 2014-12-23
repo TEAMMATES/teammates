@@ -35,7 +35,7 @@
         <script type="text/javascript" src="/js/instructor.js"></script>
         <script type="text/javascript" src="/js/instructorStudentList.js"></script>
         <script type="text/javascript" src="/js/instructorStudentListAjax.js"></script>
-
+        <script type="text/javascript" src="/js/localTime.js"></script>
         <jsp:include page="../enableJS.jsp"></jsp:include>
         <script type="text/javascript"  src="/bootstrap/js/bootstrap.min.js"></script>
         <!--[if lt IE 9]>
