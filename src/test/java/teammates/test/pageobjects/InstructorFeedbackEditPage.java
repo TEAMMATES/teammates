@@ -472,8 +472,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public boolean verifyNewContributionQuestionFormIsDisplayed() {
-        WebElement contribForm = browser.driver.findElement(By.id("contribForm"));
-        return contribForm.isDisplayed() && addNewQuestionButton.isDisplayed();
+        // No contribForm to check for.
+        return addNewQuestionButton.isDisplayed();
     }
     
     public boolean verifyNewRubricQuestionFormIsDisplayed() {
