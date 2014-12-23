@@ -18,11 +18,15 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
+import teammates.test.pageobjects.InstructorFeedbackResultsPage;
+import teammates.test.pageobjects.StudentFeedbackResultsPage;
 
 public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
     private static Browser browser;
     private static InstructorFeedbackEditPage feedbackEditPage;
     private static FeedbackSubmitPage submitPage;
+    private static InstructorFeedbackResultsPage instructorResultsPage;
+    private StudentFeedbackResultsPage studentResultsPage;
     private static DataBundle testData;
 
     private static String courseId;
@@ -45,15 +49,42 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
     
     @Test
     public void allTests() throws Exception{
-        //testEditPage();
-        
-        // Submission
+        testEditPage();
         testInstructorSubmitPage();
         testStudentSubmitPage();
+        testStudentResultsPage();
+        testInstructorResultsPage();
+    }
+
+    private void testStudentResultsPage() {
+        ______TS("test rubric question student results page");
+
+        studentResultsPage = loginToStudentFeedbackResultsPage("alice.tmms@FRubricQnUiT.CS2104", "openSession2");
+        studentResultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageRubric.html");
+    }
+    
+    private void testInstructorResultsPage() {
+        ______TS("test rubric question instructor results page");
+
+        // Question view
+        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "question");
+        instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricQuestionView.html");
         
-        // Student Results
-        // Instructor Results (All views)
+        // GRQ
+        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "giver-recipient-question");
+        instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricGRQView.html");
         
+        // GQR
+        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "giver-question-recipient");
+        instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricGQRView.html");
+        
+        // RGQ
+        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "recipient-question-giver");
+        instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricRQGView.html");
+        
+        // RQG
+        instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "recipient-giver-question");
+        instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricRGQView.html");
         
     }
     
@@ -271,6 +302,44 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
                 .withCourseId(testData.feedbackSessions.get(fsName).courseId)
                 .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
+    }
+    
+    private StudentFeedbackResultsPage loginToStudentFeedbackResultsPage(
+            String studentName, String fsName) {
+        Url editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+                .withUserId(testData.students.get(studentName).googleId)
+                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
+                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+        return loginAdminToPage(browser, editUrl,
+                StudentFeedbackResultsPage.class);
+    }
+    
+    private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPage(String instructorName, String fsName) {
+        Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+                    .withUserId(testData.instructors.get(instructorName).googleId)
+                    .withCourseId(testData.feedbackSessions.get(fsName).courseId)
+                    .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+        
+        return loginAdminToPage(browser, editUrl, InstructorFeedbackResultsPage.class);
+    }
+    
+    private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPageWithViewType(
+            String instructorName, String fsName, boolean needAjax, String viewType) {
+        Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+                    .withUserId(testData.instructors.get(instructorName).googleId)
+                    .withCourseId(testData.feedbackSessions.get(fsName).courseId)
+                    .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+        
+        if(needAjax){
+            editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX, String.valueOf(needAjax));
+        }
+        
+        if(viewType != null){
+            editUrl = editUrl.withParam(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, viewType);
+        }
+        
+        return loginAdminToPage(browser, editUrl,
+                InstructorFeedbackResultsPage.class);
     }
 
     @AfterClass
