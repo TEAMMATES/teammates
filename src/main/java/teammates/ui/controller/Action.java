@@ -391,8 +391,7 @@ public abstract class Action {
                 statusToAdmin, 
                 requestUrl,
                 student,
-                currentUser,
-                this.requestParameters.get(Const.ParamsNames.LOCAL_TIME));
+                currentUser);
         return activityLogEntry.generateLogMessage();
     }
     

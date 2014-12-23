@@ -16,6 +16,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 
@@ -64,8 +65,12 @@ public class ControllerServlet extends HttpServlet {
             long timeTaken = System.currentTimeMillis() - startTime;
             // This is the log message that is used to generate the 'activity log' for the admin.
            
+            String[] requestLocalTime = c.getRequestParamValues(Const.ParamsNames.LOCAL_TIME);
+            String localTime = requestLocalTime != null && requestLocalTime.length > 0 ? 
+                    Sanitizer.sanitizeForHtml(requestLocalTime[0]):
+                    "Unavailable";
             
-            log.info(c.getLogMessage() + "|||"+ timeTaken);
+            log.info(c.getLogMessage() + "|||"+ timeTaken + "|||" + localTime);
             
         } catch (PageNotFoundException e) {
             log.warning(ActivityLogEntry.generateServletActionFailureLogMessage(req, e));
