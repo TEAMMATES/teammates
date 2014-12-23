@@ -718,26 +718,24 @@
                         <table class="table table-striped table-bordered margin-0">
                             <tbody>
                             <tr>
-                            <th id="button_sortTo" class="button-sort-none"
-                                onclick="toggleSort(this,1)" style="width: 15%;">Student
-                                    Name <span class="icon-sort unsorted"></span>
-                            </th>
                             <th id="button_sortFromTeam" class="button-sort-ascending"
-                                onclick="toggleSort(this,2)" style="width: 15%;">Team <span
+                                onclick="toggleSort(this,2)" style="width: 15%;">Team<span
                                 class="icon-sort unsorted"></span>
                             </th>
+                            <th id="button_sortTo" class="button-sort-none"
+                                onclick="toggleSort(this,1)" style="width: 15%;">Student Name<span 
+                                class="icon-sort unsorted"></span>
+                            </th>                            
                             </tr>
 						<%
-						   List<String> students = responseStatus
-												.getStudentsWhoDidNotRespondToAnyQuestion();
+						   List<String> students = responseStatus.getStudentsWhoDidNotRespondToAnyQuestion();
 						   for (String studentEmail : students) {
 							   String studentName = responseStatus.emailNameTable.get(studentEmail);
 							   String teamName = responseStatus.emailTeamNameTable.get(studentEmail);
 						%>
-
                         <tr>
-                            <td><%=studentName%></td>
                             <td><%=teamName%></td>
+                            <td><%=studentName%></td>                            
                         </tr>
                         <%
                         }
