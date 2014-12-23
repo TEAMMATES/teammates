@@ -7,6 +7,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -31,6 +32,8 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
     @Override
     protected void setAdditionalParameters() {
         String moderatedStudentEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail);
+
         moderatedStudent = logic.getStudentForEmail(courseId, moderatedStudentEmail);
     }
 
@@ -39,7 +42,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
         try {
             logic.addStudentRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Fail to append instructor respondant");
+            log.severe("Fail to append student respondant");
         }
     }
 
@@ -48,7 +51,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
         try {
             logic.deleteStudentRespondant(getUserEmailForCourse(), feedbackSessionName, courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            log.severe("Fail to remove instructor respondant");
+            log.severe("Fail to remove student respondant");
         }
     }
 
@@ -86,6 +89,12 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
 
     @Override
     protected RedirectResult createSpecificRedirectResult() {
-        return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+        RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE);
+        
+        result.responseParams.put(Const.ParamsNames.COURSE_ID, moderatedStudent.course);
+        result.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        result.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudent.email);
+        
+        return result;
     }
 }
