@@ -200,7 +200,7 @@ function enableQuestion(number){
 
 function enableNewQuestion(){
     var newQnSuffix = "New";
-    var number = "-1"
+    var number = "-1";
     $('#questionTable'+newQnSuffix).find('text,button,textarea,select,input').
         not('[name="receiverFollowerCheckbox"]').
         not('.disabled_radio').
@@ -329,16 +329,22 @@ function formatNumberBox(value, qnNumber) {
  * @returns qnNumber
  */
 function tallyCheckboxes(qnNumber){
-    var checked = [];
-    $('.answerCheckbox'+qnNumber+':checked').each(function () {
+	
+	// update hidden parameter FEEDBACK_QUESTION_SHOWRESPONSESTO
+	var checked = [];
+	$('.answerCheckbox'+qnNumber+':checked').each(function () {
         checked.push($(this).val());
     });
     $("[name="+FEEDBACK_QUESTION_SHOWRESPONSESTO+"]").val(checked.toString());
+    
+    // update hidden parameter FEEDBACK_QUESTION_SHOWGIVERTO
     checked = [];
     $('.giverCheckbox'+qnNumber+":checked").each(function () {
          checked.push($(this).val());
     });
     $("[name="+FEEDBACK_QUESTION_SHOWGIVERTO+"]").val(checked.toString());
+    
+    // update hidden parameter FEEDBACK_QUESTION_SHOWRECIPIENTTO
     checked = [];
     $('.recipientCheckbox'+qnNumber+':checked').each(function () {
          checked.push($(this).val());
@@ -679,7 +685,6 @@ function toggleVisibilityMessage(elem){
     recipientType = $elementParent.find("select[name='recipienttype']");
 
     $options.hide();
-    $visibilityMessage.html("");
     $disabledInputs = $elementParent.find('input:disabled, select:disabled');
     $disabledInputs.prop('disabled', false);
 
@@ -690,28 +695,41 @@ function toggleVisibilityMessage(elem){
     $disabledInputs.prop('disabled', true);
 }
 
+var previousFormDataMap = {};
+
 function getVisibilityMessage(buttonElem){
     var form = $(buttonElem).closest("form");
-    var url = "/page/instructorFeedbackQuestionvisibilityMessage";
+    var qnNumber = $(form).find("[name=questionnum]").val();
 
+    // trigger onsubmit event of the qnNumber which has already binded with
     eval($(form).attr('onsubmit'));
-    
-    $.ajax({
-            type: "POST",
-            url: url,
-            data: $(form[0]).serialize(),
-            success: function(data)
-            {
-                $(form).find('.visibilityMessage').html(formatVisibilityMessageHtml(data.visibilityMessage));
-                $(form).find('.visibilityOptions').hide();
-                $(form).find('.visibilityMessage').show();
-            },
-            error: function(jqXHR, textStatus, errorThrown) 
-            {
-                console.log('AJAX request failed');
-            }
-        });
+    var formData =  $(form[0]).serialize();
 
+    if(previousFormDataMap[qnNumber] === formData){
+        $(form).find('.visibilityOptions').hide();
+        $(form).find('.visibilityMessage').show();
+        return;
+    }
+    // update stored form data
+    previousFormDataMap[qnNumber] = formData;
+
+    // empty current visibility message in the form
+    $(form).find('.visibilityMessage').html("");
+    
+    var url = "/page/instructorFeedbackQuestionvisibilityMessage";
+    $.ajax({
+    	type: "POST",
+    	url: url,
+    	data: formData,
+    	success: function(data){
+    		$(form).find('.visibilityMessage').html(formatVisibilityMessageHtml(data.visibilityMessage));
+    		$(form).find('.visibilityOptions').hide();
+    		$(form).find('.visibilityMessage').show();
+    	},
+    	error: function(jqXHR, textStatus, errorThrown){
+    		console.log('AJAX request failed');
+    	}
+    });    
 }
 
 function getVisibilityMessageIfPreviewIsActive(buttonElem) {
