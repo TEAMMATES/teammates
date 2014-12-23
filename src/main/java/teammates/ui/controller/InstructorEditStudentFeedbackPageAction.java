@@ -33,11 +33,6 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
                                                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT),
                                  moderatedStudentEmail);
 
-        new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId), 
-                logic.getFeedbackSession(feedbackSessionName, courseId),
-                false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS); 
-        
         StudentAttributes studentUnderModeration = logic.getStudentForEmail(courseId, moderatedStudentEmail); 
         
         if (studentUnderModeration == null) {
@@ -45,6 +40,13 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
                     + moderatedStudentEmail + " does not exist in " + courseId
                     + ".");
         }
+        
+        new GateKeeper().verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
+                logic.getFeedbackSession(feedbackSessionName, courseId),
+                false, studentUnderModeration.section, 
+                logic.getFeedbackSession(feedbackSessionName, courseId).feedbackSessionName, 
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+        
         
         FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student);
         

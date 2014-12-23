@@ -39,7 +39,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         
-        setOptionalParameters();
+        setAdditionalParameters();
         verifyAccesibleForSpecificUser();
         
         String userEmailForCourse = getUserEmailForCourse();
@@ -235,7 +235,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         return response;
     }
 
-    protected void setOptionalParameters() {
+    protected void setAdditionalParameters() {
         return;
     }
     

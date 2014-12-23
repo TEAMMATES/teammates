@@ -8,6 +8,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.logic.api.GateKeeper;
 
 
 public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionEditSaveAction {
@@ -18,18 +19,17 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
     protected void verifyAccesibleForSpecificUser() {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
+                
+        new GateKeeper().verifyAccessible(instructor,
+                session,
+                false, moderatedStudent.section, 
+                session.feedbackSessionName, 
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         
-        boolean shouldEnableSubmit = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        
-        if (!shouldEnableSubmit) {
-            throw new UnauthorizedAccessException(
-                    "Feedback session [" + session.feedbackSessionName + 
-                    "] is not accessible to instructor ["+ instructor.email + "] for this purpose");
-        }
     }
     
     @Override
-    protected void setOptionalParameters() {
+    protected void setAdditionalParameters() {
         String moderatedStudentEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT);
         moderatedStudent = logic.getStudentForEmail(courseId, moderatedStudentEmail);
     }
