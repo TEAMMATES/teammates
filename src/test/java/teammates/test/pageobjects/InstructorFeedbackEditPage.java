@@ -683,7 +683,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         if(qnIndex == -1){
             idSuffix = "--1";
         }
-        WebElement addRubricColLink = browser.driver.findElement(By.id("rubricAddChoicenLink"+idSuffix));
+        WebElement addRubricColLink = browser.driver.findElement(By.id("rubricAddChoiceLink"+idSuffix));
         addRubricColLink.click();
     }
     
@@ -702,7 +702,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         if(qnIndex == -1){
             idSuffix = "--1";
         }
-        WebElement addRubricColLink = browser.driver.findElement(By.id("rubricRemoveChoicenLink"+idSuffix+"-"+col));
+        WebElement addRubricColLink = browser.driver.findElement(By.id("rubricRemoveChoiceLink"+idSuffix+"-"+col));
         clickAndConfirm(addRubricColLink);
     }
     

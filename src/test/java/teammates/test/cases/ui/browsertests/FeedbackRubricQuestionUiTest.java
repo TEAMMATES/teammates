@@ -134,15 +134,46 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditSubQuestionSuccess.html");
 
         ______TS("RUBRIC: edit choices success");
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
         
+        // Edit choice for col 1
+        feedbackEditPage.fillRubricChoiceBox("New(0) choice", 1, 0);
+        
+        // Add new choice
+        feedbackEditPage.clickAddRubricColLink(1);
+        feedbackEditPage.fillRubricChoiceBox("New(1) choice", 1, 5);
+        
+        // Remove existing choice
+        feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 1);
+ 
+        // Add new choice
+        feedbackEditPage.clickAddRubricColLink(1);
+        feedbackEditPage.fillRubricChoiceBox("New(2) choice", 1, 6);
+        
+        // Remove new choice
+        feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 5);
+        
+        // Should end up with 5 choices, including (0) and (2)
         
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditChoiceSuccess.html");
-        
+
         ______TS("RUBRIC: edit descriptions success");
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        
+        // Edit description for 0-0
+        feedbackEditPage.fillRubricDescriptionBox("New(0) description", 1, 0, 0);
+        
+        // Edit description for a new row, to test if the js generated html works.
+        feedbackEditPage.clickAddRubricRowLink(1);
+        feedbackEditPage.fillRubricSubQuestionBox("New sub-question text", 1, 2);
+       
+        feedbackEditPage.fillRubricDescriptionBox("New(1) description", 1, 2, 0);
+        
+        // Should end up with 2 rubric descriptions, (0) and (1)
+        
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditDescriptionSuccess.html");
-        
     }
     
     private void testDeleteRubricQuestionAction() {
