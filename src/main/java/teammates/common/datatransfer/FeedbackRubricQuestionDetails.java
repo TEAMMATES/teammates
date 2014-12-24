@@ -172,13 +172,13 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
         String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_HEADER_FRAGMENT;
         for(int i = 0 ; i < numOfRubricChoices ; i++) {
-            String optionFragment = 
+            String tableHeaderCell = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
                             "${qnIndex}", questionNumberString,
                             "${respIndex}", responseNumberString,
                             "${col}", Integer.toString(i),
                             "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)));
-            tableHeaderFragmentHtml.append(optionFragment + Const.EOL);
+            tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
         }
         
         // Create table body
@@ -190,7 +190,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         for(int j = 0 ; j < numOfRubricSubQuestions ; j++) {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
             for(int i = 0 ; i < numOfRubricChoices ; i++) {
-                String optionFragment = 
+                String tableBodyCell = 
                         FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate,
                                 "${qnIndex}", questionNumberString,
                                 "${respIndex}", responseNumberString,
@@ -200,18 +200,18 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${description}", Sanitizer.sanitizeForHtml(this.getDescription(j, i)),
                                 "${checked}", (frd.getAnswer(j) == i)? "checked":"", //Check if existing choice for sub-question == current choice
                                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
-                tableBodyFragmentHtml.append(optionFragment + Const.EOL);
+                tableBodyFragmentHtml.append(tableBodyCell + Const.EOL);
             }
             
             // Get entire row
-            String optionFragment2 = 
+            String tableRow = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableBodyTemplate,
                             "${qnIndex}", questionNumberString,
                             "${respIndex}", responseNumberString,
                             "${row}", Integer.toString(j),
                             "${subQuestion}", StringHelper.integerToBase26String(j+1) + ") "+ Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
                             "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString());
-            tableBodyHtml.append(optionFragment2 + Const.EOL);
+            tableBodyHtml.append(tableRow + Const.EOL);
         }
         
         // Create submission form
@@ -239,13 +239,13 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
         String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_SUBMISSION_FORM_HEADER_FRAGMENT;
         for(int i = 0 ; i < numOfRubricChoices ; i++) {
-            String optionFragment = 
+            String tableHeaderCell = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
                             "${qnIndex}", questionNumberString,
                             "${respIndex}", responseNumberString,
                             "${col}", Integer.toString(i),
                             "${rubricChoiceValue}", rubricChoices.get(i));
-            tableHeaderFragmentHtml.append(optionFragment + Const.EOL);
+            tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
         }
         
         // Create table body
@@ -257,7 +257,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         for(int j = 0 ; j < numOfRubricSubQuestions ; j++) {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
             for(int i = 0 ; i < numOfRubricChoices ; i++) {
-                String optionFragment = 
+                String tableBodyCell = 
                         FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate,
                                 "${qnIndex}", questionNumberString,
                                 "${respIndex}", responseNumberString,
@@ -267,18 +267,18 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                 "${description}", Sanitizer.sanitizeForHtml(this.getDescription(j, i)),
                                 "${checked}", "",
                                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
-                tableBodyFragmentHtml.append(optionFragment + Const.EOL);
+                tableBodyFragmentHtml.append(tableBodyCell + Const.EOL);
             }
             
             // Get entire row
-            String optionFragment2 = 
+            String tableRow = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableBodyTemplate,
                             "${qnIndex}", questionNumberString,
                             "${respIndex}", responseNumberString,
                             "${row}", Integer.toString(j),
                             "${subQuestion}", StringHelper.integerToBase26String(j+1) + ") "+ Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
                             "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString());
-            tableBodyHtml.append(optionFragment2 + Const.EOL);
+            tableBodyHtml.append(tableRow + Const.EOL);
         }
         
         // Create submission form
@@ -304,13 +304,13 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
         String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_EDIT_FORM_HEADER_FRAGMENT;
         for(int i = 0 ; i < numOfRubricChoices ; i++) {
-            String optionFragment = 
+            String tableHeaderCell = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
                             "${qnIndex}", questionNumberString,
                             "${col}", Integer.toString(i),
                             "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE);
-            tableHeaderFragmentHtml.append(optionFragment + Const.EOL);
+            tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
         }
         
         // Create table body
@@ -322,25 +322,25 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         for(int j = 0 ; j < numOfRubricSubQuestions ; j++) {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
             for(int i = 0 ; i < numOfRubricChoices ; i++) {
-                String optionFragment = 
+                String tableBodyCell = 
                         FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate,
                                 "${qnIndex}", questionNumberString,
                                 "${col}", Integer.toString(i),
                                 "${row}", Integer.toString(j),
                                 "${description}", Sanitizer.sanitizeForHtml(this.getDescription(j, i)),
                                 "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION);
-                tableBodyFragmentHtml.append(optionFragment + Const.EOL);
+                tableBodyFragmentHtml.append(tableBodyCell + Const.EOL);
             }
             
             // Get entire row
-            String optionFragment2 = 
+            String tableRow = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableBodyTemplate,
                             "${qnIndex}", questionNumberString,
                             "${row}", Integer.toString(j),
                             "${subQuestion}", Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
                             "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString(),
                             "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}", Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION);
-            tableBodyHtml.append(optionFragment2 + Const.EOL);
+            tableBodyHtml.append(tableRow + Const.EOL);
         }
         
         // Create edit form
@@ -447,10 +447,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         StringBuilder tableHeaderFragmentHtml = new StringBuilder();
         String tableHeaderFragmentTemplate = FeedbackQuestionFormTemplates.RUBRIC_RESULT_STATS_HEADER_FRAGMENT;
         for(int i = 0 ; i < numOfRubricChoices ; i++) {
-            String optionFragment = 
+            String tableHeaderCell = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableHeaderFragmentTemplate,
                             "${rubricChoiceValue}", Sanitizer.sanitizeForHtml(rubricChoices.get(i)));
-            tableHeaderFragmentHtml.append(optionFragment + Const.EOL);
+            tableHeaderFragmentHtml.append(tableHeaderCell + Const.EOL);
         }
         
         // Create table body
@@ -463,18 +463,18 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         for(int j = 0 ; j < numOfRubricSubQuestions ; j++) {
             StringBuilder tableBodyFragmentHtml = new StringBuilder();
             for(int i = 0 ; i < numOfRubricChoices ; i++) {
-                String optionFragment = 
+                String tableBodyCell = 
                         FeedbackQuestionFormTemplates.populateTemplate(tableBodyFragmentTemplate,
                                 "${percentageFrequency}", df.format(rubricStats[j][i]*100) + "% (" + responseFrequency[j][i] +")");
-                tableBodyFragmentHtml.append(optionFragment + Const.EOL);
+                tableBodyFragmentHtml.append(tableBodyCell + Const.EOL);
             }
             
             // Get entire row
-            String optionFragment2 = 
+            String tableRow = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableBodyTemplate,
                             "${subQuestion}", StringHelper.integerToBase26String(j+1) + ") "+ Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
                             "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString());
-            tableBodyHtml.append(optionFragment2 + Const.EOL);
+            tableBodyHtml.append(tableRow + Const.EOL);
         }
         
         // Create edit form
