@@ -26,8 +26,11 @@ public class InstructorFeedbackRemindParticularStudentsAction extends Action {
                 feedbackSessionName, usersToRemind);
         
         statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
-        statusToAdmin = "Email sent out to the selected student(s) in " +
-                "Feedback Session <span class=\"bold\">(" + feedbackSessionName + ")</span> " +
+        statusToAdmin = "Email sent out to the selected user(s): ";
+        for(String user : usersToRemind){
+            statusToAdmin += "<br>" + user;
+        }
+        statusToAdmin += "<br>in Feedback Session <span class=\"bold\">(" + feedbackSessionName + ")</span> " +
                 "of Course <span class=\"bold\">[" + courseId + "]</span>";
         
         return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
