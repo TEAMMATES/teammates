@@ -49,6 +49,10 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
             String questionId = HttpRequestHelper.getValueFromParamMap(
                     requestParameters, 
                     Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
+            if (questionId == null) {
+                // we do not throw an error if the instructor gave an empty response to one of the question
+                continue;
+            }
             FeedbackQuestionAttributes questionAttributes = data.bundle.getQuestionAttributes(questionId);
             
             if (questionAttributes == null){

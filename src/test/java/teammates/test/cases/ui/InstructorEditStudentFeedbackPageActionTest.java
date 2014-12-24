@@ -55,7 +55,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends
         assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT 
                 + "?error=false"
                 + "&user="+ idOfInstructor
-                ,showPageResult.getDestinationWithParams());
+                , showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 
         assertEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage"
