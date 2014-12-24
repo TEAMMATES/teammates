@@ -2038,7 +2038,6 @@ public class FeedbackSessionsLogic {
                 if(responseStatus.emailNameTable.get(instructor.email) == null){
                     instructorNoResponses.add(instructor.email);
                     responseStatus.emailNameTable.put(instructor.email, instructor.name);
-                    responseStatus.emailTeamNameTable.put(instructor.email, "Teaching Team");
                 }
             }
         }

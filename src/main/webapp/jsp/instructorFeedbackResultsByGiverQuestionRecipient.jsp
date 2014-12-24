@@ -727,20 +727,30 @@
                                 class="icon-sort unsorted"></span>
                             </th>                            
                             </tr>
-						<%
-						   List<String> students = responseStatus.getStudentsWhoDidNotRespondToAnyQuestion();
-						   for (String studentEmail : students) {
-							   String studentName = responseStatus.emailNameTable.get(studentEmail);
-							   String teamName = responseStatus.emailTeamNameTable.get(studentEmail);
-						%>
-                        <tr>
-                            <td><%=teamName%></td>
-                            <td><%=studentName%></td>                            
-                        </tr>
-                        <%
-                        }
-                        %>
-                        </tbody>
+                            <% 
+                               List<String> students = responseStatus.getStudentsWhoDidNotRespondToAnyQuestion();
+    						   for (String studentEmail : students) {
+    							   String studentName = responseStatus.emailNameTable.get(studentEmail);
+                                   if(studentName == null){
+                                        // Skip invalid student name
+                                        continue;
+                                   }
+              
+                                   String teamName = responseStatus.emailTeamNameTable.get(studentEmail);
+                                   if(teamName == null){
+                                        // Assign empty string to team name
+                                        // This is only for instructors, which they do not have a team name
+                                        teamName = "";
+                                   }
+                            %>
+                            <tr>
+                               <td><%=teamName%></td>
+                               <td><%=studentName%></td>                            
+                            </tr>
+                            <%
+                            }
+                            %>
+                            </tbody>
                         </table>
                     </div>
             <%
