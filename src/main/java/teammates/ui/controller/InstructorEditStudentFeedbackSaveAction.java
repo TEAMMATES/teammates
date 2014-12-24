@@ -1,5 +1,7 @@
 package teammates.ui.controller;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -9,6 +11,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.HttpRequestHelper;
 import teammates.logic.api.GateKeeper;
 
 
@@ -37,6 +40,35 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
         moderatedStudent = logic.getStudentForEmail(courseId, moderatedStudentEmail);
     }
 
+    @Override
+    protected void checkAdditionalContraints() {
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        
+        int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
+        for (int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
+            String questionId = HttpRequestHelper.getValueFromParamMap(
+                    requestParameters, 
+                    Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
+            FeedbackQuestionAttributes questionAttributes = data.bundle.getQuestionAttributes(questionId);
+            
+            if (questionAttributes == null){
+                statusToUser.add("The feedback session or questions may have changed while you were submitting. Please check your responses to make sure they are saved correctly.");
+                isError = true;
+                log.warning("Question not found. (deleted or invalid id passed?) id: "+ questionId + " index: " + questionIndx);
+                continue;
+            }
+            
+            if (!questionAttributes.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS)) {
+                statusToUser.add("");
+                isError = true;
+                throw new UnauthorizedAccessException(
+                        "Feedback session [" + feedbackSessionName + 
+                        "] question [" + questionAttributes.getId() + "] is not accessible to instructor ["+ instructor.email + "]");
+            }
+            
+        }
+    }
+    
     @Override
     protected void appendRespondant() {
         try {

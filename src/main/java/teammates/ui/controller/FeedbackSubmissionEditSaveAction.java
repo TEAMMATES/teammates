@@ -48,6 +48,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         data.bundle = getDataBundle(userEmailForCourse);        
         Assumption.assertNotNull("Feedback session " + feedbackSessionName + " does not exist in " + courseId + ".", data.bundle);
         
+        checkAdditionalContraints();
+        
         setStatusToAdmin();
         
         if (!isSessionOpenForSpecificUser(data.bundle.feedbackSession)) {
@@ -239,6 +241,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         return;
     }
     
+    protected void checkAdditionalContraints() {
+        return;
+    }
+    
     protected abstract void appendRespondant();
 
     protected abstract void removeRespondant();
@@ -256,4 +262,5 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected abstract boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes session);
 
     protected abstract RedirectResult createSpecificRedirectResult();
+
 }
