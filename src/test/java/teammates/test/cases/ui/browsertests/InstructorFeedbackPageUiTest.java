@@ -86,6 +86,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         testContent();
         testAddAction();
         testDeleteAction();
+        testRemindActions();
         testPublishAction();
         testUnpublishAction();
         
@@ -457,6 +458,10 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.clickAndConfirm (feedbackPage.getDeleteLink(courseId, sessionName));
         feedbackPage.verifyHtmlAjax ("/instructorFeedbackDeleteSuccessful.html");
         
+    }
+
+    public void testRemindActions(){
+        //TODO implement this        
     }
     
     public void testPublishAction() throws Exception {        
