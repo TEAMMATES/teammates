@@ -70,19 +70,19 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "question");
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricQuestionView.html");
         
-        // GRQ
+        // Giver Recipient Question View
         instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "giver-recipient-question");
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricGRQView.html");
         
-        // GQR
+        // Giver Question Recipient View
         instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "giver-question-recipient");
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricGQRView.html");
         
-        // RGQ
+        // Recipient Giver Question View
         instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "recipient-question-giver");
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricRQGView.html");
         
-        // RQG
+        // Recipient Question Giver View
         instructorResultsPage = loginToInstructorFeedbackResultsPageWithViewType("teammates.test.instructor", "openSession2", false, "recipient-giver-question");
         instructorResultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageRubricRGQView.html");
         
@@ -312,15 +312,6 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
                 .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
         return loginAdminToPage(browser, editUrl,
                 StudentFeedbackResultsPage.class);
-    }
-    
-    private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPage(String instructorName, String fsName) {
-        Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
-                    .withUserId(testData.instructors.get(instructorName).googleId)
-                    .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                    .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
-        
-        return loginAdminToPage(browser, editUrl, InstructorFeedbackResultsPage.class);
     }
     
     private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPageWithViewType(

@@ -106,7 +106,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     /**
      * Checks if the dimensions of rubricDescription is valid according
      * to numOfRubricSubQuestions and numOfRubricChoices.
-     * @return
      */
     private boolean isValidDescriptionSize() {
         if (this.rubricDescriptions.size() != this.numOfRubricSubQuestions) {
@@ -142,14 +141,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         FeedbackRubricQuestionDetails newRubricDetails = (FeedbackRubricQuestionDetails) newDetails;
         // TODO: need to check for exact match.
         
-        // Responses requires deletion if choices change
+        // Responses require deletion if choices change
         if (this.numOfRubricChoices != newRubricDetails.numOfRubricChoices ||
             this.rubricChoices.containsAll(newRubricDetails.rubricChoices) == false ||
             newRubricDetails.rubricChoices.containsAll(this.rubricChoices) == false) {
             return true;
         }
         
-        // Responses requires deletion if sub-questions change
+        // Responses require deletion if sub-questions change
         if (this.numOfRubricSubQuestions != newRubricDetails.numOfRubricSubQuestions ||
             this.rubricSubQuestions.containsAll(newRubricDetails.rubricSubQuestions) == false ||
             newRubricDetails.rubricSubQuestions.containsAll(this.rubricSubQuestions) == false) {
@@ -209,7 +208,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${qnIndex}", questionNumberString,
                             "${respIndex}", responseNumberString,
                             "${row}", Integer.toString(j),
-                            "${subQuestion}", StringHelper.integerToBase26String(j+1) + ") "+ Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
+                            "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(j+1) + ") "+ Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
                             "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString());
             tableBodyHtml.append(tableRow + Const.EOL);
         }
@@ -276,7 +275,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                             "${qnIndex}", questionNumberString,
                             "${respIndex}", responseNumberString,
                             "${row}", Integer.toString(j),
-                            "${subQuestion}", StringHelper.integerToBase26String(j+1) + ") "+ Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
+                            "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(j+1) + ") "+ Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
                             "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString());
             tableBodyHtml.append(tableRow + Const.EOL);
         }
@@ -407,7 +406,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             subQuestionListHtml.append("<p>");
             for(int i = 0; i < numOfRubricSubQuestions; i++) {
                 String subQuestionFragment = 
-                        StringHelper.integerToBase26String(i+1) + ") "+ Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i));
+                        StringHelper.integerToLowerCaseAlphabeticalIndex(i+1) + ") "+ Sanitizer.sanitizeForHtml(rubricSubQuestions.get(i));
                 subQuestionListHtml.append(subQuestionFragment);
                 subQuestionListHtml.append("<br>");
             }
@@ -472,7 +471,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             // Get entire row
             String tableRow = 
                     FeedbackQuestionFormTemplates.populateTemplate(tableBodyTemplate,
-                            "${subQuestion}", StringHelper.integerToBase26String(j+1) + ") "+ Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
+                            "${subQuestion}", StringHelper.integerToLowerCaseAlphabeticalIndex(j+1) + ") "+ Sanitizer.sanitizeForHtml(rubricSubQuestions.get(j)),
                             "${rubricRowBodyFragments}",  tableBodyFragmentHtml.toString());
             tableBodyHtml.append(tableRow + Const.EOL);
         }
@@ -496,8 +495,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
      * e.g.
      * pecentageFrequency[subQuestionIndex][choiceIndex]
      *  -> is the percentage choiceIndex is chosen for subQuestionIndex, for the given question/responses.
-     * 
-     * @return
+     *
      */
     private float[][] calculateRubricStats(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question) {

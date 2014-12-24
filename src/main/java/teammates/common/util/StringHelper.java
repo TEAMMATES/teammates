@@ -435,9 +435,8 @@ public class StringHelper {
      * ...
      * 
      * @param n - number to convert
-     * @return
      */
-    public static String integerToBase26String(int n) {
+    public static String integerToLowerCaseAlphabeticalIndex(int n) {
         String result = "";
         while (n > 0) {
             n--; // 1 => a, not 0 => a

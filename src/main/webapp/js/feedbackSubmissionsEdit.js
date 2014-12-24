@@ -36,7 +36,7 @@ $(document).ready(function () {
 //Ready rubric questions for answering by user
 function readyRubricQuestions() {
     //Set cell to highlight on hover
-    //Set cell to highloght when checked
+    //Set cell to highlight when checked
     //Bind cell click to click radio
     
     var rubricRadioInputs = $("[name^='rubricChoice-']");

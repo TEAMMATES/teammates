@@ -38,20 +38,23 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
         String[] subQuestionResponses = rawResponses.split(Pattern.quote(","));
         for (int i=0 ; i<subQuestionResponses.length ; i++) {
             String[] subQuestionIndexAndChoice = subQuestionResponses[i].split(Pattern.quote("-"));
-            if (subQuestionIndexAndChoice.length == 2) {
-                try {
-                    int subQuestionIndex = Integer.parseInt(subQuestionIndexAndChoice[0]);
-                    int subQuestionChoice = Integer.parseInt(subQuestionIndexAndChoice[1]);
-                    if (subQuestionIndex >=0 && subQuestionIndex <fqd.numOfRubricSubQuestions &&
-                            subQuestionChoice >=0 && subQuestionChoice <fqd.numOfRubricChoices) {
-                        setAnswer(subQuestionIndex, subQuestionChoice);
-                    } // else the indexes are invalid.
-                } catch (NumberFormatException e) {
-                    // Failed to parse, ignore response.
-                }
-            } else {
+            
+            if (subQuestionIndexAndChoice.length != 2) {
+                // Expected length is 2.
                 // Failed to parse, ignore response.
-            }    
+                continue;
+            }
+            
+            try {
+                int subQuestionIndex = Integer.parseInt(subQuestionIndexAndChoice[0]);
+                int subQuestionChoice = Integer.parseInt(subQuestionIndexAndChoice[1]);
+                if (subQuestionIndex >=0 && subQuestionIndex <fqd.numOfRubricSubQuestions &&
+                        subQuestionChoice >=0 && subQuestionChoice <fqd.numOfRubricChoices) {
+                    setAnswer(subQuestionIndex, subQuestionChoice);
+                } // else the indexes are invalid.
+            } catch (NumberFormatException e) {
+                // Failed to parse, ignore response.
+            } 
         }
     }
     
@@ -86,7 +89,7 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
             } else {
                 chosenChoice = Sanitizer.sanitizeForHtml(fqd.rubricChoices.get(answer.get(i)));
             }
-            html += StringHelper.integerToBase26String(i+1) + ") " + chosenChoice + "<br>";
+            html += StringHelper.integerToLowerCaseAlphabeticalIndex(i+1) + ") " + chosenChoice + "<br>";
         }
         
         return html;

@@ -1178,10 +1178,6 @@ function addRubricRow(questionNumber) {
     
     var numberOfRows = parseInt($("#"+"rubricNumRows"+idSuffix).val());
     var numberOfCols = parseInt($("#"+"rubricNumCols"+idSuffix).val());
-    
-    // var curNumberOfRows = $('#rubricEditTable'+idSuffix+' tr').length;
-    // var curNumberOfCols = $('#rubricEditTable'+idSuffix+' tr:last').children('td').length - 1;
-
 
     var newRowNumber = numberOfRows + 1;
 
