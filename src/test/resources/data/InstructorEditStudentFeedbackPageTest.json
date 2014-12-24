@@ -184,7 +184,7 @@
                 "value":"{\"questionText\":\"Rate your product.\", \"questionType\":\"NUMSCALE\", \"minScale\" : 1, \"maxScale\" : 5,\"step\" : 0.5}"
             },
             "questionNumber":"2",
-            "questionType":"TEXT",
+            "questionType":"NUMSCALE",
             "giverType":"STUDENTS",
             "recipientType":"SELF",
             "numberOfEntitiesToGiveFeedbackTo":1,
