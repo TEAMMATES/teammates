@@ -62,7 +62,12 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
                 continue;
             }
             
-            if (!questionAttributes.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS)) {
+            boolean isGiverVisibleToInstructors = questionAttributes.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+            boolean isRecipientVisibleToInstructors = questionAttributes.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+            boolean isResponseVisibleToInstructors = questionAttributes.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
+            
+            
+            if (!isGiverVisibleToInstructors || !isRecipientVisibleToInstructors || !isResponseVisibleToInstructors) {
                 statusToUser.add("");
                 isError = true;
                 throw new UnauthorizedAccessException(

@@ -225,6 +225,30 @@
             ]
             
         },
+        "qn4InSession1InCourse1":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"CourseA",
+            "creatorEmail":"CourseAintr@course1.tmt",
+            "questionMetaData":{
+                "value":"This question should NOT appear when moderated by an instructor, as instructors are unable to see which recipient received responses"
+            },
+            "questionNumber":"3",
+            "questionType":"TEXT",
+            "giverType":"STUDENTS",
+            "recipientType":"STUDENTS",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "INSTRUCTORS",
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER"
+            ]
+            
+        },
         "qn1InSession2InCourse1":{
             "feedbackSessionName":"Another feedback session",
             "courseId":"CourseA",

@@ -67,19 +67,21 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, data);
     }
     
-    private boolean hideAnonymousResponses(FeedbackSessionQuestionsBundle bundle) {
+    private void hideAnonymousResponses(FeedbackSessionQuestionsBundle bundle) {
         List<FeedbackQuestionAttributes> questionsToHide = new ArrayList<FeedbackQuestionAttributes>();
         
         for (FeedbackQuestionAttributes question : bundle.questionResponseBundle.keySet()) {
             boolean isGiverVisibleToInstructor = question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
-            if (!isGiverVisibleToInstructor) {
+            boolean isRecipientVisibleToInstructor = question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+            boolean isResponseVisibleToInstructor = question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
+
+            if (!isGiverVisibleToInstructor || !isRecipientVisibleToInstructor || !isResponseVisibleToInstructor) {
                 questionsToHide.add(question);
                 bundle.questionResponseBundle.put(question, new ArrayList<FeedbackResponseAttributes>());
             }
         }
         
         bundle.questionResponseBundle.keySet().removeAll(questionsToHide);
-        return !questionsToHide.isEmpty();
     }
     
 }
