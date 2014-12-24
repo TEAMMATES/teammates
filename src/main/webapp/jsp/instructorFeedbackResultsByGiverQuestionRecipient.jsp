@@ -383,7 +383,7 @@
                                                         %>
                             <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
                             
-                                <input type="submit" class="btn btn-success btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) {%> disabled="disabled"  <%  } %>>
+                                <input type="submit" class="btn btn-primary btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) {%> disabled="disabled"  <%  } %>>
                                 <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                 <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
                                 <input type="hidden" name="moderatedstudent" value=<%= giverEmail%>>
@@ -571,7 +571,7 @@
                     %>
                             <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank" <% if (isAllowedToEdit) { %> disabled="disabled" <% } %>> 
                             
-                                <input type="submit" class="btn btn-success btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) { %> disabled = "disabled" <% } %>>
+                                <input type="submit" class="btn btn-primary btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) { %> disabled = "disabled" <% } %>>
                                 <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                 <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
                                 <input type="hidden" name="moderatedstudent" value=<%= email%>>
@@ -649,7 +649,7 @@
                                                     %>
                                                             <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
                                                             
-                                                                <input type="submit" class="btn btn-success btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) { %> disabled="disabled" <% } %>>
+                                                                <input type="submit" class="btn btn-primary btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) { %> disabled="disabled" <% } %>>
                                                                 <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                                 <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
                                                                 <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>
@@ -742,7 +742,7 @@
                                                                data.bundle.isParticipantIdentifierStudent(teamMember)) { 
                                                     %>
                                                                 <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
-                                                                    <input type="submit" class="btn btn-success btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) { %> disabled="disabled" <% } %>>
+                                                                    <input type="submit" class="btn btn-primary btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) { %> disabled="disabled" <% } %>>
                                                                     <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                                     <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
                                                                 <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>

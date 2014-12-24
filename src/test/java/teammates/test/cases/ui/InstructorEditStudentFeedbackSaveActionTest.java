@@ -21,8 +21,6 @@ import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.InstructorEditStudentFeedbackSaveAction;
 import teammates.ui.controller.RedirectResult;
 
-import com.google.gson.GsonBuilder;
-
 
 public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest {
 
