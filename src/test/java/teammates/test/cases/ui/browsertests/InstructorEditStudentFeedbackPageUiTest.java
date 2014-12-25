@@ -50,7 +50,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals("Student 1 self feedback.",fr.getResponseDetails().getAnswerString());
      
         submitPage = loginToInstructorEditStudentFeedbackPage("CourseAinstr", "student1InCourseA@gmail.tmt", "session1InCourseA");
-        // test expected html here!
+        submitPage.verifyHtml("/InstructorEditStudentFeedbackPageOpen.html");
         
         
         submitPage.fillResponseTextBox(1, 0, "Good design");
@@ -77,7 +77,8 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                                           "student1InCourseA@gmail.tmt");  
         
         assertEquals("4", fr.getResponseDetails().getAnswerString());
-        // test expected html
+        
+        submitPage.verifyHtml("/InstructorEditStudentFeedbackPageModified.html");
         
         ______TS("test delete response");
         submitPage.fillResponseTextBox(2, 0, "");
