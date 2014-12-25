@@ -26,7 +26,7 @@ public class InstructorFeedbackRemindParticularStudentsPageAction extends Action
         InstructorFeedbackRemindParticularStudentsPageData data = new InstructorFeedbackRemindParticularStudentsPageData(account);
         data.responseStatus = logic.getFeedbackSessionResponseStatus(feedbackSessionName, courseId);
         
-        return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS, data);
+        return createAjaxResult("", data);
     }
 
 }
