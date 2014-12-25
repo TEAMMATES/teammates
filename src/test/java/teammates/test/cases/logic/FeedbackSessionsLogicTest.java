@@ -1869,7 +1869,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(6, emailsSent.size());
 
         MimeMessage emailToStudent = TestHelper.getEmailToStudent(studentToRemind, emailsSent);
-        String errorMessage = "No email sent to slsected student " + studentToRemind.email;
+        String errorMessage = "No email sent to selected student " + studentToRemind.email;
         assertNotNull(errorMessage, emailToStudent);
         AssertHelper.assertContains(
                 Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
