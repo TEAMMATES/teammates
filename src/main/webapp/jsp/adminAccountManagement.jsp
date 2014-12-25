@@ -50,7 +50,7 @@
         role="main">
         <div id="topOfPage"></div>
         <div id="headerOperation" class="page-header">
-            <h1>Instructor Account Management<small id="instructorCount">Total Instructors: <%=data.instructorCoursesTable.size()%></small>
+            <h1>Instructor Account Management<small id="instructorCount">Total Instructors: <%=data.instructorAccountsTable.size()%></small>
             </h1>
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         </div>
