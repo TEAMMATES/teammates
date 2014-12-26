@@ -2,8 +2,18 @@ var yearMax = 0;
 var yearMin = 9999;
 
 $(document).ready(function() {
-	boundYearPager();
+	boundYearPager();	
+	selectYearAndMonth();
+	checkIfShouldDisableButton();
 });
+
+function selectYearAndMonth(){
+	
+	$("a#currentYearButton").text(yearMax);
+	deactivateAllMonthListItems();
+	$("#monthPagination ul.pagination li:last-child").attr("class", "active");
+	showMatchedAccountEntries("", yearMax);
+}
 
 function boundYearPager() {
 	$("td.accountCreatedDate").each(function(index) {
@@ -26,9 +36,7 @@ function boundYearPager() {
 $(document).on("click", "a.monthListItem", function() {
 
 	var month = $(this).html();
-
 	var year = $("a#currentYearButton").html();
-
 	deactivateAllMonthListItems();
 	$(this).parent().attr("class", "active");
 	showMatchedAccountEntries(month, year);
@@ -42,9 +50,11 @@ $(document).on("click", "a#previousYearButton", function() {
 		$("a#currentYearButton").text(currentYear - 1);
 	}
 	
-	if(yearMin >= (currentYear - 1)){
-		$("a#previousYearButton").parent().prop("disabled", true);
-	}
+	var year = $("a#currentYearButton").html();
+	var month = $("li.active a.monthListItem").text();
+	showMatchedAccountEntries(month, year);
+	
+	checkIfShouldDisableButton();
 });
 
 $(document).on("click", "a#nextYearButton", function() {
@@ -54,15 +64,40 @@ $(document).on("click", "a#nextYearButton", function() {
 		$("a#currentYearButton").text(currentYear + 1);
 	}
 	
-	if(yearMax <= (currentYear + 1)){
-		$("a#nextYearButton").parent().prop("disabled", true);
-	}
+	var year = $("a#currentYearButton").html();
+	var month = $("li.active a.monthListItem").text();
+	showMatchedAccountEntries(month, year);
+	
+	checkIfShouldDisableButton();
 });
 
-function showMatchedAccountEntries(month, year) {
-	$("td.accountCreatedDate").each(function(index) {
+function checkIfShouldDisableButton(){
+	var current = parseInt($("a#currentYearButton").text());
+	
+	if(yearMax <= current){
+		$("a#nextYearButton").parent().attr("class", "disabled");
+	} else {
+		$("a#nextYearButton").parent().attr("class", "");
+	}
+	
+	if(yearMin >= current){
+		$("a#previousYearButton").parent().attr("class", "disabled");
+	} else {
+		$("a#previousYearButton").parent().attr("class", "");
+	}
+	
+}
 
-		var expected = month + " " + year;
+
+function showMatchedAccountEntries(month, year) {
+	
+	if(month.indexOf("All") > -1){
+		month = "";
+	}
+	
+	var expected = month + " " + year;
+	
+	$("td.accountCreatedDate").each(function(index) {	
 		var actual = $(this).text();
 		if (actual.indexOf(expected) > -1) {
 			$(this).parent().show();

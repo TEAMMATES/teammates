@@ -77,6 +77,7 @@
                     <li><a class="monthListItem">Oct</a></li>
                     <li><a class="monthListItem">Nov</a></li>
                     <li><a class="monthListItem">Dec</a></li>
+                    <li><a class="monthListItem">All</a></li>
                 </ul>
             </div>
 
