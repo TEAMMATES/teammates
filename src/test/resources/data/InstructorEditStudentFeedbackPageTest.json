@@ -232,7 +232,7 @@
             "questionMetaData":{
                 "value":"This question should NOT appear when moderated by an instructor, as instructors are unable to see which recipient received responses"
             },
-            "questionNumber":"3",
+            "questionNumber":"4",
             "questionType":"TEXT",
             "giverType":"STUDENTS",
             "recipientType":"STUDENTS",

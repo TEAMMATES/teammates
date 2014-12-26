@@ -351,7 +351,6 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         }
         
         ______TS("Successful case: sufficient for section");
-        instructorHelper2 = dataBundle.instructors.get("CourseAhelper2");
         
         frDb = new FeedbackResponsesDb();
         fr = dataBundle.feedbackResponses.get("response2ForS2Q1");
@@ -383,8 +382,41 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                      "&fsname=Another+feedback+session",
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+        
+        
+        ______TS("Failure case: submit response for question in session, but should not be editable by instructor");
+        instructor = dataBundle.instructors.get("CourseAinstr");
+        gaeSimulation.loginAsInstructor(instructor.googleId);
+        
+        
+        frDb = new FeedbackResponsesDb();
+        fr = dataBundle.feedbackResponses.get("response1ForQ3");
+        fq = fqDb.getFeedbackQuestion("First feedback session", "CourseA", 3);
+        
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); //necessary to get the correct responseId
+        assertNotNull("Feedback response not found in database", fr);
+        
+        submissionParams = new String[]{
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString(),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+        };
+        
+        try{
+            a = getAction(submissionParams);
+            r = (RedirectResult) a.executeAndPostProcess();
+        } catch (UnauthorizedAccessException e) {
+            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] is not accessible to instructor [" + 
+                    instructor.email + "]", e.getMessage());
+        }
+        
     }
-    
     
     
     private InstructorEditStudentFeedbackSaveAction getAction(String... params) throws Exception{

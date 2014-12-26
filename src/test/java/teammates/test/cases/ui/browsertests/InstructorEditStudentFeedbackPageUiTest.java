@@ -16,8 +16,6 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 
-import com.google.gson.GsonBuilder;
-
 /**
  * Tests Edit(Moderate) Student's Feedback Page of instructors.  
  * 
@@ -34,12 +32,19 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/InstructorEditStudentFeedbackPageTest.json");
         removeAndRestoreTestDataOnServer(testData);
         
-        System.out.println(new GsonBuilder().create().toJson(testData));
         browser = BrowserPool.getBrowser(); 
     }
     
     @Test
     public void testAll() throws Exception {
+        
+        testEditResponse();
+        testAddResponse();
+        testDeleteResponse();
+
+    }
+    
+    public void testEditResponse() {
         ______TS("edit responses");
         
         FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("CourseA", "First feedback session", 1);
@@ -64,22 +69,26 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                                           "student1InCourseA@gmail.tmt");  
         
         assertEquals("Good design", fr.getResponseDetails().getAnswerString());
-        
+    }
+    
+    private void testAddResponse() {
         
         ______TS("test new response");
         submitPage.fillResponseTextBox(2, 0, "4");
         submitPage.clickSubmitButton();        
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
         
-        fq = BackDoor.getFeedbackQuestion("CourseA", "First feedback session", 2);
-        fr = BackDoor.getFeedbackResponse(fq.getId(),
+        FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("CourseA", "First feedback session", 2);
+        FeedbackResponseAttributes fr = BackDoor.getFeedbackResponse(fq.getId(),
                                           "student1InCourseA@gmail.tmt",
                                           "student1InCourseA@gmail.tmt");  
         
         assertEquals("4", fr.getResponseDetails().getAnswerString());
         
         submitPage.verifyHtml("/InstructorEditStudentFeedbackPageModified.html");
-        
+    }
+    
+    private void testDeleteResponse() {
         ______TS("test delete response");
         submitPage.fillResponseTextBox(2, 0, "");
         
@@ -88,8 +97,8 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
               
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
         
-        fq = BackDoor.getFeedbackQuestion("CourseA", "First feedback session", 1);
-        fr = BackDoor.getFeedbackResponse(fq.getId(),
+        FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("CourseA", "First feedback session", 1);
+        FeedbackResponseAttributes fr = BackDoor.getFeedbackResponse(fq.getId(),
                                           "student1InCourseA@gmail.tmt",
                                           "student1InCourseA@gmail.tmt");  
         assertNull(fr);
@@ -98,12 +107,6 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                                           "student1InCourseA@gmail.tmt",
                                           "student1InCourseA@gmail.tmt");  
         assertNull(fr);
-        
-        // test expected html        
-    }
-    
-    public void testEditResponse() {
-       
         
     }
     
