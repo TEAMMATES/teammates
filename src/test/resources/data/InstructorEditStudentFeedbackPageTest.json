@@ -21,6 +21,13 @@
             "email":"CourseAhelper2@course1.tmt",
             "institute":"TEAMMATES Test Institute 1"
         },
+        "CourseAhelper3":{
+            "googleId":"CourseAhelper3",
+            "name":"CourseAhelper3",
+            "isInstructor":true,
+            "email":"CourseAhelper3@course1.tmt",
+            "institute":"TEAMMATES Test Institute 1"
+        },
         
         "student1InCourseA":{
             "googleId":"student1InCourseA",
@@ -88,7 +95,20 @@
             "role":"Custom",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor Helper 2",
-            "instructorPrivilegesAsText":"{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {\n    \"Section 2\": {\n      \"canviewstudentinsection\": false,\n      \"cangivecommentinsection\": false,\n      \"cansubmitsessioninsection\": false,\n      \"canmodifysessioncommentinsection\": true,\n      \"canmodifycommentinsection\": false,\n      \"canviewsessioninsection\": true,\n      \"canviewcommentinsection\": false\n    }\n  },\n  \"sessionLevel\": {\n    \"Section 2\": {\n      \"First feedback session\": {\n        \"cansubmitsessioninsection\": false,\n        \"canmodifysessioncommentinsection\": false,\n        \"canviewsessioninsection\": true\n      }\n    }\n  }\n}"}
+            "instructorPrivilegesAsText":"{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {\n    \"Section 2\": {\n      \"canviewstudentinsection\": false,\n      \"cangivecommentinsection\": false,\n      \"cansubmitsessioninsection\": false,\n      \"canmodifysessioncommentinsection\": true,\n      \"canmodifycommentinsection\": false,\n      \"canviewsessioninsection\": true,\n      \"canviewcommentinsection\": false\n    }\n  },\n  \"sessionLevel\": {\n    \"Section 2\": {\n      \"First feedback session\": {\n        \"cansubmitsessioninsection\": false,\n        \"canmodifysessioncommentinsection\": false,\n        \"canviewsessioninsection\": true\n      }\n    }\n  }\n}"
+        },
+        "CourseAhelper3":{
+            "googleId":"CourseAhelper3",
+            "name":"Instructor Three",
+            "email":"CourseAhelper3@email.tmt",
+            "courseId":"CourseA",
+            "isArchived":false,
+            "role":"Custom",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor Helper 3",
+            "instructorPrivilegesAsText":"{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {\n    \"Section 2\": {\n      \"canviewstudentinsection\": false,\n      \"cangivecommentinsection\": false,\n      \"cansubmitsessioninsection\": false,\n      \"canmodifysessioncommentinsection\": false,\n      \"canmodifycommentinsection\": false,\n      \"canviewsessioninsection\": true,\n      \"canviewcommentinsection\": false\n    }\n  },\n  \"sessionLevel\": {\n    \"Section 2\": {\n      \"First feedback session\": {\n        \"cansubmitsessioninsection\": false,\n        \"canmodifysessioncommentinsection\": true,\n        \"canviewsessioninsection\": true\n      }\n    }\n  }\n}"
+        }
+
 
     },
     "students":{
@@ -143,6 +163,24 @@
             "endTime":"2017-04-30 11:59 PM UTC",
             "sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
             "resultsVisibleFromTime":"2017-05-01 11:59 PM UTC",
+            "timeZone":2.0,
+            "gracePeriod":10,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":false
+        },
+        "closedsession":{
+            "feedbackSessionName":"Closed feedback session",
+            "courseId":"CourseA",
+            "creatorEmail":"instructor1@course1.tmt",
+            "instructions":{
+                "value":"Please please fill in the following questions."
+            },
+            "createdTime":"2012-03-20 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2012-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
+            "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
             "timeZone":2.0,
             "gracePeriod":10,
             "feedbackSessionType":"STANDARD",
@@ -206,7 +244,7 @@
             "courseId":"CourseA",
             "creatorEmail":"CourseAintr@course1.tmt",
             "questionMetaData":{
-                "value":"This question should NOT appear when moderated by an instructor, as instructors are unable to see which giver gave responses"
+                "value":"This question should NOT appear when moderated by an instructor, as instructors are unable to see which giver gave responses for this question"
             },
             "questionNumber":"3",
             "questionType":"TEXT",
@@ -230,7 +268,7 @@
             "courseId":"CourseA",
             "creatorEmail":"CourseAintr@course1.tmt",
             "questionMetaData":{
-                "value":"This question should NOT appear when moderated by an instructor, as instructors are unable to see which recipient received responses"
+                "value":"This question should NOT appear when moderated by an instructor, as instructors are unable to see which recipient received responses for this question"
             },
             "questionNumber":"4",
             "questionType":"TEXT",
@@ -251,6 +289,31 @@
         },
         "qn1InSession2InCourse1":{
             "feedbackSessionName":"Another feedback session",
+            "courseId":"CourseA",
+            "creatorEmail":"CourseAintr@course1.tmt",
+            "questionMetaData":{
+                "value":"Talk about your contributions"
+            },
+            "questionNumber":"1",
+            "questionType":"TEXT",
+            "giverType":"STUDENTS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "INSTRUCTORS",
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS",
+                "RECEIVER"
+            ]
+            
+        },
+        "qn1InClosedsession":{
+            "feedbackSessionName":"Closed feedback session",
             "courseId":"CourseA",
             "creatorEmail":"CourseAintr@course1.tmt",
             "questionMetaData":{
@@ -312,7 +375,7 @@
             "giverEmail":"student1InCourseA@gmail.tmt",
             "recipientEmail":"student1InCourseA@gmail.tmt",
             "responseMetaData":{
-                "value":"blah"
+                "value":"response that should not be seen by instructors"
             },
             "giverSection":"Section 1",
             "recipientSection":"Section 1" 
@@ -326,7 +389,7 @@
             "giverEmail":"student1InCourseA@gmail.tmt",
             "recipientEmail":"student1InCourseA@gmail.tmt",
             "responseMetaData":{
-                "value":"Session 1 Question 1 Response 1"
+                "value":"Session 2 Question 1 Response 1"
             },
             "giverSection":"Section 1",
             "recipientSection":"Section 1" 
@@ -344,6 +407,20 @@
             },
             "giverSection":"Section 2",
             "recipientSection":"Section 2" 
+            
+        },
+        "response1ForQ1InClosedSession":{
+            "feedbackSessionName":"Closed feedback session",
+            "courseId":"CourseA",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"student1InCourseA@gmail.tmt",
+            "recipientEmail":"student1InCourseA@gmail.tmt",
+            "responseMetaData":{
+                "value":"Closed session response"
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1" 
             
         }
         
