@@ -44,13 +44,13 @@
             
     %>
         <nav class="navbar navbar-default navbar-fixed-top">
-            <h3 class="text-center">Previewing Session as Student <%=data.studentSubmittingFeedback.name%> (<%=data.studentSubmittingFeedback.email%>)</h3>
+            <h3 class="text-center">Previewing Session as Student <%=data.studentToViewPageFor.name%> (<%=data.studentToViewPageFor.email%>)</h3>
         </nav>
     <%
     	} else if (data.isModeration) {
     %>
         <nav class="navbar navbar-default navbar-fixed-top">
-            <h3 class="text-center">Moderating Session for Student <%=data.studentSubmittingFeedback.name%> (<%=data.studentSubmittingFeedback.email%>)</h3>
+            <h3 class="text-center">Moderating Session for Student <%=data.studentToViewPageFor.name%> (<%=data.studentToViewPageFor.email%>)</h3>
         </nav>    
     <%
         	}
@@ -62,20 +62,20 @@
         <br />
         <%
         	if (data.account.googleId == null) { 
-                                                    String joinUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
-                                                                    .withRegistrationKey(request.getParameter(Const.ParamsNames.REGKEY))
-                                                                    .withStudentEmail(request.getParameter(Const.ParamsNames.STUDENT_EMAIL))
-                                                                    .withCourseId(request.getParameter(Const.ParamsNames.COURSE_ID))
-                                                                    .toString();
+                                                                                    String joinUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+                                                                                                    .withRegistrationKey(request.getParameter(Const.ParamsNames.REGKEY))
+                                                                                                    .withStudentEmail(request.getParameter(Const.ParamsNames.STUDENT_EMAIL))
+                                                                                                    .withCourseId(request.getParameter(Const.ParamsNames.COURSE_ID))
+                                                                                                    .toString();
         %>
             <div id="registerMessage" class="alert alert-info">
                 <%=String.format(Const.StatusMessages.UNREGISTERED_STUDENT, joinUrl)%>
             </div>
         <%
         	} 
-           String actionToUse = data.isModeration ? 
-          		                Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE :
-                                Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
+                                           String actionToUse = data.isModeration ? 
+                                          		                Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE :
+                                                                Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
         %>
         <form method="post" name="form_student_submit_response"
               action="<%=actionToUse%>" >
@@ -85,7 +85,7 @@
             <%
             	if (data.isModeration) {
             %>
-                	<input name="moderatedstudent" value="<%=data.studentSubmittingFeedback.email%>" type="hidden">
+                	<input name="moderatedstudent" value="<%=data.studentToViewPageFor.email%>" type="hidden">
             <%  }
             
                 boolean isSubmittable = data.isSessionOpenForSubmission || data.isModeration;

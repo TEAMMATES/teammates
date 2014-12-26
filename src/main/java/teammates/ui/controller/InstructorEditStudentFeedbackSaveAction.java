@@ -41,7 +41,10 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
     }
 
     @Override
-    protected void checkAdditionalContraints() {
+    protected void checkAdditionalConstraints() {
+        // check the instructor did not submit responses to questions that he/she should not be able
+        // to view during moderation
+        
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();

@@ -57,7 +57,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         
         data.isSessionOpenForSubmission = true;
         data.isModeration = true;
-        data.studentSubmittingFeedback = studentUnderModeration;
+        data.studentToViewPageFor = studentUnderModeration;
         hideAnonymousResponses(data.bundle);
 
         statusToAdmin = "Moderating feedback session for student (" + studentUnderModeration.email + ")<br>" +

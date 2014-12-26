@@ -40,7 +40,7 @@
         } else { 
     %>
         <nav class="navbar navbar-default navbar-fixed-top">
-            <h3 class="text-center">Previewing Session as Instructor <%=data.instructorSubmittingFeedback.name%> (<%=data.instructorSubmittingFeedback.email%>)</h3>
+            <h3 class="text-center">Previewing Session as Instructor <%=data.previewInstructor.name%> (<%=data.previewInstructor.email%>)</h3>
         </nav>
     <% 
         }

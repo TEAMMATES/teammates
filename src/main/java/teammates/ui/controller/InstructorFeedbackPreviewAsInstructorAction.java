@@ -52,7 +52,7 @@ public class InstructorFeedbackPreviewAsInstructorAction extends Action {
         
         data.isSessionOpenForSubmission = true;
         data.isPreview = true;
-        data.instructorSubmittingFeedback = previewInstructor;
+        data.previewInstructor = previewInstructor;
         data.bundle.resetAllResponses();
         
         statusToAdmin = "Preview feedback session as instructor (" + previewInstructor.email + ")<br>" +

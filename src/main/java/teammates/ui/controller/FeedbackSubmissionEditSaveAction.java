@@ -48,7 +48,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         data.bundle = getDataBundle(userEmailForCourse);        
         Assumption.assertNotNull("Feedback session " + feedbackSessionName + " does not exist in " + courseId + ".", data.bundle);
         
-        checkAdditionalContraints();
+        checkAdditionalConstraints();
         
         setStatusToAdmin();
         
@@ -241,7 +241,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         return;
     }
     
-    protected void checkAdditionalContraints() {
+    protected void checkAdditionalConstraints() {
         return;
     }
     

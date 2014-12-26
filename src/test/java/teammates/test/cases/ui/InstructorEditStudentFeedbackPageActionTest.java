@@ -65,6 +65,36 @@ public class InstructorEditStudentFeedbackPageActionTest extends
                 + "/page/instructorEditStudentFeedbackPage"
                 , editPageAction.getLogMessage());
         
+        
+        ______TS("success case: closed session");
+
+        feedbackSessionName = "Closed Session";
+        courseId = student.course;
+        moderatedStudentEmail = student.email;
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+        };
+
+        editPageAction = getAction(submissionParams);
+        showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
+
+        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT 
+                + "?error=false"
+                + "&user="+ idOfInstructor
+                , showPageResult.getDestinationWithParams());
+        assertEquals("", showPageResult.getStatusMessage());
+
+        assertEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage"
+                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Moderating feedback session for student (" + student.email + ")<br>"
+                + "Session Name: Closed Session<br>Course ID: idOfTypicalCourse1|||"
+                + "/page/instructorEditStudentFeedbackPage"
+                , editPageAction.getLogMessage());
+        
+        
         gaeSimulation.loginAsInstructor(idOfInstructorHelper);
         
         ______TS("failure: does not have privilege");
