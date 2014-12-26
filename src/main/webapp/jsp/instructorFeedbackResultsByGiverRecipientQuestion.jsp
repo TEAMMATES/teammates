@@ -907,7 +907,7 @@
                                 <input type="hidden" name="moderatedstudent" value=<%= email%>>
                             
                             </form>
-                        <% } %>
+                    <% } %>
                         &nbsp;
                         <div class="display-icon" style="display:inline;">
                             <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
@@ -984,7 +984,7 @@
                                                                     <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>
                                                                 
                                                                 </form>
-                                                            <% } %>
+                                                        <% } %>
                                                             &nbsp;
                                                             <div class="display-icon" style="display:inline;">
                                                                 <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
