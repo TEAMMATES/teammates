@@ -53,8 +53,8 @@
             <h3 class="text-center">Moderating Session for Student <%=data.studentToViewPageAs.name%> (<%=data.studentToViewPageAs.email%>)</h3>
         </nav>    
     <%
-        	}
-        %>
+        }
+    %>
     <div id="frameBody">
     <div id="frameBodyWrapper" class="container">
         <div id="topOfPage"></div>
@@ -62,20 +62,20 @@
         <br />
         <%
         	if (data.account.googleId == null) { 
-                                                                                            String joinUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
-                                                                                                            .withRegistrationKey(request.getParameter(Const.ParamsNames.REGKEY))
-                                                                                                            .withStudentEmail(request.getParameter(Const.ParamsNames.STUDENT_EMAIL))
-                                                                                                            .withCourseId(request.getParameter(Const.ParamsNames.COURSE_ID))
-                                                                                                            .toString();
+                String joinUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+                                .withRegistrationKey(request.getParameter(Const.ParamsNames.REGKEY))
+                                .withStudentEmail(request.getParameter(Const.ParamsNames.STUDENT_EMAIL))
+                                .withCourseId(request.getParameter(Const.ParamsNames.COURSE_ID))
+                                .toString();
         %>
             <div id="registerMessage" class="alert alert-info">
                 <%=String.format(Const.StatusMessages.UNREGISTERED_STUDENT, joinUrl)%>
             </div>
         <%
         	} 
-                                                   String actionToUse = data.isModeration ? 
-                                                  		                Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE :
-                                                                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
+            String actionToUse = data.isModeration ? 
+                                 Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE :
+                                 Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
         %>
         <form method="post" name="form_student_submit_response"
               action="<%=actionToUse%>" >

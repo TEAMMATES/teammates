@@ -337,7 +337,7 @@
                                                                                         data.feedbackSessionName, 
                                                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
                         if (!targetEmail.contains("@@") && 
-                        data.bundle.isParticipantIdentifierStudent(targetEmail)){ 
+                            data.bundle.isParticipantIdentifierStudent(targetEmail)){ 
                     %>
                             <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
                             
@@ -347,7 +347,7 @@
                                 <input type="hidden" name="moderatedstudent" value=<%= targetEmail%>>
                             
                             </form>
-                    <% } %>
+                    <%  } %>
                         &nbsp;
                         <div class="display-icon" style="display:inline;">
                             <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
@@ -897,7 +897,7 @@
                                                                                         data.feedbackSessionName, 
                                                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
                         if (!email.contains("@@") && 
-                        data.bundle.isParticipantIdentifierStudent(email)){ 
+                            data.bundle.isParticipantIdentifierStudent(email)) { 
                     %>
                             <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
                             
@@ -974,7 +974,7 @@
                                                                                                                            data.feedbackSessionName, 
                                                                                                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
                                                            if (!teamMember.contains("@@") && 
-                                                           data.bundle.isParticipantIdentifierStudent(teamMember)) { 
+                                                               data.bundle.isParticipantIdentifierStudent(teamMember)) { 
                                                         %>
                                                                 <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
                                                                 
@@ -1078,7 +1078,7 @@
                                                                                     <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>
                                                                                 
                                                                                 </form>
-                                                                            <% } %>
+                                                                        <%   } %>
                                                                             &nbsp;
                                                                             <div class="display-icon" style="display:inline;">
                                                                                 <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
