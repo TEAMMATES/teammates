@@ -127,7 +127,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
 
     @Override
     protected boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes session) {
-        // Feedback session closing date does not matter; instructor can moderate at any time
+        // Feedback session closing date does not matter. Instructors can moderate at any time
         return true; 
     }
 
