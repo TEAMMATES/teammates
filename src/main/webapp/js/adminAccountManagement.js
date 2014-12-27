@@ -1,4 +1,4 @@
-const entryPerPage = 15; 
+const entryPerPage = 200; 
 
 var start = 0;
 var end = 0;
