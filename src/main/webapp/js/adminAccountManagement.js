@@ -1,115 +1,152 @@
-var yearMax = 0;
-var yearMin = 9999;
+const entryPerPage = 15; 
+
+var start = 0;
+var end = 0;
+var total = 0;
+
+var currentPage = 1;
+var totalPages;
 
 $(document).ready(function() {
-	boundYearPager();	
-	selectYearAndMonth();
-	checkIfShouldDisableButton();
+	
+	reLabelOrderedAccountEntries();
+	caculateTotalPages();
+	updatePagination();
+	showFirstPage();
+	updateEntriesCount();
 });
 
-function selectYearAndMonth(){
+function updatePagination(){
 	
-	$("a#currentYearButton").text(yearMax);
-	deactivateAllMonthListItems();
-	$("#monthPagination ul.pagination li:last-child").attr("class", "active");
-	showMatchedAccountEntries("", yearMax);
-}
-
-function boundYearPager() {
-	$("td.accountCreatedDate").each(function(index) {
+	if(totalPages > 5) {
+		if(currentPage >= 3 && (currentPage + 1) < totalPages){
+			$("div#pagination_top ul.pagination li a.pageNumber").each(function(index){
+				var newPageNumber = currentPage - 2 + index;
+				$(this).text(newPageNumber);
+			});
+		} 
 		
-		var dateAndTime = $(this).text();
-		var date = dateAndTime.split(",")[0];
-		var year = parseInt(date.split(" ")[2]);
+		if(currentPage >= 3 && (currentPage + 1) == totalPages){
+			$("div#pagination_top ul.pagination li a.pageNumber").each(function(index){
+				var newPageNumber = currentPage - 3 + index;
+				$(this).text(newPageNumber);
+			});
+		} 
 		
-		if(year > yearMax){
-			yearMax = year;
+		if (currentPage < 3){
+			$("div#pagination_top ul.pagination li a.pageNumber").each(function(index){
+				$(this).text(index + 1);
+			});
 		}
-		
-		if(year < yearMin){
-			yearMin = year;
-		}
-	});
-
-}
-
-$(document).on("click", "a.monthListItem", function() {
-
-	var month = $(this).html();
-	var year = $("a#currentYearButton").html();
-	deactivateAllMonthListItems();
-	$(this).parent().attr("class", "active");
-	showMatchedAccountEntries(month, year);
-
-});
-
-$(document).on("click", "a#previousYearButton", function() {
-	var currentYear = parseInt($("a#currentYearButton").text());
-	
-	if(yearMin < currentYear){
-		$("a#currentYearButton").text(currentYear - 1);
-	}
-	
-	var year = $("a#currentYearButton").html();
-	var month = $("li.active a.monthListItem").text();
-	showMatchedAccountEntries(month, year);
-	
-	checkIfShouldDisableButton();
-});
-
-$(document).on("click", "a#nextYearButton", function() {
-	var currentYear = parseInt($("a#currentYearButton").text());
-	
-	if(yearMax > currentYear){
-		$("a#currentYearButton").text(currentYear + 1);
-	}
-	
-	var year = $("a#currentYearButton").html();
-	var month = $("li.active a.monthListItem").text();
-	showMatchedAccountEntries(month, year);
-	
-	checkIfShouldDisableButton();
-});
-
-function checkIfShouldDisableButton(){
-	var current = parseInt($("a#currentYearButton").text());
-	
-	if(yearMax <= current){
-		$("a#nextYearButton").parent().attr("class", "disabled");
 	} else {
-		$("a#nextYearButton").parent().attr("class", "");
+		$("div#pagination_top ul.pagination li a.pageNumber").each(function(index){
+			$(this).text(index + 1);
+			
+			if((index + 1) > totalPages){
+				$(this).parent().hide();
+			}
+		});
 	}
 	
-	if(yearMin >= current){
-		$("a#previousYearButton").parent().attr("class", "disabled");
-	} else {
-		$("a#previousYearButton").parent().attr("class", "");
-	}
-	
-}
-
-
-function showMatchedAccountEntries(month, year) {
-	
-	if(month.indexOf("All") > -1){
-		month = "";
-	}
-	
-	var expected = month + " " + year;
-	
-	$("td.accountCreatedDate").each(function(index) {	
-		var actual = $(this).text();
-		if (actual.indexOf(expected) > -1) {
-			$(this).parent().show();
+	$("div#pagination_top ul.pagination li a.pageNumber").each(function(index){
+		var pageNum = parseInt($(this).text());
+		if(pageNum == currentPage){
+			$(this).parent().attr("class", "active");
 		} else {
-			$(this).parent().hide();
+			$(this).parent().attr("class", "");
 		}
-
 	});
+	
+	$("#pagination_bottom").html($("#pagination_top").html());
 }
 
-function deactivateAllMonthListItems() {
-	$("a.monthListItem").each(function(index) {
-		$(this).parent().attr("class", "");
-	});
+function caculateTotalPages(){
+	var a = parseInt(total/entryPerPage);
+	var b = total%entryPerPage;
+	totalPages = b==0? a : a + 1;
 }
+
+function updateEntriesCount(){
+	var newText = start + "~" + (end > total? total : end);
+	
+	$("span#currentPageEntryCount").text(newText);	
+	$("span#totalEntryCount").text(total);
+}
+
+function hideAllEntries(){
+	$("tr.accountEntry").hide();
+}
+
+function showFirstPage(){
+	hideAllEntries();
+	start = 1;
+	end = entryPerPage;
+	currentPage = 1;
+	showEntryInInterval(start, end);
+}
+
+function showEntryInInterval(start, end){
+	hideAllEntries();
+	for(var i=start; i<=end; i++){
+		$("#accountEntry_" + i).show();
+	};
+}
+
+function reLabelOrderedAccountEntries(){
+	total = 0;
+	$("tr.accountEntry").each(function(index){
+		$(this).attr("id", "accountEntry_" + (index+1));
+		total ++;
+	});
+	
+	showFirstPage();
+	updateEntriesCount();
+	updatePagination();
+}
+
+function showEntriesForSelectedPage(){
+	start = (currentPage - 1)*entryPerPage + 1;
+	end = start + entryPerPage - 1;
+	showEntryInInterval(start, end);
+	
+}
+
+$(document).on("click", "ul.pagination li.previous", function(){
+	goToPreviousPage();
+});
+
+$(document).on("click", "ul.pagination li a.pageNumber", function(){
+	currentPage = parseInt($(this).text());
+	showEntriesForSelectedPage();
+	updateEntriesCount();
+	updatePagination();
+});
+
+$(document).on("click", "ul.pagination li.next", function(){
+	goToNextPage();
+});
+
+function goToPreviousPage(){
+	currentPage = (currentPage > 1)? currentPage - 1 : currentPage;
+	showEntriesForSelectedPage();
+	updateEntriesCount();
+	updatePagination();
+}
+
+function goToNextPage(){
+	currentPage = (currentPage < totalPages)? currentPage + 1 : totalPages;
+	showEntriesForSelectedPage();
+	updateEntriesCount();
+	updatePagination();
+}
+
+$(document).keydown(function(e) {
+    if(e.keyCode == 37) { //LEFT
+    	goToPreviousPage();
+     }
+    if(e.keyCode == 39) { //RIGHT
+    	goToNextPage();
+     }
+ });
+
+

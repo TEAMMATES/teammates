@@ -54,38 +54,24 @@
             </h1>
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         </div>
-
-        <div class="row">
-            <div id="yearPagination" class="col-sm-2">
-                <ul class="pagination">
-                    <li><a id="previousYearButton">«</a></li>
-                    <li class="active"><a id="currentYearButton">2014</a></li>
-                    <li><a id="nextYearButton">»</a></li>
-                </ul>
-            </div>
-            <div id="monthPagination" class="col-sm-8">
-                <ul class="pagination">
-                    <li><a class="monthListItem">Jan</a></li>
-                    <li><a class="monthListItem">Feb</a></li>
-                    <li><a class="monthListItem">Mar</a></li>
-                    <li><a class="monthListItem">Apr</a></li>
-                    <li><a class="monthListItem">May</a></li>
-                    <li><a class="monthListItem">Jun</a></li>
-                    <li><a class="monthListItem">Jul</a></li>
-                    <li><a class="monthListItem">Aug</a></li>
-                    <li><a class="monthListItem">Sep</a></li>
-                    <li><a class="monthListItem">Oct</a></li>
-                    <li><a class="monthListItem">Nov</a></li>
-                    <li><a class="monthListItem">Dec</a></li>
-                    <li><a class="monthListItem">All</a></li>
-                </ul>
-            </div>
-
-
+        <div id="pagination_top">
+            <ul class="pagination">
+                <li class="previous"><a href="#"> <span>&laquo;</span>
+                </a></li>
+                <li><a class="pageNumber" href="#">1</a></li>
+                <li><a class="pageNumber" href="#">2</a></li>
+                <li><a class="pageNumber" href="#">3</a></li>
+                <li><a class="pageNumber" href="#">4</a></li>
+                <li><a class="pageNumber" href="#">5</a></li>
+                <li class="next"><a href="#"><span>&raquo;</span>
+                </a></li>
+            </ul>
         </div>
+
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <strong>Instructor List</strong>
+                <strong class="pull-right"><span id="currentPageEntryCount">1</span>&nbsp;/&nbsp;<span id="totalEntryCount">10</span></strong>
             </div>
             <div class="table-responsive">
                 <table class="table table-striped dataTable">
@@ -93,14 +79,14 @@
                         <tr>
                             <th width="10%">Account Info</th>
                             <th width="5%">Instructor for</th>
-                            <th width="20%" onclick="toggleSort(this,3)"
+                            <th width="20%" onclick="toggleSort(this,3); reLabelOrderedAccountEntries();"
                                 class="button-sort-ascending">
                                 Institute <span
                                 class="icon-sort unsorted"
                                 id="button_sort_institute"></span>
                             </th>
                             <th width="30%"
-                                onclick="toggleSort(this,4);"
+                                onclick="toggleSort(this,4); reLabelOrderedAccountEntries();"
                                 class="button-sort-ascending">Create
                                 At <span class="icon-sort unsorted"
                                 id="button_sort_createat"></span>
@@ -125,7 +111,7 @@
                         %>
 
 
-                        <tr>
+                        <tr class="accountEntry">
                             <td><%="<span class=\"bold\">Google ID: </span><a href=\""
 						+ data.getInstructorHomePageViewLink(acc.googleId)
 						+ "\" target=\"blank\">" + acc.googleId
@@ -149,7 +135,7 @@
                             <td id="<%=acc.googleId + "_institude"%>"><%=acc.institute%>
                             </td>
 
-                            <td id="<%=acc.googleId + "_createAt"%>" class="accountCreatedDate"><%=AdminAccountManagementPageData
+                            <td id="<%=acc.googleId + "_createAt"%>"><%=AdminAccountManagementPageData
 						.displayDateTime(acc.createdAt)%></td>
 
                             <td><a
@@ -197,6 +183,21 @@
                 </table>
             </div>
         </div>
+
+        <div id="pagination_bottom">
+            <ul class="pagination">
+                <li class="previous"><a href="#"> <span>&laquo;</span>
+                </a></li>
+                <li><a class="pageNumber" href="#">1</a></li>
+                <li><a class="pageNumber" href="#">2</a></li>
+                <li><a class="pageNumber" href="#">3</a></li>
+                <li><a class="pageNumber" href="#">4</a></li>
+                <li><a class="pageNumber" href="#">5</a></li>
+                <li class="next"><a href="#"><span>&raquo;</span>
+                </a></li>
+            </ul>
+        </div>
+
 
         <a href="#" class="back-to-top-left"><span
             class="glyphicon glyphicon-arrow-up"></span>&nbsp;Top</a> 
