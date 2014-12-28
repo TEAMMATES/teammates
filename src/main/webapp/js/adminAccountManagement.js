@@ -9,6 +9,7 @@ var totalPages;
 
 $(document).ready(function() {
 	
+	toggleSort($("#button_sort_createat").parent(), 4);
 	reLabelOrderedAccountEntries();
 	caculateTotalPages();
 	updatePagination();
