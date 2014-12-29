@@ -192,8 +192,15 @@
             "team":"Team 2.1",
             "comments":"",
             "course":"FSQTT.idOfTypicalCourse2"
-        }
-        
+        },
+		"unregisteredStudentInCourse1":{
+            "email":"unregisteredStudentInCourse1@gmail.tmt",
+            "name":"unregistered Student In Course1",
+            "comments":"This is an unregistered student in Course 1",
+            "team":"Team Unregistered",
+            "comments":"",
+            "course":"FSQTT.idOfTypicalCourse1"
+        }        
     },
     "feedbackSessions":{
         "mcqSession":{
@@ -285,7 +292,25 @@
             "feedbackSessionType":"STANDARD",
             "sentOpenEmail":true,
             "sentPublishedEmail":false
-        }  	
+        },
+        "unregisteredStudentSession":{
+            "feedbackSessionName":"Unregistered Student Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.tmt",
+            "instructions":{
+                "value":"Please answer the following questions."
+            },
+            "createdTime":"2012-03-20 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2017-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
+            "resultsVisibleFromTime":"2017-05-01 11:59 PM UTC",
+            "timeZone":2.0,
+            "gracePeriod":10,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":false,
+            "sentPublishedEmail":false
+        }
     },
     "feedbackQuestions":{
         "qn1InSession1InCourse1":{
@@ -494,9 +519,30 @@
             ],
             "showRecipientNameTo":[
                 "INSTRUCTORS"
+            ]            
+        },
+		"qn1InSession6InCourse1":{
+            "feedbackSessionName":"Unregistered Student Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.tmt",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"Rate our product.\", \"questionType\":\"NUMSCALE\", \"minScale\" : 1, \"maxScale\" : 5,\"step\" : 0.5}"
+            },
+            "questionNumber":"1",
+            "questionType":"NUMSCALE",
+            "giverType":"STUDENTS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
             ]
-            
-        }
+		}
     },
     "feedbackResponses":{
         "response1ForQ1S1C1":{
@@ -726,6 +772,17 @@
             "recipientEmail":"student4InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"CONTRIB\", \"answer\" : 130}"
+            }
+        },
+        "response1ForQ1S6C1":{
+            "feedbackSessionName":"Unregistered Student Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"NUMSCALE",
+            "giverEmail":"unregisteredStudentInCourse1@gmail.tmt",
+            "recipientEmail":"unregisteredStudentInCourse1@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 2}"
             }
         }
     }
