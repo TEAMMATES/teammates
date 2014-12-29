@@ -19,7 +19,8 @@ import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
-import teammates.logic.backdoor.BackDoorLogic;
+import teammates.common.util.Url;
+import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
@@ -527,7 +528,107 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1&courseid=FSQTT.idOfTypicalCourse1&fsname=CONTRIB+Session",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, "invalid recipient"));
+        gaeSimulation.logoutUser();
         
+        
+        
+        
+        ______TS("Unregistered student with valid submission of response remains at submission page");
+        
+        
+        StudentAttributes unregisteredStudent = dataBundle.students.get("unregisteredStudentInCourse1");
+        
+        fq = fqDb.getFeedbackQuestion("Unregistered Student Session", "FSQTT.idOfTypicalCourse1", 1);
+        assertNotNull("Feedback question not found in database", fq);
+        fqd = (FeedbackNumericalScaleQuestionDetails) fq.getQuestionDetails();
+        
+        fr = dataBundle.feedbackResponses.get("response1ForQ1S6C1");
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail);
+        // ensure correct response id is retrieved
+        assertNotNull("Feedback response not found in database", fr);
+        
+        FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
+        FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("unregisteredStudentSession");
+        fsa = fsDb.getFeedbackSession(unregisteredStudent.course, fsa.feedbackSessionName);
+        assertNotNull("Feedback session not found in database", fsa);
+
+        // Setting uri for unregistered student which contains the key of the student
+        String studentKey = StudentsLogic.inst().getEncryptedKeyForStudent(unregisteredStudent.course, unregisteredStudent.email);
+        uri = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE)
+                      .withCourseId(unregisteredStudent.course)
+                      .withSessionName(fsa.feedbackSessionName)
+                      .withRegistrationKey(studentKey)
+                      .withStudentEmail(unregisteredStudent.email)
+                      .toString();
+        
+        // Valid response from unregistered student
+        String[] validSubmissionParams = new String[]{
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", fr.getResponseDetails().getAnswerString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN + "-1-0", Integer.toString(fqd.minScale),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX + "-1-0", Integer.toString(fqd.maxScale),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0", StringHelper.toDecimalFormatString(fqd.step)
+        };
+
+        StudentFeedbackSubmissionEditSaveAction submissionAction = getAction(validSubmissionParams);
+        RedirectResult redirectResult = getRedirectResult(submissionAction);
+        
+        assertFalse(redirectResult.isError);
+        assertEquals(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE + 
+                "?studentemail=unregisteredStudentInCourse1%40gmail.tmt&error="+redirectResult.isError+"&courseid="+unregisteredStudent.course
+                + "&fsname=Unregistered+Student+Session&key=B1C228E80034757806E898A30004811F1D48E908E4FEBC58E5E636B8A972F075", 
+                redirectResult.getDestinationWithParams());
+        assertEquals("All responses submitted succesfully!", redirectResult.getStatusMessage());
+        gaeSimulation.logoutUser();
+        
+        
+        
+        ______TS("Unregistered student with invalid submission of response remains at submission page");
+        
+        
+        // Setting uri for unregistered student which contains the key of the student
+        studentKey = StudentsLogic.inst().getEncryptedKeyForStudent(unregisteredStudent.course, unregisteredStudent.email);
+        uri = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE)
+                      .withCourseId(unregisteredStudent.course)
+                      .withSessionName(fsa.feedbackSessionName)
+                      .withRegistrationKey(studentKey)
+                      .withStudentEmail(unregisteredStudent.email)
+                      .toString();
+        
+        // Invalid response from unregistered student
+        String[] invalidSubmissionParams = new String[]{
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "100",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MIN + "-1-0", Integer.toString(fqd.minScale),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_MAX + "-1-0", Integer.toString(fqd.maxScale),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMSCALE_STEP + "-1-0", StringHelper.toDecimalFormatString(fqd.step)
+        };
+
+        submissionAction = getAction(invalidSubmissionParams);
+        redirectResult = getRedirectResult(submissionAction);
+        
+        assertTrue(redirectResult.isError);
+        assertEquals(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE + 
+                "?studentemail=unregisteredStudentInCourse1%40gmail.tmt&error="+redirectResult.isError+"&courseid="+unregisteredStudent.course
+                + "&fsname=Unregistered+Student+Session&key=B1C228E80034757806E898A30004811F1D48E908E4FEBC58E5E636B8A972F075", 
+                redirectResult.getDestinationWithParams());
+        assertEquals("100 is out of the range for Numerical-scale question.(min=1, max=5)", redirectResult.getStatusMessage());
+        gaeSimulation.logoutUser();
+        
+        // reset uri to normal submission page uri as it might be used by other testing methods
+        uri = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
     }
     
     @Test
