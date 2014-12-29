@@ -208,6 +208,14 @@ Colors indicate which roles are involved in which states/transitions.
 * `a.Admin`,`a.Scalability` etc. : Used to categorize issues based on the aspect
   it tackles. This is useful when a developer is focusing on a specific aspect.
 
+**Feature**
+
+* `f.Sessions`,`f.Comments` etc. : Used to categorize issues based on the main
+  feature they belong to. This is useful when a developer is in charge of a
+  feature. 
+  Features vs Aspects: Features are primarily about functional requirements while Aspects 
+  are primarily about non-functional requirements.
+
 **Type**
 
 * `t.Bug`

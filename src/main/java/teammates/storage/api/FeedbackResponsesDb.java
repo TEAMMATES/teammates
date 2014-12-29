@@ -454,7 +454,9 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 new ArrayList<FeedbackResponseAttributes>();
 
         for (FeedbackResponse fr : frList) {
-            fraList.add(new FeedbackResponseAttributes(fr));
+            if (!JDOHelper.isDeleted(fr)) {
+                fraList.add(new FeedbackResponseAttributes(fr));
+            }
         }
 
         return fraList;
