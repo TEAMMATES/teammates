@@ -2,15 +2,20 @@ package teammates.common.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.TeammatesException;
+import teammates.logic.api.Logic;
 
 import com.google.appengine.api.log.AppLogLine;
 
@@ -148,6 +153,60 @@ public class ActivityLogEntry {
         role = changeRoleToAutoIfAutomatedActions(servletName, role);
     }
     
+    
+    private double getLocalTimeZoneForRequest(String userGoogleId){
+        double localTimeZone = Const.DOUBLE_UNINITIALIZED;
+        
+        if(role.contentEquals("Admin") || role.contains("(M)")){
+            return Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
+        }
+        
+        Logic logic = new Logic();
+        if(userGoogleId != null && !userGoogleId.isEmpty()){     
+            try {
+                localTimeZone = findAvailableTimeZoneFromCourses(logic.getCoursesForInstructor(userGoogleId));
+            } catch (EntityDoesNotExistException e) {
+                localTimeZone = Const.DOUBLE_UNINITIALIZED;
+            }
+            
+            if(localTimeZone != Const.DOUBLE_UNINITIALIZED){
+                return localTimeZone;
+            }
+             
+            try {
+                localTimeZone = findAvailableTimeZoneFromCourses(logic.getCoursesForStudentAccount(userGoogleId));
+            } catch (EntityDoesNotExistException e) {
+                localTimeZone = Const.DOUBLE_UNINITIALIZED;
+            }
+            
+            if(localTimeZone != Const.DOUBLE_UNINITIALIZED){
+                return localTimeZone;
+            }
+        }
+        
+        return localTimeZone;
+    }
+    
+    private double findAvailableTimeZoneFromCourses(List<CourseAttributes> courses){
+        
+        double localTimeZone = Const.DOUBLE_UNINITIALIZED;
+        
+        if(courses == null){
+            return localTimeZone;
+        }
+        
+        Logic logic = new Logic();
+        
+        for(CourseAttributes course : courses){
+            List<FeedbackSessionAttributes> fsl = logic.getFeedbackSessionsForCourse(course.id); 
+            if (fsl != null && !fsl.isEmpty()){
+                return fsl.get(0).timeZone;
+            }
+        }
+        
+        return localTimeZone;
+    }
+    
     public ActivityLogEntry(AccountAttributes userAccount, boolean isMasquerade, String logMessage, 
                             String requestUrl, StudentAttributes student, UserType userType){
         time = System.currentTimeMillis();
@@ -258,6 +317,25 @@ public class ActivityLogEntry {
                 + role + "|||" + name + "|||" + googleId + "|||" + email + "|||" + message + "|||" + url;
     }
     
+    public String getLocalTimeInfo(){
+        
+        if(!googleId.contentEquals("Unknown") && !googleId.contentEquals("Unregistered")){
+            double timeZone = getLocalTimeZoneForRequest(googleId);  
+            
+            if(timeZone == Const.DOUBLE_UNINITIALIZED){
+                return "Local Time Unavailable";
+            }
+            
+            Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            appCal.setTimeInMillis(time);
+            TimeHelper.convertToUserTimeZone(appCal, timeZone);
+            return sdf.format(appCal.getTime());
+        } else {
+            return "Local Time Unavailable";
+        }
+    
+    }
     
     public String getDateInfo(){
         Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -487,7 +565,8 @@ public class ActivityLogEntry {
         
         
         String result = "";
-        result += "<tr> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"+ getDateInfo()
+        result += "<tr> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\""
+               +  "data-toggle=\"tooltip\" data-placement=\"top\" data-container=\"body\" title=\"" + getLocalTimeInfo() + "\">"+ getDateInfo()
                + "<br> <p class=\"" + getColorCode(getTimeTaken()) + "\">"
                + "<strong>" + TimeHelper.convertToStandardDuration(getTimeTaken()) + "</strong>"
                + "</p> </td> <td class=\"" + getTableCellColorCode(timeTaken) + "\">"
