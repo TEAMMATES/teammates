@@ -16,9 +16,9 @@ import javax.mail.internet.MimeMessage;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -2024,7 +2024,7 @@ public class FeedbackSessionsLogic {
             for(StudentAttributes student : students){
                 studentNoResponses.add(student.email);
                 responseStatus.emailNameTable.put(student.email, student.name);
-				responseStatus.emailTeamNameTable.put(student.email, student.team);
+                responseStatus.emailTeamNameTable.put(student.email, student.team);
             }
         }
         studentNoResponses.removeAll(fsa.respondingStudentList);
