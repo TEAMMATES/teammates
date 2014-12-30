@@ -296,8 +296,12 @@ ul #nav {
 
 
 
-    <div style="display: none;" id="statusMessage"></div>
-
+    <div class="alert alert-warning" id="statusMessage">
+                     Some questions on this page have been hidden as there are responses which are not visible to you
+    </div>
+    <script type="text/javascript">
+                     document.getElementById( 'statusMessage' ).scrollIntoView();
+    </script>
     <br />
 
         <input type="hidden" value="TEXT" name="questiontype-1" />

@@ -2,6 +2,8 @@ package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -60,7 +62,8 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         
         submitPage.fillResponseTextBox(1, 0, "Good design");
         submitPage.clickSubmitButton();        
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
+        assertTrue(submitPage.getStatus().contains(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED));
+        assertTrue(submitPage.getStatus().contains(Const.StatusMessages.FEEDBACK_SESSION_QUESTIONS_HIDDEN));
         
         fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);
         
@@ -76,7 +79,8 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("test new response");
         submitPage.fillResponseTextBox(2, 0, "4");
         submitPage.clickSubmitButton();        
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
+        assertTrue(submitPage.getStatus().contains(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED));
+        assertTrue(submitPage.getStatus().contains(Const.StatusMessages.FEEDBACK_SESSION_QUESTIONS_HIDDEN));
         
         FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 2);
         FeedbackResponseAttributes fr = BackDoor.getFeedbackResponse(fq.getId(),
@@ -95,7 +99,9 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(1, 0, "");
         submitPage.clickSubmitButton(); 
               
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
+        assertTrue(submitPage.getStatus().contains(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED));
+        assertTrue(submitPage.getStatus().contains(Const.StatusMessages.FEEDBACK_SESSION_QUESTIONS_HIDDEN));
+        
         
         FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);
         FeedbackResponseAttributes fr = BackDoor.getFeedbackResponse(fq.getId(),

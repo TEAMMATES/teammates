@@ -61,7 +61,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         boolean isSomeQuestionsHidden = hideQuestionsWithAnonymousResponses(data.bundle);
 
         if (isSomeQuestionsHidden) {
-            statusToUser.add("Some questions on this page have been hidden as there are responses which are not visible to you");
+            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_QUESTIONS_HIDDEN);
         }
         
         statusToAdmin = "Moderating feedback session for student (" + studentUnderModeration.email + ")<br>" +
