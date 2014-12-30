@@ -741,17 +741,25 @@
                                     // Skip invalid student name
                                     continue;
                                }
-          
-                               String teamName = responseStatus.emailTeamNameTable.get(studentEmail);
-                               if(teamName == null){
-                                    // Assign empty string to team name
-                                    // This is only for instructors, which they do not have a team name
-                                    teamName = "";
-                               }
                         %>
                         <tr>
-                            <td><%=teamName%></td>
-                            <td><%=studentName%></td>                            
+                            <td>
+                                <% String teamName = responseStatus.emailTeamNameTable.get(studentEmail);
+                                    if(teamName == null){
+                                        // Assign empty string to team name
+                                        // This is only for instructors, which they do not have a team name
+                                        teamName = "Instructors";
+                                %>
+                                    <i><%=teamName%> </i>
+                                <%       
+                                    }else{
+                                %>
+                                    <%=teamName%>
+                                <% 
+                                    } 
+                                %>
+                            </td>
+                            <td><%=studentName%></td>                           
                         </tr>
                         <%
                         }
