@@ -47,14 +47,14 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
     public void testEditResponse() {
         ______TS("edit responses");
         
-        FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("CourseA", "First feedback session", 1);
+        FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);
         FeedbackResponseAttributes fr = BackDoor.getFeedbackResponse(fq.getId(),
-                                                  "student1InCourseA@gmail.tmt",
-                                                  "student1InCourseA@gmail.tmt");  
+                                                  "student1InIESFPTCourse@gmail.tmt",
+                                                  "student1InIESFPTCourse@gmail.tmt");  
         
         assertEquals("Student 1 self feedback.",fr.getResponseDetails().getAnswerString());
      
-        submitPage = loginToInstructorEditStudentFeedbackPage("CourseAinstr", "student1InCourseA@gmail.tmt", "session1InCourseA");
+        submitPage = loginToInstructorEditStudentFeedbackPage("IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
         submitPage.verifyHtml("/InstructorEditStudentFeedbackPageOpen.html");
         
         
@@ -62,11 +62,11 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.clickSubmitButton();        
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
         
-        fq = BackDoor.getFeedbackQuestion("CourseA", "First feedback session", 1);
+        fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);
         
         fr = BackDoor.getFeedbackResponse(fq.getId(),
-                                          "student1InCourseA@gmail.tmt",
-                                          "student1InCourseA@gmail.tmt");  
+                                          "student1InIESFPTCourse@gmail.tmt",
+                                          "student1InIESFPTCourse@gmail.tmt");  
         
         assertEquals("Good design", fr.getResponseDetails().getAnswerString());
     }
@@ -78,10 +78,10 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.clickSubmitButton();        
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
         
-        FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("CourseA", "First feedback session", 2);
+        FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 2);
         FeedbackResponseAttributes fr = BackDoor.getFeedbackResponse(fq.getId(),
-                                          "student1InCourseA@gmail.tmt",
-                                          "student1InCourseA@gmail.tmt");  
+                                          "student1InIESFPTCourse@gmail.tmt",
+                                          "student1InIESFPTCourse@gmail.tmt");  
         
         assertEquals("4", fr.getResponseDetails().getAnswerString());
         
@@ -97,15 +97,15 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
               
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
         
-        FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("CourseA", "First feedback session", 1);
+        FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);
         FeedbackResponseAttributes fr = BackDoor.getFeedbackResponse(fq.getId(),
-                                          "student1InCourseA@gmail.tmt",
-                                          "student1InCourseA@gmail.tmt");  
+                                          "student1InIESFPTCourse@gmail.tmt",
+                                          "student1InIESFPTCourse@gmail.tmt");  
         assertNull(fr);
-        fq = BackDoor.getFeedbackQuestion("CourseA", "First feedback session", 2);
+        fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 2);
         fr = BackDoor.getFeedbackResponse(fq.getId(),
-                                          "student1InCourseA@gmail.tmt",
-                                          "student1InCourseA@gmail.tmt");  
+                                          "student1InIESFPTCourse@gmail.tmt",
+                                          "student1InIESFPTCourse@gmail.tmt");  
         assertNull(fr);
         
     }

@@ -52,7 +52,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         ______TS("edit existing answer");
         
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "CourseA", 1);
+        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "IESFPTCourse", 1);
         assertNotNull("Feedback question not found in database", fq);
         
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
@@ -61,11 +61,11 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertNotNull("Feedback response not found in database", fr);
         
         
-        InstructorAttributes instructor = dataBundle.instructors.get("CourseAinstr");
+        InstructorAttributes instructor = dataBundle.instructors.get("IESFPTCourseinstr");
         gaeSimulation.loginAsInstructor(instructor.googleId);
         
         
-        String moderatedStudentEmail = "student1InCourseA@gmail.tmt";
+        String moderatedStudentEmail = "student1InIESFPTCourse@gmail.tmt";
         
         String[] submissionParams = new String[]{
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
@@ -85,8 +85,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedstudent=student1InCourseA%40gmail.tmt" + 
-                     "&user=CourseAinstr&courseid=CourseA" + 
+                     "?error=false&moderatedstudent=student1InIESFPTCourse%40gmail.tmt" + 
+                     "&user=IESFPTCourseinstr&courseid=IESFPTCourse" + 
                      "&fsname=First+feedback+session",
                         r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
@@ -112,8 +112,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedstudent=student1InCourseA%40gmail.tmt" + 
-                     "&user=CourseAinstr&courseid=CourseA" + 
+                     "?error=false&moderatedstudent=student1InIESFPTCourse%40gmail.tmt" + 
+                     "&user=IESFPTCourseinstr&courseid=IESFPTCourse" + 
                      "&fsname=First+feedback+session",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
@@ -138,8 +138,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedstudent=student1InCourseA%40gmail.tmt" + 
-                     "&user=CourseAinstr&courseid=CourseA" + 
+                     "?error=false&moderatedstudent=student1InIESFPTCourse%40gmail.tmt" + 
+                     "&user=IESFPTCourseinstr&courseid=IESFPTCourse" + 
                      "&fsname=First+feedback+session",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
@@ -164,8 +164,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedstudent=student1InCourseA%40gmail.tmt" + 
-                     "&user=CourseAinstr&courseid=CourseA" + 
+                     "?error=false&moderatedstudent=student1InIESFPTCourse%40gmail.tmt" + 
+                     "&user=IESFPTCourseinstr&courseid=IESFPTCourse" + 
                      "&fsname=First+feedback+session",
                         r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
@@ -176,7 +176,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         ______TS("Unsuccessful case: test empty feedback session name parameter");
         
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "CourseA", 1);
+        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "IESFPTCourse", 1);
         assertNotNull("Feedback question not found in database", fq);
         
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
@@ -185,7 +185,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertNotNull("Feedback response not found in database", fr);
         
         
-        String moderatedStudentEmail = "student1InCourseA@gmail.tmt";
+        String moderatedStudentEmail = "student1InIESFPTCourse@gmail.tmt";
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, dataBundle.feedbackResponses.get("response1ForQ1").courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
@@ -247,7 +247,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         ______TS("Unsuccessful case: insufficient privileges");
         
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "CourseA", 1);
+        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "IESFPTCourse", 1);
         assertNotNull("Feedback question not found in database", fq);
         
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
@@ -255,9 +255,9 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); //necessary to get the correct responseId
         assertNotNull("Feedback response not found in database", fr);
         
-        String moderatedStudentEmail = "student1InCourseA@gmail.tmt";
+        String moderatedStudentEmail = "student1InIESFPTCourse@gmail.tmt";
         
-        InstructorAttributes instructorHelper = dataBundle.instructors.get("CourseAhelper1");
+        InstructorAttributes instructorHelper = dataBundle.instructors.get("IESFPTCoursehelper1");
         gaeSimulation.loginAsInstructor(instructorHelper.googleId);
         
         String[] submissionParams = new String[]{
@@ -286,7 +286,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         ______TS("Unsuccessful case: sufficient privileges only for a section, but attempted to modify another section");
         
-        instructorHelper = dataBundle.instructors.get("CourseAhelper1");
+        instructorHelper = dataBundle.instructors.get("IESFPTCoursehelper1");
         gaeSimulation.loginAsInstructor(instructorHelper.googleId);
         
         
@@ -313,8 +313,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
        
         
         ______TS("Successful case: sufficient privileges only for a section");
-        moderatedStudentEmail = "student2InCourseA@gmail.tmt";
-        instructorHelper = dataBundle.instructors.get("CourseAhelper1");
+        moderatedStudentEmail = "student2InIESFPTCourse@gmail.tmt";
+        instructorHelper = dataBundle.instructors.get("IESFPTCoursehelper1");
         gaeSimulation.loginAsInstructor(instructorHelper.googleId);
         
         frDb = new FeedbackResponsesDb();
@@ -340,16 +340,16 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedstudent=student2InCourseA%40gmail.tmt" + 
-                     "&user=CourseAhelper1&courseid=CourseA" + 
+                     "?error=false&moderatedstudent=student2InIESFPTCourse%40gmail.tmt" + 
+                     "&user=IESFPTCoursehelper1&courseid=IESFPTCourse" + 
                      "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
         
         ______TS("failure case: privileges sufficient for section BUT insufficient for a session");
-        moderatedStudentEmail = "student2InCourseA@gmail.tmt";
-        InstructorAttributes instructorHelper2 = dataBundle.instructors.get("CourseAhelper2");
+        moderatedStudentEmail = "student2InIESFPTCourse@gmail.tmt";
+        InstructorAttributes instructorHelper2 = dataBundle.instructors.get("IESFPTCoursehelper2");
         gaeSimulation.loginAsInstructor(instructorHelper2.googleId);
         
         frDb = new FeedbackResponsesDb();
@@ -383,7 +383,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         
         frDb = new FeedbackResponsesDb();
         fr = dataBundle.feedbackResponses.get("response2ForS2Q1");
-        fq = fqDb.getFeedbackQuestion("Another feedback session", "CourseA", 1);
+        fq = fqDb.getFeedbackQuestion("Another feedback session", "IESFPTCourse", 1);
         
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); //necessary to get the correct responseId
         assertNotNull("Feedback response not found in database", fr);
@@ -406,21 +406,21 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedstudent=student2InCourseA%40gmail.tmt" + 
-                     "&user=CourseAhelper2&courseid=CourseA" + 
+                     "?error=false&moderatedstudent=student2InIESFPTCourse%40gmail.tmt" + 
+                     "&user=IESFPTCoursehelper2&courseid=IESFPTCourse" + 
                      "&fsname=Another+feedback+session",
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
         
         ______TS("Success case: insufficient for section, BUT sufficient for a session");
-        moderatedStudentEmail = "student2InCourseA@gmail.tmt";
-        InstructorAttributes instructorHelper3 = dataBundle.instructors.get("CourseAhelper3");
+        moderatedStudentEmail = "student2InIESFPTCourse@gmail.tmt";
+        InstructorAttributes instructorHelper3 = dataBundle.instructors.get("IESFPTCoursehelper3");
         gaeSimulation.loginAsInstructor(instructorHelper3.googleId);
         
         frDb = new FeedbackResponsesDb();
         fr = dataBundle.feedbackResponses.get("response2ForQ1");
-        fq = fqDb.getFeedbackQuestion("First feedback session", "CourseA", 1);
+        fq = fqDb.getFeedbackQuestion("First feedback session", "IESFPTCourse", 1);
         
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); //necessary to get the correct responseId
         assertNotNull("Feedback response not found in database", fr);
@@ -443,19 +443,19 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedstudent=student2InCourseA%40gmail.tmt" + 
-                     "&user=CourseAhelper3&courseid=CourseA" + 
+                     "?error=false&moderatedstudent=student2InIESFPTCourse%40gmail.tmt" + 
+                     "&user=IESFPTCoursehelper3&courseid=IESFPTCourse" + 
                      "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
         
         ______TS("Failure case: insufficient for section, although sufficient for another session");
-        moderatedStudentEmail = "student2InCourseA@gmail.tmt";
+        moderatedStudentEmail = "student2InIESFPTCourse@gmail.tmt";
         
         frDb = new FeedbackResponsesDb();
         fr = dataBundle.feedbackResponses.get("response2ForS2Q1");
-        fq = fqDb.getFeedbackQuestion("Another feedback session", "CourseA", 1);
+        fq = fqDb.getFeedbackQuestion("Another feedback session", "IESFPTCourse", 1);
         
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); //necessary to get the correct responseId
         assertNotNull("Feedback response not found in database", fr);
@@ -483,7 +483,7 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
     
     private void testSubmitResponseForInvalidQuestion() throws Exception {
         ______TS("Failure case: submit response for question in session, but should not be editable by instructor");
-        InstructorAttributes instructor = dataBundle.instructors.get("CourseAinstr");
+        InstructorAttributes instructor = dataBundle.instructors.get("IESFPTCourseinstr");
         gaeSimulation.loginAsInstructor(instructor.googleId);
         
         
@@ -491,11 +491,11 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
         
         FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ3");
-        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "CourseA", 3);
+        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("First feedback session", "IESFPTCourse", 3);
         
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); //necessary to get the correct responseId
         assertNotNull("Feedback response not found in database", fr);
-        String moderatedStudentEmail = "student1InCourseA@gmail.tmt";
+        String moderatedStudentEmail = "student1InIESFPTCourse@gmail.tmt";
         
         String[] submissionParams = new String[]{
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
@@ -523,13 +523,13 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
     private void testClosedSession() throws Exception {
         ______TS("Success case: modifying responses in closed session");
         
-        InstructorAttributes instructor = dataBundle.instructors.get("CourseAinstr");
+        InstructorAttributes instructor = dataBundle.instructors.get("IESFPTCourseinstr");
         gaeSimulation.loginAsInstructor(instructor.googleId);
         
-        String moderatedStudentEmail = "student1InCourseA@gmail.tmt";
+        String moderatedStudentEmail = "student1InIESFPTCourse@gmail.tmt";
         FeedbackResponsesDb frDb = new FeedbackResponsesDb();
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("Closed feedback session", "CourseA", 1);
+        FeedbackQuestionAttributes fq = fqDb.getFeedbackQuestion("Closed feedback session", "IESFPTCourse", 1);
         
         FeedbackResponseAttributes fr = dataBundle.feedbackResponses.get("response1ForQ1InClosedSession");
         fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); //necessary to get the correct responseId
@@ -553,8 +553,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
         assertEquals("/page/instructorEditStudentFeedbackPage" + 
-                     "?error=false&moderatedstudent=student1InCourseA%40gmail.tmt" + 
-                     "&user=CourseAinstr&courseid=CourseA" + 
+                     "?error=false&moderatedstudent=student1InIESFPTCourse%40gmail.tmt" + 
+                     "&user=IESFPTCourseinstr&courseid=IESFPTCourse" + 
                      "&fsname=Closed+feedback+session",
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
