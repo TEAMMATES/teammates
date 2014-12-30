@@ -73,12 +73,12 @@
             </div>
         <%
         	} 
-            String actionToUse = data.isModeration ? 
+            String submitAction = data.isModeration ? 
                                  Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE :
                                  Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
         %>
         <form method="post" name="form_student_submit_response"
-              action="<%=actionToUse%>" >
+              action="<%=submitAction%>" >
             <jsp:include page="<%=Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT%>" />
             
             <div class="bold align-center">

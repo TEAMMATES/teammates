@@ -53,7 +53,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
                     requestParameters, 
                     Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
             if (questionId == null) {
-                // we do not throw an error if the instructor gave an empty response to one of the question
+                // we do not throw an error if the question was not present on the page for instructors to edit
                 continue;
             }
             FeedbackQuestionAttributes questionAttributes = data.bundle.getQuestionAttributes(questionId);
@@ -71,7 +71,6 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
             
             
             if (!isGiverVisibleToInstructors || !isRecipientVisibleToInstructors || !isResponseVisibleToInstructors) {
-                statusToUser.add("");
                 isError = true;
                 throw new UnauthorizedAccessException(
                         "Feedback session [" + feedbackSessionName + 

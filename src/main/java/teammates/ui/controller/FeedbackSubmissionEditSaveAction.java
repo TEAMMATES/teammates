@@ -237,10 +237,21 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         return response;
     }
 
+    /**
+     * To be used to set any extra parameters or attributes that 
+     * a class inheriting FeedbackSubmissionEditSaveAction requires
+     */
     protected void setAdditionalParameters() {
         return;
     }
     
+    /**
+     * To be used to test any constraints that a class inheriting FeedbackSubmissionEditSaveAction
+     * needs. For example, this is used in moderations that check that instructors did not 
+     * modify any responses that they did not have access to during moderation. 
+     * 
+     * Called after every attribute is set.  
+     */
     protected void checkAdditionalConstraints() {
         return;
     }

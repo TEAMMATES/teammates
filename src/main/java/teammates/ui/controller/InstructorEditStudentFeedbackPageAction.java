@@ -44,7 +44,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         new GateKeeper().verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getFeedbackSession(feedbackSessionName, courseId),
                 false, studentUnderModeration.section, 
-                logic.getFeedbackSession(feedbackSessionName, courseId).feedbackSessionName, 
+                feedbackSessionName, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         
         
@@ -68,7 +68,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
     }
     
     /**
-     * Removes question from the bundle if the question has anonymous givers, recipients or responses.
+     * Removes question from the bundle if the question has givers, recipients or responses that are anonymous to instructors.
      * @param bundle
      */
     private void hideQuestionsWithAnonymousResponses(FeedbackSessionQuestionsBundle bundle) {
