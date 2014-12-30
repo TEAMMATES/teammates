@@ -11,6 +11,7 @@ $(document).ready(function () {
         if(!validateConstSumQuestions()){
             return false;
         }
+        formatRubricQuestions();
         reenableFieldsForSubmission();
     });
     
@@ -26,13 +27,102 @@ $(document).ready(function () {
     $('input.pointsBox').off('keydown');
     disallowNonNumericEntries($('input.pointsBox'), false, false);
 
-    formatConstSumQuestions();
+    readyConstSumQuestions();
     updateConstSumMessages();
+
+    readyRubricQuestions();
 });
 
-//Ready constant sum questions for submission
-function formatConstSumQuestions(){
-    var constSumQuestionNums = getConstSumQuestionNums();
+//Ready rubric questions for answering by user
+function readyRubricQuestions() {
+    //Set cell to highlight on hover
+    //Set cell to highlight when checked
+    //Bind cell click to click radio
+    
+    var rubricRadioInputs = $("[name^='rubricChoice-']");
+    for (var i=0 ; i<rubricRadioInputs.length ; i++) {
+        var parentCell = $(rubricRadioInputs[i]).parent();
+        // Bind hover events
+        parentCell.hover(
+            function() {
+                // Mouse enter
+                $(this).addClass("cell-hover");
+            }, function() {
+                // Mouse leave
+                $(this).removeClass("cell-hover");
+            }
+        );
+
+        // Bind click
+        parentCell.click(function(event){
+                var radioInput = $(this).find("[name^='rubricChoice-']")
+
+                // If input is disabled, do not check.
+                if (radioInput.prop("disabled")) {
+                    return;
+                }
+
+                // trigger checkbox manually if cell is clicked.
+                if (event.target==this) {
+                    radioInput.prop("checked", !radioInput.prop("checked"));
+                    radioInput.trigger("change");
+                }
+            });
+
+        // Bind refresh highlights on check
+        $(rubricRadioInputs[i]).on("change", function(){
+                // Update all radio inputs in the same row.
+                var rowRadioInputs = $(this).closest("tr").find("[name^='rubricChoice-']");
+                for (var j=0 ; j<rowRadioInputs.length ; j++) {
+                    updateRubricCellSelectedColor(rowRadioInputs[j]);
+                }
+            });
+
+        // First time update of checked cells
+        for (var j=0 ; j<rubricRadioInputs.length ; j++) {
+            updateRubricCellSelectedColor(rubricRadioInputs[j]);
+        }
+    }
+
+}
+
+/**
+ *  Updates the colour of a rubric cell if it is checked.
+ */
+function updateRubricCellSelectedColor(radioInput) {
+    if ($(radioInput).prop("checked")) {
+        $(radioInput).parent().addClass("cell-selected");
+    } else {
+        if ($(radioInput).parent().hasClass("cell-selected")) {
+            $(radioInput).parent().removeClass("cell-selected");
+        }
+    }
+}
+
+//Format rubric question for form submission
+function formatRubricQuestions() {
+    var rubricQuestionNums = getQuestionTypeNumbers("RUBRIC");
+    for(var i=0 ; i<rubricQuestionNums.length ; i++) {
+        var qnNum = rubricQuestionNums[i];
+        var numResponses = $("[name='questionresponsetotal-"+qnNum+"']").val();
+        numResponses = parseInt(numResponses);
+
+        for (var j=0 ; j<numResponses ; j++) {
+            var responsetext = [];
+
+            var responses = $("[name^='rubricChoice-"+qnNum+"-"+j+"-']:checked");
+            for (var k=0 ; k<responses.length ; k++) {
+                responsetext.push($(responses[k]).val());
+            }
+
+            $("[name='responsetext-"+qnNum+"-"+j+"']").val(responsetext);
+        }
+    }
+}
+
+//Ready constant sum questions for answering by user
+function readyConstSumQuestions() {
+    var constSumQuestionNums = getQuestionTypeNumbers("CONSTSUM");
 
     for(var i=0 ; i<constSumQuestionNums.length ; i++){
         var qnNum = constSumQuestionNums[i];
@@ -49,20 +139,20 @@ function formatConstSumQuestions(){
     }
 }
 
-function getConstSumQuestionNums(){
-    var constSumQuestions = $("input[name^='questiontype-']").filter(function( index ) {
-                                    return $(this).val() === "CONSTSUM";
+function getQuestionTypeNumbers(qnType){
+    var questions = $("input[name^='questiontype-']").filter(function( index ) {
+                                    return $(this).val() === qnType;
                                 });
-    var constSumQuestionNums = [];
-    for(var i=0 ; i<constSumQuestions.length ; i++){
-        constSumQuestionNums[i] = constSumQuestions[i].name.substring('questiontype-'.length,constSumQuestions[i].name.length);
+    var questionNums = [];
+    for(var i=0 ; i<questions.length ; i++){
+        questionNums[i] = questions[i].name.substring('questiontype-'.length,questions[i].name.length);
     }
-    return constSumQuestionNums;
+    return questionNums;
 }
 
 //Updates all const sum messages
 function updateConstSumMessages(){
-    var constSumQuestionNums = getConstSumQuestionNums();
+    var constSumQuestionNums = getQuestionTypeNumbers("CONSTSUM");
     for(var i=0 ; i<constSumQuestionNums.length ; i++){
         var qnNum = constSumQuestionNums[i];
         updateConstSumMessageQn(qnNum);

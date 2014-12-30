@@ -85,6 +85,18 @@ public class FeedbackSubmitPage extends AppPage {
         selectDropdownByVisibleValue(browser.driver.findElement(By.xpath("//select[@name='" + name + "']")), choiceName);
     }
     
+    public void clickRubricRadio(int qnIndex, int respIndex, int row, int col) {
+        WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-"+qnIndex+"-"+respIndex+"-"+row+"-"+col));
+        radio.click();
+    }
+    
+    public void clickRubricCell(int qnIndex, int respIndex, int row, int col) {
+        WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-"+qnIndex+"-"+respIndex+"-"+row+"-"+col));
+        // Gets the parent element.
+        WebElement cell = radio.findElement(By.xpath(".."));
+        cell.click();
+    }
+    
     public void clickSubmitButton() {
         WebElement button = browser.driver.findElement(By.id("response_submit_button"));
         button.click();

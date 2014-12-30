@@ -1,0 +1,27 @@
+<div class="row">
+    <br>
+    <div class="col-sm-12 table-responsive">
+        <table class="table table-striped table-bordered margin-0" id="rubricEditTable-${qnIndex}">
+            <thead>
+                <tr>
+                    <th></th>
+                    ${tableHeaderRowFragmentHtml}
+                </tr>
+            </thead>
+            <tbody>                
+                ${tableBodyHtml}
+            </tbody>
+        </table>
+    </div>
+    <input type="hidden" name="${Const.ParamNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS}" id="rubricNumRows-${qnIndex}" value="${currRows}">
+    <input type="hidden" name="rubricNumCols" id="rubricNumCols-${qnIndex}" value="${currCols}">
+</div>
+<div class="row">
+    <div class="col-sm-6 align-left">
+        <a class="btn btn-xs btn-primary" id="rubricAddSubQuestionLink-${qnIndex}" onclick="addRubricRow(${qnIndex})"><span class="glyphicon glyphicon-arrow-down"> </span> add row</a>
+    </div>
+    <div class="col-sm-6 align-right">
+        <a class="btn btn-xs btn-primary" id="rubricAddChoiceLink-${qnIndex}" onclick="addRubricCol(${qnIndex})">add column <span class="glyphicon glyphicon-arrow-right"></span></a>
+    </div>
+    <br>
+</div>

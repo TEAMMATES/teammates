@@ -23,7 +23,6 @@ import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.AssertHelper;
