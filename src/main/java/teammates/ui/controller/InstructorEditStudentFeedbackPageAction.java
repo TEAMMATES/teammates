@@ -58,11 +58,8 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         data.isSessionOpenForSubmission = true;
         data.isModeration = true;
         data.studentToViewPageAs = studentUnderModeration;
-        boolean isSomeQuestionsHidden = hideQuestionsWithAnonymousResponses(data.bundle);
+        hideQuestionsWithAnonymousResponses(data.bundle);
 
-        if (isSomeQuestionsHidden) {
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_QUESTIONS_HIDDEN);
-        }
         
         statusToAdmin = "Moderating feedback session for student (" + studentUnderModeration.email + ")<br>" +
                 "Session Name: " + feedbackSessionName + "<br>" +

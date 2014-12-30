@@ -62,8 +62,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         
         submitPage.fillResponseTextBox(1, 0, "Good design");
         submitPage.clickSubmitButton();        
-        assertTrue(submitPage.getStatus().contains(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED));
-        assertTrue(submitPage.getStatus().contains(Const.StatusMessages.FEEDBACK_SESSION_QUESTIONS_HIDDEN));
+        assertEquals(submitPage.getStatus(), Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         
         fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);
         
@@ -79,8 +78,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("test new response");
         submitPage.fillResponseTextBox(2, 0, "4");
         submitPage.clickSubmitButton();        
-        assertTrue(submitPage.getStatus().contains(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED));
-        assertTrue(submitPage.getStatus().contains(Const.StatusMessages.FEEDBACK_SESSION_QUESTIONS_HIDDEN));
+        assertEquals(submitPage.getStatus(), Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         
         FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 2);
         FeedbackResponseAttributes fr = BackDoor.getFeedbackResponse(fq.getId(),
@@ -99,8 +97,7 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(1, 0, "");
         submitPage.clickSubmitButton(); 
               
-        assertTrue(submitPage.getStatus().contains(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED));
-        assertTrue(submitPage.getStatus().contains(Const.StatusMessages.FEEDBACK_SESSION_QUESTIONS_HIDDEN));
+        assertEquals(submitPage.getStatus(), Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         
         
         FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);

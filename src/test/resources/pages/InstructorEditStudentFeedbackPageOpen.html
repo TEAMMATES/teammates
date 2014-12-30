@@ -296,14 +296,14 @@ ul #nav {
 
 
 
-    <div class="alert alert-warning" id="statusMessage">
-                     Some questions on this page have been hidden as there are responses which are not visible to you
+    <div id="statusMessage" style="display: none;">
     </div>
-    <script type="text/javascript">
-                     document.getElementById( 'statusMessage' ).scrollIntoView();
-    </script>
     <br />
-
+                  <div class="row">
+                     <span class="help-block align-center">
+                        Some questions may be hidden due to visibility options
+                     </span>
+                  </div>
         <input type="hidden" value="TEXT" name="questiontype-1" />
         <input type="hidden" value="{*}" name="questionid-1" />
         <input type="hidden" value="1" name="questionresponsetotal-1" />

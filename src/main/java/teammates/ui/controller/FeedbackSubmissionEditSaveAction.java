@@ -248,9 +248,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     /**
      * To be used to test any constraints that a class inheriting FeedbackSubmissionEditSaveAction
      * needs. For example, this is used in moderations that check that instructors did not 
-     * modify any responses that they did not have access to during moderation. 
+     * respond to any question that they did not have access to during moderation. 
      * 
-     * Called after every attribute is set.  
+     * Called after FeedbackSubmissionEditPageData data is set, and after setAdditionalParameters 
      */
     protected void checkAdditionalConstraints() {
         return;

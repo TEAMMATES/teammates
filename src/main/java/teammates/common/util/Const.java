@@ -906,7 +906,6 @@ public class Const {
         public static final String FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT = "You have not selected any student to remind.";
         public static final String FEEDBACK_SESSION_EXISTS = "A feedback session by this name already exists under this course";        
         public static final String FEEDBACK_SESSION_EMPTY = "You have not created any sessions yet. Use the form above to create a session.";
-        public static final String FEEDBACK_SESSION_QUESTIONS_HIDDEN = "Some questions on this page have been hidden as there are responses which are not visible to you";
     
         public static final String FEEDBACK_QUESTION_ADDED = "The question has been added to this feedback session.";
         public static final String FEEDBACK_QUESTION_EDITED = "The changes to the question has been updated.";
@@ -1056,6 +1055,8 @@ public class Const {
     public static final String USER_NOBODY_TEXT = "-";
     public static final String USER_UNKNOWN_TEXT = "Unknown user";
     public static final String TEAM_OF_EMAIL_OWNER = "'s Team";
+    
+    public static final String FEEDBACK_SESSION_QUESTIONS_HIDDEN = "Some questions may be hidden due to visibility options";
     
     public static final String INSTRUCTOR_EVALUATION_STATUS_AWAITING = "Awaiting";
     public static final String INSTRUCTOR_EVALUATION_STATUS_OPEN = "Open";

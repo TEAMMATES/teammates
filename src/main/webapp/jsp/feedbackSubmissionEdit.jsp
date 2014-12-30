@@ -65,6 +65,15 @@
         </div>
     <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
     <br />
+    <%
+        if (data.isModeration) {
+    %>
+            <div class="row"><span class="help-block align-center"> 
+                <%=Const.FEEDBACK_SESSION_QUESTIONS_HIDDEN%>
+            </span></div>
+    <%    
+        }
+    %>
 <%
 	int qnIndx = 1;
     List<FeedbackQuestionAttributes> questions = data.bundle.getSortedQuestions();
