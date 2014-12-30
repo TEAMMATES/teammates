@@ -58,8 +58,12 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         data.isSessionOpenForSubmission = true;
         data.isModeration = true;
         data.studentToViewPageAs = studentUnderModeration;
-        hideQuestionsWithAnonymousResponses(data.bundle);
+        boolean isSomeQuestionsHidden = hideQuestionsWithAnonymousResponses(data.bundle);
 
+        if (isSomeQuestionsHidden) {
+            statusToUser.add("Some questions on this page have been hidden as there are responses which are not visible to you");
+        }
+        
         statusToAdmin = "Moderating feedback session for student (" + studentUnderModeration.email + ")<br>" +
                 "Session Name: " + feedbackSessionName + "<br>" +
                 "Course ID: " + courseId;
@@ -71,7 +75,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
      * Removes question from the bundle if the question has givers, recipients or responses that are anonymous to instructors.
      * @param bundle
      */
-    private void hideQuestionsWithAnonymousResponses(FeedbackSessionQuestionsBundle bundle) {
+    private boolean hideQuestionsWithAnonymousResponses(FeedbackSessionQuestionsBundle bundle) {
         List<FeedbackQuestionAttributes> questionsToHide = new ArrayList<FeedbackQuestionAttributes>();
         
         for (FeedbackQuestionAttributes question : bundle.questionResponseBundle.keySet()) {
@@ -86,6 +90,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         }
         
         bundle.questionResponseBundle.keySet().removeAll(questionsToHide);
+        return !questionsToHide.isEmpty();
     }
     
 }
