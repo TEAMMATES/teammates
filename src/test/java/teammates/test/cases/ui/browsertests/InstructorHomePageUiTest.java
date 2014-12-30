@@ -89,7 +89,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         testEvaluationLinks();
         testSearchAction();
         testSortAction();
-        testRemindAction();
+        testRemindActions();
         testPublishUnpublishActions();
         testDeleteEvalAction();
         testArchiveCourseAction();
@@ -249,7 +249,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         evalPreviewPage.closeCurrentWindowAndSwitchToParentWindow();
     }
     
-    public void testRemindAction(){
+    public void testRemindActions(){
         
         ______TS("remind action: AWAITING evaluation");
         
@@ -275,8 +275,9 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("remind action: AWAITING feedback session");
         
         homePage.verifyUnclickable(homePage.getRemindLink(feedbackSession_AWAITING.courseId, feedbackSession_AWAITING.feedbackSessionName));
+        homePage.verifyUnclickable(homePage.getRemindOptionsLink(feedbackSession_AWAITING.courseId, feedbackSession_AWAITING.feedbackSessionName));
         
-        ______TS("remind action: OPEN feedback session");
+        ______TS("remind action: OPEN feedback session - outer button");
         
         homePage.clickAndCancel(homePage.getRemindLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName));
         homePage.clickAndConfirm(homePage.getRemindLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName));
@@ -286,13 +287,48 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         //go back to previous page because 'send reminder' redirects to the 'Feedbacks' page.
         homePage.goToPreviousPage(InstructorHomePage.class);
         
+        ______TS("remind action: OPEN feedback session - inner button");
+        
+        homePage.clickRemindOptionsLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName);
+        homePage.clickAndCancel(homePage.getRemindInnerLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName));
+        homePage.clickRemindOptionsLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName);
+        homePage.clickAndConfirm(homePage.getRemindInnerLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName));
+        ThreadHelper.waitFor(1000);
+        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
+        
+        //go back to previous page because 'send reminder' redirects to the 'Feedbacks' page.
+        homePage.goToPreviousPage(InstructorHomePage.class);
+        
+        ______TS("remind particular users action: OPEN feedback session");
+        
+        homePage.clickRemindOptionsLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName);
+        homePage.clickRemindParticularUsersLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName);
+        homePage.cancelRemindParticularUsersForm();
+        
+        homePage.clickRemindOptionsLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName);
+        homePage.clickRemindParticularUsersLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName);
+        homePage.submitRemindParticularUsersForm();
+        ThreadHelper.waitFor(1000);
+        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT);
+        homePage.goToPreviousPage(InstructorHomePage.class);
+        
+        homePage.clickRemindOptionsLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName);
+        homePage.clickRemindParticularUsersLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName);
+        homePage.fillRemindParticularUsersForm();
+        homePage.submitRemindParticularUsersForm();
+        ThreadHelper.waitFor(1000);
+        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
+        homePage.goToPreviousPage(InstructorHomePage.class);
+        
         ______TS("remind action: CLOSED feedback session");
         
         homePage.verifyUnclickable(homePage.getRemindLink(feedbackSession_CLOSED.courseId, feedbackSession_CLOSED.feedbackSessionName));
+        homePage.verifyUnclickable(homePage.getRemindOptionsLink(feedbackSession_CLOSED.courseId, feedbackSession_CLOSED.feedbackSessionName));
         
         ______TS("remind action: PUBLISHED feedback session");
         
         homePage.verifyUnclickable(homePage.getRemindLink(feedbackSession_PUBLISHED.courseId, feedbackSession_PUBLISHED.feedbackSessionName));
+        homePage.verifyUnclickable(homePage.getRemindOptionsLink(feedbackSession_PUBLISHED.courseId, feedbackSession_PUBLISHED.feedbackSessionName));
 
     }
 

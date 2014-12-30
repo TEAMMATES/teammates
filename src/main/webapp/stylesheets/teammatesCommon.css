@@ -15,6 +15,10 @@ body {
     text-align: left;
 }
 
+.align-right {
+    text-align: right;
+}
+
 .align-justify {
     text-align: justify;
 }
@@ -46,6 +50,18 @@ body {
 .border-top-gray {
     border-top: 1px solid #ddd;
     padding-top: 10px;
+}
+
+.cell-hover {
+    background-color: #aaaaad !important;
+}
+
+.cell-selected {
+    background-color: #d9edf7 !important;
+}
+
+.cell-selected-negative {
+    background-color: #fea3a3 !important;
 }
 
 .color-white {

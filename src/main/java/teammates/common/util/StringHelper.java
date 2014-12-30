@@ -423,5 +423,29 @@ public class StringHelper {
         return true;
     }
     
+    /**
+     * From: http://stackoverflow.com/questions/11969840/how-to-convert-a-base-10-number-to-alphabetic-like-ordered-list-in-html
+     * Converts an integer to alphabetical form (base26)
+     * 1 - a
+     * 2 - b
+     * ...
+     * 26 - z
+     * 27 - aa
+     * 28 - ab
+     * ...
+     * 
+     * @param n - number to convert
+     */
+    public static String integerToLowerCaseAlphabeticalIndex(int n) {
+        String result = "";
+        while (n > 0) {
+            n--; // 1 => a, not 0 => a
+            int remainder = n % 26;
+            char digit = (char) (remainder + 97);
+            result = digit + result;
+            n = (n - remainder) / 26;
+        }
+        return result;
+    }
     
 }
