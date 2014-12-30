@@ -51,7 +51,6 @@ function readyFeedbackEditPage(){
     formatCheckBoxes();
     formatQuestionNumbers();
     collapseIfPrivateSession();
-    //document.onmousemove = positiontip;
 }
 
 /**
@@ -1185,7 +1184,8 @@ function addRubricRow(questionNumber) {
         "<tr id=\"rubricRow-${qnIndex}-${row}\">"
       +     "<td>"
       +         "<div class=\"col-sm-12 input-group\">"
-      +             "<span class=\"input-group-addon btn btn-default rubricRemoveSubQuestionLink-${qnIndex}\" id=\"rubricRemoveSubQuestionLink-${qnIndex}-${row}\" onclick=\"removeRubricRow(${row},${qnIndex})\">"
+      +             "<span class=\"input-group-addon btn btn-default rubricRemoveSubQuestionLink-${qnIndex}\" id=\"rubricRemoveSubQuestionLink-${qnIndex}-${row}\" onclick=\"removeRubricRow(${row},${qnIndex})\""
+      +                     "onmouseover=\"highlightRubricRow(${row}, ${qnIndex}, true)\" onmouseout=\"highlightRubricRow(${row}, ${qnIndex}, false)\">"
       +                 "<span class=\"glyphicon glyphicon-remove\"></span>"
       +             "</span>"
       +             "<textarea class=\"form-control\" rows=\"1\" id=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${qnIndex}-${row}\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${row}\">${subQuestion}</textarea>"
@@ -1252,7 +1252,8 @@ function addRubricCol(questionNumber) {
        "<th class=\"rubricCol-${qnIndex}-${col}\">"
       +     "<div class=\"input-group\">"
       +         "<input type=\"text\" class=\"col-sm-12 form-control\" value=\"${rubricChoiceValue}\" id=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}-${qnIndex}-${col}\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}-${col}\">"
-      +         "<span class=\"input-group-addon btn btn-default rubricRemoveChoiceLink-${qnIndex}\" id=\"rubricRemoveChoiceLink-${qnIndex}-${col}\" onclick=\"removeRubricCol(${col}, ${qnIndex})\">"
+      +         "<span class=\"input-group-addon btn btn-default rubricRemoveChoiceLink-${qnIndex}\" id=\"rubricRemoveChoiceLink-${qnIndex}-${col}\" onclick=\"removeRubricCol(${col}, ${qnIndex})\" "
+      +                 "onmouseover=\"highlightRubricCol(${col}, ${qnIndex}, true)\" onmouseout=\"highlightRubricCol(${col}, ${qnIndex}, false)\">"
       +             "<span class=\"glyphicon glyphicon-remove\"></span>"
       +         "</span>"
       +     "</div>"
@@ -1344,5 +1345,34 @@ function removeRubricCol(index, questionNumber) {
     
     if($(idOfQuestion).attr('editStatus') == "hasResponses") {
         $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+    }
+}
+
+function highlightRubricRow(index, questionNumber, highlight) {
+    idOfQuestion = '#form_editquestion-' + questionNumber;
+    idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
+    if (highlight) {
+        $('#rubricRow' + idSuffix + '-' + index).find('td').addClass('cell-selected-negative');
+    } else {
+        $('#rubricRow' + idSuffix + '-' + index).find('td').removeClass('cell-selected-negative');
+    }
+
+}
+
+function highlightRubricCol(index, questionNumber, highlight) {
+    idOfQuestion = '#form_editquestion-' + questionNumber;
+    idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    if(questionNumber == -1){
+        idSuffix = "--1";
+    }
+
+    if (highlight) {
+        $('.rubricCol' + idSuffix + '-' + index).addClass('cell-selected-negative');
+    } else {
+        $('.rubricCol' + idSuffix + '-' + index).removeClass('cell-selected-negative');
     }
 }

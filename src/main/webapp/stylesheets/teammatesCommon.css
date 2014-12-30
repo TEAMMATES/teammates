@@ -60,6 +60,10 @@ body {
     background-color: #d9edf7 !important;
 }
 
+.cell-selected-negative {
+    background-color: #fea3a3 !important;
+}
+
 .color-white {
     color: white;
 }
