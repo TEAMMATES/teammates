@@ -687,7 +687,7 @@
           "questionNumber": 5,
           "questionType": "TEXT",
           "giverType": "STUDENTS",
-          "recipientType": "SELF",
+          "recipientType": "OWN_TEAM_MEMBERS",
           "numberOfEntitiesToGiveFeedbackTo": -100,
           "showResponsesTo":[
               "RECEIVER",
@@ -2222,7 +2222,7 @@
         "feedbackQuestionType": "TEXT",
         "giverEmail": "teammates.demo.instructor@demo.course",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "teammates.demo.instructor@demo.course",
+        "recipientEmail": "Team 2",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "I had a great time with this team. Thanks for all the support from the members."
@@ -2235,7 +2235,7 @@
         "feedbackQuestionType": "TEXT",
         "giverEmail": "emma.f.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "emma.f.tmms@gmail.tmt",
+        "recipientEmail": "Team 1",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "The team work is great and I learnt a lot from this project."
@@ -2248,7 +2248,7 @@
         "feedbackQuestionType": "TEXT",
         "giverEmail": "benny.c.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "benny.c.tmms@gmail.tmt",
+        "recipientEmail": "Team 1",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "I like the team and I learned a lot from my team mates."
@@ -2261,7 +2261,7 @@
         "feedbackQuestionType": "TEXT",
         "giverEmail": "francis.g.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "francis.g.tmms@gmail.tmt",
+        "recipientEmail": "Team 2",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "The team is nice. Everybody learnt a lot from this project."
@@ -2274,7 +2274,7 @@
         "feedbackQuestionType": "TEXT",
         "giverEmail": "danny.e.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "danny.e.tmms@gmail.tmt",
+        "recipientEmail": "Team 1",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "The team dynamics was very good. I enjoy it a lot."
@@ -2287,7 +2287,7 @@
         "feedbackQuestionType": "TEXT",
         "giverEmail": "charlie.d.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "charlie.d.tmms@gmail.tmt",
+        "recipientEmail": "Team 2",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "I like the team. I learned my good software engineering practices from the members."
@@ -2300,7 +2300,7 @@
         "feedbackQuestionType": "TEXT",
         "giverEmail": "alice.b.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "alice.b.tmms@gmail.tmt",
+        "recipientEmail": "Team 1",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "I had a great time in doing this project."
@@ -2313,7 +2313,7 @@
         "feedbackQuestionType": "TEXT",
         "giverEmail": "gene.h.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "gene.h.tmms@gmail.tmt",
+        "recipientEmail": "Team 2",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "This is a great team. I am sure we learnt a lot from each other."
