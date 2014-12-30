@@ -754,6 +754,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 possibleRecipients = getSortedListOfTeams();
                 possibleRecipients.remove(givingTeam);
                 break;
+            case SELF: 
             case OWN_TEAM:
                 possibleRecipients.add(givingTeam);
                 break;
@@ -763,7 +764,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             case STUDENTS:
                 possibleRecipients = getSortedListOfStudentEmails();
                 break;
-            case SELF: //TODO: SELF should give same behaviour to OWN_TEAM 
             case OWN_TEAM_MEMBERS_INCLUDING_SELF:
                 if (rosterTeamNameMembersTable.containsKey(givingTeam)) {
                     Set<String> studentEmailsToNames = rosterTeamNameMembersTable.get(givingTeam);
