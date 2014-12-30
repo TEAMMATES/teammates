@@ -976,7 +976,7 @@ ul #nav {
                     <th class="rubricCol--1-0">
 	<div class="col-sm-12 input-group">
 		<input type="text" name="rubricChoice-0" id="rubricChoice--1-0" value="Strongly Agree" class="form-control" />
-		<span onclick="removeRubricCol(0, -1)" id="rubricRemoveChoiceLink--1-0" class="input-group-addon btn btn-default rubricRemoveChoiceLink--1">
+		<span onmouseout="highlightRubricCol(0, -1, false)" onmouseover="highlightRubricCol(0, -1, true)" onclick="removeRubricCol(0, -1)" id="rubricRemoveChoiceLink--1-0" class="input-group-addon btn btn-default rubricRemoveChoiceLink--1">
 			<span class="glyphicon glyphicon-remove"></span>
 		</span>
 	</div>
@@ -984,7 +984,7 @@ ul #nav {
 <th class="rubricCol--1-1">
 	<div class="col-sm-12 input-group">
 		<input type="text" name="rubricChoice-1" id="rubricChoice--1-1" value="Agree" class="form-control" />
-		<span onclick="removeRubricCol(1, -1)" id="rubricRemoveChoiceLink--1-1" class="input-group-addon btn btn-default rubricRemoveChoiceLink--1">
+		<span onmouseout="highlightRubricCol(1, -1, false)" onmouseover="highlightRubricCol(1, -1, true)" onclick="removeRubricCol(1, -1)" id="rubricRemoveChoiceLink--1-1" class="input-group-addon btn btn-default rubricRemoveChoiceLink--1">
 			<span class="glyphicon glyphicon-remove"></span>
 		</span>
 	</div>
@@ -992,7 +992,7 @@ ul #nav {
 <th class="rubricCol--1-2">
 	<div class="col-sm-12 input-group">
 		<input type="text" name="rubricChoice-2" id="rubricChoice--1-2" value="Neutral" class="form-control" />
-		<span onclick="removeRubricCol(2, -1)" id="rubricRemoveChoiceLink--1-2" class="input-group-addon btn btn-default rubricRemoveChoiceLink--1">
+		<span onmouseout="highlightRubricCol(2, -1, false)" onmouseover="highlightRubricCol(2, -1, true)" onclick="removeRubricCol(2, -1)" id="rubricRemoveChoiceLink--1-2" class="input-group-addon btn btn-default rubricRemoveChoiceLink--1">
 			<span class="glyphicon glyphicon-remove"></span>
 		</span>
 	</div>
@@ -1000,7 +1000,7 @@ ul #nav {
 <th class="rubricCol--1-3">
 	<div class="col-sm-12 input-group">
 		<input type="text" name="rubricChoice-3" id="rubricChoice--1-3" value="Disagree" class="form-control" />
-		<span onclick="removeRubricCol(3, -1)" id="rubricRemoveChoiceLink--1-3" class="input-group-addon btn btn-default rubricRemoveChoiceLink--1">
+		<span onmouseout="highlightRubricCol(3, -1, false)" onmouseover="highlightRubricCol(3, -1, true)" onclick="removeRubricCol(3, -1)" id="rubricRemoveChoiceLink--1-3" class="input-group-addon btn btn-default rubricRemoveChoiceLink--1">
 			<span class="glyphicon glyphicon-remove"></span>
 		</span>
 	</div>
@@ -1008,7 +1008,7 @@ ul #nav {
 <th class="rubricCol--1-4">
 	<div class="col-sm-12 input-group">
 		<input type="text" name="rubricChoice-4" id="rubricChoice--1-4" value="Strongly Disagree" class="form-control" />
-		<span onclick="removeRubricCol(4, -1)" id="rubricRemoveChoiceLink--1-4" class="input-group-addon btn btn-default rubricRemoveChoiceLink--1">
+		<span onmouseout="highlightRubricCol(4, -1, false)" onmouseover="highlightRubricCol(4, -1, true)" onclick="removeRubricCol(4, -1)" id="rubricRemoveChoiceLink--1-4" class="input-group-addon btn btn-default rubricRemoveChoiceLink--1">
 			<span class="glyphicon glyphicon-remove"></span>
 		</span>
 	</div>
@@ -1020,7 +1020,7 @@ ul #nav {
                 <tr id="rubricRow--1-0">
     <td>
     	<div class="col-sm-12 input-group">
-    		<span onclick="removeRubricRow(0,-1)" id="rubricRemoveSubQuestionLink--1-0" class="input-group-addon btn btn-default rubricRemoveSubQuestionLink--1">
+    		<span onmouseout="highlightRubricRow(0, -1, false)" onmouseover="highlightRubricRow(0, -1, true)" onclick="removeRubricRow(0,-1)" id="rubricRemoveSubQuestionLink--1-0" class="input-group-addon btn btn-default rubricRemoveSubQuestionLink--1">
 				<span class="glyphicon glyphicon-remove"></span>
 			</span>
 	    	<textarea name="rubricSubQn-0" id="rubricSubQn--1-0" rows="1" class="form-control">This student has been active during discussions.</textarea>
@@ -1046,7 +1046,7 @@ ul #nav {
 <tr id="rubricRow--1-1">
     <td>
     	<div class="col-sm-12 input-group">
-    		<span onclick="removeRubricRow(1,-1)" id="rubricRemoveSubQuestionLink--1-1" class="input-group-addon btn btn-default rubricRemoveSubQuestionLink--1">
+    		<span onmouseout="highlightRubricRow(1, -1, false)" onmouseover="highlightRubricRow(1, -1, true)" onclick="removeRubricRow(1,-1)" id="rubricRemoveSubQuestionLink--1-1" class="input-group-addon btn btn-default rubricRemoveSubQuestionLink--1">
 				<span class="glyphicon glyphicon-remove"></span>
 			</span>
 	    	<textarea name="rubricSubQn-1" id="rubricSubQn--1-1" rows="1" class="form-control">This student has contributed to the team.</textarea>
