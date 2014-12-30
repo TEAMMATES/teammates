@@ -208,6 +208,7 @@
                             Object[] giverDataArray =  giverData.keySet().toArray();
                             FeedbackResponseAttributes firstResponse = giverData.get(giverDataArray[0]).get(0);
                             String targetEmail = firstResponse.giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"");
+                            boolean isGiverVisible = data.bundle.isGiverVisible(firstResponse);
                             String targetEmailDisplay = firstResponse.giverEmail;
                             String mailtoStyleAttr = (targetEmailDisplay.contains("@@"))?"style=\"display:none;\"":"";
             %>
@@ -336,8 +337,8 @@
                         boolean isAllowedToEdit = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(targetEmail), 
                                                                                         data.feedbackSessionName, 
                                                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-                        if (!targetEmail.contains("@@") && 
-                            data.bundle.isParticipantIdentifierStudent(targetEmail)){ 
+                        if (isGiverVisible && 
+                            data.bundle.isParticipantIdentifierStudent(targetEmail)) { 
                     %>
                             <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
                             
@@ -869,9 +870,12 @@
 
             <%
                 Set<String> teamMembersWithoutReceivingResponses = teamMembersEmail;
+            
                 teamMembersWithoutReceivingResponses.removeAll(teamMembersWithResponses);
                 List<String> teamMembersWithNoResponses = new ArrayList<String>(teamMembersWithoutReceivingResponses);
                 Collections.sort(teamMembersWithNoResponses);
+                
+                
                 
                 for (String email : teamMembersWithNoResponses) {
             %>
@@ -896,18 +900,16 @@
                         boolean isAllowedToEdit = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(email), 
                                                                                         data.feedbackSessionName, 
                                                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-                        if (!email.contains("@@") && 
-                            data.bundle.isParticipantIdentifierStudent(email)) { 
+                         
                     %>
-                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
-                            
-                                <input type="submit" class="btn btn-primary btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) { %> disabled="disabled" <% } %> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
-                                <input type="hidden" name="courseid" value="<%=data.courseId %>">
-                                <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
-                                <input type="hidden" name="moderatedstudent" value=<%= email%>>
-                            
-                            </form>
-                    <% } %>
+                        <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
+                        
+                            <input type="submit" class="btn btn-primary btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) { %> disabled="disabled" <% } %> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                            <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                            <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                            <input type="hidden" name="moderatedstudent" value=<%= email%>>
+                        
+                        </form>
                         &nbsp;
                         <div class="display-icon" style="display:inline;">
                             <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
@@ -973,18 +975,16 @@
                                                            boolean isAllowedToEdit = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(teamMember), 
                                                                                                                            data.feedbackSessionName, 
                                                                                                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-                                                           if (!teamMember.contains("@@") && 
-                                                               data.bundle.isParticipantIdentifierStudent(teamMember)) { 
+                                                           
                                                         %>
-                                                                <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
-                                                                
-                                                                    <input type="submit" class="btn btn-primary btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) { %> disabled="disabled" <% } %> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
-                                                                    <input type="hidden" name="courseid" value="<%=data.courseId %>">
-                                                                    <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
-                                                                    <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>
-                                                                
-                                                                </form>
-                                                        <% } %>
+                                                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
+                                                            
+                                                                <input type="submit" class="btn btn-primary btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) { %> disabled="disabled" <% } %> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                                                <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                                                <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                                <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>
+                                                            
+                                                            </form>
                                                             &nbsp;
                                                             <div class="display-icon" style="display:inline;">
                                                                 <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
@@ -998,7 +998,7 @@
                                              </div>
                                         
                                          <%
-                                        }
+                                         }
                                          %>
                                   </div>
                               </div>
@@ -1067,18 +1067,15 @@
                                                                              boolean isAllowedToEdit = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(teamMember), 
                                                                                                                                              data.feedbackSessionName, 
                                                                                                                                              Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-                                                                             if (!teamMember.contains("@@") && 
-                                                                                data.bundle.isParticipantIdentifierStudent(teamMember)) { 
                                                                         %>
-                                                                                <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
-                                                                                
-                                                                                    <input type="submit" class="btn btn-primary btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) { %> disabled="disabled" <% } %> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
-                                                                                    <input type="hidden" name="courseid" value="<%=data.courseId %>">
-                                                                                    <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
-                                                                                    <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>
-                                                                                
-                                                                                </form>
-                                                                        <%   } %>
+                                                                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
+                                                                            
+                                                                                <input type="submit" class="btn btn-primary btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) { %> disabled="disabled" <% } %> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                                                                <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                                                                <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                                                <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>
+                                                                            
+                                                                            </form>
                                                                             &nbsp;
                                                                             <div class="display-icon" style="display:inline;">
                                                                                 <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>

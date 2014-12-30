@@ -202,6 +202,7 @@
                         Object[] giverDataArray =  giverData.keySet().toArray();
                         FeedbackResponseAttributes firstResponse = giverData.get(giverDataArray[0]).get(0);
                         String giverEmail = firstResponse.giverEmail;
+                        boolean isGiverVisible = data.bundle.isGiverVisible(firstResponse);
 
                         FeedbackParticipantType firstQuestionGiverType = questions.get(firstResponse.feedbackQuestionId).giverType;
                         String mailtoStyleAttr = (firstQuestionGiverType == FeedbackParticipantType.NONE || 
@@ -378,9 +379,8 @@
                         boolean isAllowedToEdit = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(giverEmail), 
                                                                                          data.feedbackSessionName, 
                                                                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-                        if (!giverEmail.contains("@@") && 
-                           data.bundle.isParticipantIdentifierStudent(giverEmail)) { 
-                                                        %>
+                        if (isGiverVisible && data.bundle.isParticipantIdentifierStudent(giverEmail)) { 
+                    %>
                             <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
                             
                                 <input type="submit" class="btn btn-primary btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) {%> disabled="disabled"  <%  } %> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
@@ -566,8 +566,7 @@
                         boolean isAllowedToEdit = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(email), 
                                                                                     data.feedbackSessionName, 
                                                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-                        if (!email.contains("@@") && 
-                            data.bundle.isParticipantIdentifierStudent(email)) { 
+                      
                     %>
                             <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
                             
@@ -577,7 +576,6 @@
                                 <input type="hidden" name="moderatedstudent" value=<%= email%>>
                             
                             </form>
-                     <% } %>
                         &nbsp;
                         <div class="display-icon" style="display:inline;">
                             <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
@@ -644,8 +642,7 @@
                                                         boolean isAllowedToEdit = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(teamMember), 
                                                                                                                         data.feedbackSessionName, 
                                                                                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-                                                        if (!teamMember.contains("@@") && 
-                                                           data.bundle.isParticipantIdentifierStudent(teamMember)) { 
+                                                         
                                                     %>
                                                             <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
                                                             
@@ -655,7 +652,7 @@
                                                                 <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>
                                                             
                                                             </form>
-                                                     <% } %>
+
                                                         &nbsp;
                                                         <div class="display-icon" style="display:inline;">
                                                             <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
