@@ -34,6 +34,7 @@ public class Const {
          * in the FieldValidator class.
          */
         public static final String ADMIN_TIME_ZONE = "Asia/Singapore";
+        public static final double ADMIN_TIMZE_ZONE_DOUBLE = 8.0;
         
         public static final String EMAIL_TASK_QUEUE = "configure-and-prepare-email-queue";
         public static final String SUBMISSION_TASK_QUEUE = "submission-queue";
