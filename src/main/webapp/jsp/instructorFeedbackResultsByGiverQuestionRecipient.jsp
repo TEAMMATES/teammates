@@ -376,14 +376,15 @@
                     %>
                     <div class="pull-right">
                     <% 
-                        boolean isAllowedToEdit = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(giverEmail), 
+                        boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(giverEmail), 
                                                                                          data.feedbackSessionName, 
                                                                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                        String disabledAttribute = !isAllowedToModerate? "disabled=\"disabled\"" : "";
                         if (isGiverVisible && data.bundle.isParticipantIdentifierStudent(giverEmail)) { 
                     %>
                             <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
                             
-                                <input type="submit" class="btn btn-primary btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) {%> disabled="disabled"  <%  } %> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                <input type="submit" class="btn btn-primary btn-xs" value="Edit Responses" <%= disabledAttribute %> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                 <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                 <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
                                 <input type="hidden" name="moderatedstudent" value=<%= giverEmail%>>
@@ -563,14 +564,14 @@
                         <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
                     <div class="pull-right">
                     <% 
-                        boolean isAllowedToEdit = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(email), 
-                                                                                    data.feedbackSessionName, 
-                                                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-                      
+                        boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(email), 
+                                                                                            data.feedbackSessionName, 
+                                                                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                        String disabledAttribute = !isAllowedToModerate? "disabled=\"disabled\"" : "";
                     %>
                             <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
                             
-                                <input type="submit" class="btn btn-primary btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) { %> disabled = "disabled" <% } %> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                <input type="submit" class="btn btn-primary btn-xs" value="Edit Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                 <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                 <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
                                 <input type="hidden" name="moderatedstudent" value=<%= email%>>
@@ -639,14 +640,14 @@
                                                         <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
                                                     <div class="pull-right">
                                                     <% 
-                                                        boolean isAllowedToEdit = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(teamMember), 
+                                                        boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(teamMember), 
                                                                                                                         data.feedbackSessionName, 
                                                                                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-                                                         
+                                                        String disabledAttribute = !isAllowedToModerate? "disabled=\"disabled\"" : "";
                                                     %>
                                                             <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
                                                             
-                                                                <input type="submit" class="btn btn-primary btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) { %> disabled="disabled" <% } %> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                                                <input type="submit" class="btn btn-primary btn-xs" value="Edit Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                                                 <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                                 <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
                                                                 <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>
@@ -732,20 +733,19 @@
                                                             <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
                                                         <div class="pull-right">
                                                         <% 
-                                                           boolean isAllowedToEdit = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(teamMember), 
-                                                                                                                        data.feedbackSessionName, 
-                                                                                                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-                                                           if (!teamMember.contains("@@") && 
-                                                               data.bundle.isParticipantIdentifierStudent(teamMember)) { 
+                                                            boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(teamMember), 
+                                                                                                                            data.feedbackSessionName, 
+                                                                                                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                                                            String disabledAttribute = !isAllowedToModerate? "disabled=\"disabled\"" : "";
                                                         %>
                                                                 <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
-                                                                    <input type="submit" class="btn btn-primary btn-xs" value="Edit Responses" <% if (!isAllowedToEdit) { %> disabled="disabled" <% } %> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                                                    <input type="submit" class="btn btn-primary btn-xs" value="Edit Responses" <%=disabledAttribute %> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                                                     <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                                     <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
                                                                 <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>
                                                             
                                                                 </form>
-                                                        <% } %>
+                                                        
                                                             &nbsp;
                                                             <div class="display-icon" style="display:inline;">
                                                                 <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
