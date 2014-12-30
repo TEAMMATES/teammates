@@ -582,7 +582,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertFalse(redirectResult.isError);
         assertEquals(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE + 
                 "?studentemail=unregisteredStudentInCourse2%40gmail.tmt&error="+redirectResult.isError+"&courseid="+unregisteredStudent.course
-                + "&fsname=Unregistered+Student+Session&key=9358DCAD3C1AE18F2D60BE06770D2148AE249011E9A28BD2CDA26EF18CCF8F5D", 
+                + "&fsname=Unregistered+Student+Session&key="+studentKey, 
                 redirectResult.getDestinationWithParams());
         assertEquals("All responses submitted succesfully!", redirectResult.getStatusMessage());
         gaeSimulation.logoutUser();
@@ -622,7 +622,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertTrue(redirectResult.isError);
         assertEquals(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE + 
                 "?studentemail=unregisteredStudentInCourse2%40gmail.tmt&error="+redirectResult.isError+"&courseid="+unregisteredStudent.course
-                + "&fsname=Unregistered+Student+Session&key=9358DCAD3C1AE18F2D60BE06770D2148AE249011E9A28BD2CDA26EF18CCF8F5D", 
+                + "&fsname=Unregistered+Student+Session&key="+studentKey, 
                 redirectResult.getDestinationWithParams());
         assertEquals("100 is out of the range for Numerical-scale question.(min=1, max=5)", redirectResult.getStatusMessage());
         gaeSimulation.logoutUser();

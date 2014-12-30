@@ -1,0 +1,210 @@
+{
+  "accounts": {
+  	"instructor1": {
+  	  "googleId": "FRubricQnUiT.instructor",
+  	  "name": "Teammates Test",
+  	  "isInstructor": true,
+  	  "email": "tmms.test@gmail.tmt",
+  	  "institute": "TEAMMATES Test Institute 1"
+  	},
+  	"alice.tmms": {
+  	  "googleId": "CFeedbackEditUiT.alice.tmms",
+  	  "name": "Alice Betsy",
+  	  "isInstructor": false,
+  	  "email": "alice.b.tmms@gmail.tmt",
+  	  "institute": "TEAMMATES Test Institute 1"
+  	},
+    "benny.c.tmms":{
+      "googleId": "CFeedbackEditUiT.benny.tmms",
+      "name": "Benny Charles",
+      "isInstructor":false,
+      "email":"benny.c.tmms@gmail.tmt",
+      "institute":"TEAMMATES Test Institute 1"
+    }
+  },
+
+  "courses": {
+    "course": {
+      "id": "FRubricQnUiT.CS2104",
+      "name": "Programming Language Concepts",
+      "isArchived": false
+    }
+  },
+  
+  "instructors": {
+    "teammates.test.instructor": {
+      "googleId": "FRubricQnUiT.instructor",
+      "courseId": "FRubricQnUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "tmms.test@gmail.tmt",
+      "role":"Co-owner",
+      "displayedName":"Co-owner",
+      "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+    }
+  },
+  
+  "students": {
+    "alice.tmms@FRubricQnUiT.CS2104": {
+      "googleId": "CFeedbackEditUiT.alice.tmms",
+      "email": "alice.b.tmms@gmail.tmt",
+      "course": "FRubricQnUiT.CS2104",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy",
+      "team": "Team 1"
+    },
+    "benny.tmms@FRubricQnUiT.CS2104": {
+      "googleId": "CFeedbackEditUiT.benny.tmms",
+      "email": "benny.c.tmms@gmail.tmt",
+      "course": "FRubricQnUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Alice Betsy",
+      "team": "Team 1"
+    }
+  },
+  
+  "feedbackSessions" : {  
+    "openSession": {
+      "feedbackSessionName" : "First Session",
+      "courseId" : "FRubricQnUiT.CS2104",
+      "creatorEmail" : "tmms.test@gmail.tmt",
+      "instructions": {"value" : "Instructions for first session"},
+      "createdTime" : "2012-04-01 11:59 PM UTC",
+      "startTime" : "2012-04-01 11:59 PM UTC",
+      "endTime" : "2016-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime" : "2012-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime" : "2016-05-01 11:59 PM UTC",
+      "timeZone" : 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType" : "STANDARD",
+      "sentOpenEmail" : true,
+      "sentPublishedEmail" : false
+    },
+    "openSession2": {
+      "feedbackSessionName" : "Second Session",
+      "courseId" : "FRubricQnUiT.CS2104",
+      "creatorEmail" : "tmms.test@gmail.tmt",
+      "instructions": {"value" : "Instructions for second session"},
+      "createdTime" : "2012-04-01 11:59 PM UTC",
+      "startTime" : "2012-04-01 11:59 PM UTC",
+      "endTime" : "2016-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime" : "2012-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime" : "2012-05-01 11:59 PM UTC",
+      "timeZone" : 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType" : "STANDARD",
+      "sentOpenEmail" : true,
+      "sentPublishedEmail" : false
+    },
+    "closedSession": {
+      "feedbackSessionName" : "Closed Session",
+      "courseId" : "FRubricQnUiT.CS2104",
+      "creatorEmail" : "tmms.test@gmail.tmt",
+      "instructions": {"value" : "Instructions for closed session"},
+      "createdTime" : "2012-04-01 11:59 PM UTC",
+      "startTime" : "2012-04-01 11:59 PM UTC",
+      "endTime" : "2012-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime" : "2012-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime" : "2012-05-01 11:59 PM UTC",
+      "timeZone" : 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType" : "STANDARD",
+      "sentOpenEmail" : true,
+      "sentPublishedEmail" : false
+    }
+  },
+
+  "feedbackQuestions":{
+    "qn1InClosedSessionInCourse":{
+          "feedbackSessionName":"Closed Session",
+          "courseId":"FRubricQnUiT.CS2104",
+          "creatorEmail":"tmms.test@gmail.tmt",
+          "questionMetaData":{
+              "value":"{\"questionText\":\"Please choose the best choice for the following sub-questions.\",
+                        \"questionType\":\"RUBRIC\",
+                        \"numOfRubricChoices\" : 2, \"numOfRubricSubQuestions\" : 2,
+                        \"rubricChoices\" : [\"Yes\", \"No\"],
+                        \"rubricSubQuestions\" : [\"This student has done a good job.\",\"This student has tried his/her best.\"],
+                        \"rubricDescriptions\" : [[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]
+                        }"
+          },
+          "questionNumber":"1",
+          "questionType":"RUBRIC",
+          "giverType":"STUDENTS",
+          "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
+          "numberOfEntitiesToGiveFeedbackTo":-100,
+          "showResponsesTo":[
+              "INSTRUCTORS",
+              "STUDENTS"
+          ],
+          "showGiverNameTo":[
+              "INSTRUCTORS",
+              "STUDENTS"
+          ],
+          "showRecipientNameTo":[
+              "INSTRUCTORS",
+              "STUDENTS"
+          ]
+    },
+    "qn2InClosedSessionInCourse":{
+          "feedbackSessionName":"Closed Session",
+          "courseId":"FRubricQnUiT.CS2104",
+          "creatorEmail":"tmms.test@gmail.tmt",
+          "questionMetaData":{
+              "value":"{\"questionText\":\"Please choose the best choice for the following sub-questions.\",
+                        \"questionType\":\"RUBRIC\",
+                        \"numOfRubricChoices\" : 2, \"numOfRubricSubQuestions\" : 2,
+                        \"rubricChoices\" : [\"Yes\", \"No\"],
+                        \"rubricSubQuestions\" : [\"This student has done a good job.\",\"This student has tried his/her best.\"],
+                        \"rubricDescriptions\" : [[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]
+                        }"
+          },
+          "questionNumber":"1",
+          "questionType":"RUBRIC",
+          "giverType":"INSTRUCTORS",
+          "recipientType":"STUDENTS",
+          "numberOfEntitiesToGiveFeedbackTo":-100,
+          "showResponsesTo":[
+              "INSTRUCTORS",
+              "STUDENTS"
+          ],
+          "showGiverNameTo":[
+              "INSTRUCTORS",
+              "STUDENTS"
+          ],
+          "showRecipientNameTo":[
+              "INSTRUCTORS"
+          ]
+    },
+    "qn1InOpenSession2InCourse":{
+          "feedbackSessionName":"Second Session",
+          "courseId":"FRubricQnUiT.CS2104",
+          "creatorEmail":"tmms.test@gmail.tmt",
+          "questionMetaData":{
+              "value":"{\"questionText\":\"Please choose the best choice for the following sub-questions.\",
+                        \"questionType\":\"RUBRIC\",
+                        \"numOfRubricChoices\" : 2, \"numOfRubricSubQuestions\" : 2,
+                        \"rubricChoices\" : [\"Yes\", \"No\"],
+                        \"rubricSubQuestions\" : [\"This student has done a good job.\",\"This student has tried his/her best.\"],
+                        \"rubricDescriptions\" : [[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]
+                        }"
+          },
+          "questionNumber":"1",
+          "questionType":"RUBRIC",
+          "giverType":"STUDENTS",
+          "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
+          "numberOfEntitiesToGiveFeedbackTo":-100,
+          "showResponsesTo":[
+              "INSTRUCTORS",
+              "STUDENTS"
+          ],
+          "showGiverNameTo":[
+              "INSTRUCTORS",
+              "STUDENTS"
+          ],
+          "showRecipientNameTo":[
+              "INSTRUCTORS",
+              "STUDENTS"
+          ]
+    }
+  }
+}

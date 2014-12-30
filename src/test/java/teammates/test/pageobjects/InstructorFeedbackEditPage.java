@@ -277,6 +277,43 @@ public class InstructorFeedbackEditPage extends AppPage {
         return constSumPointsBox.getAttribute("value");
     }
     
+    public void fillRubricSubQuestionBox(String subQuestion, int qnNumber, int subQnIndex) {
+        String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+        if(qnNumber == -1) {
+            idSuffix = "--1";
+        }
+        
+        String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION+idSuffix+"-"+subQnIndex;
+        System.out.println(elemId);
+        
+        WebElement subQnBox = browser.driver.findElement(By.id(elemId));
+        fillTextBox(subQnBox, subQuestion);
+    }
+    
+    public void fillRubricChoiceBox(String choice, int qnNumber, int choiceIndex) {
+        String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+        if(qnNumber == -1) {
+            idSuffix = "--1";
+        }
+        
+        String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+idSuffix+"-"+choiceIndex;
+        
+        WebElement subQnBox = browser.driver.findElement(By.id(elemId));
+        fillTextBox(subQnBox, choice);
+    }
+    
+    public void fillRubricDescriptionBox(String description, int qnNumber, int subQnIndex, int choiceIndex) {
+        String idSuffix = qnNumber > 0 ? "-" + qnNumber : "";
+        if(qnNumber == -1) {
+            idSuffix = "--1";
+        }
+        
+        String elemId = Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION+idSuffix+"-"+subQnIndex+"-"+choiceIndex;
+        
+        WebElement subQnBox = browser.driver.findElement(By.id(elemId));
+        fillTextBox(subQnBox, description);
+    }
+    
     public void clickQuestionEditForQuestion1() {
         questionEditForQuestion1.click();
     }
@@ -435,7 +472,13 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public boolean verifyNewContributionQuestionFormIsDisplayed() {
+        // No contribForm to check for.
         return addNewQuestionButton.isDisplayed();
+    }
+    
+    public boolean verifyNewRubricQuestionFormIsDisplayed() {
+        WebElement contribForm = browser.driver.findElement(By.id("rubricForm"));
+        return contribForm.isDisplayed() && addNewQuestionButton.isDisplayed();
     }
     
     public void selectNewQuestionType(String questionType){
@@ -624,6 +667,43 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement msqOptionRow = browser.driver.findElement(By.id("constSumOptionRow-" + optionIndex + idSuffix));
         WebElement removeOptionLink = msqOptionRow.findElement(By.id("constSumRemoveOptionLink"));
         removeOptionLink.click();
+    }
+    
+    public void clickAddRubricRowLink(int qnIndex){
+        String idSuffix = qnIndex > 0 ? "-" + qnIndex : "";
+        if(qnIndex == -1){
+            idSuffix = "--1";
+        }
+        WebElement addRubricRowLink = browser.driver.findElement(By.id("rubricAddSubQuestionLink"+idSuffix));
+        addRubricRowLink.click();
+    }
+    
+    public void clickAddRubricColLink(int qnIndex){
+        String idSuffix = qnIndex > 0 ? "-" + qnIndex : "";
+        if(qnIndex == -1){
+            idSuffix = "--1";
+        }
+        WebElement addRubricColLink = browser.driver.findElement(By.id("rubricAddChoiceLink"+idSuffix));
+        addRubricColLink.click();
+    }
+    
+    public void clickRemoveRubricRowLinkAndConfirm(int qnIndex, int row){
+        String idSuffix = qnIndex > 0 ? "-" + qnIndex : "";
+        if(qnIndex == -1){
+            idSuffix = "--1";
+        }
+        WebElement addRubricRowLink = browser.driver.findElement(By.id("rubricRemoveSubQuestionLink"+idSuffix+"-"+row));
+        //addRubricRowLink.click();
+        clickAndConfirm(addRubricRowLink);
+    }
+    
+    public void clickRemoveRubricColLinkAndConfirm(int qnIndex, int col){
+        String idSuffix = qnIndex > 0 ? "-" + qnIndex : "";
+        if(qnIndex == -1){
+            idSuffix = "--1";
+        }
+        WebElement addRubricColLink = browser.driver.findElement(By.id("rubricRemoveChoiceLink"+idSuffix+"-"+col));
+        clickAndConfirm(addRubricColLink);
     }
     
     public FeedbackSubmitPage clickPreviewAsStudentButton() {
