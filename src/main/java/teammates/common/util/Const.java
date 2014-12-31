@@ -223,7 +223,7 @@ public class Const {
         
         public static final String FEEDBACK_SESSION_EDIT_SAVE = "You can save your responses at any time and come back later to continue.";
         
-        public static final String FEEDBACK_SESSION_MODERATE_FEEDBACK = "Moderate the responses given by this student";
+        public static final String FEEDBACK_SESSION_MODERATE_FEEDBACK = "Edit the responses given by this student";
 
         public static final String FEEDBACK_PREVIEW_ASSTUDENT = "View how this session would look like to a student who is submitting feedback.<br>Preview is unavailable if the course has yet to have any student enrolled.";
         public static final String FEEDBACK_PREVIEW_ASINSTRUCTOR = "View how this session would look like to an instructor who is submitting feedback.";

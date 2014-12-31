@@ -50,7 +50,7 @@
     	} else if (data.isModeration) {
     %>
         <nav class="navbar navbar-default navbar-fixed-top">
-            <h3 class="text-center">Moderating Session for Student <%=data.studentToViewPageAs.name%> (<%=data.studentToViewPageAs.email%>)</h3>
+            <h3 class="text-center">Moderating Responses for Student <%=data.studentToViewPageAs.name%> (<%=data.studentToViewPageAs.email%>)</h3>
         </nav>    
     <%
         }
