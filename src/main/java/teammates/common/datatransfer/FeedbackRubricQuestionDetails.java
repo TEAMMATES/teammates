@@ -616,12 +616,15 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             errors.add(ERROR_NOT_ENOUGH_RUBRIC_SUB_QUESTIONS + MIN_NUM_OF_RUBRIC_SUB_QUESTIONS);
         }
         
+        //Rubric choices are now allowed to be empty.
+        /*
         for (String choice : this.rubricChoices) {
             if (choice.trim().isEmpty()) {
                 errors.add(ERROR_RUBRIC_EMPTY_CHOICE);
                 break;
             }
         }
+        */
         
         for (String subQn : this.rubricSubQuestions) {
             if (subQn.trim().isEmpty()) {
