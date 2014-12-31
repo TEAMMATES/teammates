@@ -139,7 +139,7 @@ function showSingleCollapse(e){
     $(glyphIcon[0]).removeClass('glyphicon-chevron-down');
     $(glyphIcon[0]).addClass('glyphicon-chevron-up');
     $(e).collapse("show");
-    $(heading).find('.btn').show();
+    $(heading).find('a.btn').show();
 }
 
 function hideSingleCollapse(e){
@@ -148,11 +148,11 @@ function hideSingleCollapse(e){
     $(glyphIcon[0]).removeClass('glyphicon-chevron-up');
     $(glyphIcon[0]).addClass('glyphicon-chevron-down');
     $(e).collapse("hide");
-    $(heading).find('.btn').hide();
+    $(heading).find('a.btn').hide();
 }
 
 function toggleSingleCollapse(e){
-    if(!$(e.target).is('a')){
+    if(!$(e.target).is('a') && !$(e.target).is('input')){
         var glyphIcon = $(this).find('.glyphicon');
         var className = $(glyphIcon[0]).attr('class');
         if(className.indexOf('glyphicon-chevron-up') != -1){

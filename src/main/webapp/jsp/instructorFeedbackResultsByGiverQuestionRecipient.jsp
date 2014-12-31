@@ -202,6 +202,7 @@
                         Object[] giverDataArray =  giverData.keySet().toArray();
                         FeedbackResponseAttributes firstResponse = giverData.get(giverDataArray[0]).get(0);
                         String giverEmail = firstResponse.giverEmail;
+                        boolean isGiverVisible = data.bundle.isGiverVisible(firstResponse);
 
                         FeedbackParticipantType firstQuestionGiverType = questions.get(firstResponse.feedbackQuestionId).giverType;
                         String mailtoStyleAttr = (firstQuestionGiverType == FeedbackParticipantType.NONE || 
@@ -358,7 +359,7 @@
                     From: 
                     <%
                 	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, giverEmail).isEmpty()) {
-                %>
+                    %>
                         <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(giverEmail)%>">
                             <strong><%=responsesFromGiver.getKey()%></strong>
                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
@@ -373,7 +374,29 @@
                     	}
                         teamMembersWithResponses.add(giverEmail);
                     %>
-                    <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>                </div>
+                    <div class="pull-right">
+                    <% 
+                        boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(giverEmail), 
+                                                                                         data.feedbackSessionName, 
+                                                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                        String disabledAttribute = !isAllowedToModerate? "disabled=\"disabled\"" : "";
+                        if (isGiverVisible && data.bundle.isParticipantIdentifierStudent(giverEmail)) { 
+                    %>
+                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
+                            
+                                <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%= disabledAttribute %> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                <input type="hidden" name="moderatedstudent" value=<%= giverEmail%>>
+                            
+                            </form>
+                    <% } %>
+                        &nbsp;
+                        <div class="display-icon" style="display:inline;">
+                            <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
+                        </div>                
+                    </div>
+                </div>
                 <div class='panel-collapse collapse <%=shouldCollapsed ? "" : "in"%>'>
                 <div class="panel-body">
                 <%
@@ -539,7 +562,26 @@
                     	}
                     %>
                         <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
-                    <span class='glyphicon glyphicon-chevron-up pull-right'></span>
+                    <div class="pull-right">
+                    <% 
+                        boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(email), 
+                                                                                            data.feedbackSessionName, 
+                                                                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                        String disabledAttribute = !isAllowedToModerate? "disabled=\"disabled\"" : "";
+                    %>
+                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
+                            
+                                <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                <input type="hidden" name="moderatedstudent" value=<%= email%>>
+                            
+                            </form>
+                        &nbsp;
+                        <div class="display-icon" style="display:inline;">
+                            <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
+                        </div>                
+                    </div>
                 </div>
                 <div class='panel-collapse collapse in'>
                     <div class="panel-body"> There are no responses given by this user 
@@ -596,7 +638,27 @@
                                                     	}
                                                     %>
                                                         <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
-                                                    <span class='glyphicon glyphicon-chevron-up pull-right'></span>
+                                                    <div class="pull-right">
+                                                    <% 
+                                                        boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(teamMember), 
+                                                                                                                        data.feedbackSessionName, 
+                                                                                                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                                                        String disabledAttribute = !isAllowedToModerate? "disabled=\"disabled\"" : "";
+                                                    %>
+                                                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
+                                                            
+                                                                <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                                                <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                                                <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                                <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>
+                                                            
+                                                            </form>
+
+                                                        &nbsp;
+                                                        <div class="display-icon" style="display:inline;">
+                                                            <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
+                                                        </div>                
+                                                    </div>
                                                 </div>
                                                 <div class='panel-collapse collapse in'>
                                                     <div class="panel-body"> There are no responses given by this user 
@@ -669,7 +731,28 @@
                                                             <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
                                                         <%  } %>
                                                             <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
-                                                        <span class='glyphicon glyphicon-chevron-up pull-right'></span>
+                                                        <div class="pull-right">
+                                                        <% 
+                                                            boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(teamMember), 
+                                                                                                                            data.feedbackSessionName, 
+                                                                                                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                                                            String disabledAttribute = !isAllowedToModerate? "disabled=\"disabled\"" : "";
+                                                        %>
+                                                                <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
+                                                                    <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%=disabledAttribute %> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                                                    <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                                                    <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                                <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>
+                                                            
+                                                                </form>
+                                                        
+                                                            &nbsp;
+                                                            <div class="display-icon" style="display:inline;">
+                                                                <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
+                                                            </div>                
+                                                        </div>
+                                                        
+                                                        
                                                     </div>
                                                     <div class='panel-collapse collapse in'>
                                                         <div class="panel-body"> There are no responses given by this user 

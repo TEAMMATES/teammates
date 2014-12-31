@@ -15,12 +15,14 @@ public class FeedbackSubmissionEditPageData extends PageData {
     public FeedbackSessionQuestionsBundle bundle = null;
     public boolean isSessionOpenForSubmission;
     public boolean isPreview;
-    public StudentAttributes previewStudent;
+    public boolean isModeration;
+    public StudentAttributes studentToViewPageAs;
     public InstructorAttributes previewInstructor;    
     
     public FeedbackSubmissionEditPageData(AccountAttributes account, StudentAttributes student) {
         super(account, student);
         isPreview = false;
+        isModeration = false;
     }
     
     public List<String> getRecipientOptionsForQuestion(String feedbackQuestionId, String currentlySelectedOption) {
