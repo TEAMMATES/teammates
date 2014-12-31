@@ -359,19 +359,22 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getNewQuestionSpecificEditFormHtml() {
         // Add some choices by default
-        this.numOfRubricChoices = 5;
+        this.numOfRubricChoices = 4;
         this.rubricChoices.add("Strongly Agree");
         this.rubricChoices.add("Agree");
-        this.rubricChoices.add("Neutral");
         this.rubricChoices.add("Disagree");
         this.rubricChoices.add("Strongly Disagree");
         
         // Add some sub-questions by default
-        this.numOfRubricSubQuestions = 2;
-        this.rubricSubQuestions.add("This student has been active during discussions.");
-        this.rubricSubQuestions.add("This student has contributed to the team.");
+        this.numOfRubricSubQuestions = 1;
+        this.rubricSubQuestions.add("This student has contributed to the project.");
         
         this.initializeRubricDescriptions();
+        
+        setDescription(0,0, "Routinely provides useful ideas when participating in the group and in classroom discussion. A definite leader who contributes a lot of effort.");
+        setDescription(0,1, "Usually provides useful ideas when participating in the group and in classroom discussion. A strong group member who tries hard!");
+        setDescription(0,2, "Sometimes provides useful ideas when participating in the group and in classroom discussion. A satisfactory group member who does what is required.");
+        setDescription(0,3, "Rarely provides useful ideas when participating in the group and in classroom discussion. May refuse to participate.");
         
         return "<div id=\"rubricForm\">" + 
                     this.getQuestionSpecificEditFormHtml(-1) +
@@ -379,7 +382,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
     
     private void initializeRubricDescriptions() {
-        rubricDescriptions = new ArrayList<List<String>>();
+        this.rubricDescriptions = new ArrayList<List<String>>();
         for (int subQns=0 ; subQns<this.numOfRubricSubQuestions ; subQns++) {
             List<String> descList = new ArrayList<String>();
             for (int ch=0 ; ch<this.numOfRubricChoices ; ch++) {
@@ -387,6 +390,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
             rubricDescriptions.add(descList);
         }
+    }
+    
+    public void setDescription(int row, int col, String description) {
+        this.rubricDescriptions.get(row).set(col, description);
     }
     
     /**
