@@ -367,7 +367,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         // Add some sub-questions by default
         this.numOfRubricSubQuestions = 1;
-        this.rubricSubQuestions.add("This student has contributed to the project.");
+        this.rubricSubQuestions.add("This student has contributed significantly to the project.");
         
         this.initializeRubricDescriptions();
         
