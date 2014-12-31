@@ -218,12 +218,15 @@ Colors indicate which roles are involved in which states/transitions.
 
 **Type**
 
-* `t.Bug`
-* `t.Task`: Other work items such as updating documentation.
-* `t.Enhancement`: An enhancement to an existing functionality (not big enough 
+* Changes to _functionality_, categorized based on size
+  * `t.Enhancement`: An enhancement to an existing functionality (not big enough 
    consider as a stroy).
-* `t.Story`: A user story.
-* `t.Epic`: A feature that is worth many user stories.
+  * `t.Story`: A user story.
+  * `t.Epic`: A feature that is worth many user stories.
+* Other work
+  * `t.Bug`
+  * `t.Task`: Other work items such as updating documentation.
+
 
 **Other**
 

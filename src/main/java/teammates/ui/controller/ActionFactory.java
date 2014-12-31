@@ -48,6 +48,8 @@ public class ActionFactory {
         map(INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE, InstructorCourseStudentDetailsPageAction.class);
         map(INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT, InstructorCourseStudentDetailsEditPageAction.class);
         map(INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE, InstructorCourseStudentDetailsEditSaveAction.class);
+        map(INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE, InstructorEditStudentFeedbackPageAction.class);
+        map(INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE, InstructorEditStudentFeedbackSaveAction.class);
         map(INSTRUCTOR_EVALS_PAGE, InstructorEvalsPageAction.class);
         map(INSTRUCTOR_EVAL_ADD, InstructorEvalAddAction.class);
         map(INSTRUCTOR_EVAL_DELETE, InstructorEvalDeleteAction.class);

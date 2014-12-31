@@ -39,6 +39,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         
+        setAdditionalParameters();
         verifyAccesibleForSpecificUser();
         
         String userEmailForCourse = getUserEmailForCourse();
@@ -46,6 +47,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         data = new FeedbackSubmissionEditPageData(account, student);
         data.bundle = getDataBundle(userEmailForCourse);        
         Assumption.assertNotNull("Feedback session " + feedbackSessionName + " does not exist in " + courseId + ".", data.bundle);
+        
+        checkAdditionalConstraints();
         
         setStatusToAdmin();
         
@@ -234,6 +237,25 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         return response;
     }
 
+    /**
+     * To be used to set any extra parameters or attributes that 
+     * a class inheriting FeedbackSubmissionEditSaveAction requires
+     */
+    protected void setAdditionalParameters() {
+        return;
+    }
+    
+    /**
+     * To be used to test any constraints that a class inheriting FeedbackSubmissionEditSaveAction
+     * needs. For example, this is used in moderations that check that instructors did not 
+     * respond to any question that they did not have access to during moderation. 
+     * 
+     * Called after FeedbackSubmissionEditPageData data is set, and after setAdditionalParameters 
+     */
+    protected void checkAdditionalConstraints() {
+        return;
+    }
+    
     protected abstract void appendRespondant();
 
     protected abstract void removeRespondant();
@@ -251,4 +273,5 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected abstract boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes session);
 
     protected abstract RedirectResult createSpecificRedirectResult();
+
 }
