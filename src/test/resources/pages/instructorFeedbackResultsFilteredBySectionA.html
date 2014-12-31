@@ -51,76 +51,74 @@
               </div>
           </div>
           <div class="col-sm-2">
-                     <div class="form-group">
-                        <form action="/page/instructorFeedbackResultsDownload" method="post">
-                           <div id="feedbackDataButtons">
-                              <input class="btn btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download results"/>
-                                                         </div>
-                           <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-                                                      <input name="fsname" type="hidden" value="First Session"/>
-                                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                      <input name="sectionname" type="hidden" value="Section A"/>
-                                                   </form>
-                     </div>
+              
+              <div class="form-group">
+                  <form method="post" action="/page/instructorFeedbackResultsDownload">
+                  <div id="feedbackDataButtons">
+                      <input id="button_download" class="btn btn-primary" name="fruploaddownloadbtn" value="Download results" type="submit">
                   </div>
-               </div>
-               <div class="row">
-                  <span class="help-block align-center">
-                     Non-English characters not displayed properly in the
-                    downloaded file?
-                     <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" onclick="submitFormAjax()">
-                        click here
-                     </span>
-                  </span>
-               </div>
-            </div>
-         </div>
+                  <input name="user" value="CFResultsUiT.instr" type="hidden">
+                  <input name="fsname" value="First Session" type="hidden">
+                  <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                  <input name="sectionname" value="Section A" type="hidden">
+                  
+                  </form>
+              </div>
+              
+          </div>
+        </div>
+
+            <div class="row">
+                <span class="help-block align-center">
+
+                    Non-English characters not displayed properly in the
+                    downloaded file?<span class="btn-link" data-toggle="modal" data-target="#fsResultsTableWindow" onclick="submitFormAjax()"> click here </span>
+            </span></div>
+
+        </div>
       </div>
-      <form id="csvToHtmlForm">
-         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                  <input name="fsname" type="hidden" value="First Session"/>
-                  <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-                  <input name="frgroupbysection" type="hidden" value="Section A"/>
-                  <input name="csvtohtmltable" type="hidden" value="true"/>
-               </form>
-      <div class="modal fade align-center" id="fsResultsTableWindow">
-         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <span class="help-block" style="display:inline;">
-                     Tips: After
-                    Selecting the table,
-                     <kbd>
-                        Ctrl + C
-                     </kbd>
-                     to COPY and
-                     <kbd>
-                        Ctrl + V
-                     </kbd>
-                     to PASTE to your Excel Workbook.
-                  </span>
-                       
-                  <button class="btn btn-default" data-dismiss="modal" type="button">
-                     Close
-                  </button>
-                  <button class="btn btn-primary" onclick="selectElementContents( document.getElementById('fsModalTable') );" type="button">
-                     Select Table
-                  </button>
-               </div>
-               <div class="modal-body">
-                  <div class="table-responsive">
-                     <div id="fsModalTable">
-                     </div>
-                     <br/>
-                                          <div id="ajaxStatus">
-                     </div>
-                  </div>
-               </div>
-               <div class="modal-footer">
-               </div>
+    
+</div>
+
+<form id="csvToHtmlForm">
+<input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+<input name="fsname" value="First Session" type="hidden">
+<input name="user" value="CFResultsUiT.instr" type="hidden">
+<input name="frgroupbysection" value="Section A" type="hidden">
+<input name="csvtohtmltable" value="true" type="hidden">
+</form>
+
+<div class="modal fade align-center" id="fsResultsTableWindow">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                 <span class="help-block" style="display:inline;"> Tips: After
+                    Selecting the table, <kbd>Ctrl + C</kbd> to COPY and
+                    <kbd>Ctrl + V</kbd> to PASTE to your Excel Workbook.
+                </span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="selectElementContents( document.getElementById('fsModalTable') );">
+                    Select Table</button>
             </div>
-         </div>
-      </div>
+            <div class="modal-body">
+            <div class="table-responsive">
+            <div id="fsModalTable">
+               
+            </div>
+            <br>
+             <div id="ajaxStatus"></div>      
+            </div>
+            </div>
+            <div class="modal-footer">
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <form class="form-horizontal" role="form" method="post" action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&amp;fsname=First+Session&amp;user=CFResultsUiT.instr">
     <div class="panel panel-info margin-0">
         <div class="panel-body">
@@ -285,8 +283,9 @@
                             </thead><thead>
                             </thead><tbody>
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">Benny Charles</td>
@@ -294,8 +293,19 @@
                                                 <td class="text-preserve-space">2 Response to Benny.</td>
                                             </tr>        
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
+                                                <td class="middlealign">Alice Betsy</td>
+                                                <td class="middlealign">Team 1</td>
+                                                <td class="middlealign">Drop out</td>
+                                                <td class="middlealign">Team 2</td>
+                                                <td class="text-preserve-space">Response to Dropout.</td>
+                                            </tr>        
+                                
+                                            
+                                
+                                            <tr>
                                                 <td class="middlealign">Benny Charles</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">Charlie Dávis</td>
@@ -303,8 +313,9 @@
                                                 <td class="text-preserve-space">4 Response to Charlie.</td>
                                             </tr>        
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Benny Charles</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">Danny Engrid</td>
@@ -312,13 +323,34 @@
                                                 <td class="text-preserve-space">1 Response to Danny.</td>
                                             </tr>        
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Charlie Dávis</td>
                                                 <td class="middlealign">Team 2</td>
                                                 <td class="middlealign">Emily</td>
                                                 <td class="middlealign">Team 3</td>
                                                 <td class="text-preserve-space">3 Response to Emily.</td>
+                                            </tr>        
+                                
+                                            
+                                
+                                            <tr>
+                                                <td class="middlealign">Drop out</td>
+                                                <td class="middlealign">Team 2</td>
+                                                <td class="middlealign">Alice Betsy</td>
+                                                <td class="middlealign">Team 1</td>
+                                                <td class="text-preserve-space">Response to Alice from Dropout.</td>
+                                            </tr>        
+                                
+                                            
+                                
+                                            <tr>
+                                                <td class="middlealign">Drop out</td>
+                                                <td class="middlealign">Team 2</td>
+                                                <td class="middlealign">Danny Engrid</td>
+                                                <td class="middlealign">Team 2</td>
+                                                <td class="text-preserve-space">Response to Danny from Dropout.</td>
                                             </tr>        
                                 
                             </tbody>
@@ -379,8 +411,9 @@
                             </thead><thead>
                             </thead><tbody>
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">Alice Betsy</td>
@@ -388,46 +421,46 @@
                                                 <td class="text-preserve-space">Alice self feedback.</td>
                                             </tr>        
                                 
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
                             </tbody>
                         </table>
                     </div>
@@ -513,8 +546,9 @@
                             </thead><thead>
                             </thead><tbody>
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign"></td>
                                                 <td class="middlealign">Team 2</td>
@@ -709,8 +743,9 @@
                             </thead><thead>
                             </thead><tbody>
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">Alice Betsy</td>
@@ -718,8 +753,9 @@
                                                 <td class="text-preserve-space">PowerSearch</td>
                                             </tr>        
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Drop out</td>
                                                 <td class="middlealign">Team 2</td>
                                                 <td class="middlealign">Drop out</td>
@@ -727,38 +763,38 @@
                                                 <td class="text-preserve-space">PowerSearch</td>
                                             </tr>        
                                 
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
                             </tbody>
                         </table>
                     </div>
@@ -892,8 +928,9 @@
                             </thead><thead>
                             </thead><tbody>
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">Alice Betsy</td>
@@ -901,46 +938,46 @@
                                                 <td class="text-preserve-space"><ul class="selectedOptionsList"><li>PowerSearch</li><li>GoodUI</li></ul></td>
                                             </tr>        
                                 
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
                             </tbody>
                         </table>
                     </div>
@@ -1044,8 +1081,9 @@
                             </thead><thead>
                             </thead><tbody>
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">Alice Betsy</td>
@@ -1053,46 +1091,46 @@
                                                 <td class="text-preserve-space">Danny</td>
                                             </tr>        
                                 
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
                             </tbody>
                         </table>
                     </div>
@@ -1206,8 +1244,9 @@
                             </thead><thead>
                             </thead><tbody>
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">Alice Betsy</td>
@@ -1215,8 +1254,9 @@
                                                 <td class="text-preserve-space">Team 1</td>
                                             </tr>        
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Drop out</td>
                                                 <td class="middlealign">Team 2</td>
                                                 <td class="middlealign">Drop out</td>
@@ -1224,38 +1264,38 @@
                                                 <td class="text-preserve-space">Team 2</td>
                                             </tr>        
                                 
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
                             </tbody>
                         </table>
                     </div>
@@ -1359,8 +1399,9 @@
                             </thead><thead>
                             </thead><tbody>
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">Alice Betsy</td>
@@ -1368,46 +1409,46 @@
                                                 <td class="text-preserve-space"><ul class="selectedOptionsList"><li>Danny</li></ul></td>
                                             </tr>        
                                 
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
                             </tbody>
                         </table>
                     </div>
@@ -1521,8 +1562,9 @@
                             </thead><thead>
                             </thead><tbody>
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">Alice Betsy</td>
@@ -1530,46 +1572,46 @@
                                                 <td class="text-preserve-space"><ul class="selectedOptionsList"><li>Team 1</li><li>Team 2</li></ul></td>
                                             </tr>        
                                 
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
                             </tbody>
                         </table>
                     </div>
@@ -1673,8 +1715,9 @@
                             </thead><thead>
                             </thead><tbody>
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">Alice Betsy</td>
@@ -1682,46 +1725,46 @@
                                                 <td class="text-preserve-space">3.5</td>
                                             </tr>        
                                 
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
                             </tbody>
                         </table>
                     </div>
@@ -1832,8 +1875,9 @@
                             </thead><thead>
                             </thead><tbody>
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">Alice Betsy</td>
@@ -1841,46 +1885,46 @@
                                                 <td class="text-preserve-space"><ul><li>Grades: 45</li><li>Fun: 55</li></ul></td>
                                             </tr>        
                                 
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
                             </tbody>
                         </table>
                     </div>
@@ -2024,8 +2068,9 @@
                             </thead><thead>
                             </thead><tbody>
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">Alice Betsy</td>
@@ -2033,8 +2078,9 @@
                                                 <td class="text-preserve-space">110</td>
                                             </tr>        
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">Benny Charles</td>
@@ -2042,8 +2088,9 @@
                                                 <td class="text-preserve-space">90</td>
                                             </tr>        
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">Charlie Dávis</td>
@@ -2051,8 +2098,9 @@
                                                 <td class="text-preserve-space">50</td>
                                             </tr>        
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">Danny Engrid</td>
@@ -2060,150 +2108,150 @@
                                                 <td class="text-preserve-space">150</td>
                                             </tr>        
                                 
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="middlealign color_neutral">Alice Betsy</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="middlealign color_neutral">Alice Betsy</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
                             </tbody>
                         </table>
                     </div>
@@ -2319,8 +2367,9 @@
                             </thead><thead>
                             </thead><tbody>
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">Alice Betsy</td>
@@ -2328,8 +2377,9 @@
                                                 <td class="text-preserve-space"><span class="color-positive">Equal Share +11%</span><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color_neutral">N/A</span>]</span></td>
                                             </tr>        
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">Benny Charles</td>
@@ -2337,150 +2387,150 @@
                                                 <td class="text-preserve-space"><span class="color_neutral">Equal Share</span></td>
                                             </tr>        
                                 
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="middlealign color_neutral">Alice Betsy</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color_neutral">Equal Share</span>]</span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
-                                              </tr>
-                                               
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="middlealign color_neutral">Alice Betsy</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color_neutral">Equal Share</span>]</span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral">N/A</span></td>
+                                                          </tr>
+                                
                             </tbody>
                         </table>
                     </div>
@@ -2592,8 +2642,9 @@
                             </thead><thead>
                             </thead><tbody>
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">Alice Betsy</td>
@@ -2601,8 +2652,9 @@
                                                 <td class="text-preserve-space">3</td>
                                             </tr>        
                                 
-                                            <tr>
+                                            
                                 
+                                            <tr>
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">Benny Charles</td>
@@ -2610,150 +2662,150 @@
                                                 <td class="text-preserve-space">4</td>
                                             </tr>        
                                 
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="middlealign color_neutral">Alice Betsy</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                              <td class="middlealign color_neutral">Team 1</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Charlie Dávis</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Danny Engrid</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Drop out</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
-                                              <tr class="pending_response_row">
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="middlealign color_neutral">Extra guy</td>
-                                              <td class="middlealign color_neutral">Team 2</td>
-                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
-                                              </tr>
-                                               
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="middlealign color_neutral">Alice Betsy</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="middlealign color_neutral">Benny Charles</td>
+                                                              <td class="middlealign color_neutral">Team 1</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Danny Engrid</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Drop out</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="middlealign color_neutral">Extra guy</td>
+                                                              <td class="middlealign color_neutral">Team 2</td>
+                                                              <td class="text-preserve-space"><span class="color_neutral"><i>No Response</i></span></td>
+                                                          </tr>
+                                
                             </tbody>
                         </table>
                     </div>
