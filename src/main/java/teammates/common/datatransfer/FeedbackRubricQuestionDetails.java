@@ -367,14 +367,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         
         // Add some sub-questions by default
         this.numOfRubricSubQuestions = 1;
-        this.rubricSubQuestions.add("This student has contributed significantly to the project.");
+        this.rubricSubQuestions.add("This student participates well in online discussions.");
         
         this.initializeRubricDescriptions();
         
-        setDescription(0,0, "Routinely provides useful ideas when participating in the group and in classroom discussion. A definite leader who contributes a lot of effort.");
-        setDescription(0,1, "Usually provides useful ideas when participating in the group and in classroom discussion. A strong group member who tries hard!");
-        setDescription(0,2, "Sometimes provides useful ideas when participating in the group and in classroom discussion. A satisfactory group member who does what is required.");
-        setDescription(0,3, "Rarely provides useful ideas when participating in the group and in classroom discussion. May refuse to participate.");
+        setDescription(0,0, "Initiates discussions frequently, and engages the team.");
+        setDescription(0,1, "Takes part in discussions and sometimes initiates discussions.");
+        setDescription(0,2, "Occasionally responds, but never initiates discussions.");
+        setDescription(0,3, "Rarely or never responds.");
         
         return "<div id=\"rubricForm\">" + 
                     this.getQuestionSpecificEditFormHtml(-1) +
