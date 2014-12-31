@@ -5,7 +5,6 @@ import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -67,11 +66,24 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
 
     @Override
     protected RedirectResult createSpecificRedirectResult() {
-        if (regkey == null) {
-            return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
-        } else {
-            return createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);
-        }
+        
+        if(!isRegisteredStudent()){
+            // Always remains at student feedback submission edit page if user is unregistered
+            // Link given to unregistered student already contains course id & session name
+            return createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE); 
+        }else if(isError){
+            // Return to student feedback submission edit page if there is an error and user is registered
+            RedirectResult result =  createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);
+            
+            // Provide course id and session name for the redirected page
+            result.responseParams.put(Const.ParamsNames.COURSE_ID, student.course);
+            result.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME));
+            return result;
+        }else {           
+            // Return to student home page if there is no error and user is registered
+            return  createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+       }
     }
 
     protected StudentAttributes getStudent() {
@@ -80,5 +92,10 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
         }
         
         return student;
+    }
+    
+    protected boolean isRegisteredStudent(){
+        // a registered student must have an associated google Id
+        return (student != null) && (student.googleId != null)  && (!student.googleId.isEmpty());
     }
 }

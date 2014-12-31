@@ -47,6 +47,7 @@ public class Const {
         public static final String EVAL_PUBLISH_EMAIL_TASK_QUEUE = "evaluation-publish-email-queue";
         public static final String EVAL_REMIND_EMAIL_TASK_QUEUE = "evaluation-remind-email-queue";
         public static final String FEEDBACK_REMIND_EMAIL_TASK_QUEUE = "feedback-remind-email-queue";
+        public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_TASK_QUEUE = "feedback-remind-email-particular-users-queue";
         public static final String SEND_EMAIL_TASK_QUEUE = "send-email-queue";
         
         public static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
@@ -270,6 +271,7 @@ public class Const {
         public static final String CONSTSUM_OPTION = "Distribute points (among options) question";
         public static final String CONSTSUM_RECIPIENT = "Distribute points (among recipients) question";
         public static final String CONTRIB = "Team contribution question";
+        public static final String RUBRIC = "Rubric question";
     }
     
     public class InstructorPermissionRoleNames {
@@ -408,6 +410,11 @@ public class Const {
         public static final String FEEDBACK_QUESTION_NUMSCALE_MIN = "numscalemin";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MAX = "numscalemax";
         public static final String FEEDBACK_QUESTION_NUMSCALE_STEP = "numscalestep";
+        public static final String FEEDBACK_QUESTION_RUBRIC_SUBQUESTION = "rubricSubQn";
+        public static final String FEEDBACK_QUESTION_RUBRIC_CHOICE = "rubricChoice";
+        public static final String FEEDBACK_QUESTION_RUBRIC_DESCRIPTION = "rubricDesc";
+        public static final String FEEDBACK_QUESTION_RUBRIC_NUM_ROWS = "rubricNumRows";
+        public static final String FEEDBACK_QUESTION_RUBRIC_NUM_COLS = "rubricNumCols";
     
         public static final String FEEDBACK_RESPONSE_ID = "responseid";
         public static final String FEEDBACK_RESPONSE_RECIPIENT = "responserecipient";
@@ -493,6 +500,7 @@ public class Const {
         public static final String SUBMISSION_COURSE = "course";
         public static final String SUBMISSION_EVAL = "evaluation";
         public static final String SUBMISSION_FEEDBACK = "feedback";
+        public static final String SUBMISSION_REMIND_USERLIST = "usersToRemind";
         
         public static final String ENROLLMENT_DETAILS = "enrollmentdetails";
         
@@ -608,6 +616,8 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACK_COPY = "/page/instructorFeedbackCopy";
         public static final String INSTRUCTOR_FEEDBACK_DELETE = "/page/instructorFeedbackDelete";
         public static final String INSTRUCTOR_FEEDBACK_REMIND = "/page/instructorFeedbackRemind";
+        public static final String INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE = "/page/instructorFeedbackRemindParticularStudentsPage";
+        public static final String INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS = "/page/instructorFeedbackRemindParticularStudents";
         public static final String INSTRUCTOR_FEEDBACK_PUBLISH = "/page/instructorFeedbackPublish";
         public static final String INSTRUCTOR_FEEDBACK_UNPUBLISH = "/page/instructorFeedbackUnpublish";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "/page/instructorFeedbackEditPage";
@@ -687,8 +697,9 @@ public class Const {
         public static final String EVAL_PUBLISH_EMAIL_WORKER = "/evalPublishEmailWorker";
         public static final String EVAL_REMIND_EMAIL_WORKER = "/evalRemindEmailWorker";
         public static final String FEEDBACK_REMIND_EMAIL_WORKER = "/feedbackRemindEmailWorker";
+        public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_WORKER = 
+                                    "/feedbackRemindEmailParticularUsersWorker";
         public static final String SEND_EMAIL_WORKER = "/sendEmailWorker";
-        
     }
     
     public class AutomatedActionNames{
@@ -887,6 +898,7 @@ public class Const {
         public static final String FEEDBACK_SESSION_PUBLISHED = "The feedback session has been published. Please allow up to 1 hour for all the notification emails to be sent out.";
         public static final String FEEDBACK_SESSION_UNPUBLISHED = "The feedback session has been unpublished.";
         public static final String FEEDBACK_SESSION_REMINDERSSENT = "Reminder e-mails have been sent out to those students and instructors. Please allow up to 1 hour for all the notification emails to be sent out.";
+        public static final String FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT = "You have not selected any student to remind.";
         public static final String FEEDBACK_SESSION_EXISTS = "A feedback session by this name already exists under this course";        
         public static final String FEEDBACK_SESSION_EMPTY = "You have not created any sessions yet. Use the form above to create a session.";
     

@@ -15,7 +15,8 @@ public enum FeedbackQuestionType {
     MSQ(FeedbackMsqQuestionDetails.class, FeedbackMsqResponseDetails.class),
     NUMSCALE(FeedbackNumericalScaleQuestionDetails.class, FeedbackNumericalScaleResponseDetails.class),
     CONSTSUM(FeedbackConstantSumQuestionDetails.class, FeedbackConstantSumResponseDetails.class),
-    CONTRIB(FeedbackContributionQuestionDetails.class, FeedbackContributionResponseDetails.class);
+    CONTRIB(FeedbackContributionQuestionDetails.class, FeedbackContributionResponseDetails.class),
+    RUBRIC(FeedbackRubricQuestionDetails.class, FeedbackRubricResponseDetails.class);
     
     
     /**
@@ -46,6 +47,9 @@ public enum FeedbackQuestionType {
             break;
         case CONTRIB:
             feedbackQuestionDetails = new FeedbackContributionQuestionDetails();
+            break;
+        case RUBRIC:
+            feedbackQuestionDetails = new FeedbackRubricQuestionDetails();
             break;
         default:
             Assumption.fail("Failed to instantiate Feedback*QuestionDetails instance for " + this.toString() + " question type.");
@@ -84,6 +88,9 @@ public enum FeedbackQuestionType {
             break;
         case CONTRIB:
             feedbackResponseDetails = new FeedbackContributionResponseDetails();
+            break;
+        case RUBRIC:
+            feedbackResponseDetails = new FeedbackRubricResponseDetails();
             break;
         default:
             Assumption.fail("Failed to instantiate Feedback*ResponseDetails instance for " + this.toString() + " question type.");

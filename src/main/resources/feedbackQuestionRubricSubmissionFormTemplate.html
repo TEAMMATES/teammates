@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-sm-12 table-responsive">
+        <table class="table table-striped table-bordered margin-0" id="rubricResponseTable-${qnIndex}-${respIndex}">
+            <thead>
+                <tr>
+                    <th class="col-md-1"></th>
+                    ${tableHeaderRowFragmentHtml}
+                </tr>
+            </thead>
+            <tbody>                
+                ${tableBodyHtml}
+            </tbody>
+        </table>
+    </div>
+</div>
+<input type="hidden" id="rubricResponse-${qnIndex}-${respIndex}" name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${qnIndex}-${respIndex}" value=""/>

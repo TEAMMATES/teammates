@@ -22,9 +22,9 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -39,7 +39,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
@@ -115,6 +114,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         testIsFeedbackSessionFullyCompletedByStudent();
         
         testSendReminderForFeedbackSession();
+        testSendReminderForFeedbackSessionParticularUsers();
         testDeleteFeedbackSessionsForCourse();
     }
     
@@ -1841,6 +1841,76 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         try {
             fsLogic.sendReminderForFeedbackSession(fs.courseId, nonExistentFSName);
+            signalFailureToDetectException();
+        } catch (EntityDoesNotExistException edne) {
+            assertEquals("Trying to remind non-existent feedback session " 
+                            + fs.courseId + "/" + nonExistentFSName,
+                         edne.getMessage());
+        }
+        
+    }
+    
+    public void testSendReminderForFeedbackSessionParticularUsers() throws Exception {
+        // private method. no need to check for authentication.
+        Logic logic = new Logic();
+        
+        ______TS("typical success case");
+        
+        StudentAttributes studentToRemind = dataBundle.students.get("student5InCourse1");
+        InstructorAttributes instrToRemind = dataBundle.instructors.get("helperOfCourse1");
+        
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        String[] usersToRemind = new String[] {studentToRemind.email, instrToRemind.email};
+
+        List<MimeMessage> emailsSent =
+                fsLogic.sendReminderForFeedbackSessionParticularUsers(
+                        fs.courseId, fs.feedbackSessionName, usersToRemind);
+        assertEquals(6, emailsSent.size());
+
+        MimeMessage emailToStudent = TestHelper.getEmailToStudent(studentToRemind, emailsSent);
+        String errorMessage = "No email sent to selected student " + studentToRemind.email;
+        assertNotNull(errorMessage, emailToStudent);
+        AssertHelper.assertContains(
+                Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
+                emailToStudent.getSubject());
+        AssertHelper.assertContains(fs.feedbackSessionName, emailToStudent.getSubject());
+
+        List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(fs.courseId);
+        String notificationHeader = "The email below has been sent to students of course: " + fs.courseId;
+        for (InstructorAttributes i : instructorList) {
+            List<MimeMessage> emailsToInstructor = TestHelper.getEmailsToInstructor(i, emailsSent);
+            
+            if(!i.email.equals(instrToRemind.email)) {
+                // Only send notification (no reminder) if instructor is not selected
+                assertEquals(1, emailsToInstructor.size());
+                AssertHelper.assertContains(notificationHeader, emailsToInstructor.get(0).getContent().toString());
+                AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
+                        emailsToInstructor.get(0).getSubject());
+                AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(0).getSubject());
+            } else {
+                // Send both notification and reminder if the instructor is selected
+                assertEquals(2, emailsToInstructor.size());
+                
+                assertTrue(emailsToInstructor.get(0).getContent().toString().contains(notificationHeader) 
+                            || emailsToInstructor.get(1).getContent().toString().contains(notificationHeader));
+                assertTrue(!emailsToInstructor.get(0).getContent().toString().contains(notificationHeader) 
+                            || !emailsToInstructor.get(1).getContent().toString().contains(notificationHeader));
+                AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
+                        emailsToInstructor.get(0).getSubject());
+                AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(0).getSubject());
+                AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
+                        emailsToInstructor.get(1).getSubject());
+                AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(1).getSubject());
+            }
+        }
+        
+        ______TS("failure: non-existent Feedback session");
+        
+        String nonExistentFSName = "non-ExIsTENT FsnaMe123";
+        
+        try {
+            fsLogic.sendReminderForFeedbackSessionParticularUsers(
+                    fs.courseId, nonExistentFSName, usersToRemind);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
             assertEquals("Trying to remind non-existent feedback session " 

@@ -542,6 +542,37 @@
               "INSTRUCTORS"
           ]
       },
+      "qn12InSession1": {
+          "feedbackSessionName": "Session with different question types",
+          "courseId": "demo.course",
+          "creatorEmail": "teammates.demo.instructor@demo.course",
+          "questionMetaData":{
+              "value":"{\"questionText\":\"Please choose the best choice for the following sub-questions.\",
+                        \"questionType\":\"RUBRIC\",
+                        \"numOfRubricChoices\" : 2, \"numOfRubricSubQuestions\" : 2,
+                        \"rubricChoices\" : [\"Yes\", \"No\"],
+                        \"rubricSubQuestions\" : [\"This student has done a good job.\",\"This student has tried his/her best.\"],
+                        \"rubricDescriptions\" : [[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]
+                        }"
+          },
+          "questionNumber":"12",
+          "questionType":"RUBRIC",
+          "giverType":"STUDENTS",
+          "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
+          "numberOfEntitiesToGiveFeedbackTo":-100,
+          "showResponsesTo":[
+              "INSTRUCTORS",
+              "STUDENTS"
+          ],
+          "showGiverNameTo":[
+              "INSTRUCTORS",
+              "STUDENTS"
+          ],
+          "showRecipientNameTo":[
+              "INSTRUCTORS",
+              "STUDENTS"
+          ]
+      },
 
 
       "qn1InSession2": {
@@ -656,7 +687,7 @@
           "questionNumber": 5,
           "questionType": "TEXT",
           "giverType": "STUDENTS",
-          "recipientType": "SELF",
+          "recipientType": "OWN_TEAM_MEMBERS",
           "numberOfEntitiesToGiveFeedbackTo": -100,
           "showResponsesTo":[
               "RECEIVER",
@@ -1048,6 +1079,32 @@
           "giverSection":"Tutorial Group 1",
           "recipientSection":"Tutorial Group 1"
       },
+      "aliceResponse10.1":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"12",
+          "feedbackQuestionType":"RUBRIC",
+          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "recipientEmail":"alice.b.tmms@gmail.tmt",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"RUBRIC\",\"answer\" : [1,0]}"
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 1"
+      },
+      "aliceResponse10.2":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"12",
+          "feedbackQuestionType":"RUBRIC",
+          "giverEmail":"alice.b.tmms@gmail.tmt",
+          "recipientEmail":"benny.c.tmms@gmail.tmt",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"RUBRIC\",\"answer\" : [0,1]}"
+          },
+          "giverSection":"Tutorial Group 1",
+          "recipientSection":"Tutorial Group 1"
+      },
       "charlieResponse1":{
           "feedbackSessionName":"Session with different question types",
           "courseId":"demo.course",
@@ -1291,6 +1348,32 @@
           "recipientEmail":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
               "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 150}"
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
+      },
+      "charlieResponse10.1":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"12",
+          "feedbackQuestionType":"RUBRIC",
+          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "recipientEmail":"charlie.d.tmms@gmail.tmt",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"RUBRIC\",\"answer\" : [-1, 0]}"
+          },
+          "giverSection":"Tutorial Group 2",
+          "recipientSection":"Tutorial Group 2"
+      },
+      "charlieResponse10.2":{
+          "feedbackSessionName":"Session with different question types",
+          "courseId":"demo.course",
+          "feedbackQuestionId":"12",
+          "feedbackQuestionType":"RUBRIC",
+          "giverEmail":"charlie.d.tmms@gmail.tmt",
+          "recipientEmail":"francis.g.tmms@gmail.tmt",
+          "responseMetaData":{
+              "value":"{\"questionType\" : \"RUBRIC\",\"answer\" : [0,0]}"
           },
           "giverSection":"Tutorial Group 2",
           "recipientSection":"Tutorial Group 2"
@@ -2139,7 +2222,7 @@
         "feedbackQuestionType": "TEXT",
         "giverEmail": "teammates.demo.instructor@demo.course",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "teammates.demo.instructor@demo.course",
+        "recipientEmail": "Team 2",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "I had a great time with this team. Thanks for all the support from the members."
@@ -2152,7 +2235,7 @@
         "feedbackQuestionType": "TEXT",
         "giverEmail": "emma.f.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "emma.f.tmms@gmail.tmt",
+        "recipientEmail": "Team 1",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "The team work is great and I learnt a lot from this project."
@@ -2165,7 +2248,7 @@
         "feedbackQuestionType": "TEXT",
         "giverEmail": "benny.c.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "benny.c.tmms@gmail.tmt",
+        "recipientEmail": "Team 1",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "I like the team and I learned a lot from my team mates."
@@ -2178,7 +2261,7 @@
         "feedbackQuestionType": "TEXT",
         "giverEmail": "francis.g.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "francis.g.tmms@gmail.tmt",
+        "recipientEmail": "Team 2",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "The team is nice. Everybody learnt a lot from this project."
@@ -2191,7 +2274,7 @@
         "feedbackQuestionType": "TEXT",
         "giverEmail": "danny.e.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "danny.e.tmms@gmail.tmt",
+        "recipientEmail": "Team 1",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "The team dynamics was very good. I enjoy it a lot."
@@ -2204,7 +2287,7 @@
         "feedbackQuestionType": "TEXT",
         "giverEmail": "charlie.d.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "charlie.d.tmms@gmail.tmt",
+        "recipientEmail": "Team 2",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "I like the team. I learned my good software engineering practices from the members."
@@ -2217,7 +2300,7 @@
         "feedbackQuestionType": "TEXT",
         "giverEmail": "alice.b.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 1",
-        "recipientEmail": "alice.b.tmms@gmail.tmt",
+        "recipientEmail": "Team 1",
         "recipientSection": "Tutorial Group 1",
         "responseMetaData": {
           "value": "I had a great time in doing this project."
@@ -2230,7 +2313,7 @@
         "feedbackQuestionType": "TEXT",
         "giverEmail": "gene.h.tmms@gmail.tmt",
         "giverSection": "Tutorial Group 2",
-        "recipientEmail": "gene.h.tmms@gmail.tmt",
+        "recipientEmail": "Team 2",
         "recipientSection": "Tutorial Group 2",
         "responseMetaData": {
           "value": "This is a great team. I am sure we learnt a lot from each other."

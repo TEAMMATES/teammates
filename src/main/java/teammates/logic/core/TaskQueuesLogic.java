@@ -35,6 +35,24 @@ public class TaskQueuesLogic {
         requiredQueue.add(taskToBeAdded);
     }
     
+    // TODO Combine this and createAndAddTask and modify task schedulers accordingly?
+    public void createAndAddTaskMultisetParam(String queueName, 
+            String workerUrl, HashMap<String, String[]> paramMap) {
+        Queue requiredQueue = QueueFactory.getQueue(queueName);
+        TaskOptions taskToBeAdded = TaskOptions.Builder.withUrl(workerUrl);
+        
+        for(Map.Entry<String, String[]> entry : paramMap.entrySet()) {
+            String name = entry.getKey();
+            String[] value = entry.getValue();
+            
+            for (int i = 0; i < value.length; i++) {
+                taskToBeAdded = taskToBeAdded.param(name, value[i]);
+            }
+        }
+        
+        requiredQueue.add(taskToBeAdded);
+    }
+    
     public void createAndAddDeferredTask(String queueName, 
             String workerUrl, HashMap<String, String> paramMap, long countdownTime) {
         Queue requiredQueue = QueueFactory.getQueue(queueName);
