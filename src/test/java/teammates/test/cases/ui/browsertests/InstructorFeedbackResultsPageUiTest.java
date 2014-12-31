@@ -130,7 +130,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByRecipientQuestionGiver();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientQuestionGiver.html");
         
-        //Sorted by team
+        // Do not sort by team
         resultsPage.clickGroupByTeam();
         
         resultsPage.displayByGiverRecipientQuestion();
