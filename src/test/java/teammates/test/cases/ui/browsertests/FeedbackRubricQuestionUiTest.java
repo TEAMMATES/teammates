@@ -207,19 +207,19 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         
         // Add new sub-question
         feedbackEditPage.clickAddRubricRowLink(1);
-        feedbackEditPage.fillRubricSubQuestionBox("New(1) sub-question text", 1, 2);
+        feedbackEditPage.fillRubricSubQuestionBox("New(1) sub-question text", 1, 1);
         
         // Remove existing sub-question
-        feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 1);
+        feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 0);
  
         // Add new sub-question
         feedbackEditPage.clickAddRubricRowLink(1);
-        feedbackEditPage.fillRubricSubQuestionBox("New(2) sub-question text", 1, 3);
+        feedbackEditPage.fillRubricSubQuestionBox("New(2) sub-question text", 1, 2);
         
         // Remove new sub-question
-        feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 2);
+        feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 1);
         
-        // Should end up with 2 questions, (0) and (2).
+        // Should end up with 1 question
         
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditSubQuestionSuccess.html");
@@ -232,19 +232,19 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         
         // Add new choice
         feedbackEditPage.clickAddRubricColLink(1);
-        feedbackEditPage.fillRubricChoiceBox("New(1) choice", 1, 5);
+        feedbackEditPage.fillRubricChoiceBox("New(1) choice", 1, 4);
         
         // Remove existing choice
         feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 1);
  
         // Add new choice
         feedbackEditPage.clickAddRubricColLink(1);
-        feedbackEditPage.fillRubricChoiceBox("New(2) choice", 1, 6);
+        feedbackEditPage.fillRubricChoiceBox("New(2) choice", 1, 5);
         
         // Remove new choice
-        feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 5);
+        feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 4);
         
-        // Should end up with 5 choices, including (0) and (2)
+        // Should end up with 4 choices, including (0) and (2)
         
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditChoiceSuccess.html");
@@ -257,9 +257,9 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         
         // Edit description for a new row, to test if the js generated html works.
         feedbackEditPage.clickAddRubricRowLink(1);
-        feedbackEditPage.fillRubricSubQuestionBox("New sub-question text", 1, 2);
+        feedbackEditPage.fillRubricSubQuestionBox("New sub-question text", 1, 1);
        
-        feedbackEditPage.fillRubricDescriptionBox("New(1) description", 1, 2, 0);
+        feedbackEditPage.fillRubricDescriptionBox("New(1) description", 1, 1, 0);
         
         // Should end up with 2 rubric descriptions, (0) and (1)
         
