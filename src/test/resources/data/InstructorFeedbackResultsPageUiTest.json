@@ -741,7 +741,7 @@
                 "value":"Response to Danny from Dropout."
             },
             "giverSection": "Section A",
-            "recipientSection" : "Section B"
+            "recipientSection" : "Section A"
         },
         "response3d":{
             "feedbackSessionName":"First Session",
@@ -753,8 +753,8 @@
             "responseMetaData":{
                 "value":"Response to Benny from Dropout."
             },
-            "giverSection": "Section B",
-            "recipientSection" : "Section B"
+            "giverSection": "Section A",
+            "recipientSection" : "Section A"
             
         },
         "response4":{
