@@ -1188,7 +1188,7 @@ function addRubricRow(questionNumber) {
       +                     "onmouseover=\"highlightRubricRow(${row}, ${qnIndex}, true)\" onmouseout=\"highlightRubricRow(${row}, ${qnIndex}, false)\">"
       +                 "<span class=\"glyphicon glyphicon-remove\"></span>"
       +             "</span>"
-      +             "<textarea class=\"form-control\" rows=\"1\" id=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${qnIndex}-${row}\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${row}\">${subQuestion}</textarea>"
+      +             "<textarea class=\"form-control\" rows=\"3\" id=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${qnIndex}-${row}\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}-${row}\">${subQuestion}</textarea>"
       +         "</div>"
       +     "</td>"
       +     "${rubricRowBodyFragments}"
@@ -1196,7 +1196,7 @@ function addRubricRow(questionNumber) {
 
     var rubricRowFragmentTemplate =
         "<td class=\"align-center rubricCol-${qnIndex}-${col}\">"
-      +   "<textarea class=\"form-control\" rows=\"1\" id=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${qnIndex}-${row}-${col}\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}\">${description}</textarea>"
+      +   "<textarea class=\"form-control\" rows=\"3\" id=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${qnIndex}-${row}-${col}\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}\">${description}</textarea>"
       + "</td>";
 
     var rubricRowBodyFragments = "";
@@ -1272,7 +1272,7 @@ function addRubricCol(questionNumber) {
     // Insert body <td>'s
     var rubricRowFragmentTemplate =
         "<td class=\"align-center rubricCol-${qnIndex}-${col}\">"
-      +   "<textarea class=\"form-control\" rows=\"1\" id=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${qnIndex}-${row}-${col}\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}\">${description}</textarea>"
+      +   "<textarea class=\"form-control\" rows=\"3\" id=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${qnIndex}-${row}-${col}\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}\">${description}</textarea>"
       + "</td>";
 
     var rubricRowBodyFragments = "";
