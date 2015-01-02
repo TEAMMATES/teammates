@@ -589,13 +589,13 @@
             }        
             
         	//close the last team panel.
-                    if(groupByTeamEnabled==true) {
+            if(groupByTeamEnabled==true) {
         %>
                     </div>
                     </div>
                 </div>
         <%
-        	        }
+        	}
                     Set<String> teamsWithNoResponseReceived = new HashSet<String>(teamsInSection);
                     teamsWithNoResponseReceived.removeAll(receivingTeams);
                     

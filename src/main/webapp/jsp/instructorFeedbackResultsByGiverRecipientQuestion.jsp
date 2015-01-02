@@ -219,7 +219,7 @@
                                     currentTeam = data.bundle.getNameForEmail(targetEmail);
                                 }
                                 newTeam = true;
-                                // print out the "missing response" rows for the previous giver for all possible receivers 
+                                // print out the "missing response" rows for the previous team
                                 Set<String> teamMembersWithoutReceivingResponses = teamMembersEmail;
             
                                 teamMembersWithoutReceivingResponses.removeAll(teamMembersWithResponses);
@@ -980,6 +980,7 @@
                 </div>
             <%
                 }
+
                 //close the last team panel.
                 if(groupByTeamEnabled==true) {
             %>
@@ -993,9 +994,9 @@
                 teamsWithNoResponseGiven.removeAll(givingTeams);
                 
                 if (groupByTeamEnabled) {
-                  List<String> teamsWithNoResponseGivenList = new ArrayList<String>(teamsWithNoResponseGiven);
-                  Collections.sort(teamsWithNoResponseGivenList);
-                  for (String teamWithNoResponseGiven: teamsWithNoResponseGivenList) {
+                    List<String> teamsWithNoResponseGivenList = new ArrayList<String>(teamsWithNoResponseGiven);
+                    Collections.sort(teamsWithNoResponseGivenList);
+                    for (String teamWithNoResponseGiven: teamsWithNoResponseGivenList) {
             %>
                           <div class="panel panel-warning">
                               <div class="panel-heading">
@@ -1057,15 +1058,15 @@
                                              </div>
                                         
                                          <%
-                                         }
+                                        }
                                          %>
                                   </div>
                               </div>
                           </div>                
-                      <%
-                              }    
-                            }
-                      %>
+                <%
+                    }
+                }
+                %>
 
                     </div>
                     </div>

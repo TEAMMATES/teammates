@@ -203,7 +203,7 @@
                                             }
                                                                                                                       
                                             if (possibleReceivers != null && !possibleReceivers.isEmpty()) {
-                                          	   for (String possibleReceiver : possibleReceivers) {
+                                          	    for (String possibleReceiver : possibleReceivers) {
                                                     if (!data.selectedSection.equals("All") && !data.bundle.getSectionFromRoster(possibleReceiver).equals(data.selectedSection)) {
                                                        continue;
                                                     }
@@ -219,17 +219,17 @@
                                                         </tr>
                                 <%
                                               	    }
-}
-                                                  	if (question.giverType == FeedbackParticipantType.TEAMS) {
-                                                      possibleGivers.remove(data.bundle.getNameForEmail(prevGiver)); 
-                                                    } else {
-                                                      possibleGivers.remove(prevGiver);
-                                                    }
+                                                }
+                                                if (question.giverType == FeedbackParticipantType.TEAMS) {
+                                                    possibleGivers.remove(data.bundle.getNameForEmail(prevGiver)); 
+                                                } else {
+                                                    possibleGivers.remove(prevGiver);
+                                                }
                                                     
                                             }
                                                   
                                             if (possibleGivers != null && !possibleGivers.isEmpty()) {
-                                                for (String possibleGiver : possibleGivers){
+                                                for (String possibleGiver : possibleGivers) {
                                                 
                                                 	if (!data.selectedSection.equals("All") && !data.bundle.getSectionFromRoster(possibleGiver).equals(data.selectedSection)) {
                                                         continue;

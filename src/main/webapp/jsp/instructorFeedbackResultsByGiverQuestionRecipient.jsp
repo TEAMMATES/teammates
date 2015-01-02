@@ -647,14 +647,14 @@
                 </div>
             <%
             }
-                        //close the last team panel.
-                        if(groupByTeamEnabled==true) {
+            //close the last team panel.
+            if(groupByTeamEnabled==true) {
             %>
                     </div>
                     </div>
                 </div>
             <%
-        	             }
+            }
                     
                     Set<String> teamsWithNoResponseGiven = new HashSet<String>(teamsInSection);
                     teamsWithNoResponseGiven.removeAll(receivingTeams);

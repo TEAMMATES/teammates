@@ -919,8 +919,8 @@
         <%
             }
 
-                    //close the last team panel.
-                    if(groupByTeamEnabled==true) {
+            //close the last team panel.
+            if(groupByTeamEnabled==true) {
         %>
                     </div>
                     </div>
