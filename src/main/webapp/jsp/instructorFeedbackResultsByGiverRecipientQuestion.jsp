@@ -179,11 +179,11 @@
 
             <%
             	String currentTeam = null;
-                            boolean newTeam = false;
-                            String currentSection = null;
-                            boolean newSection = false;
-                            int sectionIndex = -1;
-                            int teamIndex = -1;
+                boolean newTeam = false;
+                String currentSection = null;
+                boolean newSection = false;
+                int sectionIndex = -1;
+                int teamIndex = -1;
                 Set<String> teamMembersEmail = new HashSet<String>(); 
                 Set<String> teamMembersWithResponses = new HashSet<String>();
             %>
@@ -219,6 +219,62 @@
                                     currentTeam = data.bundle.getNameForEmail(targetEmail);
                                 }
                                 newTeam = true;
+                                // print out the "missing response" rows for the previous giver for all possible receivers 
+                                Set<String> teamMembersWithoutReceivingResponses = teamMembersEmail;
+            
+                                teamMembersWithoutReceivingResponses.removeAll(teamMembersWithResponses);
+                                List<String> teamMembersWithNoResponses = new ArrayList<String>(teamMembersWithoutReceivingResponses);
+                                Collections.sort(teamMembersWithNoResponses);
+                                
+                                
+                                
+                                for (String email : teamMembersWithNoResponses) {
+            %>
+                                <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    From: 
+                                    <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
+                                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(email)%>">
+                                            <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
+                                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                            <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                                        </div>
+                                    <%
+                                        } else {
+                                    %>
+                                        <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
+                                        <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                                    <%
+                                        }
+                                    %>
+                                    <div class="pull-right">
+                                    <% 
+                                        boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(email), 
+                                                                                                        data.feedbackSessionName, 
+                                                                                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                                        String disabledAttribute = !isAllowedToModerate? "disabled=\"disabled\"" : "";  
+                                    %>
+                                        <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
+                                        
+                                            <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                            <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                            <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                            <input type="hidden" name="moderatedstudent" value=<%= email%>>
+                                        
+                                        </form>
+                                        &nbsp;
+                                        <div class="display-icon" style="display:inline;">
+                                            <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
+                                        </div>                
+                                    </div>
+                                </div>
+                                <div class='panel-collapse collapse in'>
+                                    <div class="panel-body"> There are no responses given by this user 
+                                    </div>
+                                </div>
+                                </div>
+            <%
+                                }
             %>
                     </div>
                     </div>
@@ -241,13 +297,13 @@
 
             <%
             	if(currentSection == null || newSection == true){
-                                currentSection = firstResponse.giverSection;
-                                newSection = false;
-                                sectionIndex++;
-                                
-                                givingSections.add(currentSection);
-                                teamsInSection = data.bundle.getTeamsInSectionFromRoster(currentSection);
-                                givingTeams = new HashSet<String>();
+                    currentSection = firstResponse.giverSection;
+                    newSection = false;
+                    sectionIndex++;
+                    
+                    givingSections.add(currentSection);
+                    teamsInSection = data.bundle.getTeamsInSectionFromRoster(currentSection);
+                    givingTeams = new HashSet<String>();
             %>
                     <div class="panel panel-success">
                         <div class="panel-heading">
@@ -359,9 +415,9 @@
                 <div class="panel-body">
                 <%
                 	int recipientIndex = 0;
-                                    for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesFromGiverToRecipient : responsesFromGiver.getValue().entrySet()) {
-                                        recipientIndex++;
-                                        String recipientEmail = responsesFromGiverToRecipient.getValue().get(0).recipientEmail;
+                    for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesFromGiverToRecipient : responsesFromGiver.getValue().entrySet()) {
+                        recipientIndex++;
+                        String recipientEmail = responsesFromGiverToRecipient.getValue().get(0).recipientEmail;
                 %>
                     <div class="row <%=recipientIndex == 1? "": "border-top-gray"%>">
                             <div class="col-md-2">
@@ -403,9 +459,9 @@
                             <div class="col-md-10">
                     <%
                     	int qnIndx = 1;
-                                            for (FeedbackResponseAttributes singleResponse : responsesFromGiverToRecipient.getValue()) {
-                                                FeedbackQuestionAttributes question = questions.get(singleResponse.feedbackQuestionId);
-                                                FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+                        for (FeedbackResponseAttributes singleResponse : responsesFromGiverToRecipient.getValue()) {
+                            FeedbackQuestionAttributes question = questions.get(singleResponse.feedbackQuestionId);
+                            FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
                     %>
                     <div class="panel panel-info">
                                         <div class="panel-heading">Question <%=question.questionNumber%>: <span class="text-preserve-space"><%
@@ -869,13 +925,13 @@
             %>
 
             <%
+
+            // print out the "missing response" rows for the previous giver for all possible receivers 
                 Set<String> teamMembersWithoutReceivingResponses = teamMembersEmail;
-            
+
                 teamMembersWithoutReceivingResponses.removeAll(teamMembersWithResponses);
                 List<String> teamMembersWithNoResponses = new ArrayList<String>(teamMembersWithoutReceivingResponses);
                 Collections.sort(teamMembersWithNoResponses);
-                
-                
                 
                 for (String email : teamMembersWithNoResponses) {
             %>
@@ -889,12 +945,12 @@
                             <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
                         </div>
                     <%
-                    	} else {
+                        } else {
                     %>
                         <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
                         <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
                     <%
-                    	}
+                        }
                     %>
                     <div class="pull-right">
                     <% 
@@ -923,9 +979,9 @@
                 </div>
                 </div>
             <%
-            	}
-                            //close the last team panel.
-                            if(groupByTeamEnabled==true) {
+                }
+                //close the last team panel.
+                if(groupByTeamEnabled==true) {
             %>
                         </div>
                         </div>
@@ -933,13 +989,13 @@
             <%
             	}
                         
-                            Set<String> teamsWithNoResponseGiven = new HashSet<String>(teamsInSection);
-                            teamsWithNoResponseGiven.removeAll(givingTeams);
-                            
-                            if (groupByTeamEnabled) {
-                              List<String> teamsWithNoResponseGivenList = new ArrayList<String>(teamsWithNoResponseGiven);
-                              Collections.sort(teamsWithNoResponseGivenList);
-                              for (String teamWithNoResponseGiven: teamsWithNoResponseGivenList) {
+                Set<String> teamsWithNoResponseGiven = new HashSet<String>(teamsInSection);
+                teamsWithNoResponseGiven.removeAll(givingTeams);
+                
+                if (groupByTeamEnabled) {
+                  List<String> teamsWithNoResponseGivenList = new ArrayList<String>(teamsWithNoResponseGiven);
+                  Collections.sort(teamsWithNoResponseGivenList);
+                  for (String teamWithNoResponseGiven: teamsWithNoResponseGivenList) {
             %>
                           <div class="panel panel-warning">
                               <div class="panel-heading">

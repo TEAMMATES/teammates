@@ -221,7 +221,41 @@
                     currentTeam = data.bundle.getNameForEmail(targetEmail);
                 }
                 newTeam = true;
+
+                // print out the "missing response" rows for the previous giver for all possible receivers 
+                Set<String> teamMembersWithNoReceivedResponses = new HashSet<String>(teamMembersEmail);
+                teamMembersWithNoReceivedResponses.removeAll(teamMembersWithResponses);
                 
+                for (String email : teamMembersWithNoReceivedResponses) {
+        %>
+                    <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        To: 
+            <%
+                    if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) {
+            %>
+                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(email)%>">
+                            <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
+                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                            <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                        </div>
+            <%
+                    } else {
+            %>
+                    <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
+                    <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+            <%
+                    }
+            %>
+                <span class='glyphicon glyphicon-chevron-up pull-right'></span>
+            </div>
+            <div class='panel-collapse collapse in'>
+                <div class="panel-body"> There are no responses received by this user 
+                </div>
+            </div>
+            </div>
+        <%
+            }
                 
         %>
                 </div>
@@ -517,31 +551,33 @@
             </div>
         <%
         	}
-                    
+            
+
+            // print out the "missing response" rows for the previous giver for all possible receivers 
             Set<String> teamMembersWithNoReceivedResponses = new HashSet<String>(teamMembersEmail);
             teamMembersWithNoReceivedResponses.removeAll(teamMembersWithResponses);
-            
+                
             for (String email : teamMembersWithNoReceivedResponses) {
         %>
-            <div class="panel panel-primary">
-            <div class="panel-heading">
-                To: 
+                <div class="panel panel-primary">
+                <div class="panel-heading">
+                    To: 
             <%
-            	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) {
+                if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) {
             %>
                     <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(email)%>">
                         <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                         <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
                     </div>
-                <%
-                	} else {
-                %>
-                    <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
-                    <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
-                <%
-                	}
-                %>
+            <%
+                } else {
+            %>
+                <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
+                <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+            <%
+                }
+            %>
                 <span class='glyphicon glyphicon-chevron-up pull-right'></span>
             </div>
             <div class='panel-collapse collapse in'>
@@ -550,10 +586,8 @@
             </div>
             </div>
         <%
-        	}
-        %>
-
-        <%
+            }        
+            
         	//close the last team panel.
                     if(groupByTeamEnabled==true) {
         %>

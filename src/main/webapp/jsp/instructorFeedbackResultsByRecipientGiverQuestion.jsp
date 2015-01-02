@@ -177,41 +177,41 @@
 
             <%
             	String currentTeam = null;
-                            boolean newTeam = false;
-                            String currentSection = null;
-                            boolean newSection = false;
-                            int sectionIndex = -1;
-                            int teamIndex = 0;
+                boolean newTeam = false;
+                String currentSection = null;
+                boolean newSection = false;
+                int sectionIndex = -1;
+                int teamIndex = 0;
                 Set<String> teamMembersEmail = new HashSet<String>(); 
                 Set<String> teamMembersWithResponses = new HashSet<String>();
             %>
 
             <%
             	Map<String, Map<String, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByRecipient(groupByTeamEnabled);
-                            Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
+                Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
 
-                            int recipientIndex = data.startIndex;
-                            
-                            Set<String> teamsInSection = new HashSet<String>();
-                            Set<String> receivingTeams = new HashSet<String>();
-                            
-                            Set<String> sectionsInCourse = data.bundle.rosterSectionTeamNameTable.keySet();
-                            Set<String> receivingSections = new HashSet<String>();
-                            
-                            
-                            for (Map.Entry<String, Map<String, List<FeedbackResponseAttributes>>> responsesForRecipient : allResponses.entrySet()) {
-                                recipientIndex++;
-                                
+                int recipientIndex = data.startIndex;
+                
+                Set<String> teamsInSection = new HashSet<String>();
+                Set<String> receivingTeams = new HashSet<String>();
+                
+                Set<String> sectionsInCourse = data.bundle.rosterSectionTeamNameTable.keySet();
+                Set<String> receivingSections = new HashSet<String>();
+                
+                
+                for (Map.Entry<String, Map<String, List<FeedbackResponseAttributes>>> responsesForRecipient : allResponses.entrySet()) {
+                    recipientIndex++;
+                    
 
-                                Map<String, List<FeedbackResponseAttributes> > recipientData = responsesForRecipient.getValue();
-                                Object[] recipientDataArray =  recipientData.keySet().toArray();
-                                FeedbackResponseAttributes firstResponse = recipientData.get(recipientDataArray[0]).get(0);
-                                String targetEmail = firstResponse.recipientEmail;
+                    Map<String, List<FeedbackResponseAttributes> > recipientData = responsesForRecipient.getValue();
+                    Object[] recipientDataArray =  recipientData.keySet().toArray();
+                    FeedbackResponseAttributes firstResponse = recipientData.get(recipientDataArray[0]).get(0);
+                    String targetEmail = firstResponse.recipientEmail;
 
-                                FeedbackParticipantType firstQuestionRecipientType = questions.get(firstResponse.feedbackQuestionId).recipientType;
-                                String mailtoStyleAttr = (firstQuestionRecipientType == FeedbackParticipantType.NONE || 
-                                                firstQuestionRecipientType == FeedbackParticipantType.TEAMS || 
-                                                targetEmail.contains("@@"))?"style=\"display:none;\"":"";
+                    FeedbackParticipantType firstQuestionRecipientType = questions.get(firstResponse.feedbackQuestionId).recipientType;
+                    String mailtoStyleAttr = (firstQuestionRecipientType == FeedbackParticipantType.NONE || 
+                                    firstQuestionRecipientType == FeedbackParticipantType.TEAMS || 
+                                    targetEmail.contains("@@"))?"style=\"display:none;\"":"";
             %>
             <%
             	if(currentTeam != null && !(data.bundle.getTeamNameForEmail(targetEmail)=="" ? currentTeam.equals(data.bundle.getNameForEmail(targetEmail)): currentTeam.equals(data.bundle.getTeamNameForEmail(targetEmail)))) {
@@ -220,6 +220,41 @@
                                     currentTeam = data.bundle.getNameForEmail(targetEmail);
                                 }
                                 newTeam = true;
+
+                                // print out the "missing response" rows for the previous giver for all possible receivers 
+                                Set<String> teamMembersWithoutReceivingResponses = teamMembersEmail;
+                                teamMembersWithoutReceivingResponses.removeAll(teamMembersWithResponses);
+                                
+                                List<String> teamMembersWithNoResponses = new ArrayList<String>(teamMembersWithoutReceivingResponses);
+                                Collections.sort(teamMembersWithNoResponses);
+                                for (String email : teamMembersWithNoResponses) {
+            %>
+                                <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    To: 
+                                    <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
+                                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(email)%>">
+                                            <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
+                                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                            <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                                        </div>
+                                    <%
+                                        } else {
+                                    %>
+                                        <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
+                                        <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                                    <%
+                                        }
+                                    %>
+                                    <span class='glyphicon glyphicon-chevron-up pull-right'></span>
+                                </div>
+                                <div class='panel-collapse collapse in'>
+                                    <div class="panel-body"> There are no responses received by this user 
+                                    </div>
+                                </div>
+                                </div>
+            <%
+                                }
             %>
                     </div>
                     </div>
@@ -848,7 +883,8 @@
             </div>
         <%
             }
-                    
+
+            // print out the "missing response" rows for the previous giver for all possible receivers 
             Set<String> teamMembersWithoutReceivingResponses = teamMembersEmail;
             teamMembersWithoutReceivingResponses.removeAll(teamMembersWithResponses);
             
@@ -856,33 +892,32 @@
             Collections.sort(teamMembersWithNoResponses);
             for (String email : teamMembersWithNoResponses) {
         %>
-            <div class="panel panel-primary">
-            <div class="panel-heading">
-                To: 
-                <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
-                    <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(email)%>">
+                <div class="panel panel-primary">
+                <div class="panel-heading">
+                    To: 
+                    <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
+                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(email)%>">
+                            <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
+                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                            <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                        </div>
+                    <%
+                        } else {
+                    %>
                         <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
-                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                         <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
-                    </div>
-                <%
-                	} else {
-                %>
-                    <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
-                    <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
-                <%
-                	}
-                %>
-                <span class='glyphicon glyphicon-chevron-up pull-right'></span>
-            </div>
-            <div class='panel-collapse collapse in'>
-                <div class="panel-body"> There are no responses received by this user 
+                    <%
+                        }
+                    %>
+                    <span class='glyphicon glyphicon-chevron-up pull-right'></span>
                 </div>
-            </div>
-            </div>
+                <div class='panel-collapse collapse in'>
+                    <div class="panel-body"> There are no responses received by this user 
+                    </div>
+                </div>
+                </div>
         <%
-        	}
-                
+            }
 
                     //close the last team panel.
                     if(groupByTeamEnabled==true) {
