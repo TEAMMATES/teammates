@@ -1,9 +1,9 @@
-<%@page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
 <%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionResponseStatus"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
