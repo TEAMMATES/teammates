@@ -2084,7 +2084,7 @@ public class FeedbackSessionsLogic {
             } else {
                 name = instructor.name;
                 lastName = instructor.name;
-                team = "Instructors";
+                team = Const.USER_TEAM_FOR_INSTRUCTOR;
             }
         }
 
