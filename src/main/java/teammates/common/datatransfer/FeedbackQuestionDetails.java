@@ -6,6 +6,8 @@ import java.util.Map;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
 
 /** A class holding the details for a specific question type.
 + * This abstract class is inherited by concrete Feedback*QuestionDetails
@@ -54,6 +56,48 @@ public abstract class FeedbackQuestionDetails {
     
     public abstract boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails);
     public abstract String getCsvHeader();
+
+    /**
+     * Gets the header for detailed responses in csv format.
+     * Override in child classes if necessary.
+     */
+    public String getCsvDetailedResponsesHeader() {
+        return    "Team" + "," + "Giver's Full Name" + "," 
+                + "Giver's Last Name" + "," +"Giver's Email" + ","  
+                + "Recipient's Team" + "," + "Recipient's Full Name" + "," 
+                + "Recipient's Last Name" + "," + "Recipient's Email" + ","  
+                + this.getCsvHeader() + Const.EOL;
+    }
+    
+    public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
+            FeedbackResponseAttributes feedbackResponseAttributes,
+            FeedbackQuestionAttributes question) {
+        
+        // Retrieve giver details
+        String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giverEmail);
+        String giverFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.giverEmail);
+        String giverTeamName =fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.giverEmail);
+        String giverEmail = fsrBundle.getDisplayableEmailGiver(feedbackResponseAttributes);
+        
+        // Retrieve recipient details
+        String recipientLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.recipientEmail);
+        String recipientFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.recipientEmail);
+        String recipientTeamName =fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipientEmail);
+        String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
+        
+        String detailedResponsesRow = Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) 
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) 
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName))
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName))
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
+                                    + "," + fsrBundle.getResponseAnswerCsv(feedbackResponseAttributes, question)
+                                    + Const.EOL;
+        
+        return detailedResponsesRow;
+    }
 
     /**
      * Returns a HTML option for selecting question type.
@@ -157,6 +201,4 @@ public abstract class FeedbackQuestionDetails {
             FeedbackQuestionAttributes question) {
         return Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE;
     }
-    
-    
 }
