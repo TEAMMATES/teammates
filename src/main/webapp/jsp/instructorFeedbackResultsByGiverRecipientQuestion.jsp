@@ -926,7 +926,7 @@
 
             <%
 
-            // print out the "missing response" rows for the previous giver for all possible receivers 
+                // print out the "missing response" rows for the last team
                 Set<String> teamMembersWithoutReceivingResponses = teamMembersEmail;
 
                 teamMembersWithoutReceivingResponses.removeAll(teamMembersWithResponses);

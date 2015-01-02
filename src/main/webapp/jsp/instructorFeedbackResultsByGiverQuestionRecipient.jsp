@@ -215,7 +215,7 @@
                         currentTeam = data.bundle.getTeamNameForEmail(giverEmail);
                         newTeam = true;
 
-                        // print out the "missing response" rows for the previous giver for all possible receivers 
+                        // print out the "missing response" rows for the previous team 
                         Set<String> teamMembersWithoutReceivingResponses = new HashSet<String>(teamMembersEmail);
                         teamMembersWithoutReceivingResponses.removeAll(teamMembersWithResponses);
                         
@@ -592,7 +592,7 @@
             </div>
         <%
         	}
-            // print out the "missing response" rows for the last giver
+            // print out the "missing response" rows for the last giving team
             Set<String> teamMembersWithoutReceivingResponses = new HashSet<String>(teamMembersEmail);
             teamMembersWithoutReceivingResponses.removeAll(teamMembersWithResponses);
             

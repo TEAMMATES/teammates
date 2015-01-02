@@ -222,7 +222,7 @@
                 }
                 newTeam = true;
 
-                // print out the "missing response" rows for the previous giver for all possible receivers 
+                // print out the "missing response" rows for the previous team  
                 Set<String> teamMembersWithNoReceivedResponses = new HashSet<String>(teamMembersEmail);
                 teamMembersWithNoReceivedResponses.removeAll(teamMembersWithResponses);
                 
@@ -553,7 +553,7 @@
         	}
             
 
-            // print out the "missing response" rows for the previous giver for all possible receivers 
+            // print out the "missing response" rows for the last team
             Set<String> teamMembersWithNoReceivedResponses = new HashSet<String>(teamMembersEmail);
             teamMembersWithNoReceivedResponses.removeAll(teamMembersWithResponses);
                 
