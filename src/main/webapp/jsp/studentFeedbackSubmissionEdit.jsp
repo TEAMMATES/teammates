@@ -26,7 +26,8 @@
     <script type="text/javascript" src="/js/student.js"></script>
     <jsp:include page="../enableJS.jsp"></jsp:include>
     <!-- Bootstrap core JavaScript ================================================== -->
-    <script src="/bootstrap/js/bootstrap.min.js"></script>    
+    <script src="/bootstrap/js/bootstrap.min.js"></script> 
+    <jsp:include page="../jsp/elasticTextBox.jsp"></jsp:include>   
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
