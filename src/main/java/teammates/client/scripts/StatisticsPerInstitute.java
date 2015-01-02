@@ -90,7 +90,8 @@ public class StatisticsPerInstitute extends RemoteApiClient {
             isTestingData = true;
         }       
         
-        if(getInstituteForInstructor(instructor).contains("TEAMMATES Test Institute")){
+        String instituteForInstructor = getInstituteForInstructor(instructor);
+        if(instituteForInstructor == null || instituteForInstructor.contains("TEAMMATES Test Institute")){
             isTestingData = true;
         } 
         

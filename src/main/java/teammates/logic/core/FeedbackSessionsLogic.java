@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
@@ -1210,11 +1212,15 @@ public class FeedbackSessionsLogic {
                     "Session is already published.");
         }
 
-        sessionToPublish.resultsVisibleFromTime = Const.TIME_REPRESENTS_NOW;
-
+        sessionToPublish.resultsVisibleFromTime = currentDateTime(sessionToPublish);
         updateFeedbackSession(sessionToPublish);
 
         sendFeedbackSessionPublishedEmail(sessionToPublish);
+    }
+
+    private Date currentDateTime(FeedbackSessionAttributes sessionToPublish) {
+        Calendar now = TimeHelper.now(sessionToPublish.timeZone);
+        return now.getTime();
     }
 
     /**
@@ -1298,6 +1304,51 @@ public class FeedbackSessionsLogic {
 
         return emails;
     }
+    
+    public List<MimeMessage> sendReminderForFeedbackSessionParticularUsers(String courseId,
+            String feedbackSessionName, String[] usersToRemind) throws EntityDoesNotExistException {
+        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
+            throw new EntityDoesNotExistException(
+                    "Trying to remind non-existent feedback session "
+                            + courseId + "/" + feedbackSessionName);
+        }
+
+        FeedbackSessionAttributes session = getFeedbackSession(
+                feedbackSessionName, courseId);
+        
+        List<InstructorAttributes> instructorList = instructorsLogic
+                .getInstructorsForCourse(courseId);
+        List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
+        List<InstructorAttributes> instructorsToRemindList = new ArrayList<InstructorAttributes>();
+
+        for (String userEmail : usersToRemind) {
+            StudentAttributes student = studentsLogic
+                    .getStudentForEmail(courseId, userEmail);
+            if (student != null) {
+                studentsToRemindList.add(student);
+            }
+
+            InstructorAttributes instructor = instructorsLogic
+                    .getInstructorForEmail(courseId, userEmail);
+            if (instructor != null) {
+                instructorsToRemindList.add(instructor);
+            }
+        }
+
+        CourseAttributes course = coursesLogic.getCourse(courseId);
+        List<MimeMessage> emails;
+        Emails emailMgr = new Emails();
+        try {
+            emails = emailMgr.generateFeedbackSessionReminderEmails(course,
+                    session, studentsToRemindList, instructorsToRemindList,
+                    instructorList);
+            emailMgr.sendEmails(emails);
+        } catch (Exception e) {
+            throw new RuntimeException("Error while sending emails :", e);
+        }
+
+        return emails;
+    }
 
     public void scheduleFeedbackRemindEmails(String courseId, String feedbackSessionName) {
         
@@ -1308,6 +1359,19 @@ public class FeedbackSessionsLogic {
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
         taskQueueLogic.createAndAddTask(SystemParams.FEEDBACK_REMIND_EMAIL_TASK_QUEUE,
                 Const.ActionURIs.FEEDBACK_REMIND_EMAIL_WORKER, paramMap);
+    }
+    
+    public void scheduleFeedbackRemindEmailsForParticularUsers(String courseId,
+            String feedbackSessionName, String[] usersToRemind) {
+    
+        HashMap<String, String[]> paramMap = new HashMap<String, String[]>();
+        paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, new String[]{feedbackSessionName});
+        paramMap.put(ParamsNames.SUBMISSION_COURSE, new String[]{courseId});
+        paramMap.put(ParamsNames.SUBMISSION_REMIND_USERLIST, usersToRemind);
+        
+        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        taskQueueLogic.createAndAddTaskMultisetParam(SystemParams.FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_TASK_QUEUE,
+                Const.ActionURIs.FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_WORKER, paramMap);
     }
 
     public void scheduleFeedbackSessionOpeningEmails() {

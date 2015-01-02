@@ -9,14 +9,15 @@ import java.util.List;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import teammates.common.datatransfer.FeedbackSessionType;
 
+import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.api.EvaluationsDb;
 import teammates.test.util.TestHelper;
@@ -195,7 +196,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
         ______TS("typical case");
 
-        		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
 
         FeedbackSessionsLogic.inst().publishFeedbackSession(
                 session1InCourse1.getSessionName(), session1InCourse1.courseId);
@@ -219,11 +220,12 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         StudentFeedbackResultsPageData pageData =
                 (StudentFeedbackResultsPageData) pageResult.data;
 
-        dataBundle.feedbackSessions.get("session1InCourse1").resultsVisibleFromTime = Const.TIME_REPRESENTS_NOW;
         /*
-         * databundle time changed here because the publishing process changed
-         * the corresponding session resultsVisibleFromTime in the dataStore
+         * databundle time changed here because publishing sets resultsVisibleTime to now.
          */
+        dataBundle.feedbackSessions.get("session1InCourse1").resultsVisibleFromTime = TimeHelper.now(
+                dataBundle.feedbackSessions.get("session1InCourse1").timeZone).getTime();
+        
         List<FeedbackSessionAttributes> expectedInfoList = new
                 ArrayList<FeedbackSessionAttributes>();
         List<FeedbackSessionAttributes> actualInfoList = new

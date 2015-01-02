@@ -130,7 +130,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByRecipientQuestionGiver();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientQuestionGiver.html");
         
-        //Sorted by team
+        // Do not sort by team
         resultsPage.clickGroupByTeam();
         
         resultsPage.displayByGiverRecipientQuestion();
@@ -265,7 +265,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage.removeNavBar();
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.clickViewPhotoLink(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.clickViewPhotoLink(6, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         
         ______TS("Ajax for view by recipient > giver > question");
         

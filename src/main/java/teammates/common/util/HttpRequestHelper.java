@@ -57,6 +57,7 @@ public class HttpRequestHelper {
         
         return hashMap;
     }
+    
     /**
      * 
      * @param req An HttpServletRequest which contains the parameters map
@@ -66,6 +67,17 @@ public class HttpRequestHelper {
     @SuppressWarnings("unchecked")
     public static String getValueFromRequestParameterMap(HttpServletRequest req, String key) {
         return getValueFromParamMap(req.getParameterMap(), key);
+    }
+    
+    /**
+     * 
+     * @param req An HttpServletRequest which contains the parameters map
+     * @param key
+     * @return the values for the key. Returns null if key is not found
+     */
+    @SuppressWarnings("unchecked")
+    public static String[] getValuesFromRequestParameterMap(HttpServletRequest req, String key) {
+        return getValuesFromParamMap(req.getParameterMap(), key);
     }
 
     //TODO: rename to a better name

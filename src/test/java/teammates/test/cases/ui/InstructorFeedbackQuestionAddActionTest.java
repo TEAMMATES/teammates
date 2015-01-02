@@ -504,6 +504,64 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     }
     
     @Test
+    public void testExecuteAndPostProcessRubricQuestion() throws Exception{
+        InstructorAttributes instructor1ofCourse1 =
+                dataBundle.instructors.get("instructor1OfCourse1");
+
+        gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
+                
+        ______TS("Typical case");
+
+        // tests when descriptions are missing as well.
+        
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        String[] params = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "RUBRIC",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "Please choose the most appropriate choices for the sub-questions below.",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION+"-0", "SubQn-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-0", "Choice-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION+"-1", "SubQn-2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-1", "Choice-2",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+        };
+        
+        InstructorFeedbackQuestionAddAction action = getAction(params);
+        RedirectResult result = (RedirectResult) action.executeAndPostProcess();
+        
+        assertEquals(
+                Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+                        + "?courseid="
+                        + instructor1ofCourse1.courseId
+                        + "&fsname=First+feedback+session"
+                        + "&user="
+                        + instructor1ofCourse1.googleId
+                        + "&error=false",
+                result.getDestinationWithParams());
+
+        String expectedLogMessage =
+                "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||instructorFeedbackQuestionAdd|||true|||"
+                        + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                        + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                        + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
+                        + " created.<br><span class=\"bold\">Rubric question:</span> Please choose the most appropriate choices for the sub-questions below."
+                        + "|||/page/instructorFeedbackQuestionAdd";
+        assertEquals(expectedLogMessage, action.getLogMessage());
+        
+    }
+    
+    @Test
     public void testExecuteAndPostProcess() throws Exception{
         InstructorAttributes instructor1ofCourse1 =
                 dataBundle.instructors.get("instructor1OfCourse1");

@@ -464,6 +464,36 @@
         
 
         <!-- Modal -->
+        <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
+             <div class="modal-dialog">
+                <div class="modal-content">
+                   <form action="/page/instructorFeedbackRemindParticularStudents" method="post" name="form_remind_list" role="form">
+                      <div class="modal-header">
+                         <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                            ×
+                         </button>
+                         <h4 class="modal-title">
+                            Remind Particular Students
+                            <small>
+                               (Select the student(s) you want to remind)
+                            </small>
+                         </h4>
+                      </div>
+                      <div class="modal-body">
+                         <div class="form-group" id="studentList">
+                         </div>
+                      </div>
+                      <div class="modal-footer">
+                         <button class="btn btn-default" data-dismiss="modal" type="button">
+                            Cancel
+                         </button>
+                         <input class="btn btn-primary" type="submit" value="Remind"/>
+                                              <input name="user" type="hidden" value="CFeedbackUiT.nosessions"/>
+                                           </div>
+                   </form>
+                </div>
+             </div>
+          </div>
         <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalTitle" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">

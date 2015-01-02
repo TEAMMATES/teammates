@@ -21,6 +21,8 @@ import teammates.common.datatransfer.FeedbackMsqResponseDetails;
 import teammates.common.datatransfer.FeedbackNumericalScaleQuestionDetails;
 import teammates.common.datatransfer.FeedbackNumericalScaleResponseDetails;
 import teammates.common.datatransfer.FeedbackQuestionType;
+import teammates.common.datatransfer.FeedbackRubricQuestionDetails;
+import teammates.common.datatransfer.FeedbackRubricResponseDetails;
 import teammates.common.datatransfer.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.FeedbackTextResponseDetails;
 import teammates.test.cases.BaseTestCase;
@@ -141,6 +143,38 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         assertEquals(responseDetails.questionType, FeedbackQuestionType.CONTRIB);
         assertTrue(responseDetails instanceof FeedbackContributionResponseDetails);
         assertEquals("100", responseDetails.getAnswerString());
+        
+        ______TS("RUBRIC Response: invalid indexes in response");
+        questionText = "question text";
+        FeedbackRubricQuestionDetails rubricQuestionDetails =
+                new FeedbackRubricQuestionDetails(questionText);
+        
+        responseDetails = 
+                FeedbackResponseDetails.createResponseDetails(
+                        new String[] { "0-0,1-0" },
+                        FeedbackQuestionType.RUBRIC,
+                        rubricQuestionDetails);
+
+        assertEquals(responseDetails.questionType, FeedbackQuestionType.RUBRIC);
+        assertTrue(responseDetails instanceof FeedbackRubricResponseDetails);
+        assertEquals("[]", responseDetails.getAnswerString());
+        
+        ______TS("RUBRIC Response: typical case");
+        rubricQuestionDetails.numOfRubricChoices++;
+        rubricQuestionDetails.rubricChoices.add("choice1");
+        rubricQuestionDetails.numOfRubricSubQuestions++;
+        rubricQuestionDetails.rubricSubQuestions.add("sub-qn1");
+        rubricQuestionDetails.numOfRubricSubQuestions++;
+        rubricQuestionDetails.rubricSubQuestions.add("sub-qn2");
+        responseDetails = 
+                FeedbackResponseDetails.createResponseDetails(
+                        new String[] { "0-0,1-0" },
+                        FeedbackQuestionType.RUBRIC,
+                        rubricQuestionDetails);
+
+        assertEquals(responseDetails.questionType, FeedbackQuestionType.RUBRIC);
+        assertTrue(responseDetails instanceof FeedbackRubricResponseDetails);
+        assertEquals("[0, 0]", responseDetails.getAnswerString());
 
     }
 }
