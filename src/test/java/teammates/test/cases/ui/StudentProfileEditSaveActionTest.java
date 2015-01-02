@@ -125,12 +125,30 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
     private StudentProfileAttributes getProfileAttributesFrom(
             String[] submissionParams) {
         StudentProfileAttributes spa = new StudentProfileAttributes();
-        spa.shortName = submissionParams[1];
-        spa.email = submissionParams[3];
-        spa.institute = submissionParams[5];
-        spa.nationality = submissionParams[7];
-        spa.gender = submissionParams[9];
-        spa.moreInfo = submissionParams[11];
+        
+        if(submissionParams[1] != null){
+            spa.shortName = submissionParams[1].trim();;
+        }
+        
+        if(submissionParams[3] != null){
+            spa.email = submissionParams[3].trim();;
+        }
+        
+        if(submissionParams[5] != null){
+            spa.institute = submissionParams[5].trim();;
+        }
+        
+        if(submissionParams[7] != null){
+            spa.nationality = submissionParams[7].trim();;
+        }
+        
+        if(submissionParams[9] != null){
+            spa.gender = submissionParams[9].trim();;
+        }
+        
+        if(submissionParams[11] != null){
+            spa.moreInfo = submissionParams[11].trim();;
+        }
         spa.modifiedDate = null;
         
         return spa;
