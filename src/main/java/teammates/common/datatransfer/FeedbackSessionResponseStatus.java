@@ -47,7 +47,7 @@ public class FeedbackSessionResponseStatus {
         }
     };
     
- // Sorts by teamName
+    // Sorts by teamName
     public Comparator<String> compareByTeamName
         = new Comparator<String>() {
         
@@ -71,19 +71,19 @@ public class FeedbackSessionResponseStatus {
                 // 1 represents team 2 is at higher order
                 return 1;                
             }else if(isTeamName1Instructor && isTeamName2Instructor){
-                // Both teams belong to instructors
+                // Both teams belong to instructor
                 // Therefore team name 1 and 2 are the same, which is indicated by 0
                 return compareByName.compare(s1, s2);
             }            
             else{
-                // Both teams belong to students
-                // Compare on team name
+                // Both teams belong to student
+                // Compare on team names
                 return teamName1.compareToIgnoreCase(teamName2);
             }
         }
     };
     
- // Sorts by studentName
+    // Sorts by studentName
     public Comparator<String> compareByName
         = new Comparator<String>() {
         
