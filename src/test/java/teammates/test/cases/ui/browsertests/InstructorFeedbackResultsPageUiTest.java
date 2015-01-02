@@ -265,8 +265,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage.removeNavBar();
         resultsPage.hoverClickAndViewStudentPhotoOnHeading(5, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.clickViewPhotoLink(5, "profile_picture_default.png");
-
+        resultsPage.clickViewPhotoLink(6, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        
         ______TS("Ajax for view by recipient > giver > question");
         
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "recipient-giver-question");
