@@ -570,9 +570,69 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return "";
     }
     
+    public String getNoResponseTextInCsv(String giverEmail, String recipientEmail,
+            FeedbackSessionResultsBundle bundle,
+            FeedbackQuestionAttributes question) {
+       return "All Sub-Questions," + getNoResponseText(giverEmail, recipientEmail, bundle, question);
+    }
+    
     @Override
     public String getCsvHeader() {
         return "Feedback";
+    }
+    
+    public String getCsvDetailedResponsesHeader() {
+        return    "Team" + "," + "Giver's Full Name" + "," 
+                + "Giver's Last Name" + "," +"Giver's Email" + ","  
+                + "Recipient's Team" + "," + "Recipient's Full Name" + "," 
+                + "Recipient's Last Name" + "," + "Recipient's Email" + ","  
+                + "Sub Question" + ","
+                + this.getCsvHeader() + Const.EOL;
+    }
+    
+    public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
+            FeedbackResponseAttributes feedbackResponseAttributes,
+            FeedbackQuestionAttributes question) {
+        
+        // Retrieve giver details
+        String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giverEmail);
+        String giverFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.giverEmail);
+        String giverTeamName =fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.giverEmail);
+        String giverEmail = fsrBundle.getDisplayableEmailGiver(feedbackResponseAttributes);
+        
+        // Retrieve recipient details
+        String recipientLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.recipientEmail);
+        String recipientFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.recipientEmail);
+        String recipientTeamName =fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipientEmail);
+        String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
+        
+        FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) feedbackResponseAttributes.getResponseDetails();
+        String detailedResponsesRow = "";
+        for (int i=0 ; i<frd.answer.size() ; i++) {
+            int chosenIndex = frd.answer.get(i);
+            String chosenChoice = "";
+            String chosenIndexString = StringHelper.integerToLowerCaseAlphabeticalIndex(i+1);
+            
+            if (chosenIndex == -1) {
+                chosenChoice = Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE;
+            } else {
+                chosenChoice = this.rubricChoices.get(frd.answer.get(i)) + " (Choice " + (chosenIndex+1) + ")";
+            }
+            
+            detailedResponsesRow += Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) 
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) 
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName))
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName))
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
+                                    + "," + Sanitizer.sanitizeForCsv(chosenIndexString)
+                                    + "," + Sanitizer.sanitizeForCsv(chosenChoice)
+                                    + Const.EOL;
+        }
+        
+        return detailedResponsesRow;
     }
 
     @Override

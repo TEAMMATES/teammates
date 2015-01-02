@@ -776,8 +776,7 @@ public class FeedbackSessionsLogic {
                         + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientName))
                         + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientLastName))
                         + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientEmail))
-                        + "," + Sanitizer.sanitizeForCsv(
-                                questionDetails.getNoResponseTextInCsv(giver, possibleRecipient, results, question))
+                        + "," + questionDetails.getNoResponseTextInCsv(giver, possibleRecipient, results, question)
                         + Const.EOL);
             }
         }

@@ -167,7 +167,7 @@ public abstract class FeedbackQuestionDetails {
             FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
         return "<span class=\"color_neutral\"><i>" + 
-               getNoResponseText(giverEmail, recipientEmail, bundle, question) + 
+               Sanitizer.sanitizeForHtml(getNoResponseText(giverEmail, recipientEmail, bundle, question)) + 
                "</i></span>";
     }
     
@@ -182,7 +182,7 @@ public abstract class FeedbackQuestionDetails {
     public String getNoResponseTextInCsv(String giverEmail, String recipientEmail,
             FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
-       return getNoResponseText(giverEmail, recipientEmail, bundle, question);
+       return Sanitizer.sanitizeForCsv(getNoResponseText(giverEmail, recipientEmail, bundle, question));
     }
     
     /**
