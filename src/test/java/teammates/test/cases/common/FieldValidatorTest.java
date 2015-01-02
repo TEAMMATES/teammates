@@ -120,7 +120,7 @@ public class FieldValidatorTest extends BaseTestCase{
         String untrimmedValue = " abc ";
         assertEquals("invalid: untrimmed", 
                 String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, typicalFieldName),
-                validator.getValidityInfoForSizeCappedNonEmptyString(
+                validator.getValidityInfoForSizeCappedPossiblyEmptyString(
                         typicalFieldName, 
                         maxLength, 
                         untrimmedValue));
@@ -246,7 +246,7 @@ public class FieldValidatorTest extends BaseTestCase{
                 String.format(
                         SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, 
                         emptyValue, typicalFieldName,  REASON_EMPTY, typicalFieldName, maxLength),
-                validator.getValidityInfoForSizeCappedNonEmptyString(
+                validator.getValidityInfoForAllowedName(
                         typicalFieldName, 
                         maxLength, 
                         emptyValue));
@@ -256,7 +256,7 @@ public class FieldValidatorTest extends BaseTestCase{
         String untrimmedValue = " abc ";
         assertEquals("invalid: untrimmed", 
                 String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, typicalFieldName),
-                validator.getValidityInfoForSizeCappedNonEmptyString(
+                validator.getValidityInfoForAllowedName(
                         typicalFieldName, 
                         maxLength, 
                         untrimmedValue));
