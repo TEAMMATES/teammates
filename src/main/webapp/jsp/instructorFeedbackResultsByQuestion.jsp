@@ -325,8 +325,8 @@
                                     <% 
                                         } 
                                     %>
-                                </td>
-                                <td><%=studentName%></td>                              
+                                    </td>
+                                    <td><%=studentName%></td>                              
                                 </tr>
                             <%
                                 }
