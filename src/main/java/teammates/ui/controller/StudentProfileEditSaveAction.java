@@ -5,6 +5,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 
 /**
  * Action: saves the new profile details given by a student. 
@@ -57,28 +58,12 @@ public class StudentProfileEditSaveAction extends Action {
     }
 
     private void preprocessParameters(StudentProfileAttributes studentProfile) {
-        if(studentProfile.shortName != null){
-            studentProfile.shortName = studentProfile.shortName.trim();;
-        }
-       
-        if(studentProfile.email != null){
-            studentProfile.email = studentProfile.email.trim();
-        }
         
-        if(studentProfile.gender != null){
-            studentProfile.gender = studentProfile.gender.trim();
-        }
-        
-        if(studentProfile.nationality != null){
-            studentProfile.nationality = studentProfile.nationality.trim();
-        }
-        
-        if(studentProfile.institute != null){
-            studentProfile.institute = studentProfile.institute.trim();
-        }
-        
-        if(studentProfile.moreInfo != null){
-            studentProfile.moreInfo = studentProfile.moreInfo.trim();
-        }
+        studentProfile.shortName = StringHelper.trimIfNotNull(studentProfile.shortName);
+        studentProfile.email = StringHelper.trimIfNotNull(studentProfile.email);
+        studentProfile.gender = StringHelper.trimIfNotNull(studentProfile.gender);
+        studentProfile.nationality = StringHelper.trimIfNotNull(studentProfile.nationality);
+        studentProfile.institute = StringHelper.trimIfNotNull(studentProfile.institute);
+        studentProfile.moreInfo = StringHelper.trimIfNotNull(studentProfile.moreInfo);
     }
 }

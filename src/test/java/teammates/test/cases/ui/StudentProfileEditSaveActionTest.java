@@ -16,6 +16,7 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentProfileEditSaveAction;
@@ -126,29 +127,12 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
             String[] submissionParams) {
         StudentProfileAttributes spa = new StudentProfileAttributes();
         
-        if(submissionParams[1] != null){
-            spa.shortName = submissionParams[1].trim();;
-        }
-        
-        if(submissionParams[3] != null){
-            spa.email = submissionParams[3].trim();;
-        }
-        
-        if(submissionParams[5] != null){
-            spa.institute = submissionParams[5].trim();;
-        }
-        
-        if(submissionParams[7] != null){
-            spa.nationality = submissionParams[7].trim();;
-        }
-        
-        if(submissionParams[9] != null){
-            spa.gender = submissionParams[9].trim();;
-        }
-        
-        if(submissionParams[11] != null){
-            spa.moreInfo = submissionParams[11].trim();;
-        }
+        spa.shortName = StringHelper.trimIfNotNull(submissionParams[1]);
+        spa.email = StringHelper.trimIfNotNull(submissionParams[3]);
+        spa.institute = StringHelper.trimIfNotNull(submissionParams[5]);
+        spa.nationality = StringHelper.trimIfNotNull(submissionParams[7]);
+        spa.gender = StringHelper.trimIfNotNull(submissionParams[9]);
+        spa.moreInfo = StringHelper.trimIfNotNull(submissionParams[11]);
         spa.modifiedDate = null;
         
         return spa;
