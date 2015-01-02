@@ -285,8 +285,28 @@ function updateConstSumMessageQn(qnNum){
 
 function validateConstSumQuestions(){
     updateConstSumMessages();
+
+    // When any of the const sum questions has an error.
     if($("p[id^='constSumMessage-'].text-color-red").length > 0){
-        setStatusMessage("Please fix the errors for distribution questions. To skip a distribution question, leave the boxes blank.", true)
+
+        var constSumQuestionNums = getQuestionTypeNumbers("CONSTSUM");
+        var statusMessage = "Please fix the error(s) for distribution question(s) ";
+        var errorCount = 0;
+        for(var i=0 ; i<constSumQuestionNums.length ; i++){
+            var qnNum = constSumQuestionNums[i];
+            
+            // indicate the question number where the errors are located at
+            if($("p[id^='constSumMessage-"+qnNum+"'].text-color-red").length > 0){
+                statusMessage += (errorCount == 0) ? "" : ",";
+                statusMessage += " ";
+                statusMessage += qnNum;
+                errorCount++;
+            }
+        }
+
+        statusMessage += ". ";
+        statusMessage += "To skip a distribution question, leave the boxes blank.";
+        setStatusMessage(statusMessage, true);
         return false;
     }
     return true;
