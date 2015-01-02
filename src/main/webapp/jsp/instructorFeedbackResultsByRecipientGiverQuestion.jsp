@@ -1088,14 +1088,47 @@
             %>          
                     <div class="panel-body padding-0">
                         <table class="table table-striped table-bordered margin-0">
+                            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                <tr>
+                                <th id="button_sortFromTeam" class="button-sort-ascending"
+                                    onclick="toggleSort(this,1)" style="width: 15%;">Team<span
+                                    class="icon-sort unsorted"></span>
+                                </th>
+                                <th id="button_sortTo" class="button-sort-none"
+                                    onclick="toggleSort(this,2)" style="width: 15%;">Name<span 
+                                    class="icon-sort unsorted"></span>
+                                </th>                            
+                                </tr>
+                            </thead>
                             <tbody>
-                            <%  
+                            <% 
                                 List<String> students = responseStatus.getStudentsWhoDidNotRespondToAnyQuestion();
-                                for (String studentName : students) {
+                                for (String studentEmail : students) {
+                                    String studentName = responseStatus.emailNameTable.get(studentEmail);
+                                    if(studentName == null){
+                                        // Skip invalid student name
+                                        continue;
+                                    }
                             %>
-                                    <tr>
-                                        <td><%=studentName%></td>
-                                    </tr>
+                                <tr>
+                                    <td>
+                                    <% String teamName = responseStatus.emailTeamNameTable.get(studentEmail);
+                                        if(teamName == null){
+                                            // Assign empty string to team name
+                                            // This is only for instructors, which they do not have a team name
+                                            teamName = Const.USER_TEAM_FOR_INSTRUCTOR;
+                                    %>
+                                        <i><%=teamName%> </i>
+                                    <%       
+                                        }else{
+                                    %>
+                                        <%=teamName%>
+                                    <% 
+                                        } 
+                                    %>
+                                    </td>
+                                    <td><%=studentName%></td>                              
+                                </tr>
                             <%
                                 }
                             %>

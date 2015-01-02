@@ -448,4 +448,13 @@ public class StringHelper {
         return result;
     }
     
+    /**
+     * Trim the given string if it is not equals to null
+     */
+    public static String trimIfNotNull(String untrimmedString){
+        if(untrimmedString != null){
+            return untrimmedString.trim();
+        }
+        return untrimmedString;
+    }
 }

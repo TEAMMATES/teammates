@@ -16,6 +16,7 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentProfileEditSaveAction;
@@ -125,12 +126,13 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
     private StudentProfileAttributes getProfileAttributesFrom(
             String[] submissionParams) {
         StudentProfileAttributes spa = new StudentProfileAttributes();
-        spa.shortName = submissionParams[1];
-        spa.email = submissionParams[3];
-        spa.institute = submissionParams[5];
-        spa.nationality = submissionParams[7];
-        spa.gender = submissionParams[9];
-        spa.moreInfo = submissionParams[11];
+        
+        spa.shortName = StringHelper.trimIfNotNull(submissionParams[1]);
+        spa.email = StringHelper.trimIfNotNull(submissionParams[3]);
+        spa.institute = StringHelper.trimIfNotNull(submissionParams[5]);
+        spa.nationality = StringHelper.trimIfNotNull(submissionParams[7]);
+        spa.gender = StringHelper.trimIfNotNull(submissionParams[9]);
+        spa.moreInfo = StringHelper.trimIfNotNull(submissionParams[11]);
         spa.modifiedDate = null;
         
         return spa;
