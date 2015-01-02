@@ -747,7 +747,7 @@
       <script type="text/javascript">
          document.getElementById( 'statusMessage' ).scrollIntoView();
       </script>
-       <br/>
+      <br/>
             <div class="" id="sessionList">
          <table class="table-responsive table table-striped table-bordered" id="table-sessions">
             <thead>
@@ -789,7 +789,7 @@
                      </span>
                   </td>
                   <td class="session-response-for-test recent">
-                     {*}
+                     0 / 9
                   </td>
                   <td class="no-print">
                      <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackResultsPage?courseid=AHPUiT.instr1.gma-demo&fsname=Second+team+feedback+session&user={$test.instructor}" title="View the submitted responses for this feedback session">
@@ -804,9 +804,27 @@
                      <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackSubmissionEditPage?courseid=AHPUiT.instr1.gma-demo&fsname=Second+team+feedback+session&user={$test.instructor}" title="Start submitting feedback">
                         Submit
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=Second+team+feedback+session&user={$test.instructor}" onclick="return toggleRemindStudents('Second team feedback session');" title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so">
-                        Remind
-                     </a>
+                     <div class="btn-group">
+                        <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=Second+team+feedback+session&user={$test.instructor}" onclick="return toggleRemindStudents('Second team feedback session');" title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so">
+                           Remind
+                        </a>
+                        <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" data-toggle="dropdown" type="button">
+                           <span class="caret">
+                           </span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                           <li>
+                              <a class="session-remind-inner-for-test" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=Second+team+feedback+session&user={$test.instructor}" onclick="return toggleRemindStudents('Second team feedback session');" title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so">
+                                 Remind all students
+                              </a>
+                           </li>
+                           <li>
+                              <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=AHPUiT.instr1.gma-demo&fsname=Second+team+feedback+session&user={$test.instructor}" data-courseid="AHPUiT.instr1.gma-demo" data-fsname="Second team feedback session" data-target="#remindModal" data-toggle="modal" href="#">
+                                 Remind particular students
+                              </a>
+                           </li>
+                        </ul>
+                     </div>
                      <a class="btn btn-default btn-xs btn-tm-actions session-publish-for-test" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackPublish?courseid=AHPUiT.instr1.gma-demo&fsname=Second+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}" onclick="return togglePublishEvaluation('Second team feedback session');" title="Make session responses available for viewing">
                         Publish
                      </a>
@@ -842,9 +860,27 @@
                      <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackSubmissionEditPage?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&user={$test.instructor}" title="Start submitting feedback">
                         Submit
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&user={$test.instructor}" onclick="return false" title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so">
-                        Remind
-                     </a>
+                     <div class="btn-group">
+                        <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&user={$test.instructor}" onclick="return false" title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so">
+                           Remind
+                        </a>
+                        <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test disabled" data-toggle="dropdown" onclick="return false" type="button">
+                           <span class="caret">
+                           </span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                           <li>
+                              <a class="session-remind-inner-for-test" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&user={$test.instructor}" title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so">
+                                 Remind all students
+                              </a>
+                           </li>
+                           <li>
+                              <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&user={$test.instructor}" data-courseid="AHPUiT.instr1.gma-demo" data-fsname="First team feedback session" data-target="#remindModal" data-toggle="modal" href="#">
+                                 Remind particular students
+                              </a>
+                           </li>
+                        </ul>
+                     </div>
                      <a class="btn btn-default btn-xs btn-tm-actions session-unpublish-for-test" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=AHPUiT.instr1.gma-demo&fsname=First+team+feedback+session&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}" onclick="return toggleUnpublishEvaluation('First team feedback session');" title="Make responses no longer visible">
                         Unpublish
                      </a>
@@ -880,9 +916,27 @@
                      <a class="btn btn-default btn-xs btn-tm-actions session-submit-for-test" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackSubmissionEditPage?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&user={$test.instructor}" title="Start submitting feedback">
                         Submit
                      </a>
-                     <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&user={$test.instructor}" onclick="return false" title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so">
-                        Remind
-                     </a>
+                     <div class="btn-group">
+                        <a class="btn btn-default btn-xs btn-tm-actions session-remind-for-test disabled" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&user={$test.instructor}" onclick="return false" title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so">
+                           Remind
+                        </a>
+                        <button aria-expanded="false" class="btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test disabled" data-toggle="dropdown" onclick="return false" type="button">
+                           <span class="caret">
+                           </span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                           <li>
+                              <a class="session-remind-inner-for-test" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackRemind?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&user={$test.instructor}" title="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so">
+                                 Remind all students
+                              </a>
+                           </li>
+                           <li>
+                              <a class="session-remind-particular-for-test" data-actionlink="/page/instructorFeedbackRemindParticularStudentsPage?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&user={$test.instructor}" data-courseid="AHPUiT.instr1.gma-demo" data-fsname="Session with different question types" data-target="#remindModal" data-toggle="modal" href="#">
+                                 Remind particular students
+                              </a>
+                           </li>
+                        </ul>
+                     </div>
                      <a class="btn btn-default btn-xs btn-tm-actions session-unpublish-for-test" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=AHPUiT.instr1.gma-demo&fsname=Session+with+different+question+types&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3D{$test.instructor}&user={$test.instructor}" onclick="return toggleUnpublishEvaluation('Session with different question types');" title="Make responses no longer visible">
                         Unpublish
                      </a>
@@ -894,6 +948,36 @@
                   <br/>
                   <br/>
                </div>
+      <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <form action="/page/instructorFeedbackRemindParticularStudents" method="post" name="form_remind_list" role="form">
+                  <div class="modal-header">
+                     <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                        ×
+                     </button>
+                     <h4 class="modal-title">
+                        Remind Particular Students
+                        <small>
+                           (Select the student(s) you want to remind)
+                        </small>
+                     </h4>
+                  </div>
+                  <div class="modal-body">
+                     <div class="form-group" id="studentList">
+                     </div>
+                  </div>
+                  <div class="modal-footer">
+                     <button class="btn btn-default" data-dismiss="modal" type="button">
+                        Cancel
+                     </button>
+                     <input class="btn btn-primary" type="submit" value="Remind"/>
+                                          <input name="user" type="hidden" value="{$test.instructor}"/>
+                                       </div>
+               </form>
+            </div>
+         </div>
+      </div>
       <div aria-hidden="true" aria-labelledby="copyModalTitle" class="modal fade" id="copyModal" role="dialog" tabindex="-1">
          <div class="modal-dialog">
             <div class="modal-content">

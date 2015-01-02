@@ -3,13 +3,13 @@ package teammates.test.cases.ui.browsertests;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
+
 import java.lang.reflect.Constructor;
+
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -41,11 +41,13 @@ import teammates.test.pageobjects.InstructorFeedbacksPage;
 import teammates.test.pageobjects.InstructorHomePage;
 import teammates.test.pageobjects.LoginPage;
 import teammates.test.pageobjects.StudentCommentsPage;
-import teammates.test.pageobjects.StudentProfilePage;
-import teammates.test.util.Priority;
 import teammates.test.pageobjects.StudentCourseDetailsPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
 import teammates.test.pageobjects.StudentHomePage;
+import teammates.test.pageobjects.StudentProfilePage;
+import teammates.test.util.Priority;
+
+import com.google.appengine.api.datastore.Text;
 
 /**
  * Covers the home page for admins.

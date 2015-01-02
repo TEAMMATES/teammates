@@ -45,6 +45,21 @@ public class FeedbackQuestionFormTemplates {
     public static String CONTRIB_RESULT_STATS_STUDENT = FileHelper.readResourseFile("feedbackQuestionContribResultStatsStudentViewTemplate.html");
     public static String CONTRIB_RESULT_STATS_STUDENT_INFO = FileHelper.readResourseFile("feedbackQuestionContribResultStatsStudentViewAdditionalInfo.html");
     
+    public static String RUBRIC_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionRubricSubmissionFormTemplate.html");
+    public static String RUBRIC_SUBMISSION_FORM_HEADER_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricSubmissionFormHeaderFragment.html");
+    public static String RUBRIC_SUBMISSION_FORM_BODY_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricSubmissionFormBodyFragment.html");
+    public static String RUBRIC_SUBMISSION_FORM_BODY = FileHelper.readResourseFile("feedbackQuestionRubricSubmissionFormBody.html");
+    public static String RUBRIC_EDIT_FORM = FileHelper.readResourseFile("feedbackQuestionRubricEditFormTemplate.html");
+    public static String RUBRIC_EDIT_FORM_HEADER_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricEditFormHeaderFragment.html");
+    public static String RUBRIC_EDIT_FORM_BODY_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricEditFormBodyFragment.html");
+    public static String RUBRIC_EDIT_FORM_BODY = FileHelper.readResourseFile("feedbackQuestionRubricEditFormBody.html");
+    public static String RUBRIC_RESULT_STATS = FileHelper.readResourseFile("feedbackQuestionRubricResultStatsTemplate.html");
+    public static String RUBRIC_RESULT_STATS_HEADER_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricResultStatsHeaderFragment.html");
+    public static String RUBRIC_RESULT_STATS_BODY_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricResultStatsBodyFragment.html");
+    public static String RUBRIC_RESULT_STATS_BODY = FileHelper.readResourseFile("feedbackQuestionRubricResultStatsBody.html");
+    public static String RUBRIC_ADDITIONAL_INFO = FileHelper.readResourseFile("feedbackQuestionRubricAdditionalInfoTemplate.html");
+    
+    
     
     /** Populates the feedback question form html templates by replacing 
      * variables in the template string with the given value string.

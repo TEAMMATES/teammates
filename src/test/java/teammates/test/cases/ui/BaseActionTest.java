@@ -24,6 +24,7 @@ import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.ActionResult;
+import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 
@@ -52,6 +53,14 @@ public class BaseActionTest extends BaseComponentTestCase {
             throws EntityDoesNotExistException, InvalidParametersException {
         //TODO: check existing code to use this method instead of casting independently
         return (RedirectResult) a.executeAndPostProcess();
+    }
+    
+    /** Executes the action and returns the result.
+     * Assumption: The action returns a AjaxResult.
+     */
+    protected AjaxResult getAjaxResult(Action a)
+            throws EntityDoesNotExistException, InvalidParametersException {
+        return (AjaxResult) a.executeAndPostProcess();
     }
 
     /**
