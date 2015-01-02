@@ -229,7 +229,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage.clickAjaxPanel(0);
         
-        
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByGRQ.html");
         
         ______TS("test view photo for view by giver > recipient > question");
@@ -247,10 +246,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr", "Open Session", true, "giver-question-recipient");
         
         resultsPage.clickAjaxPanel(0);
-        
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByGQR.html");
-        
-        
         
         ______TS("test view photo for view by giver > question > recipient");
         
@@ -264,7 +260,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         resultsPage.clickAjaxPanel(0);
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByRQG.html");
-        
         
         ______TS("test view photo for view by recipient > question > giver");
         
