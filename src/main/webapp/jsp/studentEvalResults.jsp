@@ -96,7 +96,7 @@
                           </td>
                         </tr>
                         <tr>
-                          <td><strong>Teams's view:</strong></td>
+                          <td><strong>Team's view:</strong></td>
                           <td><span class="text-muted"><strong>of me:</strong></span> <%=StudentEvalResultsPageData.getPointsAsColorizedHtml(data.evalResult.incoming.get(0).details.normalizedToStudent)%>
                           </td>
                           <td><span class="text-muted"><strong>of others:</strong></span>

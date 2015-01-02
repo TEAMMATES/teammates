@@ -42,6 +42,7 @@
         <script type="text/javascript" src="/js/instructor.js"></script>
         <script type="text/javascript" src="/js/instructorFeedbacksAjax.js"></script>
         <script type="text/javascript" src="/js/instructorFeedbacks.js"></script>
+        <script type="text/javascript" src="/js/instructorFeedbackAjaxRemindModal.js"></script>
         <jsp:include page="../enableJS.jsp"></jsp:include>
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -84,8 +85,7 @@
                     </div>
                     <h4 class="label-control col-md-1 text-md">Or: </h4>
                     <div class="col-md-3">
-                        <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy
-                            from previous feedback sessions</a>
+                        <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Loading...</a>
                     </div>
                 </div>
                 <br>
@@ -584,8 +584,8 @@
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         <br>
 
+        <div id="sessionList" class="align-center">
         <% if(data.isUsingAjax) { %>
-        <div id="sessionList">
         <table class="table-responsive table table-striped table-bordered" id="table-sessions"> 
             <thead>
                 <tr class="fill-primary">
@@ -683,12 +683,38 @@
         <%
                 }
         %>
-         </div>
         <%
             }
         %>
+        </div>
+        
 
         <!-- Modal -->
+        <div class="modal fade" id="remindModal" tabindex="-1" role="dialog" aria-labelledby="remindModal" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <form method="post" name="form_remind_list" role="form"
+                    action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS%>">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title">
+                    Remind Particular Students
+                    <small>(Select the student(s) you want to remind)</small>
+                  </h4>
+                </div>
+                <div class="modal-body">
+                  <div id="studentList" class="form-group"></div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <input type="submit" class="btn btn-primary" value="Remind"></input>
+                  <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        
         <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalTitle" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">

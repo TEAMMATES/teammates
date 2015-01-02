@@ -23,8 +23,7 @@
                     </div>
                     <h4 class="label-control col-md-1 text-md">Or: </h4>
                     <div class="col-md-3">
-                        <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy
-                            from previous feedback sessions</a>
+                        <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Copy from previous feedback sessions</a>
                     </div>
                 </div>
                 <br>
@@ -430,9 +429,71 @@
 
         <br>
 
+        <div id="sessionList" class="">
+        
+        <table class="table-responsive table table-striped table-bordered" id="table-sessions"> 
+            <thead>
+                <tr class="fill-primary">
+                    <th id="button_sortid" onclick="toggleSort(this,1);" class="button-sort-ascending">Course ID <span class="icon-sort unsorted"></span>
+                    </th>
+                    <th id="button_sortname" onclick="toggleSort(this,2)" class="button-sort-none">Session Name <span class="icon-sort unsorted"></span>
+                    </th>
+                    <th>Status</th>
+                    <th><span title="Number of students submitted / Class size" data-toggle="tooltip" data-placement="top">
+                            Response Rate</span></th>
+                    <th class="no-print">Action(s)</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+            
+        <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr></tbody></table>
+        <br> <br> <br>
+        
+                <div class="align-center">No records found.</div>
+                <br> <br> <br>
+        
+        
+        </div>
         
 
         <!-- Modal -->
+        <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
+             <div class="modal-dialog">
+                <div class="modal-content">
+                   <form action="/page/instructorFeedbackRemindParticularStudents" method="post" name="form_remind_list" role="form">
+                      <div class="modal-header">
+                         <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                            ×
+                         </button>
+                         <h4 class="modal-title">
+                            Remind Particular Students
+                            <small>
+                               (Select the student(s) you want to remind)
+                            </small>
+                         </h4>
+                      </div>
+                      <div class="modal-body">
+                         <div class="form-group" id="studentList">
+                         </div>
+                      </div>
+                      <div class="modal-footer">
+                         <button class="btn btn-default" data-dismiss="modal" type="button">
+                            Cancel
+                         </button>
+                         <input class="btn btn-primary" type="submit" value="Remind"/>
+                                              <input name="user" type="hidden" value="CFeedbackUiT.nosessions"/>
+                                           </div>
+                   </form>
+                </div>
+             </div>
+          </div>
         <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalTitle" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -478,33 +539,4 @@
             </div>
           </div>
         </div>
-    
-        <table class="table-responsive table table-striped table-bordered" id="table-sessions"> 
-            <thead>
-                <tr class="fill-primary">
-                    <th id="button_sortid" onclick="toggleSort(this,1);" class="button-sort-ascending">Course ID <span class="icon-sort unsorted"></span>
-                    </th>
-                    <th id="button_sortname" onclick="toggleSort(this,2)" class="button-sort-none">Session Name <span class="icon-sort unsorted"></span>
-                    </th>
-                    <th>Status</th>
-                    <th><span title="Number of students submitted / Class size" data-toggle="tooltip" data-placement="top">
-                            Response Rate</span></th>
-                    <th class="no-print">Action(s)</th>
-                </tr>
-            </thead>
-            
-            <tbody>
-            
-        <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr></tbody></table>
-        <br> <br> <br>
-        
-                <div class="align-center">No records found.</div>
-                <br> <br> <br>
-        
-         </div>
+    </div>

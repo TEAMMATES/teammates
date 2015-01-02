@@ -197,6 +197,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <url-pattern>/feedbackRemindEmailWorker</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>FeedbackRemindEmailParticularUsersWorkerServlet</servlet-name>
+        <servlet-class>teammates.logic.automated.FeedbackRemindEmailParticularUsersWorkerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FeedbackRemindEmailParticularUsersWorkerServlet</servlet-name>
+        <url-pattern>/feedbackRemindEmailParticularUsersWorker</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>FeedbackSessionOpeningReminders</servlet-name>

@@ -513,7 +513,6 @@ public class EmailsTest extends BaseComponentTestCase {
         verifyEmail(s2, emails.get(1), prefix, status);
         verifyEmail(i1, emails.get(2), prefix, status);
         verifyEmail(i2, emails.get(3), prefix, status);
-
     }
     
     @Test
@@ -579,6 +578,9 @@ public class EmailsTest extends BaseComponentTestCase {
         status = "is closing soon";
         verifyEmail(s1, emails.get(0), prefix, status);
         verifyEmail(s3, emails.get(1), prefix, status);
+        String ignoreEmailMsg = "You may ignore this email if you have already submitted feedback.";
+        verifyEmail(s1, emails.get(0), prefix, ignoreEmailMsg);
+        verifyEmail(s3, emails.get(1), prefix, ignoreEmailMsg);
 
         ______TS("feedback session published alerts");
 
@@ -631,25 +633,29 @@ public class EmailsTest extends BaseComponentTestCase {
     }
 
     private void verifyEmail(StudentAttributes s, MimeMessage email,
-            String prefix, String status) throws MessagingException,
+            String prefix, String textInEmail) throws MessagingException,
             IOException {
         assertEquals(s.email, email.getAllRecipients()[0].toString());
         assertTrue(email.getSubject().contains(prefix));
         String emailBody = email.getContent().toString();
-        assertTrue(emailBody.contains(status));
+        assertTrue(emailBody.contains(textInEmail));
         assertFalse(emailBody.contains("$"));
     }
     
     private void verifyEmail(InstructorAttributes i, MimeMessage email,
-            String prefix, String status) throws MessagingException,
+            String prefix, String textInEmail) throws MessagingException,
             IOException {
         assertEquals(i.email, email.getAllRecipients()[0].toString());
         assertTrue(email.getSubject().contains(prefix));
         String emailBody = email.getContent().toString();
-        assertTrue(emailBody.contains(status));
+        assertTrue(emailBody.contains(textInEmail));
         assertFalse(emailBody.contains("$"));
     }
 
+    @Test
+    public void testNoExceptionThrownWhenNoMessagesToSend() {
+        new Emails().sendEmails(new ArrayList<MimeMessage>());
+    }
 
     @AfterClass()
     public static void classTearDown() throws Exception {

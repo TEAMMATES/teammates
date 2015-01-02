@@ -1,3 +1,4 @@
+<%@page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%@ page import="java.util.Map"%>
@@ -7,10 +8,10 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.ui.controller.InstructorFeedbackResultsPageData"%>
-<%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%
-    InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
+	InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
     boolean showAll = data.bundle.isComplete;
     boolean shouldCollapsed = data.bundle.responses.size() > 500;
 %>
@@ -56,36 +57,36 @@
             </div>            
             <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
             <br>
-            <%  
-                int questionIndex = -1;
-                for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries : data.bundle
-                        .getQuestionResponseMap().entrySet()) {
-                    questionIndex++;
-                    FeedbackQuestionAttributes question = responseEntries.getKey();
+            <%
+            	int questionIndex = -1;
+                            for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries : data.bundle
+                                    .getQuestionResponseMap().entrySet()) {
+                                questionIndex++;
+                                FeedbackQuestionAttributes question = responseEntries.getKey();
             %>
             <div class="panel panel-info">
-                <div class="panel-heading<%= showAll ? "" : " ajax_submit"%>">
+                <div class="panel-heading<%=showAll ? "" : " ajax_submit"%>">
                     <form style="display:none;" id="seeMore-<%=question.questionNumber%>" class="seeMoreForm-<%=question.questionNumber%>" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
-                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=data.bundle.feedbackSession.courseId %>">
-                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=data.bundle.feedbackSession.feedbackSessionName %>">
-                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>">
+                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" value="<%=data.groupByTeam%>">
                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="<%=data.sortType%>">
                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>" value="on" id="showStats-<%=question.questionNumber%>">
-                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>" value="<%=question.questionNumber %>">
+                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" value="<%=question.questionNumber%>">
                     </form>
                     <div class='display-icon pull-right'>
-                    <span class="glyphicon <%= showAll && !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right"></span>
+                    <span class="glyphicon <%=showAll && !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right"></span>
                     </div>
                     <strong>Question <%=question.questionNumber%>: </strong><span class="text-preserve-space"><%=data.bundle.getQuestionText(question.getId())%><%
-                        FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
-                        out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
+                    	FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+                                            out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
                     %></span>
                 </div>
                 <div class="panel-collapse collapse <%= showAll && !shouldCollapsed ? "in" : "" %>">
                 <div class="panel-body padding-0" id="questionBody-<%=questionIndex%>">
                     <%
-                        if(responseEntries.getValue().size() == 0){
+                        if (responseEntries.getValue().size() == 0){
                     %>
                         <div class="col-sm-12">
                             <i class="text-muted">There are no responses for this question.</i>
@@ -125,24 +126,135 @@
                             <thead>
                             <tbody>
                                 <%
-                                    for(FeedbackResponseAttributes responseEntry: responseEntries.getValue()) {
+                                    if (responseEntries.getValue().size() > 0) {
+                                        
+                                      List<String> possibleGivers = data.bundle.getPossibleGivers(question);
+                                      
+                                      List<String> possibleReceivers = null;
+                                      boolean isNewGiver = true;
+                                      String prevGiver = "";
+                                      for(FeedbackResponseAttributes responseEntry: responseEntries.getValue()) {
+                                         if (!prevGiver.isEmpty() && !prevGiver.equals(responseEntry.giverEmail)) {
+                                            isNewGiver = true;   
+                                         }
+                                      	 
+                                      
                                 %>
-                                <tr>
+                                            
                                 <%
-                                    String giverName = data.bundle.getGiverNameForResponse(question, responseEntry);
-                                    String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
-
-                                    String recipientName = data.bundle.getRecipientNameForResponse(question, responseEntry);
-                                    String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
+                                                String giverName = data.bundle.getGiverNameForResponse(question, responseEntry);
+                                                String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
+            
+                                                String recipientName = data.bundle.getRecipientNameForResponse(question, responseEntry);
+                                                String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
+                                                
+                                                if (!data.bundle.isGiverVisible(responseEntry) || !data.bundle.isRecipientVisible(responseEntry)) {
+                                                  possibleGivers.clear();
+                                                  if (possibleReceivers != null) {
+                                                    possibleReceivers.clear();
+                                                  }
+                                                }
+                                                
+                                                if (isNewGiver) {
+                                                   
+                                                  if (possibleReceivers != null && !possibleReceivers.isEmpty()) {
+                                                     for (String possibleReceiver : possibleReceivers) {
+                                                         
+                                                    	 if (questionDetails.shouldShowNoResponseText(prevGiver, possibleReceiver, question)) {
                                 %>
-                                    <td class="middlealign"><%=giverName%></td>
-                                    <td class="middlealign"><%=giverTeamName%></td>
-                                    <td class="middlealign"><%=recipientName%></td>
-                                    <td class="middlealign"><%=recipientTeamName%></td>
-                                    <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
-                                </tr>        
+                                                            <tr class="pending_response_row">
+                                                            	<td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(prevGiver)%></td>
+                                                                <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(prevGiver)%></td>
+                                                                <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(possibleReceiver)%></td>
+                                                                <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
+                                                                <td class="text-preserve-space"><%=questionDetails.getNoResponseTextInHtml(prevGiver, possibleReceiver, data.bundle, question)%></td>
+                                                        	</tr>
                                 <%
-                                    }
+                                                         	}
+                                                      }
+                                                  }
+                                                            
+                                                  if (question.giverType == FeedbackParticipantType.TEAMS) {
+                                                     possibleGivers.remove(data.bundle.getFullNameFromRoster(responseEntry.giverEmail));
+                                                     possibleReceivers = data.bundle.getPossibleRecipients(question, data.bundle.getFullNameFromRoster(responseEntry.giverEmail));
+                                                  } else {
+                                                     possibleGivers.remove(responseEntry.giverEmail);
+                                                     possibleReceivers = data.bundle.getPossibleRecipients(question, responseEntry.giverEmail);
+                                                  }
+                                                            
+                                                            
+                                                   isNewGiver = false;
+                                                }
+                                %>
+                                            <tr>
+                                                <td class="middlealign"><%=giverName%></td>
+                                                <td class="middlealign"><%=giverTeamName%></td>
+                                                <td class="middlealign"><%=recipientName%></td>
+                                                <td class="middlealign"><%=recipientTeamName%></td>
+                                                <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
+                                            </tr>        
+                                <%
+                                        	if (question.recipientType == FeedbackParticipantType.TEAMS) {
+                                                possibleReceivers.remove(data.bundle.getFullNameFromRoster(responseEntry.recipientEmail)); 
+                                            } else {
+                                            	possibleReceivers.remove(responseEntry.recipientEmail);
+                                            }
+                                                prevGiver = responseEntry.giverEmail;
+                                            }
+                                                                                                                      
+                                            if (possibleReceivers != null && !possibleReceivers.isEmpty()) {
+                                          	   for (String possibleReceiver : possibleReceivers) {
+                                                    if (!data.selectedSection.equals("All") && !data.bundle.getSectionFromRoster(possibleReceiver).equals(data.selectedSection)) {
+                                                       continue;
+                                                    }
+                                                
+                                          		    if (questionDetails.shouldShowNoResponseText(prevGiver, possibleReceiver, question)) {
+                                %>
+                                                        <tr class="pending_response_row">
+                                                            <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(prevGiver)%></td>
+                                                            <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(prevGiver)%></td>
+                                                            <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(possibleReceiver)%></td>
+                                                            <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
+                                                            <td class="text-preserve-space"><%=questionDetails.getNoResponseTextInHtml(prevGiver, possibleReceiver, data.bundle, question)%></td>
+                                                        </tr>
+                                <%
+                                              	    }
+}
+                                                  	if (question.giverType == FeedbackParticipantType.TEAMS) {
+                                                      possibleGivers.remove(data.bundle.getNameForEmail(prevGiver)); 
+                                                    } else {
+                                                      possibleGivers.remove(prevGiver);
+                                                    }
+                                                    
+                                            }
+                                                  
+                                            if (possibleGivers != null && !possibleGivers.isEmpty()) {
+                                                for (String possibleGiver : possibleGivers){
+                                                
+                                                	if (!data.selectedSection.equals("All") && !data.bundle.getSectionFromRoster(possibleGiver).equals(data.selectedSection)) {
+                                                        continue;
+                                                    }
+                                                  	possibleReceivers = data.bundle.getPossibleRecipients(question, possibleGiver);
+                                                  	for (String possibleReceiver : possibleReceivers) {
+                                                  		if (!data.selectedSection.equals("All") && !data.bundle.getSectionFromRoster(possibleReceiver).equals(data.selectedSection)) {
+                                                  	       continue;
+                                                        }
+                                                  		if (questionDetails.shouldShowNoResponseText(possibleGiver, possibleReceiver, question)) {
+                                %>
+                                                          <tr class="pending_response_row">
+                                                              <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(possibleGiver)%></td>
+                                                              <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleGiver)%></td>
+                                                              <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(possibleReceiver)%></td>
+                                                              <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
+                                                              <td class="text-preserve-space"><%=questionDetails.getNoResponseTextInHtml(possibleGiver, possibleReceiver, data.bundle, question)%></td>
+                                                          </tr>
+                                <% 
+                                          		        }
+                                          	        }
+                                                }
+                                            }
+                                    } 
+                                
                                 %>
                             </tbody>
                         </table>
@@ -193,7 +305,7 @@
                     } else {
             %>
                     <div class="panel-body">
-                        All students have responsed to some questions in this session.
+                        All students have responded to some questions in this session.
                     </div>
             <%
                     }

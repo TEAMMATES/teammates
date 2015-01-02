@@ -7,25 +7,25 @@
         </div>
     </div>
     <div class="row">
-        <form class="form-horizontal col-sm-12" role="form">
-            <div class="form-group margin-0">
-                <label class="col-sm-2 control-label font-weight-normal">Average:</label>
-                <div class="col-sm-3">
-                    <p class="form-control-static">${average}</p>
-                </div>
-            </div>
-            <div class="form-group margin-0">
-                <label class="col-sm-2 control-label font-weight-normal">Minimum:</label>
-                <div class="col-sm-3">
-                    <p class="form-control-static">${min}</p>
-                </div>
-            </div>
-            <div class="form-group margin-0">
-                <label class="col-sm-2 control-label font-weight-normal">Maximum:</label>
-                <div class="col-sm-3">
-                    <p class="form-control-static">${max}</p>
-                </div>
-            </div>
-        </form>
+        <div class="col-sm-12">
+            <table class="table table-bordered table-responsive margin-0">
+                <thead>
+                <tr>
+                    <td class="button-sort-ascending" id="button_sortreceivername" onclick="toggleSort(this,1);">Recipient 
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortavg" onclick="toggleSort(this,2,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="Average of the visible responses">
+                        <abbr title="Average of the visible responses">Average</abbr>
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortmax" onclick="toggleSort(this,3,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="Maximum of the visible responses">
+                        <abbr title="Maximum of the visible responses">Max</abbr>
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortmin" onclick="toggleSort(this,4,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="Minimum of the visible responses">
+                        <abbr title="Minimum of the visible responses">Min</abbr>
+                        <span class="icon-sort unsorted"></span></td>
+                </tr>
+                </thead>
+                ${statsFragments}
+            </table>
+        </div>
     </div>
 </div>

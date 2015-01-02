@@ -7,6 +7,7 @@ import java.util.List;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EnrollException;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -51,6 +52,18 @@ public class InstructorCourseEnrollSaveAction extends Action {
             pageData.enrollStudents = studentsInfo;
             
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
+        } catch (EntityAlreadyExistsException e) {
+            setStatusForException(e);
+            statusToUser.add("The enrollment failed, possibly because some students were re-enrolled before the previous "
+                    + "enrollment action was still being processed by TEAMMATES database servers. "
+                    + "Please try again after about 10 minutes. If the problem persists, please contact TEAMMATES support");
+            
+            InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account);
+            pageData.courseId = courseId;
+            pageData.enrollStudents = studentsInfo;
+            
+            log.severe("Entity already exists exception occurred when updating student: " + e.getMessage());
+            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
         }
     }
 
@@ -66,7 +79,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
     }
 
     private List<StudentAttributes>[] enrollAndProcessResultForDisplay(String studentsInfo, String courseId)
-            throws EnrollException, EntityDoesNotExistException, InvalidParametersException {
+            throws EnrollException, EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
         List<StudentAttributes> students = logic.enrollStudents(studentsInfo, courseId);
         Collections.sort(students, new Comparator<StudentAttributes>() {
             @Override

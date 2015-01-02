@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
-import teammates.common.datatransfer.FeedbackAbstractResponseDetails;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
+import teammates.common.datatransfer.FeedbackResponseDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
@@ -39,6 +39,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         
+        setAdditionalParameters();
         verifyAccesibleForSpecificUser();
         
         String userEmailForCourse = getUserEmailForCourse();
@@ -46,6 +47,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         data = new FeedbackSubmissionEditPageData(account, student);
         data.bundle = getDataBundle(userEmailForCourse);        
         Assumption.assertNotNull("Feedback session " + feedbackSessionName + " does not exist in " + courseId + ".", data.bundle);
+        
+        checkAdditionalConstraints();
         
         setStatusToAdmin();
         
@@ -74,7 +77,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 log.warning("Question not found. (deleted or invalid id passed?) id: "+ questionId + " index: " + questionIndx);
                 continue;
             }
-            FeedbackAbstractQuestionDetails questionDetails = questionAttributes.getQuestionDetails();
+            FeedbackQuestionDetails questionDetails = questionAttributes.getQuestionDetails();
 
             
             int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);  
@@ -159,7 +162,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     
     private FeedbackResponseAttributes extractFeedbackResponseData(
             Map<String, String[]> requestParameters, int questionIndx, int responseIndx, 
-            FeedbackAbstractQuestionDetails questionDetails) {
+            FeedbackQuestionDetails questionDetails) {
         FeedbackResponseAttributes response = new FeedbackResponseAttributes();
         
         //This field can be null if the response is new
@@ -221,8 +224,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
         
         if(answer != null && !allAnswersEmpty) {
-            FeedbackAbstractResponseDetails responseDetails = 
-                    FeedbackAbstractResponseDetails.createResponseDetails(
+            FeedbackResponseDetails responseDetails = 
+                    FeedbackResponseDetails.createResponseDetails(
                             answer,
                             questionDetails.questionType,
                             questionDetails);
@@ -234,6 +237,25 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         return response;
     }
 
+    /**
+     * To be used to set any extra parameters or attributes that 
+     * a class inheriting FeedbackSubmissionEditSaveAction requires
+     */
+    protected void setAdditionalParameters() {
+        return;
+    }
+    
+    /**
+     * To be used to test any constraints that a class inheriting FeedbackSubmissionEditSaveAction
+     * needs. For example, this is used in moderations that check that instructors did not 
+     * respond to any question that they did not have access to during moderation. 
+     * 
+     * Called after FeedbackSubmissionEditPageData data is set, and after setAdditionalParameters 
+     */
+    protected void checkAdditionalConstraints() {
+        return;
+    }
+    
     protected abstract void appendRespondant();
 
     protected abstract void removeRespondant();
@@ -251,4 +273,5 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     protected abstract boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes session);
 
     protected abstract RedirectResult createSpecificRedirectResult();
+
 }

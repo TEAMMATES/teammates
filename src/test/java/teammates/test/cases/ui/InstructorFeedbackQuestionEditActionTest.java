@@ -15,6 +15,7 @@ import teammates.common.datatransfer.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.FeedbackNumericalScaleQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.NullPostParameterException;
@@ -971,7 +972,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
         a = getAction(editRecipientTypeParams);
         r = (RedirectResult) a.executeAndPostProcess();
 
-        assertEquals( InstructorFeedbackQuestionEditAction.ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH
+        assertEquals(FeedbackContributionQuestionDetails.ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH
                 + "<br />" + Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
 
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
@@ -979,6 +980,212 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 + "&error=true", 
                 r.getDestinationWithParams());
         assertTrue(r.isError);
+        
+        
+        // delete session to clean database
+        FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);
+        
+    }
+    
+    @Test
+    public void testExecuteAndPostProcessRubricQuestion() throws Exception{
+        DataBundle dataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        
+        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+
+        gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
+        
+        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("rubricSession");
+        FeedbackQuestionAttributes fq = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+        FeedbackRubricQuestionDetails fqd = (FeedbackRubricQuestionDetails) fq.getQuestionDetails();
+        
+        ______TS("Edit text");
+        
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); // There are already responses for this question
+        
+        String[] editTextParams = {
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "RUBRIC",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, fqd.questionText + "(edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION+"-0", "This student has done a good job.",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION+"-1", "This student has tried his/her best.",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-0", "Yes",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-1", "No",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION+"-0-0", "",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION+"-0-1", "",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION+"-1-0", "Most of the time",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION+"-1-1", "Less than half the time",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+        
+        InstructorFeedbackQuestionEditAction a = getAction(editTextParams);
+        RedirectResult r = (RedirectResult) a.executeAndPostProcess();
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
+                + "&fsname=RUBRIC+Session&user=FSQTT.idOfInstructor1OfCourse1"
+                + "&error=false", 
+                r.getDestinationWithParams());
+        assertFalse(r.isError);
+        
+        // All existing responses should remain
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
+        
+        ______TS("Edit descriptions");
+        
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); // There are already responses for this question
+        
+        String[] editDescriptionParams = {
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "RUBRIC",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, fqd.questionText + "(edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION+"-0", "This student has done a good job.",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION+"-1", "This student has tried his/her best.",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-0", "Yes",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-1", "No",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION+"-0-0", "New description",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION+"-0-1", "",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION+"-1-0", "Most of the time(Edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION+"-1-1", "Less than half the time",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+        
+        a = getAction(editDescriptionParams);
+        r = (RedirectResult) a.executeAndPostProcess();
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
+                + "&fsname=RUBRIC+Session&user=FSQTT.idOfInstructor1OfCourse1"
+                + "&error=false", 
+                r.getDestinationWithParams());
+        assertFalse(r.isError);
+        
+        // All existing responses should remain
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
+        
+        
+        ______TS("Edit sub-questions");
+        
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); // There are already responses for this question
+        
+        String[] editSubQnParams = {
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "RUBRIC",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, fqd.questionText + "(edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION+"-0", "This student has done a good job.(Edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION+"-1", "This student has tried his/her best.",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-0", "Yes",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-1", "No",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION+"-0-0", "New description",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION+"-0-1", "",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION+"-1-0", "Most of the time(Edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION+"-1-1", "Less than half the time",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+        
+        a = getAction(editSubQnParams);
+        r = (RedirectResult) a.executeAndPostProcess();
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
+                + "&fsname=RUBRIC+Session&user=FSQTT.idOfInstructor1OfCourse1"
+                + "&error=false", 
+                r.getDestinationWithParams());
+        assertFalse(r.isError);
+        
+        // All existing responses should be deleted
+        assertTrue(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
+        
+
+        ______TS("Edit choices");
+        // Restore responses
+        FeedbackSessionsLogic.inst().deleteFeedbackSessionCascade(fs.feedbackSessionName, fs.courseId);
+        removeAndRestoreDatastoreFromJson("/FeedbackSessionQuestionTypeTest.json");
+        
+        fs = dataBundle.feedbackSessions.get("rubricSession");
+        fq = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+        fqd = (FeedbackRubricQuestionDetails) fq.getQuestionDetails();
+        
+        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty()); // There are already responses for this question
+        
+        String[] editChoicesParams = {
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, fq.giverType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, fq.recipientType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, Integer.toString(fq.questionNumber),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "RUBRIC",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, fqd.questionText + "(edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_COLS, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_NUM_ROWS, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION+"-0", "This student has done a good job.",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_SUBQUESTION+"-1", "This student has tried his/her best.",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-0", "Yes(Edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-1", "No",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION+"-0-0", "New description",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION+"-0-1", "",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION+"-1-0", "Most of the time(Edited)",
+                Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION+"-1-1", "Less than half the time",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "max",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+        
+        a = getAction(editChoicesParams);
+        r = (RedirectResult) a.executeAndPostProcess();
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, r.getStatusMessage());
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=FSQTT.idOfTypicalCourse1"
+                + "&fsname=RUBRIC+Session&user=FSQTT.idOfInstructor1OfCourse1"
+                + "&error=false", 
+                r.getDestinationWithParams());
+        assertFalse(r.isError);
+        
+        // All existing responses should be deleted
+        assertTrue(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
+        
         
         
         // delete session to clean database

@@ -2,6 +2,10 @@
 
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
+<%@ page import="java.util.Set"%>
+<%@ page import="java.util.HashSet"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.Collections"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
@@ -9,10 +13,10 @@
 <%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionResponseStatus" %>
 <%@ page import="teammates.ui.controller.InstructorFeedbackResultsPageData"%>
-<%@ page import="teammates.common.datatransfer.FeedbackAbstractQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%
-    InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData) request.getAttribute("data");
+	InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData) request.getAttribute("data");
     FieldValidator validator = new FieldValidator();
     boolean showAll = data.bundle.isComplete;
     boolean shouldCollapsed = data.bundle.responses.size() > 500;
@@ -63,10 +67,11 @@
             <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
             <br>
 
-            <% if(!showAll) {
-                    if(data.selectedSection.equals("All")){
-                    int sectionIndex = 0; 
-                    for(String section: data.sections){
+            <%
+            	if(!showAll) {
+                                if(data.selectedSection.equals("All")){
+                                int sectionIndex = 0; 
+                                for(String section: data.sections){
             %>
                         <div class="panel panel-success">
                                 <div class="panel-heading ajax_submit">
@@ -76,9 +81,9 @@
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="pull-right">
-                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%= groupByTeamEnabled == true ? "team" : "student" %> panels. You can also click on the panel heading to toggle each one individually.' style="display:none;">
+                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%=groupByTeamEnabled == true ? "team" : "student"%> panels. You can also click on the panel heading to toggle each one individually.' style="display:none;">
                                                     Expand
-                                                    <%= groupByTeamEnabled == true ? " Teams" : " Students" %>
+                                                    <%=groupByTeamEnabled == true ? " Teams" : " Students"%>
                                                 </a>
                                                 &nbsp;
                                                 <div class="display-icon" style="display:inline;">
@@ -89,10 +94,10 @@
                                     </div>
 
                                     <form style="display:none;" id="seeMore-<%=sectionIndex%>" class="seeMoreForm-<%=sectionIndex%>" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
-                                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=data.bundle.feedbackSession.courseId %>">
-                                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=data.bundle.feedbackSession.feedbackSessionName %>">
-                                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION %>" value="<%=section%>">
-                                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">
+                                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>">
+                                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" value="<%=section%>">
+                                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
                                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" value="<%=data.groupByTeam%>">
                                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="<%=data.sortType%>">
                                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>" value="on" id="showStats-<%=sectionIndex%>">
@@ -106,8 +111,8 @@
                                 </div>
                         </div>
             <%
-                    sectionIndex++;
-                    }
+            	sectionIndex++;
+                                }
             %>
                     <div class="panel panel-success">
                             <div class="panel-heading ajax_submit">
@@ -117,9 +122,9 @@
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="pull-right">
-                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%= groupByTeamEnabled == true ? "team" : "student" %> panels. You can also click on the panel heading to toggle each one individually.' style="display:none;">
+                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%=groupByTeamEnabled == true ? "team" : "student"%> panels. You can also click on the panel heading to toggle each one individually.' style="display:none;">
                                                     Expand
-                                                    <%= groupByTeamEnabled == true ? " Teams" : " Students" %>
+                                                    <%=groupByTeamEnabled == true ? " Teams" : " Students"%>
                                                 </a>
                                                 &nbsp;
                                                 <div class="display-icon" style="display:inline;">
@@ -129,10 +134,10 @@
                                          </div>
                                     </div>
                                 <form style="display:none;" id="seeMore-<%=sectionIndex%>" class="seeMoreForm-<%=sectionIndex%>" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
-                                    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=data.bundle.feedbackSession.courseId %>">
-                                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=data.bundle.feedbackSession.feedbackSessionName %>">
-                                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION %>" value="None">
-                                    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                                    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">
+                                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>">
+                                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION%>" value="None">
+                                    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
                                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" value="<%=data.groupByTeam%>">
                                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="<%=data.sortType%>">
                                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>" value="on">
@@ -145,8 +150,8 @@
                                 </div>
                             </div>
                     </div>
-            <%  
-                    } else {
+            <%
+            	} else {
             %>
                     <div class="panel panel-success">
                         <div class="panel-heading">
@@ -167,66 +172,82 @@
                             </div>
                         </div>
                     </div>
-            <%      }
-                } else {
+            <%
+            	}
+                            } else {
             %>
 
             <%
-                String currentTeam = null;
-                boolean newTeam = false;
-                String currentSection = null;
-                boolean newSection = false;
-                int sectionIndex = -1;
-                int teamIndex = -1;
+            	String currentTeam = null;
+                            boolean newTeam = false;
+                            String currentSection = null;
+                            boolean newSection = false;
+                            int sectionIndex = -1;
+                            int teamIndex = -1;
+                Set<String> teamMembersEmail = new HashSet<String>(); 
+                Set<String> teamMembersWithResponses = new HashSet<String>();
             %>
             <%
-                Map<String, Map<String, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByGiver(groupByTeamEnabled);
-                Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
+            	Map<String, Map<String, List<FeedbackResponseAttributes>>> allResponses = data.bundle.getResponsesSortedByGiver(groupByTeamEnabled);
+                            Map<String, FeedbackQuestionAttributes> questions = data.bundle.questions;
 
-                int giverIndex = data.startIndex;
-                for (Map.Entry<String, Map<String, List<FeedbackResponseAttributes>>> responsesFromGiver : allResponses.entrySet()) {
-                    giverIndex++;
+                            int giverIndex = data.startIndex;
+                            
+                            Set<String> teamsInSection = new HashSet<String>();
+                            Set<String> givingTeams = new HashSet<String>();
+                            
+                            Set<String> sectionsInCourse = data.bundle.rosterSectionTeamNameTable.keySet();
+                            Set<String> givingSections = new HashSet<String>();
+                            
+                            
+                            for (Map.Entry<String, Map<String, List<FeedbackResponseAttributes>>> responsesFromGiver : allResponses.entrySet()) {
+                                giverIndex++;
 
-            
-                Map<String, List<FeedbackResponseAttributes> > giverData = responsesFromGiver.getValue();
-                Object[] giverDataArray =  giverData.keySet().toArray();
-                FeedbackResponseAttributes firstResponse = giverData.get(giverDataArray[0]).get(0);
-                String targetEmail = firstResponse.giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"");
-                String targetEmailDisplay = firstResponse.giverEmail;
-                String mailtoStyleAttr = (targetEmailDisplay.contains("@@"))?"style=\"display:none;\"":"";
-
+                        
+                            Map<String, List<FeedbackResponseAttributes> > giverData = responsesFromGiver.getValue();
+                            Object[] giverDataArray =  giverData.keySet().toArray();
+                            FeedbackResponseAttributes firstResponse = giverData.get(giverDataArray[0]).get(0);
+                            String targetEmail = firstResponse.giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"");
+                            boolean isGiverVisible = data.bundle.isGiverVisible(firstResponse);
+                            String targetEmailDisplay = firstResponse.giverEmail;
+                            String mailtoStyleAttr = (targetEmailDisplay.contains("@@"))?"style=\"display:none;\"":"";
             %>
             <%
-                if(currentTeam != null && !(data.bundle.getTeamNameForEmail(targetEmail)=="" ? currentTeam.equals(data.bundle.getNameForEmail(targetEmail)): currentTeam.equals(data.bundle.getTeamNameForEmail(targetEmail)))) {
-                    currentTeam = data.bundle.getTeamNameForEmail(targetEmail);
-                    if(currentTeam.equals("")){
-                        currentTeam = data.bundle.getNameForEmail(targetEmail);
-                    }
-                    newTeam = true;
+            	if(currentTeam != null && !(data.bundle.getTeamNameForEmail(targetEmail)=="" ? currentTeam.equals(data.bundle.getNameForEmail(targetEmail)): currentTeam.equals(data.bundle.getTeamNameForEmail(targetEmail)))) {
+                                currentTeam = data.bundle.getTeamNameForEmail(targetEmail);
+                                if(currentTeam.equals("")){
+                                    currentTeam = data.bundle.getNameForEmail(targetEmail);
+                                }
+                                newTeam = true;
             %>
                     </div>
                     </div>
                 </div>
             <%
-                }
+            	}
             %>
 
-            <% 
-                if(currentSection != null && !firstResponse.giverSection.equals(currentSection)){
-                    currentSection = firstResponse.giverSection;
-                    newSection = true;
+            <%
+            	if(currentSection != null && !firstResponse.giverSection.equals(currentSection)){
+                                currentSection = firstResponse.giverSection;
+                                newSection = true;
             %>
                     </div>
                     </div>
                 </div>
-            <% 
-                }
+            <%
+            	}
             %>
 
-            <% if(currentSection == null || newSection == true){
-                    currentSection = firstResponse.giverSection;
-                    newSection = false;
-                    sectionIndex++;
+            <%
+            	if(currentSection == null || newSection == true){
+                                currentSection = firstResponse.giverSection;
+                                newSection = false;
+                                sectionIndex++;
+                                
+                                givingSections.add(currentSection);
+                                teamsInSection = data.bundle.getTeamsInSectionFromRoster(currentSection);
+                                givingTeams = new HashSet<String>();
             %>
                     <div class="panel panel-success">
                         <div class="panel-heading">
@@ -236,9 +257,9 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="pull-right">
-                                        <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%= groupByTeamEnabled == true ? "team" : "student" %> panels. You can also click on the panel heading to toggle each one individually.'>
-                                            <%= shouldCollapsed ? "Expand " : "Collapse " %>
-                                            <%= groupByTeamEnabled == true ? "Teams" : "Students" %>
+                                        <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%=groupByTeamEnabled == true ? "team" : "student"%> panels. You can also click on the panel heading to toggle each one individually.'>
+                                            <%=shouldCollapsed ? "Expand " : "Collapse "%>
+                                            <%=groupByTeamEnabled == true ? "Teams" : "Students"%>
                                         </a>
                                         &nbsp;
                                         <span class="glyphicon glyphicon-chevron-up"></span>
@@ -249,17 +270,23 @@
                         <div class="panel-collapse collapse in">
                         <div class="panel-body" id="sectionBody-<%=sectionIndex%>">
             <%
-                }
+            	}
             %>
 
             <%
-                if(groupByTeamEnabled == true && (currentTeam==null || newTeam==true)) {
-                    currentTeam = data.bundle.getTeamNameForEmail(targetEmail);
-                    if(currentTeam.equals("")){
-                        currentTeam = data.bundle.getNameForEmail(targetEmail);
-                    }
-                    teamIndex++;
-                    newTeam = false;
+            	if(groupByTeamEnabled == true && (currentTeam==null || newTeam==true)) {
+                                currentTeam = data.bundle.getTeamNameForEmail(targetEmail);
+                                if(currentTeam.equals("")){
+                                    currentTeam = data.bundle.getNameForEmail(targetEmail);
+                                }
+                                
+                                teamMembersWithResponses = new HashSet<String>();                                
+                                teamMembersEmail = data.bundle.getTeamMembersFromRoster(currentTeam);
+                                
+                                teamIndex++;
+                                newTeam = false;
+                                
+                                givingTeams.add(currentTeam);
             %>
                     <div class="panel panel-warning">
                         <div class="panel-heading">
@@ -270,74 +297,114 @@
                                 <div class="col-sm-3">
                                     <div class="pull-right">
                                         <a class="btn btn-warning btn-xs" id="collapse-panels-button-team-<%=teamIndex%>" data-toggle="tooltip" title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">
-                                            <%= shouldCollapsed ? "Expand " : "Collapse " %> Students
+                                            <%=shouldCollapsed ? "Expand " : "Collapse "%> Students
                                         </a>
                                         &nbsp;
-                                        <span class='glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %>'></span>
+                                        <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%>'></span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class='panel-collapse collapse <%= shouldCollapsed ? "" : "in"%>'>
+                        <div class='panel-collapse collapse <%=shouldCollapsed ? "" : "in"%>'>
                         <div class="panel-body background-color-warning">
                         
             <%
-                }
-            %>
+                                    	}
+                                    %>
 
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     From: 
-                    <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) { %>
+                    <%
+                	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) {
+                %>
                         <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
                             <strong><%=responsesFromGiver.getKey()%></strong>
                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                            <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
+                            <a class="link-in-dark-bg" href="mailTo:<%=targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
                         </div>
-                    <% } else {%>
+                    <%
+                    	} else {
+                    %>
                         <strong><%=responsesFromGiver.getKey()%></strong>
-                    <% } %>
-			 <span class='glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right'></span>
+                    <%
+                    	}
+                        teamMembersWithResponses.add(targetEmail);
+                        
+                    %>
+			        <div class="pull-right">
+                    <% 
+                        boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(targetEmail), 
+                                                                                        data.feedbackSessionName, 
+                                                                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                        String disabledAttribute = !isAllowedToModerate? "disabled=\"disabled\"" : "";  
+                        if (isGiverVisible && 
+                            data.bundle.isParticipantIdentifierStudent(targetEmail)) { 
+                    %>
+                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank">                             
+                                <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%= disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                <input type="hidden" name="moderatedstudent" value=<%= targetEmail%>>
+                            </form>
+                    <%  } %>
+                        &nbsp;
+                        <div class="display-icon" style="display:inline;">
+                            <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
+                        </div>                
+                    </div>
                </div>
-                <div class='panel-collapse collapse <%= shouldCollapsed ? "" : "in"%>'>
+                <div class='panel-collapse collapse <%=shouldCollapsed ? "" : "in"%>'>
                 <div class="panel-body">
                 <%
-                    int recipientIndex = 0;
-                    for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesFromGiverToRecipient : responsesFromGiver.getValue().entrySet()) {
-                        recipientIndex++;
-                        String recipientEmail = responsesFromGiverToRecipient.getValue().get(0).recipientEmail;
+                	int recipientIndex = 0;
+                                    for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesFromGiverToRecipient : responsesFromGiver.getValue().entrySet()) {
+                                        recipientIndex++;
+                                        String recipientEmail = responsesFromGiverToRecipient.getValue().get(0).recipientEmail;
                 %>
                     <div class="row <%=recipientIndex == 1? "": "border-top-gray"%>">
                             <div class="col-md-2">
                                 <div class="col-md-12">
                                     To:
-                                    <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, recipientEmail).isEmpty()) { %>
+                                    <%
+                                	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, recipientEmail).isEmpty()) {
+                                %>
                                         <div class="middlealign profile-pic-icon-hover inline-block" data-link="<%=data.getProfilePictureLink(recipientEmail)%>">
                                             <strong><%=responsesFromGiverToRecipient.getKey()%></strong>
                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                         </div>
-                                    <% } else {%>
+                                    <%
+                                    	} else {
+                                    %>
                                         <strong><%=responsesFromGiverToRecipient.getKey()%></strong>
-                                    <% } %> 
+                                    <%
+                                    	}
+                                    %> 
                                 </div>
                                 <div class="col-md-12 text-muted small"><br>
                                     From:
-                                    <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) { %>
+                                    <%
+                                	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) {
+                                %>
                                         <div class="middlealign profile-pic-icon-hover inline-block" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
                                             <%=responsesFromGiver.getKey()%>
                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                         </div>
-                                    <% } else {%>
+                                    <%
+                                    	} else {
+                                    %>
                                             <%=responsesFromGiver.getKey()%>
-                                    <% } %>
+                                    <%
+                                    	}
+                                    %>
                                 </div>
                             </div>
                             <div class="col-md-10">
                     <%
-                        int qnIndx = 1;
-                        for (FeedbackResponseAttributes singleResponse : responsesFromGiverToRecipient.getValue()) {
-                            FeedbackQuestionAttributes question = questions.get(singleResponse.feedbackQuestionId);
-                            FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
+                    	int qnIndx = 1;
+                                            for (FeedbackResponseAttributes singleResponse : responsesFromGiverToRecipient.getValue()) {
+                                                FeedbackQuestionAttributes question = questions.get(singleResponse.feedbackQuestionId);
+                                                FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
                     %>
                     <div class="panel panel-info">
                                         <div class="panel-heading">Question <%=question.questionNumber%>: <span class="text-preserve-space"><%
@@ -801,22 +868,245 @@
             %>
 
             <%
-                //close the last team panel.
-                if(groupByTeamEnabled==true) {
+                Set<String> teamMembersWithoutReceivingResponses = teamMembersEmail;
+            
+                teamMembersWithoutReceivingResponses.removeAll(teamMembersWithResponses);
+                List<String> teamMembersWithNoResponses = new ArrayList<String>(teamMembersWithoutReceivingResponses);
+                Collections.sort(teamMembersWithNoResponses);
+                
+                
+                
+                for (String email : teamMembersWithNoResponses) {
+            %>
+                <div class="panel panel-primary">
+                <div class="panel-heading">
+                    From: 
+                    <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
+                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(email)%>">
+                            <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
+                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                        </div>
+                    <%
+                    	} else {
+                    %>
+                        <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
+                    <%
+                    	}
+                    %>
+                        <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                    <div class="pull-right">
+                    <% 
+                        boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(email), 
+                                                                                        data.feedbackSessionName, 
+                                                                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                        String disabledAttribute = !isAllowedToModerate? "disabled=\"disabled\"" : "";  
+                    %>
+                        <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
+                        
+                            <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                            <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                            <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                            <input type="hidden" name="moderatedstudent" value=<%= email%>>
+                        
+                        </form>
+                        &nbsp;
+                        <div class="display-icon" style="display:inline;">
+                            <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
+                        </div>                
+                    </div>
+                </div>
+                <div class='panel-collapse collapse in'>
+                    <div class="panel-body"> There are no responses given by this user 
+                    </div>
+                </div>
+                </div>
+            <%
+            	}
+                            //close the last team panel.
+                            if(groupByTeamEnabled==true) {
             %>
                         </div>
                         </div>
                     </div>
             <%
-                }
+            	}
+                        
+                            Set<String> teamsWithNoResponseGiven = new HashSet<String>(teamsInSection);
+                            teamsWithNoResponseGiven.removeAll(givingTeams);
+                            
+                            if (groupByTeamEnabled) {
+                              List<String> teamsWithNoResponseGivenList = new ArrayList<String>(teamsWithNoResponseGiven);
+                              Collections.sort(teamsWithNoResponseGivenList);
+                              for (String teamWithNoResponseGiven: teamsWithNoResponseGivenList) {
             %>
+                          <div class="panel panel-warning">
+                              <div class="panel-heading">
+                                  <strong> <%=teamWithNoResponseGiven%></strong>
+                                  <span class="glyphicon pull-right glyphicon-chevron-up"></span>
+                              </div>
+                              <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
+                                  <div class="panel-body background-color-warning">
+                                      <%
+                                      	List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(teamWithNoResponseGiven));
+                                        Collections.sort(teamMembers);
+                                        for (String teamMember : teamMembers) {
+                                      %>
+                                             <div class="panel panel-primary">
+                                                <div class="panel-heading">
+                                                    From: 
+                                                    <%
+                                                	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) {
+                                                    %>
+                                                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(teamMember)%>">
+                                                            <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
+                                                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                        </div>
+                                                    <%
+                                                    	} else {
+                                                    %>
+                                                        <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
+                                                    <%
+                                                    	}
+                                                    %>
+                                                        <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
+                                                    <div class="pull-right">
+                                                        <% 
+                                                           boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(teamMember), 
+                                                                                                                           data.feedbackSessionName, 
+                                                                                                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+
+                                                           String disabledAttribute = !isAllowedToModerate? "disabled=\"disabled\"" : "";
+                                                        %>
+                                                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
+                                                            
+                                                                <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%= disabledAttribute %> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                                                <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                                                <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                                <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>
+                                                            
+                                                            </form>
+                                                            &nbsp;
+                                                            <div class="display-icon" style="display:inline;">
+                                                                <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
+                                                            </div>                
+                                                     </div>
+                                                </div>
+                                                <div class='panel-collapse collapse in'>
+                                                    <div class="panel-body"> There are no responses given by this user 
+                                                    </div>
+                                                </div>
+                                             </div>
+                                        
+                                         <%
+                                         }
+                                         %>
+                                  </div>
+                              </div>
+                          </div>                
+                      <%
+                              }    
+                            }
+                      %>
 
                     </div>
                     </div>
                 </div>
             <%
-                }
+                        Set<String> sectionsWithNoResponseReceived = new HashSet<String>(sectionsInCourse);
+                        sectionsWithNoResponseReceived.removeAll(givingSections);
+                        
+                        if (data.selectedSection.equals("All")) {
+                            List<String> sectionsList = new ArrayList<String>(sectionsWithNoResponseReceived);
+                            Collections.sort(sectionsList);
+                            for (String sectionWithNoResponseReceived: sectionsWithNoResponseReceived) {
             %>
+                                <div class="panel panel-success">
+                                    <div class="panel-heading">
+                                        <strong> <%=sectionWithNoResponseReceived%></strong>
+                                        <span class="glyphicon pull-right glyphicon-chevron-up"></span>
+                                    </div>
+                                    <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
+                                        <div class="panel-body">
+                                            <%
+                                            	Set<String> teamsFromSection = data.bundle.getTeamsInSectionFromRoster(sectionWithNoResponseReceived);
+                                                List<String> teamsFromSectionList = new ArrayList<String>(teamsFromSection);
+                                                Collections.sort(teamsFromSectionList);
+                                                
+                                                for (String team : teamsFromSectionList) {
+                                                    List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(team));
+                                                    Collections.sort(teamMembers);
+                                            %>
+                                                    <div class="panel panel-warning">
+                                                      <div class="panel-heading">
+                                                          <strong> <%=team%></strong>
+                                                          <span class="glyphicon pull-right glyphicon-chevron-up"></span>
+                                                      </div>
+                                                      <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
+                                                          <div class="panel-body background-color-warning">
+                                                  <%
+                                                  	for (String teamMember : teamMembers) {
+                                                  %>
+                                                             <div class="panel panel-primary">
+                                                                <div class="panel-heading">
+                                                                    From: 
+                                                                    <%
+                                                                	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) {
+                                                                    %>
+                                                                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(teamMember)%>">
+                                                                            <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
+                                                                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                                        </div>
+                                                                    <%
+                                                                    	} else {
+                                                                    %>
+                                                                        <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
+                                                                    <% } %>
+                                                                        <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
+                                                                    <div class="pull-right">
+                                                                        <% 
+                                                                             boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(teamMember), 
+                                                                                                                                             data.feedbackSessionName, 
+                                                                                                                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                                                                             String disabledAttribute = !isAllowedToModerate? "disabled=\"disabled\"" : "";  
+                                                                        %>
+                                                                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
+                                                                            
+                                                                                <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                                                                <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                                                                <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                                                <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>
+                                                                            
+                                                                            </form>
+                                                                            &nbsp;
+                                                                            <div class="display-icon" style="display:inline;">
+                                                                                <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
+                                                                            </div>                
+                                                                     </div>
+                                                                </div>
+                                                                <div class='panel-collapse collapse in'>
+                                                                    <div class="panel-body"> There are no responses given by this user 
+                                                                    </div>
+                                                                </div>
+                                                             </div>
+                                                        
+                                                    <% 
+                                                      }
+                                                    %>
+                                                    </div>
+                                                      </div>
+                                                  </div>    
+                                            <% 
+                                                }
+                                            
+                                            %>
+                                        </div>
+                                    </div>
+                                </div>                
+        <% 
+                            }
+                        }
+            }
+        %>
 
             <% if(data.selectedSection.equals("All") && (!data.bundle.isComplete || data.bundle.responses.size() > 0)){ %>
             <div class="panel panel-warning">

@@ -15,6 +15,10 @@ body {
     text-align: left;
 }
 
+.align-right {
+    text-align: right;
+}
+
 .align-justify {
     text-align: justify;
 }
@@ -48,6 +52,18 @@ body {
     padding-top: 10px;
 }
 
+.cell-hover {
+    background-color: #aaaaad !important;
+}
+
+.cell-selected {
+    background-color: #d9edf7 !important;
+}
+
+.cell-selected-negative {
+    background-color: #fea3a3 !important;
+}
+
 .color-white {
     color: white;
 }
@@ -58,6 +74,10 @@ body {
 
 .color-negative {
     color: #e74c3c;
+}
+
+.color_neutral {
+    color: gray;
 }
 
 .cursor-pointer {
@@ -126,6 +146,10 @@ Apply to thead to make headers not bold.
 
 .margin-0 {
     margin: 0;
+}
+
+.margin-center-horizontal {
+    margin: 0 auto;
 }
 
 .min-height-0.checkbox,.min-height-0 {

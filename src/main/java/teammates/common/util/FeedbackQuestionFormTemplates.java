@@ -25,19 +25,40 @@ public class FeedbackQuestionFormTemplates {
     public static String NUMSCALE_EDIT_FORM = FileHelper.readResourseFile("feedbackQuestionNumScaleEditFormTemplate.html");
     public static String NUMSCALE_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionNumScaleSubmissionFormTemplate.html");
     public static String NUMSCALE_RESULT_STATS = FileHelper.readResourseFile("feedbackQuestionNumScaleResultStatsTemplate.html");
+    public static String NUMSCALE_RESULTS_STATS_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionNumScaleResultsStatsFragment.html");
+    public static String NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE = FileHelper.readResourseFile("feedbackQuestionNumScaleResultStatsTemplateWithSelfResponse.html");
+    public static String NUMSCALE_RESULTS_STATS_FRAGMENT_WITH_SELF_RESPONSE = FileHelper.readResourseFile("feedbackQuestionNumScaleResultsStatsFragmentWithSelfResponse.html");
+    
     
     public static String CONSTSUM_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionConstSumSubmissionFormTemplate.html");
     public static String CONSTSUM_SUBMISSION_FORM_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionConstSumSubmissionFormOptionFragment.html");
     public static String CONSTSUM_EDIT_FORM = FileHelper.readResourseFile("feedbackQuestionConstSumEditFormTemplate.html");
     public static String CONSTSUM_EDIT_FORM_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionConstSumEditFormOptionFragment.html");
-    public static String CONSTSUM_RESULT_STATS = FileHelper.readResourseFile("feedbackQuestionConstSumResultStatsTemplate.html");
+    public static String CONSTSUM_RESULT_OPTION_STATS = FileHelper.readResourseFile("feedbackQuestionConstSumResultStatsTemplate.html");
     public static String CONSTSUM_RESULT_STATS_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionConstSumResultStatsOptionFragment.html");
+    public static String CONSTSUM_RESULT_RECIPIENT_STATS = FileHelper.readResourseFile("feedbackQuestionConstSumResultStatsRecipientTemplate.html");
+    public static String CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT = FileHelper.readResourseFile("feedbackQuestionConstSumResultStatsRecipientFragment.html");
     
     public static String CONTRIB_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionContribSubmissionFormTemplate.html");
     public static String CONTRIB_RESULT_STATS = FileHelper.readResourseFile("feedbackQuestionContribResultStatsTemplate.html");
     public static String CONTRIB_RESULT_STATS_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionContribResultStatsFragment.html");
     public static String CONTRIB_RESULT_STATS_STUDENT = FileHelper.readResourseFile("feedbackQuestionContribResultStatsStudentViewTemplate.html");
     public static String CONTRIB_RESULT_STATS_STUDENT_INFO = FileHelper.readResourseFile("feedbackQuestionContribResultStatsStudentViewAdditionalInfo.html");
+    
+    public static String RUBRIC_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionRubricSubmissionFormTemplate.html");
+    public static String RUBRIC_SUBMISSION_FORM_HEADER_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricSubmissionFormHeaderFragment.html");
+    public static String RUBRIC_SUBMISSION_FORM_BODY_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricSubmissionFormBodyFragment.html");
+    public static String RUBRIC_SUBMISSION_FORM_BODY = FileHelper.readResourseFile("feedbackQuestionRubricSubmissionFormBody.html");
+    public static String RUBRIC_EDIT_FORM = FileHelper.readResourseFile("feedbackQuestionRubricEditFormTemplate.html");
+    public static String RUBRIC_EDIT_FORM_HEADER_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricEditFormHeaderFragment.html");
+    public static String RUBRIC_EDIT_FORM_BODY_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricEditFormBodyFragment.html");
+    public static String RUBRIC_EDIT_FORM_BODY = FileHelper.readResourseFile("feedbackQuestionRubricEditFormBody.html");
+    public static String RUBRIC_RESULT_STATS = FileHelper.readResourseFile("feedbackQuestionRubricResultStatsTemplate.html");
+    public static String RUBRIC_RESULT_STATS_HEADER_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricResultStatsHeaderFragment.html");
+    public static String RUBRIC_RESULT_STATS_BODY_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionRubricResultStatsBodyFragment.html");
+    public static String RUBRIC_RESULT_STATS_BODY = FileHelper.readResourseFile("feedbackQuestionRubricResultStatsBody.html");
+    public static String RUBRIC_ADDITIONAL_INFO = FileHelper.readResourseFile("feedbackQuestionRubricAdditionalInfoTemplate.html");
+    
     
     
     /** Populates the feedback question form html templates by replacing 

@@ -720,13 +720,13 @@ ul #nav {
                         <div class="col-sm-8">
                             <select id="questionTypeChoice" name="questiontype" class="form-control questionType">
                                 <option value="TEXT">Essay question</option>
-                                <option value="MCQ">Multiple-choice (single answer) question</option>
-                                <option value="MSQ">Multiple-choice (multiple answers) question</option>
-                                <option value="NUMSCALE">Numerical-scale question</option>
-                                <option value="CONSTSUM_OPTION">Distribute points (among options) question</option>
-                                <option value="CONSTSUM_RECIPIENT">Distribute points (among recipients) question</option>
-                                <option style="display:none" disabled="disabled" value="CONSTSUM"></option>
-                                <option value="CONTRIB">Team contribution question</option>
+<option value="MCQ">Multiple-choice (single answer) question</option>
+<option value="MSQ">Multiple-choice (multiple answers) question</option>
+<option value="NUMSCALE">Numerical-scale question</option>
+<option value="CONSTSUM_OPTION">Distribute points (among options) question</option><option value="CONSTSUM_RECIPIENT">Distribute points (among recipients) question</option><option style="display:none" disabled="disabled" value="CONSTSUM"></option>
+<option value="CONTRIB">Team contribution question</option>
+<option value="RUBRIC">Rubric question</option>
+
                             </select>
                         </div>
                         <div class="col-sm-1">
@@ -764,9 +764,7 @@ ul #nav {
                     <div>
                         <textarea disabled="disabled" tabindex="9" title="" data-placement="top" data-toggle="tooltip" id="questiontext" name="questiontext" class="form-control textvalue nonDestructive" rows="5" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?"></textarea>
                     </div>
-                    <div id="mcqForm">
-                        
-                        <div class="row">
+                    <div id="mcqForm"><div class="row">
     <br />
     <div class="col-sm-6">
         <div id="mcqChoiceTable--1">
@@ -823,11 +821,7 @@ ul #nav {
         <input type="hidden" value="NONE" name="generatedOptions" id="generatedOptions--1" /> 
     </div>
     <br />
-</div>
-                    </div>
-                    <div id="msqForm">
-                        
-                        <div class="row">
+</div></div><div id="msqForm"><div class="row">
     <br />
     <div class="col-sm-6">
         <div id="msqChoiceTable--1">
@@ -884,11 +878,7 @@ ul #nav {
         <input type="hidden" value="NONE" name="generatedOptions" id="generatedOptions--1" /> 
     </div>
     <br />
-</div>
-                    </div>
-                    <div id="numScaleForm">
-                        
-                        <div>
+</div></div><div id="numScaleForm"><div>
     <br />
     <div>
         <div>
@@ -911,11 +901,7 @@ ul #nav {
             </div>
         </div>
     </div>
-</div>
-                    </div>
-                    <div id="constSumForm">
-                        
-                        <div class="row">
+</div></div><div id="constSumForm"><div class="row">
     <br />
     <div id="constSumOptionTable--1" class="col-sm-6">
         <div id="constSumOptionRow-0--1">
@@ -974,9 +960,131 @@ ul #nav {
             </div>
         </div>
     </div>
+    <div class="col-sm-6">
+        <div title="" data-container="body" data-placement="top" data-toggle="tooltip" id="constSum_tooltipText--1" class="form-inline col-sm-12" data-original-title="Ticking this prevents a giver from distributing the same number of points to multiple options">
+            <label class="control-label"> <span id="constSum_labelText--1">Every option to receive a different number of points  </span><input type="checkbox" id="constSum_UnevenDistribution--1" disabled="disabled" name="constSumUnevenDistribution" /></label>
+        </div>
+    </div>
     <br />
+</div></div><div id="rubricForm"><div class="row">
+    <br />
+    <div class="col-sm-12 table-responsive">
+        <table id="rubricEditTable--1" class="table table-striped table-bordered margin-0">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="rubricCol--1-0">
+	<div class="col-sm-12 input-group">
+		<input type="text" name="rubricChoice-0" id="rubricChoice--1-0" value="Strongly Agree" class="form-control" />
+		<span onmouseout="highlightRubricCol(0, -1, false)" onmouseover="highlightRubricCol(0, -1, true)" onclick="removeRubricCol(0, -1)" id="rubricRemoveChoiceLink--1-0" class="input-group-addon btn btn-default rubricRemoveChoiceLink--1">
+			<span class="glyphicon glyphicon-remove"></span>
+		</span>
+	</div>
+</th>
+<th class="rubricCol--1-1">
+	<div class="col-sm-12 input-group">
+		<input type="text" name="rubricChoice-1" id="rubricChoice--1-1" value="Agree" class="form-control" />
+		<span onmouseout="highlightRubricCol(1, -1, false)" onmouseover="highlightRubricCol(1, -1, true)" onclick="removeRubricCol(1, -1)" id="rubricRemoveChoiceLink--1-1" class="input-group-addon btn btn-default rubricRemoveChoiceLink--1">
+			<span class="glyphicon glyphicon-remove"></span>
+		</span>
+	</div>
+</th>
+<th class="rubricCol--1-2">
+	<div class="col-sm-12 input-group">
+		<input type="text" name="rubricChoice-2" id="rubricChoice--1-2" value="Neutral" class="form-control" />
+		<span onmouseout="highlightRubricCol(2, -1, false)" onmouseover="highlightRubricCol(2, -1, true)" onclick="removeRubricCol(2, -1)" id="rubricRemoveChoiceLink--1-2" class="input-group-addon btn btn-default rubricRemoveChoiceLink--1">
+			<span class="glyphicon glyphicon-remove"></span>
+		</span>
+	</div>
+</th>
+<th class="rubricCol--1-3">
+	<div class="col-sm-12 input-group">
+		<input type="text" name="rubricChoice-3" id="rubricChoice--1-3" value="Disagree" class="form-control" />
+		<span onmouseout="highlightRubricCol(3, -1, false)" onmouseover="highlightRubricCol(3, -1, true)" onclick="removeRubricCol(3, -1)" id="rubricRemoveChoiceLink--1-3" class="input-group-addon btn btn-default rubricRemoveChoiceLink--1">
+			<span class="glyphicon glyphicon-remove"></span>
+		</span>
+	</div>
+</th>
+<th class="rubricCol--1-4">
+	<div class="col-sm-12 input-group">
+		<input type="text" name="rubricChoice-4" id="rubricChoice--1-4" value="Strongly Disagree" class="form-control" />
+		<span onmouseout="highlightRubricCol(4, -1, false)" onmouseover="highlightRubricCol(4, -1, true)" onclick="removeRubricCol(4, -1)" id="rubricRemoveChoiceLink--1-4" class="input-group-addon btn btn-default rubricRemoveChoiceLink--1">
+			<span class="glyphicon glyphicon-remove"></span>
+		</span>
+	</div>
+</th>
+
+                </tr>
+            </thead>
+            <tbody>                
+                <tr id="rubricRow--1-0">
+    <td>
+    	<div class="col-sm-12 input-group">
+    		<span onmouseout="highlightRubricRow(0, -1, false)" onmouseover="highlightRubricRow(0, -1, true)" onclick="removeRubricRow(0,-1)" id="rubricRemoveSubQuestionLink--1-0" class="input-group-addon btn btn-default rubricRemoveSubQuestionLink--1">
+				<span class="glyphicon glyphicon-remove"></span>
+			</span>
+	    	<textarea name="rubricSubQn-0" id="rubricSubQn--1-0" rows="1" class="form-control">This student has been active during discussions.</textarea>
+		</div>
+    </td>
+    <td class="align-center rubricCol--1-0">
+	<textarea name="rubricDesc-0-0" id="rubricDesc--1-0-0" rows="1" class="form-control nonDestructive"></textarea>
+</td>
+<td class="align-center rubricCol--1-1">
+	<textarea name="rubricDesc-0-1" id="rubricDesc--1-0-1" rows="1" class="form-control nonDestructive"></textarea>
+</td>
+<td class="align-center rubricCol--1-2">
+	<textarea name="rubricDesc-0-2" id="rubricDesc--1-0-2" rows="1" class="form-control nonDestructive"></textarea>
+</td>
+<td class="align-center rubricCol--1-3">
+	<textarea name="rubricDesc-0-3" id="rubricDesc--1-0-3" rows="1" class="form-control nonDestructive"></textarea>
+</td>
+<td class="align-center rubricCol--1-4">
+	<textarea name="rubricDesc-0-4" id="rubricDesc--1-0-4" rows="1" class="form-control nonDestructive"></textarea>
+</td>
+
+</tr>
+<tr id="rubricRow--1-1">
+    <td>
+    	<div class="col-sm-12 input-group">
+    		<span onmouseout="highlightRubricRow(1, -1, false)" onmouseover="highlightRubricRow(1, -1, true)" onclick="removeRubricRow(1,-1)" id="rubricRemoveSubQuestionLink--1-1" class="input-group-addon btn btn-default rubricRemoveSubQuestionLink--1">
+				<span class="glyphicon glyphicon-remove"></span>
+			</span>
+	    	<textarea name="rubricSubQn-1" id="rubricSubQn--1-1" rows="1" class="form-control">This student has contributed to the team.</textarea>
+		</div>
+    </td>
+    <td class="align-center rubricCol--1-0">
+	<textarea name="rubricDesc-1-0" id="rubricDesc--1-1-0" rows="1" class="form-control nonDestructive"></textarea>
+</td>
+<td class="align-center rubricCol--1-1">
+	<textarea name="rubricDesc-1-1" id="rubricDesc--1-1-1" rows="1" class="form-control nonDestructive"></textarea>
+</td>
+<td class="align-center rubricCol--1-2">
+	<textarea name="rubricDesc-1-2" id="rubricDesc--1-1-2" rows="1" class="form-control nonDestructive"></textarea>
+</td>
+<td class="align-center rubricCol--1-3">
+	<textarea name="rubricDesc-1-3" id="rubricDesc--1-1-3" rows="1" class="form-control nonDestructive"></textarea>
+</td>
+<td class="align-center rubricCol--1-4">
+	<textarea name="rubricDesc-1-4" id="rubricDesc--1-1-4" rows="1" class="form-control nonDestructive"></textarea>
+</td>
+
+</tr>
+
+            </tbody>
+        </table>
+    </div>
+    <input type="hidden" value="2" id="rubricNumRows--1" name="rubricNumRows" />
+    <input type="hidden" value="5" id="rubricNumCols--1" name="rubricNumCols" />
 </div>
-                    </div>
+<div class="row">
+    <div class="col-sm-6 align-left">
+        <a onclick="addRubricRow(-1)" id="rubricAddSubQuestionLink--1" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-arrow-down"> </span> add row</a>
+    </div>
+    <div class="col-sm-6 align-right">
+        <a onclick="addRubricCol(-1)" id="rubricAddChoiceLink--1" class="btn btn-xs btn-primary">add column <span class="glyphicon glyphicon-arrow-right"></span></a>
+    </div>
+    <br />
+</div></div>
                     <br />
                     <div>
                         <div title="" data-placement="top" data-toggle="tooltip" class="col-sm-6" data-original-title="Who will give feedback">

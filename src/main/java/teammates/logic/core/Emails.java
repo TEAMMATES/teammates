@@ -457,7 +457,7 @@ public class Emails {
         CoursesLogic coursesLogic = CoursesLogic.inst();
         InstructorsLogic instructorsLogic = InstructorsLogic.inst();
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-        String template = EmailTemplates.USER_FEEDBACK_SESSION;
+        String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSING;
         List<MimeMessage> emails = null;
         
         CourseAttributes course = coursesLogic
@@ -867,14 +867,18 @@ public class Emails {
     }
     
     public void sendEmails(List<MimeMessage> messages) {
-        //Equally spread out the emails to be sent over 1 hour
+        if (messages.isEmpty()) {
+            return;
+        }
+        
+        // Equally spread out the emails to be sent over 1 hour
         int numberOfEmailsSent = 0;
         int emailIntervalMillis = (1000 * 60 * 60) / messages.size();
-        
-        //Sets interval to a maximum of 5 seconds if the interval is too large
+
+        // Sets interval to a maximum of 5 seconds if the interval is too large
         int maxIntervalMillis = 5000;
-        emailIntervalMillis =  emailIntervalMillis > maxIntervalMillis ? maxIntervalMillis : emailIntervalMillis;
-     
+        emailIntervalMillis = emailIntervalMillis > maxIntervalMillis ? maxIntervalMillis : emailIntervalMillis;
+
         for (MimeMessage m : messages) {
             try {
                 long emailDelayTimer = numberOfEmailsSent * emailIntervalMillis;
@@ -882,9 +886,10 @@ public class Emails {
                 numberOfEmailsSent++;
             } catch (MessagingException e) {
                 log.severe("Error in sending : " + m.toString()
-                            + " Cause : " + e.getMessage());
+                        + " Cause : " + e.getMessage());
             }
         }
+
     }
 
     public void addEmailToTaskQueue(MimeMessage message, long emailDelayTimer) throws MessagingException {

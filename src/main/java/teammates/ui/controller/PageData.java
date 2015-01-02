@@ -100,7 +100,7 @@ public class PageData {
      */
     public static String getPointsAsColorizedHtml(int points){
         if(points==Const.POINTS_NOT_SUBMITTED || points==Const.INT_UNINITIALIZED)
-            return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + Const.Tooltips.EVALUATION_SUBMISSION_NOT_AVAILABLE+ "\">N/A</span>";
+            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + Const.Tooltips.EVALUATION_SUBMISSION_NOT_AVAILABLE+ "\">N/A</span>";
         else if(points==Const.POINTS_NOT_SURE)
             return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + Const.Tooltips.EVALUATION_SUBMISSION_NOT_SURE + "\">N/S</span>";
         else if(points==0)
@@ -133,7 +133,7 @@ public class PageData {
     protected static String getPointsInEqualShareFormatAsHtml(int points, boolean inline){
         int delta = 0;
         if (points == Const.POINTS_NOT_SUBMITTED || points==Const.INT_UNINITIALIZED) {
-            return "<span class=\"badge background-color-white color-negative\">N/A</span>";
+            return "<span class=\"badge background-color-white color_neutral\">N/A</span>";
         } else if (points == Const.POINTS_NOT_SURE) {
             return "<span class=\"badge background-color-white color-negative\">Not sure</span>";
         } else if (points == 0) {
@@ -172,7 +172,7 @@ public class PageData {
         int diff = perceived - claimed;
         if(perceived==Const.POINTS_NOT_SUBMITTED || perceived==Const.INT_UNINITIALIZED
                 || claimed==Const.POINTS_NOT_SUBMITTED || claimed==Const.INT_UNINITIALIZED){
-            return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" data-container=\"body\" title=\"" + Const.Tooltips.EVALUATION_SUBMISSION_NOT_AVAILABLE + "\">N/A</span>";
+            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" data-container=\"body\" title=\"" + Const.Tooltips.EVALUATION_SUBMISSION_NOT_AVAILABLE + "\">N/A</span>";
         } else if(perceived==Const.POINTS_NOT_SURE || claimed==Const.POINTS_NOT_SURE) {
             return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" data-container=\"body\" title=\"" + Const.Tooltips.EVALUATION_SUBMISSION_NOT_SURE + "\">N/S</span>";
         } else if(diff>0){
@@ -570,6 +570,14 @@ public class PageData {
         return link;
     }
     
+    public String getInstructorFeedbackSessionRemindParticularStudentsPageLink(String courseID, String feedbackSessionName){
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE;
+        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseID);
+        link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
+        link = addUserIdToUrl(link);
+        return link;
+    }
+    
     public String getInstructorFeedbackSessionPublishLink(String courseID, String feedbackSessionName, boolean isHome){
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH;
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseID);
@@ -847,11 +855,25 @@ public class PageData {
         }
         
         result.append(
-            "<a class=\"btn btn-default btn-xs btn-tm-actions session-remind-for-test" + (hasRemind ? "\"" : DISABLED) + 
+            "<div class=\"btn-group\"><a class=\"btn btn-default btn-xs btn-tm-actions session-remind-for-test" + (hasRemind ? "\"" : DISABLED) + 
             "href=\"" + getInstructorFeedbackSessionRemindLink(session.courseId,session.feedbackSessionName) + "\" " +
             "title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
             (hasRemind ? "onclick=\"return toggleRemindStudents('" + session.feedbackSessionName + "');\" " : "") +
-            disableRemindSessionStr + ">Remind</a> "
+            disableRemindSessionStr + ">Remind</a>" +
+            "<button type=\"button\" class=\"btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" + 
+            (hasRemind ? "\"" : DISABLED) +
+            "data-toggle=\"dropdown\" aria-expanded=\"false\"> <span class=\"caret\"></span></button> " +
+            "<ul class=\"dropdown-menu\" role=\"menu\">" +
+            "<li><a href=\"" + getInstructorFeedbackSessionRemindLink(session.courseId,session.feedbackSessionName) + "\" " +
+            "class=\"session-remind-inner-for-test\" " +
+            "title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
+            (hasRemind ? "onclick=\"return toggleRemindStudents('" + session.feedbackSessionName + "');\" " : "") +
+            disableRemindSessionStr + ">Remind all students</a></li>" +
+            "<li><a href=\"#\" data-actionlink=\"" + 
+            getInstructorFeedbackSessionRemindParticularStudentsPageLink(session.courseId, session.feedbackSessionName) + "\" " +
+            "class=\"session-remind-particular-for-test\" " +
+            "data-courseid=\"" + session.courseId + "\" data-fsname=\"" + session.feedbackSessionName + "\" " +
+            "data-toggle=\"modal\" data-target=\"#remindModal\">Remind particular students</a></li></ul></div> "
         );
         
         if (hasUnpublish) {

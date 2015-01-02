@@ -1152,9 +1152,10 @@ public class Logic {
      * @return StudentData objects in the return value contains the status of
      *         enrollment. It also includes data for other students in the
      *         course that were not touched by the operation.
+     * @throws EntityAlreadyExistsException 
      */
     public List<StudentAttributes> enrollStudents(String enrollLines, String courseId)
-            throws EnrollException, EntityDoesNotExistException, InvalidParametersException {
+            throws EnrollException, EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, enrollLines);
@@ -1218,6 +1219,23 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
         
         feedbackSessionsLogic.scheduleFeedbackRemindEmails(courseId, feedbackSessionName);
+    }
+    
+    /**
+     * Sends reminders to selected users. <br>
+     * Preconditions: <br>
+     * * All parameters are non-null. <br>
+     */
+    public void sendReminderForFeedbackSessionParticularUsers(String courseId,
+            String feedbackSessionName, String[] usersToRemind)
+            throws EntityDoesNotExistException {
+     
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, usersToRemind);
+
+        feedbackSessionsLogic.scheduleFeedbackRemindEmailsForParticularUsers(
+                courseId, feedbackSessionName, usersToRemind);
     }
 
     /**

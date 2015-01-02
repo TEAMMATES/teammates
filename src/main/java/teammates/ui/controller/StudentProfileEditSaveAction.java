@@ -5,6 +5,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 
 /**
  * Action: saves the new profile details given by a student. 
@@ -50,8 +51,19 @@ public class StudentProfileEditSaveAction extends Action {
         editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);
         editedProfile.pictureKey = "";
         
-        validatePostParameters(editedProfile);
-        
+        preprocessParameters(editedProfile);
+        validatePostParameters(editedProfile);        
+
         return editedProfile;
+    }
+
+    private void preprocessParameters(StudentProfileAttributes studentProfile) {
+        
+        studentProfile.shortName = StringHelper.trimIfNotNull(studentProfile.shortName);
+        studentProfile.email = StringHelper.trimIfNotNull(studentProfile.email);
+        studentProfile.gender = StringHelper.trimIfNotNull(studentProfile.gender);
+        studentProfile.nationality = StringHelper.trimIfNotNull(studentProfile.nationality);
+        studentProfile.institute = StringHelper.trimIfNotNull(studentProfile.institute);
+        studentProfile.moreInfo = StringHelper.trimIfNotNull(studentProfile.moreInfo);
     }
 }

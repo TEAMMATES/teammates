@@ -24,7 +24,6 @@
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="/stylesheets/teammatesCommon.css" rel="stylesheet">
-    <link href="/stylesheets/adminCommon.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
               <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -37,7 +36,7 @@
     <script type="text/javascript"
         src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
-
+    <script type="text/javascript" src="/js/adminAccountManagement.js"></script>
     
     <jsp:include page="../enableJS.jsp"></jsp:include>
 
@@ -51,14 +50,28 @@
         role="main">
         <div id="topOfPage"></div>
         <div id="headerOperation" class="page-header">
-            <h1>Instructor Account Management<small id="instructorCount">Total Instructors: <%=data.instructorCoursesTable.size()%></small>
+            <h1>Instructor Account Management<small id="instructorCount">Total Instructors: <%=data.instructorAccountsTable.size()%></small>
             </h1>
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+        </div>
+        <div id="pagination_top">
+            <ul class="pagination">
+                <li class="previous"><a href="#"> <span>&laquo;</span>
+                </a></li>
+                <li><a class="pageNumber" href="#">1</a></li>
+                <li><a class="pageNumber" href="#">2</a></li>
+                <li><a class="pageNumber" href="#">3</a></li>
+                <li><a class="pageNumber" href="#">4</a></li>
+                <li><a class="pageNumber" href="#">5</a></li>
+                <li class="next"><a href="#"><span>&raquo;</span>
+                </a></li>
+            </ul>
         </div>
 
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <strong>Instructor List</strong>
+                <strong class="pull-right"><span id="currentPageEntryCount">1</span>&nbsp;/&nbsp;<span id="totalEntryCount">10</span></strong>
             </div>
             <div class="table-responsive">
                 <table class="table table-striped dataTable">
@@ -66,14 +79,14 @@
                         <tr>
                             <th width="10%">Account Info</th>
                             <th width="5%">Instructor for</th>
-                            <th width="20%" onclick="toggleSort(this,3)"
+                            <th width="20%" onclick="toggleSort(this,3); reLabelOrderedAccountEntries();"
                                 class="button-sort-ascending">
                                 Institute <span
                                 class="icon-sort unsorted"
                                 id="button_sort_institute"></span>
                             </th>
                             <th width="30%"
-                                onclick="toggleSort(this,4);"
+                                onclick="toggleSort(this,4); reLabelOrderedAccountEntries();"
                                 class="button-sort-ascending">Create
                                 At <span class="icon-sort unsorted"
                                 id="button_sort_createat"></span>
@@ -98,7 +111,7 @@
                         %>
 
 
-                        <tr>
+                        <tr class="accountEntry">
                             <td><%="<span class=\"bold\">Google ID: </span><a href=\""
 						+ data.getInstructorHomePageViewLink(acc.googleId)
 						+ "\" target=\"blank\">" + acc.googleId
@@ -170,6 +183,21 @@
                 </table>
             </div>
         </div>
+
+        <div id="pagination_bottom">
+            <ul class="pagination">
+                <li class="previous"><a href="#"> <span>&laquo;</span>
+                </a></li>
+                <li><a class="pageNumber" href="#">1</a></li>
+                <li><a class="pageNumber" href="#">2</a></li>
+                <li><a class="pageNumber" href="#">3</a></li>
+                <li><a class="pageNumber" href="#">4</a></li>
+                <li><a class="pageNumber" href="#">5</a></li>
+                <li class="next"><a href="#"><span>&raquo;</span>
+                </a></li>
+            </ul>
+        </div>
+
 
         <a href="#" class="back-to-top-left"><span
             class="glyphicon glyphicon-arrow-up"></span>&nbsp;Top</a> 

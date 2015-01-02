@@ -1,12 +1,13 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 
-public class FeedbackMsqResponseDetails extends FeedbackAbstractResponseDetails {
+public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
     public List<String> answers;
     
     public FeedbackMsqResponseDetails() {
@@ -14,11 +15,11 @@ public class FeedbackMsqResponseDetails extends FeedbackAbstractResponseDetails 
         this.answers = new ArrayList<String>();
     }
     
-    public FeedbackMsqResponseDetails(List<String> answers) {
-        super(FeedbackQuestionType.MSQ);
-        this.answers = answers;
+    @Override
+    public void extractResponseDetails(FeedbackQuestionType questionType,
+            FeedbackQuestionDetails questionDetails, String[] answer) {
+        this.answers = Arrays.asList(answer);
     }
-    
 
     public boolean contains(String candidateAnswer) {
         return answers.contains(candidateAnswer);
@@ -34,7 +35,7 @@ public class FeedbackMsqResponseDetails extends FeedbackAbstractResponseDetails 
     }
 
     @Override
-    public String getAnswerHtml(FeedbackAbstractQuestionDetails questionDetails) {
+    public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         StringBuilder htmlBuilder = new StringBuilder();
         
         htmlBuilder.append("<ul class=\"selectedOptionsList\">");
@@ -49,7 +50,7 @@ public class FeedbackMsqResponseDetails extends FeedbackAbstractResponseDetails 
     }
 
     @Override
-    public String getAnswerCsv(FeedbackAbstractQuestionDetails questionDetails) {
+    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         FeedbackMsqQuestionDetails msqDetails = (FeedbackMsqQuestionDetails) questionDetails;
         StringBuilder csvBuilder = new StringBuilder();
         

@@ -1,10 +1,13 @@
 package teammates.test.pageobjects;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 
 
@@ -229,6 +232,45 @@ public class InstructorHomePage extends AppPage {
     
     public WebElement getRemindLink(String courseId, String evalName) {
         return getSessionLinkInRow("session-remind-for-test", getEvaluationRowId(courseId, evalName));
+    }
+    
+    public WebElement getRemindOptionsLink(String courseId, String evalName) {
+        return getSessionLinkInRow("session-remind-options-for-test", getEvaluationRowId(courseId, evalName));
+    }
+    
+    public void clickRemindOptionsLink(String courseId, String evalName) {
+        getRemindOptionsLink(courseId, evalName).click();
+    }
+    
+    public WebElement getRemindInnerLink(String courseId, String evalName) {
+        return getSessionLinkInRow("session-remind-inner-for-test", getEvaluationRowId(courseId, evalName));
+    }
+    
+    public WebElement getRemindParticularUsersLink(String courseId, String evalName) {
+        return getSessionLinkInRow("session-remind-particular-for-test", getEvaluationRowId(courseId, evalName));
+    }
+    
+    public void clickRemindParticularUsersLink(String courseId, String evalName) {
+        getRemindParticularUsersLink(courseId, evalName).click();
+        ThreadHelper.waitFor(1000);
+    }
+    
+    public void cancelRemindParticularUsersForm() {
+        WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
+        remindModal.findElement(By.tagName("button")).click();
+    }
+    
+    public void fillRemindParticularUsersForm() {
+        WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
+        List<WebElement> usersToRemind = remindModal.findElements(By.name("usersToRemind"));
+        for(WebElement e : usersToRemind) {
+            markCheckBoxAsChecked(e);
+        }
+    }
+    
+    public void submitRemindParticularUsersForm() {
+        WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
+        remindModal.findElement(By.name("form_remind_list")).submit();
     }
     
     public WebElement getPublishLink(String courseId, String evalName){

@@ -61,6 +61,7 @@ var FEEDBACK_QUESTION_TYPENAME_NUMSCALE = "Numerical-scale question";
 var FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION = "Distribute points (among options) question";
 var FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT = "Distribute points (among recipients) question";
 var FEEDBACK_QUESTION_TYPENAME_CONTRIB = "Team contribution question";
+var FEEDBACK_QUESTION_TYPENAME_RUBRIC = "Rubric question";
 
 // used in feedbackResponseComments.js
 var FEEDBACK_RESPONSE_ID = "responseid";
@@ -563,4 +564,15 @@ function disallowNonNumericEntries(element, decimalPointAllowed, negativeAllowed
             }   
         }		
     });
+}
+
+/**
+ * Helper function to replace all occurrences of a sub-string in a string.
+ */
+function replaceAll(string, find, replace) {
+  return string.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+}
+
+function escapeRegExp(string) {
+    return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
 }

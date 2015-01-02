@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -10,13 +11,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.FeedbackAbstractQuestionDetails;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -598,44 +600,214 @@ public class FeedbackSessionsLogic {
 
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : results
                 .getQuestionResponseMap().entrySet()) {
-            FeedbackQuestionAttributes question = entry.getKey();
-            FeedbackAbstractQuestionDetails questionDetails = question.getQuestionDetails();
-
-            exportBuilder.append("Question " + Integer.toString(entry.getKey().questionNumber) + "," 
-                    + Sanitizer.sanitizeForCsv(questionDetails.questionText)
-                    + Const.EOL + Const.EOL);
-            
-            String statistics = questionDetails.getQuestionResultStatisticsCsv(entry.getValue(),
-                                        question, results);
-            if(statistics != ""){
-                exportBuilder.append("Summary Statistics," + Const.EOL);
-                exportBuilder.append(statistics + Const.EOL);
-            }
-            
-            exportBuilder.append("Team" + "," + "Giver's Full Name" + "," + "Giver's Last Name" + "," + "Recipient's Team" + ","
-                    + "Recipient's Full Name" + "," + "Recipient's Last Name" + "," + questionDetails.getCsvHeader() + Const.EOL);
-
-            for (FeedbackResponseAttributes response : entry.getValue()) {
-             
-                String giverLastName = results.getLastNameForEmail(response.giverEmail);
-                String giverFullName = results.getNameForEmail(response.giverEmail);
-                String recipientLastName = results.getLastNameForEmail(response.recipientEmail);
-                String recipientFulltName = results.getNameForEmail(response.recipientEmail);
-                
-                exportBuilder.append(Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.giverEmail)) 
-                                     + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) 
-                                     + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
-                                     + "," + Sanitizer.sanitizeForCsv(results.getTeamNameForEmail(response.recipientEmail))
-                                     + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFulltName))
-                                     + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
-                                     + "," + response.getResponseDetails().getAnswerCsv(questionDetails) + Const.EOL);
-           
-            
-            }
-            exportBuilder.append(Const.EOL + Const.EOL);
+            exportBuilder.append(getFeedbackSessionResultsForQuestionInCsvFormat(results, entry));
         }
         return exportBuilder.toString();
         
+    }
+
+    private StringBuilder getFeedbackSessionResultsForQuestionInCsvFormat(
+            FeedbackSessionResultsBundle results,
+            Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry) {
+        
+        FeedbackQuestionAttributes question = entry.getKey();
+        FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+        List<FeedbackResponseAttributes> allResponses = entry.getValue();
+        
+        StringBuilder exportBuilder = new StringBuilder();
+        
+        exportBuilder.append("Question " + Integer.toString(question.questionNumber) + "," 
+                + Sanitizer.sanitizeForCsv(questionDetails.questionText)
+                + Const.EOL + Const.EOL);
+        
+        String statistics = questionDetails.getQuestionResultStatisticsCsv(allResponses,
+                                    question, results);
+        if(statistics != ""){
+            exportBuilder.append("Summary Statistics," + Const.EOL);
+            exportBuilder.append(statistics + Const.EOL);
+        }
+        
+        exportBuilder.append("Team" + "," + "Giver's Full Name" + "," 
+                + "Giver's Last Name" + "," +"Giver's Email" + ","  
+                + "Recipient's Team" + "," + "Recipient's Full Name" + "," 
+                + "Recipient's Last Name" + "," + "Recipient's Email" + ","  
+                + questionDetails.getCsvHeader() + Const.EOL);
+
+        List<String> possibleGiversWithoutResponses = results.getPossibleGivers(question);
+        List<String> possibleRecipientsForGiver = new ArrayList<String>();
+        String prevGiver = "";
+        
+        for (FeedbackResponseAttributes response : allResponses) {
+
+            // do not show all possible givers and recipients if there are anonymous givers and recipients 
+            if (!results.isRecipientVisible(response) || !results.isGiverVisible(response)) {
+                possibleGiversWithoutResponses.clear();
+                possibleRecipientsForGiver.clear();
+            }
+            
+            // Retrieve giver details
+            String giverLastName = results.getLastNameForEmail(response.giverEmail);
+            String giverFullName = results.getNameForEmail(response.giverEmail);
+            String giverTeamName =results.getTeamNameForEmail(response.giverEmail);
+            String giverEmail = results.getDisplayableEmailGiver(response);
+            
+            // Retrieve recipient details
+            String recipientLastName = results.getLastNameForEmail(response.recipientEmail);
+            String recipientFullName = results.getNameForEmail(response.recipientEmail);
+            String recipientTeamName =results.getTeamNameForEmail(response.recipientEmail);
+            String recipientEmail = results.getDisplayableEmailRecipient(response);
+            
+            
+            // keep track of possible recipients with no responses
+            removeParticipantIdentifierFromList(question.giverType,
+                    possibleGiversWithoutResponses, response.giverEmail, results);
+            
+            boolean isNewGiver = !prevGiver.equals(response.giverEmail);
+            // print missing responses from the current giver
+            if (isNewGiver) {
+                exportBuilder.append(getRowsOfPossibleRecipientsInCsvFormat(results,
+                        question, questionDetails,
+                        possibleRecipientsForGiver, prevGiver));
+                
+                
+                String giverIdentifier = (question.giverType == FeedbackParticipantType.TEAMS)? 
+                                    results.getFullNameFromRoster(response.giverEmail):
+                                    response.giverEmail;
+                
+                possibleRecipientsForGiver = results.getPossibleRecipients(question, giverIdentifier);
+            }
+            
+            removeParticipantIdentifierFromList(question.recipientType, possibleRecipientsForGiver, response.recipientEmail, results);
+            prevGiver = response.giverEmail;
+            
+            
+            exportBuilder.append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) 
+                                 + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) 
+                                 + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
+                                 + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
+                                 + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName))
+                                 + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName))
+                                 + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
+                                 + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
+                                 + "," + results.getResponseAnswerCsv(response, question) + Const.EOL);
+            
+        }
+        
+        // add the rows for the possible givers and recipients who have missing responses
+        exportBuilder.append(getRemainingRowsInCsvFormat(results, entry, question, questionDetails,
+                possibleGiversWithoutResponses, possibleRecipientsForGiver, prevGiver));
+        exportBuilder.append(Const.EOL + Const.EOL);
+        
+        return exportBuilder;
+    }
+
+    /**
+     * Given a participantIdentifier, remove it from participantIdentifierList. 
+     * 
+     * Before removal, FeedbackSessionResultsBundle.getNameFromRoster is used to 
+     * convert the identifier into a canonical form if the participantIdentifierType is TEAMS. 
+     *  
+     * @param participantIdentifierType
+     * @param participantIdentifierList
+     * @param participantIdentifier
+     * @param bundle
+     */
+    private void removeParticipantIdentifierFromList(
+            FeedbackParticipantType participantIdentifierType,
+            List<String> participantIdentifierList, String participantIdentifier,
+            FeedbackSessionResultsBundle bundle) {
+        if (participantIdentifierType == FeedbackParticipantType.TEAMS) {
+            participantIdentifierList.remove(bundle.getFullNameFromRoster(participantIdentifier)); 
+        } else {
+            participantIdentifierList.remove(participantIdentifier);
+        }
+    }
+
+    /**
+     * Generate rows of missing responses for the remaining possible givers and recipients.
+     * 
+     * If for the prevGiver, possibleRecipientsForGiver is not empty,
+     * the remaining missing responses for the prevGiver will be generated first.
+     * 
+     * @param results
+     * @param entry
+     * @param question
+     * @param questionDetails
+     * @param remainingPossibleGivers
+     * @param possibleRecipientsForGiver
+     * @param prevGiver
+     * @return the remaining rows of missing responses in csv format
+     */
+    private StringBuilder getRemainingRowsInCsvFormat(
+            FeedbackSessionResultsBundle results,
+            Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry,
+            FeedbackQuestionAttributes question,
+            FeedbackQuestionDetails questionDetails,
+            List<String> remainingPossibleGivers,
+            List<String> possibleRecipientsForGiver, String prevGiver) {
+        StringBuilder exportBuilder = new StringBuilder();
+        
+        if (possibleRecipientsForGiver != null) {
+            exportBuilder.append(getRowsOfPossibleRecipientsInCsvFormat(results,
+                    question, questionDetails, possibleRecipientsForGiver,
+                    prevGiver));
+            
+        }
+        
+        removeParticipantIdentifierFromList(question.giverType, remainingPossibleGivers, prevGiver, results);
+            
+        
+        for (String possibleGiverWithNoResponses : remainingPossibleGivers) {
+            possibleRecipientsForGiver = results.getPossibleRecipients(entry.getKey(), possibleGiverWithNoResponses);
+            
+            exportBuilder.append(getRowsOfPossibleRecipientsInCsvFormat(results,
+                    question, questionDetails, possibleRecipientsForGiver,
+                    possibleGiverWithNoResponses));
+        }
+        
+        return exportBuilder;
+    }
+
+
+    /**
+     * For a giver and a list of possibleRecipientsForGiver, generate rows 
+     * of missing responses between the giver and the possible recipients
+     * 
+     * @param results
+     * @param question
+     * @param questionDetails
+     * @param possibleRecipientsForGiver
+     * @param giver
+     * @return
+     */
+    private StringBuilder getRowsOfPossibleRecipientsInCsvFormat(
+            FeedbackSessionResultsBundle results, 
+            FeedbackQuestionAttributes question,
+            FeedbackQuestionDetails questionDetails,
+            List<String> possibleRecipientsForGiver, String giver) {
+        StringBuilder exportBuilder = new StringBuilder();
+        for (String possibleRecipient : possibleRecipientsForGiver) {
+            String giverName = results.getFullNameFromRoster(giver);
+            String giverLastName = results.getLastNameFromRoster(giver);
+            String giverEmail = results.getDisplayableEmailFromRoster(giver);
+            String possibleRecipientName = results.getFullNameFromRoster(possibleRecipient);
+            String possibleRecipientLastName = results.getLastNameFromRoster(possibleRecipient);
+            String possibleRecipientEmail = results.getDisplayableEmailFromRoster(possibleRecipient);
+            
+            if (questionDetails.shouldShowNoResponseText(giver, possibleRecipient, question)) {
+                exportBuilder.append(Sanitizer.sanitizeForCsv(results.getTeamNameFromRoster(giver)) 
+                        + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverName))
+                        + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
+                        + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
+                        + "," + Sanitizer.sanitizeForCsv(results.getTeamNameFromRoster(possibleRecipient))
+                        + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientName))
+                        + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientLastName))
+                        + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientEmail))
+                        + "," + Sanitizer.sanitizeForCsv(
+                                questionDetails.getNoResponseTextInCsv(giver, possibleRecipient, results, question)) + Const.EOL);
+            }
+        }
+        return exportBuilder;
     }
 
     /**
@@ -1040,11 +1212,15 @@ public class FeedbackSessionsLogic {
                     "Session is already published.");
         }
 
-        sessionToPublish.resultsVisibleFromTime = Const.TIME_REPRESENTS_NOW;
-
+        sessionToPublish.resultsVisibleFromTime = currentDateTime(sessionToPublish);
         updateFeedbackSession(sessionToPublish);
 
         sendFeedbackSessionPublishedEmail(sessionToPublish);
+    }
+
+    private Date currentDateTime(FeedbackSessionAttributes sessionToPublish) {
+        Calendar now = TimeHelper.now(sessionToPublish.timeZone);
+        return now.getTime();
     }
 
     /**
@@ -1128,6 +1304,51 @@ public class FeedbackSessionsLogic {
 
         return emails;
     }
+    
+    public List<MimeMessage> sendReminderForFeedbackSessionParticularUsers(String courseId,
+            String feedbackSessionName, String[] usersToRemind) throws EntityDoesNotExistException {
+        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
+            throw new EntityDoesNotExistException(
+                    "Trying to remind non-existent feedback session "
+                            + courseId + "/" + feedbackSessionName);
+        }
+
+        FeedbackSessionAttributes session = getFeedbackSession(
+                feedbackSessionName, courseId);
+        
+        List<InstructorAttributes> instructorList = instructorsLogic
+                .getInstructorsForCourse(courseId);
+        List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
+        List<InstructorAttributes> instructorsToRemindList = new ArrayList<InstructorAttributes>();
+
+        for (String userEmail : usersToRemind) {
+            StudentAttributes student = studentsLogic
+                    .getStudentForEmail(courseId, userEmail);
+            if (student != null) {
+                studentsToRemindList.add(student);
+            }
+
+            InstructorAttributes instructor = instructorsLogic
+                    .getInstructorForEmail(courseId, userEmail);
+            if (instructor != null) {
+                instructorsToRemindList.add(instructor);
+            }
+        }
+
+        CourseAttributes course = coursesLogic.getCourse(courseId);
+        List<MimeMessage> emails;
+        Emails emailMgr = new Emails();
+        try {
+            emails = emailMgr.generateFeedbackSessionReminderEmails(course,
+                    session, studentsToRemindList, instructorsToRemindList,
+                    instructorList);
+            emailMgr.sendEmails(emails);
+        } catch (Exception e) {
+            throw new RuntimeException("Error while sending emails :", e);
+        }
+
+        return emails;
+    }
 
     public void scheduleFeedbackRemindEmails(String courseId, String feedbackSessionName) {
         
@@ -1138,6 +1359,19 @@ public class FeedbackSessionsLogic {
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
         taskQueueLogic.createAndAddTask(SystemParams.FEEDBACK_REMIND_EMAIL_TASK_QUEUE,
                 Const.ActionURIs.FEEDBACK_REMIND_EMAIL_WORKER, paramMap);
+    }
+    
+    public void scheduleFeedbackRemindEmailsForParticularUsers(String courseId,
+            String feedbackSessionName, String[] usersToRemind) {
+    
+        HashMap<String, String[]> paramMap = new HashMap<String, String[]>();
+        paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, new String[]{feedbackSessionName});
+        paramMap.put(ParamsNames.SUBMISSION_COURSE, new String[]{courseId});
+        paramMap.put(ParamsNames.SUBMISSION_REMIND_USERLIST, usersToRemind);
+        
+        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+        taskQueueLogic.createAndAddTaskMultisetParam(SystemParams.FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_TASK_QUEUE,
+                Const.ActionURIs.FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_WORKER, paramMap);
     }
 
     public void scheduleFeedbackSessionOpeningEmails() {
@@ -1332,7 +1566,7 @@ public class FeedbackSessionsLogic {
             return new FeedbackSessionResultsBundle(
                     session, responses, relevantQuestions,
                     emailNameTable, emailLastNameTable, emailTeamNameTable,
-                    visibilityTable, responseStatus, responseComments);
+                    visibilityTable, responseStatus, roster, responseComments);
         }
 
         Map<String, FeedbackResponseAttributes> relevantResponse = new HashMap<String, FeedbackResponseAttributes>();
@@ -1417,7 +1651,7 @@ public class FeedbackSessionsLogic {
                 new FeedbackSessionResultsBundle(
                         session, responses, relevantQuestions,
                         emailNameTable, emailLastNameTable, emailTeamNameTable,
-                        visibilityTable, responseStatus, responseComments);
+                        visibilityTable, responseStatus, roster, responseComments);
 
         return results;
     }
@@ -1479,7 +1713,7 @@ public class FeedbackSessionsLogic {
             return new FeedbackSessionResultsBundle(
                     session, responses, relevantQuestions,
                     emailNameTable, emailLastNameTable, emailTeamNameTable,
-                    visibilityTable, responseStatus, responseComments);
+                    visibilityTable, responseStatus, roster, responseComments);
         }
         
         if (params.get("questionNum") != null) {
@@ -1553,7 +1787,7 @@ public class FeedbackSessionsLogic {
                     new FeedbackSessionResultsBundle(
                             session, responses, relevantQuestions,
                             emailNameTable, emailLastNameTable, emailTeamNameTable,
-                            visibilityTable, responseStatus, responseComments, true);
+                            visibilityTable, responseStatus, roster, responseComments, true);
 
             return results;
         }
@@ -1587,7 +1821,7 @@ public class FeedbackSessionsLogic {
                     new FeedbackSessionResultsBundle(
                             session, responses, relevantQuestions,
                             emailNameTable, emailLastNameTable, emailTeamNameTable,
-                            visibilityTable, responseStatus, responseComments, isComplete);
+                            visibilityTable, responseStatus, roster, responseComments, isComplete);
     
                 return results;
             }
@@ -1691,7 +1925,7 @@ public class FeedbackSessionsLogic {
                 new FeedbackSessionResultsBundle(
                         session, responses, relevantQuestions,
                         emailNameTable, emailLastNameTable, emailTeamNameTable,
-                        visibilityTable, responseStatus, responseComments, isComplete);
+                        visibilityTable, responseStatus, roster, responseComments, isComplete);
 
         return results;
     }
