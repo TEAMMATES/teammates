@@ -90,11 +90,15 @@ public class StudentsDb extends EntitiesDb {
     }
     
     public void createStudents(Collection<StudentAttributes> studentsToAdd) throws InvalidParametersException{
+        
+        // Currently this createStudents function is only used in testing process
         List<EntityAttributes> studentsToUpdate = createEntities(studentsToAdd);
         for(EntityAttributes entity : studentsToUpdate){
             StudentAttributes student = (StudentAttributes) entity;
             try {
-                updateStudentWithoutDocument(student.course, student.email, student.name, student.team, student.section, student.section, student.googleId, student.comments);
+                
+                //This function is only used for testing as its purpose is to not create document if not necessary.                 
+                updateStudentWithoutDocument(student.course, student.email, student.name, student.team, student.section, student.email, student.googleId, student.comments);
             } catch (EntityDoesNotExistException e) {
              // This situation is not tested as replicating such a situation is 
              // difficult during testing
