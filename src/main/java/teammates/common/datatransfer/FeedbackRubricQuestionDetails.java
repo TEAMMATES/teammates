@@ -573,12 +573,13 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     public String getNoResponseTextInCsv(String giverEmail, String recipientEmail,
             FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
-       return "All Sub-Questions," + getNoResponseText(giverEmail, recipientEmail, bundle, question);
+       return Sanitizer.sanitizeForCsv("All Sub-Questions") + ","
+            + Sanitizer.sanitizeForCsv(getNoResponseText(giverEmail, recipientEmail, bundle, question));
     }
     
     @Override
     public String getCsvHeader() {
-        return "Feedback";
+        return "Choice";
     }
     
     public String getCsvDetailedResponsesHeader() {
