@@ -175,4 +175,8 @@ public class StudentProfilePage extends AppPage {
         assertEquals(String.valueOf(width), browser.driver.findElement(By.id("pictureWidth")).getAttribute("value"));
         
     }
+    
+    public void verifyPictureIsVisible(int height) throws Exception {
+        assertEquals(height, Integer.parseInt(browser.driver.findElement(By.className("jcrop-holder")).getCssValue("height")));
+    }
 }
