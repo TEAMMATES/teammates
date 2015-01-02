@@ -35,6 +35,25 @@ public class FeedbackSessionResponseStatus {
         @Override
         public int compare(String s1, String s2) {
 
+            int order = compareByTeamName.compare(s1, s2);
+            if(order != 0){
+                // Sorting can be done at team name level
+                return order;
+            }
+            
+            // Both s1, s2 are in the same team
+            // Sorting has to be done at name level
+            return compareByName.compare(s1, s2);            
+        }
+    };
+    
+ // Sorts by teamName
+    public Comparator<String> compareByTeamName
+        = new Comparator<String>() {
+        
+        @Override
+        public int compare(String s1, String s2) {
+
             // Compare between instructor and student
             // Instructor should be at higher order compared to student
             String teamName1 = emailTeamNameTable.get(s1);
@@ -51,29 +70,30 @@ public class FeedbackSessionResponseStatus {
                 // Team 2 has higher sorting order when team 2 belongs instructor and team 1 belongs to student
                 // 1 represents team 2 is at higher order
                 return 1;                
-            }else{
-                // Either team 1 & 2 both belong to instructor or student
+            }else if(isTeamName1Instructor && isTeamName2Instructor){
+                // Both teams belong to instructors
+                // Therefore team name 1 and 2 are the same, which is indicated by 0
+                return compareByName.compare(s1, s2);
+            }            
+            else{
+                // Both teams belong to students
+                // Compare on team name
+                return teamName1.compareToIgnoreCase(teamName2);
             }
-            
+        }
+    };
+    
+ // Sorts by studentName
+    public Comparator<String> compareByName
+        = new Comparator<String>() {
+        
+        @Override
+        public int compare(String s1, String s2) {
+         
             // Compare on names
             String name1 = emailNameTable.get(s1);
             String name2 = emailNameTable.get(s2);
             
-            if(isTeamName1Instructor && isTeamName2Instructor){
-                // Both teams belong to instructor
-                // Compare instructor name
-                return name1.compareToIgnoreCase(name2);
-            }
-            
-            // Both teams belong to student
-            // Compare team name
-            int order = teamName1.compareToIgnoreCase(teamName2);
-            if(order != 0){
-                return order;
-            }
-            
-            // Both students belong to the same team
-            // Compare student name
             return name1.compareToIgnoreCase(name2);
         }
     };
