@@ -92,12 +92,12 @@ public class BaseActionTest extends BaseComponentTestCase {
     
     protected String[] createValidParamsForProfile() {
         String[] submissionParams = new String[]{
-                Const.ParamsNames.STUDENT_SHORT_NAME, "short",
-                Const.ParamsNames.STUDENT_PROFILE_EMAIL, "e@email.com",
-                Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, "TEAMMATES Test Institute 5",
-                Const.ParamsNames.STUDENT_NATIONALITY, "Switzerland",
-                Const.ParamsNames.STUDENT_GENDER, "other",
-                Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "This is more info on me"
+                Const.ParamsNames.STUDENT_SHORT_NAME, "short ",
+                Const.ParamsNames.STUDENT_PROFILE_EMAIL, "e@email.com  ",
+                Const.ParamsNames.STUDENT_PROFILE_INSTITUTION, " TEAMMATES Test Institute 5   ",
+                Const.ParamsNames.STUDENT_NATIONALITY, "  Switzerland ",
+                Const.ParamsNames.STUDENT_GENDER, "  other   ",
+                Const.ParamsNames.STUDENT_PROFILE_MOREINFO, "   This is more info on me   "
         };
         return submissionParams;
     }

@@ -713,7 +713,9 @@
             "recipientEmail":"drop.out@gmail.tmt",
             "responseMetaData":{
                 "value":"Response to Dropout."
-            }
+            },
+            "giverSection": "Section A",
+            "recipientSection" : "Section A"
         },
         "response3b":{
             "feedbackSessionName":"First Session",
@@ -724,7 +726,9 @@
             "recipientEmail":"CFResultsUiT.alice.b@gmail.tmt",
             "responseMetaData":{
                 "value":"Response to Alice from Dropout."
-            }
+            },
+            "giverSection": "Section A",
+            "recipientSection" : "Section A"
         },
         "response3c":{
             "feedbackSessionName":"First Session",
@@ -735,7 +739,9 @@
             "recipientEmail":"CFResultsUiT.danny.e@gmail.tmt",
             "responseMetaData":{
                 "value":"Response to Danny from Dropout."
-            }
+            },
+            "giverSection": "Section A",
+            "recipientSection" : "Section A"
         },
         "response3d":{
             "feedbackSessionName":"First Session",
@@ -746,7 +752,9 @@
             "recipientEmail":"CFResultsUiT.benny.c@gmail.tmt",
             "responseMetaData":{
                 "value":"Response to Benny from Dropout."
-            }
+            },
+            "giverSection": "Section A",
+            "recipientSection" : "Section A"
             
         },
         "response4":{
