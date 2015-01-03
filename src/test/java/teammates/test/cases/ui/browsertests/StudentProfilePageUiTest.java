@@ -141,9 +141,9 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
         verifyPictureIsPresent(prevPictureKey);
         
-        ______TS("success case, update picture (to long)");
+        ______TS("success case, update picture (too tall)");
         
-        profilePage.fillProfilePic("src/test/resources/images/image_long.jpg");
+        profilePage.fillProfilePic("src/test/resources/images/image_tall.jpg");
         profilePage.uploadPicture();
         profilePage.isElementVisible("studentPhotoUploader");
         profilePage.verifyPhotoSize(3074, 156);
