@@ -436,13 +436,13 @@ Apply to thead to make headers not bold.
 }
 
 .profile-pic-edit {
-    max-height: 400px;
+    max-height: 450px;
     width: 100%;
 }
 
 .profile-pic-edit>img {
     max-width: 100%;
-    max-height: 100%;
+    max-height: 80%;
 }
 
 .profile-pic-edit-col {
