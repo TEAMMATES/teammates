@@ -66,6 +66,7 @@
     <div id="statusMessage" style="display: none;"></div>
 
     <br>
+    
 
         <input name="questiontype-1" value="RUBRIC" type="hidden">
         <input name="questionid-1" value="{*}" type="hidden">
@@ -90,10 +91,10 @@
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
                         <option value=""></option>
-<option value="alice.b.tmms@gmail.tmt" selected="selected">Alice Betsy</option>
-<option style="display: none;" value="benny.c.tmms@gmail.tmt">Benny Charles</option>
+<option style="display: none;" value="alice.b.tmms@gmail.tmt">Alice Betsy</option>
+<option value="benny.c.tmms@gmail.tmt" selected="selected">Benny Charles</option>
 
-                        </select><span> Alice Betsy</span>
+                        </select><span> Benny Charles</span>
                     </div>
                     <div class="col-sm-10">
                         <div class="row">
@@ -116,11 +117,11 @@
     <td>
     	<p>a) This student has done a good job.</p>
     </td>
-    <td class="col-md-1">
-	<input id="rubricChoice-1-0-0-0" name="rubricChoice-1-0-0" value="0-0" type="radio"><span class="color_neutral"> </span>
+    <td class="col-md-1 cell-selected">
+	<input class="overlay" id="rubricChoice-1-0-0-0" name="rubricChoice-1-0-0" value="0-0" checked="" type="radio"><span class="color_neutral overlay"> </span>
 </td>
-<td class="col-md-1 cell-selected">
-	<input id="rubricChoice-1-0-0-1" name="rubricChoice-1-0-0" value="0-1" checked="" type="radio"><span class="color_neutral"> </span>
+<td class="col-md-1">
+	<input class="overlay" id="rubricChoice-1-0-0-1" name="rubricChoice-1-0-0" value="0-1" type="radio"><span class="color_neutral overlay"> </span>
 </td>
 
 </tr>
@@ -128,11 +129,11 @@
     <td>
     	<p>b) This student has tried his/her best.</p>
     </td>
-    <td class="col-md-1">
-	<input id="rubricChoice-1-0-1-0" name="rubricChoice-1-0-1" value="1-0" type="radio"><span class="color_neutral"> Most of the time</span>
+    <td class="col-md-1 cell-selected">
+	<input class="overlay" id="rubricChoice-1-0-1-0" name="rubricChoice-1-0-1" value="1-0" checked="" type="radio"><span class="color_neutral overlay"> Most of the time</span>
 </td>
-<td class="col-md-1 cell-selected">
-	<input id="rubricChoice-1-0-1-1" name="rubricChoice-1-0-1" value="1-1" checked="" type="radio"><span class="color_neutral"> Less than half the time</span>
+<td class="col-md-1">
+	<input class="overlay" id="rubricChoice-1-0-1-1" name="rubricChoice-1-0-1" value="1-1" type="radio"><span class="color_neutral overlay"> Less than half the time</span>
 </td>
 
 </tr>
@@ -148,17 +149,17 @@
         
                 <br>
                 <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" style="text-align:right;">
-                        <label for="input">To: </label>
-                        <select class="participantSelect middlealign form-control" name="responserecipient-1-1" style="display:none;max-width:125px">
-                        <option value=""></option>
-<option style="display: none;" value="alice.b.tmms@gmail.tmt">Alice Betsy</option>
-<option value="benny.c.tmms@gmail.tmt" selected="selected">Benny Charles</option>
+                    <div class="col-sm-2 form-inline" style="text-align:right">
+                        <label for="input">To:</label>
+                        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-1-1" style="display:none;max-width:125px">
+                        <option value="" selected="selected"></option>
+<option value="alice.b.tmms@gmail.tmt">Alice Betsy</option>
+<option style="display: none;" value="benny.c.tmms@gmail.tmt">Benny Charles</option>
 
-                        </select><span> Benny Charles</span>
+                        </select><span> Alice Betsy</span>
                     </div>
                     <div class="col-sm-10">
-                        <div class="row">
+                    <div class="row">
     <div class="col-sm-12 table-responsive">
         <table class="table table-striped table-bordered margin-0" id="rubricResponseTable-1-1">
             <thead>
@@ -178,11 +179,11 @@
     <td>
     	<p>a) This student has done a good job.</p>
     </td>
-    <td class="col-md-1 cell-selected">
-	<input id="rubricChoice-1-1-0-0" name="rubricChoice-1-1-0" value="0-0" checked="" type="radio"><span class="color_neutral"> </span>
+    <td class="col-md-1">
+	<input class="overlay" id="rubricChoice-1-1-0-0" name="rubricChoice-1-1-0" value="0-0" type="radio"><span class="color_neutral overlay"> </span>
 </td>
 <td class="col-md-1">
-	<input id="rubricChoice-1-1-0-1" name="rubricChoice-1-1-0" value="0-1" type="radio"><span class="color_neutral"> </span>
+	<input class="overlay" id="rubricChoice-1-1-0-1" name="rubricChoice-1-1-0" value="0-1" type="radio"><span class="color_neutral overlay"> </span>
 </td>
 
 </tr>
@@ -190,11 +191,11 @@
     <td>
     	<p>b) This student has tried his/her best.</p>
     </td>
-    <td class="col-md-1 cell-selected">
-	<input id="rubricChoice-1-1-1-0" name="rubricChoice-1-1-1" value="1-0" checked="" type="radio"><span class="color_neutral"> Most of the time</span>
+    <td class="col-md-1">
+	<input class="overlay" id="rubricChoice-1-1-1-0" name="rubricChoice-1-1-1" value="1-0" type="radio"><span class="color_neutral overlay"> Most of the time</span>
 </td>
 <td class="col-md-1">
-	<input id="rubricChoice-1-1-1-1" name="rubricChoice-1-1-1" value="1-1" type="radio"><span class="color_neutral"> Less than half the time</span>
+	<input class="overlay" id="rubricChoice-1-1-1-1" name="rubricChoice-1-1-1" value="1-1" type="radio"><span class="color_neutral overlay"> Less than half the time</span>
 </td>
 
 </tr>
@@ -204,7 +205,6 @@
     </div>
 </div>
 <input id="rubricResponse-1-1" name="responsetext-1-1" value="" type="hidden">
-                        <input name="responseid-1-1" value="{*}" type="hidden">
                     </div>
                 </div>
         </div></div>

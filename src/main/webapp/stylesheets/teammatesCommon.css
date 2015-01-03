@@ -172,6 +172,10 @@ Apply to thead to make headers not bold.
     width: 90%;
 }
 
+.overlay {
+  pointer-events: none;
+}
+
 .padding-top-0.checkbox,.padding-top-0 {
     padding-top: 0;
 }
