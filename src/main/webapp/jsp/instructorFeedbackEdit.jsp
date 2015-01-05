@@ -591,19 +591,21 @@
                 </div>
             </div>
             <div class="panel-body">
-                <div>
-                    <textarea rows="5"
-                        class="form-control textvalue nonDestructive"
-                        name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>"
-                        id="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>-<%=question.questionNumber%>"
-                        data-toggle="tooltip" data-placement="top"
-                        title="<%=Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS%>"
-                        tabindex="9"
-                        disabled="disabled"><%=InstructorFeedbackEditPageData.sanitizeForHtml(questionDetails.questionText)%></textarea>
-                </div>
-                <%=questionDetails.getQuestionSpecificEditFormHtml(question.questionNumber)%>
-                <br>
                 <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
+                    <div>
+                        <textarea rows="5"
+                            class="form-control textvalue nonDestructive"
+                            name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>"
+                            id="<%=Const.ParamsNames.FEEDBACK_QUESTION_TEXT%>-<%=question.questionNumber%>"
+                            data-toggle="tooltip" data-placement="top"
+                            title="<%=Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS%>"
+                            tabindex="9"
+                            disabled="disabled"><%=InstructorFeedbackEditPageData.sanitizeForHtml(questionDetails.questionText)%></textarea>
+                    </div>
+                    <%=questionDetails.getQuestionSpecificEditFormHtml(question.questionNumber)%>
+                </div>
+                <br>
+                <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                     <div class="col-sm-12 padding-0">
                         <b>Feedback Path</b> (Who is giving feedback to whom?)
                     </div>
@@ -652,7 +654,7 @@
                     </div>
                 </div>
                 <br>
-                <div class="col-sm-12 padding-15px background-color-light-blue">
+                <div class="col-sm-12 padding-15px background-color-light-green">
                     <div class="col-sm-12 padding-0">
                         <b>Visibility</b> (Who can see the responses?)
                     </div>
@@ -669,7 +671,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="col-sm-12 background-color-light-blue">
+                <div class="col-sm-12 background-color-light-green">
                     <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-<%=question.questionNumber%>">
                         This is the visibility as seen by the feedback giver.
                         <ul class="background-color-warning">
@@ -684,7 +686,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+                <div class="col-sm-12 margin-bottom-15px background-color-light-green">
                     <div class="visibilityOptions" id="visibilityOptions-<%=question.questionNumber%>">
                         <table class="dataTable participantTable table table-striped text-center background-color-white">
                             <tr>
@@ -870,20 +872,20 @@
                     </span>
                 </div>
                 <div class="panel-body">
-                    <div>
-                        <textarea rows="5"
-                            class="form-control textvalue nonDestructive"
-                            name="questiontext"
-                            id="questiontext"
-                            data-toggle="tooltip" data-placement="top" title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?"
-                            tabindex="9"
-                            disabled="disabled"></textarea>
-                    </div>
-                    <%=
-                        data.getNewQuestionSpecificEditFormHtml()
-                    %>
-                    <br>
                     <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
+                        <div>
+                            <textarea rows="5"
+                                class="form-control textvalue nonDestructive"
+                                name="questiontext"
+                                id="questiontext"
+                                data-toggle="tooltip" data-placement="top" title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?"
+                                tabindex="9"
+                                disabled="disabled"></textarea>
+                        </div>
+                    <%= data.getNewQuestionSpecificEditFormHtml() %>
+                    </div>
+                    <br>
+                    <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                         <div class="col-sm-12 padding-0">
                             <b>Feedback Path</b> (Who is giving feedback about whom?)
                         </div>
@@ -930,7 +932,7 @@
                         </div>
                     </div>
                     <br>
-                    <div class="col-sm-12 padding-15px background-color-light-blue">
+                    <div class="col-sm-12 padding-15px background-color-light-green">
                         <div class="col-sm-12 padding-0">
                             <b>Visibility</b> (Who can see the responses?)
                         </div>
@@ -947,12 +949,12 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-sm-12 background-color-light-blue">
+                    <div class="col-sm-12 background-color-light-green">
                         <div class="col-sm-12 text-muted visibilityMessage">
 
                         </div>
                     </div>
-                    <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+                    <div class="col-sm-12 margin-bottom-15px background-color-light-green">
                         <div class="visibilityOptions">
                             <table class="dataTable participantTable table table-striped text-center background-color-white">
                                 <tr>
