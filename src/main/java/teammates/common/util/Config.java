@@ -37,6 +37,8 @@ public class Config {
     /** The value of the "app.crashreport.email" in build.properties file */
     public static String SUPPORT_EMAIL;
     
+    /** The value of the "app.crashreport.email" in build.properties file */
+    public static String STUDENT_BANNER_URL;
 
     public static Config inst() {
         if (instance == null) {
@@ -77,6 +79,7 @@ public class Config {
         ENCRYPTION_KEY = instance.getEncyptionKey();
         PERSISTENCE_CHECK_DURATION = instance.getPersistenceCheckduration();
         SUPPORT_EMAIL = instance.getSupportEmail();
+        STUDENT_BANNER_URL = instance.getStudentBannerUrl();
     }
 
     private String getGcsBucketname() {
@@ -101,6 +104,10 @@ public class Config {
 
     private String getSupportEmail() {
         return props.getProperty("app.crashreport.email");
+    }
+
+    private String getStudentBannerUrl() {
+        return props.getProperty("app.student.bannerurl");
     }
 
 }
