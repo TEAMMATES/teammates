@@ -605,7 +605,7 @@
                 <br>
                 <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
                     <div class="col-sm-12 padding-0">
-                        <b>Giver/Recipient:</b>
+                        <b>Feedback Path</b> (Who is giving feedback to whom?)
                     </div>
                     <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>">  
                         <label class="col-sm-5 control-label">
@@ -633,23 +633,7 @@
                             </select>
                         </div>
                     </div>
-                </div>
-                <br>
-                <div class="col-sm-12 padding-15px background-color-light-blue">
-                    <div class="col-sm-12 padding-0">
-                        <b>Who can view responses:</b>
-                    </div>
-                    <div class="col-sm-6 btn-group" data-toggle="buttons">
-                        <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-<%=question.questionNumber%>" onchange="toggleVisibilityOptions(this)">
-                            <input type="radio">
-                                <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
-                            </input>
-                        </label>
-                        <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-<%=question.questionNumber%>" onchange="toggleVisibilityMessage(this)">
-                            <input type="radio">
-                                <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
-                            </input>
-                        </label>
+                    <div class="col-sm-6">
                     </div>
                     <div class="col-sm-6 numberOfEntitiesElements<%=question.questionNumber%>">
                         <label id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-<%=question.questionNumber%>" class="control-label col-sm-4 small">
@@ -665,6 +649,24 @@
                                 <span class="">Unlimited</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <br>
+                <div class="col-sm-12 padding-15px background-color-light-blue">
+                    <div class="col-sm-12 padding-0">
+                        <b>Visibility</b> (Who can see the responses?)
+                    </div>
+                    <div class="col-sm-6 btn-group" data-toggle="buttons">
+                        <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-<%=question.questionNumber%>" onchange="toggleVisibilityOptions(this)">
+                            <input type="radio">
+                                <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
+                            </input>
+                        </label>
+                        <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-<%=question.questionNumber%>" onchange="toggleVisibilityMessage(this)">
+                            <input type="radio">
+                                <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
+                            </input>
+                        </label>
                     </div>
                 </div>
                 <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
@@ -882,7 +884,7 @@
                     <br>
                     <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
                         <div class="col-sm-12 padding-0">
-                            <b>Giver/Recipient:</b>
+                            <b>Feedback Path</b> (Who is giving feedback about whom?)
                         </div>
                         <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>">
                             <label class="col-sm-5 control-label">
@@ -908,23 +910,7 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 padding-15px background-color-light-blue">
-                        <div class="col-sm-12 padding-0">
-                            <b>Who can view responses:</b>
-                        </div>
-                        <div class="col-sm-6 btn-group" data-toggle="buttons">
-                            <label class="btn btn-xs btn-info visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
-                                <input type="radio">
-                                    <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
-                                </input>
-                            </label>
-                            <label class="btn btn-xs btn-info active visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
-                                <input type="radio">
-                                    <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
-                                </input>
-                            </label>
+                        <div class="col-sm-6">
                         </div>
                         <div class="col-sm-6 numberOfEntitiesElements">
                             <label id="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES%>_text-" class="control-label col-sm-4 small">
@@ -940,6 +926,24 @@
                                     <span class="">Unlimited</span>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="col-sm-12 padding-15px background-color-light-blue">
+                        <div class="col-sm-12 padding-0">
+                            <b>Visibility</b> (Who can see the responses?)
+                        </div>
+                        <div class="col-sm-6 btn-group" data-toggle="buttons">
+                            <label class="btn btn-xs btn-info visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
+                                <input type="radio">
+                                    <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
+                                </input>
+                            </label>
+                            <label class="btn btn-xs btn-info active visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+                                <input type="radio">
+                                    <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
+                                </input>
+                            </label>
                         </div>
                     </div>
                     <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
