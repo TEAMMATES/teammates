@@ -39,7 +39,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    ```
    git pull upstream
    ```
-4. Change the issue status to `status.Ongoing`
+4. Change the issue status to `s.Ongoing`
 
 5. Start a new branch named `Issue{IssueNumber}`. 
    If you are already working in a branch, remember to switch to the `master` 
@@ -94,7 +94,8 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
      automatic reference from the issue to the pull request.<br>
      e.g. ` For #1760`  
      
-   * Change the PR status to `status.PendingReview`
+   * Assign the PR to yourself.
+   * Change the PR status to `s.ToReview`
    * Wait for the reviewer to change the PR status. If you did not get a review
      within 2-3 days, it is OK to request for a review by posting a comment in 
      the PR.  
@@ -106,26 +107,28 @@ Role: reviewer
 
   * This is a code quality review. No need to run tests.
   * Ensure the following:
-    * The solution uses the best alternative solution to the problem.
+    * The solution is the best possible solution to the problem under the 
+      circumstances.
     * Tests have been updated to reflect changes to the functional code. Almost 
     all code changes should have changes to both functional code and test code.
     * User documentation has been updated, if required. e.g. help pages.
     * Developer documentation has been updated, if required. e.g. `devman.html`
     * The changeset does not contain changes unrelated to the issue. 
     e.g. unnecessary formatting changes.
-    * The code is synced with upstream. GitHub should show it as 'can merge'
+    * The code is synced with upstream. GitHub should show it as 'can merge'. 
+      If not, ask the dev to sync with upstream. 
   * If any of the above are not OK, 
     * Add comments to suggest changes.
-    * Change pull request status to `status.Ongoing`
+    * Change pull request status to `s.Ongoing`
     * Optionally, add a comment to inform the author to refine the code.
   * If the code is OK on all aspects,
-    * Change issue status to `status.ReadyToMerge`
+    * Change issue status to `s.ToMerge`
 
 ###Applying a fix
 Role: committer
 
   * Do not merge online. Always merge locally and push to the repo. If you 
-  merge online, the commit message will not be in the format we want.
+    merge online, you will not have a way to test the code first.
   * Format of the commit message: `[Issue number] Issue title as given in the original issue`<br>
     e.g. `[2287] Add more tests for newly joined Instructor accessing sample course`
   * Fetch code from upstream: <br>
@@ -137,13 +140,14 @@ Role: committer
   * If green, 
     * Merge to master and push.<br>
       `git checkout master` <br>
-      `git merge --no-ff Issue1234` <br>
-      `git push origin master` <br>
+       Merge the branch. Format of the commit message: 
+       `[Issue number] Issue title as given in the original issue`<br>
+       e.g. `[2287] Add more tests for newly joined Instructor accessing sample course`
     * Remove any status labels from the pull request.
     * Remove any status labels from the corresponding issue and close it.
   * If not green,
     * Delete the merge commit, if any.
-    * Change the pull request status to `status.ongoing`
+    * Change the pull request status to `s.ongoing`
     * Add a comment to mention the test failure.
   
     
@@ -174,23 +178,25 @@ Given above is an illustration of the issue lifecycle.
 Colors indicate which roles are involved in which states/transitions. 
 
 ####Issue Labels
+The meaning of issue prefixes: `s.` status, `a.` aspect, `f.` feature, `t.` type, 
+  `d.` difficulty 
 
 **Status**
 
 * Open issues
     * No status: New issue. 
-    * `status.Accepted`: Accepted as a valid issue.
-    * `status.Ongoing` : The issue is being worked on.
+    * `s.Accepted`: Accepted as a valid issue.
+    * `s.Ongoing` : The issue is being worked on.
 * Open PR  
-    * `status.PendingReview`: Waiting for the review
-    * `status.Ongoing` : The PR is being worked on.
-    * `status.ReadyToMerge`: Reviewer accepted the changes. Ready to be merged.
+    * `s.ToReview`: Waiting for the review
+    * `s.Ongoing` : The PR is being worked on.
+    * `s.ToMerge`: Reviewer accepted the changes. Ready to be merged.
 * Closed issue/PR
     * No status label
 
 **Urgency**
 
-* `p.Urgent`(short for `Priority-Urgent`): Would like to handle in the very next release.
+* `p.Urgent`: Would like to handle in the very next release.
 * `p.High`: Enhances user experience significantly, would like to do in the next few releases.
 * `p.Medium`: Marginal impact on user experience.
 * `p.Low`: Very little impact, unlikely to do in the near future.
