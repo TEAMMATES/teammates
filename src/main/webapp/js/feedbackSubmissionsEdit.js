@@ -296,7 +296,7 @@ function validateConstSumQuestions(){
             var qnNum = constSumQuestionNums[i];
             
             // indicate the question number where the errors are located at
-            if($("p[id^='constSumMessage-"+qnNum+"'].text-color-red").length > 0){
+            if($("p[id^='constSumMessage-"+qnNum+"-'].text-color-red").length > 0){
                 statusMessage += (errorCount == 0) ? "" : ",";
                 statusMessage += " ";
                 statusMessage += qnNum;
