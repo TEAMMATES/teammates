@@ -227,7 +227,7 @@
                             <div class="panel-heading">
                                 From: 
                                 <%
-                                if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) {
+                                    if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) {
                                 %>
                                     <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(email)%>">
                                         <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
@@ -274,11 +274,13 @@
                         if(currentTeam.equals("")){
                             currentTeam = data.bundle.getNameForEmail(giverEmail);
                         }
+                        if (groupByTeamEnabled) {
         %>
                 </div>
                 </div>
             </div>
         <%
+                        }
         	}
         %>
 
@@ -330,7 +332,7 @@
 
 
         <%
-        	if(groupByTeamEnabled == true && (currentTeam==null || newTeam==true)) {
+        	if(currentTeam==null || newTeam==true) {
                         currentTeam = data.bundle.getTeamNameForEmail(giverEmail);
                         if(currentTeam.equals("")){
                             currentTeam = data.bundle.getNameForEmail(giverEmail);
@@ -339,10 +341,9 @@
                         teamMembersWithResponses = new HashSet<String>();                                
                         teamMembersEmail = new HashSet<String>(data.bundle.getTeamMembersFromRoster(currentTeam));
                         
-                        receivingTeams.add(currentTeam);
-                        
                         newTeam = false;
 
+                        if (groupByTeamEnabled) {
                         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> currentTeamResponses = teamResponses.get(currentTeam);
         %>
                 <div class="panel panel-warning">
@@ -408,7 +409,9 @@
                             %>
                         </div>
         <%
-        	}
+        	           }
+            }
+            receivingTeams.add(currentTeam);
         %>
 
 
@@ -659,10 +662,11 @@
                     Set<String> teamsWithNoResponseGiven = new HashSet<String>(teamsInSection);
                     teamsWithNoResponseGiven.removeAll(receivingTeams);
                     
-                    if (groupByTeamEnabled) {
+                    
                         List<String> teamsWithNoResponseGivenList = new ArrayList<String>(teamsWithNoResponseGiven);
                         Collections.sort(teamsWithNoResponseGivenList);
                         for (String teamWithNoResponseGiven: teamsWithNoResponseGivenList) {
+                            if (groupByTeamEnabled) {
              %>
                           <div class="panel panel-warning">
                               <div class="panel-heading">
@@ -672,6 +676,7 @@
                               <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
                                   <div class="panel-body background-color-warning">
                                   <%
+                            }
                                   	List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(teamWithNoResponseGiven));
                                     Collections.sort(teamMembers);
                                 
@@ -726,13 +731,15 @@
                                         
                                     <%
                                     }
+                                    if (groupByTeamEnabled) {
                                     %>
                                   
                                   </div>
                               </div>
                           </div>                
                   <%
-                        }    
+                                    }
+                        
                     }
                   %>
                 </div>
@@ -762,6 +769,8 @@
                                         for (String team : teamsFromSectionList) {
                                         	List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(team));
                                             Collections.sort(teamMembers);
+
+                                            if (groupByTeamEnabled) {
                                     %>
                                             <div class="panel panel-warning">
                                               <div class="panel-heading">
@@ -771,6 +780,7 @@
                                               <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
                                                   <div class="panel-body background-color-warning">
                                       <%
+                                            }
                                       	    for (String teamMember : teamMembers) {
                                       %>
                                                  <div class="panel panel-primary">
@@ -821,11 +831,13 @@
                                             
                                         <% 
                                             }
+                                            if (groupByTeamEnabled) {
                                     	%>
                                         </div>
                                           </div>
                                       </div>    
                                     <% 
+                                            }
                                         }
                                     
                                     %>

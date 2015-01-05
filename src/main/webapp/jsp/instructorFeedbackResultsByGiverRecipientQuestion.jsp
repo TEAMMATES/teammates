@@ -275,11 +275,13 @@
                                 </div>
             <%
                                 }
+                                if (groupByTeamEnabled) {
             %>
                     </div>
                     </div>
                 </div>
             <%
+                                }
             	}
             %>
 
@@ -330,7 +332,7 @@
             %>
 
             <%
-            	if(groupByTeamEnabled == true && (currentTeam==null || newTeam==true)) {
+            	if(currentTeam==null || newTeam==true) {
                                 currentTeam = data.bundle.getTeamNameForEmail(targetEmail);
                                 if(currentTeam.equals("")){
                                     currentTeam = data.bundle.getNameForEmail(targetEmail);
@@ -342,7 +344,8 @@
                                 teamIndex++;
                                 newTeam = false;
                                 
-                                givingTeams.add(currentTeam);
+
+                                if (groupByTeamEnabled) {
             %>
                     <div class="panel panel-warning">
                         <div class="panel-heading">
@@ -365,7 +368,9 @@
                         <div class="panel-body background-color-warning">
                         
             <%
-                                    	}
+                                }
+                }
+                        givingTeams.add(currentTeam);
                                     %>
 
             <div class="panel panel-primary">
@@ -993,10 +998,11 @@
                 Set<String> teamsWithNoResponseGiven = new HashSet<String>(teamsInSection);
                 teamsWithNoResponseGiven.removeAll(givingTeams);
                 
-                if (groupByTeamEnabled) {
+                
                     List<String> teamsWithNoResponseGivenList = new ArrayList<String>(teamsWithNoResponseGiven);
                     Collections.sort(teamsWithNoResponseGivenList);
                     for (String teamWithNoResponseGiven: teamsWithNoResponseGivenList) {
+                        if (groupByTeamEnabled) {
             %>
                           <div class="panel panel-warning">
                               <div class="panel-heading">
@@ -1006,6 +1012,7 @@
                               <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
                                   <div class="panel-body background-color-warning">
                                       <%
+                        }
                                       	List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(teamWithNoResponseGiven));
                                         Collections.sort(teamMembers);
                                         for (String teamMember : teamMembers) {
@@ -1059,12 +1066,14 @@
                                         
                                          <%
                                         }
+                                        if (groupByTeamEnabled) {
                                          %>
                                   </div>
                               </div>
                           </div>                
                 <%
-                    }
+                                        }
+                    
                 }
                 %>
 
@@ -1095,6 +1104,7 @@
                                                 for (String team : teamsFromSectionList) {
                                                     List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(team));
                                                     Collections.sort(teamMembers);
+                                                    if (groupByTeamEnabled) {
                                             %>
                                                     <div class="panel panel-warning">
                                                       <div class="panel-heading">
@@ -1104,6 +1114,7 @@
                                                       <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
                                                           <div class="panel-body background-color-warning">
                                                   <%
+                                                    }
                                                   	for (String teamMember : teamMembers) {
                                                   %>
                                                              <div class="panel panel-primary">
@@ -1152,11 +1163,13 @@
                                                         
                                                     <% 
                                                       }
+                                                      if (groupByTeamEnabled) {
                                                     %>
                                                     </div>
                                                       </div>
                                                   </div>    
                                             <% 
+                                                      }
                                                 }
                                             
                                             %>
