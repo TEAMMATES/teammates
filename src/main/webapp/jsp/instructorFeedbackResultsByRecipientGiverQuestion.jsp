@@ -388,16 +388,16 @@
                                 <div class="col-md-12">
                                     From: 
                                     <%
-                                	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, giverEmail).isEmpty()) {
-                                %>
-                                        <div class="middlealign profile-pic-icon-hover inline-block" data-link="<%=data.getProfilePictureLink(giverEmail)%>">
-                                            <strong><%=responsesForRecipientFromGiver.getKey()%></strong>
-                                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                        </div>
+                                    	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, giverEmail).isEmpty()) {
+                                    %>
+                                            <div class="middlealign profile-pic-icon-hover inline-block" data-link="<%=data.getProfilePictureLink(giverEmail)%>">
+                                                <strong><%=responsesForRecipientFromGiver.getKey()%></strong>
+                                                <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                            </div>
                                     <%
                                     	} else {
                                     %>
-                                        <strong><%=responsesForRecipientFromGiver.getKey()%></strong>
+                                           <strong><%=responsesForRecipientFromGiver.getKey()%></strong>
                                     <%
                                     	}
                                     %>
@@ -900,7 +900,7 @@
                 <div class="panel panel-primary">
                 <div class="panel-heading">
                     To: 
-                    <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
+                    <%  if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
                         <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(email)%>">
                             <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
@@ -992,7 +992,7 @@
                     <%
                                         }
                             
-                    }
+                        }
                     %>
 
             </div>
@@ -1031,45 +1031,45 @@
                                                   </div>
                                                   <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
                                                       <div class="panel-body background-color-warning">
-                                                  <%
+                                            <%
                                                 }
-                                                  	  for (String teamMember : teamMembers) {
-                                                  %>
-                                                             <div class="panel panel-primary">
-                                                                <div class="panel-heading">
-                                                                    To: 
-                                                                    <%
-                                                                	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) {
-                                                                    %>
-                                                                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(teamMember)%>">
-                                                                            <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
-                                                                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                                                            <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
-                                                                        </div>
-                                                                    <%
-                                                                    	} else {
-                                                                    %>
-                                                                        <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
-                                                                        <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
-                                                                    <% } %>
-                                                                    <span class='glyphicon glyphicon-chevron-up pull-right'></span>
+                                                for (String teamMember : teamMembers) {
+                                            %>
+                                                     <div class="panel panel-primary">
+                                                        <div class="panel-heading">
+                                                            To: 
+                                                            <%
+                                                        	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) {
+                                                            %>
+                                                                <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(teamMember)%>">
+                                                                    <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
+                                                                    <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                                    <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
                                                                 </div>
-                                                                <div class='panel-collapse collapse in'>
-                                                                    <div class="panel-body"> There are no responses received by this user 
-                                                                    </div>
-                                                                </div>
-                                                             </div>
-                                                        
+                                                            <%
+                                                            } else {
+                                                            %>
+                                                                <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
+                                                                <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
+                                                        <%  } %>
+                                                            <span class='glyphicon glyphicon-chevron-up pull-right'></span>
+                                                        </div>
+                                                        <div class='panel-collapse collapse in'>
+                                                            <div class="panel-body"> There are no responses received by this user 
+                                                            </div>
+                                                        </div>
+                                                     </div>
+                                                
                                                 <% 
-                                                      }
-                                                      if (groupByTeamEnabled) {
+                                                }
+                                                if (groupByTeamEnabled) {
                                                 %>
                                                 </div>
                                                   </div>
                                               </div>    
                                         <% 
-                                                      }
-                                        }
+                                                }
+                                            }
                                         
                                         %>
                                     </div>

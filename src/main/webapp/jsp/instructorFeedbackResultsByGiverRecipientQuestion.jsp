@@ -233,17 +233,17 @@
                                 <div class="panel panel-primary">
                                 <div class="panel-heading">
                                     From: 
-                                    <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
-                                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(email)%>">
-                                            <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
-                                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                            <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
-                                        </div>
+                                    <%  if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
+                                            <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(email)%>">
+                                                <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
+                                                <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                                            </div>
                                     <%
                                         } else {
                                     %>
-                                        <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
-                                        <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                                            <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
+                                            <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
                                     <%
                                         }
                                     %>
@@ -378,18 +378,18 @@
                 <div class="panel-heading">
                     From: 
                     <%
-                	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) {
-                %>
-                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
-                            <strong><%=responsesFromGiver.getKey()%></strong>
-                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                            <a class="link-in-dark-bg" href="mailTo:<%=targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
-                        </div>
+                	   if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) {
+                    %>  
+                            <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
+                                <strong><%=responsesFromGiver.getKey()%></strong>
+                                <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                <a class="link-in-dark-bg" href="mailTo:<%=targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
+                            </div>
                     <%
                     	} else {
                     %>
-                        <strong><%=responsesFromGiver.getKey()%></strong>
-                        <a class="link-in-dark-bg" href="mailTo:<%=targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
+                            <strong><%=responsesFromGiver.getKey()%></strong>
+                            <a class="link-in-dark-bg" href="mailTo:<%=targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
                     <%
                     	}
                         teamMembersWithResponses.add(targetEmail);
@@ -430,16 +430,16 @@
                                 <div class="col-md-12">
                                     To:
                                     <%
-                                	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, recipientEmail).isEmpty()) {
-                                %>
-                                        <div class="middlealign profile-pic-icon-hover inline-block" data-link="<%=data.getProfilePictureLink(recipientEmail)%>">
-                                            <strong><%=responsesFromGiverToRecipient.getKey()%></strong>
-                                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                        </div>
+                                	    if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, recipientEmail).isEmpty()) {
+                                    %>
+                                            <div class="middlealign profile-pic-icon-hover inline-block" data-link="<%=data.getProfilePictureLink(recipientEmail)%>">
+                                                <strong><%=responsesFromGiverToRecipient.getKey()%></strong>
+                                                <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                            </div>
                                     <%
                                     	} else {
                                     %>
-                                        <strong><%=responsesFromGiverToRecipient.getKey()%></strong>
+                                            <strong><%=responsesFromGiverToRecipient.getKey()%></strong>
                                     <%
                                     	}
                                     %> 
@@ -447,8 +447,8 @@
                                 <div class="col-md-12 text-muted small"><br>
                                     From:
                                     <%
-                                	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) {
-                                %>
+                                	    if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) {
+                                    %>
                                         <div class="middlealign profile-pic-icon-hover inline-block" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
                                             <%=responsesFromGiver.getKey()%>
                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
@@ -944,17 +944,17 @@
                 <div class="panel panel-primary">
                 <div class="panel-heading">
                     From: 
-                    <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
-                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(email)%>">
-                            <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
-                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                            <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
-                        </div>
+                    <%  if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
+                            <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(email)%>">
+                                <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
+                                <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                            </div>
                     <%
                         } else {
                     %>
-                        <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
-                        <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                            <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
+                            <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
                     <%
                         }
                     %>
@@ -1022,18 +1022,18 @@
                                                 <div class="panel-heading">
                                                     From: 
                                                     <%
-                                                	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) {
+                                                	   if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) {
                                                     %>
-                                                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(teamMember)%>">
-                                                            <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
-                                                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                                            <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
-                                                        </div>
+                                                            <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(teamMember)%>">
+                                                                <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
+                                                                <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                                <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
+                                                            </div>
                                                     <%
                                                     	} else {
                                                     %>
-                                                        <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
-                                                        <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
+                                                            <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
+                                                            <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
                                                     <%
                                                     	}
                                                     %>
@@ -1122,7 +1122,7 @@
                                                                 <div class="panel-heading">
                                                                     From: 
                                                                     <%
-                                                                	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) {
+                                                                	   if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) {
                                                                     %>
                                                                         <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(teamMember)%>">
                                                                             <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
@@ -1132,9 +1132,9 @@
                                                                     <%
                                                                     	} else {
                                                                     %>
-                                                                        <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
-                                                                        <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
-                                                                    <% } %>
+                                                                            <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
+                                                                            <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
+                                                                    <%  } %>
                                                                     <div class="pull-right">
                                                                         <% 
                                                                              boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(teamMember), 
@@ -1163,7 +1163,7 @@
                                                              </div>
                                                         
                                                     <% 
-                                                      }
+                                                    }
                                                       if (groupByTeamEnabled) {
                                                     %>
                                                     </div>
