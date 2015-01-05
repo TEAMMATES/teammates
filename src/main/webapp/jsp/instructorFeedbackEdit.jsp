@@ -669,7 +669,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+                <div class="col-sm-12 background-color-light-blue">
                     <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-<%=question.questionNumber%>">
                         This is the visibility as seen by the feedback giver.
                         <ul class="background-color-warning">
@@ -684,111 +684,112 @@
                         </ul>
                     </div>
                 </div>
-                <div class="visibilityOptions" id="visibilityOptions-<%=question.questionNumber%>">
-                    <br>
-                    <table class="dataTable participantTable table table-striped text-center">
-                        <tr>
-                            <th class="text-center">User/Group</th>
-                            <th class="text-center">Can see answer</th>
-                            <th class="text-center">Can see giver's name</th>
-                            <th class="text-center">Can see recipient's name</th>
-                        </tr>
-                        <tr>
-                            <td class="text-left">
-                                <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT%>">
-                                    Recipient(s)
-                                </div>
-                            </td>
-                            <td>
-                                <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%> centered" name="receiverLeaderCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
-                                <%if(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)) {%> checked="checked" <%}%>/>
-                            </td>
-                            <td>
-                                <input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
-                                <%if(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER)) {%> checked="checked" <%}%>/>     
-                            </td>
-                            <td>
-                                <input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" name="receiverFollowerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
-                                <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER)) {%> checked="checked" <%}%>/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">
-                                <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_GIVER_TEAM_MEMBERS%>">
-                                    Giver's Team Members
-                                </div>
-                            </td>
-                            <td>
-                                <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>" disabled="disabled"
-                                <%if(question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
-                            </td>
-                            <td>
-                                <input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>" disabled="disabled"
-                                <%if(question.showGiverNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
-                            </td>
-                            <td>
-                                <input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>" disabled="disabled"
-                                <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">
-                                <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT_TEAM_MEMBERS%>">
-                                    Recipient's Team Members
-                                </div>
-                            </td>
-                            <td>
-                                <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>" disabled="disabled"
-                                <%if(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
-                            </td>
-                            <td>
-                                <input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>" disabled="disabled"
-                                <%if(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
-                            </td>
-                            <td>
-                                <input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>" disabled="disabled"
-                                <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">
-                                <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_OTHER_STUDENTS%>">
-                                    Other students
-                                </div>
-                            </td>
-                            <td>
-                                <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>" disabled="disabled"
-                                <%if(question.showResponsesTo.contains(FeedbackParticipantType.STUDENTS)) {%> checked="checked" <%}%>/>
-                            </td>
-                            <td>
-                                <input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>" disabled="disabled"
-                                <%if(question.showGiverNameTo.contains(FeedbackParticipantType.STUDENTS)) {%> checked="checked" <%}%>/>
-                            </td>
-                            <td>
-                                <input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>" disabled="disabled"
-                                <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.STUDENTS)) {%> checked="checked" <%}%>/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="text-left">
-                                <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_INSTRUCTORS%>">
-                                    Instructors
-                                </div>
-                            </td>
-                            <td>
-                                <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" disabled="disabled"
-                                <%if(question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)) {%> checked="checked" <%}%>/>
-                            </td>
-                            <td>
-                                <input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" disabled="disabled"
-                                <%if(question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS)) {%> checked="checked" <%}%>/>
-                            </td>
-                            <td>
-                                <input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" disabled="disabled"
-                                <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS)) {%> checked="checked" <%}%>/>
-                            </td>
-                        </tr>
-                    </table>
+                <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+                    <div class="visibilityOptions" id="visibilityOptions-<%=question.questionNumber%>">
+                        <table class="dataTable participantTable table table-striped text-center background-color-white">
+                            <tr>
+                                <th class="text-center">User/Group</th>
+                                <th class="text-center">Can see answer</th>
+                                <th class="text-center">Can see giver's name</th>
+                                <th class="text-center">Can see recipient's name</th>
+                            </tr>
+                            <tr>
+                                <td class="text-left">
+                                    <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT%>">
+                                        Recipient(s)
+                                    </div>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%> centered" name="receiverLeaderCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
+                                    <%if(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)) {%> checked="checked" <%}%>/>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
+                                    <%if(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER)) {%> checked="checked" <%}%>/>     
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" name="receiverFollowerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled"
+                                    <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER)) {%> checked="checked" <%}%>/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-left">
+                                    <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_GIVER_TEAM_MEMBERS%>">
+                                        Giver's Team Members
+                                    </div>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>" disabled="disabled"
+                                    <%if(question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>" disabled="disabled"
+                                    <%if(question.showGiverNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>" disabled="disabled"
+                                    <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-left">
+                                    <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT_TEAM_MEMBERS%>">
+                                        Recipient's Team Members
+                                    </div>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>" disabled="disabled"
+                                    <%if(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>" disabled="disabled"
+                                    <%if(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>" disabled="disabled"
+                                    <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {%> checked="checked" <%}%>/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-left">
+                                    <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_OTHER_STUDENTS%>">
+                                        Other students
+                                    </div>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>" disabled="disabled"
+                                    <%if(question.showResponsesTo.contains(FeedbackParticipantType.STUDENTS)) {%> checked="checked" <%}%>/>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>" disabled="disabled"
+                                    <%if(question.showGiverNameTo.contains(FeedbackParticipantType.STUDENTS)) {%> checked="checked" <%}%>/>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>" disabled="disabled"
+                                    <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.STUDENTS)) {%> checked="checked" <%}%>/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-left">
+                                    <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_INSTRUCTORS%>">
+                                        Instructors
+                                    </div>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox answerCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" disabled="disabled"
+                                    <%if(question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS)) {%> checked="checked" <%}%>/>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox giverCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" disabled="disabled"
+                                    <%if(question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS)) {%> checked="checked" <%}%>/>
+                                </td>
+                                <td>
+                                    <input class="visibilityCheckbox recipientCheckbox<%=question.questionNumber%>" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" disabled="disabled"
+                                    <%if(question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS)) {%> checked="checked" <%}%>/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
                 <div>
                     <span class="pull-right">
@@ -946,100 +947,102 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+                    <div class="col-sm-12 background-color-light-blue">
                         <div class="col-sm-12 text-muted visibilityMessage">
 
                         </div>
                     </div>
-                    <div class="visibilityOptions">
-                        <table class="dataTable participantTable table table-striped text-center">
-                            <tr>
-                                <th class="text-center">User/Group</th>
-                                <th class="text-center">Can see answer</th>
-                                <th class="text-center">Can see giver's name</th>
-                                <th class="text-center">Can see recipient's name</th>
-                            </tr>
-                            <tr>
-                                <td class="text-left">
-                                    <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT%>">
-                                        Recipient(s)
-                                    </div>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" checked="checked"/>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" checked="checked"/>     
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox recipientCheckbox" name="receiverFollowerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled" checked="checked"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-left">
-                                    <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_GIVER_TEAM_MEMBERS%>">
-                                        Giver's Team Members
-                                    </div>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>"/>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>"/>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-left">
-                                    <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT_TEAM_MEMBERS%>">
-                                        Recipient's Team Members
-                                    </div>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>"/>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>"/>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-left">
-                                    <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_OTHER_STUDENTS%>">
-                                        Other students
-                                    </div>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>"/>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>"/>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-left">
-                                    <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_INSTRUCTORS%>">
-                                        Instructors
-                                    </div>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" checked="checked"/>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" checked="checked"/>
-                                </td>
-                                <td>
-                                    <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>"checked="checked"/>
-                                </td>
-                            </tr>
-                        </table>
+                    <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
+                        <div class="visibilityOptions">
+                            <table class="dataTable participantTable table table-striped text-center background-color-white">
+                                <tr>
+                                    <th class="text-center">User/Group</th>
+                                    <th class="text-center">Can see answer</th>
+                                    <th class="text-center">Can see giver's name</th>
+                                    <th class="text-center">Can see recipient's name</th>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">
+                                        <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT%>">
+                                            Recipient(s)
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" checked="checked"/>
+                                    </td>
+                                    <td>
+                                        <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" checked="checked"/>     
+                                    </td>
+                                    <td>
+                                        <input class="visibilityCheckbox recipientCheckbox" name="receiverFollowerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER%>" disabled="disabled" checked="checked"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">
+                                        <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_GIVER_TEAM_MEMBERS%>">
+                                            Giver's Team Members
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>"/>
+                                    </td>
+                                    <td>
+                                        <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>"/>
+                                    </td>
+                                    <td>
+                                        <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.OWN_TEAM_MEMBERS%>"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">
+                                        <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_RECIPIENT_TEAM_MEMBERS%>">
+                                            Recipient's Team Members
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>"/>
+                                    </td>
+                                    <td>
+                                        <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>"/>
+                                    </td>
+                                    <td>
+                                        <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS%>"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">
+                                        <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_OTHER_STUDENTS%>">
+                                            Other students
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>"/>
+                                    </td>
+                                    <td>
+                                        <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>"/>
+                                    </td>
+                                    <td>
+                                        <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.STUDENTS%>"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">
+                                        <div data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.VISIBILITY_OPTIONS_INSTRUCTORS%>">
+                                            Instructors
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" checked="checked"/>
+                                    </td>
+                                    <td>
+                                        <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>" checked="checked"/>
+                                    </td>
+                                    <td>
+                                        <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%=FeedbackParticipantType.INSTRUCTORS%>"checked="checked"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                     <div>
                         <span class="pull-right">
