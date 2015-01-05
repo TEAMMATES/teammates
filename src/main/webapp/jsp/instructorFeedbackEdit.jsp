@@ -603,12 +603,15 @@
                 </div>
                 <%=questionDetails.getQuestionSpecificEditFormHtml(question.questionNumber)%>
                 <br>
-                <div>
-                    <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>">  
-                        <label class="col-sm-4 control-label">
-                            Feedback Giver:
+                <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
+                    <div class="col-sm-12 padding-0">
+                        <b>Giver/Recipient:</b>
+                    </div>
+                    <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>">  
+                        <label class="col-sm-5 control-label">
+                            Who will give the feedback:
                         </label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-7">
                             <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>-<%=question.questionNumber%>" disabled="disabled"
                                         onchange="feedbackGiverUpdateVisibilityOptions(this)">
                                 <%
@@ -617,11 +620,11 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_RECIPIENT%>">
-                        <label class="col-sm-4 control-label">
-                            Feedback Recipient:
+                    <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_RECIPIENT%>">
+                        <label class="col-sm-5 control-label">
+                            Who the feedback is about:
                         </label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-7">
                             <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>-<%=question.questionNumber%>"
                                 disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                                 <%
@@ -631,8 +634,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <br><br>
+                <br>
+                <div class="col-sm-12 padding-15px background-color-light-blue">
+                    <div class="col-sm-12 padding-0">
+                        <b>Who can view responses:</b>
+                    </div>
                     <div class="col-sm-6 btn-group" data-toggle="buttons">
                         <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-<%=question.questionNumber%>" onchange="toggleVisibilityOptions(this)">
                             <input type="radio">
@@ -661,7 +667,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
                     <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-<%=question.questionNumber%>">
                         This is the visibility as seen by the feedback giver.
                         <ul class="background-color-warning">
@@ -874,12 +880,15 @@
                         data.getNewQuestionSpecificEditFormHtml()
                     %>
                     <br>
-                    <div>
-                        <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>">
-                            <label class="col-sm-4 control-label">
-                                Feedback Giver:
+                    <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
+                        <div class="col-sm-12 padding-0">
+                            <b>Giver/Recipient:</b>
+                        </div>
+                        <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>">
+                            <label class="col-sm-5 control-label">
+                                Who will give the feedback:
                             </label>
-                            <div class="col-sm-8">
+                            <div class="col-sm-7">
                                 <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE%>" onchange="feedbackGiverUpdateVisibilityOptions(this)">
                                     <%
                                     	for(String opt: data.getParticipantOptions(null, true)) out.println(opt);
@@ -887,11 +896,11 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-6" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_RECIPIENT%>">
-                            <label class="col-sm-4 control-label">
-                                Feedback Recipient:
+                        <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_RECIPIENT%>">
+                            <label class="col-sm-5 control-label">
+                                Who the feedback is about:
                             </label>
-                            <div class="col-sm-8">
+                            <div class="col-sm-7">
                                 <select class="form-control participantSelect" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE%>" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                                     <%
                                     	for(String opt: data.getParticipantOptions(null, false)) out.println(opt);
@@ -900,8 +909,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <br><br>
+                    <br>
+                    <div class="col-sm-12 padding-15px background-color-light-blue">
+                        <div class="col-sm-12 padding-0">
+                            <b>Who can view responses:</b>
+                        </div>
                         <div class="col-sm-6 btn-group" data-toggle="buttons">
                             <label class="btn btn-xs btn-info visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
                                 <input type="radio">
@@ -930,13 +942,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="col-sm-12 margin-bottom-15px background-color-light-blue">
                         <div class="col-sm-12 text-muted visibilityMessage">
 
                         </div>
                     </div>
                     <div class="visibilityOptions">
-                        <br>
                         <table class="dataTable participantTable table table-striped text-center">
                             <tr>
                                 <th class="text-center">User/Group</th>

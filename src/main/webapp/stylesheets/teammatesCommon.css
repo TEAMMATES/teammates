@@ -27,6 +27,10 @@ body {
     background-color: white;
 }
 
+.background-color-light-blue {
+    background-color: #e0eeee;
+}
+
 .background-color-medium-gray {
     background-color: #e5e5e6;
 }
@@ -148,6 +152,10 @@ Apply to thead to make headers not bold.
     margin: 0;
 }
 
+.margin-bottom-15px {
+    margin-bottom: 15px;
+}
+
 .margin-center-horizontal {
     margin: 0 auto;
 }
@@ -162,6 +170,10 @@ Apply to thead to make headers not bold.
 
 .padding-0 {
     padding: 0;
+}
+
+.padding-15px {
+    padding: 15px;
 }
 
 .margin-0 {
