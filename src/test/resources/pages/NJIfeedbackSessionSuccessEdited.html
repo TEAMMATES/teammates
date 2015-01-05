@@ -1362,12 +1362,12 @@
                         </label>
                         <div class="col-sm-8">
                             <select class="form-control participantSelect" name="recipienttype" id="recipienttype-5" disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
-                                <option value="SELF" selected="selected">Giver (Self feedback)</option>
+                                <option value="SELF">Giver (Self feedback)</option>
 <option value="STUDENTS">Other students in the course</option>
 <option value="INSTRUCTORS">Instructors in the course</option>
 <option value="TEAMS">Other teams in the course</option>
 <option value="OWN_TEAM">Giver's team</option>
-<option value="OWN_TEAM_MEMBERS">Giver's team members</option>
+<option value="OWN_TEAM_MEMBERS" selected="selected">Giver's team members</option>
 <option value="OWN_TEAM_MEMBERS_INCLUDING_SELF">Giver's team members and Giver</option>
 <option value="NONE">Nobody specific (For general class feedback)</option>
 
@@ -1410,7 +1410,7 @@
                         This is the visibility as seen by the feedback giver.
                         <ul class="background-color-warning">
                         
-                                <li>You can see your own feedback in the results page later on.</li>
+                                <li>The receiving student can see your response, but not your name.</li>
                         
                                 <li>Instructors in this course can see your response, the name of the recipient, and your name.</li>
                         
