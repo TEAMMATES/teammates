@@ -327,7 +327,7 @@
                         
                         receivingTeams.add(currentTeam);
                         if (groupByTeamEnabled) {
-                        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> currentTeamResponses = teamResponses.get(currentTeam);
+                            Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> currentTeamResponses = teamResponses.get(currentTeam);
         %>
                 <div class="panel panel-warning">
                     <div class="panel-heading">
