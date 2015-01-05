@@ -341,6 +341,7 @@
                         teamMembersWithResponses = new HashSet<String>();                                
                         teamMembersEmail = new HashSet<String>(data.bundle.getTeamMembersFromRoster(currentTeam));
                         
+                        receivingTeams.add(currentTeam);
                         newTeam = false;
 
                         if (groupByTeamEnabled) {
@@ -411,7 +412,7 @@
         <%
         	           }
             }
-            receivingTeams.add(currentTeam);
+            
         %>
 
 

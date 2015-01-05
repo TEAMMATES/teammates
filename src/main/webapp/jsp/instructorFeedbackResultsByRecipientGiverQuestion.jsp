@@ -324,6 +324,7 @@
                                 teamIndex++;
                                 newTeam = false;
                                 
+                                receivingTeams.add(currentTeam);
                                 if (groupByTeamEnabled) {
             %>
                     <div class="panel panel-warning">
@@ -348,7 +349,7 @@
             <%
                                 }
             	}
-                receivingTeams.add(currentTeam);
+                
             %>
 
 

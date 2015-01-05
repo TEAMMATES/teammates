@@ -255,14 +255,14 @@
             </div>
             </div>
         <%
-            }
-            if (groupByTeamEnabled) {
+                }
+                if (groupByTeamEnabled) {
         %>
+                    </div>
+                    </div>
                 </div>
-                </div>
-            </div>
         <%
-            }
+                }
             }
         %>
 
@@ -325,6 +325,7 @@
                         
                         newTeam = false;
                         
+                        receivingTeams.add(currentTeam);
                         if (groupByTeamEnabled) {
                         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> currentTeamResponses = teamResponses.get(currentTeam);
         %>
@@ -393,7 +394,6 @@
         <%
                         }
             }
-            receivingTeams.add(currentTeam);
             
         %>
 
