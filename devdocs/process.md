@@ -94,6 +94,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
      automatic reference from the issue to the pull request.<br>
      e.g. ` For #1760`  
      
+   * Assign the PR to yourself.
    * Change the PR status to `s.ToReview`
    * Wait for the reviewer to change the PR status. If you did not get a review
      within 2-3 days, it is OK to request for a review by posting a comment in 
