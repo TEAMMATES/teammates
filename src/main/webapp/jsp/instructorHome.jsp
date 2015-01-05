@@ -13,7 +13,8 @@
 	InstructorHomePageData data = (InstructorHomePageData)request.getAttribute("data");
     if (data.account.isInstructor) {
     	for (CourseSummaryBundle courseDetails : data.courses) {
-            if (!courseDetails.course.isArchived) {
+            InstructorAttributes instructor = data.instructors.get(courseDetails.course.id);
+            if (!data.isCourseArchived(courseDetails.course, instructor)) {
                 countUnarchivedCourses++;
             }
         }
@@ -144,7 +145,8 @@
             for (CourseSummaryBundle courseDetails : data.courses) {
                 // TODO: optimize in future
                 // We may be able to reduce database reads here because we don't need to retrieve certain data for archived courses
-                if (!courseDetails.course.isArchived) {
+                InstructorAttributes instructor = data.instructors.get(courseDetails.course.id);
+                if (!data.isCourseArchived(courseDetails.course, instructor)) {
                     courseIdx++;
         %>
                     <div class="panel panel-primary" id="course<%=courseIdx%>">
@@ -161,7 +163,7 @@
                                          <a class="btn btn-primary btn-xs btn-tm-actions course-enroll-for-test"
                                             href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
                                             title="<%=Const.Tooltips.COURSE_ENROLL%>" data-toggle="tooltip" data-placement="top"
-                                            <% InstructorAttributes instructor = data.instructors.get(courseDetails.course.id);
+                                            <% 
                                                if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
                                                 disabled="disabled"
                                             <% } %>

@@ -113,7 +113,7 @@
                 int idx = -1;
                 for(CourseDetailsBundle courseDetails: data.allCourses){
                     InstructorAttributes instructor = data.instructors.get(courseDetails.course.id);
-                    if (!courseDetails.course.isArchived && !(instructor.isArchived != null && instructor.isArchived)) {
+                    if (!data.isCourseArchived(courseDetails.course, instructor)) {
                         idx++;
             %>
                 <tr>
