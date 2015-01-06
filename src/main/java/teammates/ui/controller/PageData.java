@@ -1048,7 +1048,14 @@ public class PageData {
     }
     
     public boolean isCourseArchived(CourseAttributes course, InstructorAttributes instructor) {
-        return (course.isArchived || (instructor.isArchived != null && instructor.isArchived));
+        boolean isCourseArchived;
+        if (instructor.isArchived != null) {
+            isCourseArchived = instructor.isArchived;  
+        } else {
+            isCourseArchived = course.isArchived;
+        }
+
+        return isCourseArchived;
     }
     
     @SuppressWarnings("unused")

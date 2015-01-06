@@ -613,8 +613,17 @@ public class CoursesLogic {
             if (course == null) {
                 log.warning("Course was deleted but the Instructor still exists: " + Const.EOL 
                         + instructor.toString());
-            } else if (course.isArchived || (instructor.isArchived != null && instructor.isArchived)) {
-                courseList.add(course);
+            } else {
+                boolean isCourseArchived;
+                if (instructor.isArchived != null) {
+                    isCourseArchived = instructor.isArchived;  
+                } else {
+                    isCourseArchived = course.isArchived;
+                }
+                
+                if (isCourseArchived) {
+                    courseList.add(course);
+                }
             }
         }
         

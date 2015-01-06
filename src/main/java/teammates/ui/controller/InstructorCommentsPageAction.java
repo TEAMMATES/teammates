@@ -210,6 +210,13 @@ public class InstructorCommentsPageAction extends Action {
     private boolean isCourseArchived(CourseAttributes course, String googleId) {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(course.id, googleId);
         
-        return course.isArchived || (instructor.isArchived != null && instructor.isArchived);
+        boolean isCourseArchived;
+        if (instructor.isArchived != null) {
+            isCourseArchived = instructor.isArchived;  
+        } else {
+            isCourseArchived = course.isArchived;
+        }
+
+        return isCourseArchived;
     }
 }
