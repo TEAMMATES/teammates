@@ -614,12 +614,9 @@ public class CoursesLogic {
                 log.warning("Course was deleted but the Instructor still exists: " + Const.EOL 
                         + instructor.toString());
             } else {
-                boolean isCourseArchived;
-                if (instructor.isArchived != null) {
-                    isCourseArchived = instructor.isArchived;  
-                } else {
-                    isCourseArchived = course.isArchived;
-                }
+                boolean isCourseArchived = (instructor.isArchived != null) ? 
+                                           instructor.isArchived : 
+                                           course.isArchived;
                 
                 if (isCourseArchived) {
                     courseList.add(course);

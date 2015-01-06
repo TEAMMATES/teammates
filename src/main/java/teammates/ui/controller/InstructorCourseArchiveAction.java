@@ -31,7 +31,6 @@ public class InstructorCourseArchiveAction extends Action {
                 statusToAdmin = "Course archived: " + idOfCourseToArchive;
             } else {  
                 logic.setArchiveStatusOfInstructor(account.googleId, idOfCourseToArchive, setArchive);
-                logic.setArchiveStatusOfCourse(idOfCourseToArchive, setArchive);
                 
                 statusToUser.add(String.format(Const.StatusMessages.COURSE_UNARCHIVED, idOfCourseToArchive));
                 statusToAdmin = "Course unarchived: " + idOfCourseToArchive;
