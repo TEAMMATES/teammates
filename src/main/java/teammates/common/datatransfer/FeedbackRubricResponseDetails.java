@@ -13,7 +13,7 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
      * List of integers, the size of the list corresponds to the number of sub-questions
      * Each integer at index i, represents the choice chosen for sub-question i
      */
-    private List<Integer> answer;
+    public List<Integer> answer;
 
     public FeedbackRubricResponseDetails() {
         super(FeedbackQuestionType.RUBRIC);
@@ -86,10 +86,13 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
                 chosenChoice = "<span class=\"color_neutral\"><i>" + 
                         Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE + 
                         "</i></span>";
+                html += StringHelper.integerToLowerCaseAlphabeticalIndex(i+1) + ") " + chosenChoice + "<br>";
             } else {
                 chosenChoice = Sanitizer.sanitizeForHtml(fqd.rubricChoices.get(answer.get(i)));
+                html += StringHelper.integerToLowerCaseAlphabeticalIndex(i+1) + ") " + chosenChoice
+                        + " <span class=\"color_neutral\"><i>(Choice " + (chosenIndex+1) + ")</i></span><br>";
             }
-            html += StringHelper.integerToLowerCaseAlphabeticalIndex(i+1) + ") " + chosenChoice + "<br>";
+            
         }
         
         return html;
@@ -97,7 +100,7 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
 
     @Override
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
-        return Sanitizer.sanitizeForCsv(getAnswerString());
+        return answer.toString();
     }
     
     public int getAnswer(int subQuestionIndex) {

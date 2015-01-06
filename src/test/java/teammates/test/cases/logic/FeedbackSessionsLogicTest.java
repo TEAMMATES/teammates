@@ -1538,6 +1538,79 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[32], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"");
         assertEquals(exportLines[33], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"");
 
+        ______TS("RUBRIC results");
+        
+        session = newDataBundle.feedbackSessions.get("rubricSession");
+        instructor = newDataBundle.instructors.get("instructor1OfCourse1");
+        
+        export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
+                session.feedbackSessionName, session.courseId, instructor.email);
+        
+        System.out.println(export);
+        
+        /*This is how the export should look like
+        =======================================
+        Course,"FSQTT.idOfTypicalCourse1"
+        Session Name,"RUBRIC Session"
+        
+        
+        Question 1,"Please choose the best choice for the following sub-questions."
+        
+        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","a","Yes (Choice 1)"
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","b","No (Choice 2)"
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","a","No (Choice 2)"
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","b","Yes (Choice 1)"
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","a","Yes (Choice 1)"
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","b","Yes (Choice 1)"
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","a","No Response"
+        "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","b","Yes (Choice 1)"
+        "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","All Sub-Questions","No Response"
+        "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","All Sub-Questions","No Response"
+        "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","All Sub-Questions","No Response"
+        "Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","All Sub-Questions","No Response"
+        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","All Sub-Questions","No Response"
+        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","All Sub-Questions","No Response"
+        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","All Sub-Questions","No Response"
+        "Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","All Sub-Questions","No Response"
+        "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","All Sub-Questions","No Response"
+        "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt","All Sub-Questions","No Response"
+        "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt","All Sub-Questions","No Response"
+        "Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt","All Sub-Questions","No Response"
+        "Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt","All Sub-Questions","No Response"
+
+        */
+        
+        exportLines = export.split(Const.EOL);
+        assertEquals(exportLines[0],  "Course,\"" + session.courseId + "\"");
+        assertEquals(exportLines[1],  "Session Name,\"" + session.feedbackSessionName + "\"");
+        assertEquals(exportLines[2],  "");
+        assertEquals(exportLines[3],  "");
+        assertEquals(exportLines[4],  "Question 1,\"Please choose the best choice for the following sub-questions.\"");
+        assertEquals(exportLines[5],  "");
+        assertEquals(exportLines[6],  "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice");
+        assertEquals(exportLines[7],  "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"a\",\"Yes (Choice 1)\"");
+        assertEquals(exportLines[8],  "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"b\",\"No (Choice 2)\"");
+        assertEquals(exportLines[9],  "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"a\",\"No (Choice 2)\"");
+        assertEquals(exportLines[10],  "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"b\",\"Yes (Choice 1)\"");
+        assertEquals(exportLines[11],  "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"a\",\"Yes (Choice 1)\"");
+        assertEquals(exportLines[12], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"b\",\"Yes (Choice 1)\"");
+        assertEquals(exportLines[13], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"a\",\"No Response\"");
+        assertEquals(exportLines[14], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"b\",\"Yes (Choice 1)\"");
+        assertEquals(exportLines[15], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
+        assertEquals(exportLines[16], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
+        assertEquals(exportLines[17], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
+        assertEquals(exportLines[18], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
+        assertEquals(exportLines[19], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
+        assertEquals(exportLines[20], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
+        assertEquals(exportLines[21], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
+        assertEquals(exportLines[22], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
+        assertEquals(exportLines[23], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
+        assertEquals(exportLines[24], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
+        assertEquals(exportLines[25], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
+        assertEquals(exportLines[26], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
+        assertEquals(exportLines[27], "\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",\"All Sub-Questions\",\"No Response\"");
+
         
         ______TS("Non-existent Course/Session");
         

@@ -1,15 +1,14 @@
 {
   "nonInheritedLabels": [
-    "status.",
+    "s.",
     "t."
   ],
   "openStatusLabels": [
-    "status.Accepted",
-    "status.Ongoing",
-    "status.PendingReview",
-    "status.ReadyToMerge",
+    "s.Accepted",
+    "s.Ongoing",
+    "s.ToReview",
+    "s.ToMerge",
   ],
   "closedStatusLabels": [
-    "status.Done"
   ]
 }

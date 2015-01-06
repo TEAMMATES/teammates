@@ -359,19 +359,22 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getNewQuestionSpecificEditFormHtml() {
         // Add some choices by default
-        this.numOfRubricChoices = 5;
+        this.numOfRubricChoices = 4;
         this.rubricChoices.add("Strongly Agree");
         this.rubricChoices.add("Agree");
-        this.rubricChoices.add("Neutral");
         this.rubricChoices.add("Disagree");
         this.rubricChoices.add("Strongly Disagree");
         
         // Add some sub-questions by default
-        this.numOfRubricSubQuestions = 2;
-        this.rubricSubQuestions.add("This student has been active during discussions.");
-        this.rubricSubQuestions.add("This student has contributed to the team.");
+        this.numOfRubricSubQuestions = 1;
+        this.rubricSubQuestions.add("This student participates well in online discussions.");
         
         this.initializeRubricDescriptions();
+        
+        setDescription(0,0, "Initiates discussions frequently, and engages the team.");
+        setDescription(0,1, "Takes part in discussions and sometimes initiates discussions.");
+        setDescription(0,2, "Occasionally responds, but never initiates discussions.");
+        setDescription(0,3, "Rarely or never responds.");
         
         return "<div id=\"rubricForm\">" + 
                     this.getQuestionSpecificEditFormHtml(-1) +
@@ -379,7 +382,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
     
     private void initializeRubricDescriptions() {
-        rubricDescriptions = new ArrayList<List<String>>();
+        this.rubricDescriptions = new ArrayList<List<String>>();
         for (int subQns=0 ; subQns<this.numOfRubricSubQuestions ; subQns++) {
             List<String> descList = new ArrayList<String>();
             for (int ch=0 ; ch<this.numOfRubricChoices ; ch++) {
@@ -387,6 +390,10 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             }
             rubricDescriptions.add(descList);
         }
+    }
+    
+    public void setDescription(int row, int col, String description) {
+        this.rubricDescriptions.get(row).set(col, description);
     }
     
     /**
@@ -563,9 +570,70 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return "";
     }
     
+    public String getNoResponseTextInCsv(String giverEmail, String recipientEmail,
+            FeedbackSessionResultsBundle bundle,
+            FeedbackQuestionAttributes question) {
+       return Sanitizer.sanitizeForCsv("All Sub-Questions") + ","
+            + Sanitizer.sanitizeForCsv(getNoResponseText(giverEmail, recipientEmail, bundle, question));
+    }
+    
     @Override
     public String getCsvHeader() {
-        return "Feedback";
+        return "Choice";
+    }
+    
+    public String getCsvDetailedResponsesHeader() {
+        return    "Team" + "," + "Giver's Full Name" + "," 
+                + "Giver's Last Name" + "," +"Giver's Email" + ","  
+                + "Recipient's Team" + "," + "Recipient's Full Name" + "," 
+                + "Recipient's Last Name" + "," + "Recipient's Email" + ","  
+                + "Sub Question" + ","
+                + this.getCsvHeader() + Const.EOL;
+    }
+    
+    public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
+            FeedbackResponseAttributes feedbackResponseAttributes,
+            FeedbackQuestionAttributes question) {
+        
+        // Retrieve giver details
+        String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giverEmail);
+        String giverFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.giverEmail);
+        String giverTeamName =fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.giverEmail);
+        String giverEmail = fsrBundle.getDisplayableEmailGiver(feedbackResponseAttributes);
+        
+        // Retrieve recipient details
+        String recipientLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.recipientEmail);
+        String recipientFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.recipientEmail);
+        String recipientTeamName =fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipientEmail);
+        String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
+        
+        FeedbackRubricResponseDetails frd = (FeedbackRubricResponseDetails) feedbackResponseAttributes.getResponseDetails();
+        String detailedResponsesRow = "";
+        for (int i=0 ; i<frd.answer.size() ; i++) {
+            int chosenIndex = frd.answer.get(i);
+            String chosenChoice = "";
+            String chosenIndexString = StringHelper.integerToLowerCaseAlphabeticalIndex(i+1);
+            
+            if (chosenIndex == -1) {
+                chosenChoice = Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE;
+            } else {
+                chosenChoice = this.rubricChoices.get(frd.answer.get(i)) + " (Choice " + (chosenIndex+1) + ")";
+            }
+            
+            detailedResponsesRow += Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) 
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) 
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName))
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName))
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
+                                    + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
+                                    + "," + Sanitizer.sanitizeForCsv(chosenIndexString)
+                                    + "," + Sanitizer.sanitizeForCsv(chosenChoice)
+                                    + Const.EOL;
+        }
+        
+        return detailedResponsesRow;
     }
 
     @Override
@@ -609,12 +677,15 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             errors.add(ERROR_NOT_ENOUGH_RUBRIC_SUB_QUESTIONS + MIN_NUM_OF_RUBRIC_SUB_QUESTIONS);
         }
         
+        //Rubric choices are now allowed to be empty.
+        /*
         for (String choice : this.rubricChoices) {
             if (choice.trim().isEmpty()) {
                 errors.add(ERROR_RUBRIC_EMPTY_CHOICE);
                 break;
             }
         }
+        */
         
         for (String subQn : this.rubricSubQuestions) {
             if (subQn.trim().isEmpty()) {
