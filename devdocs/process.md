@@ -94,7 +94,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
      automatic reference from the issue to the pull request.<br>
      e.g. ` For #1760`  
      
-   * Assign the PR to yourself.
+   * Assign the PR to yourself if you have permission to do so.
    * Change the PR status to `s.ToReview`
    * Wait for the reviewer to change the PR status. If you did not get a review
      within 2-3 days, it is OK to request for a review by posting a comment in 
@@ -106,6 +106,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
 Role: reviewer
 
   * This is a code quality review. No need to run tests.
+  * Assign the PR to the author, if not already done so. 
   * Ensure the following:
     * The solution is the best possible solution to the problem under the 
       circumstances.
@@ -143,7 +144,7 @@ Role: committer
        Merge the branch. Format of the commit message: 
        `[Issue number] Issue title as given in the original issue`<br>
        e.g. `[2287] Add more tests for newly joined Instructor accessing sample course`
-    * Remove any status labels from the pull request.
+    * Remove any status labels from the pull request. Delete the branch (from GitHub UI).
     * Remove any status labels from the corresponding issue and close it.
   * If not green,
     * Delete the merge commit, if any.
