@@ -89,12 +89,19 @@ public class StudentsDb extends EntitiesDb {
         }
     }
     
-    public void createStudents(Collection<StudentAttributes> studentsToAdd) throws InvalidParametersException{
+    /**
+     * Create students' records without searchability
+     * This function is currently used in testing process only
+     * @param studentsToAdd
+     * @throws InvalidParametersException
+     */
+    public void createStudentsWithoutSearchability(Collection<StudentAttributes> studentsToAdd) throws InvalidParametersException{
+        
         List<EntityAttributes> studentsToUpdate = createEntities(studentsToAdd);
         for(EntityAttributes entity : studentsToUpdate){
             StudentAttributes student = (StudentAttributes) entity;
-            try {
-                updateStudentWithoutDocument(student.course, student.email, student.name, student.team, student.section, student.section, student.googleId, student.comments);
+            try {          
+                updateStudentWithoutSearchability(student.course, student.email, student.name, student.team, student.section, student.email, student.googleId, student.comments);
             } catch (EntityDoesNotExistException e) {
              // This situation is not tested as replicating such a situation is 
              // difficult during testing
@@ -342,7 +349,12 @@ public class StudentsDb extends EntitiesDb {
                 newEmail, newGoogleID, newComments, true);
     }
 
-    public void updateStudentWithoutDocument(String courseId, String email,
+    /**
+     * Update student's record without searchability
+     * This function is only used for testing, its purpose is to not create document if not necessary.    
+     * 
+     */
+    public void updateStudentWithoutSearchability(String courseId, String email,
             String newName,
             String newTeamName, String newSectionName, String newEmail,
             String newGoogleID,
