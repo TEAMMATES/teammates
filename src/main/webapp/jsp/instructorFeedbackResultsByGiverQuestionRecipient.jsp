@@ -214,14 +214,73 @@
         	if(currentTeam != null && !(data.bundle.getTeamNameForEmail(giverEmail)=="" ? currentTeam.equals(data.bundle.getNameForEmail(giverEmail)): currentTeam.equals(data.bundle.getTeamNameForEmail(giverEmail)))) {
                         currentTeam = data.bundle.getTeamNameForEmail(giverEmail);
                         newTeam = true;
+
+                        // print out the "missing response" rows for the previous team 
+                        Set<String> teamMembersWithoutReceivingResponses = new HashSet<String>(teamMembersEmail);
+                        teamMembersWithoutReceivingResponses.removeAll(teamMembersWithResponses);
+                        
+                        List<String> teamMembersList = new ArrayList<String>(teamMembersWithoutReceivingResponses);
+                        Collections.sort(teamMembersList);
+                        for (String email : teamMembersList) {
+        %>
+                            <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                From: 
+                                <%
+                                    if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) {
+                                %>
+                                    <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(email)%>">
+                                        <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
+                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                        <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                                    </div>
+                                <%
+                                    } else {
+                                %>
+                                    <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
+                                    <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                                <%
+                                    }
+                                %>
+                                <div class="pull-right">
+                                <% 
+                                    boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(email), 
+                                                                                                        data.feedbackSessionName, 
+                                                                                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                                    String disabledAttribute = !isAllowedToModerate? "disabled=\"disabled\"" : "";
+                                %>
+                                        <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
+                                        
+                                            <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                            <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                            <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                            <input type="hidden" name="moderatedstudent" value=<%= email%>>
+                                        
+                                        </form>
+                                    &nbsp;
+                                    <div class="display-icon" style="display:inline;">
+                                        <span class='glyphicon <%=!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right'></span>
+                                    </div>                
+                                </div>
+                            </div>
+                            <div class='panel-collapse collapse in'>
+                                <div class="panel-body"> There are no responses given by this user 
+                                </div>
+                            </div>
+                            </div>
+        <%
+                        }
+
                         if(currentTeam.equals("")){
                             currentTeam = data.bundle.getNameForEmail(giverEmail);
                         }
+                        if (groupByTeamEnabled) {
         %>
                 </div>
                 </div>
             </div>
         <%
+                        }
         	}
         %>
 
@@ -273,7 +332,7 @@
 
 
         <%
-        	if(groupByTeamEnabled == true && (currentTeam==null || newTeam==true)) {
+        	if(currentTeam==null || newTeam==true) {
                         currentTeam = data.bundle.getTeamNameForEmail(giverEmail);
                         if(currentTeam.equals("")){
                             currentTeam = data.bundle.getNameForEmail(giverEmail);
@@ -283,9 +342,10 @@
                         teamMembersEmail = new HashSet<String>(data.bundle.getTeamMembersFromRoster(currentTeam));
                         
                         receivingTeams.add(currentTeam);
-                        
                         newTeam = false;
-                        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> currentTeamResponses = teamResponses.get(currentTeam);
+
+                        if (groupByTeamEnabled) {
+                            Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> currentTeamResponses = teamResponses.get(currentTeam);
         %>
                 <div class="panel panel-warning">
                     <div class="panel-heading">
@@ -350,7 +410,9 @@
                             %>
                         </div>
         <%
-        	}
+        	           }
+            }
+            
         %>
 
 
@@ -358,18 +420,18 @@
                 <div class="panel-heading">
                     From: 
                     <%
-                	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, giverEmail).isEmpty()) {
+                        if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, giverEmail).isEmpty()) {
                     %>
-                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(giverEmail)%>">
-                            <strong><%=responsesFromGiver.getKey()%></strong>
-                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                            <a class="link-in-dark-bg" href="mailTo:<%=giverEmail%> " <%=mailtoStyleAttr%>>[<%=giverEmail%>]</a>
-                        </div>
+                            <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(giverEmail)%>">
+                                <strong><%=responsesFromGiver.getKey()%></strong>
+                                <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                <a class="link-in-dark-bg" href="mailTo:<%=giverEmail%> " <%=mailtoStyleAttr%>>[<%=giverEmail%>]</a>
+                            </div>
                     <%
                     	} else {
                     %>
-                        <strong><%=responsesFromGiver.getKey()%></strong>
-                        <a class="link-in-dark-bg" href="mailTo:<%=giverEmail%> " <%=mailtoStyleAttr%>>[<%=giverEmail%>]</a>
+                            <strong><%=responsesFromGiver.getKey()%></strong>
+                            <a class="link-in-dark-bg" href="mailTo:<%=giverEmail%> " <%=mailtoStyleAttr%>>[<%=giverEmail%>]</a>
                     <%
                     	}
                         teamMembersWithResponses.add(giverEmail);
@@ -486,8 +548,8 @@
                                         <%
                                             }
                                                                                         
-                                                for (String possibleRecipientWithNoResponse : possibleRecipientsForQuestion) {
-                                                	if (questionDetails.shouldShowNoResponseText(giverEmail, possibleRecipientWithNoResponse, question)) {
+                                            for (String possibleRecipientWithNoResponse : possibleRecipientsForQuestion) {
+                                            	if (questionDetails.shouldShowNoResponseText(giverEmail, possibleRecipientWithNoResponse, question)) {
                                         %>
                                                         <tr class="pending_response_row">
                                                <%
@@ -519,8 +581,8 @@
                                                         <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(giverEmail, possibleRecipientWithNoResponse, data.bundle, question)%></td>
                                                         </tr>
                                                     <%
-                                                    }
                                                 }
+                                            }
                                                     %>
                                     </tbody>
                                 </table>
@@ -534,10 +596,8 @@
             </div>
         <%
         	}
-        %>
-
-        <%
-        	Set<String> teamMembersWithoutReceivingResponses = new HashSet<String>(teamMembersEmail);
+            // print out the "missing response" rows for the last giving team
+            Set<String> teamMembersWithoutReceivingResponses = new HashSet<String>(teamMembersEmail);
             teamMembersWithoutReceivingResponses.removeAll(teamMembersWithResponses);
             
             List<String> teamMembersList = new ArrayList<String>(teamMembersWithoutReceivingResponses);
@@ -548,20 +608,21 @@
                 <div class="panel-heading">
                     From: 
                     <%
-                	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) {
+                        if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) {
                     %>
-                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(email)%>">
+                            <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(email)%>">
+                                <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
+                                <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                            </div>
+                    <%
+                        } else {
+                    %>
                             <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
-                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                        </div>
+                            <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
                     <%
-                    	} else {
+                        }
                     %>
-                        <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
-                    <%
-                    	}
-                    %>
-                        <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
                     <div class="pull-right">
                     <% 
                         boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(email), 
@@ -590,22 +651,23 @@
                 </div>
             <%
             }
-                        //close the last team panel.
-                        if(groupByTeamEnabled==true) {
+            //close the last team panel.
+            if(groupByTeamEnabled==true) {
             %>
                     </div>
                     </div>
                 </div>
             <%
-        	             }
+            }
                     
                     Set<String> teamsWithNoResponseGiven = new HashSet<String>(teamsInSection);
                     teamsWithNoResponseGiven.removeAll(receivingTeams);
                     
-                    if (groupByTeamEnabled) {
+                    
                         List<String> teamsWithNoResponseGivenList = new ArrayList<String>(teamsWithNoResponseGiven);
                         Collections.sort(teamsWithNoResponseGivenList);
                         for (String teamWithNoResponseGiven: teamsWithNoResponseGivenList) {
+                            if (groupByTeamEnabled) {
              %>
                           <div class="panel panel-warning">
                               <div class="panel-heading">
@@ -615,6 +677,7 @@
                               <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
                                   <div class="panel-body background-color-warning">
                                   <%
+                            }
                                   	List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(teamWithNoResponseGiven));
                                     Collections.sort(teamMembers);
                                 
@@ -629,15 +692,16 @@
                                                         <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(teamMember)%>">
                                                             <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
                                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                            <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
                                                         </div>
                                                     <%
                                                     	} else {
                                                     %>
                                                         <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
+                                                        <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
                                                     <%
                                                     	}
                                                     %>
-                                                        <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
                                                     <div class="pull-right">
                                                     <% 
                                                         boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(teamMember), 
@@ -668,14 +732,16 @@
                                         
                                     <%
                                     }
+                                    if (groupByTeamEnabled) {
                                     %>
                                   
                                   </div>
                               </div>
                           </div>                
                   <%
-                        }    
-                    }
+                                    }
+                        
+                        }
                   %>
                 </div>
                 </div>
@@ -704,6 +770,8 @@
                                         for (String team : teamsFromSectionList) {
                                         	List<String> teamMembers = new ArrayList<String>(data.bundle.getTeamMembersFromRoster(team));
                                             Collections.sort(teamMembers);
+
+                                            if (groupByTeamEnabled) {
                                     %>
                                             <div class="panel panel-warning">
                                               <div class="panel-heading">
@@ -713,6 +781,7 @@
                                               <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
                                                   <div class="panel-body background-color-warning">
                                       <%
+                                            }
                                       	    for (String teamMember : teamMembers) {
                                       %>
                                                  <div class="panel panel-primary">
@@ -720,17 +789,18 @@
                                                         From: 
                                                         <%
                                                     	    if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) {
-                                                    %>
+                                                        %>
                                                             <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(teamMember)%>">
                                                                 <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
                                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                                <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
                                                             </div>
                                                         <%
                                                             } else {
                                                         %>
                                                             <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
-                                                        <%  } %>
                                                             <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
+                                                        <%  } %>
                                                         <div class="pull-right">
                                                         <% 
                                                             boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(teamMember), 
@@ -762,11 +832,13 @@
                                             
                                         <% 
                                             }
+                                            if (groupByTeamEnabled) {
                                     	%>
                                         </div>
                                           </div>
                                       </div>    
                                     <% 
+                                            }
                                         }
                                     
                                     %>
