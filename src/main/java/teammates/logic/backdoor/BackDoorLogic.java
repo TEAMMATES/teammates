@@ -135,7 +135,7 @@ public class BackDoorLogic extends Logic {
             }
         }
         accountsDb.createAccounts(studentAccounts, false);
-        studentsDb.createStudents(students.values());
+        studentsDb.createStudentsWithoutSearchability(students.values());
 
         HashMap<String, EvaluationAttributes> evaluations = dataBundle.evaluations;
         for (EvaluationAttributes evaluation : evaluations.values()) {
