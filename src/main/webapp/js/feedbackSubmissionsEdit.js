@@ -27,11 +27,59 @@ $(document).ready(function () {
     $('input.pointsBox').off('keydown');
     disallowNonNumericEntries($('input.pointsBox'), false, false);
 
+    readyContribQuestions();
+
     readyConstSumQuestions();
     updateConstSumMessages();
 
     readyRubricQuestions();
 });
+
+//Ready contrib questions for answering by user
+function readyContribQuestions() {
+    // Set dropdown value to be colored if negative value is select
+
+    // Get index of contribution questions
+    var contribQuestionNums = getQuestionTypeNumbers("CONTRIB");
+    for(var i=0 ; i<contribQuestionNums.length ; i++){
+        var qnNum = contribQuestionNums[i];
+        
+        // Get number of options for the specified question number of contribution question type
+        var optionNums = $("[name^='responsetext-" + qnNum + "']").length;
+        for(var k=0; k<optionNums; k++){
+
+            var dropdown = $("[name^='responsetext-" + qnNum + "-" + k + "']");
+            
+            // Bind on change event
+            dropdown.on("change", function() {
+                updateContribQuestionSelectedColor(this);
+            });
+            
+            // Set color for each option
+            dropdown.children('option').each(function() {
+                // Less than equal share, negative value
+                if(this.value < 100 && this.value != -101){
+                    $(this).addClass("text-color-red");
+                    $(this).removeClass("text-color-black");
+                } else {
+                    $(this).addClass("text-color-black");
+                    $(this).removeClass("text-color-red");
+                }
+            });
+        }
+    }
+}
+
+function updateContribQuestionSelectedColor(dropdownElement){
+    var dropdownSelectedOption = dropdownElement.options[dropdownElement.selectedIndex];
+
+    // Less than equal share, negative value
+    if(dropdownSelectedOption.value < 100 && dropdownSelectedOption.value != -101){
+        $(dropdownElement).addClass("text-color-red");
+    } else {
+        $(dropdownElement).removeClass("text-color-red");
+    }
+}
 
 //Ready rubric questions for answering by user
 function readyRubricQuestions() {
