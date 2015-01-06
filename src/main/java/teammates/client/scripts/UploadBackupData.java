@@ -218,7 +218,7 @@ public class UploadBackupData extends RemoteApiClient {
     
     private static void persistStudents(HashMap<String, StudentAttributes> students) {
         try {
-            studentsDb.createStudents(students.values());
+            studentsDb.createStudentsWithoutSearchability(students.values());
         } catch (InvalidParametersException e) {
             System.out.println("Error in uploading students: " + e.getMessage());
         }
