@@ -772,6 +772,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return result;
     }
     
+    /**
+     * Return the CSS color of different point
+     */
     private String getContributionOptionsColor(int points){
         if(points == Const.POINTS_NOT_SURE || points == Const.POINTS_EQUAL_SHARE){
             // Not sure, Equal Share
