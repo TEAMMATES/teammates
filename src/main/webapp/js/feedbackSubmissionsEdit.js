@@ -50,34 +50,36 @@ function readyContribQuestions() {
 
             var dropdown = $("[name^='responsetext-" + qnNum + "-" + k + "']");
             
+            // Set color for each option
+            dropdown.children('option').each(function() {
+                updateContribQuestionSelectedColor(this);
+            });
+
             // Bind on change event
             dropdown.on("change", function() {
                 updateContribQuestionSelectedColor(this);
-            });
-            
-            // Set color for each option
-            dropdown.children('option').each(function() {
-                // Less than equal share, negative value
-                if(this.value < 100 && this.value != -101){
-                    $(this).addClass("text-color-red");
-                    $(this).removeClass("text-color-black");
-                } else {
-                    $(this).addClass("text-color-black");
-                    $(this).removeClass("text-color-red");
-                }
-            });
+            });            
         }
     }
 }
 
-function updateContribQuestionSelectedColor(dropdownElement){
-    var dropdownSelectedOption = dropdownElement.options[dropdownElement.selectedIndex];
+function updateContribQuestionSelectedColor(element){
 
-    // Less than equal share, negative value
-    if(dropdownSelectedOption.value < 100 && dropdownSelectedOption.value != -101){
-        $(dropdownElement).addClass("text-color-red");
-    } else {
-        $(dropdownElement).removeClass("text-color-red");
+    if(element.value == -101 || element.value == 100){
+        // Not sure, Equal Share
+        $(element).addClass("color_neutral");
+        $(element).removeClass("color-positive");
+        $(element).removeClass("color-negative");
+    } else if (element.value < 100){
+        // Negative share
+        $(element).addClass("color-negative");
+        $(element).removeClass("color-positive");
+        $(element).removeClass("color_neutral");
+    } else{
+        // Positive share
+        $(element).addClass("color-positive");
+        $(element).removeClass("color-negative");
+        $(element).removeClass("color_neutral");
     }
 }
 
