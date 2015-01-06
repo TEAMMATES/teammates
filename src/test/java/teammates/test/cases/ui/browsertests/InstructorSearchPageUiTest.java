@@ -87,7 +87,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         
         searchPage.clickStudentCommentCheckBox();
         searchPage.clickSearchButton();
-        searchPage.verifyHtmlMainContent("/InstructorSearchPageSearchComments.html");
+        searchPage.verifyHtmlMainContent("/instructorSearchPageSearchComments.html");
         
         ______TS("search for all comments as helper");
         
