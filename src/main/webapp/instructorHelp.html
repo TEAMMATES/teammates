@@ -1846,12 +1846,16 @@
                                 <span class="text-muted"> - the question</span>
                             </li>
                             <li>
-                                <b>Feedback Giver</b>
-                                <span class="text-muted"> - who gives the response (If you choose a ‘team’ as the giver, any member can submit the response on behalf of the team.)</span>
-                            </li>
-                            <li>
-                                <b>Feedback Recipient</b>
-                                <span class="text-muted"> - who the response is meant for/directed towards</span>
+                                <b>Feedback Path</b>
+                                <ul><li>
+                                        <b>Feedback Giver</b>
+                                        <span class="text-muted"> - who gives the response (If you choose a ‘team’ as the giver, any member can submit the response on behalf of the team.)</span>
+                                    </li>
+                                    <li>
+                                        <b>Feedback Recipient</b>
+                                        <span class="text-muted"> - who the response is meant for/directed towards</span>
+                                    </li>
+                                </ul>
                             </li>
                             <li>
                                 <b>Visibility options</b>
@@ -1968,19 +1972,19 @@
                                                 <b>Visibility</b> (Who can see the responses?)
                                             </div>
                                             <div class="col-sm-6 btn-group" data-toggle="buttons">
-                                                <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-1" onchange="toggleVisibilityOptions(this)">
+                                                <label class="btn btn-xs btn-info active visibilityOptionsLabel" id="visibilityOptionsLabel-1" onchange="toggleVisibilityOptions(this)">
                                                     <input type="radio">
                                                     <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
 
                                                 </label>
-                                                <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-1" onchange="toggleVisibilityMessage(this)">
+                                                <label class="btn btn-xs btn-info visibilityMessageButton" id="visibilityMessageButton-1" onchange="toggleVisibilityMessage(this)">
                                                     <input type="radio">
                                                     <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
 
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-sm-12 background-color-light-green">
+                                        <div class="col-sm-12 background-color-light-green" style="display: none;">
                                             <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-1">
                                                 This is the visibility as seen by the feedback giver.
                                                 <ul class="margin-bottom-15px background-color-warning">
@@ -1993,7 +1997,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-12 margin-bottom-15px background-color-light-green">
-                                            <div class="visibilityOptions" id="visibilityOptions-1" style="display: none;">
+                                            <div class="visibilityOptions" id="visibilityOptions-1">
                                                 <table class="dataTable participantTable table table-striped text-center background-color-white">
                                                     <tbody>
                                                         <tr>
