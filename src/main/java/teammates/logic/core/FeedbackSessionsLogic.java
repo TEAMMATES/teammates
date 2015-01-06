@@ -103,6 +103,20 @@ public class FeedbackSessionsLogic {
             String courseId) {
         return fsDb.getFeedbackSessionsForCourse(courseId);
     }
+    
+    public FeedbackSessionAttributes copyMultipleFeedbackSession(
+            String newFeedbackSessionName, String[] coursesToCopyTo,
+            String feedbackSessionName, String courseId,
+            String instructorEmail) 
+            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+        FeedbackSessionAttributes fs = null;
+        
+        for (String newCourseId : coursesToCopyTo) {
+            fs = copyFeedbackSession(newFeedbackSessionName, newCourseId, feedbackSessionName, courseId, instructorEmail);
+        }
+        
+        return fs;
+    }
 
     public FeedbackSessionAttributes copyFeedbackSession(
             String newFeedbackSessionName, String newCourseId, String feedbackSessionName,

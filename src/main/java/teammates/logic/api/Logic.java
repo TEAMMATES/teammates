@@ -1621,6 +1621,24 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
+    public FeedbackSessionAttributes copyMultipleFeedbackSession(String newFeedbackSessionName, String[] coursesToCopyTo,
+           String feedbackSessionName, String courseId,
+           String instructorEmail) 
+           throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, newFeedbackSessionName);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, coursesToCopyTo);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, instructorEmail);
+        
+        return feedbackSessionsLogic.copyMultipleFeedbackSession(newFeedbackSessionName, coursesToCopyTo, feedbackSessionName, courseId, instructorEmail); 
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
     public FeedbackSessionAttributes copyFeedbackSession(String copiedFeedbackSessionName, String copiedCourseId, String feedbackSessionName, String courseId, String instructorEmail)
             throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
         
