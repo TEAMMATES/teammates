@@ -88,7 +88,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         // this session contains questions to instructors, and since instr3 is not displayed to students,
         // student cannot submit to instr3
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Awaiting Session");
-        submitPage.verifyHtml("/studentFeedbackSubmitPageAwaiting.html");
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageAwaiting.html");
         
         ______TS("Open session");
         
