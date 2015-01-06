@@ -35,8 +35,8 @@
                     <div class="panel-body padding-top-0">
                         <div class="row">
                             <div "col-sm-12">
-                                <p class="padding-15px margin-0 text-right">
-                                    <i class="text-color-gray">Message of the day</i>
+                                <p class="padding-15px margin-0">
+                                    <b class="text-color-gray">TEAMMATES Message of the day</b>
                                     &nbsp;
                                     <button type="button" class="close" aria-label="Close" onclick="closeMotd();">
                                         <span aria-hidden="true">&times;</span>
