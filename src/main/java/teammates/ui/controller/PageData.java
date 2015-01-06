@@ -1047,12 +1047,8 @@ public class PageData {
         }
     }
     
-    public boolean isCourseArchived(CourseAttributes course, InstructorAttributes instructor) {
-        boolean isCourseArchived = (instructor.isArchived != null) ?
-                                   instructor.isArchived : 
-                                   course.isArchived;
-
-        return isCourseArchived;
+    public boolean isCourseArchived(String courseId, String googleId) {
+        return Logic.isCourseArchived(courseId, googleId);
     }
     
     @SuppressWarnings("unused")

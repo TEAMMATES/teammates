@@ -766,7 +766,7 @@ public class Logic {
      * 
      * @return true if the course has been archived.
      */
-    public boolean isCourseArchived(String courseId, String instructorGoogleId) {
+    public static boolean isCourseArchived(String courseId, String instructorGoogleId) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorGoogleId);
         
