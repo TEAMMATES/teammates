@@ -35,7 +35,7 @@ import teammates.common.util.Utils;
 import teammates.storage.api.CoursesDb;
 
 /**
- * Handles  operations related to courses.
+ * Handles operations related to courses.
  */
 public class CoursesLogic {
     /* Explanation: Most methods in the API of this class doesn't have header 
