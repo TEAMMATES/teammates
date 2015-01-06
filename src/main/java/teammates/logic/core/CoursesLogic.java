@@ -614,10 +614,7 @@ public class CoursesLogic {
                 log.warning("Course was deleted but the Instructor still exists: " + Const.EOL 
                         + instructor.toString());
             } else {
-                boolean isCourseArchived = (instructor.isArchived != null) ? 
-                                           instructor.isArchived : 
-                                           course.isArchived;
-                
+                boolean isCourseArchived = isCourseArchived(instructor.courseId, instructor.googleId);
                 if (isCourseArchived) {
                     courseList.add(course);
                 }
@@ -726,4 +723,17 @@ public class CoursesLogic {
         }
         return false;
     }
+    
+    
+    public boolean isCourseArchived(String courseId, String instructorGoogleId) {
+        CourseAttributes course = getCourse(courseId);
+        InstructorAttributes instructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorGoogleId);
+        
+        boolean isCourseArchived = (instructor.isArchived != null) ?
+                                   instructor.isArchived : 
+                                   course.isArchived;
+                
+        return isCourseArchived;
+    }
+
 }

@@ -21,8 +21,8 @@ public class InstructorCourseArchiveAction extends Action {
         
         try {
             // Set the archive status and status shown to user and admin
+            logic.setArchiveStatusOfInstructor(account.googleId, idOfCourseToArchive, setArchive);
             if (setArchive) {
-                logic.setArchiveStatusOfInstructor(account.googleId, idOfCourseToArchive, setArchive);
                 if (isRedirectedToHomePage()) {
                     statusToUser.add(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, idOfCourseToArchive));
                 } else {
@@ -30,8 +30,6 @@ public class InstructorCourseArchiveAction extends Action {
                 }
                 statusToAdmin = "Course archived: " + idOfCourseToArchive;
             } else {  
-                logic.setArchiveStatusOfInstructor(account.googleId, idOfCourseToArchive, setArchive);
-                
                 statusToUser.add(String.format(Const.StatusMessages.COURSE_UNARCHIVED, idOfCourseToArchive));
                 statusToAdmin = "Course unarchived: " + idOfCourseToArchive;
             }
