@@ -85,6 +85,8 @@
                                 class="btn btn-primary btn-sm" id="fsDeleteLink">
                                     Delete
                                 </a>
+                                <a class="btn btn-primary btn-sm" href="#" data-toggle="modal" data-target="#fsCopyModal" title="Copy this feedback session to another course"
+                                data-placement="top">Copy</a>
                             </span>
                         </div>
                     </div>
@@ -540,6 +542,31 @@
             </div>
             <br>
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+
+            <div class="modal fade" id="fsCopyModal" tabindex="-1" role="dialog" aria-labelledby="fsCopyModal" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <form method="post" name="form_remind_list" role="form"
+                        action="replace.......">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title">
+                        Copy this Feedback Session to other courses
+                        <small>(Select the courses(s) you want to copy this Feedback Session to)</small>
+                      </h4>
+                    </div>
+                    <div class="modal-body">
+                      <div id="courseList" class="form-group"></div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                      <input type="submit" class="btn btn-primary" value="Copy">
+                      <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
             <br>
 
             <%
