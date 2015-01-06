@@ -49,11 +49,6 @@ function readyContribQuestions() {
         for(var k=0; k<optionNums; k++){
 
             var dropdown = $("[name^='responsetext-" + qnNum + "-" + k + "']");
-            
-            // Set color for each option
-            dropdown.children('option').each(function() {
-                updateContribQuestionSelectedColor(this);
-            });
 
             // Bind on change event
             dropdown.on("change", function() {

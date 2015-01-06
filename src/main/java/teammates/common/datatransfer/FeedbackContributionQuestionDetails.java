@@ -757,19 +757,33 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             points=Const.POINTS_NOT_SURE;
         }
         for(int i=200; i>=0; i-=10){
-            result += "<option value=\"" + i + "\"" +
-                        (i==points
-                        ? "selected=\"selected\""
-                        : "") +
+            result += "<option "+
+                        "class=\"" + getContributionOptionsColor(i) + "\" " +
+                        "value=\"" + i + "\"" +
+                        (i==points ? "selected=\"selected\"" : "") +
                         ">" + convertToEqualShareFormat(i) +
                         "</option>\r\n";
         }
-        result+="<option value=\"" + Const.POINTS_NOT_SURE + "\""
-                + (points==Const.POINTS_NOT_SURE ? " selected=\"selected\"" : "") + ">" +
+        result+="<option " +
+                "class=\"" + getContributionOptionsColor(Const.POINTS_NOT_SURE) + "\" " +
+                "value=\"" + Const.POINTS_NOT_SURE + "\"" +
+                (points==Const.POINTS_NOT_SURE ? " selected=\"selected\"" : "") + ">" +
                 "Not Sure</option>";
         return result;
     }
     
+    private String getContributionOptionsColor(int points){
+        if(points == Const.POINTS_NOT_SURE || points == Const.POINTS_EQUAL_SHARE){
+            // Not sure, Equal Share
+            return "color_neutral";
+        } else if ( points < 100){
+            // Negative share
+            return "color-negative";
+        } else{
+            // Positive share
+            return "color-positive";
+        }
+    }
     
     /**
      * Converts points in integer to String.
