@@ -450,7 +450,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals("90 points left to distribute.",submitPage.getConstSumMessage(qnNumber, 0));
         
         submitPage.clickSubmitButton();
-        assertEquals("Please fix the errors for distribution questions."
+        assertEquals("Please fix the error(s) for distribution question(s) 17, 18, 19."
                 + " To skip a distribution question, leave the boxes blank.",
                 submitPage.getStatus());
         
@@ -474,7 +474,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals("The same amount of points should not given multiple times.",submitPage.getConstSumMessage(qnNumber, 3));
         
         submitPage.clickSubmitButton();
-        assertEquals("Please fix the errors for distribution questions."
+        assertEquals("Please fix the error(s) for distribution question(s) 17, 18, 19."
                 + " To skip a distribution question, leave the boxes blank.",
                 submitPage.getStatus());
         
