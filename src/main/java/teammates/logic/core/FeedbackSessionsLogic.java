@@ -11,7 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import javax.mail.internet.MimeMessage;
@@ -607,7 +606,7 @@ public class FeedbackSessionsLogic {
     }
 
     private StringBuilder getFeedbackSessionResultsForQuestionInCsvFormat(
-            FeedbackSessionResultsBundle results,
+            FeedbackSessionResultsBundle fsrBundle,
             Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry) {
         
         FeedbackQuestionAttributes question = entry.getKey();
@@ -621,80 +620,54 @@ public class FeedbackSessionsLogic {
                 + Const.EOL + Const.EOL);
         
         String statistics = questionDetails.getQuestionResultStatisticsCsv(allResponses,
-                                    question, results);
+                                    question, fsrBundle);
         if(statistics != ""){
             exportBuilder.append("Summary Statistics," + Const.EOL);
             exportBuilder.append(statistics + Const.EOL);
         }
         
-        exportBuilder.append("Team" + "," + "Giver's Full Name" + "," 
-                + "Giver's Last Name" + "," +"Giver's Email" + ","  
-                + "Recipient's Team" + "," + "Recipient's Full Name" + "," 
-                + "Recipient's Last Name" + "," + "Recipient's Email" + ","  
-                + questionDetails.getCsvHeader() + Const.EOL);
+        exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader());
 
-        List<String> possibleGiversWithoutResponses = results.getPossibleGivers(question);
+        List<String> possibleGiversWithoutResponses = fsrBundle.getPossibleGivers(question);
         List<String> possibleRecipientsForGiver = new ArrayList<String>();
         String prevGiver = "";
         
         for (FeedbackResponseAttributes response : allResponses) {
 
             // do not show all possible givers and recipients if there are anonymous givers and recipients 
-            if (!results.isRecipientVisible(response) || !results.isGiverVisible(response)) {
+            if (!fsrBundle.isRecipientVisible(response) || !fsrBundle.isGiverVisible(response)) {
                 possibleGiversWithoutResponses.clear();
                 possibleRecipientsForGiver.clear();
             }
             
-            // Retrieve giver details
-            String giverLastName = results.getLastNameForEmail(response.giverEmail);
-            String giverFullName = results.getNameForEmail(response.giverEmail);
-            String giverTeamName =results.getTeamNameForEmail(response.giverEmail);
-            String giverEmail = results.getDisplayableEmailGiver(response);
-            
-            // Retrieve recipient details
-            String recipientLastName = results.getLastNameForEmail(response.recipientEmail);
-            String recipientFullName = results.getNameForEmail(response.recipientEmail);
-            String recipientTeamName =results.getTeamNameForEmail(response.recipientEmail);
-            String recipientEmail = results.getDisplayableEmailRecipient(response);
-            
-            
             // keep track of possible recipients with no responses
             removeParticipantIdentifierFromList(question.giverType,
-                    possibleGiversWithoutResponses, response.giverEmail, results);
+                    possibleGiversWithoutResponses, response.giverEmail, fsrBundle);
             
             boolean isNewGiver = !prevGiver.equals(response.giverEmail);
             // print missing responses from the current giver
             if (isNewGiver) {
-                exportBuilder.append(getRowsOfPossibleRecipientsInCsvFormat(results,
+                exportBuilder.append(getRowsOfPossibleRecipientsInCsvFormat(fsrBundle,
                         question, questionDetails,
                         possibleRecipientsForGiver, prevGiver));
                 
                 
                 String giverIdentifier = (question.giverType == FeedbackParticipantType.TEAMS)? 
-                                    results.getFullNameFromRoster(response.giverEmail):
+                                    fsrBundle.getFullNameFromRoster(response.giverEmail):
                                     response.giverEmail;
                 
-                possibleRecipientsForGiver = results.getPossibleRecipients(question, giverIdentifier);
+                possibleRecipientsForGiver = fsrBundle.getPossibleRecipients(question, giverIdentifier);
             }
             
-            removeParticipantIdentifierFromList(question.recipientType, possibleRecipientsForGiver, response.recipientEmail, results);
+            removeParticipantIdentifierFromList(question.recipientType, possibleRecipientsForGiver, response.recipientEmail, fsrBundle);
             prevGiver = response.giverEmail;
             
-            
-            exportBuilder.append(Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) 
-                                 + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) 
-                                 + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
-                                 + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
-                                 + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName))
-                                 + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName))
-                                 + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
-                                 + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
-                                 + "," + results.getResponseAnswerCsv(response, question) + Const.EOL);
-            
+            // Append row(s)
+            exportBuilder.append(questionDetails.getCsvDetailedResponsesRow(fsrBundle, response, question));
         }
         
         // add the rows for the possible givers and recipients who have missing responses
-        exportBuilder.append(getRemainingRowsInCsvFormat(results, entry, question, questionDetails,
+        exportBuilder.append(getRemainingRowsInCsvFormat(fsrBundle, entry, question, questionDetails,
                 possibleGiversWithoutResponses, possibleRecipientsForGiver, prevGiver));
         exportBuilder.append(Const.EOL + Const.EOL);
         
@@ -803,8 +776,8 @@ public class FeedbackSessionsLogic {
                         + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientName))
                         + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientLastName))
                         + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(possibleRecipientEmail))
-                        + "," + Sanitizer.sanitizeForCsv(
-                                questionDetails.getNoResponseTextInCsv(giver, possibleRecipient, results, question)) + Const.EOL);
+                        + "," + questionDetails.getNoResponseTextInCsv(giver, possibleRecipient, results, question)
+                        + Const.EOL);
             }
         }
         return exportBuilder;

@@ -29,6 +29,8 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     /** Contains the JSON formatted string that holds the information of the response details <br>
      * Don't use directly unless for storing/loading from data store <br>
      * To get the answer text use {@code getResponseDetails().getAnswerString()} 
+     * 
+     * This is set to null to represent a missing response.
      */
     public Text responseMetaData;
     
@@ -181,6 +183,10 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     public FeedbackResponseDetails getResponseDetails(){
         Class<? extends FeedbackResponseDetails> responseDetailsClass = getFeedbackResponseDetailsClass();
         
+        if (isMissingResponse()) {
+            return null;
+        }
+        
         if(responseDetailsClass == FeedbackTextResponseDetails.class) {
             // For Text questions, the questionText simply contains the question, not a JSON
             // This is due to legacy data in the data store before there are multiple question types
@@ -197,6 +203,15 @@ public class FeedbackResponseAttributes extends EntityAttributes {
      */
     private Class<? extends FeedbackResponseDetails> getFeedbackResponseDetailsClass() {
         return feedbackQuestionType.getResponseDetailsClass();
+    }
+    
+    /**
+     * Checks if this object represents a missing response.
+     * A missing response should never be written to the database.
+     * It should only be used as a representation.
+     */
+    public boolean isMissingResponse() {
+       return responseMetaData == null; 
     }
     
     public static void sortFeedbackResponses(List<FeedbackResponseAttributes> frs) {
