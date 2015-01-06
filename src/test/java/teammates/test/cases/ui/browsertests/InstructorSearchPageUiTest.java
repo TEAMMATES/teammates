@@ -54,7 +54,7 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         
         String instructorId = testData.accounts.get("instructor1OfCourse1").googleId;
         searchPage = getInstructorSearchPage(instructorId);
-        searchPage.verifyHtml("/InstructorSearchPageDefault.html");
+        searchPage.verifyHtml("/instructorSearchPageDefault.html");
         
     }
     
@@ -67,21 +67,21 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         searchPage.inputSearchContent(searchContent);
         searchPage.clickStudentCheckBox();
         searchPage.clickSearchButton();
-        searchPage.verifyHtmlMainContent("/InstructorSearchPageSearchNone.html");
+        searchPage.verifyHtmlMainContent("/instructorSearchPageSearchNone.html");
         
         ______TS("search for student comments");
         
         searchPage.clickStudentCommentCheckBox();
         searchPage.clickStudentCheckBox();
         searchPage.clickSearchButton();
-        searchPage.verifyHtmlMainContent("/InstructorSearchPageSearchStudentComments.html");
+        searchPage.verifyHtmlMainContent("/instructorSearchPageSearchStudentComments.html");
         
         ______TS("search for feedback response comments");
         
         searchPage.clickStudentCommentCheckBox();
         searchPage.clickFeedbackResponseCommentCheckBox();
         searchPage.clickSearchButton();
-        searchPage.verifyHtmlMainContent("/InstructorSearchPageSearchFeedbackResponseComments.html");
+        searchPage.verifyHtmlMainContent("/instructorSearchPageSearchFeedbackResponseComments.html");
         
         ______TS("search for all comments");
         
