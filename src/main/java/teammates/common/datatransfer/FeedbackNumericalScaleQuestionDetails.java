@@ -379,9 +379,11 @@ public class FeedbackNumericalScaleQuestionDetails extends
         }
         
         String recipientName = recipient.equals(Const.GENERAL_QUESTION)? "General" : bundle.getNameForEmail(recipient);
+        String recipientTeam = bundle.getTeamNameForEmail(recipient);
         
         String recipientFragmentHtml = FeedbackQuestionFormTemplates.populateTemplate(
                 fragmentTemplateToUse,
+                "${recipientTeam}", recipientTeam == "" ? Const.USER_NOBODY_TEXT : recipientTeam,
                 "${recipientName}", recipientName,
                 "${Average}", df.format(userAverage),
                 "${Max}", df.format(max.get(recipient)),
