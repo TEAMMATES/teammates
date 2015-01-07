@@ -128,10 +128,7 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         submitPage.clickRubricCell(1, 1, 0, 1);
         submitPage.clickRubricCell(1, 1, 1, 0);
         submitPage.clickRubricCell(1, 1, 0, 0);
-        
-        // Check html before submission
-        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageRubricEdited.html");
-        
+
         // Submit
         submitPage.clickSubmitButton();
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());

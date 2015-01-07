@@ -7,6 +7,13 @@
             "email":"CHomeUiT.instructor.tmms@gmail.tmt",
             "institute":"TEAMMATES Test Institute 1"
         },
+        "instrHelper":{
+            "googleId":"CHomeUiT.instructor.tmms.helper",
+            "name":"Teammates Test Helper",
+            "isInstructor":true,
+            "email":"CHomeUiT.instructor.tmms.helper@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
+        },
         "newInstructorWithSampleCourse":{
             "googleId":"newIns.withSample",
             "name":"Teammates Test New Instructor With Sample",
@@ -46,6 +53,16 @@
             "name":"Teammates Test",
             "email":"CHomeUiT.instructor.tmms@gmail.tmt",
             "role":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        },
+        "CHomeUiT.helper.CS1101":{
+            "googleId":"CHomeUiT.instructor.tmms.helper",
+            "courseId":"CHomeUiT.CS1101",
+            "name":"Teammates Test Helper",
+            "email":"CHomeUiT.instructor.tmms.helper@gmail.tmt",
+            "role":"Helper",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"

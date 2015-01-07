@@ -39,6 +39,7 @@
         if (!data.isPreview && !data.isModeration) {
     %>
             <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
+            <jsp:include page="<%=Const.ViewURIs.STUDENT_MOTD%>" />
     <%    
         } else if (data.isPreview) { 
             
