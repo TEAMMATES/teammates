@@ -21,8 +21,15 @@ public class InstructorFeedbackEditCopyAction extends Action {
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         
+        if (coursesToCopy == null || coursesToCopy.length == 0) {
+            statusToUser.add("You have not selected any course to copy the feedback session to");
+            RedirectResult redirectResult = createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE);
+            redirectResult.responseParams.put(Const.ParamsNames.COURSE_ID, courseId);
+            redirectResult.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+            redirectResult.responseParams.put(Const.ParamsNames.USER_ID, account.googleId);
+            return redirectResult;
+        }
         Assumption.assertNotNull(copiedFeedbackSessionName);
-        Assumption.assertNotNull(coursesToCopy);
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(feedbackSessionName);
         
@@ -45,7 +52,6 @@ public class InstructorFeedbackEditCopyAction extends Action {
                     "<span class=\"bold\">Instructions:</span> " + fs.instructions;
             
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
-            
         } catch (EntityAlreadyExistsException e) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
             statusToAdmin = e.getMessage();
@@ -56,7 +62,11 @@ public class InstructorFeedbackEditCopyAction extends Action {
         }
     
         
-        return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
+        RedirectResult redirectResult = createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE);
+        redirectResult.responseParams.put(Const.ParamsNames.COURSE_ID, courseId);
+        redirectResult.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        redirectResult.responseParams.put(Const.ParamsNames.USER_ID, account.googleId);
+        return redirectResult;
     }
 
 }

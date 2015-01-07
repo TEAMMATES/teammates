@@ -85,8 +85,8 @@
                                 class="btn btn-primary btn-sm" id="fsDeleteLink">
                                     Delete
                                 </a>
-                                <a data-actionlink="/page/instructorFeedbackEditCopyPage" data-courseid="<%=data.session.courseId%>" data-fsname="<%=data.session.feedbackSessionName%>" class="btn btn-primary btn-sm" href="#" data-toggle="modal" data-target="#fsCopyModal" title="Copy this feedback session to another course"
-                                data-placement="top" id="button_fscopy">Copy</a>
+                                <span data-toggle="tooltip" title="Copy this feedback session to other courses" data-placement="top"><a data-actionlink="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE%>" data-courseid="<%=data.session.courseId%>" data-fsname="<%=data.session.feedbackSessionName%>" class="btn btn-primary btn-sm" href="#" data-toggle="modal" data-target="#fsCopyModal" 
+                                data-placement="top" id="button_fscopy">Copy</a></span>
                             </span>
                         </div>
                     </div>
@@ -546,13 +546,13 @@
             <div class="modal fade" id="fsCopyModal" tabindex="-1" role="dialog" aria-labelledby="fsCopyModal" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
-                  <form method="post" name="form_remind_list" role="form"
+                  <form method="post" name="form_copy_list" role="form"
                         action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY%>">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                       <h4 class="modal-title">
-                        Copy this Feedback Session to other courses
-                        <small>(Select the course(s) you want to copy this Feedback Session to)</small>
+                        Copy this feedback session to other courses
+                        <small>(Select the course(s) you want to copy this feedback session to)</small>
                       </h4>
                     </div>
                     <div class="modal-body">

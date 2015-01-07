@@ -1409,10 +1409,13 @@ function setupEventHandlerOnFsCopyModal() {
                     }
                     htmlToAppend += "<input type=\"hidden\" name=\"courseid\" value=\"" + courseid + "\">";
                     htmlToAppend += "<input type=\"hidden\" name=\"fsname\" value=\"" + fsname + "\">";
-                    htmlToAppend += "<input type=\"text\" name=\"newfsname\" value=\"" + fsname + "\">";
+                    htmlToAppend += "<div class=\"form-group\">" +
+                    				"<label for=\"newfsname\" class=\"control-label\"> Name for copied sessions </label>" + 
+                    				"<input class=\"form-control\" id=\"newfsname\" type=\"text\" name=\"newfsname\" value=\"" + 
+                    				fsname + 
+                    				"\"></div>";
             		
                     $('#courseList').html(htmlToAppend);
-                    console.log(data);
                 }, 500);
             }
         });
