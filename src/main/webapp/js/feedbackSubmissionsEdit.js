@@ -37,7 +37,6 @@ $(document).ready(function () {
 
 // Prepare contrib questions for answering by user
 function prepareContribQuestions() {
-    // Set dropdown value to be colored if negative value is select
 
     // Get index of contribution questions
     var contribQuestionNums = getQuestionTypeNumbers("CONTRIB");
