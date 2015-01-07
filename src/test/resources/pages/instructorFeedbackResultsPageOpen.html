@@ -2033,34 +2033,71 @@ ul #nav {
     <div class="row">
         <div class="col-sm-12">
             <table class="table table-bordered table-responsive margin-0">
-                <thead>
-                <tr>
-                    <td onclick="toggleSort(this,1);" id="button_sortreceivername" class="button-sort-ascending">Recipient 
-                        <span class="icon-sort unsorted"></span></td>
-                    <td title="" data-container="body" data-placement="top" data-toggle="tooltip" onclick="toggleSort(this,2,sortByPoint)" id="button_sortavg" class="button-sort-none" data-original-title="Average of the visible responses">
-                        <abbr title="Average of the visible responses">Average</abbr>
-                        <span class="icon-sort unsorted"></span></td>
-                    <td title="" data-container="body" data-placement="top" data-toggle="tooltip" onclick="toggleSort(this,3,sortByPoint)" id="button_sortmax" class="button-sort-none" data-original-title="Maximum of the visible responses">
-                        <abbr title="Maximum of the visible responses">Max</abbr>
-                        <span class="icon-sort unsorted"></span></td>
-                    <td title="" data-container="body" data-placement="top" data-toggle="tooltip" onclick="toggleSort(this,4,sortByPoint)" id="button_sortmin" class="button-sort-none" data-original-title="Minimum of the visible responses">
-                        <abbr title="Minimum of the visible responses">Min</abbr>
-                        <span class="icon-sort unsorted"></span></td>
-                    <td title="" data-container="body" data-placement="top" data-toggle="tooltip" onclick="toggleSort(this,5,sortByPoint)" id="button_sortmin" class="button-sort-none" data-original-title="Average of the visible responses excluding recipient's own response to himself/herself">
-                        <abbr title="Average of the visible responses excluding recipient's own response to himself/herself">Average excluding self response</abbr>
-                        <span class="icon-sort unsorted"></span></td>
-                </tr>
-                </thead>
-                <tbody><tr>
-    <td> 
-        Alice Betsy
-    </td>
-    <td>3.5</td>
-    <td>3.5</td>
-    <td>3.5</td>
-    <td>-</td>
-</tr>
-            </tbody></table>
+               <thead>
+                  <tr>
+                     <td class="button-sort-ascending" id="button_sortreceiverteam" onclick="toggleSort(this,1);">
+                        Team
+                        <span class="icon-sort unsorted">
+                        </span>
+                     </td>
+                     <td class="button-sort-ascending" id="button_sortreceivername" onclick="toggleSort(this,2);">
+                        Recipient
+                        <span class="icon-sort unsorted">
+                        </span>
+                     </td>
+                     <td class="button-sort-none" data-container="body" data-original-title="Average of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortavg" onclick="toggleSort(this,3,sortByPoint)" title="">
+                        <abbr title="Average of the visible responses">
+                           Average
+                        </abbr>
+                        <span class="icon-sort unsorted">
+                        </span>
+                     </td>
+                     <td class="button-sort-none" data-container="body" data-original-title="Maximum of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortmax" onclick="toggleSort(this,4,sortByPoint)" title="">
+                        <abbr title="Maximum of the visible responses">
+                           Max
+                        </abbr>
+                        <span class="icon-sort unsorted">
+                        </span>
+                     </td>
+                     <td class="button-sort-none" data-container="body" data-original-title="Minimum of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,5,sortByPoint)" title="">
+                        <abbr title="Minimum of the visible responses">
+                           Min
+                        </abbr>
+                        <span class="icon-sort unsorted">
+                        </span>
+                     </td>
+                     <td class="button-sort-none" data-container="body" data-original-title="Average of the visible responses excluding recipient's own response to himself/herself" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,6,sortByPoint)" title="">
+                        <abbr title="Average of the visible responses excluding recipient's own response to himself/herself">
+                           Average excluding self response
+                        </abbr>
+                        <span class="icon-sort unsorted">
+                        </span>
+                     </td>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td>
+                        Team 1
+                     </td>
+                     <td>
+                        Alice Betsy
+                     </td>
+                     <td>
+                        3.5
+                     </td>
+                     <td>
+                        3.5
+                     </td>
+                     <td>
+                        3.5
+                     </td>
+                     <td>
+                        -
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -2976,42 +3013,91 @@ ul #nav {
     <div class="row">
         <div class="col-sm-12">
             <table class="table table-bordered table-responsive margin-0">
-                <thead>
-                <tr>
-                    <td onclick="toggleSort(this,1);" id="button_sortreceivername" class="button-sort-ascending">Recipient 
-                        <span class="icon-sort unsorted"></span></td>
-                    <td title="" data-container="body" data-placement="top" data-toggle="tooltip" onclick="toggleSort(this,2,sortByPoint)" id="button_sortavg" class="button-sort-none" data-original-title="Average of the visible responses">
-                        <abbr title="Average of the visible responses">Average</abbr>
-                        <span class="icon-sort unsorted"></span></td>
-                    <td title="" data-container="body" data-placement="top" data-toggle="tooltip" onclick="toggleSort(this,3,sortByPoint)" id="button_sortmax" class="button-sort-none" data-original-title="Maximum of the visible responses">
-                        <abbr title="Maximum of the visible responses">Max</abbr>
-                        <span class="icon-sort unsorted"></span></td>
-                    <td title="" data-container="body" data-placement="top" data-toggle="tooltip" onclick="toggleSort(this,4,sortByPoint)" id="button_sortmin" class="button-sort-none" data-original-title="Minimum of the visible responses">
-                        <abbr title="Minimum of the visible responses">Min</abbr>
-                        <span class="icon-sort unsorted"></span></td>
-                    <td title="" data-container="body" data-placement="top" data-toggle="tooltip" onclick="toggleSort(this,5,sortByPoint)" id="button_sortmin" class="button-sort-none" data-original-title="Average of the visible responses excluding recipient's own response to himself/herself">
-                        <abbr title="Average of the visible responses excluding recipient's own response to himself/herself">Average excluding self response</abbr>
-                        <span class="icon-sort unsorted"></span></td>
-                </tr>
-                </thead>
-                <tbody><tr>
-    <td> 
-        Benny Charles
-    </td>
-    <td>4</td>
-    <td>4</td>
-    <td>4</td>
-    <td>4</td>
-</tr><tr>
-    <td> 
-        Alice Betsy
-    </td>
-    <td>3</td>
-    <td>3</td>
-    <td>3</td>
-    <td>-</td>
-</tr>
-            </tbody></table>
+               <thead>
+                  <tr>
+                     <td class="button-sort-ascending" id="button_sortreceiverteam" onclick="toggleSort(this,1);">
+                        Team
+                        <span class="icon-sort unsorted">
+                        </span>
+                     </td>
+                     <td class="button-sort-ascending" id="button_sortreceivername" onclick="toggleSort(this,2);">
+                        Recipient
+                        <span class="icon-sort unsorted">
+                        </span>
+                     </td>
+                     <td class="button-sort-none" data-container="body" data-original-title="Average of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortavg" onclick="toggleSort(this,3,sortByPoint)" title="">
+                        <abbr title="Average of the visible responses">
+                           Average
+                        </abbr>
+                        <span class="icon-sort unsorted">
+                        </span>
+                     </td>
+                     <td class="button-sort-none" data-container="body" data-original-title="Maximum of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortmax" onclick="toggleSort(this,4,sortByPoint)" title="">
+                        <abbr title="Maximum of the visible responses">
+                           Max
+                        </abbr>
+                        <span class="icon-sort unsorted">
+                        </span>
+                     </td>
+                     <td class="button-sort-none" data-container="body" data-original-title="Minimum of the visible responses" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,5,sortByPoint)" title="">
+                        <abbr title="Minimum of the visible responses">
+                           Min
+                        </abbr>
+                        <span class="icon-sort unsorted">
+                        </span>
+                     </td>
+                     <td class="button-sort-none" data-container="body" data-original-title="Average of the visible responses excluding recipient's own response to himself/herself" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,6,sortByPoint)" title="">
+                        <abbr title="Average of the visible responses excluding recipient's own response to himself/herself">
+                           Average excluding self response
+                        </abbr>
+                        <span class="icon-sort unsorted">
+                        </span>
+                     </td>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td>
+                        Team 1
+                     </td>
+                     <td>
+                        Benny Charles
+                     </td>
+                     <td>
+                        4
+                     </td>
+                     <td>
+                        4
+                     </td>
+                     <td>
+                        4
+                     </td>
+                     <td>
+                        4
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        Team 1
+                     </td>
+                     <td>
+                        Alice Betsy
+                     </td>
+                     <td>
+                        3
+                     </td>
+                     <td>
+                        3
+                     </td>
+                     <td>
+                        3
+                     </td>
+                     <td>
+                        -
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
         </div>
     </div>
 </div>
