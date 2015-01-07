@@ -1401,6 +1401,12 @@ function setupEventHandlerOnFsCopyModal() {
                     var htmlToAppend = "";
                     var coursesTable = data.courses;
                     
+                    htmlToAppend += "<div class=\"form-group\">" +
+    				"<label for=\"newfsname\" class=\"control-label\"> Name for copied sessions </label>" + 
+    				"<input class=\"form-control\" id=\"newfsname\" type=\"text\" name=\"newfsname\" value=\"" + 
+    				fsname + 
+    				"\"></div>";
+                    
                     for (var i = 0 ; i < coursesTable.length; i++) {
                     	htmlToAppend += "<div class=\"checkbox\">";
                         htmlToAppend += "<label><input type=\"checkbox\" name=\"coursesToCopyTo\"";
@@ -1409,11 +1415,7 @@ function setupEventHandlerOnFsCopyModal() {
                     }
                     htmlToAppend += "<input type=\"hidden\" name=\"courseid\" value=\"" + courseid + "\">";
                     htmlToAppend += "<input type=\"hidden\" name=\"fsname\" value=\"" + fsname + "\">";
-                    htmlToAppend += "<div class=\"form-group\">" +
-                    				"<label for=\"newfsname\" class=\"control-label\"> Name for copied sessions </label>" + 
-                    				"<input class=\"form-control\" id=\"newfsname\" type=\"text\" name=\"newfsname\" value=\"" + 
-                    				fsname + 
-                    				"\"></div>";
+                    
             		
                     $('#courseList').html(htmlToAppend);
                 }, 500);

@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -17,6 +18,8 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
         Assumption.assertNotNull(instructor);
         
         InstructorFeedbackEditCopyData data = new InstructorFeedbackEditCopyData(account);
+        data.courses = new ArrayList<CourseAttributes>();
+                
         List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
         
         for (CourseAttributes course : courses) {
@@ -24,6 +27,8 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
                 data.courses.add(course);
             }
         }
+        
+        CourseAttributes.sortByCreatedDate(data.courses);
                
         return createAjaxResult("", data);
     }
