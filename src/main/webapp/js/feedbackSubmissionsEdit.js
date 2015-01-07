@@ -27,16 +27,16 @@ $(document).ready(function () {
     $('input.pointsBox').off('keydown');
     disallowNonNumericEntries($('input.pointsBox'), false, false);
 
-    readyContribQuestions();
+    prepareContribQuestions();
 
-    readyConstSumQuestions();
+    prepareConstSumQuestions();
     updateConstSumMessages();
 
-    readyRubricQuestions();
+    prepareRubricQuestions();
 });
 
-//Ready contrib questions for answering by user
-function readyContribQuestions() {
+// Prepare contrib questions for answering by user
+function prepareContribQuestions() {
     // Set dropdown value to be colored if negative value is select
 
     // Get index of contribution questions
@@ -52,34 +52,17 @@ function readyContribQuestions() {
 
             // Bind on change event
             dropdown.on("change", function() {
-                updateContribQuestionSelectedColor(this);
+                $(this).removeClass("color_neutral");
+                $(this).removeClass("color-positive");
+                $(this).removeClass("color-negative");
+                $(this).addClass(this.options[this.selectedIndex].className);
             });            
         }
     }
 }
 
-function updateContribQuestionSelectedColor(element){
-
-    if(element.value == -101 || element.value == 100){
-        // Not sure, Equal Share
-        $(element).addClass("color_neutral");
-        $(element).removeClass("color-positive");
-        $(element).removeClass("color-negative");
-    } else if (element.value < 100){
-        // Negative share
-        $(element).addClass("color-negative");
-        $(element).removeClass("color-positive");
-        $(element).removeClass("color_neutral");
-    } else{
-        // Positive share
-        $(element).addClass("color-positive");
-        $(element).removeClass("color-negative");
-        $(element).removeClass("color_neutral");
-    }
-}
-
-//Ready rubric questions for answering by user
-function readyRubricQuestions() {
+// Prepare rubric questions for answering by user
+function prepareRubricQuestions() {
     //Set cell to highlight on hover
     //Set cell to highlight when checked
     //Bind cell click to click radio
@@ -165,8 +148,8 @@ function formatRubricQuestions() {
     }
 }
 
-//Ready constant sum questions for answering by user
-function readyConstSumQuestions() {
+// Prepare constant sum questions for answering by user
+function prepareConstSumQuestions() {
     var constSumQuestionNums = getQuestionTypeNumbers("CONSTSUM");
 
     for(var i=0 ; i<constSumQuestionNums.length ; i++){
