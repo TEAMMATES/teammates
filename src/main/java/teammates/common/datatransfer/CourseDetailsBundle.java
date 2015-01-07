@@ -30,6 +30,31 @@ public class CourseDetailsBundle {
     //Do not remove as we might cater for situations where there are no teams in future
     public ArrayList<StudentAttributes> loners = new ArrayList<StudentAttributes>();
     
+    
+    /**
+     * Gets all EvaluationAttributes in this CourseDetailsBundle
+     * @return
+     */
+    public List<EvaluationAttributes> getEvaluationsList() {
+        List<EvaluationAttributes> evaluationsAttributes = new ArrayList<EvaluationAttributes>();
+        for (EvaluationDetailsBundle evaluationDetails : evaluations) {
+            evaluationsAttributes.add(evaluationDetails.evaluation);
+        }
+        return evaluationsAttributes;
+    }
+    
+    /**
+     * Gets all FeedbackSessionAttributes in this CourseDetailsBundle
+     * @return
+     */
+    public List<FeedbackSessionAttributes> getFeedbackSessionsList() {
+        List<FeedbackSessionAttributes> feedbackSessionAttributes = new ArrayList<FeedbackSessionAttributes>();
+        for (FeedbackSessionDetailsBundle feedbackSessionDetails : feedbackSessions) {
+            feedbackSessionAttributes.add(feedbackSessionDetails.feedbackSession);
+        }
+        return feedbackSessionAttributes;
+    }
+    
     public static void sortDetailedCoursesByCourseId(List<CourseDetailsBundle> courses) {
         Collections.sort(courses, new Comparator<CourseDetailsBundle>() {
             public int compare(CourseDetailsBundle obj1, CourseDetailsBundle obj2) {

@@ -530,6 +530,13 @@ public class CoursesLogic {
         return courseList;
     }
     
+    /**
+     * Gets course summaries for instructor.
+     * 
+     * @param googleId
+     * @return HashMap with courseId as key, and CourseDetailsBundle as value.
+     * Does not include details within the course, such as feedback sessions.
+     */
     public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId) throws EntityDoesNotExistException {
         
         instructorsLogic.verifyInstructorExists(googleId);
@@ -557,6 +564,12 @@ public class CoursesLogic {
         return courseSummaryList;
     }
  
+    /**
+     * Gets course details list for instructor.
+     * 
+     * @param instructorId - Google Id of instructor
+     * @return HashMap with courseId as key, and CourseDetailsBundle as value
+     **/
     public HashMap<String, CourseDetailsBundle> getCoursesDetailsListForInstructor(
             String instructorId) throws EntityDoesNotExistException {
         
@@ -729,10 +742,13 @@ public class CoursesLogic {
         CourseAttributes course = getCourse(courseId);
         InstructorAttributes instructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorGoogleId);
         
+        return isCourseArchived(course, instructor);
+    }
+    
+    public boolean isCourseArchived(CourseAttributes course, InstructorAttributes instructor) {
         boolean isCourseArchived = (instructor.isArchived != null) ?
                                    instructor.isArchived : 
                                    course.isArchived;
-                
         return isCourseArchived;
     }
 
