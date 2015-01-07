@@ -85,7 +85,7 @@
                                 class="btn btn-primary btn-sm" id="fsDeleteLink">
                                     Delete
                                 </a>
-                                <a data-actionlink="/page/instructorFeedbackEditCopyPage" class="btn btn-primary btn-sm" href="#" data-toggle="modal" data-target="#fsCopyModal" title="Copy this feedback session to another course"
+                                <a data-actionlink="/page/instructorFeedbackEditCopyPage" data-courseid="<%=data.session.courseId%>" data-fsname="<%=data.session.feedbackSessionName%>" class="btn btn-primary btn-sm" href="#" data-toggle="modal" data-target="#fsCopyModal" title="Copy this feedback session to another course"
                                 data-placement="top" id="button_fscopy">Copy</a>
                             </span>
                         </div>
@@ -547,7 +547,7 @@
               <div class="modal-dialog">
                 <div class="modal-content">
                   <form method="post" name="form_remind_list" role="form"
-                        action="replace.......">
+                        action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY%>">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                       <h4 class="modal-title">

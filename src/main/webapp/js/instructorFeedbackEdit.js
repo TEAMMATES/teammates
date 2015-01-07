@@ -1383,6 +1383,8 @@ function setupEventHandlerOnFsCopyModal() {
 	$('#fsCopyModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // Button that triggered the modal
         var actionlink = button.data('actionlink');
+        var courseid = button.data('courseid');
+        var fsname = button.data('fsname');
         
 	    $.ajax({
             type : 'GET',
@@ -1404,9 +1406,10 @@ function setupEventHandlerOnFsCopyModal() {
                         htmlToAppend += "<label><input type=\"checkbox\" name=\"coursesToCopyTo\"";
                         htmlToAppend += "value=\"" + coursesTable[i].id + "\"> " + coursesTable[i].name;
                         htmlToAppend +=  "</label></div>";
-                    };
-                   // htmlToAppend += "<input type=\"hidden\" name=\"courseid\" value=\"" + courseid + "\">";
-                    //htmlToAppend += "<input type=\"hidden\" name=\"fsname\" value=\"" + fsname + "\">";
+                    }
+                    htmlToAppend += "<input type=\"hidden\" name=\"courseid\" value=\"" + courseid + "\">";
+                    htmlToAppend += "<input type=\"hidden\" name=\"fsname\" value=\"" + fsname + "\">";
+                    htmlToAppend += "<input type=\"text\" name=\"newfsname\" value=\"" + fsname + "\">";
             		
                     $('#courseList').html(htmlToAppend);
                     console.log(data);
