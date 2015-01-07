@@ -123,6 +123,12 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(xpath = "//input[@name='numofrecipientstype' and @value='custom']")
     private WebElement customNumOfRecipients;
     
+    @FindBy(id = "button_fscopy")
+    private WebElement fscopyButton;
+    
+    @FindBy(id = "fscopy_submit")
+    private WebElement fscopySubmitButton;
+    
     @FindBy(id = "button_copy")
     private WebElement copyButton;
     
@@ -350,6 +356,14 @@ public class InstructorFeedbackEditPage extends AppPage {
         manualResultsVisibleTimeButton.click();
     }
     
+    public void clickFsCopyButton() {
+        fscopyButton.click();
+    }
+    
+    public void clickFsCopySubmitButton() {
+        fscopySubmitButton.click();
+    }
+    
     public void clickCopyButton(){
         copyButton.click();
     }
@@ -357,6 +371,18 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void clickCopySubmitButton(){
         copySubmitButton.click();
     }
+    
+    public void fillCopyToOtherCoursesForm(String newName) {
+        WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
+        List<WebElement> coursesCheckBoxes = fsCopyModal.findElements(By.name("coursesToCopyTo"));
+        for(WebElement e : coursesCheckBoxes) {
+            markCheckBoxAsChecked(e);
+        }
+        
+        WebElement fsNameInput = fsCopyModal.findElement(By.id("newfsname"));
+        fillTextBox(fsNameInput, newName);
+    }
+    
     
     public WebElement getDeleteSessionLink(){
         return fsDeleteLink;
