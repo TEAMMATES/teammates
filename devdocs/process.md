@@ -90,9 +90,8 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    * Create a pull request (PR). For the pull request name, copy paste the relevant
      issue name.<br>
      e.g. ` Incorrect error message when adding an existing instructor #1760`<br>
-     In the comment, mention the issue number. Doing so will create an 
-     automatic reference from the issue to the pull request.<br>
-     e.g. ` For #1760`  
+     In the PR description, mention the issue number in this format: `Fixes #1760`. 
+     Doing so will create an automatic reference from the issue to the pull request.<br>
      
    * Assign the PR to yourself if you have permission to do so.
    * Change the PR status to `s.ToReview`
