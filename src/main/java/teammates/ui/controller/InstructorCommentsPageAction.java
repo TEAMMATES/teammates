@@ -124,7 +124,7 @@ public class InstructorCommentsPageAction extends Action {
         java.util.Collections.sort(courses);
         for(int i = 0; i < courses.size(); i++){
             CourseAttributes course = courses.get(i);
-            if(isDisplayArchivedCourse || !course.isArchived || course.id.equals(courseId)){
+            if(isDisplayArchivedCourse || !isCourseArchived(course, account.googleId) || course.id.equals(courseId)){
                 if(courseId == ""){
                     courseId = course.id;
                     instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
@@ -143,7 +143,8 @@ public class InstructorCommentsPageAction extends Action {
     private void setPreviousPageLink(List<CourseAttributes> courses, int currentIndex){
         for(int i = currentIndex - 1; i >= 0; i--){
             CourseAttributes course = courses.get(i);
-            if(isDisplayArchivedCourse || !course.isArchived){
+            
+            if(isDisplayArchivedCourse || !isCourseArchived(course, account.googleId)){
                 previousPageLink = new PageData(account).getInstructorCommentsLink() + "&courseid=" + course.id;
                 break;
             }
@@ -153,7 +154,8 @@ public class InstructorCommentsPageAction extends Action {
     private void setNextPageLink(List<CourseAttributes> courses, int currentIndex){
         for(int i = currentIndex + 1; i < courses.size(); i++){
             CourseAttributes course = courses.get(i);
-            if(isDisplayArchivedCourse || !course.isArchived){
+            
+            if(isDisplayArchivedCourse || !isCourseArchived(course, account.googleId)){
                 nextPageLink = new PageData(account).getInstructorCommentsLink() + "&courseid=" + course.id;
                 break;
             }
@@ -203,5 +205,9 @@ public class InstructorCommentsPageAction extends Action {
     private List<FeedbackSessionAttributes> getFeedbackSessions() {
             List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsForCourse(courseId);
         return fsList;
+    }
+    
+    private boolean isCourseArchived(CourseAttributes course, String googleId) {
+        return logic.isCourseArchived(course.id, googleId);
     }
 }

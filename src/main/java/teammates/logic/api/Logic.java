@@ -764,6 +764,19 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      * 
+     * @return true if the course has been archived.
+     */
+    public static boolean isCourseArchived(String courseId, String instructorGoogleId) {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorGoogleId);
+        
+        return coursesLogic.isCourseArchived(courseId, instructorGoogleId);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * 
      * @return Details of courses the student is in. CourseData objects
      *         returned contain details of evaluations too (except the ones
      *         still AWAITING).

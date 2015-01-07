@@ -35,7 +35,7 @@ import teammates.common.util.Utils;
 import teammates.storage.api.CoursesDb;
 
 /**
- * Handles  operations related to courses.
+ * Handles operations related to courses.
  */
 public class CoursesLogic {
     /* Explanation: Most methods in the API of this class doesn't have header 
@@ -613,8 +613,11 @@ public class CoursesLogic {
             if (course == null) {
                 log.warning("Course was deleted but the Instructor still exists: " + Const.EOL 
                         + instructor.toString());
-            } else if (course.isArchived) {
-                courseList.add(course);
+            } else {
+                boolean isCourseArchived = isCourseArchived(instructor.courseId, instructor.googleId);
+                if (isCourseArchived) {
+                    courseList.add(course);
+                }
             }
         }
         
@@ -720,4 +723,17 @@ public class CoursesLogic {
         }
         return false;
     }
+    
+    
+    public boolean isCourseArchived(String courseId, String instructorGoogleId) {
+        CourseAttributes course = getCourse(courseId);
+        InstructorAttributes instructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorGoogleId);
+        
+        boolean isCourseArchived = (instructor.isArchived != null) ?
+                                   instructor.isArchived : 
+                                   course.isArchived;
+                
+        return isCourseArchived;
+    }
+
 }

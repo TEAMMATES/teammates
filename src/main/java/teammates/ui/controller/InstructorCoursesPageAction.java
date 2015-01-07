@@ -75,17 +75,9 @@ public class InstructorCoursesPageAction extends Action {
         for (CourseDetailsBundle courseBundle : courseBundles) {
             CourseAttributes course = courseBundle.course;
             
-            
-            
             InstructorAttributes curInstructor = logic.getInstructorForGoogleId(course.id, account.googleId);
-            
-            //if the archive status is null,
-            //accept the value from the course
-            if(curInstructor.isArchived != null){
-                course.isArchived = curInstructor.isArchived;
-            }
-            
-            if (course.isArchived) {
+
+            if (logic.isCourseArchived(course.id, curInstructor.googleId)) {
                 archivedCourses.add(course);
             }
         }

@@ -20,8 +20,7 @@ public class InstructorCourseArchiveAction extends Action {
                 logic.getCourse(idOfCourseToArchive));
         
         try {
-            // Set the archive status and status shown to user and admin 
-            logic.setArchiveStatusOfCourse(idOfCourseToArchive, setArchive);
+            // Set the archive status and status shown to user and admin
             logic.setArchiveStatusOfInstructor(account.googleId, idOfCourseToArchive, setArchive);
             if (setArchive) {
                 if (isRedirectedToHomePage()) {

@@ -107,7 +107,8 @@
                             <%
                                 int courseIdx = -1;
                                 for(CourseAttributes course: data.courses){
-                                    if((course.isArchived && data.displayArchive) || !course.isArchived){
+                                    InstructorAttributes instructor = data.instructors.get(course.id);
+                                    if(data.displayArchive || !data.isCourseArchived(course.id, instructor.googleId)){
                                         courseIdx++;
                             %>
                                 <div class="checkbox"><input id="course_check-<%=courseIdx %>" type="checkbox">
@@ -174,11 +175,12 @@
                 courseIdx = -1;
                 
                 for (CourseAttributes course : data.courses) {
-                    if((course.isArchived && data.displayArchive) || !course.isArchived){
+                    InstructorAttributes instructor = data.instructors.get(course.id);
+                    if(data.displayArchive || !data.isCourseArchived(course.id, instructor.googleId) ){
                         courseIdx++;
             %>
 
-            <div class='panel <%= course.isArchived ? "panel-default" : "panel-info" %>'>
+            <div class='panel <%= data.isCourseArchived(course.id, instructor.googleId) ? "panel-default" : "panel-info" %>'>
                 <div class="panel-heading ajax_submit">
                     <form style="display:none;" id="seeMore-<%=courseIdx%>" class="seeMoreForm-<%=courseIdx%>" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_AJAX_PAGE%>">
                         <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=course.id%>">
@@ -190,7 +192,7 @@
                                 href="<%=data.getInstructorCourseEnrollLink(course.id)%>"
                                 title="<%=Const.Tooltips.COURSE_ENROLL%>"
                                 data-toggle="tooltip" data-placement="top"
-                                <% if (!data.instructors.get(course.id).isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
+                                <% if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
                                 disabled="disabled"
                                 <% } %>>
                                     <span class="glyphicon glyphicon-list"></span> Enroll
