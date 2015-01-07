@@ -2,9 +2,11 @@ package teammates.ui.controller;
 
 import java.util.List;
 
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
+import teammates.logic.api.Logic;
 
 
 public class InstructorFeedbackEditCopyPageAction extends Action {
@@ -15,7 +17,13 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
         Assumption.assertNotNull(instructor);
         
         InstructorFeedbackEditCopyData data = new InstructorFeedbackEditCopyData(account);
-        data.courses = logic.getCoursesForInstructor(account.googleId);
+        List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
+        
+        for (CourseAttributes course : courses) {
+            if (!Logic.isCourseArchived(course.id, account.googleId)) { 
+                data.courses.add(course);
+            }
+        }
                
         return createAjaxResult("", data);
     }

@@ -22,7 +22,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         
         if (coursesToCopy == null || coursesToCopy.length == 0) {
-            statusToUser.add("You have not selected any course to copy the feedback session to");
+            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
             RedirectResult redirectResult = createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE);
             redirectResult.responseParams.put(Const.ParamsNames.COURSE_ID, courseId);
             redirectResult.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
@@ -50,7 +50,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
                     "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>" +
                     "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>" +
                     "<span class=\"bold\">Instructions:</span> " + fs.instructions;
-            
+
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
         } catch (EntityAlreadyExistsException e) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
@@ -61,7 +61,6 @@ public class InstructorFeedbackEditCopyAction extends Action {
             setStatusForException(e);
         }
     
-        
         RedirectResult redirectResult = createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE);
         redirectResult.responseParams.put(Const.ParamsNames.COURSE_ID, courseId);
         redirectResult.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
