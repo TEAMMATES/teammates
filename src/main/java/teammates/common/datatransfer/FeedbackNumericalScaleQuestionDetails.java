@@ -212,9 +212,11 @@ public class FeedbackNumericalScaleQuestionDetails extends
             
             
             String recipientName = recipient.equals(Const.GENERAL_QUESTION) ? "General" : bundle.getNameForEmail(recipient);
-            
+            String recipientTeam  = bundle.getTeamNameForEmail(recipient);
+
             fragmentHtml.append(FeedbackQuestionFormTemplates.populateTemplate(
                                     fragmentTemplateToUse,
+                                    "${recipientTeam}", recipientTeam,
                                     "${recipientName}", recipientName,
                                     "${Average}", df.format(userAverage),
                                     "${Max}", df.format(max.get(recipient)),
@@ -348,6 +350,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         userFragmentHtml = FeedbackQuestionFormTemplates.populateTemplate(
                             fragmentTemplateToUse,
+                            "${recipientTeam}", isDirectedAtStudents? currentUserTeam : Const.USER_NOBODY_TEXT,
                             "${recipientName}", isDirectedAtStudents? "You" : "Your Team (" + currentUserTeam + ")",
                             "${Average}", df.format(userAverage),
                             "${Max}", df.format(max.get(currentUserRecipient)),
@@ -420,7 +423,7 @@ public class FeedbackNumericalScaleQuestionDetails extends
         df.setRoundingMode(RoundingMode.DOWN);
   
         
-        csv += "Recipient, Average, Minimum, Maximum" ;
+        csv += "Team, Recipient, Average, Minimum, Maximum" ;
         
         if (showAvgExcludingSelfResponse) {
             csv += ", Average excluding self response";
@@ -429,6 +432,9 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         for (String recipient : numResponses.keySet()) {
             double userAverage = total.get(recipient) / numResponses.get(recipient);
+            
+            String recipientTeam = bundle.getTeamNameForEmail(recipient);
+            csv += Sanitizer.sanitizeForCsv(recipientTeam) + ",";
             
             String recipientName;
             if (recipient.equals(Const.GENERAL_QUESTION)) {
