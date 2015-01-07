@@ -14,6 +14,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
+import teammates.logic.api.Logic;
 
 public class InstructorFeedbacksPageAction extends Action {
 
@@ -42,13 +43,12 @@ public class InstructorFeedbacksPageAction extends Action {
         // HashMap with courseId as key and InstructorAttributes as value
         data.instructors = loadCourseInstructorMap();
         
-        // TODO: implement as a request parameter
-        boolean omitArchived = false;
-        
         // Get courseDetailsBundles
-        // TODO: omit archived courses if needed
+        boolean omitArchived = true; // TODO: implement as a request parameter
         courseDetailsList = logic.getCourseDetailsListForInstructor(account.googleId);
-        
+        if (omitArchived) {
+            omitArchivedCourses(data.instructors);
+        }
         
         data.courses = loadCoursesList();
         if (data.courses.size() == 0) {
@@ -132,5 +132,23 @@ public class InstructorFeedbacksPageAction extends Action {
         }
         return courseInstructorMap;
     }
-
+    
+    /**
+     * Removes archived courses from courseDetailsList
+     * @param instructors 
+     */
+    protected void omitArchivedCourses(HashMap<String, InstructorAttributes> instructors) {
+        HashMap<String, CourseDetailsBundle> newCourseDetailsList = new HashMap<String, CourseDetailsBundle>();
+        for (CourseDetailsBundle courseDetails : courseDetailsList.values()) {
+            CourseAttributes course = courseDetails.course;
+            String courseId = course.id;
+            InstructorAttributes instructor = instructors.get(courseId);
+            
+            if (!Logic.isCourseArchived(course, instructor)) {
+                newCourseDetailsList.put(courseId, courseDetails);
+            }
+        }
+        courseDetailsList = newCourseDetailsList;
+    }
+    
 }

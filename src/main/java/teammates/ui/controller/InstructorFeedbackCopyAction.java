@@ -59,11 +59,14 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
         } 
         
         // if isError == true, (an exception occurred above)
-        
-        // Get courseDetailsBundles
-        // TODO: omit archived courses if needed
-        courseDetailsList = logic.getCourseDetailsListForInstructor(account.googleId);
+
         data.instructors = loadCourseInstructorMap();
+        // Get courseDetailsBundles
+        boolean omitArchived = true;
+        courseDetailsList = logic.getCourseDetailsListForInstructor(account.googleId);
+        if (omitArchived) {
+            omitArchivedCourses(data.instructors);
+        }
         data.courses = loadCoursesList();
         data.existingEvalSessions = loadEvaluationsList();
         data.existingFeedbackSessions = loadFeedbackSessionsList();
