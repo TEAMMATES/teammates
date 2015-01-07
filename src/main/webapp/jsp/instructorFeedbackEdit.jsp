@@ -85,8 +85,8 @@
                                 class="btn btn-primary btn-sm" id="fsDeleteLink">
                                     Delete
                                 </a>
-                                <a class="btn btn-primary btn-sm" href="#" data-toggle="modal" data-target="#fsCopyModal" title="Copy this feedback session to another course"
-                                data-placement="top">Copy</a>
+                                <a data-actionlink="/page/instructorFeedbackEditCopyPage" class="btn btn-primary btn-sm" href="#" data-toggle="modal" data-target="#fsCopyModal" title="Copy this feedback session to another course"
+                                data-placement="top" id="button_fscopy">Copy</a>
                             </span>
                         </div>
                     </div>
@@ -552,7 +552,7 @@
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                       <h4 class="modal-title">
                         Copy this Feedback Session to other courses
-                        <small>(Select the courses(s) you want to copy this Feedback Session to)</small>
+                        <small>(Select the course(s) you want to copy this Feedback Session to)</small>
                       </h4>
                     </div>
                     <div class="modal-body">

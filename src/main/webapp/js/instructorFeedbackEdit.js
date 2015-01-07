@@ -51,6 +51,8 @@ function readyFeedbackEditPage(){
     formatCheckBoxes();
     formatQuestionNumbers();
     collapseIfPrivateSession();
+    
+    setupEventHandlerOnFsCopyModal();
 }
 
 /**
@@ -1375,4 +1377,42 @@ function highlightRubricCol(index, questionNumber, highlight) {
     } else {
         $('.rubricCol' + idSuffix + '-' + index).removeClass('cell-selected-negative');
     }
+}
+
+function setupEventHandlerOnFsCopyModal() {
+	$('#fsCopyModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var actionlink = button.data('actionlink');
+        
+	    $.ajax({
+            type : 'GET',
+            url : actionlink,
+            beforeSend : function() {
+                $('#courseList').html("<img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
+            },
+            error : function() {
+                $('#courseList').html('Error retrieving course list.' + 
+                    'Please close the dialog window and try again.');
+            },
+            success : function(data) {
+                setTimeout(function(){
+                    var htmlToAppend = "";
+                    var coursesTable = data.courses;
+                    
+                    for (var i = 0 ; i < coursesTable.length; i++) {
+                    	htmlToAppend += "<div class=\"checkbox\">";
+                        htmlToAppend += "<label><input type=\"checkbox\" name=\"coursesToCopyTo\"";
+                        htmlToAppend += "value=\"" + coursesTable[i].id + "\"> " + coursesTable[i].name;
+                        htmlToAppend +=  "</label></div>";
+                    };
+                   // htmlToAppend += "<input type=\"hidden\" name=\"courseid\" value=\"" + courseid + "\">";
+                    //htmlToAppend += "<input type=\"hidden\" name=\"fsname\" value=\"" + fsname + "\">";
+            		
+                    $('#courseList').html(htmlToAppend);
+                    console.log(data);
+                }, 500);
+            }
+        });
+    });
+	
 }
