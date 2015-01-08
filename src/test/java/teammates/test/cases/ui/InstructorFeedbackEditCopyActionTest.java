@@ -75,8 +75,8 @@ public class InstructorFeedbackEditCopyActionTest extends
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
                 Const.ParamsNames.COURSE_ID, "CFeedbackEditCopyUiT.CS2104",
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "First Session",
-                "coursesToCopyTo", "CFeedbackEditCopyUiT.CS2104",
-                "coursesToCopyTo", "CFeedbackEditCopyUiT.CS2103"
+                Const.ParamsNames.COPIED_COURSES_ID, "CFeedbackEditCopyUiT.CS2104",
+                Const.ParamsNames.COPIED_COURSES_ID, "CFeedbackEditCopyUiT.CS2103"
         };
         
         a = getAction(params);
@@ -92,7 +92,7 @@ public class InstructorFeedbackEditCopyActionTest extends
                         + "&fsname=First+Session",
                 rr.getDestinationWithParams());
         
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, rr.getStatusMessage());
+        assertEquals("A feedback session with the name First Session already exists in the course CFeedbackEditCopyUiT.CS2104", rr.getStatusMessage());
         
         assertNull(BackDoor.getFeedbackSession("CFeedbackEditCopyUiT.CS2103", "First Session"));
         
@@ -101,8 +101,8 @@ public class InstructorFeedbackEditCopyActionTest extends
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
                 Const.ParamsNames.COURSE_ID, "CFeedbackEditCopyUiT.CS2104",
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
-                "coursesToCopyTo", "CFeedbackEditCopyUiT.CS1101",
-                "coursesToCopyTo", "CFeedbackEditCopyUiT.CS2103"
+                Const.ParamsNames.COPIED_COURSES_ID, "CFeedbackEditCopyUiT.CS1101",
+                Const.ParamsNames.COPIED_COURSES_ID, "CFeedbackEditCopyUiT.CS2103"
         };
         
         a = getAction(params);

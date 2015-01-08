@@ -17,7 +17,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {        
         String copiedFeedbackSessionName = getRequestParamValue(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME);
-        String[] coursesToCopy = getRequestParamValues("coursesToCopyTo");
+        String[] coursesToCopy = getRequestParamValues(Const.ParamsNames.COPIED_COURSES_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         
@@ -61,7 +61,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
 
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
         } catch (EntityAlreadyExistsException e) {
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
+            statusToUser.add(e.getMessage());
             statusToAdmin = e.getMessage();
             isError = true;
             

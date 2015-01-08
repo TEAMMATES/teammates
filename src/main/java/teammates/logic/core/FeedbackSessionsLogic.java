@@ -112,6 +112,14 @@ public class FeedbackSessionsLogic {
         FeedbackSessionAttributes fs = null;
         
         for (String newCourseId : coursesToCopyTo) {
+            boolean fsAlreadyExists = (getFeedbackSession(newFeedbackSessionName, newCourseId) != null);
+            if (fsAlreadyExists) {
+                String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, newFeedbackSessionName, newCourseId);
+                throw new EntityAlreadyExistsException(error);
+            }
+        }
+        
+        for (String newCourseId : coursesToCopyTo) {
             fs = copyFeedbackSession(newFeedbackSessionName, newCourseId, feedbackSessionName, courseId, instructorEmail);
         }
         
