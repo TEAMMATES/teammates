@@ -17,7 +17,7 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
         List<InstructorAttributes> instructor = logic.getInstructorsForGoogleId(account.googleId);
         Assumption.assertNotNull(instructor);
         
-        InstructorFeedbackEditCopyData data = new InstructorFeedbackEditCopyData(account);
+        InstructorFeedbackEditCopyPageData data = new InstructorFeedbackEditCopyPageData(account);
         data.courses = new ArrayList<CourseAttributes>();
                 
         List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);

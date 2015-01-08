@@ -5,10 +5,10 @@ import java.util.List;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 
-public class InstructorFeedbackEditCopyData extends PageData {
+public class InstructorFeedbackEditCopyPageData extends PageData {
     public List<CourseAttributes> courses;
     
-    public InstructorFeedbackEditCopyData(AccountAttributes account) {
+    public InstructorFeedbackEditCopyPageData(AccountAttributes account) {
         super(account);
     }
 }
