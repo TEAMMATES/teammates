@@ -99,7 +99,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollString += "Section 1 | Team 1|José Gómez | jose.gomez.tmns@gmail.tmt | This student name contains accented characters\n";
 
         InstructorCourseEnrollResultPage resultsPage = enrollPage.enroll(enrollString);
-        resultsPage.verifyHtmlMainContent("/instructorCourseEnrollPageResult.html");
+        resultsPage.verifyHtmlMainContent("/InstructorCourseEnrollPageResult.html");
 
         // Check 'Edit' link
         enrollPage = resultsPage.clickEditLink();
