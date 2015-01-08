@@ -21,12 +21,20 @@ public class InstructorFeedbackEditCopyAction extends Action {
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         
+        Assumption.assertNotNull("null course id", courseId);
+        Assumption.assertNotNull("null fs name", feedbackSessionName);
+        Assumption.assertNotNull("null copied fs name", copiedFeedbackSessionName);
+
+        
         if (coursesToCopy == null || coursesToCopy.length == 0) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
+            
             RedirectResult redirectResult = createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE);
             redirectResult.responseParams.put(Const.ParamsNames.COURSE_ID, courseId);
             redirectResult.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
             redirectResult.responseParams.put(Const.ParamsNames.USER_ID, account.googleId);
+            
+            isError = true;
             return redirectResult;
         }
         Assumption.assertNotNull(copiedFeedbackSessionName);
