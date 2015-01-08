@@ -319,13 +319,14 @@ ul #nav {
                     <div class="panel-body">
                         <div class="row">
                             <div data-placement="top" data-toggle="tooltip" title="" class="col-md-6" data-original-title="Please select the course for which the feedback session is to be created.">
-                                <div class="form-group">
+                                <div class="form-group has-error">
                                     <h5 class="col-sm-4">
                                         <label class="control-label" for="courseid">Course</label>
                                     </h5>
                                     <div class="col-sm-8">
-                                        <select id="courseid" name="courseid" class="form-control">
-                                            
+                                        <select id="courseid" name="courseid" class="form-control text-color-red">
+                                            <option selected="selected" value="">No active courses!</option>
+
                                         </select>
 
                                     </div>
@@ -691,17 +692,25 @@ ul #nav {
                 </div>
 
                 <div class="form-group">
-                    <div class="col-md-offset-5 col-md-3">
-                        <button class="btn btn-primary" type="submit" id="button_submit">Create Feedback Session</button>
+                    <div class="row">
+                        <div class="col-md-offset-5 col-md-3">
+                            <button class="btn btn-primary" type="submit" disabled="disabled" id="button_submit">Create Feedback Session</button>
+                        </div>
                     </div>
                 </div>
+                
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <b>You need to have an active(unarchived) course to create a session!</b>
+                        </div>
+                    </div>
+                
                 <input type="hidden" value="CFeedbackUiT.nocourses" name="user" />
             </form>
             <form action="/page/instructorFeedbacksPage" class="ajaxForSessionsForm" id="ajaxForSessions" style="display:none;">
                 <input type="hidden" value="CFeedbackUiT.nocourses" name="user" />
                 <input type="hidden" value="on" name="isusingAjax" />
             </form>
-            <br /> <br />
         </div>
         
 
@@ -712,7 +721,7 @@ ul #nav {
 
 
     <div class="alert alert-warning" id="statusMessage">
-        You have not created any courses yet. Go <a href="/page/instructorCoursesPage?user=CFeedbackUiT.nocourses">here</a> to create one.
+        You have not created any courses yet, or you have no active courses. Go <a href="/page/instructorCoursesPage?user=CFeedbackUiT.nocourses">here</a> to create or unarchive a course.
     </div>
     <script type="text/javascript">
         document.getElementById( 'statusMessage' ).scrollIntoView();
@@ -798,7 +807,8 @@ ul #nav {
                     <div class="form-group">
                         <label class="control-label" for="modalCopiedCourseId">Create in course</label>
                         <select id="modalCopiedCourseId" name="copiedcourseid" class="form-control">
-                            
+                            <option selected="selected" value="">No active courses!</option>
+
                         </select>
                     </div>
                     <!-- Session Name -->

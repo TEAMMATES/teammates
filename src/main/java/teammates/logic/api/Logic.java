@@ -764,13 +764,26 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      * 
-     * @return true if the course has been archived.
+     * @return true if the course has been archived by the instructor specified
      */
     public static boolean isCourseArchived(String courseId, String instructorGoogleId) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorGoogleId);
         
         return coursesLogic.isCourseArchived(courseId, instructorGoogleId);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * 
+     * @return true if the course has been archived by the instructor specified
+     */
+    public static boolean isCourseArchived(CourseAttributes course, InstructorAttributes instructor) {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, course);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructor);
+        
+        return coursesLogic.isCourseArchived(course, instructor);
     }
     
     /**

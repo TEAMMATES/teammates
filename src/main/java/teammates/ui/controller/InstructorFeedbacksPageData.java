@@ -67,6 +67,12 @@ public class InstructorFeedbacksPageData extends PageData {
                         + selectedAttribute + ">" + course.id + "</option>");
             }
         }
+        
+        // Add option if there are no active courses
+        if (result.size() == 0) {
+            result.add("<option value=\"\" selected=\"selected\">" + "No active courses!" + "</option>");
+        }
+        
         return result;
     }
 
