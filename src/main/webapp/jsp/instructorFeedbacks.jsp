@@ -571,13 +571,13 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="row" <%= data.courses.size()==0?"":"hidden"%> >
-                    <div class="col-md-12 text-center">
-                        <b>You need to have an active(unarchived) course to create a session!</b>
+                <% if (data.courses.size()==0 ) { %>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <b>You need to have an active(unarchived) course to create a session!</b>
+                        </div>
                     </div>
-                </div>
-
+                <% } %>
                 <input type="hidden"
                     name="<%=Const.ParamsNames.USER_ID%>"
                     value="<%=data.account.googleId%>">
