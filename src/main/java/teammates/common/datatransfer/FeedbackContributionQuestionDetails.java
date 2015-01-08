@@ -779,7 +779,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         if(points == Const.POINTS_NOT_SURE || points == Const.POINTS_EQUAL_SHARE){
             // Not sure, Equal Share
             return "color_neutral";
-        } else if ( points < 100){
+        } else if ( points < Const.POINTS_EQUAL_SHARE){
             // Negative share
             return "color-negative";
         } else{
