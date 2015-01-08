@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
@@ -14,6 +15,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.test.driver.BackDoor;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackEditCopyAction;
 import teammates.ui.controller.InstructorFeedbackEditCopyPageAction;
@@ -36,7 +38,6 @@ public class InstructorFeedbackEditCopyActionTest extends
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        System.out.println(new Gson().toJson(dataBundle));
         InstructorAttributes instructor = dataBundle.instructors.get("teammates.test.instructor2");
         String instructorId = instructor.googleId;
         
@@ -51,7 +52,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         String[] params = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
-                "newfsname", "valid name"
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name"
         };
         
         InstructorFeedbackEditCopyAction a = getAction(params);
@@ -69,12 +70,37 @@ public class InstructorFeedbackEditCopyActionTest extends
         
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED, rr.getStatusMessage());
         
+        ______TS("Failure case: course already has feedback session with same name");
+        params = new String[]{
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
+                Const.ParamsNames.COURSE_ID, "CFeedbackEditCopyUiT.CS2104",
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "First Session",
+                "coursesToCopyTo", "CFeedbackEditCopyUiT.CS2104",
+                "coursesToCopyTo", "CFeedbackEditCopyUiT.CS2103"
+        };
+        
+        a = getAction(params);
+        rr = (RedirectResult) a.executeAndPostProcess();
+        
+        assertEquals(
+                Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+                        + "?error=true"
+                        + "&user="
+                        + instructor.googleId
+                        + "&courseid="
+                        + instructor.courseId
+                        + "&fsname=First+Session",
+                rr.getDestinationWithParams());
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EXISTS, rr.getStatusMessage());
+        
+        assertNull(BackDoor.getFeedbackSession("CFeedbackEditCopyUiT.CS2103", "First Session"));
         
         ______TS("Successful case");
         params = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
                 Const.ParamsNames.COURSE_ID, "CFeedbackEditCopyUiT.CS2104",
-                "newfsname", "valid name",
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
                 "coursesToCopyTo", "CFeedbackEditCopyUiT.CS1101",
                 "coursesToCopyTo", "CFeedbackEditCopyUiT.CS2103"
         };
