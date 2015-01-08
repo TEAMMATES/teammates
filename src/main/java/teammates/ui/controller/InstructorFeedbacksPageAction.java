@@ -77,7 +77,6 @@ public class InstructorFeedbacksPageAction extends Action {
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
     
-    // TODO: make use of the courseDetailsBundle. do not make new DB calls!!!
     protected List<FeedbackSessionAttributes> loadFeedbackSessionsList()
             throws EntityDoesNotExistException {
         List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<FeedbackSessionAttributes>();
