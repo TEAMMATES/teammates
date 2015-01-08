@@ -374,7 +374,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void fillCopyToOtherCoursesForm(String newName) {
         WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
-        List<WebElement> coursesCheckBoxes = fsCopyModal.findElements(By.name("coursesToCopyTo"));
+        List<WebElement> coursesCheckBoxes = fsCopyModal.findElements(By.name(Const.ParamsNames.COPIED_COURSES_ID));
         for(WebElement e : coursesCheckBoxes) {
             markCheckBoxAsChecked(e);
         }
