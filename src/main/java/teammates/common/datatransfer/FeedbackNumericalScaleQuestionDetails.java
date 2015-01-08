@@ -169,25 +169,28 @@ public class FeedbackNumericalScaleQuestionDetails extends
         
         Map<String, Double> min = new HashMap<String, Double>();
         Map<String, Double> max = new HashMap<String, Double>();
-        Map<String, Integer> numResponses = new HashMap<String, Integer>();
+        Map<String, Double> average = new HashMap<String, Double>();
+        Map<String, Double> averageExcludeSelf = new HashMap<String, Double>();
         Map<String, Double> total = new HashMap<String, Double>();
-        Map<String, Double> totalExcludingSelfResponse = new HashMap<String, Double>();
-        Map<String, Boolean> userGaveResponseToSelf = new HashMap<String, Boolean>();
-
+        Map<String, Double> totalExcludeSelf = new HashMap<String, Double>();
+        Map<String, Integer> numResponses = new HashMap<String, Integer>();
+        Map<String, Integer> numResponsesExcludeSelf = new HashMap<String, Integer>();
+        
         // need to know which recipients are hidden since anonymised recipients will not appear in the summary table
         List<String> hiddenRecipients = getHiddenRecipients(responses, question, bundle);
         
-        boolean showAvgExcludingSelfResponse = populateSummaryStatisticsFromResponsesHidingRecipients(
-                                               responses, min, max, numResponses, total, totalExcludingSelfResponse, 
-                                               userGaveResponseToSelf, hiddenRecipients);
+        populateSummaryStatisticsFromResponses(responses, min, max, average, averageExcludeSelf, 
+                                               total, totalExcludeSelf, numResponses, numResponsesExcludeSelf);
+        
+        boolean showAvgExcludeSelf = numResponsesExcludeSelf.size() >= 1;
         
         String statsTitle = "Response Summary";
         
-        String fragmentTemplateToUse = showAvgExcludingSelfResponse ? 
+        String fragmentTemplateToUse = showAvgExcludeSelf ? 
                                        FeedbackQuestionFormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT_WITH_SELF_RESPONSE:
                                        FeedbackQuestionFormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT;
         
-        String templateToUse = showAvgExcludingSelfResponse ? 
+        String templateToUse = showAvgExcludeSelf ? 
                                FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE:
                                FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS;
 
@@ -197,19 +200,16 @@ public class FeedbackNumericalScaleQuestionDetails extends
         df.setMaximumFractionDigits(5);
         df.setRoundingMode(RoundingMode.DOWN);
   
-        StringBuilder fragmentHtml = new StringBuilder();
-        
+        StringBuilder fragmentHtml = new StringBuilder();        
         
         for (String recipient : numResponses.keySet()) {
-            String userAverageWithoutSelfResponse = "";
-            double userAverage = total.get(recipient) / numResponses.get(recipient);
-            
-            if (showAvgExcludingSelfResponse) {
-                userAverageWithoutSelfResponse = computeUserAverageWithoutSelfResponse(
-                        numResponses, totalExcludingSelfResponse,
-                        userGaveResponseToSelf, df, recipient, userAverage);
+            // hidden recipients do not appear in the summary table, so ignore responses with hidden recipients
+            if(hiddenRecipients != null && hiddenRecipients.contains(recipient)){
+                continue;
             }
             
+            Double userAverageExcludeSelf = averageExcludeSelf.get(recipient);
+            String userAverageExcludeSelfText = getAverageExcludeSelfText(showAvgExcludeSelf, df, userAverageExcludeSelf);
             
             String recipientName = recipient.equals(Const.GENERAL_QUESTION) ? "General" : bundle.getNameForEmail(recipient);
             String recipientTeam  = bundle.getTeamNameForEmail(recipient);
@@ -218,10 +218,10 @@ public class FeedbackNumericalScaleQuestionDetails extends
                                     fragmentTemplateToUse,
                                     "${recipientTeam}", recipientTeam,
                                     "${recipientName}", recipientName,
-                                    "${Average}", df.format(userAverage),
+                                    "${Average}", df.format(average.get(recipient)),
                                     "${Max}", df.format(max.get(recipient)),
                                     "${Min}", df.format(min.get(recipient)),
-                                    "${AverageExcludingSelfResponse}", userAverageWithoutSelfResponse));
+                                    "${AverageExcludingSelfResponse}", userAverageExcludeSelfText));
         }
         
         if (fragmentHtml.length() == 0) {
@@ -244,17 +244,20 @@ public class FeedbackNumericalScaleQuestionDetails extends
        
         Map<String, Double> min = new HashMap<String, Double>();
         Map<String, Double> max = new HashMap<String, Double>();
-        Map<String, Integer> numResponses = new HashMap<String, Integer>();
+        Map<String, Double> average = new HashMap<String, Double>();
+        Map<String, Double> averageExcludeSelf = new HashMap<String, Double>();
         Map<String, Double> total = new HashMap<String, Double>();
-        Map<String, Double> totalExcludingSelfResponse = new HashMap<String, Double>();
-        Map<String, Boolean> userGaveResponseToSelf = new HashMap<String, Boolean>();
+        Map<String, Double> totalExcludeSelf = new HashMap<String, Double>();
+        Map<String, Integer> numResponses = new HashMap<String, Integer>();
+        Map<String, Integer> numResponsesExcludeSelf = new HashMap<String, Integer>();
         
-        List<String> hiddenRecipients = getHiddenRecipients(responses,
-                question, bundle);
+        // need to know which recipients are hidden since anonymised recipients will not appear in the summary table
+        List<String> hiddenRecipients = getHiddenRecipients(responses, question, bundle);
         
-        boolean showAvgExcludingSelfResponse = populateSummaryStatisticsFromResponsesHidingRecipients(
-                                               responses, min, max, numResponses, total, totalExcludingSelfResponse, 
-                                               userGaveResponseToSelf, hiddenRecipients);
+        populateSummaryStatisticsFromResponses(responses, min, max, average, averageExcludeSelf, 
+                                               total, totalExcludeSelf, numResponses, numResponsesExcludeSelf);
+        
+        boolean showAvgExcludeSelf = numResponsesExcludeSelf.size() >= 1;
         
         boolean isDirectedAtGeneral = question.recipientType == FeedbackParticipantType.NONE;
         boolean isDirectedAtTeams = (question.recipientType == FeedbackParticipantType.TEAMS) || 
@@ -262,10 +265,10 @@ public class FeedbackNumericalScaleQuestionDetails extends
         boolean isDirectedAtStudents = !isDirectedAtGeneral && !isDirectedAtTeams;
         
         
-        String fragmentTemplateToUse = showAvgExcludingSelfResponse ? 
+        String fragmentTemplateToUse = showAvgExcludeSelf ? 
                                        FeedbackQuestionFormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT_WITH_SELF_RESPONSE: 
                                        FeedbackQuestionFormTemplates.NUMSCALE_RESULTS_STATS_FRAGMENT;
-        String templateToUse = showAvgExcludingSelfResponse ? 
+        String templateToUse = showAvgExcludeSelf ? 
                                FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS_WITH_SELF_RESPONSE: 
                                FeedbackQuestionFormTemplates.NUMSCALE_RESULT_STATS;
   
@@ -274,44 +277,65 @@ public class FeedbackNumericalScaleQuestionDetails extends
         df.setMinimumFractionDigits(0);
         df.setMaximumFractionDigits(5);
         df.setRoundingMode(RoundingMode.DOWN);
-        
-        
-        String userFragmentHtml = "";
-        String currentUserRecipient = "";
-        
-        String currentUserTeam = bundle.emailTeamNameTable.get(currentUser.email);
-        
 
-        if (isDirectedAtStudents && numResponses.containsKey(currentUser.email)) {
+        String currentUserTeam = bundle.getTeamNameForEmail(currentUser.email);
+        String currentUserRecipient = "";  
+        if (isDirectedAtStudents && numResponses.get(currentUser.email) > 0) {
             currentUserRecipient = currentUser.email;
-        } else if (isDirectedAtTeams && numResponses.containsKey(currentUserTeam)) {
+        } else if (isDirectedAtTeams && numResponses.get(currentUserTeam) > 0) {
             currentUserRecipient = currentUserTeam;
         }
 
-        // display the current user's statistics in the first row of the table 
-        if (!currentUserRecipient.equals("") && numResponses.get(currentUserRecipient) >= 2) {
-            userFragmentHtml = populateStatsFragmentForUser(min, max,
-                    numResponses, total, totalExcludingSelfResponse,
-                    userGaveResponseToSelf, showAvgExcludingSelfResponse,
-                    isDirectedAtStudents, fragmentTemplateToUse, df,
-                    currentUserRecipient, currentUserTeam);
-        }
+        // When there is only 1 response, statistic & detailed responses are the same
+        boolean hasMoreThanOneReponse = numResponses.get(currentUserRecipient) >= 2;
         
+        String userFragmentHtml = "";
+        // Display the current user's statistics in the first row of the table
+        if (!currentUserRecipient.equals("") && hasMoreThanOneReponse) {
+            Double averageScoreExcludeSelf = averageExcludeSelf.get(currentUserRecipient);
+            String averageScoreExcludeSelfText = getAverageExcludeSelfText(showAvgExcludeSelf, df, averageScoreExcludeSelf);
+            
+            userFragmentHtml = FeedbackQuestionFormTemplates.populateTemplate(
+                                fragmentTemplateToUse,
+                                "${recipientTeam}", isDirectedAtStudents? currentUserTeam : "",
+                                "${recipientName}", isDirectedAtStudents? "You" : "Your Team (" + currentUserTeam + ")",
+                                "${Average}", df.format(average.get(currentUserRecipient)),
+                                "${Max}", df.format(max.get(currentUserRecipient)),
+                                "${Min}", df.format(min.get(currentUserRecipient)),
+                                "${AverageExcludingSelfResponse}", averageScoreExcludeSelfText);
+        }        
         
         StringBuilder otherUsersFragmentsHtml = new StringBuilder();
         boolean isAbleToSeeAllResponses = checkIfAllResponsesAreVisible(numResponses, currentUserRecipient);
         
         if (isAbleToSeeAllResponses) {
             for (String recipient : numResponses.keySet()) {
+                // the statistic for current user has already been displayed
+                if (recipient.equalsIgnoreCase(currentUserRecipient)){
+                    continue;
+                }
                 
-                String recipientFragmentHtml = populateStatsFragmentForRecipient(
-                        bundle, min, max, numResponses, total,
-                        totalExcludingSelfResponse, userGaveResponseToSelf,
-                        showAvgExcludingSelfResponse, fragmentTemplateToUse,
-                        df, recipient);
+                // hidden recipients do not appear in the summary table, so ignore responses with hidden recipients
+                if(hiddenRecipients != null && hiddenRecipients.contains(recipient)){
+                    continue;
+                }
                 
-                otherUsersFragmentsHtml.append(recipientFragmentHtml);
+                Double averageScoreExcludeSelf = averageExcludeSelf.get(currentUserRecipient);
+                String averageScoreExcludeSelfText = getAverageExcludeSelfText(showAvgExcludeSelf, df, averageScoreExcludeSelf);
                 
+                String recipientName = recipient.equals(Const.GENERAL_QUESTION)? "General" : bundle.getNameForEmail(recipient);
+                String recipientTeam = bundle.getTeamNameForEmail(recipient);
+                
+                String recipientFragmentHtml = FeedbackQuestionFormTemplates.populateTemplate(
+                        fragmentTemplateToUse,
+                        "${recipientTeam}", recipientTeam,
+                        "${recipientName}", recipientName,
+                        "${Average}", df.format(average.get(recipient)),
+                        "${Max}", df.format(max.get(recipient)),
+                        "${Min}", df.format(min.get(recipient)),
+                        "${AverageExcludingSelfResponse}", averageScoreExcludeSelfText);
+                
+                otherUsersFragmentsHtml.append(recipientFragmentHtml);                
             }
         }
         
@@ -320,7 +344,6 @@ public class FeedbackNumericalScaleQuestionDetails extends
         }
         
         String statsTitle = getStatsTitle(isDirectedAtGeneral, isDirectedAtTeams, isAbleToSeeAllResponses);
-        
         html = FeedbackQuestionFormTemplates.populateTemplate(
                         templateToUse,
                         "${summaryTitle}", statsTitle,
@@ -329,69 +352,13 @@ public class FeedbackNumericalScaleQuestionDetails extends
         return html;
     }
 
-    private String populateStatsFragmentForUser(Map<String, Double> min,
-            Map<String, Double> max, Map<String, Integer> numResponses,
-            Map<String, Double> total,
-            Map<String, Double> totalExcludingSelfResponse,
-            Map<String, Boolean> userGaveResponseToSelf,
-            boolean showAvgExcludingSelfResponse, boolean isDirectedAtStudents,
-            String fragmentTemplateToUse, DecimalFormat df,
-            String currentUserRecipient, String currentUserTeam) {
-        String userFragmentHtml;
-        double userAverage = total.get(currentUserRecipient) / numResponses.get(currentUserRecipient);
-        String userAverageWithoutSelfResponse = "";
+    private String getAverageExcludeSelfText(boolean showAvgExcludeSelf, DecimalFormat df, Double averageExcludeSelf) {
+        // Display a dash if the user has only self response
+        String averageExcludeSelfText = averageExcludeSelf == null ? "-" : df.format(averageExcludeSelf);
         
-        if (showAvgExcludingSelfResponse) {
-            userAverageWithoutSelfResponse = computeUserAverageWithoutSelfResponse(
-                                                 numResponses, totalExcludingSelfResponse,
-                                                 userGaveResponseToSelf, df, currentUserRecipient,
-                                                 userAverage);
-        }
-        
-        userFragmentHtml = FeedbackQuestionFormTemplates.populateTemplate(
-                            fragmentTemplateToUse,
-                            "${recipientTeam}", isDirectedAtStudents? currentUserTeam : Const.USER_NOBODY_TEXT,
-                            "${recipientName}", isDirectedAtStudents? "You" : "Your Team (" + currentUserTeam + ")",
-                            "${Average}", df.format(userAverage),
-                            "${Max}", df.format(max.get(currentUserRecipient)),
-                            "${Min}", df.format(min.get(currentUserRecipient)),
-                            "${AverageExcludingSelfResponse}", userAverageWithoutSelfResponse);
-        
-        numResponses.remove(currentUserRecipient);
-        return userFragmentHtml;
+        averageExcludeSelfText = showAvgExcludeSelf ? averageExcludeSelfText : "";
+        return averageExcludeSelfText;
     }
-
-    private String populateStatsFragmentForRecipient(
-            FeedbackSessionResultsBundle bundle, Map<String, Double> min,
-            Map<String, Double> max, Map<String, Integer> numResponses,
-            Map<String, Double> total,
-            Map<String, Double> totalExcludingSelfResponse,
-            Map<String, Boolean> userGaveResponseToSelf,
-            boolean showAvgExcludingSelfResponse, String fragmentTemplateToUse,
-            DecimalFormat df, String recipient) {
-        double userAverage = total.get(recipient) / numResponses.get(recipient);
-        String userAverageWithoutSelfResponse = "";
-        
-        if (showAvgExcludingSelfResponse) {
-            userAverageWithoutSelfResponse = computeUserAverageWithoutSelfResponse(
-                    numResponses, totalExcludingSelfResponse,
-                    userGaveResponseToSelf, df, recipient, userAverage);
-        }
-        
-        String recipientName = recipient.equals(Const.GENERAL_QUESTION)? "General" : bundle.getNameForEmail(recipient);
-        String recipientTeam = bundle.getTeamNameForEmail(recipient);
-        
-        String recipientFragmentHtml = FeedbackQuestionFormTemplates.populateTemplate(
-                fragmentTemplateToUse,
-                "${recipientTeam}", recipientTeam,
-                "${recipientName}", recipientName,
-                "${Average}", df.format(userAverage),
-                "${Max}", df.format(max.get(recipient)),
-                "${Min}", df.format(min.get(recipient)),
-                "${AverageExcludingSelfResponse}", userAverageWithoutSelfResponse);
-        return recipientFragmentHtml;
-    }
-
     
     @Override
     public String getQuestionResultStatisticsCsv(
@@ -402,135 +369,145 @@ public class FeedbackNumericalScaleQuestionDetails extends
             return "";
         }
         
-        String csv = "";
-        
         Map<String, Double> min = new HashMap<String, Double>();
         Map<String, Double> max = new HashMap<String, Double>();
-        Map<String, Integer> numResponses = new HashMap<String, Integer>();
+        Map<String, Double> average = new HashMap<String, Double>();
+        Map<String, Double> averageExcludeSelf = new HashMap<String, Double>();
         Map<String, Double> total = new HashMap<String, Double>();
-        Map<String, Double> totalExcludingSelfResponse = new HashMap<String, Double>();
-        Map<String, Boolean> userGaveResponseToSelf = new HashMap<String, Boolean>();
+        Map<String, Double> totalExcludeSelf = new HashMap<String, Double>();
+        Map<String, Integer> numResponses = new HashMap<String, Integer>();
+        Map<String, Integer> numResponsesExcludeSelf = new HashMap<String, Integer>();
         
+        // need to know which recipients are hidden since anonymised recipients will not appear in the summary table
+        List<String> hiddenRecipients = getHiddenRecipients(responses, question, bundle);
         
-        List<String> hiddenRecipients = getHiddenRecipients(responses,
-                question, bundle);
+        populateSummaryStatisticsFromResponses(responses, min, max, average, averageExcludeSelf, 
+                                               total, totalExcludeSelf, numResponses, numResponsesExcludeSelf);
         
-        boolean showAvgExcludingSelfResponse = populateSummaryStatisticsFromResponsesHidingRecipients(
-                                               responses, min, max, numResponses, total, totalExcludingSelfResponse, 
-                                               userGaveResponseToSelf, hiddenRecipients);
+        boolean showAvgExcludeSelf = numResponsesExcludeSelf.size() >= 1;
         
         DecimalFormat df = new DecimalFormat();
         df.setMinimumFractionDigits(0);
         df.setMaximumFractionDigits(5);
         df.setRoundingMode(RoundingMode.DOWN);
   
+        String csvHeader = "";
+        csvHeader += "Team, Recipient, Average, Minimum, Maximum" ;
+        csvHeader += showAvgExcludeSelf ? ", Average excluding self response" : "";
+        csvHeader += Const.EOL;
         
-        csv += "Team, Recipient, Average, Minimum, Maximum" ;
-        
-        if (showAvgExcludingSelfResponse) {
-            csv += ", Average excluding self response";
-        }
-        csv += Const.EOL;
-        
+        String csvBody = "";
         for (String recipient : numResponses.keySet()) {
-            double userAverage = total.get(recipient) / numResponses.get(recipient);
+            // hidden recipients do not appear in the summary table, so ignore responses with hidden recipients
+            if(hiddenRecipients != null && hiddenRecipients.contains(recipient)){
+                continue;
+            }
             
             String recipientTeam = bundle.getTeamNameForEmail(recipient);
-            csv += Sanitizer.sanitizeForCsv(recipientTeam) + ",";
+            boolean isRecipientGeneral = recipient.equals(Const.GENERAL_QUESTION);
             
-            String recipientName;
-            if (recipient.equals(Const.GENERAL_QUESTION)) {
-                recipientName = "General";
-            } else {
-                recipientName = bundle.getNameForEmail(recipient);
-            }
+            Double averageScoreExcludeSelf = averageExcludeSelf.get(recipient);
+            String averageScoreExcludeSelfText = getAverageExcludeSelfText(showAvgExcludeSelf, df, averageScoreExcludeSelf);
             
-            csv += Sanitizer.sanitizeForCsv(recipientName) + ",";
-            csv += String.valueOf(userAverage) + "," + min.get(recipient).toString() + "," + max.get(recipient).toString();
-            
-            if (showAvgExcludingSelfResponse) {
-                csv += "," + computeUserAverageWithoutSelfResponse(
-                        numResponses, totalExcludingSelfResponse,
-                        userGaveResponseToSelf, df, recipient, userAverage);
-            }
-            csv += Const.EOL;
+            csvBody += Sanitizer.sanitizeForCsv(recipientTeam);
+            csvBody += "," + Sanitizer.sanitizeForCsv(isRecipientGeneral ? "General" : bundle.getNameForEmail(recipient));
+            csvBody += "," + df.format(average.get(recipient));
+            csvBody += "," + df.format(min.get(recipient));
+            csvBody += "," + df.format(max.get(recipient));
+            csvBody += showAvgExcludeSelf ? "," + averageScoreExcludeSelfText : "" ;
+            csvBody += Const.EOL;
         }
         
+        String csv = csvHeader + csvBody;
         return csv;
     }
     
-    private String computeUserAverageWithoutSelfResponse(
-            Map<String, Integer> numResponses,
-            Map<String, Double> totalExcludingSelfResponse,
-            Map<String, Boolean> userGaveResponseToSelf, DecimalFormat df,
-            String recipient, double userAverage) {
-        String userAverageWithoutSelfResponse;
-        
-        if (userGaveResponseToSelf.containsKey(recipient) && numResponses.get(recipient) == 1) {
-            userAverageWithoutSelfResponse = "-";
-        } else if (userGaveResponseToSelf.containsKey(recipient) && totalExcludingSelfResponse.containsKey(recipient)) {
-            double userAverageExcludingSelfResponse = totalExcludingSelfResponse.get(recipient) / 
-                                               (numResponses.get(recipient) - 1);
-            userAverageWithoutSelfResponse = df.format(userAverageExcludingSelfResponse);
-        } else {
-            double userAverageExcludingSelfResponse = userAverage;
-            userAverageWithoutSelfResponse = df.format(userAverageExcludingSelfResponse);
-        }
-        
-        return userAverageWithoutSelfResponse;
-    }
-    
-    
-    
-    private boolean populateSummaryStatisticsFromResponsesHidingRecipients(
+    private void populateSummaryStatisticsFromResponses(
             List<FeedbackResponseAttributes> responses,
             Map<String, Double> min, Map<String, Double> max,
-            Map<String, Integer> numResponses, Map<String, Double> total,
-            Map<String, Double> totalExcludingSelfResponse,
-            Map<String, Boolean> userGaveResponseToSelf,
-            List<String> hiddenRecipients) {
+            Map<String, Double> average, Map<String, Double> averageExcludeSelf,
+            Map<String, Double> total, Map<String, Double> totalExcludingSelf,
+            Map<String, Integer> numResponses,
+            Map<String, Integer> numResponsesExcludeSelf) {
         
-        boolean showAvgExcludingSelfResponse = false;
         for(FeedbackResponseAttributes response : responses){
-            // hidden recipients do not appear in the summary table, so ignore responses with hidden recipients
-            if (hiddenRecipients != null && hiddenRecipients.contains(response.recipientEmail)) {
-                continue;
+            FeedbackNumericalScaleResponseDetails responseDetails = (FeedbackNumericalScaleResponseDetails)response.getResponseDetails();
+            double answer = responseDetails.getAnswer();
+            String giverEmail = response.giverEmail;
+            String recipientEmail = response.recipientEmail;
+
+            // Compute number of responses including user's self response
+            if(!numResponses.containsKey(recipientEmail)){
+                numResponses.put(recipientEmail, 0);
+            }            
+            int numOfResponses = numResponses.get(recipientEmail) + 1;
+            numResponses.put(recipientEmail, numOfResponses);
+            
+            
+            // Compute number of responses excluding user's self response
+            if(!numResponsesExcludeSelf.containsKey(recipientEmail)){
+                numResponsesExcludeSelf.put(recipientEmail, 0);
+            }            
+            boolean isSelfResponse = giverEmail.equalsIgnoreCase(recipientEmail);
+            if(!isSelfResponse){
+                int numOfResponsesExcludeSelf = numResponsesExcludeSelf.get(recipientEmail) + 1;
+                numResponsesExcludeSelf.put(recipientEmail, numOfResponsesExcludeSelf);
             }
-            double answer = ((FeedbackNumericalScaleResponseDetails)response.getResponseDetails()).getAnswer();
             
             
-            int numOfResponses = numResponses.containsKey(response.recipientEmail)? 
-                                 numResponses.get(response.recipientEmail) + 1 : 1;
-            numResponses.put(response.recipientEmail, numOfResponses);
-            
-            double minScoreReceived = min.containsKey(response.recipientEmail)? 
-                                      Math.min(answer, min.get(response.recipientEmail)): answer;
-            min.put(response.recipientEmail, minScoreReceived);
-            
-            double maxScoreReceived = max.containsKey(response.recipientEmail)? 
-                                      Math.max(answer, max.get(response.recipientEmail)) : answer;
-            max.put(response.recipientEmail, maxScoreReceived);
-            
-            double totalScore = total.containsKey(response.recipientEmail)? 
-                                total.get(response.recipientEmail) + answer: answer;
-            total.put(response.recipientEmail, totalScore);
+            // Compute minimum score received
+            if(!min.containsKey(recipientEmail)){
+                min.put(recipientEmail, answer);
+            }            
+            double minScoreReceived = Math.min(answer, min.get(recipientEmail));
+            min.put(recipientEmail, minScoreReceived);
             
             
-            if (!response.recipientEmail.equals(response.giverEmail)) {
-                totalScore = totalExcludingSelfResponse.containsKey(response.recipientEmail)? 
-                             totalExcludingSelfResponse.get(response.recipientEmail) + answer: answer;
-                totalExcludingSelfResponse.put(response.recipientEmail, totalScore);
+            // Compute maximum score received
+            if(!max.containsKey(recipientEmail)){
+                max.put(recipientEmail, answer);
+            }
+            double maxScoreReceived = Math.max(answer, max.get(recipientEmail));
+            max.put(recipientEmail, maxScoreReceived);
+            
+            
+            // Compute total score received
+            if(!total.containsKey(recipientEmail)){
+                total.put(recipientEmail, 0.0);
+            }
+            double totalScore = total.get(recipientEmail) + answer;
+            total.put(recipientEmail, totalScore);
+            
+            
+            // Compute total score received excluding self
+            if(!totalExcludingSelf.containsKey(recipientEmail)){
+                totalExcludingSelf.put(recipientEmail, null);
+            }            
+            if(!isSelfResponse) {
+                Double totalScoreExcludeSelf = totalExcludingSelf.get(recipientEmail);
                 
-            } else {
-                userGaveResponseToSelf.put(response.recipientEmail, true);
+                // totalScoreExcludeSelf == null when the user has only self response
+                totalExcludingSelf.put(recipientEmail, totalScoreExcludeSelf == null ? answer : totalScoreExcludeSelf + answer);                
             }
             
-            if (userGaveResponseToSelf.containsKey(response.recipientEmail)) {
-                showAvgExcludingSelfResponse = true;
+            
+            // Compute average score received
+            if(!average.containsKey(recipientEmail)){
+                average.put(recipientEmail, 0.0);
             }
-        }
-        
-        return showAvgExcludingSelfResponse; 
+            double averageReceived = total.get(recipientEmail) / numResponses.get(recipientEmail);
+            average.put(recipientEmail, averageReceived);
+            
+            
+            // Compute average score received excluding self
+            if(!averageExcludeSelf.containsKey(recipientEmail)){
+                averageExcludeSelf.put(recipientEmail, null);
+            }
+            if(!isSelfResponse && totalExcludingSelf.get(recipientEmail) != null) {
+                double averageReceivedExcludeSelf = totalExcludingSelf.get(recipientEmail) / numResponsesExcludeSelf.get(recipientEmail);
+                averageExcludeSelf.put(recipientEmail, averageReceivedExcludeSelf);
+            }
+        }        
     }
     
     private List<String> getHiddenRecipients(
