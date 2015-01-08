@@ -45,10 +45,10 @@ public class InstructorFeedbackEditCopyActionTest extends
         
         gaeSimulation.loginAsInstructor(instructorId);
         
-        ______TS("No parameters");
+        ______TS("Failure case: No parameters");
         verifyAssumptionFailure();
         
-        ______TS("Courses not passed in");
+        ______TS("Failure case: Courses not passed in");
         String[] params = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
@@ -82,8 +82,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         a = getAction(params);
         rr = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(
-                Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
                         + "?error=true"
                         + "&user="
                         + instructor.googleId
@@ -92,8 +91,9 @@ public class InstructorFeedbackEditCopyActionTest extends
                         + "&fsname=First+Session",
                 rr.getDestinationWithParams());
         
-        assertEquals("A feedback session with the name First Session already exists in the course CFeedbackEditCopyUiT.CS2104", rr.getStatusMessage());
+        assertEquals("A feedback session with the name First Session already exists in the course CFeedbackEditCopyUiT.CS2104.", rr.getStatusMessage());
         
+        // Check that the feedback session is not copied to the other course as well
         assertNull(BackDoor.getFeedbackSession("CFeedbackEditCopyUiT.CS2103", "First Session"));
         
         ______TS("Successful case");

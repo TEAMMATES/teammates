@@ -52,19 +52,24 @@ public class InstructorFeedbackEditCopyAction extends Action {
             FeedbackSessionAttributes fs = logic.copyMultipleFeedbackSession(copiedFeedbackSessionName, coursesToCopy, feedbackSessionName, courseId, instructor.email);
             
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
-            // @TODO
-            statusToAdmin = "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" +
+            statusToAdmin = "Copying to multiple feedback sessions.<br>" +
+                    "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" +
                     "<span class=\"bold\">From:</span> " + fs.startTime + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" +
                     "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>" +
                     "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>" +
-                    "<span class=\"bold\">Instructions:</span> " + fs.instructions;
+                    "<span class=\"bold\">Instructions:</span> " + fs.instructions + "<br>" +
+                    "Copied from <span class=\"bold\">(" + feedbackSessionName + ")</span> for Course <span class=\"bold\">[" + courseId + "]</span> created.<br>";
 
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
         } catch (EntityAlreadyExistsException e) {
-            statusToUser.add(e.getMessage());
-            statusToAdmin = e.getMessage();
-            isError = true;
+            FeedbackSessionAttributes fs = (FeedbackSessionAttributes)e.getOffendingEntity();
             
+            statusToUser.add(String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, 
+                                           fs.feedbackSessionName, fs.courseId));
+            statusToAdmin = e.getMessage();
+            log.severe("Instructor failed to copy " + feedbackSessionName + " from " + courseId + " to " + copiedFeedbackSessionName + " in " + fs.courseId);
+            
+            isError = true;            
         } catch (InvalidParametersException e) {
             setStatusForException(e);
         }
@@ -73,6 +78,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
         redirectResult.responseParams.put(Const.ParamsNames.COURSE_ID, courseId);
         redirectResult.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         redirectResult.responseParams.put(Const.ParamsNames.USER_ID, account.googleId);
+        
         return redirectResult;
     }
 

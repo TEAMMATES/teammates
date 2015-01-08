@@ -1409,7 +1409,7 @@ function setupEventHandlerOnFsCopyModal() {
                     
                     for (var i = 0 ; i < coursesTable.length; i++) {
                     	htmlToAppend += "<div class=\"checkbox\">";
-                        htmlToAppend += "<label><input type=\"checkbox\" name=\"coursesToCopyTo\"";
+                        htmlToAppend += "<label><input type=\"checkbox\" name=\"copiedcoursesid\"";
                         htmlToAppend += "value=\"" + coursesTable[i].id + "\"> [" + coursesTable[i].id + "] : " + coursesTable[i].name;
                         htmlToAppend +=  "</label></div>";
                     }
