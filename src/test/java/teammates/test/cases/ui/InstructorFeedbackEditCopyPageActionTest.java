@@ -45,7 +45,7 @@ public class InstructorFeedbackEditCopyPageActionTest extends
 
         InstructorFeedbackEditCopyPageData pageData = 
                 (InstructorFeedbackEditCopyPageData) r.data;
-        assertEquals(3, pageData.courses.size());
+        assertEquals(2, pageData.courses.size());
     }
     
     private InstructorFeedbackEditCopyPageAction getAction(String... params)

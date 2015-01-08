@@ -1402,15 +1402,15 @@ function setupEventHandlerOnFsCopyModal() {
                     var coursesTable = data.courses;
                     
                     htmlToAppend += "<div class=\"form-group\">" +
-    				"<label for=\"newfsname\" class=\"control-label\"> Name for copied sessions </label>" + 
-    				"<input class=\"form-control\" id=\"newfsname\" type=\"text\" name=\"newfsname\" value=\"" + 
+    				"<label for=\"copiedfsname\" class=\"control-label\"> Name for copied sessions </label>" + 
+    				"<input class=\"form-control\" id=\"copiedfsname\" type=\"text\" name=\"copiedfsname\" value=\"" + 
     				fsname + 
     				"\"></div>";
                     
                     for (var i = 0 ; i < coursesTable.length; i++) {
                     	htmlToAppend += "<div class=\"checkbox\">";
                         htmlToAppend += "<label><input type=\"checkbox\" name=\"coursesToCopyTo\"";
-                        htmlToAppend += "value=\"" + coursesTable[i].id + "\"> " + coursesTable[i].name;
+                        htmlToAppend += "value=\"" + coursesTable[i].id + "\"> [" + coursesTable[i].id + "] : " + coursesTable[i].name;
                         htmlToAppend +=  "</label></div>";
                     }
                     htmlToAppend += "<input type=\"hidden\" name=\"courseid\" value=\"" + courseid + "\">";

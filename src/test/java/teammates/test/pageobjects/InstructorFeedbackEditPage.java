@@ -379,7 +379,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             markCheckBoxAsChecked(e);
         }
         
-        WebElement fsNameInput = fsCopyModal.findElement(By.id("newfsname"));
+        WebElement fsNameInput = fsCopyModal.findElement(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
         fillTextBox(fsNameInput, newName);
     }
     

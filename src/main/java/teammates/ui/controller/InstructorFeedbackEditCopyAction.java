@@ -16,7 +16,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {        
-        String copiedFeedbackSessionName = getRequestParamValue("newfsname");
+        String copiedFeedbackSessionName = getRequestParamValue(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME);
         String[] coursesToCopy = getRequestParamValues("coursesToCopyTo");
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);

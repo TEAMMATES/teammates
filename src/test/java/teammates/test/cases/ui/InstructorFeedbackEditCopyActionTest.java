@@ -90,8 +90,6 @@ public class InstructorFeedbackEditCopyActionTest extends
                 rr.getDestinationWithParams());
         
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPIED, rr.getStatusMessage());
-        
-        
     }
     
     private InstructorFeedbackEditCopyAction getAction(String... params)
