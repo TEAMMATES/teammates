@@ -97,14 +97,13 @@
                                 title="<%=Const.Tooltips.FEEDBACK_SESSION_COURSE%>"
                                 data-toggle="tooltip"
                                 data-placement="top">
-                                <div class="form-group <%= data.courses.size()==0?"has-error":"" %>">
+                                <div class="form-group<%= data.courses.size()==0?" has-error":"" %>">
                                     <h5 class="col-sm-4">
                                         <label for="<%=Const.ParamsNames.COURSE_ID%>"
                                             class="control-label">Course</label>
                                     </h5>
                                     <div class="col-sm-8">
-                                        <select
-                                            class="form-control <%= data.courses.size()==0?"text-color-red":"" %>""
+                                        <select class="form-control<%= data.courses.size()==0?" text-color-red":"" %>"
                                             name="<%=Const.ParamsNames.COURSE_ID%>"
                                             id="<%=Const.ParamsNames.COURSE_ID%>">
                                             <%
@@ -567,7 +566,7 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-offset-5 col-md-3">
-                            <button id="button_submit" <%= data.courses.size()==0?"disabled=\"disabled\"":"" %> type="submit" class="btn btn-primary">Create Feedback Session</button>
+                            <button id="button_submit"<%= data.courses.size()==0?" disabled=\"disabled\"":"" %> type="submit" class="btn btn-primary">Create Feedback Session</button>
                         </div>
                     </div>
                 </div>
