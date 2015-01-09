@@ -1416,7 +1416,6 @@ function setupFsCopyModal() {
                     htmlToAppend += "<input type=\"hidden\" name=\"courseid\" value=\"" + courseid + "\">";
                     htmlToAppend += "<input type=\"hidden\" name=\"fsname\" value=\"" + fsname + "\">";
                     
-            		
                     $('#courseList').html(htmlToAppend);
                 }, 500);
             }

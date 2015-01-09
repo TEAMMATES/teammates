@@ -383,7 +383,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         fillTextBox(fsNameInput, newName);
     }
     
-    
     public WebElement getDeleteSessionLink(){
         return fsDeleteLink;
     }
