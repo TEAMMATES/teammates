@@ -151,7 +151,7 @@ public class InstructorFeedbackEditCopyActionTest extends
                              "true|||Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||" +
                              "tmms.instr@gmail.tmt|||Copying to multiple feedback sessions.<br>" +
                              "New Feedback Session <span class=\"bold\">(Session with valid name)</span> " +
-                             "for Courses: <br>FeedbackEditCopy.CS2103R, FeedbackEditCopy.CS2102<br>" + 
+                             "for Courses: <br>FeedbackEditCopy.CS2103R,FeedbackEditCopy.CS2102<br>" + 
                              "<span class=\"bold\">From:</span> Sun Apr 01 23:59:00 UTC 2012<span class=\"bold\"> " +
                              "to</span> Sat Apr 30 23:59:00 UTC 2016<br><span class=\"bold\">Session visible from:</span> " +
                              "Sun Apr 01 23:59:00 UTC 2012<br><span class=\"bold\">Results visible from:</span> " +
