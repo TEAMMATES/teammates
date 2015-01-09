@@ -27,14 +27,41 @@ $(document).ready(function () {
     $('input.pointsBox').off('keydown');
     disallowNonNumericEntries($('input.pointsBox'), false, false);
 
-    readyConstSumQuestions();
+    prepareContribQuestions();
+
+    prepareConstSumQuestions();
     updateConstSumMessages();
 
-    readyRubricQuestions();
+    prepareRubricQuestions();
 });
 
-//Ready rubric questions for answering by user
-function readyRubricQuestions() {
+// Prepare contrib questions for answering by user
+function prepareContribQuestions() {
+
+    // Get index of contribution questions
+    var contribQuestionNums = getQuestionTypeNumbers("CONTRIB");
+    for(var i=0 ; i<contribQuestionNums.length ; i++){
+        var qnNum = contribQuestionNums[i];
+        
+        // Get number of options for the specified question number of contribution question type
+        var optionNums = $("[name^='responsetext-" + qnNum + "']").length;
+        for(var k=0; k<optionNums; k++){
+
+            var dropdown = $("[name^='responsetext-" + qnNum + "-" + k + "']");
+
+            // Bind on change event
+            dropdown.on("change", function() {
+                $(this).removeClass("color_neutral");
+                $(this).removeClass("color-positive");
+                $(this).removeClass("color-negative");
+                $(this).addClass(this.options[this.selectedIndex].className);
+            });            
+        }
+    }
+}
+
+// Prepare rubric questions for answering by user
+function prepareRubricQuestions() {
     //Set cell to highlight on hover
     //Set cell to highlight when checked
     //Bind cell click to click radio
@@ -120,8 +147,8 @@ function formatRubricQuestions() {
     }
 }
 
-//Ready constant sum questions for answering by user
-function readyConstSumQuestions() {
+// Prepare constant sum questions for answering by user
+function prepareConstSumQuestions() {
     var constSumQuestionNums = getQuestionTypeNumbers("CONSTSUM");
 
     for(var i=0 ; i<constSumQuestionNums.length ; i++){
