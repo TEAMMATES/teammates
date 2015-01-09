@@ -85,7 +85,7 @@
                                 class="btn btn-primary btn-sm" id="fsDeleteLink">
                                     Delete
                                 </a>
-                                <span data-toggle="tooltip" title="Copy this feedback session to other courses" data-placement="top"><a data-actionlink="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE%>" data-courseid="<%=data.session.courseId%>" data-fsname="<%=data.session.feedbackSessionName%>" class="btn btn-primary btn-sm" href="#" data-toggle="modal" data-target="#fsCopyModal" 
+                                <span data-toggle="tooltip" title="Copy this feedback session to other courses" data-placement="top"><a data-actionlink="<%=data.getFeedbackSessionEditCopyLink()%>" data-courseid="<%=data.session.courseId%>" data-fsname="<%=data.session.feedbackSessionName%>" class="btn btn-primary btn-sm" href="#" data-toggle="modal" data-target="#fsCopyModal" 
                                 data-placement="top" id="button_fscopy">Copy</a></span>
                             </span>
                         </div>

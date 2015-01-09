@@ -32,7 +32,6 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         printTestClassHeader();
         testData = loadDataBundle("/InstructorFeedbackEditCopyUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
-
         instructorId = testData.accounts.get("instructorWithSessions").googleId;
         courseId = testData.courses.get("course").id;
         feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
@@ -62,8 +61,9 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         feedbackEditPage.clickFsCopySubmitButton();
         
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
-        feedbackEditPage.verifyHtml("/instructorFeedbackEditCopySuccess.html");
+        ThreadHelper.waitFor(1000);
         
+        feedbackEditPage.verifyHtml("/instructorFeedbackEditCopySuccess.html");
         
     }
 

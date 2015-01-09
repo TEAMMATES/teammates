@@ -1,10 +1,8 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -29,7 +27,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
 
         
         if (coursesIdToCopyTo == null || coursesIdToCopyTo.length == 0) {
-            return redirectWithErrorMsg(courseId, feedbackSessionName, Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
+            return redirectWithErrorMsg(feedbackSessionName, courseId, Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         }
         
         Assumption.assertNotNull(copiedFeedbackSessionName);
@@ -69,7 +67,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
             FeedbackSessionAttributes fs = null;
             // TODO: consider doing this as a batch insert
             for (String newCourseId : coursesIdToCopyTo) {
-                fs = logic.copyFeedbackSession(copiedFeedbackSessionName, newCourseId, feedbackSessionName, courseId, account.googleId);
+                fs = logic.copyFeedbackSession(copiedFeedbackSessionName, newCourseId, feedbackSessionName, courseId, instructor.email);
             }
             
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_COPIED);

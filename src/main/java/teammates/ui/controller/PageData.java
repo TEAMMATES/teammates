@@ -393,6 +393,12 @@ public class PageData {
         return link;
     }
     
+    public String getFeedbackSessionEditCopyLink(){
+        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE;
+        link = addUserIdToUrl(link);
+        return link;
+    }
+    
     public String getEvaluationStatsLink(String courseID, String evalName){
         String link = Const.ActionURIs.INSTRUCTOR_EVAL_STATS_PAGE;
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseID);

@@ -91,7 +91,7 @@ public class InstructorFeedbackEditCopyActionTest extends
                         + "&fsname=First+Session",
                 rr.getDestinationWithParams());
         
-        assertEquals("A feedback session with the name First Session already exists in the course CFeedbackEditCopyUiT.CS2104.", rr.getStatusMessage());
+        assertEquals("A feedback session with the name \"First Session\" already exists in the course(s) CFeedbackEditCopyUiT.CS2104.", rr.getStatusMessage());
         
         // Check that the feedback session is not copied to the other course as well
         assertNull(BackDoor.getFeedbackSession("CFeedbackEditCopyUiT.CS2103", "First Session"));
