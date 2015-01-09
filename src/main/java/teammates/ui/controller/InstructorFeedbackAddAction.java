@@ -89,9 +89,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         // Get courseDetailsBundles
         boolean omitArchived = true;
         courseDetailsList = logic.getCourseDetailsListForInstructor(account.googleId, omitArchived);
-        if (omitArchived) {
-            // omitArchivedCourses(data.instructors);
-        }
+        
         data.courses = loadCoursesList();
         data.existingEvalSessions = loadEvaluationsList();
         data.existingFeedbackSessions = loadFeedbackSessionsList();
