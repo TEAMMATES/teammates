@@ -104,29 +104,7 @@ public class FeedbackSessionsLogic {
         return fsDb.getFeedbackSessionsForCourse(courseId);
     }
     
-    public FeedbackSessionAttributes copyMultipleFeedbackSession(
-            String newFeedbackSessionName, String[] courseIds,
-            String feedbackSessionName, String courseId,
-            String instructorEmail) 
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        
-        
-        for (String newCourseId : courseIds) {
-            FeedbackSessionAttributes existingFs = getFeedbackSession(newFeedbackSessionName, newCourseId);
-            boolean fsAlreadyExists = (existingFs != null);
-            if (fsAlreadyExists) {
-                String error = "Trying to create a feedback session that already exist.";
-                throw new EntityAlreadyExistsException(error, existingFs);
-            }
-        }
-        
-        FeedbackSessionAttributes fs = null;
-        for (String newCourseId : courseIds) {
-            fs = copyFeedbackSession(newFeedbackSessionName, newCourseId, feedbackSessionName, courseId, instructorEmail);
-        }
-        
-        return fs;
-    }
+    
 
     public FeedbackSessionAttributes copyFeedbackSession(
             String newFeedbackSessionName, String newCourseId, String feedbackSessionName,
