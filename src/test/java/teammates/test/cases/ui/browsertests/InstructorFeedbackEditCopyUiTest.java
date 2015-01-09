@@ -39,7 +39,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
     public void allTests() throws Exception{
         feedbackEditPage = getFeedbackEditPage();
         
-        ______TS("submit empty course list");
+        ______TS("Submit empty course list");
         feedbackEditPage.clickFsCopyButton();
         ThreadHelper.waitFor(1000);
         
@@ -48,7 +48,8 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         feedbackEditPage.clickFsCopySubmitButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         
-        ______TS("copy fails due to fs with same name");
+        
+        ______TS("Copying fails due to fs with same name in course selected");
         feedbackEditPage.clickFsCopyButton();
         ThreadHelper.waitFor(1000);
         feedbackEditPage.fillCopyToOtherCoursesForm(feedbackSessionName);
@@ -62,7 +63,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyHtml("/instructorFeedbackEditCopyFail.html");
         
         
-        ______TS("copy to all");
+        ______TS("Successful case");
         feedbackEditPage.clickFsCopyButton();
         ThreadHelper.waitFor(1000);
         feedbackEditPage.fillCopyToOtherCoursesForm("New name!");

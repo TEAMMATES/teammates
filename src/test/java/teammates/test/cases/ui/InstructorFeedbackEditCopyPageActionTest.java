@@ -34,13 +34,13 @@ public class InstructorFeedbackEditCopyPageActionTest extends
         
         gaeSimulation.loginAsInstructor(instructorId);
         
+        
         ______TS("Successful case");
         
         InstructorFeedbackEditCopyPageAction a = getAction();
         AjaxResult r = getAjaxResult(a);
         
         assertFalse(r.isError);
-        assertEquals("", r.getStatusMessage());
 
         InstructorFeedbackEditCopyPageData pageData = 
                 (InstructorFeedbackEditCopyPageData) r.data;

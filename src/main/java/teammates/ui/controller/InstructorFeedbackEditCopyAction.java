@@ -32,10 +32,6 @@ public class InstructorFeedbackEditCopyAction extends Action {
             return createRedirectToEditPageWithErrorMsg(feedbackSessionNameFrom, courseIdFrom, Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         }
         
-        Assumption.assertNotNull(newFeedbackSessionName);
-        Assumption.assertNotNull(courseIdFrom);
-        Assumption.assertNotNull(feedbackSessionNameFrom);
-        
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseIdFrom, account.googleId); 
         
         new GateKeeper().verifyAccessible(
@@ -60,8 +56,9 @@ public class InstructorFeedbackEditCopyAction extends Action {
                 return createRedirectToEditPageWithErrorMsg(feedbackSessionNameFrom, courseIdFrom, errorToUser);
             }
             
-            // Copy the feedback sessions
+            
             FeedbackSessionAttributes fs = null;
+            // Copy the feedback sessions
             // TODO: consider doing this as a batch insert
             for (String courseIdToCopyTo : coursesIdToCopyTo) {
                 fs = logic.copyFeedbackSession(newFeedbackSessionName, courseIdToCopyTo, feedbackSessionNameFrom, courseIdFrom, instructor.email);

@@ -1380,13 +1380,13 @@ function highlightRubricCol(index, questionNumber, highlight) {
 }
 
 function setupFsCopyModal() {
-	$('#fsCopyModal').on('show.bs.modal', function (event) {
+    $('#fsCopyModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // Button that triggered the modal
         var actionlink = button.data('actionlink');
         var courseid = button.data('courseid');
         var fsname = button.data('fsname');
         
-	    $.ajax({
+        $.ajax({
             type : 'GET',
             url : actionlink,
             beforeSend : function() {
@@ -1402,10 +1402,10 @@ function setupFsCopyModal() {
                     var coursesTable = data.courses;
                     
                     htmlToAppend += "<div class=\"form-group\">" +
-    				"<label for=\"copiedfsname\" class=\"control-label\"> Name for copied sessions </label>" + 
-    				"<input class=\"form-control\" id=\"copiedfsname\" type=\"text\" name=\"copiedfsname\" value=\"" + 
-    				fsname + 
-    				"\"></div>";
+                    "<label for=\"copiedfsname\" class=\"control-label\"> Name for copied sessions </label>" + 
+                    "<input class=\"form-control\" id=\"copiedfsname\" type=\"text\" name=\"copiedfsname\" value=\"" + 
+                    fsname + 
+                    "\"></div>";
                     
                     for (var i = 0 ; i < coursesTable.length; i++) {
                         htmlToAppend += "<div class=\"checkbox\">";
