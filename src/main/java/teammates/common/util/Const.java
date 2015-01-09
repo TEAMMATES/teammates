@@ -1117,6 +1117,7 @@ public class Const {
     
     public static final int MAX_POSSIBLE_RECIPIENTS = -100;
     
+    public static final int POINTS_EQUAL_SHARE = 100;
     public static final int POINTS_NOT_SURE = -101;
     public static final int POINTS_NOT_SUBMITTED = -999;
     
