@@ -157,6 +157,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         loadFinalHomePageTestData();
         homePage.clickHomeTab();
+        // Should not see private session
         homePage.verifyHtmlAjax("/InstructorHomeHTMLWithHelperView.html");
         updateInstructorToCoownerPrivileges();
         homePage.clickHomeTab();
