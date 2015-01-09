@@ -2020,27 +2020,33 @@ public class FeedbackSessionsLogic {
             String courseId, String instructorEmail)
             throws EntityDoesNotExistException {
 
-        List<FeedbackSessionDetailsBundle> fsDetails =
+        List<FeedbackSessionDetailsBundle> fsDetailsWithoutPrivate =
                 new ArrayList<FeedbackSessionDetailsBundle>();
         List<FeedbackSessionAttributes> fsInCourse =
                 fsDb.getFeedbackSessionsForCourse(courseId);
 
         for (FeedbackSessionAttributes fsa : fsInCourse) {
             if ((fsa.isPrivateSession() && !fsa.isCreator(instructorEmail)) == false)
-                fsDetails.add(getFeedbackSessionDetails(fsa));
+                fsDetailsWithoutPrivate.add(getFeedbackSessionDetails(fsa));
         }
 
-        return fsDetails;
+        return fsDetailsWithoutPrivate;
     }
 
     private List<FeedbackSessionAttributes> getFeedbackSessionsListForCourse(
             String courseId, String instructorEmail)
             throws EntityDoesNotExistException {
-
+        
+        List<FeedbackSessionAttributes> fsInCourseWithoutPrivate = new ArrayList<FeedbackSessionAttributes>(); 
         List<FeedbackSessionAttributes> fsInCourse =
                 fsDb.getFeedbackSessionsForCourse(courseId);
+        
+        for (FeedbackSessionAttributes fsa : fsInCourse) {
+            if ((fsa.isPrivateSession() && !fsa.isCreator(instructorEmail)) == false)
+                fsInCourseWithoutPrivate.add(fsa);
+        }
 
-        return fsInCourse;
+        return fsInCourseWithoutPrivate;
     }
 
     private FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(

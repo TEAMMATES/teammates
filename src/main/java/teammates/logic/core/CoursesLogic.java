@@ -35,7 +35,7 @@ import teammates.common.util.Utils;
 import teammates.storage.api.CoursesDb;
 
 /**
- * Handles  operations related to courses.
+ * Handles operations related to courses.
  */
 public class CoursesLogic {
     /* Explanation: Most methods in the API of this class doesn't have header 
@@ -530,6 +530,13 @@ public class CoursesLogic {
         return courseList;
     }
     
+    /**
+     * Gets course summaries for instructor.
+     * 
+     * @param googleId
+     * @return HashMap with courseId as key, and CourseDetailsBundle as value.
+     * Does not include details within the course, such as feedback sessions.
+     */
     public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId) throws EntityDoesNotExistException {
         
         instructorsLogic.verifyInstructorExists(googleId);
@@ -557,6 +564,12 @@ public class CoursesLogic {
         return courseSummaryList;
     }
  
+    /**
+     * Gets course details list for instructor.
+     * 
+     * @param instructorId - Google Id of instructor
+     * @return HashMap with courseId as key, and CourseDetailsBundle as value
+     **/
     public HashMap<String, CourseDetailsBundle> getCoursesDetailsListForInstructor(
             String instructorId) throws EntityDoesNotExistException {
         
@@ -613,8 +626,11 @@ public class CoursesLogic {
             if (course == null) {
                 log.warning("Course was deleted but the Instructor still exists: " + Const.EOL 
                         + instructor.toString());
-            } else if (course.isArchived) {
-                courseList.add(course);
+            } else {
+                boolean isCourseArchived = isCourseArchived(instructor.courseId, instructor.googleId);
+                if (isCourseArchived) {
+                    courseList.add(course);
+                }
             }
         }
         
@@ -720,4 +736,20 @@ public class CoursesLogic {
         }
         return false;
     }
+    
+    
+    public boolean isCourseArchived(String courseId, String instructorGoogleId) {
+        CourseAttributes course = getCourse(courseId);
+        InstructorAttributes instructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorGoogleId);
+        
+        return isCourseArchived(course, instructor);
+    }
+    
+    public boolean isCourseArchived(CourseAttributes course, InstructorAttributes instructor) {
+        boolean isCourseArchived = (instructor.isArchived != null) ?
+                                   instructor.isArchived : 
+                                   course.isArchived;
+        return isCourseArchived;
+    }
+
 }

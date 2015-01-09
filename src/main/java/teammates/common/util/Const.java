@@ -769,6 +769,7 @@ public class Const {
         public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT = "/jsp/studentFeedbackQuestionSubmissionEdit.jsp"; 
         public static final String STUDENT_FEEDBACK_RESULTS = "/jsp/studentFeedbackResults.jsp";
         public static final String STUDENT_PROFILE_PAGE = "/jsp/studentProfilePage.jsp";
+        public static final String STUDENT_MOTD = "/jsp/studentMotd.jsp";
             
         public static final String ADMIN_HOME = "/jsp/adminHome.jsp";
         public static final String ADMIN_ACCOUNT_MANAGEMENT = "/jsp/adminAccountManagement.jsp";
@@ -831,8 +832,8 @@ public class Const {
         public static final String COURSE_UNARCHIVED = "The course %s has been unarchived.";
         public static final String COURSE_DELETED = "The course %s has been deleted.";
         public static final String COURSE_EMPTY = "You have not created any courses yet. Use the form above to create a course.";
-        public static final String COURSE_EMPTY_IN_EVALUATION = "You have not created any courses yet. Go <a href=\""
-                + ActionURIs.INSTRUCTOR_COURSES_PAGE + "${user}\">here</a> to create one.";
+        public static final String COURSE_EMPTY_IN_EVALUATION = "You have not created any courses yet, or you have no active courses. Go <a href=\""
+                + ActionURIs.INSTRUCTOR_COURSES_PAGE + "${user}\">here</a> to create or unarchive a course.";
         public static final String COURSE_REMINDER_SENT_TO = "An email has been sent to ";
         public static final String COURSE_REMINDERS_SENT = "Emails have been sent to unregistered students.";
         

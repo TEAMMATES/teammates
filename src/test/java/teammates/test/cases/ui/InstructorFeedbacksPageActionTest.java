@@ -131,7 +131,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         assertEquals(
                 Const.ViewURIs.INSTRUCTOR_FEEDBACKS+"?error=false&user=idOfInstructor1OfCourse1", 
                 r.getDestinationWithParams());
-        assertEquals("You have not created any courses yet. Go <a href=\"/page/instructorCoursesPage?user=idOfInstructor1OfCourse1\">here</a> to create one.", r.getStatusMessage());
+        assertEquals("You have not created any courses yet, or you have no active courses. Go <a href=\"/page/instructorCoursesPage?user=idOfInstructor1OfCourse1\">here</a> to create or unarchive a course.", r.getStatusMessage());
         assertEquals(false, r.isError);
         
         pageData = (InstructorFeedbacksPageData) r.data;

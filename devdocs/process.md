@@ -26,8 +26,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    This can be done through Issue tracker. 
    Such a discussion reduces the chance of the fix being rejected later.
 
-0. If you do not have push permission to the committer repo, create a fork. 
-   Add remote names for committer repo (let's call it `upstream`) 
+0. Add remote names for committer repo (let's call it `upstream`) 
    and your fork (let's call it `myfork`)
    ```
    git remote add   upstream      https://github.com/TEAMMATES/repo.git
@@ -90,11 +89,10 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    * Create a pull request (PR). For the pull request name, copy paste the relevant
      issue name.<br>
      e.g. ` Incorrect error message when adding an existing instructor #1760`<br>
-     In the comment, mention the issue number. Doing so will create an 
-     automatic reference from the issue to the pull request.<br>
-     e.g. ` For #1760`  
+     In the PR description, mention the issue number in this format: `Fixes #1760`. 
+     Doing so will create an automatic reference from the issue to the pull request.<br>
      
-   * Assign the PR to yourself.
+   * Assign the PR to yourself if you have permission to do so.
    * Change the PR status to `s.ToReview`
    * Wait for the reviewer to change the PR status. If you did not get a review
      within 2-3 days, it is OK to request for a review by posting a comment in 
@@ -106,6 +104,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
 Role: reviewer
 
   * This is a code quality review. No need to run tests.
+  * Assign the PR to the author, if not already done so. 
   * Ensure the following:
     * The solution is the best possible solution to the problem under the 
       circumstances.
@@ -143,7 +142,7 @@ Role: committer
        Merge the branch. Format of the commit message: 
        `[Issue number] Issue title as given in the original issue`<br>
        e.g. `[2287] Add more tests for newly joined Instructor accessing sample course`
-    * Remove any status labels from the pull request.
+    * Remove any status labels from the pull request. Delete the branch (from GitHub UI).
     * Remove any status labels from the corresponding issue and close it.
   * If not green,
     * Delete the merge commit, if any.

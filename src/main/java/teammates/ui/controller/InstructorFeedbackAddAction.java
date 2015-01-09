@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -32,6 +31,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        Assumption.assertNotEmpty(courseId);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId); 
         
@@ -82,11 +82,19 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             setStatusForException(e);
         } 
         
-        // if isError == true,
-        data.instructors = new HashMap<String, InstructorAttributes>();
-        data.courses = loadCoursesList(account.googleId, data.instructors);
-        data.existingEvalSessions = loadEvaluationsList(account.googleId);
-        data.existingFeedbackSessions = loadFeedbackSessionsList(account.googleId);
+        // if isError == true, (an exception occurred above)
+        
+
+        data.instructors = loadCourseInstructorMap();
+        // Get courseDetailsBundles
+        boolean omitArchived = true;
+        courseDetailsList = logic.getCourseDetailsListForInstructor(account.googleId);
+        if (omitArchived) {
+            omitArchivedCourses(data.instructors);
+        }
+        data.courses = loadCoursesList();
+        data.existingEvalSessions = loadEvaluationsList();
+        data.existingFeedbackSessions = loadFeedbackSessionsList();
         
         if (data.existingFeedbackSessions.size() == 0) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY);
