@@ -21,8 +21,10 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
         InstructorFeedbackEditCopyPageData data = new InstructorFeedbackEditCopyPageData(account);
         data.courses = new ArrayList<CourseAttributes>();
                 
+        
         List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
         
+        // Only add courses to data if the course is not archived and instructor has sufficient permissions
         for (CourseAttributes course : courses) {
             InstructorAttributes instructor = logic.getInstructorForGoogleId(course.id, account.googleId);
             

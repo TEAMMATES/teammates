@@ -116,7 +116,8 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
                 if (course1.createdAt.compareTo(course2.createdAt) == 0) {
                     return course1.id.compareTo(course2.id);
                 }
-            
+                
+                // sort by newest course first
                 return -1 * course1.createdAt.compareTo(course2.createdAt);
             }
         });

@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -42,6 +43,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
                 logic.getCourse(courseIdFrom), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         try {
+            // Check if there are no conflicting feedback sessions in all the courses 
             List<String> conflictCourse = filterConflictsInCourses(
                     newFeedbackSessionName, coursesIdToCopyTo);
             
@@ -58,24 +60,20 @@ public class InstructorFeedbackEditCopyAction extends Action {
                 return createRedirectToEditPageWithErrorMsg(feedbackSessionNameFrom, courseIdFrom, errorToUser);
             }
             
+            // Copy the feedback sessions
             FeedbackSessionAttributes fs = null;
             // TODO: consider doing this as a batch insert
             for (String courseIdToCopyTo : coursesIdToCopyTo) {
                 fs = logic.copyFeedbackSession(newFeedbackSessionName, courseIdToCopyTo, feedbackSessionNameFrom, courseIdFrom, instructor.email);
             }
             
-            
-            String coursesToCopyTo = "";
-            String delim = "";
-            for (String courseIdToCopyTo : coursesIdToCopyTo) {
-                coursesToCopyTo += delim + courseIdToCopyTo ;
-                delim = ", ";
-            }
+            List<String> courses = Arrays.asList(coursesIdToCopyTo);
+            String commaSeparatedListOfCourses = StringHelper.toString(courses, ",");
             
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
             statusToAdmin = "Copying to multiple feedback sessions.<br>" +
                             "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Courses: <br>" +
-                            coursesToCopyTo + "<br>" +
+                            commaSeparatedListOfCourses + "<br>" +
                             "<span class=\"bold\">From:</span> " + fs.startTime + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" +
                             "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>" +
                             "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>" +
@@ -89,18 +87,25 @@ public class InstructorFeedbackEditCopyAction extends Action {
         } catch (EntityAlreadyExistsException e) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
             statusToAdmin = e.getMessage();
-            
             isError = true;
+            
             return createRedirectToEditPageWithError(feedbackSessionNameFrom, courseIdFrom);
             
         } catch (InvalidParametersException e) {
             setStatusForException(e);
+            
             return createRedirectToEditPageWithError(feedbackSessionNameFrom, courseIdFrom);
             
         }
         
     }
 
+    /**
+     * Given an array of Course Ids, return only the Ids of Courses which has an existing feedback 
+     * session with a name conflicting with feedbackSessionName
+     * @param feedbackSessionName
+     * @param coursesIdToCopyTo
+     */
     private List<String> filterConflictsInCourses(
             String feedbackSessionName, String[] coursesIdToCopyTo) {
         List<String> courses = new ArrayList<String>();
