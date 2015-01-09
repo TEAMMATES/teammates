@@ -706,6 +706,7 @@ public class Logic {
     }
 
     /**
+     * Omits archived courses if omitArchived == true<br>
      * Preconditions: <br>
      * * All parameters are non-null. 
      * @return A less detailed version of courses for this instructor without stats
@@ -720,17 +721,18 @@ public class Logic {
     }
 
     /**
+     * Omits archived courses if omitArchived == true<br>
      * Preconditions: <br>
      * * All parameters are non-null. 
      * @return A more detailed version of courses for this instructor. 
-     *   Returns an empty list if none found.
+     *   Returns an empty list if none found.\
      */
     public HashMap<String, CourseDetailsBundle> getCourseDetailsListForInstructor(
-            String instructorId) throws EntityDoesNotExistException {
+            String instructorId, boolean omitArchived) throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
 
-        return coursesLogic.getCoursesDetailsListForInstructor(instructorId);    
+        return coursesLogic.getCoursesDetailsListForInstructor(instructorId, omitArchived);    
     }
     
     /**
@@ -744,7 +746,7 @@ public class Logic {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         
-        return coursesLogic.getCourseSummariesForInstructor(googleId);
+        return coursesLogic.getCourseSummariesForInstructor(googleId, false);
     }
     
     /**

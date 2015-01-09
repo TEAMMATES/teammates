@@ -531,17 +531,20 @@ public class CoursesLogic {
     }
     
     /**
-     * Gets course summaries for instructor.
+     * Gets course summaries for instructor.<br>
+     * Omits archived courses if omitArchived == true<br>
      * 
      * @param googleId
      * @return HashMap with courseId as key, and CourseDetailsBundle as value.
      * Does not include details within the course, such as feedback sessions.
      */
-    public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId) throws EntityDoesNotExistException {
+    public HashMap<String, CourseDetailsBundle> getCourseSummariesForInstructor(
+            String googleId, boolean omitArchived) throws EntityDoesNotExistException {
         
         instructorsLogic.verifyInstructorExists(googleId);
 
-        List<InstructorAttributes> instructorAttributesList = instructorsLogic.getInstructorsForGoogleId(googleId);
+        List<InstructorAttributes> instructorAttributesList = 
+                instructorsLogic.getInstructorsForGoogleId(googleId, omitArchived);
     
         HashMap<String, CourseDetailsBundle> courseSummaryList = new HashMap<String, CourseDetailsBundle>();
         
@@ -565,17 +568,23 @@ public class CoursesLogic {
     }
  
     /**
-     * Gets course details list for instructor.
+     * Gets course details list for instructor.<br>
+     * Omits archived courses if omitArchived == true<br>
      * 
      * @param instructorId - Google Id of instructor
-     * @return HashMap with courseId as key, and CourseDetailsBundle as value
+     * @return HashMap with courseId as key, and CourseDetailsBundle as value.
      **/
     public HashMap<String, CourseDetailsBundle> getCoursesDetailsListForInstructor(
-            String instructorId) throws EntityDoesNotExistException {
+            String instructorId, boolean omitArchived) throws EntityDoesNotExistException {
         
         HashMap<String, CourseDetailsBundle> courseList = 
-                getCourseSummariesForInstructor(instructorId);
+                getCourseSummariesForInstructor(instructorId, omitArchived);
         
+        // TODO: remove need for lower level functions to make repeated db calls
+        // getEvaluationsDetailsForInstructor
+        // getFeedbackSessionDetailsForInstructor
+        // The above functions make repeated calls to get InstructorAttributes
+        // TODO: omit archived sessions and evaluations
         ArrayList<EvaluationDetailsBundle> evaluationList = 
                 evaluationsLogic.getEvaluationsDetailsForInstructor(instructorId);
         List<FeedbackSessionDetailsBundle> feedbackSessionList = 
@@ -583,11 +592,15 @@ public class CoursesLogic {
         
         for (EvaluationDetailsBundle edd : evaluationList) {
             CourseDetailsBundle courseSummary = courseList.get(edd.evaluation.courseId);
-            courseSummary.evaluations.add(edd);
+            if (courseSummary != null) {
+                courseSummary.evaluations.add(edd);
+            }
         }
         for (FeedbackSessionDetailsBundle fsb : feedbackSessionList) {
             CourseDetailsBundle courseSummary = courseList.get(fsb.feedbackSession.courseId);
-            courseSummary.feedbackSessions.add(fsb);
+            if (courseSummary != null) {
+                courseSummary.feedbackSessions.add(fsb);
+            }
         }
         return courseList;
     }
@@ -603,16 +616,18 @@ public class CoursesLogic {
         // getEvaluationsListForInstructor
         // getFeedbackSessionsListForInstructor
         // The above functions make repeated calls to get InstructorAttributes
+
+        // TODO: omit archived sessions and evaluations
         ArrayList<EvaluationAttributes> evaluationList = 
                 evaluationsLogic.getEvaluationsListForInstructor(instructorId);
-        
-        // TODO: omit archived courses from getFeedbackSessionsListForInstructor
         List<FeedbackSessionAttributes> feedbackSessionList = 
                 feedbackSessionsLogic.getFeedbackSessionsListForInstructor(instructorId);
         
         for (EvaluationAttributes edd : evaluationList) {
             CourseSummaryBundle courseSummary = courseList.get(edd.courseId);
-            courseSummary.evaluations.add(edd);
+            if (courseSummary != null) {
+                courseSummary.evaluations.add(edd);
+            }
         }
         for (FeedbackSessionAttributes fsb : feedbackSessionList) {
             CourseSummaryBundle courseSummary = courseList.get(fsb.courseId);
@@ -697,7 +712,7 @@ public class CoursesLogic {
     
     public String getCourseStudentListAsCsv(String courseId, String googleId) throws EntityDoesNotExistException {
 
-        HashMap<String, CourseDetailsBundle> courses = getCourseSummariesForInstructor(googleId);
+        HashMap<String, CourseDetailsBundle> courses = getCourseSummariesForInstructor(googleId, false);
         CourseDetailsBundle course = courses.get(courseId);
         boolean hasSection = hasIndicatedSections(courseId);
         
