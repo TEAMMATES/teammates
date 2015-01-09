@@ -1321,7 +1321,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         Summary Statistics,
         Team, Recipient, Average, Minimum, Maximum, Average excluding self response
-        "Team 1.1","student2 In Course1",2.0,2.0,2.0,-
+        "Team 1.1","student2 In Course1",2,2,2,-
         "Team 1.1","student1 In Course1",3.5,3.5,3.5,-
         
         
@@ -1338,7 +1338,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         Summary Statistics,
         Team, Recipient, Average, Minimum, Maximum
         "Instructors","Instructor1 Course1",4.5,4.5,4.5
-        "Instructors","Instructor2 Course1",1.0,1.0,1.0
+        "Instructors","Instructor2 Course1",1,1,1
         
         Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
         "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt",4.5
@@ -1354,9 +1354,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[4], "Question 1,\"Rate our product.\"");
         assertEquals(exportLines[5], "");
         assertEquals(exportLines[6], "Summary Statistics,");
-        assertEquals(exportLines[7], "Team, Recipient, Average, Minimum, Maximum, Average excluding self response");
-        assertEquals(exportLines[8], "\"Team 1.1\",\"student2 In Course1\",2.0,2.0,2.0,-");
-        assertEquals(exportLines[9], "\"Team 1.1\",\"student1 In Course1\",3.5,3.5,3.5,-");
+        assertEquals(exportLines[7], "Team, Recipient, Average, Minimum, Maximum");
+        assertEquals(exportLines[8], "\"Team 1.1\",\"student2 In Course1\",2,2,2");
+        assertEquals(exportLines[9], "\"Team 1.1\",\"student1 In Course1\",3.5,3.5,3.5");
         assertEquals(exportLines[10], "");
         assertEquals(exportLines[11], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
         assertEquals(exportLines[12], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",3.5");
@@ -1369,9 +1369,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[19], "Question 2,\"Rate our product.\"");
         assertEquals(exportLines[20], "");
         assertEquals(exportLines[21], "Summary Statistics,");
-        assertEquals(exportLines[22], "Team, Recipient, Average, Minimum, Maximum, Average excluding self response");
-        assertEquals(exportLines[23], "\"Instructors\",\"Instructor1 Course1\",4.5,4.5,4.5,-");
-        assertEquals(exportLines[24], "\"Instructors\",\"Instructor2 Course1\",1.0,1.0,1.0,-");
+        assertEquals(exportLines[22], "Team, Recipient, Average, Minimum, Maximum");
+        assertEquals(exportLines[23], "\"Instructors\",\"Instructor1 Course1\",4.5,4.5,4.5");
+        assertEquals(exportLines[24], "\"Instructors\",\"Instructor2 Course1\",1,1,1");
         assertEquals(exportLines[25], "");
         assertEquals(exportLines[26], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
         assertEquals(exportLines[27], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",4.5");
