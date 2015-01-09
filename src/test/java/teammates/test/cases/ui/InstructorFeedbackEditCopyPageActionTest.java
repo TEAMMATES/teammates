@@ -2,7 +2,6 @@ package teammates.test.cases.ui;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -22,8 +21,8 @@ public class InstructorFeedbackEditCopyPageActionTest extends
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        dataBundle = loadDataBundle("/InstructorFeedbackEditCopyUiTest.json");
-        removeAndRestoreDatastoreFromJson("/InstructorFeedbackEditCopyUiTest.json");
+        dataBundle = loadDataBundle("/InstructorFeedbackEditCopyTest.json");
+        removeAndRestoreDatastoreFromJson("/InstructorFeedbackEditCopyTest.json");
         
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE;
     }

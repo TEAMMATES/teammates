@@ -1,20 +1,15 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNull;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.google.gson.Gson;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.test.driver.BackDoor;
 import teammates.ui.controller.InstructorFeedbackEditCopyAction;
 import teammates.ui.controller.RedirectResult;
 
@@ -26,8 +21,8 @@ public class InstructorFeedbackEditCopyActionTest extends
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        dataBundle = loadDataBundle("/InstructorFeedbackEditCopyUiTest.json");
-        removeAndRestoreDatastoreFromJson("/InstructorFeedbackEditCopyUiTest.json");
+        dataBundle = loadDataBundle("/InstructorFeedbackEditCopyTest.json");
+        removeAndRestoreDatastoreFromJson("/InstructorFeedbackEditCopyTest.json");
         
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY;
     }

@@ -52,7 +52,7 @@ function readyFeedbackEditPage(){
     formatQuestionNumbers();
     collapseIfPrivateSession();
     
-    setupEventHandlerOnFsCopyModal();
+    setupFsCopyModal();
 }
 
 /**
@@ -1379,7 +1379,7 @@ function highlightRubricCol(index, questionNumber, highlight) {
     }
 }
 
-function setupEventHandlerOnFsCopyModal() {
+function setupFsCopyModal() {
 	$('#fsCopyModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // Button that triggered the modal
         var actionlink = button.data('actionlink');
@@ -1408,7 +1408,7 @@ function setupEventHandlerOnFsCopyModal() {
     				"\"></div>";
                     
                     for (var i = 0 ; i < coursesTable.length; i++) {
-                    	htmlToAppend += "<div class=\"checkbox\">";
+                        htmlToAppend += "<div class=\"checkbox\">";
                         htmlToAppend += "<label><input type=\"checkbox\" name=\"copiedcoursesid\"";
                         htmlToAppend += "value=\"" + coursesTable[i].id + "\"> [" + coursesTable[i].id + "] : " + coursesTable[i].name;
                         htmlToAppend +=  "</label></div>";

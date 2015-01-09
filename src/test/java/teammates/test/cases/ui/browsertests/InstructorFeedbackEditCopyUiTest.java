@@ -14,10 +14,6 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.util.Priority;
 
 
-/**
- * Covers the 'Edit Feedback Session' page for instructors.
- * SUT is {@link InstructorFeedbackEditPage}.
- */
 @Priority(-1)
 public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
     private static Browser browser;
@@ -30,7 +26,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();
-        testData = loadDataBundle("/InstructorFeedbackEditCopyUiTest.json");
+        testData = loadDataBundle("/InstructorFeedbackEditCopyTest.json");
         removeAndRestoreTestDataOnServer(testData);
         instructorId = testData.accounts.get("instructorWithSessions").googleId;
         courseId = testData.courses.get("course").id;
