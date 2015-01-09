@@ -231,11 +231,13 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     @Test
     public void testGetInstructorsForGoogleId() throws Exception {
         
+        // TODO: test omitting archived course instructors
+        
         ______TS("Success: get instructors with specific googleId");
         
         String googleId = "idOfInstructor3";
         
-        List<InstructorAttributes> retrieved = instructorsDb.getInstructorsForGoogleId(googleId);
+        List<InstructorAttributes> retrieved = instructorsDb.getInstructorsForGoogleId(googleId, false);
         assertEquals(2, retrieved.size());
         
         InstructorAttributes instructor1 = retrieved.get(0);
@@ -246,13 +248,13 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         
         ______TS("Failure: instructor does not exist");
         
-        retrieved = instructorsDb.getInstructorsForGoogleId("non-exist-id");
+        retrieved = instructorsDb.getInstructorsForGoogleId("non-exist-id", false);
         assertEquals(0, retrieved.size());
         
         ______TS("Failure: null parameters");
 
         try {
-            instructorsDb.getInstructorsForGoogleId(null);
+            instructorsDb.getInstructorsForGoogleId(null, false);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
@@ -437,7 +439,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         String googleId = "instructorWithOnlyOneSampleCourse";
         instructorsDb.deleteInstructorsForGoogleId(googleId);
         
-        List<InstructorAttributes> retrieved = instructorsDb.getInstructorsForGoogleId(googleId);
+        List<InstructorAttributes> retrieved = instructorsDb.getInstructorsForGoogleId(googleId, false);
         assertEquals(0, retrieved.size());
         
         ______TS("Failure: try to delete where there's no instructors associated with the googleId, should fail silently");
