@@ -711,12 +711,12 @@ public class Logic {
      * @return A less detailed version of courses for this instructor without stats
      *   Returns an empty list if none found.
      */
-    public HashMap<String, CourseSummaryBundle> getCourseSummariesWithoutStatsForInstructor(String googleId) 
+    public HashMap<String, CourseSummaryBundle> getCourseSummariesWithoutStatsForInstructor(String googleId, boolean omitArchived) 
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         
-        return coursesLogic.getCoursesSummaryWithoutStatsForInstructor(googleId);
+        return coursesLogic.getCoursesSummaryWithoutStatsForInstructor(googleId, omitArchived);
     }
 
     /**
