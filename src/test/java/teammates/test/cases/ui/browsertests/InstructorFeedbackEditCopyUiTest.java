@@ -48,6 +48,19 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         feedbackEditPage.clickFsCopySubmitButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         
+        ______TS("copy fails due to fs with same name");
+        feedbackEditPage.clickFsCopyButton();
+        ThreadHelper.waitFor(1000);
+        feedbackEditPage.fillCopyToOtherCoursesForm(feedbackSessionName);
+        
+        feedbackEditPage.clickFsCopySubmitButton();
+        
+        String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, feedbackSessionName, testData.courses.get("course").id);
+        feedbackEditPage.verifyStatus(error);
+        ThreadHelper.waitFor(1000);
+        
+        feedbackEditPage.verifyHtml("/instructorFeedbackEditCopyFail.html");
+        
         
         ______TS("copy to all");
         feedbackEditPage.clickFsCopyButton();

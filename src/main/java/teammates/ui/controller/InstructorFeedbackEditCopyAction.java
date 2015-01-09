@@ -27,7 +27,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
 
         
         if (coursesIdToCopyTo == null || coursesIdToCopyTo.length == 0) {
-            return redirectWithErrorMsg(feedbackSessionName, courseId, Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
+            return createRedirectToEditPageWithErrorMsg(feedbackSessionName, courseId, Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         }
         
         Assumption.assertNotNull(copiedFeedbackSessionName);
@@ -47,12 +47,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
             
             if (!coursesWhichCopyFails.isEmpty()) {
                 String error = "For measuring failure rate: user tried to copy session to multiple courses.";
-                error += "Name of Session: " + copiedFeedbackSessionName; 
-                for (String course : coursesWhichCopyFails) {
-                    error += "Copying to " + course + " failed";
-                }
-                
-                log.severe(error);
+                error += "Name of Session: " + copiedFeedbackSessionName + "<br>"; 
                 
                 String coursesWithSameNameFs = "";
                 String delim = "";
@@ -61,7 +56,10 @@ public class InstructorFeedbackEditCopyAction extends Action {
                     delim = ", ";
                 }
                 
-                return redirectWithErrorMsg(feedbackSessionName, courseId, String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, copiedFeedbackSessionName, coursesWithSameNameFs));
+                error += "Copying to course(s) " + coursesWithSameNameFs + " failed.";
+                log.severe(error);
+                
+                return createRedirectToEditPageWithErrorMsg(feedbackSessionName, courseId, String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, copiedFeedbackSessionName, coursesWithSameNameFs));
             }
             
             FeedbackSessionAttributes fs = null;
@@ -101,7 +99,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
         }
         
         
-        return redirectWithError(feedbackSessionName, courseId);
+        return createRedirectToEditPageWithError(feedbackSessionName, courseId);
     }
 
 
@@ -121,7 +119,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
     }
     
     
-    private RedirectResult redirectWithError(String feedbackSessionName,
+    private RedirectResult createRedirectToEditPageWithError(String feedbackSessionName,
             String courseId) {
         isError = true;
         
@@ -133,10 +131,10 @@ public class InstructorFeedbackEditCopyAction extends Action {
         return redirectResult;
     }
 
-    private RedirectResult redirectWithErrorMsg(String feedbackSessionName,
+    private RedirectResult createRedirectToEditPageWithErrorMsg(String feedbackSessionName,
             String courseId, String errorToUser) {
         statusToUser.add(errorToUser);
-        return redirectWithError(feedbackSessionName, courseId);
+        return createRedirectToEditPageWithError(feedbackSessionName, courseId);
     }
 
 }
