@@ -1,9 +1,8 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertNull;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -16,10 +15,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.BackDoor;
-import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackEditCopyAction;
-import teammates.ui.controller.InstructorFeedbackEditCopyPageAction;
-import teammates.ui.controller.InstructorFeedbackEditCopyPageData;
 import teammates.ui.controller.RedirectResult;
 
 
@@ -42,6 +38,7 @@ public class InstructorFeedbackEditCopyActionTest extends
         String instructorId = instructor.googleId;
         
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("openSession");
+        CourseAttributes course = dataBundle.courses.get("course");
         
         gaeSimulation.loginAsInstructor(instructorId);
         
@@ -71,12 +68,14 @@ public class InstructorFeedbackEditCopyActionTest extends
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED, rr.getStatusMessage());
         
         ______TS("Failure case: course already has feedback session with same name");
+        
+        CourseAttributes course6 = dataBundle.courses.get("course6");
         params = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
-                Const.ParamsNames.COURSE_ID, "CFeedbackEditCopyUiT.CS2104",
+                Const.ParamsNames.COURSE_ID, course.id,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "First Session",
-                Const.ParamsNames.COPIED_COURSES_ID, "CFeedbackEditCopyUiT.CS2104",
-                Const.ParamsNames.COPIED_COURSES_ID, "CFeedbackEditCopyUiT.CS2103"
+                Const.ParamsNames.COPIED_COURSES_ID, course.id,
+                Const.ParamsNames.COPIED_COURSES_ID, course6.id
         };
         
         a = getAction(params);
@@ -91,18 +90,50 @@ public class InstructorFeedbackEditCopyActionTest extends
                         + "&fsname=First+Session",
                 rr.getDestinationWithParams());
         
-        assertEquals("A feedback session with the name \"First Session\" already exists in the course(s) CFeedbackEditCopyUiT.CS2104.", rr.getStatusMessage());
+        assertEquals("A feedback session with the name \"First Session\" already exists in the course(s) FeedbackEditCopy.CS2104.", rr.getStatusMessage());
         
-        // Check that the feedback session is not copied to the other course as well
-        assertNull(BackDoor.getFeedbackSession("CFeedbackEditCopyUiT.CS2103", "First Session"));
+        ______TS("Failure case: empty name");
         
-        ______TS("Successful case");
         params = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
-                Const.ParamsNames.COURSE_ID, "CFeedbackEditCopyUiT.CS2104",
-                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
-                Const.ParamsNames.COPIED_COURSES_ID, "CFeedbackEditCopyUiT.CS1101",
-                Const.ParamsNames.COPIED_COURSES_ID, "CFeedbackEditCopyUiT.CS2103"
+                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "",
+                Const.ParamsNames.COPIED_COURSES_ID, course.id,
+                Const.ParamsNames.COPIED_COURSES_ID, course6.id
+        };
+        
+        a = getAction(params);
+        rr = (RedirectResult) a.executeAndPostProcess();
+        
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+                        + "?error=true"
+                        + "&user="
+                        + instructor.googleId
+                        + "&courseid="
+                        + instructor.courseId
+                        + "&fsname=First+Session",
+                rr.getDestinationWithParams());
+        
+        assertEquals("\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. The value of feedback session name should be no longer than 38 characters. It should not be empty.", rr.getStatusMessage());
+        
+        String expectedLogMessage =
+                "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||Instructor|||Instructor 2|||" + 
+                "FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||Servlet Action Failure : \"\" is not acceptable to TEAMMATES" +
+                " as feedback session name because it is empty. The value of feedback session name should be no longer than 38 characters. " +
+                "It should not be empty.|||/page/instructorFeedbackEditCopy";
+        assertEquals(expectedLogMessage, a.getLogMessage());
+        
+        
+        ______TS("Successful case");
+        
+        CourseAttributes course7 = dataBundle.courses.get("course7");
+        String copiedCourseName = "Session with valid name";
+        params = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
+                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, copiedCourseName,
+                Const.ParamsNames.COPIED_COURSES_ID, course6.id,
+                Const.ParamsNames.COPIED_COURSES_ID, course7.id
         };
         
         a = getAction(params);
@@ -116,6 +147,21 @@ public class InstructorFeedbackEditCopyActionTest extends
                 rr.getDestinationWithParams());
         
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPIED, rr.getStatusMessage());
+        
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||" +
+                             "true|||Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||" +
+                             "tmms.instr@gmail.tmt|||Copying to multiple feedback sessions.<br>" +
+                             "New Feedback Session <span class=\"bold\">(Session with valid name)</span> " +
+                             "for Courses: <br>FeedbackEditCopy.CS2103R, FeedbackEditCopy.CS2102<br>" + 
+                             "<span class=\"bold\">From:</span> Sun Apr 01 23:59:00 UTC 2012<span class=\"bold\"> " +
+                             "to</span> Sat Apr 30 23:59:00 UTC 2016<br><span class=\"bold\">Session visible from:</span> " +
+                             "Sun Apr 01 23:59:00 UTC 2012<br><span class=\"bold\">Results visible from:</span> " +
+                             "Sun May 01 23:59:00 UTC 2016<br><br><span class=\"bold\">Instructions:</span> " +
+                             "<Text: Instructions for first session><br>Copied from <span class=\"bold\">(First Session)</span> " +
+                             "for Course <span class=\"bold\">[FeedbackEditCopy.CS2104]</span> created.<br>|||" + 
+                             "/page/instructorFeedbackEditCopy";
+        assertEquals(expectedLogMessage, a.getLogMessage());
+        
     }
     
     private InstructorFeedbackEditCopyAction getAction(String... params)

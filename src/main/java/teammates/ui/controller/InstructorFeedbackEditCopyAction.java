@@ -70,14 +70,23 @@ public class InstructorFeedbackEditCopyAction extends Action {
                 fs = logic.copyFeedbackSession(copiedFeedbackSessionName, newCourseId, feedbackSessionName, courseId, instructor.email);
             }
             
+            
+            String adminListOfMsg = "";
+            String delim = "";
+            for (String newCourseId : coursesIdToCopyTo) {
+                adminListOfMsg += delim + newCourseId ;
+                delim = ", ";
+            }
+            
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
             statusToAdmin = "Copying to multiple feedback sessions.<br>" +
-                    "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" +
-                    "<span class=\"bold\">From:</span> " + fs.startTime + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" +
-                    "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>" +
-                    "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>" +
-                    "<span class=\"bold\">Instructions:</span> " + fs.instructions + "<br>" +
-                    "Copied from <span class=\"bold\">(" + feedbackSessionName + ")</span> for Course <span class=\"bold\">[" + courseId + "]</span> created.<br>";
+                            "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Courses: <br>" +
+                            adminListOfMsg + "<br>" +
+                            "<span class=\"bold\">From:</span> " + fs.startTime + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" +
+                            "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>" +
+                            "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>" +
+                            "<span class=\"bold\">Instructions:</span> " + fs.instructions + "<br>" +
+                            "Copied from <span class=\"bold\">(" + feedbackSessionName + ")</span> for Course <span class=\"bold\">[" + courseId + "]</span> created.<br>";
 
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
             
