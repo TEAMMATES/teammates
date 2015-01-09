@@ -103,8 +103,6 @@ public class FeedbackSessionsLogic {
             String courseId) {
         return fsDb.getFeedbackSessionsForCourse(courseId);
     }
-    
-    
 
     public FeedbackSessionAttributes copyFeedbackSession(
             String newFeedbackSessionName, String newCourseId, String feedbackSessionName,

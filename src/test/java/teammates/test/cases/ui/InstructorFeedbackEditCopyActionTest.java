@@ -85,7 +85,7 @@ public class InstructorFeedbackEditCopyActionTest extends
                         + "&fsname=First+Session",
                 rr.getDestinationWithParams());
         
-        assertEquals("A feedback session with the name \"First Session\" already exists in the course(s) FeedbackEditCopy.CS2104.", rr.getStatusMessage());
+        assertEquals("A feedback session with the name \"First Session\" already exists in the following course(s): FeedbackEditCopy.CS2104.", rr.getStatusMessage());
         
         ______TS("Failure case: empty name");
         

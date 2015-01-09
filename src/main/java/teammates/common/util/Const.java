@@ -903,7 +903,7 @@ public class Const {
         public static final String FEEDBACK_SESSION_ADD_DB_INCONSISTENCY = "If you do not see existing feedback sessions in the list below, please refresh the page after a few moments";
         public static final String FEEDBACK_SESSION_COPIED = "The feedback session has been copied. Please modify settings/questions as necessary.";
         public static final String FEEDBACK_SESSION_COPY_NONESELECTED = "You have not selected any course to copy the feedback session to";
-        public static final String FEEDBACK_SESSION_COPY_ALREADYEXISTS = "A feedback session with the name \"%s\" already exists in the course(s) %s.";
+        public static final String FEEDBACK_SESSION_COPY_ALREADYEXISTS = "A feedback session with the name \"%s\" already exists in the following course(s): %s.";
         public static final String FEEDBACK_SESSION_EDITED = "The feedback session has been updated.";
         public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
         public static final String FEEDBACK_SESSION_PUBLISHED = "The feedback session has been published. Please allow up to 1 hour for all the notification emails to be sent out.";
