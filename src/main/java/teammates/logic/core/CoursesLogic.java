@@ -584,11 +584,10 @@ public class CoursesLogic {
         // getEvaluationsDetailsForInstructor
         // getFeedbackSessionDetailsForInstructor
         // The above functions make repeated calls to get InstructorAttributes
-        // TODO: omit archived sessions and evaluations
         ArrayList<EvaluationDetailsBundle> evaluationList = 
-                evaluationsLogic.getEvaluationsDetailsForInstructor(instructorId);
+                evaluationsLogic.getEvaluationsDetailsForInstructor(instructorId, omitArchived);
         List<FeedbackSessionDetailsBundle> feedbackSessionList = 
-                feedbackSessionsLogic.getFeedbackSessionDetailsForInstructor(instructorId);
+                feedbackSessionsLogic.getFeedbackSessionDetailsForInstructor(instructorId, omitArchived);
         
         for (EvaluationDetailsBundle edd : evaluationList) {
             CourseDetailsBundle courseSummary = courseList.get(edd.evaluation.courseId);
@@ -617,11 +616,10 @@ public class CoursesLogic {
         // getFeedbackSessionsListForInstructor
         // The above functions make repeated calls to get InstructorAttributes
 
-        // TODO: omit archived sessions and evaluations
         ArrayList<EvaluationAttributes> evaluationList = 
-                evaluationsLogic.getEvaluationsListForInstructor(instructorId);
+                evaluationsLogic.getEvaluationsListForInstructor(instructorId, omitArchived);
         List<FeedbackSessionAttributes> feedbackSessionList = 
-                feedbackSessionsLogic.getFeedbackSessionsListForInstructor(instructorId);
+                feedbackSessionsLogic.getFeedbackSessionsListForInstructor(instructorId, omitArchived);
         
         for (EvaluationAttributes edd : evaluationList) {
             CourseSummaryBundle courseSummary = courseList.get(edd.courseId);

@@ -170,9 +170,27 @@ public class FeedbackSessionsLogic {
             String googleId)
             throws EntityDoesNotExistException {
 
+        return getFeedbackSessionDetailsForInstructor(googleId, false);
+    }
+    
+    /**
+     * Returns a {@code List} of all feedback sessions bundled with their
+     * response statistics for a instructor given by his googleId.<br>
+     * Does not return private sessions unless the instructor is the creator.
+     * <br>
+     * Omits archived sessions if omitArchived == true
+     * 
+     * @param googleId
+     * @return
+     * @throws EntityDoesNotExistException
+     */
+    public List<FeedbackSessionDetailsBundle> getFeedbackSessionDetailsForInstructor(
+            String googleId, boolean omitArchived)
+            throws EntityDoesNotExistException {
+
         List<FeedbackSessionDetailsBundle> fsDetails = new ArrayList<FeedbackSessionDetailsBundle>();
         List<InstructorAttributes> instructors =
-                instructorsLogic.getInstructorsForGoogleId(googleId);
+                instructorsLogic.getInstructorsForGoogleId(googleId, omitArchived);
 
         for (InstructorAttributes instructor : instructors) {
             fsDetails.addAll(getFeedbackSessionDetailsForCourse(
@@ -195,9 +213,27 @@ public class FeedbackSessionsLogic {
             String googleId)
             throws EntityDoesNotExistException {
 
+        return getFeedbackSessionsListForInstructor(googleId, false);
+    }
+    
+    /**
+     * Returns a {@code List} of all feedback sessions WITHOUT their response
+     * statistics for a instructor given by his googleId.<br>
+     * Does not return private sessions unless the instructor is the creator.
+     * <br>
+     * Omits sessions from archived courses if omitArchived == true
+     * 
+     * @param googleId
+     * @return
+     * @throws EntityDoesNotExistException
+     */
+    public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(
+            String googleId, boolean omitArchived)
+            throws EntityDoesNotExistException {
+
         List<FeedbackSessionAttributes> fsList = new ArrayList<FeedbackSessionAttributes>();
         List<InstructorAttributes> instructors =
-                instructorsLogic.getInstructorsForGoogleId(googleId);
+                instructorsLogic.getInstructorsForGoogleId(googleId, omitArchived);
 
         for (InstructorAttributes instructor : instructors) {
             fsList.addAll(getFeedbackSessionsListForCourse(instructor.courseId,
