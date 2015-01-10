@@ -38,7 +38,8 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    ```
    git pull upstream
    ```
-4. Change the issue status to `s.Ongoing`
+4. Change the issue status to `s.Ongoing`. If you don't have permissions to change labels,
+   add comment to say you are starting the issue. e.g. `starting issue`
 
 5. Start a new branch named `Issue{IssueNumber}`. 
    If you are already working in a branch, remember to switch to the `master` 
@@ -92,19 +93,22 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
      In the PR description, mention the issue number in this format: `Fixes #1760`. 
      Doing so will create an automatic reference from the issue to the pull request.<br>
      
-   * Assign the PR to yourself if you have permission to do so.
-   * Change the PR status to `s.ToReview`
-   * Wait for the reviewer to change the PR status. If you did not get a review
-     within 2-3 days, it is OK to request for a review by posting a comment in 
-     the PR.  
-   
+   * The PR will be assigned to the reviewer, not to you.
+     Wait for the reviewer to change the PR status to `s.toMerge` or to suggest changes. 
+     If you did not get a review within 2-3 days, it is OK to request for a review 
+     by posting a comment in the PR. 
+
+   * The cycle of 'update pull request' and 'review' (i.e. the previous two steps) 
+     is to continue until PR status changes to `s.toMerge`. After doing suggested
+     changes, remember to add a comment to indicate the PR is ready for review again.
+     e.g. `ready to review` or `changes done`
    
 
 ###Reviewing a fix
 Role: reviewer
 
   * This is a code quality review. No need to run tests.
-  * Assign the PR to the author, if not already done so. 
+  * You are the reviewer for a PR if you are the `assignee` of it.
   * Ensure the following:
     * The solution is the best possible solution to the problem under the 
       circumstances.
@@ -117,9 +121,8 @@ Role: reviewer
     * The code is synced with upstream. GitHub should show it as 'can merge'. 
       If not, ask the dev to sync with upstream. 
   * If any of the above are not OK, 
-    * Add comments to suggest changes.
-    * Change pull request status to `s.Ongoing`
-    * Optionally, add a comment to inform the author to refine the code.
+    * Add comments in the diff to suggest changes.
+    * Optionally, add a comment in the conversation thread to inform the author to refine the code.
   * If the code is OK on all aspects,
     * Change issue status to `s.ToMerge`
 
