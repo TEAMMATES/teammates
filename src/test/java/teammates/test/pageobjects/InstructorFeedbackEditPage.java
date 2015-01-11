@@ -372,6 +372,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         copySubmitButton.click();
     }
     
+    public void waitForModalToLoad() {
+        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME), 1);
+    }
+    
     public void fillCopyToOtherCoursesForm(String newName) {
         WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
         List<WebElement> coursesCheckBoxes = fsCopyModal.findElements(By.name(Const.ParamsNames.COPIED_COURSES_ID));

@@ -9,9 +9,11 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.controller.InstructorFeedbackEditCopyAction;
 import teammates.ui.controller.RedirectResult;
+import teammates.ui.controller.ShowPageResult;
 
 
 public class InstructorFeedbackEditCopyActionTest extends
@@ -63,6 +65,81 @@ public class InstructorFeedbackEditCopyActionTest extends
                 rr.getDestinationWithParams());
         
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED, rr.getStatusMessage());
+
+        
+        ______TS("Failure case: copying from course with insufficient permission");
+        params = new String[]{
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, "FeedbackEditCopy.CS2107",
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
+                Const.ParamsNames.COPIED_COURSES_ID, course.id
+        };
+        
+        a = getAction(params);
+        
+        try {
+            rr = (RedirectResult) a.executeAndPostProcess();
+            signalFailureToDetectException();
+        } catch(UnauthorizedAccessException uae) {
+            assertEquals("Course [FeedbackEditCopy.CS2107] is not accessible to instructor [tmms.instr@course.tmt] for privilege [canmodifysession]",
+                    uae.getMessage());
+        }
+        
+        
+        ______TS("Failure case: copying to course with insufficient permission");
+        params = new String[]{
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
+                Const.ParamsNames.COPIED_COURSES_ID, "FeedbackEditCopy.CS2107"
+        };
+        
+        a = getAction(params);
+        
+        try {
+            rr = (RedirectResult) a.executeAndPostProcess();
+            signalFailureToDetectException();
+        } catch(UnauthorizedAccessException uae) {
+            assertEquals("Course [FeedbackEditCopy.CS2107] is not accessible to instructor [tmms.instr@course.tmt] for privilege [canmodifysession]",
+                    uae.getMessage());
+        }
+        
+        
+        ______TS("Failure case: copying non-existing fs");
+        params = new String[]{
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "non.existing.fs",
+                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
+                Const.ParamsNames.COPIED_COURSES_ID, course.id
+        };
+        
+        a = getAction(params);
+        
+        try {
+            rr = (RedirectResult) a.executeAndPostProcess();
+            signalFailureToDetectException();
+        } catch(UnauthorizedAccessException uae) {
+            assertEquals("Trying to access system using a non-existent feedback session entity",
+                    uae.getMessage());
+        }
+
+        ______TS("Failure case: copying to non-existing course");
+        params = new String[]{
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
+                Const.ParamsNames.COPIED_COURSES_ID, "non.existing.course"
+        };
+        
+        a = getAction(params);
+        
+        try {
+            rr = (RedirectResult) a.executeAndPostProcess();
+            signalFailureToDetectException();
+        } catch(UnauthorizedAccessException uae) {
+            assertEquals("Trying to access system using a non-existent instructor entity",
+                    uae.getMessage());
+        }
         
         
         ______TS("Failure case: course already has feedback session with same name");

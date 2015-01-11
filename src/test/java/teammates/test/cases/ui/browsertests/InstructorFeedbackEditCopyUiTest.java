@@ -1,5 +1,6 @@
 package teammates.test.cases.ui.browsertests;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -14,7 +15,6 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.util.Priority;
 
 
-@Priority(-1)
 public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorFeedbackEditPage feedbackEditPage;
@@ -41,7 +41,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         
         ______TS("Submit empty course list");
         feedbackEditPage.clickFsCopyButton();
-        ThreadHelper.waitFor(1000);
+        feedbackEditPage.waitForModalToLoad();
         
         feedbackEditPage.verifyHtml("/instructorFeedbackEditCopyPage.html");
         
@@ -51,28 +51,37 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         
         ______TS("Copying fails due to fs with same name in course selected");
         feedbackEditPage.clickFsCopyButton();
-        ThreadHelper.waitFor(1000);
+        feedbackEditPage.waitForModalToLoad();
         feedbackEditPage.fillCopyToOtherCoursesForm(feedbackSessionName);
         
         feedbackEditPage.clickFsCopySubmitButton();
         
         String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, feedbackSessionName, testData.courses.get("course").id);
         feedbackEditPage.verifyStatus(error);
-        ThreadHelper.waitFor(1000);
         
         feedbackEditPage.verifyHtml("/instructorFeedbackEditCopyFail.html");
         
         
+        ______TS("Copying fails due to fs with invalid name");
+        feedbackEditPage.clickFsCopyButton();
+        feedbackEditPage.waitForModalToLoad();
+        feedbackEditPage.fillCopyToOtherCoursesForm("Invalid name | for feedback session");
+        
+        feedbackEditPage.clickFsCopySubmitButton();
+        
+        feedbackEditPage.verifyStatus("\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as feedback session name because it contains invalid characters. All feedback session name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).");
+        
+        
         ______TS("Successful case");
         feedbackEditPage.clickFsCopyButton();
-        ThreadHelper.waitFor(1000);
+        feedbackEditPage.waitForModalToLoad();
         feedbackEditPage.fillCopyToOtherCoursesForm("New name!");
         
         feedbackEditPage.clickFsCopySubmitButton();
         
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
-        ThreadHelper.waitFor(1000);
-        
+        feedbackEditPage.waitForElementPresence(By.id("table-sessions"), 5);
+        ThreadHelper.waitFor(1000); // wait for sessions' response rate to load
         feedbackEditPage.verifyHtml("/instructorFeedbackEditCopySuccess.html");
         
     }

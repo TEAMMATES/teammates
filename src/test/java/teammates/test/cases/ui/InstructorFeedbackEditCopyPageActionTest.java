@@ -45,6 +45,9 @@ public class InstructorFeedbackEditCopyPageActionTest extends
         InstructorFeedbackEditCopyPageData pageData = 
                 (InstructorFeedbackEditCopyPageData) r.data;
         assertEquals(4, pageData.courses.size());
+        assertFalse(pageData.courses.contains("FeedbackEditCopy.CS1101")); // course is archived
+        assertFalse(pageData.courses.contains("FeedbackEditCopy.CS2107")); // instructor does not have sufficient permissions
+        
     }
     
     private InstructorFeedbackEditCopyPageAction getAction(String... params)
