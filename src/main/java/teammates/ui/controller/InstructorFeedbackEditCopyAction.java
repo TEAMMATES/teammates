@@ -61,6 +61,11 @@ public class InstructorFeedbackEditCopyAction extends Action {
             // Copy the feedback sessions
             // TODO: consider doing this as a batch insert
             for (String courseIdToCopyTo : coursesIdToCopyTo) {
+                InstructorAttributes instructorForCourse = logic.getInstructorForGoogleId(courseIdToCopyTo, account.googleId);
+                new GateKeeper().verifyAccessible(
+                        instructorForCourse, 
+                        logic.getCourse(courseIdToCopyTo), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                
                 fs = logic.copyFeedbackSession(newFeedbackSessionName, courseIdToCopyTo, originalFeedbackSessionName, originalCourseId, instructor.email);
             }
             
