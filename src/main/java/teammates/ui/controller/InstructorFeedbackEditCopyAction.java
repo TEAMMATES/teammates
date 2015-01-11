@@ -33,10 +33,13 @@ public class InstructorFeedbackEditCopyAction extends Action {
         }
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(originalCourseId, account.googleId); 
+        FeedbackSessionAttributes fsa = logic.getFeedbackSession(originalFeedbackSessionName, originalCourseId);
         
-        new GateKeeper().verifyAccessible(
+        GateKeeper gk = new GateKeeper();
+        gk.verifyAccessible(
                 instructor, 
                 logic.getCourse(originalCourseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        gk.verifyAccessible(instructor, fsa, false);
         
         try {
             // Check if there are no conflicting feedback sessions in all the courses 
@@ -62,7 +65,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
             // TODO: consider doing this as a batch insert
             for (String courseIdToCopyTo : coursesIdToCopyTo) {
                 InstructorAttributes instructorForCourse = logic.getInstructorForGoogleId(courseIdToCopyTo, account.googleId);
-                new GateKeeper().verifyAccessible(
+                gk.verifyAccessible(
                         instructorForCourse, 
                         logic.getCourse(courseIdToCopyTo), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
                 

@@ -111,15 +111,17 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     }
     
     public static void sortByCreatedDate(List<CourseAttributes> courses) {
-        Collections.sort(courses, new Comparator<CourseAttributes>() {
-            public int compare(CourseAttributes course1, CourseAttributes course2) {
-                if (course1.createdAt.compareTo(course2.createdAt) == 0) {
-                    return course1.id.compareTo(course2.id);
-                }
-                
-                // sort by newest course first
-                return -1 * course1.createdAt.compareTo(course2.createdAt);
-            }
-        });
+        Collections.sort(courses, createdDateComparator);
     }
+    
+    private static Comparator<CourseAttributes> createdDateComparator = new Comparator<CourseAttributes>() {
+        public int compare(CourseAttributes course1, CourseAttributes course2) {
+            if (course1.createdAt.compareTo(course2.createdAt) == 0) {
+                return course1.id.compareTo(course2.id);
+            }
+            
+            // sort by newest course first
+            return -1 * course1.createdAt.compareTo(course2.createdAt);
+        }
+    };
 }
