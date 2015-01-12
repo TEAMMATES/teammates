@@ -516,7 +516,9 @@ public class InstructorsDb extends EntitiesDb{
      */
     private List<Instructor> getInstructorEntitiesForGoogleId(String googleId, boolean omitArchived) {
         
-        if (omitArchived) {
+        if (!omitArchived) {
+            return getInstructorEntitiesForGoogleId(googleId);
+        } else {
             Query q = getPM().newQuery(Instructor.class);
             q.declareParameters("String googleIdParam, boolean omitArchivedParam");
             // Omit archived == true, get instructors with isArchived != true
@@ -524,11 +526,7 @@ public class InstructorsDb extends EntitiesDb{
             
             @SuppressWarnings("unchecked")
             List<Instructor> instructorList = (List<Instructor>) q.execute(googleId, omitArchived);
-            System.out.println("1- " + instructorList.size());
-            System.out.println("2- " + getInstructorEntitiesForGoogleId(googleId).size());
             return instructorList;
-        } else {
-            return getInstructorEntitiesForGoogleId(googleId);
         }
     }
     
