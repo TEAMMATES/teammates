@@ -629,7 +629,6 @@ public class CoursesLogic {
         }
         for (FeedbackSessionAttributes fsb : feedbackSessionList) {
             CourseSummaryBundle courseSummary = courseList.get(fsb.courseId);
-            // TODO: remove null check? to be done after the todo above, to omit archived sessions.
             if (courseSummary != null) {
                 courseSummary.feedbackSessions.add(fsb);
             }

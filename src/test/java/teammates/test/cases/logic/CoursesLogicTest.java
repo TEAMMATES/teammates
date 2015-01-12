@@ -825,8 +825,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
     public void testGetCourseSummariesForInstructor() throws Exception {
 
-        // TODO: test omitting archived courses
-        
         ______TS("Instructor with 2 courses");
     
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
@@ -836,6 +834,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
             // check if course belongs to this instructor
             assertTrue(InstructorsLogic.inst().isGoogleIdOfInstructorOfCourse(instructor.googleId, cdd.course.id));
         }
+        
+        ______TS("Instructor with 1 archived, 1 unarchived course");
+        
+        InstructorsLogic.inst().setArchiveStatusOfInstructor(instructor.googleId, "idOfTypicalCourse1", true);
+        courseList = coursesLogic.getCourseSummariesForInstructor(instructor.googleId, true);
+        assertEquals(1, courseList.size());
+        InstructorsLogic.inst().setArchiveStatusOfInstructor(instructor.googleId, "idOfTypicalCourse1", false);
+        
     
         ______TS("Instructor with 0 courses");
         courseList = coursesLogic.getCourseSummariesForInstructor("instructorWithoutCourses", false);
@@ -864,8 +870,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
     public void testGetCourseDetailsListForInstructor() throws Exception {
 
-        // TODO: test omitting archived courses
-        
         ______TS("Typical case");
     
         HashMap<String, CourseDetailsBundle> courseListForInstructor = coursesLogic
@@ -908,6 +912,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(0,
                 courseListForInstructor.get("idOfCourseNoEvals").evaluations
                         .size());
+        
+        ______TS("Instructor has an archived course");
+
+        InstructorsLogic.inst().setArchiveStatusOfInstructor("idOfInstructor4", "idOfCourseNoEvals", true);
+        courseListForInstructor = coursesLogic
+                .getCoursesDetailsListForInstructor("idOfInstructor4", true);
+        assertEquals(0, courseListForInstructor.size());
+        InstructorsLogic.inst().setArchiveStatusOfInstructor("idOfInstructor4", "idOfCourseNoEvals", false);
     
         ______TS("Instructor with 0 courses");
         
@@ -936,8 +948,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
 
     public void testGetCoursesSummaryWithoutStatsForInstructor() throws Exception {
         
-        // TODO: test omitting archived courses
-
         ______TS("Typical case");
 
         HashMap<String, CourseSummaryBundle> courseListForInstructor = coursesLogic
@@ -980,6 +990,15 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(0,
                 courseListForInstructor.get("idOfCourseNoEvals").evaluations
                         .size());
+        
+        ______TS("Instructor has an archived course");
+
+        InstructorsLogic.inst().setArchiveStatusOfInstructor("idOfInstructor4", "idOfCourseNoEvals", true);
+        courseListForInstructor = coursesLogic
+                .getCoursesSummaryWithoutStatsForInstructor("idOfInstructor4", true);
+        assertEquals(0, courseListForInstructor.size());
+        InstructorsLogic.inst().setArchiveStatusOfInstructor("idOfInstructor4", "idOfCourseNoEvals", true);
+        
     
         ______TS("Instructor with 0 courses");
         

@@ -26,6 +26,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.cases.BaseComponentTestCase;
@@ -231,8 +232,6 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     @Test
     public void testGetInstructorsForGoogleId() throws Exception {
         
-        // TODO: test omitting archived course instructors
-        
         ______TS("Success: get instructors with specific googleId");
         
         String googleId = "idOfInstructor3";
@@ -245,6 +244,14 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         
         assertEquals("idOfTypicalCourse1", instructor1.courseId);
         assertEquals("idOfTypicalCourse2", instructor2.courseId);
+        
+
+        ______TS("Success: get instructors with specific googleId, with 1 archived course.");
+        
+        InstructorsLogic.inst().setArchiveStatusOfInstructor(googleId, instructor1.courseId, true);
+        retrieved = instructorsDb.getInstructorsForGoogleId(googleId, true);
+        assertEquals(1, retrieved.size());
+        InstructorsLogic.inst().setArchiveStatusOfInstructor(googleId, instructor1.courseId, false);
         
         ______TS("Failure: instructor does not exist");
         
