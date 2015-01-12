@@ -13,6 +13,8 @@ import teammates.storage.entity.Instructor;
  * Script to retrieve and put instructor entities without modification.
  * Originally used to generate indexes to allow the 'isArchived' field to be filtered.
  * Can be used for generating indexes for other fields in the future.
+ * 
+ * Uses low level DB calls for efficiency.
  */
 public class DataMigrationForInstructorsCourseArchiving extends RemoteApiClient {
     
@@ -25,8 +27,9 @@ public class DataMigrationForInstructorsCourseArchiving extends RemoteApiClient 
     protected void doOperation() {
         Datastore.initialize();
         
-        String query = "select from " + Instructor.class.getName();
+        // Recreate indexes for instructor entity
         
+        String query = "select from " + Instructor.class.getName();
         @SuppressWarnings("unchecked")
         List<Instructor> instructorList = (List<Instructor>) Datastore.getPersistenceManager()
                 .newQuery(query).execute();
@@ -37,6 +40,13 @@ public class DataMigrationForInstructorsCourseArchiving extends RemoteApiClient 
             // This re-creates indexes for the entity in the process.
             JDOHelper.makeDirty(instructor, "isArchived");
         }
+        
+        // Generate registration key if null
+        
+        for (Instructor instructor : instructorList) {
+            instructor.setGeneratedKeyIfNull();
+        }
+        
         
         Datastore.getPersistenceManager().close();
     }
