@@ -78,10 +78,13 @@
                     <div class='display-icon pull-right'>
                     <span class="glyphicon <%=showAll && !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right"></span>
                     </div>
-                    <strong>Question <%=question.questionNumber%>: </strong><span class="text-preserve-space"><%=data.bundle.getQuestionText(question.getId())%><%
-                    	FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-                                            out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
-                    %></span>
+                    <strong>Question <%=question.questionNumber%>: </strong>
+                    <div class="inline panel-heading-text">
+                        <span class="text-preserve-space"><%=data.bundle.getQuestionText(question.getId())%><%
+                        	FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+                                                out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
+                        %></span>
+                    </div>
                 </div>
                 <div class="panel-collapse collapse <%= showAll && !shouldCollapsed ? "in" : "" %>">
                 <div class="panel-body padding-0" id="questionBody-<%=questionIndex%>">

@@ -76,7 +76,7 @@
                         <div class="panel panel-success">
                                 <div class="panel-heading ajax_submit">
                                     <div class="row">
-                                        <div class="col-sm-9">
+                                        <div class="col-sm-9 panel-heading-text">
                                             <strong><%=section%></strong>
                                         </div>
                                         <div class="col-sm-3">
@@ -117,7 +117,7 @@
                     <div class="panel panel-success">
                             <div class="panel-heading ajax_submit">
                                 <div class="row">
-                                        <div class="col-sm-9">
+                                        <div class="col-sm-9 panel-heading-text">
                                             <strong>Not in a section</strong>
                                         </div>
                                         <div class="col-sm-3">
@@ -156,7 +156,7 @@
                     <div class="panel panel-success">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-sm-9">
+                                <div class="col-sm-9 panel-heading-text">
                                     <strong><%=data.selectedSection%></strong>                   
                                 </div>
                                 <div class="col-sm-3">
@@ -234,7 +234,7 @@
                                 <div class="panel-heading">
                                     From: 
                                     <%  if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
-                                            <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(email)%>">
+                                            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(email)%>">
                                                 <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                 <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
@@ -242,8 +242,10 @@
                                     <%
                                         } else {
                                     %>
+                                        <div class="inline panel-heading-text">
                                             <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
                                             <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                                        </div>
                                     <%
                                         }
                                     %>
@@ -310,7 +312,7 @@
                     <div class="panel panel-success">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-sm-9">
+                                <div class="col-sm-9 panel-heading-text">
                                     <strong><%=currentSection.equals("None")? "Not in a section" : currentSection%></strong>                        
                                 </div>
                                 <div class="col-sm-3">
@@ -351,7 +353,7 @@
                     <div class="panel panel-warning">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-sm-9">
+                                <div class="col-sm-9 panel-heading-text">
                                     <strong><%=currentTeam%></strong>                     
                                 </div>
                                 <div class="col-sm-3">
@@ -380,7 +382,7 @@
                     <%
                 	   if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) {
                     %>  
-                            <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
+                            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
                                 <strong><%=responsesFromGiver.getKey()%></strong>
                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                 <a class="link-in-dark-bg" href="mailTo:<%=targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
@@ -388,8 +390,10 @@
                     <%
                     	} else {
                     %>
+                        <div class="inline panel-heading-text">
                             <strong><%=responsesFromGiver.getKey()%></strong>
                             <a class="link-in-dark-bg" href="mailTo:<%=targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
+                        </div>
                     <%
                     	}
                         teamMembersWithResponses.add(targetEmail);
@@ -440,6 +444,7 @@
                                     	} else {
                                     %>
                                             <strong><%=responsesFromGiverToRecipient.getKey()%></strong>
+
                                     <%
                                     	}
                                     %> 
@@ -945,7 +950,7 @@
                 <div class="panel-heading">
                     From: 
                     <%  if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
-                            <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(email)%>">
+                            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(email)%>">
                                 <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                 <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
@@ -953,8 +958,10 @@
                     <%
                         } else {
                     %>
+                        <div class="inline panel-heading-text">
                             <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
                             <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                        </div>
                     <%
                         }
                     %>
@@ -1007,7 +1014,9 @@
             %>
                           <div class="panel panel-warning">
                               <div class="panel-heading">
-                                  <strong> <%=teamWithNoResponseGiven%></strong>
+                                    <div class="inline panel-heading-text">
+                                        <strong> <%=teamWithNoResponseGiven%></strong>
+                                    </div>
                                   <span class="glyphicon pull-right glyphicon-chevron-up"></span>
                               </div>
                               <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
@@ -1024,7 +1033,7 @@
                                                     <%
                                                 	   if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) {
                                                     %>
-                                                            <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(teamMember)%>">
+                                                            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(teamMember)%>">
                                                                 <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
                                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                 <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
@@ -1032,8 +1041,10 @@
                                                     <%
                                                     	} else {
                                                     %>
+                                                        <div class="inline panel-heading-text">
                                                             <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
                                                             <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
+                                                        </div>
                                                     <%
                                                     	}
                                                     %>
@@ -1092,7 +1103,9 @@
             %>
                                 <div class="panel panel-success">
                                     <div class="panel-heading">
-                                        <strong> <%=sectionWithNoResponseReceived%></strong>
+                                        <div class="inline panel-heading-text">
+                                            <strong> <%=sectionWithNoResponseReceived%></strong>
+                                        </div>
                                         <span class="glyphicon pull-right glyphicon-chevron-up"></span>
                                     </div>
                                     <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
@@ -1109,8 +1122,10 @@
                                             %>
                                                     <div class="panel panel-warning">
                                                       <div class="panel-heading">
-                                                          <strong> <%=team%></strong>
-                                                          <span class="glyphicon pull-right glyphicon-chevron-up"></span>
+                                                        <div class="inline panel-heading-text">
+                                                            <strong> <%=team%></strong>
+                                                        </div>
+                                                        <span class="glyphicon pull-right glyphicon-chevron-up"></span>
                                                       </div>
                                                       <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
                                                           <div class="panel-body background-color-warning">
@@ -1124,7 +1139,7 @@
                                                                     <%
                                                                 	   if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) {
                                                                     %>
-                                                                        <div class="middlealign profile-pic-icon-hover inline" data-link="<%=data.getProfilePictureLink(teamMember)%>">
+                                                                        <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(teamMember)%>">
                                                                             <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
                                                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                             <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
@@ -1132,8 +1147,10 @@
                                                                     <%
                                                                     	} else {
                                                                     %>
+                                                                        <div class="inline panel-heading-text">
                                                                             <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
                                                                             <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
+                                                                        </div>
                                                                     <%  } %>
                                                                     <div class="pull-right">
                                                                         <% 

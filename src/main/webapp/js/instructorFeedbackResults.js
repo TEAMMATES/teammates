@@ -80,22 +80,24 @@ function showHideStats(){
 //Search functionality
 
 function filterResults(searchText){
-    var element = $("#frameBodyWrapper").children("div.panel");
-
-    if($(element).parents(".resultStatistics").length){
-        return;
-    }   
-
+    // Reduce white spaces to only 1 white space
     searchText = (searchText.split('\\s+')).join(' ');
 
-    for(var i = 0 ; i < element.length ; i++){
-        var elm = element[i];
-        var heading = $(elm).children('.panel-heading');
-        if($(heading[0]).text().toLowerCase().indexOf(searchText.toLowerCase()) != -1){
-           $(elm).show();
+    var allPanelText = $("#frameBodyWrapper").find("div.panel-heading-text");
+
+    for(var i=allPanelText.length-1; i >= 0; i--){
+        
+        var panelText = $(allPanelText[i]);
+        var children = $(panelText).closest("div.panel").find("div.panel-heading-text").not(panelText);
+        
+        var hasChild = $(children).size() > 0;
+        var isMatched = $(panelText).text().toLowerCase().indexOf(searchText) != -1;
+
+        if(isMatched || (hasChild && $(children).is(":visible"))){
+                $(panelText).closest("div.panel").show();
         } else {
-           $(elm).hide();
-        } 
+            $(panelText).closest("div.panel").hide();
+        }
     }
 }
 
