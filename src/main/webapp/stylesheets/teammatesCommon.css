@@ -7,6 +7,10 @@ body {
     padding: 60px 0 30px;
 }
 
+a#editUncommonSettingsButton:hover{
+    cursor: pointer;
+}
+
 .align-center {
     text-align: center;
 }
@@ -61,7 +65,7 @@ body {
 }
 
 .cell-hover {
-    background-color: #aaaaad !important;
+    background-color: #d9edf7 !important;
 }
 
 .cell-selected {

@@ -40,7 +40,7 @@ public class InstructorHomePageAction extends Action {
         
         
         ArrayList<CourseSummaryBundle> courseList = new ArrayList<CourseSummaryBundle>(courses.values());
-        data.courses = updateWithInstructorArchiveStatus(courseList);
+        data.courses = courseList;
         
         switch (data.sortCriteria) {
             case Const.SORT_BY_COURSE_ID:
@@ -81,19 +81,4 @@ public class InstructorHomePageAction extends Action {
 
     }
     
-    private ArrayList<CourseSummaryBundle> updateWithInstructorArchiveStatus(ArrayList<CourseSummaryBundle> courseList){
-        
-        for(CourseSummaryBundle course : courseList){
-            
-            InstructorAttributes curInstructor = logic.getInstructorForGoogleId(course.course.id, account.googleId);
-            
-            if(curInstructor.isArchived != null){          
-                course.course.isArchived = curInstructor.isArchived;       
-            }
-        }
-        
-        return courseList;
-        
-    }
-
 }

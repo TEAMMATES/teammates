@@ -26,8 +26,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    This can be done through Issue tracker. 
    Such a discussion reduces the chance of the fix being rejected later.
 
-0. If you do not have push permission to the committer repo, create a fork. 
-   Add remote names for committer repo (let's call it `upstream`) 
+0. Add remote names for committer repo (let's call it `upstream`) 
    and your fork (let's call it `myfork`)
    ```
    git remote add   upstream      https://github.com/TEAMMATES/repo.git
@@ -39,7 +38,8 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    ```
    git pull upstream
    ```
-4. Change the issue status to `s.Ongoing`
+4. Change the issue status to `s.Ongoing`. If you don't have permissions to change labels,
+   add comment to say you are starting the issue. e.g. `starting issue`
 
 5. Start a new branch named `Issue{IssueNumber}`. 
    If you are already working in a branch, remember to switch to the `master` 
@@ -58,7 +58,11 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    * You may commit as many times as you wish while you are fixing the code. 
        * Push your commits frequently. If you have push privileges, 
          push to the committer repo. If not, push to your fork.
-       * Try to keep the branch reasonably clean (e.g. use meaningful commit messages). 
+       * Try to keep the branch reasonably clean (e.g. commit at meaningful points)
+       * use meaningful commit messages. (e.g. `added tests for the truncate method`) <br>
+         Do NOT use the following format for commit messages. 
+         That format is reserved for merge commits only.<br>
+         ~~`[Issue number] Issue title as given in the original issue`~~ 
    * Sync with the committer repo frequently: While you were fixing the issue, others 
    might have pushed new code to the committer repo. In that case, update your 
    repo with any new changes from committer repo and merge those updates 
@@ -90,22 +94,25 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    * Create a pull request (PR). For the pull request name, copy paste the relevant
      issue name.<br>
      e.g. ` Incorrect error message when adding an existing instructor #1760`<br>
-     In the comment, mention the issue number. Doing so will create an 
-     automatic reference from the issue to the pull request.<br>
-     e.g. ` For #1760`  
+     In the PR description, mention the issue number in this format: `Fixes #1760`. 
+     Doing so will create an automatic reference from the issue to the pull request.<br>
      
-   * Assign the PR to yourself.
-   * Change the PR status to `s.ToReview`
-   * Wait for the reviewer to change the PR status. If you did not get a review
-     within 2-3 days, it is OK to request for a review by posting a comment in 
-     the PR.  
-   
+   * The PR will be assigned to the reviewer, not to you.
+     Wait for the reviewer to change the PR status to `s.toMerge` or to suggest changes. 
+     If you did not get a review within 2-3 days, it is OK to request for a review 
+     by posting a comment in the PR. 
+
+   * The cycle of 'update pull request' and 'review' (i.e. the previous two steps) 
+     is to continue until PR status changes to `s.toMerge`. After doing suggested
+     changes, remember to add a comment to indicate the PR is ready for review again.
+     e.g. `ready to review` or `changes done`
    
 
 ###Reviewing a fix
 Role: reviewer
 
   * This is a code quality review. No need to run tests.
+  * You are the reviewer for a PR if you are the `assignee` of it.
   * Ensure the following:
     * The solution is the best possible solution to the problem under the 
       circumstances.
@@ -118,9 +125,8 @@ Role: reviewer
     * The code is synced with upstream. GitHub should show it as 'can merge'. 
       If not, ask the dev to sync with upstream. 
   * If any of the above are not OK, 
-    * Add comments to suggest changes.
-    * Change pull request status to `s.Ongoing`
-    * Optionally, add a comment to inform the author to refine the code.
+    * Add comments in the diff to suggest changes.
+    * Optionally, add a comment in the conversation thread to inform the author to refine the code.
   * If the code is OK on all aspects,
     * Change issue status to `s.ToMerge`
 
@@ -143,7 +149,7 @@ Role: committer
        Merge the branch. Format of the commit message: 
        `[Issue number] Issue title as given in the original issue`<br>
        e.g. `[2287] Add more tests for newly joined Instructor accessing sample course`
-    * Remove any status labels from the pull request.
+    * Remove any status labels from the pull request. Delete the branch (from GitHub UI).
     * Remove any status labels from the corresponding issue and close it.
   * If not green,
     * Delete the merge commit, if any.

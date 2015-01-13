@@ -129,7 +129,11 @@ public class InstructorAttributes extends EntityAttributes {
         this.isArchived = instructor.getIsArchived();
         this.name = instructor.getName();
         this.email = instructor.getEmail();
+        if (instructor.getRegistrationKey() == null) {
+            instructor.setGeneratedKeyIfNull();
+        }
         this.key = instructor.getRegistrationKey();
+        
         if (instructor.getRole() == null) {
             this.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         } else {
