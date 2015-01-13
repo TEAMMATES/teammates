@@ -58,7 +58,11 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    * You may commit as many times as you wish while you are fixing the code. 
        * Push your commits frequently. If you have push privileges, 
          push to the committer repo. If not, push to your fork.
-       * Try to keep the branch reasonably clean (e.g. use meaningful commit messages). 
+       * Try to keep the branch reasonably clean (e.g. commit at meaningful points)
+       * use meaningful commit messages. (e.g. `added tests for the truncate method`) <br>
+         Do NOT use the following format for commit messages. 
+         That format is reserved for merge commits only.<br>
+         ~~`[Issue number] Issue title as given in the original issue`~~ 
    * Sync with the committer repo frequently: While you were fixing the issue, others 
    might have pushed new code to the committer repo. In that case, update your 
    repo with any new changes from committer repo and merge those updates 

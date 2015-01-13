@@ -165,6 +165,12 @@ public class Instructor {
         this.registrationKey = key;
     }
     
+    public void setGeneratedKeyIfNull() {
+        if (this.registrationKey == null) {
+            setRegistrationKey(generateRegistrationKey());
+        }
+    }
+    
     /**
      * Generate unique registration key for the instructor. 
      * The key contains random elements to avoid being guessed.
