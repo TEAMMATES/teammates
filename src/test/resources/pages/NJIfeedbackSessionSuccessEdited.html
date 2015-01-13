@@ -17,7 +17,7 @@
                                     Delete
                                 </a>
                                 <span data-original-title="Copy this feedback session to other courses" data-placement="top" data-toggle="tooltip" title="">
-                                <a class="btn btn-primary btn-sm" data-actionlink="/page/instructorFeedbackEditCopyPage?user=instructor.instr" data-courseid="AHPUiT.instr1.gma-demo"data-fsname="Second team feedback session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy">
+                                <a class="btn btn-primary btn-sm" data-actionlink="/page/instructorFeedbackEditCopyPage?user={$test.instructor}" data-courseid="AHPUiT.instr1.gma-demo"data-fsname="Second team feedback session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy">
                                    Copy
                                 </a>
                              </span>
@@ -444,7 +444,7 @@
                   <div class="modal-footer">
                      <button class="btn btn-default" data-dismiss="modal" type="button">
                         Cancel</button><input class="btn btn-primary" type="submit" id="fscopy_submit" value="Copy"/>
-                                          <input name="user" type="hidden" value="instructor.instr"/>
+                                          <input name="user" type="hidden" value="{$test.instructor}"/>
                                        </div>
                </form>
             </div>
