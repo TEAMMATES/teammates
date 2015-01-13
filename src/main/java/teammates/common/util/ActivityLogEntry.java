@@ -286,7 +286,7 @@ public class ActivityLogEntry {
             iconRole = role;
         }
 
-        if (servletName.toLowerCase().startsWith("admin") || role.contains("Admin")) {
+        if (role.contains("Admin")) {
             iconRole = "<span class = \"glyphicon glyphicon-user\" style=\"color:#E61E1E;\"></span>";
         }
             
