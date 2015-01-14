@@ -399,7 +399,6 @@ public class Emails {
                             .replace("${status}", "is now open"), "text/html");
         }
         
-        
         return emails;
     }
     
