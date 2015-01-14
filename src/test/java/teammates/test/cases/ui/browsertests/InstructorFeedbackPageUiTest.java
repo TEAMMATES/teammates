@@ -73,7 +73,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         newSession.sentPublishedEmail = false;
         newSession.timeZone = 8.0;
         newSession.feedbackSessionType = FeedbackSessionType.STANDARD;
-        newSession.isOpeningEmailEnabled = true;
         newSession.isClosingEmailEnabled = true;
         newSession.isPublishedEmailEnabled = true;
             
@@ -221,7 +220,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         newSession.sessionVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
         newSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NEVER;
         
-        newSession.isOpeningEmailEnabled = false;
         newSession.isClosingEmailEnabled = false;
         newSession.isPublishedEmailEnabled = true;
         
@@ -268,7 +266,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         newSession.feedbackSessionType = FeedbackSessionType.STANDARD;
         
         newSession.instructions = new Text("");
-        newSession.isOpeningEmailEnabled = true;
+
         newSession.isClosingEmailEnabled = false;
         newSession.isPublishedEmailEnabled = false;
         
@@ -304,7 +302,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         newSession.instructions = new Text("cannot \r\n see responses<script>test</script> $^/\\=?");
         newSession.timeZone = -2;
         newSession.isPublishedEmailEnabled = false;
-        newSession.isOpeningEmailEnabled = true;
         newSession.isClosingEmailEnabled = true;
         
         // enable emails for closing
@@ -339,7 +336,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         newSession.instructions = new Text(StringHelper.generateStringOfLength(3000));
         newSession.isPublishedEmailEnabled = true;
-        newSession.isOpeningEmailEnabled = true;
         newSession.isClosingEmailEnabled = true;
         
         feedbackPage.addFeedbackSessionWithTimeZone(

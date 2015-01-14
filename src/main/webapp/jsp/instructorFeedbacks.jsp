@@ -526,7 +526,7 @@
                                         checked="checked"
                                         name="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>"
                                         id="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>_open"
-                                        value="<%=EmailType.FEEDBACK_OPENING.toString()%>">
+                                        value="<%=EmailType.FEEDBACK_OPENING.toString()%>" disabled="disabled">
                                 </div>
                             </div>
                             <div class="col-sm-3"
