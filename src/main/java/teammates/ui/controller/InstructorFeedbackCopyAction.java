@@ -60,14 +60,12 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
         
         // if isError == true, (an exception occurred above)
 
-        data.instructors = loadCourseInstructorMap();
-        // Get courseDetailsBundles
+
         boolean omitArchived = true;
-        courseDetailsList = logic.getCourseDetailsListForInstructor(account.googleId, omitArchived);
-        
-        data.courses = loadCoursesList();
-        data.existingEvalSessions = loadEvaluationsList();
-        data.existingFeedbackSessions = loadFeedbackSessionsList();
+        data.instructors = loadCourseInstructorMap(omitArchived);
+        data.courses = loadCoursesList(omitArchived);
+        data.existingEvalSessions = loadEvaluationsList(omitArchived);
+        data.existingFeedbackSessions = loadFeedbackSessionsList(omitArchived);
         
         if (data.existingFeedbackSessions.size() == 0) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY);

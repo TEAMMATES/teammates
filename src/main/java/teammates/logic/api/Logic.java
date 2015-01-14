@@ -422,6 +422,13 @@ public class Logic {
         return instructorsLogic.getInstructorsForGoogleId(googleId);
     }
     
+    public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean omitArchived) {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        
+        return instructorsLogic.getInstructorsForGoogleId(googleId, omitArchived);
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null. 
@@ -814,9 +821,22 @@ public class Logic {
     public List<CourseAttributes> getCoursesForInstructor(String googleId)
             throws EntityDoesNotExistException {
         
+        return getCoursesForInstructor(googleId, false);
+    }
+    
+    /**
+     * Omits archived courses if omitArchived == true<br>
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * 
+     * @return Courses the instructor is in.
+     */
+    public List<CourseAttributes> getCoursesForInstructor(String googleId, boolean omitArchived)
+            throws EntityDoesNotExistException {
+        
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
     
-        return coursesLogic.getCoursesForInstructor(googleId);
+        return coursesLogic.getCoursesForInstructor(googleId, omitArchived);
     
     }
     
@@ -1400,11 +1420,25 @@ public class Logic {
     public ArrayList<EvaluationAttributes> getEvaluationsListForInstructor(String instructorId) 
             throws EntityDoesNotExistException {
         
+        return getEvaluationsListForInstructor(instructorId, false);
+    }
+    
+    /**
+     * Omits evaluations from archived courses if omitArchived == true<br>
+     * Preconditions: <br>
+     * * All parameters are non-null. <br>
+     * 
+     * @return List of Instructor's evaluations. <br>
+     * Returns an empty list if none found.
+     */
+    public ArrayList<EvaluationAttributes> getEvaluationsListForInstructor(String instructorId, boolean omitArchived) 
+            throws EntityDoesNotExistException {
+        
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
         
         instructorsLogic.verifyInstructorExists(instructorId);
 
-        return evaluationsLogic.getEvaluationsListForInstructor(instructorId);
+        return evaluationsLogic.getEvaluationsListForInstructor(instructorId, omitArchived);
     }
 
     /**
@@ -1724,9 +1758,23 @@ public class Logic {
     public List<FeedbackSessionAttributes>
         getFeedbackSessionsListForInstructor(String googleId) throws EntityDoesNotExistException{
         
+        return getFeedbackSessionsListForInstructor(googleId, false);
+    }
+    
+    /**
+     * Omits feedback sessions from archived courses if omitArchived == true<br>
+     * Preconditions: <br>
+     * * All parameters are non-null. <br>
+     * 
+     * @return List(without details) of Instructor's feedback sessions. <br>
+     * Returns an empty list if none found.
+     */
+    public List<FeedbackSessionAttributes>
+        getFeedbackSessionsListForInstructor(String googleId, boolean omitArchived) throws EntityDoesNotExistException{
+        
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         
-        return feedbackSessionsLogic.getFeedbackSessionsListForInstructor(googleId);
+        return feedbackSessionsLogic.getFeedbackSessionsListForInstructor(googleId, omitArchived);
     }
     
     /**

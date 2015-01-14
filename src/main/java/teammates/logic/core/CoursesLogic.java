@@ -512,7 +512,13 @@ public class CoursesLogic {
 
     public List<CourseAttributes> getCoursesForInstructor(String googleId) throws EntityDoesNotExistException {
 
-        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId);
+        return getCoursesForInstructor(googleId, false);
+    }
+    
+    public List<CourseAttributes> getCoursesForInstructor(String googleId, boolean omitArchived)
+            throws EntityDoesNotExistException {
+
+        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId, omitArchived);
 
         ArrayList<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
 
