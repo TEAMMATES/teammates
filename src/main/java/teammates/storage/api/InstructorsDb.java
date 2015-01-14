@@ -206,13 +206,14 @@ public class InstructorsDb extends EntitiesDb{
     /**
      * Preconditions: <br>
      *  * All parameters are non-null.
+     *  
      * @return empty list if no matching objects. 
      */
-    public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
+    public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean omitArchived) {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
         
-        List<Instructor> instructorList = getInstructorEntitiesForGoogleId(googleId);
+        List<Instructor> instructorList = getInstructorEntitiesForGoogleId(googleId, omitArchived);
         
         List<InstructorAttributes> instructorDataList = new ArrayList<InstructorAttributes>();
         for (Instructor i : instructorList) {
@@ -502,10 +503,31 @@ public class InstructorsDb extends EntitiesDb{
         q.declareParameters("String googleIdParam");
         q.setFilter("googleId == googleIdParam");
         
+        
         @SuppressWarnings("unchecked")
         List<Instructor> instructorList = (List<Instructor>) q.execute(googleId);
         
         return instructorList;
+    }
+    
+    /**
+     * Omits instructors with isArchived == omitArchived.
+     * This means that the corresponding course is archived by the instructor.
+     */
+    private List<Instructor> getInstructorEntitiesForGoogleId(String googleId, boolean omitArchived) {
+        
+        if (!omitArchived) {
+            return getInstructorEntitiesForGoogleId(googleId);
+        } else {
+            Query q = getPM().newQuery(Instructor.class);
+            q.declareParameters("String googleIdParam, boolean omitArchivedParam");
+            // Omit archived == true, get instructors with isArchived != true
+            q.setFilter("googleId == googleIdParam && isArchived != omitArchivedParam");
+            
+            @SuppressWarnings("unchecked")
+            List<Instructor> instructorList = (List<Instructor>) q.execute(googleId, omitArchived);
+            return instructorList;
+        }
     }
     
     private List<Instructor> getInstructorEntitiesForEmail(String email) {

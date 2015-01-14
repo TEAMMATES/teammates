@@ -7,18 +7,14 @@ import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
-import teammates.logic.api.Logic;
 
 public class InstructorFeedbacksPageAction extends Action {
-
-    protected HashMap<String, CourseDetailsBundle> courseDetailsList = null;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -40,17 +36,13 @@ public class InstructorFeedbacksPageAction extends Action {
         data.courseIdForNewSession = courseIdForNewSession;
         // This indicates that an empty form to be shown (except possibly the course value filled in)
         data.newFeedbackSession = null;
-        // HashMap with courseId as key and InstructorAttributes as value
-        data.instructors = loadCourseInstructorMap();
-        
-        // Get courseDetailsBundles
         boolean omitArchived = true; // TODO: implement as a request parameter
-        courseDetailsList = logic.getCourseDetailsListForInstructor(account.googleId);
-        if (omitArchived) {
-            omitArchivedCourses(data.instructors);
-        }
+        // HashMap with courseId as key and InstructorAttributes as value
+        data.instructors = loadCourseInstructorMap(omitArchived);
         
-        data.courses = loadCoursesList();
+        List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>(data.instructors.values());
+        data.courses = loadCoursesList(instructorList);
+        
         if (data.courses.size() == 0) {
             statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_EVALUATION.replace("${user}", "?user="+account.googleId));
         }
@@ -59,8 +51,8 @@ public class InstructorFeedbacksPageAction extends Action {
             data.existingEvalSessions = new ArrayList<EvaluationAttributes>();
             data.existingFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
         } else {
-            data.existingEvalSessions = loadEvaluationsList();
-            data.existingFeedbackSessions = loadFeedbackSessionsList();
+            data.existingEvalSessions = loadEvaluationsList(instructorList);
+            data.existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
             if (data.existingFeedbackSessions.isEmpty() &&
                 data.existingEvalSessions.isEmpty()) {
                 statusToUser.add(Const.StatusMessages.EVALUATION_EMPTY);
@@ -77,37 +69,24 @@ public class InstructorFeedbacksPageAction extends Action {
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
     
-    protected List<FeedbackSessionAttributes> loadFeedbackSessionsList()
+    protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(List<InstructorAttributes> instructorList)
             throws EntityDoesNotExistException {
-        List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<FeedbackSessionAttributes>();
         
-        // Get feedbackSessions from courseDetailsBundle
-        for (CourseDetailsBundle courseDetails : courseDetailsList.values()) {
-            feedbackSessions.addAll(courseDetails.getFeedbackSessionsList());
-        }
-        
-        return feedbackSessions;
+        List<FeedbackSessionAttributes> sessions =  logic.getFeedbackSessionsListForInstructor(instructorList);
+        return sessions;
     }
 
-    protected List<EvaluationAttributes> loadEvaluationsList()
+    protected List<EvaluationAttributes> loadEvaluationsList(List<InstructorAttributes> instructorList)
             throws EntityDoesNotExistException {
-        List<EvaluationAttributes> evaluations = new ArrayList<EvaluationAttributes>();
+        List<EvaluationAttributes> evaluations =  logic.getEvaluationsListForInstructor(instructorList);
         
-        // Get evaluations from courseDetailsBundle
-        for (CourseDetailsBundle courseDetails : courseDetailsList.values()) {
-            evaluations.addAll(courseDetails.getEvaluationsList());
-        }
-
         return evaluations;
     }
     
-    protected List<CourseAttributes> loadCoursesList()
+    protected List<CourseAttributes> loadCoursesList(List<InstructorAttributes> instructorList)
             throws EntityDoesNotExistException {
-        List<CourseAttributes> courses = new ArrayList<CourseAttributes>();
         
-        for (CourseDetailsBundle courseDetails : courseDetailsList.values()) {
-            courses.add(courseDetails.course);
-        }
+        List<CourseAttributes> courses = logic.getCoursesForInstructor(instructorList);
         
         Collections.sort(courses, new Comparator<CourseAttributes>() {
             @Override
@@ -123,31 +102,12 @@ public class InstructorFeedbacksPageAction extends Action {
      * Gets a Map with courseId as key, and InstructorAttributes as value.
      * @return
      */
-    protected HashMap<String, InstructorAttributes> loadCourseInstructorMap() {
+    protected HashMap<String, InstructorAttributes> loadCourseInstructorMap(boolean omitArchived) {
         HashMap<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
-        List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId);
+        List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId, omitArchived);
         for (InstructorAttributes instructor : instructors) {
             courseInstructorMap.put(instructor.courseId, instructor);
         }
         return courseInstructorMap;
     }
-    
-    /**
-     * Removes archived courses from courseDetailsList
-     * @param instructors 
-     */
-    protected void omitArchivedCourses(HashMap<String, InstructorAttributes> instructors) {
-        HashMap<String, CourseDetailsBundle> newCourseDetailsList = new HashMap<String, CourseDetailsBundle>();
-        for (CourseDetailsBundle courseDetails : courseDetailsList.values()) {
-            CourseAttributes course = courseDetails.course;
-            String courseId = course.id;
-            InstructorAttributes instructor = instructors.get(courseId);
-            
-            if (!Logic.isCourseArchived(course, instructor)) {
-                newCourseDetailsList.put(courseId, courseDetails);
-            }
-        }
-        courseDetailsList = newCourseDetailsList;
-    }
-    
 }

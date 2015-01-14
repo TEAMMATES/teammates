@@ -188,6 +188,7 @@
         "instructor3OfCourse1":{
             "googleId":"idOfInstructor3",
             "courseId":"idOfTypicalCourse1",
+            "isArchived":"false",
             "name":"Instructor3 Course1",
             "email":"instructor3@course1.tmt",
             "role":"Co-owner",
@@ -208,6 +209,7 @@
         "instructor4":{
             "googleId":"idOfInstructor4",
             "courseId":"idOfCourseNoEvals",
+            "isArchived":false,
             "name":"Instructor4 name",
             "email":"instructor4@courseNoEvals.tmt",
             "role":"Co-owner",
