@@ -150,7 +150,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         List<CourseAttributes> courses = coursesLogic.getCoursesForInstructor(instructorId);
 
         assertEquals(2, courses.size());
-
+        
+        ______TS("omit archived courses");
+        
+        InstructorsLogic.inst().setArchiveStatusOfInstructor(instructorId, courses.get(0).id, true);
+        courses = coursesLogic.getCoursesForInstructor(instructorId, true);
+        assertEquals(1, courses.size());
+        InstructorsLogic.inst().setArchiveStatusOfInstructor(instructorId, courses.get(0).id, false);
+                
         ______TS("boundary: instructor without any courses");
         
         instructorId = dataBundle.accounts.get("instructorWithoutCourses").googleId;
