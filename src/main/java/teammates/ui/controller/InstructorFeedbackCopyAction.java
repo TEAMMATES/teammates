@@ -1,5 +1,8 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -63,9 +66,10 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
 
         boolean omitArchived = true;
         data.instructors = loadCourseInstructorMap(omitArchived);
-        data.courses = loadCoursesList(omitArchived);
-        data.existingEvalSessions = loadEvaluationsList(omitArchived);
-        data.existingFeedbackSessions = loadFeedbackSessionsList(omitArchived);
+        List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>(data.instructors.values());
+        data.courses = loadCoursesList(instructorList);
+        data.existingEvalSessions = loadEvaluationsList(instructorList);
+        data.existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
         
         if (data.existingFeedbackSessions.size() == 0) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY);

@@ -191,9 +191,15 @@ public class EvaluationsLogic {
     public ArrayList<EvaluationAttributes> getEvaluationsListForInstructor(
             String instructorId, boolean omitArchived) throws EntityDoesNotExistException {
         
-        ArrayList<EvaluationAttributes> evaluationSummaryList = new ArrayList<EvaluationAttributes>();
-
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(instructorId, omitArchived);
+        
+        return getEvaluationsListForInstructor(instructorList);
+    }
+    
+    public ArrayList<EvaluationAttributes> getEvaluationsListForInstructor(
+            List<InstructorAttributes> instructorList) throws EntityDoesNotExistException {
+        
+        ArrayList<EvaluationAttributes> evaluationSummaryList = new ArrayList<EvaluationAttributes>();
         for (InstructorAttributes id : instructorList) {
             evaluationSummaryList.addAll(getEvaluationsForCourse(id.courseId));
         }

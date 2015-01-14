@@ -87,9 +87,10 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 
         boolean omitArchived = true;
         data.instructors = loadCourseInstructorMap(omitArchived);
-        data.courses = loadCoursesList(omitArchived);
-        data.existingEvalSessions = loadEvaluationsList(omitArchived);
-        data.existingFeedbackSessions = loadFeedbackSessionsList(omitArchived);
+        List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>(data.instructors.values());
+        data.courses = loadCoursesList(instructorList);
+        data.existingEvalSessions = loadEvaluationsList(instructorList);
+        data.existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
         
         if (data.existingFeedbackSessions.size() == 0) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY);

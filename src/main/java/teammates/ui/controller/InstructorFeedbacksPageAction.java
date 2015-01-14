@@ -40,8 +40,9 @@ public class InstructorFeedbacksPageAction extends Action {
         // HashMap with courseId as key and InstructorAttributes as value
         data.instructors = loadCourseInstructorMap(omitArchived);
         
+        List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>(data.instructors.values());
+        data.courses = loadCoursesList(instructorList);
         
-        data.courses = loadCoursesList(omitArchived);
         if (data.courses.size() == 0) {
             statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_EVALUATION.replace("${user}", "?user="+account.googleId));
         }
@@ -50,8 +51,8 @@ public class InstructorFeedbacksPageAction extends Action {
             data.existingEvalSessions = new ArrayList<EvaluationAttributes>();
             data.existingFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
         } else {
-            data.existingEvalSessions = loadEvaluationsList(omitArchived);
-            data.existingFeedbackSessions = loadFeedbackSessionsList(omitArchived);
+            data.existingEvalSessions = loadEvaluationsList(instructorList);
+            data.existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
             if (data.existingFeedbackSessions.isEmpty() &&
                 data.existingEvalSessions.isEmpty()) {
                 statusToUser.add(Const.StatusMessages.EVALUATION_EMPTY);
@@ -68,24 +69,24 @@ public class InstructorFeedbacksPageAction extends Action {
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
     
-    protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(boolean omitArchived)
+    protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(List<InstructorAttributes> instructorList)
             throws EntityDoesNotExistException {
         
-        List<FeedbackSessionAttributes> sessions =  logic.getFeedbackSessionsListForInstructor(account.googleId, omitArchived);
+        List<FeedbackSessionAttributes> sessions =  logic.getFeedbackSessionsListForInstructor(instructorList);
         return sessions;
     }
 
-    protected List<EvaluationAttributes> loadEvaluationsList(boolean omitArchived)
+    protected List<EvaluationAttributes> loadEvaluationsList(List<InstructorAttributes> instructorList)
             throws EntityDoesNotExistException {
-        List<EvaluationAttributes> evaluations =  logic.getEvaluationsListForInstructor(account.googleId, omitArchived);
+        List<EvaluationAttributes> evaluations =  logic.getEvaluationsListForInstructor(instructorList);
         
         return evaluations;
     }
     
-    protected List<CourseAttributes> loadCoursesList(boolean omitArchived)
+    protected List<CourseAttributes> loadCoursesList(List<InstructorAttributes> instructorList)
             throws EntityDoesNotExistException {
         
-        List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId, omitArchived); 
+        List<CourseAttributes> courses = logic.getCoursesForInstructor(instructorList);
         
         Collections.sort(courses, new Comparator<CourseAttributes>() {
             @Override

@@ -231,11 +231,20 @@ public class FeedbackSessionsLogic {
             String googleId, boolean omitArchived)
             throws EntityDoesNotExistException {
 
-        List<FeedbackSessionAttributes> fsList = new ArrayList<FeedbackSessionAttributes>();
-        List<InstructorAttributes> instructors =
+        List<InstructorAttributes> instructorList =
                 instructorsLogic.getInstructorsForGoogleId(googleId, omitArchived);
 
-        for (InstructorAttributes instructor : instructors) {
+
+        return getFeedbackSessionsListForInstructor(instructorList);
+    }
+    
+    public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(
+            List<InstructorAttributes> instructorList)
+            throws EntityDoesNotExistException {
+
+        List<FeedbackSessionAttributes> fsList = new ArrayList<FeedbackSessionAttributes>();
+        
+        for (InstructorAttributes instructor : instructorList) {
             fsList.addAll(getFeedbackSessionsListForCourse(instructor.courseId,
                     instructor.email));
         }

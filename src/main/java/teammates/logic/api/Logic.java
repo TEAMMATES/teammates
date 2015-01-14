@@ -840,6 +840,21 @@ public class Logic {
     
     }
     
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * 
+     * @return Courses the given instructors is in.
+     */
+    public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList)
+            throws EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorList);
+    
+        return coursesLogic.getCoursesForInstructor(instructorList);
+    
+    }
+    
     public void updateCourse(CourseAttributes course) throws NotImplementedException {
         throw new NotImplementedException("Not implemented because we do "
                 + "not allow editing courses");
@@ -1440,6 +1455,15 @@ public class Logic {
 
         return evaluationsLogic.getEvaluationsListForInstructor(instructorId, omitArchived);
     }
+    
+
+    public ArrayList<EvaluationAttributes> getEvaluationsListForInstructor(List<InstructorAttributes> instructorList) 
+            throws EntityDoesNotExistException {
+
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorList);
+        
+        return evaluationsLogic.getEvaluationsListForInstructor(instructorList);
+    }
 
     /**
      * Preconditions: <br>
@@ -1775,6 +1799,14 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         
         return feedbackSessionsLogic.getFeedbackSessionsListForInstructor(googleId, omitArchived);
+    }
+    
+    public List<FeedbackSessionAttributes>
+        getFeedbackSessionsListForInstructor(List<InstructorAttributes> instructorList) throws EntityDoesNotExistException{
+    
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorList);
+        
+        return feedbackSessionsLogic.getFeedbackSessionsListForInstructor(instructorList);
     }
     
     /**
