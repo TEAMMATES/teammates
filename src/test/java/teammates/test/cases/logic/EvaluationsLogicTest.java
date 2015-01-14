@@ -363,7 +363,14 @@ public class EvaluationsLogicTest extends BaseComponentTestCase{
         ______TS("Failure case: null parameters");
     
         try {
-            evaluationsLogic.getEvaluationsListForInstructor(null);
+            evaluationsLogic.getEvaluationsListForInstructor((String)null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
+        }
+        
+        try {
+            evaluationsLogic.getEvaluationsListForInstructor((List<InstructorAttributes>)null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
