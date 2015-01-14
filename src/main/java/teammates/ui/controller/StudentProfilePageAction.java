@@ -18,6 +18,11 @@ public class StudentProfilePageAction extends Action {
             editPhoto = "false";
         }
         
+        if (account.studentProfile == null) {
+            log.severe("Student Profile returned as null for " + account.toString());
+            return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
+        }
+        
         data = new StudentProfilePageData(account, editPhoto);
         statusToAdmin = "studentProfile Page Load <br> Profile: " + account.studentProfile.toString();
         
