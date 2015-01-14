@@ -199,6 +199,8 @@ public class EvaluationsLogic {
     public ArrayList<EvaluationAttributes> getEvaluationsListForInstructor(
             List<InstructorAttributes> instructorList) throws EntityDoesNotExistException {
         
+        Assumption.assertNotNull("Supplied parameter was null\n", instructorList);
+        
         ArrayList<EvaluationAttributes> evaluationSummaryList = new ArrayList<EvaluationAttributes>();
         for (InstructorAttributes id : instructorList) {
             evaluationSummaryList.addAll(getEvaluationsForCourse(id.courseId));

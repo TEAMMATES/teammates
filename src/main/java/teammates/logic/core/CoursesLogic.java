@@ -525,6 +525,8 @@ public class CoursesLogic {
     
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList)
             throws EntityDoesNotExistException {
+        
+        Assumption.assertNotNull("Supplied parameter was null\n", instructorList);
 
         ArrayList<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
 
