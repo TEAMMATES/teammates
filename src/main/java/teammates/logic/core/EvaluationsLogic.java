@@ -167,9 +167,15 @@ public class EvaluationsLogic {
     public ArrayList<EvaluationDetailsBundle> getEvaluationsDetailsForInstructor(
             String instructorId) throws EntityDoesNotExistException {
         
+        return getEvaluationsDetailsForInstructor(instructorId, false);
+    }
+    
+    public ArrayList<EvaluationDetailsBundle> getEvaluationsDetailsForInstructor(
+            String instructorId, boolean omitArchived) throws EntityDoesNotExistException {
+        
         ArrayList<EvaluationDetailsBundle> evaluationSummaryList = new ArrayList<EvaluationDetailsBundle>();
 
-        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(instructorId);
+        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(instructorId, omitArchived);
         for (InstructorAttributes id : instructorList) {
             evaluationSummaryList.addAll(getEvaluationsDetailsForCourse(id.courseId));
         }
@@ -179,9 +185,23 @@ public class EvaluationsLogic {
     public ArrayList<EvaluationAttributes> getEvaluationsListForInstructor(
             String instructorId) throws EntityDoesNotExistException {
         
+        return getEvaluationsListForInstructor(instructorId, false);
+    }
+    
+    public ArrayList<EvaluationAttributes> getEvaluationsListForInstructor(
+            String instructorId, boolean omitArchived) throws EntityDoesNotExistException {
+        
+        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(instructorId, omitArchived);
+        
+        return getEvaluationsListForInstructor(instructorList);
+    }
+    
+    public ArrayList<EvaluationAttributes> getEvaluationsListForInstructor(
+            List<InstructorAttributes> instructorList) throws EntityDoesNotExistException {
+        
+        Assumption.assertNotNull("Supplied parameter was null\n", instructorList);
+        
         ArrayList<EvaluationAttributes> evaluationSummaryList = new ArrayList<EvaluationAttributes>();
-
-        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(instructorId);
         for (InstructorAttributes id : instructorList) {
             evaluationSummaryList.addAll(getEvaluationsForCourse(id.courseId));
         }

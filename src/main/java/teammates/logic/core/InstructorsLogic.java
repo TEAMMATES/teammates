@@ -113,10 +113,15 @@ public class InstructorsLogic {
         
         return instructorsDb.getInstructorsForCourse(courseId);
     }
-
+    
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
         
-        return instructorsDb.getInstructorsForGoogleId(googleId);
+        return getInstructorsForGoogleId(googleId, false);
+    }
+
+    public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean omitArchived) {
+        
+        return instructorsDb.getInstructorsForGoogleId(googleId, omitArchived);
     }
     
     public String getKeyForInstructor(String courseId, String email)
@@ -374,7 +379,7 @@ public class InstructorsLogic {
     }
 
     public void deleteInstructorsForGoogleIdAndCascade(String googleId) {
-        List<InstructorAttributes> instructors = instructorsDb.getInstructorsForGoogleId(googleId);
+        List<InstructorAttributes> instructors = instructorsDb.getInstructorsForGoogleId(googleId, false);
         
         //Cascade delete instructors
         for (InstructorAttributes instructor : instructors) {
