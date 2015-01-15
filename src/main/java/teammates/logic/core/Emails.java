@@ -383,40 +383,20 @@ public class Emails {
         List<StudentAttributes> students;
         
         if (fsLogic.isFeedbackSessionViewableToStudents(session)) {
-            if (session.isOpeningEmailEnabled) {
-                students = studentsLogic.getStudentsForCourse(session.courseId);
-            } else {
-                students = studentsLogic.getUnregisteredStudentsForCourse(session.courseId);
-            }
+            students = studentsLogic.getStudentsForCourse(session.courseId);
         } else {
             students = new ArrayList<StudentAttributes>();
         }
         
-        List<MimeMessage> emails = null;
-        if (session.isOpeningEmailEnabled) {
-            emails = generateFeedbackSessionEmailBases(course,
-                    session, students, instructors, template);
-            
-            for (MimeMessage email : emails) {
-                email.setSubject(email.getSubject().replace("${subjectPrefix}",
-                        SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
-                email.setContent(
-                        email.getContent().toString()
-                                .replace("${status}", "is now open"), "text/html");
-            }
-        } else {
-            emails = generateFeedbackSessionEmailBases(course,
-                    session, students, instructors, template);
-            
-            for (MimeMessage email : emails) {
-                email.setSubject(email.getSubject().replace("${subjectPrefix}",
-                        SUBJECT_PREFIX_STUDENT_COURSE_JOIN));
-                email.setContent(
-                        email.getContent().toString().replaceFirst(
-                                        "(?s)The following feedback session(.*)</a>",
-                                        "Please join the course to participate in future sessions held by the course.")
-                        , "text/html");
-            }
+        List<MimeMessage> emails = generateFeedbackSessionEmailBases(course,
+                session, students, instructors, template);
+        
+        for (MimeMessage email : emails) {
+            email.setSubject(email.getSubject().replace("${subjectPrefix}",
+                    SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
+            email.setContent(
+                    email.getContent().toString()
+                            .replace("${status}", "is now open"), "text/html");
         }
         
         return emails;

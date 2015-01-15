@@ -458,7 +458,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         isEditSessionEnabled &= defaultSessionVisibleTimeButton.isEnabled();
         isEditSessionEnabled &= customSessionVisibleTimeButton.isEnabled();
         
-        isEditSessionEnabled &= openSessionEmailReminderButton.isEnabled();
         isEditSessionEnabled &= closingSessionEmailReminderButton.isEnabled();
         isEditSessionEnabled &= publishedSessionEmailReminderButton.isEnabled();
         

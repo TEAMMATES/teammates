@@ -46,6 +46,10 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         // Set creator email as instructors' email
         fs.creatorEmail = instructor.email;
         
+        // A session opening reminder email is always sent
+        // as students without accounts need to receive the email to be able to respond
+        fs.isOpeningEmailEnabled = true;  
+        
         data.newFeedbackSession = fs;
         
         String feedbackSessionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TYPE);
@@ -55,7 +59,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             logic.createFeedbackSession(fs);
             
             try {
-                createTemaplateFeedbackQuestions(fs.courseId, fs.feedbackSessionName, fs.creatorEmail, feedbackSessionType);
+                createTemplateFeedbackQuestions(fs.courseId, fs.feedbackSessionName, fs.creatorEmail, feedbackSessionType);
             } catch(Exception e){
                 //Failed to create feedback questions for specified template/feedback session type.
                 //TODO: let the user know an error has occurred? delete the feedback session?
@@ -102,7 +106,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
     
-    private void createTemaplateFeedbackQuestions(String courseId,
+    private void createTemplateFeedbackQuestions(String courseId,
             String feedbackSessionName, String creatorEmail,
             String feedbackSessionType) throws InvalidParametersException {
         if(feedbackSessionType == null){
@@ -189,10 +193,9 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         
         String[] sendReminderEmailsArray = getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
         List<String> sendReminderEmailsList = sendReminderEmailsArray == null ? new ArrayList<String>() : Arrays.asList(sendReminderEmailsArray);
-        newSession.isOpeningEmailEnabled = sendReminderEmailsList.contains(EmailType.FEEDBACK_OPENING.toString());
         newSession.isClosingEmailEnabled = sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString());
         newSession.isPublishedEmailEnabled = sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString());
-        
+                
         return newSession;
     }
 
