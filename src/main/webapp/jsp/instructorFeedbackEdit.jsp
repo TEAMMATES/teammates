@@ -488,7 +488,7 @@
                                             Session opening reminder
                                         </label>
                                         <input type="checkbox"
-                                            <%=data.session.isOpeningEmailEnabled ? "checked=\"checked\"" : ""%>
+                                            checked="checked"
                                             name="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>"
                                             id="<%=Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL%>_open"
                                             value="<%=EmailType.FEEDBACK_OPENING.toString()%>">
