@@ -72,5 +72,4 @@ function updateInfoForRecentActionButton(){
 
 $(document).ready(function(){
 	updateInfoForRecentActionButton();
-	$("body").tooltip({ selector: '[data-toggle=tooltip]' });
 });
