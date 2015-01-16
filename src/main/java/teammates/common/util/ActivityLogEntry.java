@@ -487,8 +487,10 @@ public class ActivityLogEntry {
         
         
         String result = "";
-        result += "<tr> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"+ getDateInfo()
-               + "<br> <p class=\"" + getColorCode(getTimeTaken()) + "\">"
+        result += "<tr> <td class=\"" + getTableCellColorCode(timeTaken) + "\" style=\"vertical-align: middle;\">"
+               + "<span><a onclick=\"submitLocalTimeAjaxRequest('" + time + "','" + googleId + "','" + role + "',this);\">" + getDateInfo() + "</a>"
+               + "<p class=\"localTime\"></p></span>" 
+               + "<p class=\"" + getColorCode(getTimeTaken()) + "\">"
                + "<strong>" + TimeHelper.convertToStandardDuration(getTimeTaken()) + "</strong>"
                + "</p> </td> <td class=\"" + getTableCellColorCode(timeTaken) + "\">"
                + "<form method=\"get\" action=\"" + Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE + "\"> "
