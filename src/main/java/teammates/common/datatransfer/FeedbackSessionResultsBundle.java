@@ -211,6 +211,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     }
     
     private String getNameFromRoster(String participantIdentifier, boolean isFullName) {
+        if (participantIdentifier.equals(Const.GENERAL_QUESTION)) {
+            return Const.USER_NOBODY_TEXT;
+        }
+        
         // return person name if participant is a student
         if (isParticipantIdentifierStudent(participantIdentifier)) {
             StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
@@ -315,6 +319,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
      * @param participantIdentifier
      */
     public String getTeamNameFromRoster(String participantIdentifier) {
+        if (participantIdentifier.equals(Const.GENERAL_QUESTION)) {
+            return Const.USER_NOBODY_TEXT;
+        }
+        
         if (isParticipantIdentifierStudent(participantIdentifier)) {
             StudentAttributes student = roster.getStudentForEmail(participantIdentifier);
             return student.team;
@@ -622,6 +630,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 possibleRecipients = getSortedListOfTeams();
                 break;
             case NONE:
+                possibleRecipients = new ArrayList<String>(); 
+                possibleRecipients.add(Const.USER_NOBODY_TEXT);
                 break;
             default:
                 break;
@@ -688,6 +698,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
             case OWN_TEAM:
                 possibleRecipients.add(Const.USER_TEAM_FOR_INSTRUCTOR);
                 break;
+            case NONE:
+                possibleRecipients.add(Const.GENERAL_QUESTION);
+                break;
             default:
                 break;
         }
@@ -730,6 +743,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 possibleRecipients.add(studentGiver.email);
                 break;
             case NONE:
+                possibleRecipients.add(Const.GENERAL_QUESTION);
+                break;
             default:
                 break;
         }
@@ -769,7 +784,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                     Set<String> studentEmailsToNames = rosterTeamNameMembersTable.get(givingTeam);
                     possibleRecipients = new ArrayList<String>(studentEmailsToNames);
                 }
+                break;
             case NONE:
+                possibleRecipients.add(Const.GENERAL_QUESTION);
+                break;
             default:
                 break;
         }
