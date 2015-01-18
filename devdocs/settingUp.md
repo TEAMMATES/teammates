@@ -8,11 +8,11 @@ Important: When a version is specified, please install that version instead of t
 
 1. Install GitHub for Windows/Mac (recommended), or at least, Git.
 3. Install JDK 7.
-4. Download [Eclipse IDE for Java EE Developers](http://www.eclipse.org/downloads/) (version: Kepler).
-6. Install Google Plugin for Eclipse version 4.3. <br>
+4. Download [Eclipse IDE for Java EE Developers](http://www.eclipse.org/downloads/) (version: Luna).
+6. Install Google Plugin for Eclipse version 4.4. <br>
    Be careful to omit other plugins shown on the screen 
    (e.g., Google App Engine Tools for Android, GWT plugin).<br>
-   Instructions are at https://developers.google.com/eclipse/docs/install-eclipse-4.3 <br>
+   Instructions are at https://developers.google.com/eclipse/docs/install-eclipse-4.4 <br>
    Note: Sometimes the update site for the GAE plug-in does not work. In which case, 
    follow the instructions at https://developers.google.com/eclipse/docs/install-from-zip.
 7. Install Google App Engine SDK version 1.9.4 (this is not the latest version)<br>
@@ -29,7 +29,7 @@ Important: When a version is specified, please install that version instead of t
    * Text encoding: Go to `Window → Preferences → General → Workspace`, change the 
    `Text file encoding` setting from `Default` to `Other: UTF-8`.
    * JRE: Go to `Windows → Preferences → Java → Installed JRE` and ensure a 
-   JDK (not a JRE) is selected. One of the items in the [Troubleshooting help]
+   JDK (not a JRE) is selected(Use a Java 7 JDK, as recommended by GAE). One of the items in the [Troubleshooting help]
    (https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true)
     explains how to do this.
     * Tab behavior: In TEAMMATES, we use spaces in place of tabs. 
@@ -209,8 +209,8 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
 * **Live site**: http://teammatesv4.appspot.com
 
 ####Development environment
-* **Eclipse** IDE for EE developers [version Kepler]
-* **Google App Engine Plugin for Eclipse** [version 4.3]
+* **Eclipse** IDE for EE developers [version Luna]
+* **Google App Engine Plugin for Eclipse** [version 4.4]
 * **Google App Engine SDK** [version 1.9.4]
 * **GitHub** : Used to host the repo and code reviewing.
 * **Pivotal Tracker** : Used for project management.
