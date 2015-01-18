@@ -87,9 +87,15 @@ function enableEditFS(){
         $(this).prop('disabled',
                 $(this).data('last'));
     });
+    
+    // instructors should not be able to prevent Session Opening reminder from getting sent
+    // as students without accounts need to receive the session opening email to respond
+    var $sessionOpeningReminder = $("#sendreminderemail_open");
+    
     $('#form_editfeedbacksession').
         find("text,input,button,textarea,select").
         not($customDateTimeFields).
+        not($sessionOpeningReminder).
         not('.disabled').
         prop('disabled', false);
     $('#fsEditLink').hide();

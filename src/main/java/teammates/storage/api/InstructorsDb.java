@@ -328,6 +328,7 @@ public class InstructorsDb extends EntitiesDb{
         
         instructorToUpdate.setGoogleId(instructorAttributesToUpdate.googleId);
         instructorToUpdate.setName(instructorAttributesToUpdate.name);
+        instructorToUpdate.setIsArchived(instructorAttributesToUpdate.isArchived);
         instructorToUpdate.setRole(instructorAttributesToUpdate.role);
         instructorToUpdate.setDisplayedName(instructorAttributesToUpdate.displayedName);
         instructorToUpdate.setInstructorPrivilegeAsText(instructorAttributesToUpdate.instructorPrivilegesAsText);
