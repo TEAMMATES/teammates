@@ -10,8 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.logging.Logger;
 
 import teammates.common.util.Const;
+import teammates.common.util.Utils;
 import teammates.logic.core.TeamEvalResult;
 import teammates.ui.controller.PageData;
 
@@ -36,6 +38,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     public Map<String, List<FeedbackResponseCommentAttributes>> responseComments = null;
     public boolean isComplete;    
 
+    protected static Logger log = Utils.getLogger();
 	 
     /**
      * Responses with identities of giver/recipients NOT hidden.
@@ -447,6 +450,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                     return creatorEmail;
                     
                  default:
+                    log.severe("Invalid giver type specified");
                     return new ArrayList<String>();
             }
         } else {
@@ -483,6 +487,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                     possibleGivers.add(fqa.creatorEmail);
                     break;
                 default:
+                    log.severe("Invalid giver type specified");
                     break;
             }
         } else if (recipientType == FeedbackParticipantType.OWN_TEAM) {
@@ -522,6 +527,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 possibleGivers.add(fqa.creatorEmail);
                 break;
             default:
+                log.severe("Invalid giver type specified");
                 break;
         }
         
@@ -571,6 +577,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 possibleGivers.add(fqa.creatorEmail);
                 break;
             default:
+                log.severe("Invalid giver type specified");
                 break;
         }
         
@@ -595,12 +602,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 possibleGivers = new ArrayList<String>();
                 possibleGivers.add(fqa.creatorEmail);
                 break;
-            case NONE:
-                break;
-            case OWN_TEAM:
-            case OWN_TEAM_MEMBERS:
-            case OWN_TEAM_MEMBERS_INCLUDING_SELF:
             default:
+                log.severe("Invalid giver type specified");
                 break;
         }
         return possibleGivers;
@@ -634,6 +637,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 possibleRecipients.add(Const.USER_NOBODY_TEXT);
                 break;
             default:
+                log.severe("Invalid recipient type specified");
                 break;
         }
         
@@ -702,6 +706,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 possibleRecipients.add(Const.GENERAL_QUESTION);
                 break;
             default:
+                log.severe("Invalid recipient type specified");
                 break;
         }
         
@@ -746,6 +751,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 possibleRecipients.add(Const.GENERAL_QUESTION);
                 break;
             default:
+                log.severe("Invalid recipient type specified");
                 break;
         }
         
@@ -789,6 +795,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
                 possibleRecipients.add(Const.GENERAL_QUESTION);
                 break;
             default:
+                log.severe("Invalid recipient type specified");
                 break;
         }
         
