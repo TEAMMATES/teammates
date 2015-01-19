@@ -192,10 +192,15 @@ public class FeedbackQuestionAttributes extends EntityAttributes
                 } 
                 if(recipientType != FeedbackParticipantType.NONE) {
                     line += ", but not the name of the recipient";
+                    if(showGiverNameTo.contains(participant) == false) {
+                        line += ", or your name";
+                    }
+                } else {
+                    if(showGiverNameTo.contains(participant) == false) {
+                        line += ", but not your name";
+                    }
                 }
-                if(showGiverNameTo.contains(participant) == false) {
-                    line += ", or your name";
-                }
+                
             } else if (showRecipientNameTo.contains(participant) == true) {
                 if(participant != FeedbackParticipantType.RECEIVER &&
                         recipientType != FeedbackParticipantType.NONE) {

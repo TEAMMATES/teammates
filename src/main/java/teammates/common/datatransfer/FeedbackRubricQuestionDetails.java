@@ -79,12 +79,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         // Get descriptions
         int descRows = -1;
         for(int i = 0 ; i<numOfRubricSubQuestions ; i++) {
+            boolean rowAdded = false;
             for(int j = 0 ; j<numOfRubricChoices ; j++) {
                 String description = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_DESCRIPTION + "-" + i + "-" + j);
                 if(description != null) {
-                    if (j==0) {
+                    if (rowAdded == false) {
                         descRows++;
                         rubricDescriptions.add(new ArrayList<String>());
+                        rowAdded = true;
                     }
                     rubricDescriptions.get(descRows).add(description);
                 }
