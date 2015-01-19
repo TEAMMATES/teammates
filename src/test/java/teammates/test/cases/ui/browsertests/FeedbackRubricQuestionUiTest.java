@@ -232,7 +232,7 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         feedbackEditPage.fillRubricChoiceBox("New(1) choice", 1, 4);
         
         // Remove existing choice
-        feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 1);
+        feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 0);
  
         // Add new choice
         feedbackEditPage.clickAddRubricColLink(1);
@@ -241,7 +241,7 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         // Remove new choice
         feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 4);
         
-        // Should end up with 4 choices, including (0) and (2)
+        // Should end up with 4 choices, including (1) and (2)
         
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditChoiceSuccess.html");
