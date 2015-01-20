@@ -709,16 +709,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         if (hasPerceivedContribution(targetEmail, question, bundle)) {
             Map<String, StudentResultSummary> stats = FeedbackContributionResponseDetails.getContribQnStudentResultSummary(question, bundle);
             StudentResultSummary studentResult = stats.get(targetEmail);
-            
-            String responseAnswerHtml = FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(
-                    studentResult.claimedToInstructor);
-            
             int pc = studentResult.perceivedToInstructor;
-            responseAnswerHtml += FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
             
-            return responseAnswerHtml;
+            String perceivedContributionHtml = FeedbackContributionQuestionDetails.getPerceivedContributionInEqualShareFormatHtml(pc);
+            
+            return perceivedContributionHtml;
         } else {
-            return FeedbackContributionQuestionDetails.convertToEqualShareFormatHtml(Const.POINTS_NOT_SUBMITTED);
+            return "";
         }
     }
     
@@ -729,16 +726,16 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
     /**
      * Used to display missing responses between a possible giver and a possible recipient.
-     * Returns "N/A" with the Perceived Contribution if the giver is the recipient.
-     * Otherwise, returns "N/A".
+     * Returns "No Response" with the Perceived Contribution if the giver is the recipient.
+     * Otherwise, returns "No Response".
      */
     @Override
     public String getNoResponseTextInHtml(String giverEmail, String recipientEmail, FeedbackSessionResultsBundle bundle, FeedbackQuestionAttributes question) {
         // if giver did not give a response to himself, we still show his perceived contribution in a row
         if (giverEmail.equals(recipientEmail) && hasPerceivedContribution(recipientEmail, question, bundle)) {
-            return getPerceivedContributionHtml(question, recipientEmail, bundle);
+            return "<i>" + Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE + "</i>" + getPerceivedContributionHtml(question, recipientEmail, bundle);
         } else {
-            return convertToEqualShareFormatHtml(Const.POINTS_NOT_SUBMITTED);
+            return "<i>" + Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE + "</i>";
         }
     }
     
