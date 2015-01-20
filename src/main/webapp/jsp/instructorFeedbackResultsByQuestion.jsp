@@ -204,7 +204,7 @@
                                                                                                                       
                                             if (possibleReceivers != null && !possibleReceivers.isEmpty()) {
                                                 // print missing responses to possible recipient from the last giver
-                                          	    for (String possibleReceiver : possibleReceivers) {
+                                                for (String possibleReceiver : possibleReceivers) {
                                                     if (!data.selectedSection.equals("All") && !data.bundle.getSectionFromRoster(possibleReceiver).equals(data.selectedSection)) {
                                                        continue;
                                                     }
