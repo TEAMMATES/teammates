@@ -133,7 +133,7 @@
                                       List<String> possibleReceivers = null;
                                       boolean isNewGiver = true;
                                       String prevGiver = "";
-                                      for(FeedbackResponseAttributes responseEntry: responseEntries.getValue()) {
+                                    for(FeedbackResponseAttributes responseEntry: responseEntries.getValue()) {
                                          if (!prevGiver.isEmpty() && !prevGiver.equals(responseEntry.giverEmail)) {
                                             isNewGiver = true;   
                                          }
@@ -199,10 +199,11 @@
                                             } else {
                                             	possibleReceivers.remove(responseEntry.recipientEmail);
                                             }
-                                                prevGiver = responseEntry.giverEmail;
-                                            }
+                                            prevGiver = responseEntry.giverEmail;
+                                    }
                                                                                                                       
                                             if (possibleReceivers != null && !possibleReceivers.isEmpty()) {
+                                                // print missing responses to possible recipient from the last giver
                                           	    for (String possibleReceiver : possibleReceivers) {
                                                     if (!data.selectedSection.equals("All") && !data.bundle.getSectionFromRoster(possibleReceiver).equals(data.selectedSection)) {
                                                        continue;
@@ -229,6 +230,7 @@
                                             }
                                                   
                                             if (possibleGivers != null && !possibleGivers.isEmpty()) {
+                                                // print remaining possible givers and recipient pairs
                                                 for (String possibleGiver : possibleGivers) {
                                                 
                                                 	if (!data.selectedSection.equals("All") && !data.bundle.getSectionFromRoster(possibleGiver).equals(data.selectedSection)) {

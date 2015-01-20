@@ -731,12 +731,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      */
     @Override
     public String getNoResponseTextInHtml(String giverEmail, String recipientEmail, FeedbackSessionResultsBundle bundle, FeedbackQuestionAttributes question) {
-        // if giver did not give a response to himself, we still show his perceived contribution in a row
+        String noResponseHtml = "<i>" + Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE + "</i>";
+        
+        // in the row for the student's self response,
+        // show the perceived contribution if the student has one
         if (giverEmail.equals(recipientEmail) && hasPerceivedContribution(recipientEmail, question, bundle)) {
-            return "<i>" + Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE + "</i>" + getPerceivedContributionHtml(question, recipientEmail, bundle);
-        } else {
-            return "<i>" + Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE + "</i>";
-        }
+            noResponseHtml += getPerceivedContributionHtml(question, recipientEmail, bundle);
+        } 
+        return noResponseHtml;
     }
     
     
