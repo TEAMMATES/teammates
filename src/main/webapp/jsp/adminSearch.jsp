@@ -302,18 +302,24 @@
                                 <tr id="<%=id%>" class="studentRow">
 
 
-                                    <td><%=data.studentInstituteMap.get(student.getIdentificationString())%>
+                                    <td><%=data.studentInstituteMap.get(student.getIdentificationString()) == null?
+                                           "" : data.studentInstituteMap.get(student.getIdentificationString())%>
                                     </td>
                                     <td><%=student.course%><br><%=student.section%><br><%=student.team%>
                                     </td>
                                     
+                                    <%if(data.studentRecordsPageLinkMap.get(student.getIdentificationString()) != null){%>
                                     <td><a class="detailsPageLink"
                                         href=<%=data.studentRecordsPageLinkMap.get(student.getIdentificationString())%>
                                         target="blank"> <%=student.name%></a></td>
+                                    <%} else {%>
+                                    <td><%=student.name%></td>                                  
+                                    <%} %>
                                     <td><a
                                         href="<%=data.studentIdToHomePageLinkMap.get(student.googleId)%>"
                                         target="blank"
-                                        class="homePageLink"><%=student.googleId%></a>
+                                        class="homePageLink"><%=data.studentIdToHomePageLinkMap.get(student.googleId) == null? 
+                                                                "" : student.googleId%></a>
                                     </td>
                                     <td><%=student.comments%></td>
 
