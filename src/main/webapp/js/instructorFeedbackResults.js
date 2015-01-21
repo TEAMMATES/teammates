@@ -77,27 +77,90 @@ function showHideStats(){
     }
 }
 
-//Search functionality
-
+// Filter functionality
+// Filtering is done by searching the heading text in all panels (section, team name, student name)
+//
+// When the heading text of a panel has found to be matched with the search text, 
+// all nested panels in the panel will be shown and parent panels of the panel will be shown as well
+//
+// When at least one of the nested panels in a panel has found to be matched with the search text,
+// the panel will be shown
 function filterResults(searchText){
     // Reduce white spaces to only 1 white space
     searchText = (searchText.split('\\s+')).join(' ');
 
+    // all panel text will be sorted in post-order 
     var allPanelText = $("#frameBodyWrapper").find("div.panel-heading-text");
 
-    for(var i=allPanelText.length-1; i >= 0; i--){
-        
-        var panelText = $(allPanelText[i]);
-        var children = $(panelText).closest("div.panel").find("div.panel-heading-text").not(panelText);
-        
-        var hasChild = $(children).size() > 0;
-        var isMatched = $(panelText).text().toLowerCase().indexOf(searchText) != -1;
+    // a stack that stores parent panels that are pending on 
+    // the search result from the child panels to decide show/hide
+    var showStack = new Array();
 
-        if(isMatched || (hasChild && $(children).is(":visible"))){
-                $(panelText).closest("div.panel").show();
-        } else {
-            $(panelText).closest("div.panel").hide();
+    // a stack that stores the parent panels that have been traversed so far
+    var parentStack = new Array();
+
+    for(var p = 0; p <allPanelText.length; p++){
+        var panelText = allPanelText[p];
+        var panel = $(panelText).closest("div.panel");
+
+        // find the number of child panels in the current panel
+        var childrenSize = $(panel).find("div.panel-heading-text").not(panelText).length;
+        var hasChild = childrenSize > 0;
+
+        var panelParent = $(panel).parent().closest("div.panel");
+
+        // reset traversed parent panel stack & pending parent panel stack 
+        // to the parent of current panel
+        while(parentStack.length > 0 && !parentStack[parentStack.length-1].is(panelParent)) {
+            parentStack.pop();
+
+            if(showStack.length > 0){
+                var s = showStack.pop();
+                $(s).hide();
+            }
         }
+
+        // current panel text matches with the search text
+        if($(panelText).text().toLowerCase().indexOf(searchText) != -1){
+            
+            // pop and show all parent panels from the showStack
+            while(showStack.length > 0){
+                var s = showStack.pop();
+                $(s).show();
+            }
+
+            // show current panel
+            $(panel).show();
+
+            // show all child panels of current panel
+            if(hasChild){
+                for(var c=p+1; c<=p+childrenSize; c++){
+                    var childPanel = $(allPanelText[c]).closest("div.panel");
+                    $(childPanel).show();
+                }
+
+                // increment counter to skip child panels that have been shown
+                p += childrenSize;
+            }
+        } else if(!hasChild){
+            // current panel text does not match with search text & current panel has no child panels
+            $(panel).hide();
+        } else {
+            // current panel text does not match with search text & current panel has child panels
+            // add current panel to pending parent panel stack
+            showStack.push(panel);
+        }
+
+        if(hasChild){
+            // push current panel whhen it has child panels
+            parentStack.push(panel);
+        }
+    }
+
+    // hide panels that are still remain on the showStack
+    while(showStack.length > 0){
+        var s = showStack.pop();
+        $(s).hide();
     }
 }
 

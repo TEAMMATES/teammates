@@ -413,9 +413,9 @@
                         </div>
                     <% } else {%>
                     <div class="inline panel-heading-text">
-                        <strong><%=responsesForRecipient.getKey()%></strong>
-                    </div>
+                        <strong><%=responsesForRecipient.getKey()%></strong>                    
                         <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmail%>]</a>
+                    </div>
                     <% } %>
                     <span class='glyphicon <%= !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down" %> pull-right'></span>
                 </div>
