@@ -287,23 +287,49 @@ public class AdminActivityLogPageAction extends Action {
         return localTimeZone;
     }
     
+    private double getLocalTimeZoneForUnregisteredUserRequest(String courseId){
+        double localTimeZone = Const.DOUBLE_UNINITIALIZED;
+        
+        if (courseId == null || courseId.isEmpty()){
+            return localTimeZone;
+        }
+        
+        Logic logic = new Logic();
+        
+        List<FeedbackSessionAttributes> fsl = logic.getFeedbackSessionsForCourse(courseId); 
+        if (fsl != null && !fsl.isEmpty()){
+            return fsl.get(0).timeZone;
+        }
+        
+        return localTimeZone;
+        
+    }
+    
     private String getLocalTimeInfo(){
         
         if(!logGoogleIdFromAjax.contentEquals("Unknown") && !logGoogleIdFromAjax.contentEquals("Unregistered")){
             double timeZone = getLocalTimeZoneForRequest(logGoogleIdFromAjax);  
+            return computeLocalTime(timeZone);
             
-            if(timeZone == Const.DOUBLE_UNINITIALIZED){
-                return "Local Time Unavailable";
-            }
-            
-            Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-            appCal.setTimeInMillis(Long.parseLong(logTimeInAdminTimeZoneFromAjax));
-            TimeHelper.convertToUserTimeZone(appCal, timeZone);
-            return sdf.format(appCal.getTime());
+        } else if (logRoleFromAjax.contains("Unregistered") && !logRoleFromAjax.contentEquals("Unregistered")){
+            String coureseId = logRoleFromAjax.split(":")[1];
+            double timeZone = getLocalTimeZoneForUnregisteredUserRequest(coureseId);
+            return computeLocalTime(timeZone);
         } else {
             return "Local Time Unavailable";
         }
     
+    }
+    
+    private String computeLocalTime(double timeZone){
+        if(timeZone == Const.DOUBLE_UNINITIALIZED){
+            return "Local Time Unavailable";
+        }
+        
+        Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        appCal.setTimeInMillis(Long.parseLong(logTimeInAdminTimeZoneFromAjax));
+        TimeHelper.convertToUserTimeZone(appCal, timeZone);
+        return sdf.format(appCal.getTime());
     }
 }
