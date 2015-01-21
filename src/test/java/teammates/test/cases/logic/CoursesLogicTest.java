@@ -150,7 +150,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         List<CourseAttributes> courses = coursesLogic.getCoursesForInstructor(instructorId);
 
         assertEquals(2, courses.size());
-
+        
+        ______TS("omit archived courses");
+        
+        InstructorsLogic.inst().setArchiveStatusOfInstructor(instructorId, courses.get(0).id, true);
+        courses = coursesLogic.getCoursesForInstructor(instructorId, true);
+        assertEquals(1, courses.size());
+        InstructorsLogic.inst().setArchiveStatusOfInstructor(instructorId, courses.get(0).id, false);
+                
         ______TS("boundary: instructor without any courses");
         
         instructorId = dataBundle.accounts.get("instructorWithoutCourses").googleId;
@@ -162,7 +169,14 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("Null parameter");
     
         try {
-            coursesLogic.getCoursesForInstructor(null);
+            coursesLogic.getCoursesForInstructor((String) null);
+            signalFailureToDetectException();
+        } catch (AssertionError e) {
+            assertEquals("Supplied parameter was null\n", e.getMessage());
+        }
+        
+        try {
+            coursesLogic.getCoursesForInstructor((List<InstructorAttributes>) null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());
@@ -828,21 +842,29 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("Instructor with 2 courses");
     
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
-        HashMap<String, CourseDetailsBundle> courseList = coursesLogic.getCourseSummariesForInstructor(instructor.googleId);
+        HashMap<String, CourseDetailsBundle> courseList = coursesLogic.getCourseSummariesForInstructor(instructor.googleId, false);
         assertEquals(2, courseList.size());
         for (CourseDetailsBundle cdd : courseList.values()) {
             // check if course belongs to this instructor
             assertTrue(InstructorsLogic.inst().isGoogleIdOfInstructorOfCourse(instructor.googleId, cdd.course.id));
         }
+        
+        ______TS("Instructor with 1 archived, 1 unarchived course");
+        
+        InstructorsLogic.inst().setArchiveStatusOfInstructor(instructor.googleId, "idOfTypicalCourse1", true);
+        courseList = coursesLogic.getCourseSummariesForInstructor(instructor.googleId, true);
+        assertEquals(1, courseList.size());
+        InstructorsLogic.inst().setArchiveStatusOfInstructor(instructor.googleId, "idOfTypicalCourse1", false);
+        
     
         ______TS("Instructor with 0 courses");
-        courseList = coursesLogic.getCourseSummariesForInstructor("instructorWithoutCourses");
+        courseList = coursesLogic.getCourseSummariesForInstructor("instructorWithoutCourses", false);
         assertEquals(0, courseList.size());
    
         ______TS("Non-existent instructor");
     
         try {
-            coursesLogic.getCourseSummariesForInstructor("non-existent-instructor");
+            coursesLogic.getCourseSummariesForInstructor("non-existent-instructor", false);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist",
@@ -852,7 +874,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("Null parameter");
     
         try {
-            coursesLogic.getCourseSummariesForInstructor(null);
+            coursesLogic.getCourseSummariesForInstructor(null, false);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());
@@ -865,7 +887,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("Typical case");
     
         HashMap<String, CourseDetailsBundle> courseListForInstructor = coursesLogic
-                .getCoursesDetailsListForInstructor("idOfInstructor3");
+                .getCoursesDetailsListForInstructor("idOfInstructor3", false);
         assertEquals(2, courseListForInstructor.size());
         String course1Id = "idOfTypicalCourse1";
     
@@ -899,21 +921,29 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("Instructor has a course with 0 evaluations");
 
         courseListForInstructor = coursesLogic
-                .getCoursesDetailsListForInstructor("idOfInstructor4");
+                .getCoursesDetailsListForInstructor("idOfInstructor4", false);
         assertEquals(1, courseListForInstructor.size());
         assertEquals(0,
                 courseListForInstructor.get("idOfCourseNoEvals").evaluations
                         .size());
+        
+        ______TS("Instructor has an archived course");
+
+        InstructorsLogic.inst().setArchiveStatusOfInstructor("idOfInstructor4", "idOfCourseNoEvals", true);
+        courseListForInstructor = coursesLogic
+                .getCoursesDetailsListForInstructor("idOfInstructor4", true);
+        assertEquals(0, courseListForInstructor.size());
+        InstructorsLogic.inst().setArchiveStatusOfInstructor("idOfInstructor4", "idOfCourseNoEvals", false);
     
         ______TS("Instructor with 0 courses");
         
-        courseListForInstructor = coursesLogic.getCoursesDetailsListForInstructor("instructorWithoutCourses");
+        courseListForInstructor = coursesLogic.getCoursesDetailsListForInstructor("instructorWithoutCourses", false);
         assertEquals(0, courseListForInstructor.size());
    
         ______TS("Non-existent instructor");
     
         try {
-            coursesLogic.getCoursesDetailsListForInstructor("non-existent-instructor");
+            coursesLogic.getCoursesDetailsListForInstructor("non-existent-instructor", false);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist",
@@ -923,7 +953,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("Null parameter");
     
         try {
-            coursesLogic.getCoursesDetailsListForInstructor(null);
+            coursesLogic.getCoursesDetailsListForInstructor(null, false);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());
@@ -931,11 +961,11 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     }
 
     public void testGetCoursesSummaryWithoutStatsForInstructor() throws Exception {
-
+        
         ______TS("Typical case");
 
         HashMap<String, CourseSummaryBundle> courseListForInstructor = coursesLogic
-                .getCoursesSummaryWithoutStatsForInstructor("idOfInstructor3");
+                .getCoursesSummaryWithoutStatsForInstructor("idOfInstructor3", false);
         assertEquals(2, courseListForInstructor.size());
         String course1Id = "idOfTypicalCourse1";
     
@@ -969,21 +999,30 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("Instructor has a course with 0 evaluations");
 
         courseListForInstructor = coursesLogic
-                .getCoursesSummaryWithoutStatsForInstructor("idOfInstructor4");
+                .getCoursesSummaryWithoutStatsForInstructor("idOfInstructor4", false);
         assertEquals(1, courseListForInstructor.size());
         assertEquals(0,
                 courseListForInstructor.get("idOfCourseNoEvals").evaluations
                         .size());
+        
+        ______TS("Instructor has an archived course");
+
+        InstructorsLogic.inst().setArchiveStatusOfInstructor("idOfInstructor4", "idOfCourseNoEvals", true);
+        courseListForInstructor = coursesLogic
+                .getCoursesSummaryWithoutStatsForInstructor("idOfInstructor4", true);
+        assertEquals(0, courseListForInstructor.size());
+        InstructorsLogic.inst().setArchiveStatusOfInstructor("idOfInstructor4", "idOfCourseNoEvals", true);
+        
     
         ______TS("Instructor with 0 courses");
         
-        courseListForInstructor = coursesLogic.getCoursesSummaryWithoutStatsForInstructor("instructorWithoutCourses");
+        courseListForInstructor = coursesLogic.getCoursesSummaryWithoutStatsForInstructor("instructorWithoutCourses", false);
         assertEquals(0, courseListForInstructor.size());
    
         ______TS("Non-existent instructor");
     
         try {
-            coursesLogic.getCoursesSummaryWithoutStatsForInstructor("non-existent-instructor");
+            coursesLogic.getCoursesSummaryWithoutStatsForInstructor("non-existent-instructor", false);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist",
@@ -993,7 +1032,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("Null parameter");
     
         try {
-            coursesLogic.getCoursesSummaryWithoutStatsForInstructor(null);
+            coursesLogic.getCoursesSummaryWithoutStatsForInstructor(null, false);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());

@@ -46,6 +46,10 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         // Set creator email as instructors' email
         fs.creatorEmail = instructor.email;
         
+        // A session opening reminder email is always sent
+        // as students without accounts need to receive the email to be able to respond
+        fs.isOpeningEmailEnabled = true;  
+        
         data.newFeedbackSession = fs;
         
         String feedbackSessionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TYPE);
@@ -55,7 +59,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             logic.createFeedbackSession(fs);
             
             try {
-                createTemaplateFeedbackQuestions(fs.courseId, fs.feedbackSessionName, fs.creatorEmail, feedbackSessionType);
+                createTemplateFeedbackQuestions(fs.courseId, fs.feedbackSessionName, fs.creatorEmail, feedbackSessionType);
             } catch(Exception e){
                 //Failed to create feedback questions for specified template/feedback session type.
                 //TODO: let the user know an error has occurred? delete the feedback session?
@@ -85,16 +89,12 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         // if isError == true, (an exception occurred above)
         
 
-        data.instructors = loadCourseInstructorMap();
-        // Get courseDetailsBundles
         boolean omitArchived = true;
-        courseDetailsList = logic.getCourseDetailsListForInstructor(account.googleId);
-        if (omitArchived) {
-            omitArchivedCourses(data.instructors);
-        }
-        data.courses = loadCoursesList();
-        data.existingEvalSessions = loadEvaluationsList();
-        data.existingFeedbackSessions = loadFeedbackSessionsList();
+        data.instructors = loadCourseInstructorMap(omitArchived);
+        List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>(data.instructors.values());
+        data.courses = loadCoursesList(instructorList);
+        data.existingEvalSessions = loadEvaluationsList(instructorList);
+        data.existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
         
         if (data.existingFeedbackSessions.size() == 0) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY);
@@ -106,7 +106,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
     
-    private void createTemaplateFeedbackQuestions(String courseId,
+    private void createTemplateFeedbackQuestions(String courseId,
             String feedbackSessionName, String creatorEmail,
             String feedbackSessionType) throws InvalidParametersException {
         if(feedbackSessionType == null){
@@ -193,10 +193,9 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         
         String[] sendReminderEmailsArray = getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
         List<String> sendReminderEmailsList = sendReminderEmailsArray == null ? new ArrayList<String>() : Arrays.asList(sendReminderEmailsArray);
-        newSession.isOpeningEmailEnabled = sendReminderEmailsList.contains(EmailType.FEEDBACK_OPENING.toString());
         newSession.isClosingEmailEnabled = sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString());
         newSession.isPublishedEmailEnabled = sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString());
-        
+                
         return newSession;
     }
 

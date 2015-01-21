@@ -35,6 +35,10 @@ public class InstructorFeedbackEditSaveAction extends Action {
         InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);
         data.session = extractFeedbackSessionData();
         
+        // A session opening reminder email is always sent
+        // as students without accounts need to receive the email to be able to respond
+        data.session.isOpeningEmailEnabled = true;
+        
         try {
             logic.updateFeedbackSession(data.session);            
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EDITED);

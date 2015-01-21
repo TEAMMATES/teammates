@@ -36,7 +36,8 @@ public class InstructorHomePageAction extends Action {
             data.sortCriteria = Const.DEFAULT_SORT_CRITERIA;
         }
         
-        HashMap<String, CourseSummaryBundle> courses = logic.getCourseSummariesWithoutStatsForInstructor(account.googleId);
+        boolean omitArchived = true;
+        HashMap<String, CourseSummaryBundle> courses = logic.getCourseSummariesWithoutStatsForInstructor(account.googleId, omitArchived);
         
         
         ArrayList<CourseSummaryBundle> courseList = new ArrayList<CourseSummaryBundle>(courses.values());

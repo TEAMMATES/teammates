@@ -19,6 +19,7 @@ public class AdminActivityLogPageData extends PageData {
     public String queryMessage;
     public List<ActivityLogEntry> logs;
     public List<String> versions;
+    public String logLocalTime;
     
     /**
      * This determines whether the logs with requests contained in "excludedLogRequestURIs" below 

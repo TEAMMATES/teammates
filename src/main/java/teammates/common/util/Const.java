@@ -298,6 +298,7 @@ public class Const {
         
         public static final String COPIED_FEEDBACK_SESSION_NAME = "copiedfsname";
         public static final String COPIED_COURSE_ID = "copiedcourseid";
+        public static final String COPIED_COURSES_ID = "copiedcoursesid";
         
         public static final String CSV_TO_HTML_TABLE_NEEDED = "csvtohtmltable";
         
@@ -614,6 +615,8 @@ public class Const {
         
         public static final String INSTRUCTOR_COMMENTS_PAGE = "/page/instructorCommentsPage";
         
+        public static final String INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE = "/page/instructorEditStudentFeedbackPage";
+        public static final String INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE = "/page/instructorEditStudentFeedbackSave";
         public static final String INSTRUCTOR_FEEDBACKS_PAGE = "/page/instructorFeedbacksPage";
         public static final String INSTRUCTOR_FEEDBACK_ADD = "/page/instructorFeedbackAdd";
         public static final String INSTRUCTOR_FEEDBACK_COPY = "/page/instructorFeedbackCopy";
@@ -623,10 +626,10 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS = "/page/instructorFeedbackRemindParticularStudents";
         public static final String INSTRUCTOR_FEEDBACK_PUBLISH = "/page/instructorFeedbackPublish";
         public static final String INSTRUCTOR_FEEDBACK_UNPUBLISH = "/page/instructorFeedbackUnpublish";
+        public static final String INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE = "/page/instructorFeedbackEditCopyPage";
+        public static final String INSTRUCTOR_FEEDBACK_EDIT_COPY = "/page/instructorFeedbackEditCopy";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "/page/instructorFeedbackEditPage";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_SAVE = "/page/instructorFeedbackEditSave";
-        public static final String INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE = "/page/instructorEditStudentFeedbackPage";
-        public static final String INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE = "/page/instructorEditStudentFeedbackSave";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_PAGE = "/page/instructorFeedbackResultsPage";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD = "/page/instructorFeedbackResultsDownload";
         public static final String INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT = "/page/instructorFeedbackPreviewAsStudent";
@@ -899,6 +902,8 @@ public class Const {
         public static final String FEEDBACK_SESSION_ADDED = "The feedback session has been added. Click the \"Add New Question\" button below to begin adding questions for the feedback session.";
         public static final String FEEDBACK_SESSION_ADD_DB_INCONSISTENCY = "If you do not see existing feedback sessions in the list below, please refresh the page after a few moments";
         public static final String FEEDBACK_SESSION_COPIED = "The feedback session has been copied. Please modify settings/questions as necessary.";
+        public static final String FEEDBACK_SESSION_COPY_NONESELECTED = "You have not selected any course to copy the feedback session to";
+        public static final String FEEDBACK_SESSION_COPY_ALREADYEXISTS = "A feedback session with the name \"%s\" already exists in the following course(s): %s.";
         public static final String FEEDBACK_SESSION_EDITED = "The feedback session has been updated.";
         public static final String FEEDBACK_SESSION_DELETED = "The feedback session has been deleted.";
         public static final String FEEDBACK_SESSION_PUBLISHED = "The feedback session has been published. Please allow up to 1 hour for all the notification emails to be sent out.";

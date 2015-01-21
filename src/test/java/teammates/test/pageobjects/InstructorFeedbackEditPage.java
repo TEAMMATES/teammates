@@ -123,6 +123,12 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(xpath = "//input[@name='numofrecipientstype' and @value='custom']")
     private WebElement customNumOfRecipients;
     
+    @FindBy(id = "button_fscopy")
+    private WebElement fscopyButton;
+    
+    @FindBy(id = "fscopy_submit")
+    private WebElement fscopySubmitButton;
+    
     @FindBy(id = "button_copy")
     private WebElement copyButton;
     
@@ -350,12 +356,35 @@ public class InstructorFeedbackEditPage extends AppPage {
         manualResultsVisibleTimeButton.click();
     }
     
+    public void clickFsCopyButton() {
+        fscopyButton.click();
+    }
+    
+    public void clickFsCopySubmitButton() {
+        fscopySubmitButton.click();
+    }
+    
     public void clickCopyButton(){
         copyButton.click();
     }
     
     public void clickCopySubmitButton(){
         copySubmitButton.click();
+    }
+    
+    public void waitForModalToLoad() {
+        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME), 1);
+    }
+    
+    public void fillCopyToOtherCoursesForm(String newName) {
+        WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
+        List<WebElement> coursesCheckBoxes = fsCopyModal.findElements(By.name(Const.ParamsNames.COPIED_COURSES_ID));
+        for(WebElement e : coursesCheckBoxes) {
+            markCheckBoxAsChecked(e);
+        }
+        
+        WebElement fsNameInput = fsCopyModal.findElement(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
+        fillTextBox(fsNameInput, newName);
     }
     
     public WebElement getDeleteSessionLink(){
@@ -429,7 +458,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         isEditSessionEnabled &= defaultSessionVisibleTimeButton.isEnabled();
         isEditSessionEnabled &= customSessionVisibleTimeButton.isEnabled();
         
-        isEditSessionEnabled &= openSessionEmailReminderButton.isEnabled();
         isEditSessionEnabled &= closingSessionEmailReminderButton.isEnabled();
         isEditSessionEnabled &= publishedSessionEmailReminderButton.isEnabled();
         

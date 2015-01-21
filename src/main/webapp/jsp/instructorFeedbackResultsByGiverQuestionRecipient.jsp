@@ -251,7 +251,7 @@
                                                                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
                                     String disabledAttribute = !isAllowedToModerate? "disabled=\"disabled\"" : "";
                                 %>
-                                        <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
+                                        <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
                                         
                                             <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                             <input type="hidden" name="courseid" value="<%=data.courseId %>">
@@ -450,7 +450,7 @@
                         String disabledAttribute = !isAllowedToModerate? "disabled=\"disabled\"" : "";
                         if (isGiverVisible && data.bundle.isParticipantIdentifierStudent(giverEmail)) { 
                     %>
-                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
+                            <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
                             
                                 <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%= disabledAttribute %> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                 <input type="hidden" name="courseid" value="<%=data.courseId %>">
@@ -638,7 +638,7 @@
                                                                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
                         String disabledAttribute = !isAllowedToModerate? "disabled=\"disabled\"" : "";
                     %>
-                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
+                            <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
                             
                                 <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                 <input type="hidden" name="courseid" value="<%=data.courseId %>">
@@ -721,7 +721,7 @@
                                                                                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
                                                         String disabledAttribute = !isAllowedToModerate? "disabled=\"disabled\"" : "";
                                                     %>
-                                                            <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
+                                                            <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
                                                             
                                                                 <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                                                 <input type="hidden" name="courseid" value="<%=data.courseId %>">
@@ -826,7 +826,7 @@
                                                                                                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
                                                             String disabledAttribute = !isAllowedToModerate? "disabled=\"disabled\"" : "";
                                                         %>
-                                                                <form class="inline" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE %>" target="_blank"> 
+                                                                <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
                                                                     <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%=disabledAttribute %> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                                                     <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                                     <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">

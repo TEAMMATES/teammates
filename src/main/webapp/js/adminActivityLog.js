@@ -17,6 +17,39 @@ $(function() {
 	$("#filterReference").toggle();
 });
 
+function submitLocalTimeAjaxRequest(time, googleId, role, entry){
+	var params = "logTimeInAdminTimeZone=" + time
+			     + "&logRole=" + role 
+			     + "&logGoogleId=" + googleId;
+	
+	var link = $(entry);
+	var localTimeDisplay = $(entry).parent().children()[1];
+	
+	var originalTime = $(link).html();
+	
+	$.ajax({
+        type : 'POST',
+        url :   "/admin/adminActivityLogPage?" + params,
+        beforeSend : function() {
+        	$(localTimeDisplay).html("<img src='/images/ajax-loader.gif'/>");
+        },
+        error : function() {
+        	$(localTimeDisplay).html("Loading error, please retry");      	
+        },
+        success : function(data) {
+            setTimeout(function(){
+                if (!data.isError) {   	
+                	$(link).parent().html(originalTime + "<mark>" + "<br>" + data.logLocalTime) + "<mark>";
+                } else {
+                	$(localTimeDisplay).html("Loading error, please retry");      	
+                }
+            	               
+                $("#statusMessage").html(data.statusForAjax);
+
+            },500);
+        }
+    });
+}
 
 function submitFormAjax(offset) {
 	$('input[name=offset]').val(offset);
@@ -72,5 +105,4 @@ function updateInfoForRecentActionButton(){
 
 $(document).ready(function(){
 	updateInfoForRecentActionButton();
-	$("body").tooltip({ selector: '[data-toggle=tooltip]' });
 });

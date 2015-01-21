@@ -26,6 +26,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.cases.BaseComponentTestCase;
@@ -235,7 +236,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         
         String googleId = "idOfInstructor3";
         
-        List<InstructorAttributes> retrieved = instructorsDb.getInstructorsForGoogleId(googleId);
+        List<InstructorAttributes> retrieved = instructorsDb.getInstructorsForGoogleId(googleId, false);
         assertEquals(2, retrieved.size());
         
         InstructorAttributes instructor1 = retrieved.get(0);
@@ -244,15 +245,23 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         assertEquals("idOfTypicalCourse1", instructor1.courseId);
         assertEquals("idOfTypicalCourse2", instructor2.courseId);
         
+
+        ______TS("Success: get instructors with specific googleId, with 1 archived course.");
+        
+        InstructorsLogic.inst().setArchiveStatusOfInstructor(googleId, instructor1.courseId, true);
+        retrieved = instructorsDb.getInstructorsForGoogleId(googleId, true);
+        assertEquals(1, retrieved.size());
+        InstructorsLogic.inst().setArchiveStatusOfInstructor(googleId, instructor1.courseId, false);
+        
         ______TS("Failure: instructor does not exist");
         
-        retrieved = instructorsDb.getInstructorsForGoogleId("non-exist-id");
+        retrieved = instructorsDb.getInstructorsForGoogleId("non-exist-id", false);
         assertEquals(0, retrieved.size());
         
         ______TS("Failure: null parameters");
 
         try {
-            instructorsDb.getInstructorsForGoogleId(null);
+            instructorsDb.getInstructorsForGoogleId(null, false);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getMessage());
@@ -437,7 +446,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         String googleId = "instructorWithOnlyOneSampleCourse";
         instructorsDb.deleteInstructorsForGoogleId(googleId);
         
-        List<InstructorAttributes> retrieved = instructorsDb.getInstructorsForGoogleId(googleId);
+        List<InstructorAttributes> retrieved = instructorsDb.getInstructorsForGoogleId(googleId, false);
         assertEquals(0, retrieved.size());
         
         ______TS("Failure: try to delete where there's no instructors associated with the googleId, should fail silently");

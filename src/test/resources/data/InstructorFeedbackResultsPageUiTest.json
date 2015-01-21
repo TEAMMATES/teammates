@@ -640,6 +640,29 @@
             ]
             
         },
+        "qn18InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "creatorEmail":"CFResultsUiT.instr@gmail.tmt",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"Rate the class\", \"questionType\":\"NUMSCALE\", \"minScale\" : -5, \"maxScale\" : 5,\"step\" : 0.25}"
+            },
+            "questionNumber":"18",
+            "questionType":"NUMSCALE",
+            "giverType":"STUDENTS",
+            "recipientType":"NONE",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+            
+        },
         
         "qn1InSession2":{
             "feedbackSessionName":"Second Session",
@@ -1043,6 +1066,19 @@
             },
             "giverSection":"Section A",
             "recipientSection":"Section A"
+        },
+        "response19":{
+            "feedbackSessionName":"First Session",
+            "courseId":"CFResultsUiT.CS2104",
+            "feedbackQuestionId":"18",
+            "feedbackQuestionType":"NUMSCALE",
+            "giverEmail":"CFResultsUiT.benny.c@gmail.tmt",
+            "recipientEmail":"%GENERAL%",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : -0.5}"
+            },
+            "giverSection":"Section A",
+            "recipientSection":"None"
         }
         
         

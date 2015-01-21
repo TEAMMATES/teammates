@@ -1,14 +1,21 @@
 package teammates.ui.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TimeZone;
 
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 import teammates.logic.api.GateKeeper;
+import teammates.logic.api.Logic;
 
 import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogQuery;
@@ -23,6 +30,9 @@ public class AdminActivityLogPageAction extends Action {
     private static final int MAX_LOGSEARCH_LIMIT = 15000;
     
     
+    private String logRoleFromAjax = null;
+    private String logGoogleIdFromAjax = null;
+    private String logTimeInAdminTimeZoneFromAjax = null;
     
     
     @Override
@@ -36,6 +46,18 @@ public class AdminActivityLogPageAction extends Action {
         data.pageChange = getRequestParamValue("pageChange");
         data.filterQuery = getRequestParamValue("filterQuery");
         
+        logRoleFromAjax = getRequestParamValue("logRole");
+        logGoogleIdFromAjax = getRequestParamValue("logGoogleId");
+        logTimeInAdminTimeZoneFromAjax = getRequestParamValue("logTimeInAdminTimeZone");
+        
+        boolean isLoadingLocalTimeAjax = (logRoleFromAjax != null)
+                                         && (logGoogleIdFromAjax != null)
+                                         && (logTimeInAdminTimeZoneFromAjax != null);
+        
+        if(isLoadingLocalTimeAjax){
+            data.logLocalTime = getLocalTimeInfo();
+            return createAjaxResult(Const.ViewURIs.ADMIN_ACTIVITY_LOG, data);
+        }
         
 //      This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" in AdminActivityLogPageData
 //      should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
@@ -207,5 +229,81 @@ public class AdminActivityLogPageAction extends Action {
         return appLogs;
     }
     
-
+    
+    /*
+     * Functions used to load local time for activity log using AJAX
+     */
+    
+    private double getLocalTimeZoneForRequest(String userGoogleId){
+        double localTimeZone = Const.DOUBLE_UNINITIALIZED;
+        
+        if(logRoleFromAjax.contentEquals("Admin") || logRoleFromAjax.contains("(M)")){
+            return Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE;
+        }
+        
+        Logic logic = new Logic();
+        if(userGoogleId != null && !userGoogleId.isEmpty()){     
+            try {
+                localTimeZone = findAvailableTimeZoneFromCourses(logic.getCoursesForInstructor(userGoogleId));
+            } catch (EntityDoesNotExistException e) {
+                localTimeZone = Const.DOUBLE_UNINITIALIZED;
+            }
+            
+            if(localTimeZone != Const.DOUBLE_UNINITIALIZED){
+                return localTimeZone;
+            }
+             
+            try {
+                localTimeZone = findAvailableTimeZoneFromCourses(logic.getCoursesForStudentAccount(userGoogleId));
+            } catch (EntityDoesNotExistException e) {
+                localTimeZone = Const.DOUBLE_UNINITIALIZED;
+            }
+            
+            if(localTimeZone != Const.DOUBLE_UNINITIALIZED){
+                return localTimeZone;
+            }
+        }
+        
+        return localTimeZone;
+    }
+    
+    private double findAvailableTimeZoneFromCourses(List<CourseAttributes> courses){
+        
+        double localTimeZone = Const.DOUBLE_UNINITIALIZED;
+        
+        if(courses == null){
+            return localTimeZone;
+        }
+        
+        Logic logic = new Logic();
+        
+        for(CourseAttributes course : courses){
+            List<FeedbackSessionAttributes> fsl = logic.getFeedbackSessionsForCourse(course.id); 
+            if (fsl != null && !fsl.isEmpty()){
+                return fsl.get(0).timeZone;
+            }
+        }
+        
+        return localTimeZone;
+    }
+    
+    private String getLocalTimeInfo(){
+        
+        if(!logGoogleIdFromAjax.contentEquals("Unknown") && !logGoogleIdFromAjax.contentEquals("Unregistered")){
+            double timeZone = getLocalTimeZoneForRequest(logGoogleIdFromAjax);  
+            
+            if(timeZone == Const.DOUBLE_UNINITIALIZED){
+                return "Local Time Unavailable";
+            }
+            
+            Calendar appCal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            appCal.setTimeInMillis(Long.parseLong(logTimeInAdminTimeZoneFromAjax));
+            TimeHelper.convertToUserTimeZone(appCal, timeZone);
+            return sdf.format(appCal.getTime());
+        } else {
+            return "Local Time Unavailable";
+        }
+    
+    }
 }

@@ -51,6 +51,8 @@ function readyFeedbackEditPage(){
     formatCheckBoxes();
     formatQuestionNumbers();
     collapseIfPrivateSession();
+    
+    setupFsCopyModal();
 }
 
 /**
@@ -85,9 +87,15 @@ function enableEditFS(){
         $(this).prop('disabled',
                 $(this).data('last'));
     });
+    
+    // instructors should not be able to prevent Session Opening reminder from getting sent
+    // as students without accounts need to receive the session opening email to respond
+    var $sessionOpeningReminder = $("#sendreminderemail_open");
+    
     $('#form_editfeedbacksession').
         find("text,input,button,textarea,select").
         not($customDateTimeFields).
+        not($sessionOpeningReminder).
         not('.disabled').
         prop('disabled', false);
     $('#fsEditLink').hide();
@@ -1375,4 +1383,48 @@ function highlightRubricCol(index, questionNumber, highlight) {
     } else {
         $('.rubricCol' + idSuffix + '-' + index).removeClass('cell-selected-negative');
     }
+}
+
+function setupFsCopyModal() {
+    $('#fsCopyModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var actionlink = button.data('actionlink');
+        var courseid = button.data('courseid');
+        var fsname = button.data('fsname');
+        
+        $.ajax({
+            type : 'GET',
+            url : actionlink,
+            beforeSend : function() {
+                $('#courseList').html("<img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
+            },
+            error : function() {
+                $('#courseList').html('Error retrieving course list.' + 
+                    'Please close the dialog window and try again.');
+            },
+            success : function(data) {
+                var htmlToAppend = "";
+                var coursesTable = data.courses;
+                
+                htmlToAppend += "<div class=\"form-group\">" +
+                "<label for=\"copiedfsname\" class=\"control-label\"> Name for copied sessions </label>" + 
+                "<input class=\"form-control\" id=\"copiedfsname\" type=\"text\" name=\"copiedfsname\" value=\"" + 
+                fsname + 
+                "\"></div>";
+                
+                for (var i = 0 ; i < coursesTable.length; i++) {
+                    htmlToAppend += "<div class=\"checkbox\">";
+                    htmlToAppend += "<label><input type=\"checkbox\" name=\"copiedcoursesid\"";
+                    htmlToAppend += "value=\"" + coursesTable[i].id + "\"> [" + coursesTable[i].id + "] : " + coursesTable[i].name;
+                    htmlToAppend +=  "</label></div>";
+                }
+                htmlToAppend += "<input type=\"hidden\" name=\"courseid\" value=\"" + courseid + "\">";
+                htmlToAppend += "<input type=\"hidden\" name=\"fsname\" value=\"" + fsname + "\">";
+                
+                $('#courseList').html(htmlToAppend);
+                
+            }
+        });
+    });
+	
 }

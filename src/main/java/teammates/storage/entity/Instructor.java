@@ -36,7 +36,6 @@ public class Instructor {
     
     /** new attribute. Default value: Old Entity--null  New Entity--false*/
     @Persistent
-    @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private Boolean isArchived;
 
     /** The instructor's name used for this course. */
@@ -163,6 +162,12 @@ public class Instructor {
     
     public void setRegistrationKey(String key) {
         this.registrationKey = key;
+    }
+    
+    public void setGeneratedKeyIfNull() {
+        if (this.registrationKey == null) {
+            setRegistrationKey(generateRegistrationKey());
+        }
     }
     
     /**
