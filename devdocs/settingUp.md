@@ -75,7 +75,11 @@ Important: When a version is specified, please install that version instead of t
    Instead, you can use the join link given after adding an intructor, to complete the joining process.<br>
    Remember to change the URL of the link if necessary.<br>
    e.g. Change `http://teammates-john.appspot.com/page/instructorCourseJoin?...` to `http://localhost:8888/page/instructorCourseJoin?...`
-      
+8. Now, to access the dev server as a student , first make sure you are logged in as an instructor. Add a course for yourself and then add the students for the course .<br>
+   After that , login as admin and search for the student you added in as instructor . From the search results , use the join link adjacent to the student you added. <br>
+   then , logout and use that join link to login as a student . You have the required access now. <br>
+   (Make sure you use the `http://localhost:8888/` as the host instead of the one given in the join link) <br>   
+   Alternative : Run the test cases , the test case creates several student account in the  data store . Use one of them to login. <br> 
 ##Running the test suite
 
 
