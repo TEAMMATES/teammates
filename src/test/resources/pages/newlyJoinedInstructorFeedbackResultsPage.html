@@ -51,77 +51,78 @@
               </div>
           </div>
           <div class="col-sm-2">
-                     <div class="form-group">
-                        <form action="/page/instructorFeedbackResultsDownload" method="post">
-                           <div id="feedbackDataButtons">
-                              <input class="btn btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download results"/>
-                                                         </div>
-                           <input name="user" type="hidden" value="{$test.instructor}"/>
-                                                      <input name="fsname" type="hidden" value="Second team feedback session"/>
-                                                      <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
-                                                      <input name="sectionname" type="hidden" value="All"/>
-                                                   </form>
-                     </div>
+              
+              <div class="form-group">
+                  <form method="post" action="/page/instructorFeedbackResultsDownload">
+                  <div id="feedbackDataButtons">
+                      <input id="button_download" class="btn btn-primary" name="fruploaddownloadbtn" value="Download results" type="submit">
                   </div>
-               </div>
-               <div class="row">
-                  <span class="help-block align-center">
-                     Non-English characters not displayed properly in the
-                    downloaded file?
-                     <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" onclick="submitFormAjax()">
-                        click here
-                     </span>
-                  </span>
-               </div>
-            </div>
-         </div>
+                  <input name="user" value="{$test.instructor}" type="hidden">
+                  <input name="fsname" value="Second team feedback session" type="hidden">
+                  <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
+                  <input name="sectionname" value="All" type="hidden">
+                  
+                  </form>
+              </div>
+              
+          </div>
+        </div>
+
+            <div class="row">
+                <span class="help-block align-center">
+
+                    Non-English characters not displayed properly in the
+                    downloaded file?<span class="btn-link" data-toggle="modal" data-target="#fsResultsTableWindow" onclick="submitFormAjax()"> click here </span>
+            </span></div>
+
+        </div>
       </div>
-      <form id="csvToHtmlForm">
-         <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
-                  <input name="fsname" type="hidden" value="Second team feedback session"/>
-                  <input name="user" type="hidden" value="{$test.instructor}"/>
-                  <input name="frgroupbysection" type="hidden" value="All"/>
-                  <input name="csvtohtmltable" type="hidden" value="true"/>
-               </form>
-      <div class="modal fade align-center" id="fsResultsTableWindow">
-         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <span class="help-block" style="display:inline;">
-                     Tips: After
-                    Selecting the table,
-                     <kbd>
-                        Ctrl + C
-                     </kbd>
-                     to COPY and
-                     <kbd>
-                        Ctrl + V
-                     </kbd>
-                     to PASTE to your Excel Workbook.
-                  </span>
-                       
-                  <button class="btn btn-default" data-dismiss="modal" type="button">
-                     Close
-                  </button>
-                  <button class="btn btn-primary" onclick="selectElementContents( document.getElementById('fsModalTable') );" type="button">
-                     Select Table
-                  </button>
-               </div>
-               <div class="modal-body">
-                  <div class="table-responsive">
-                     <div id="fsModalTable">
-                     </div>
-                     <br/>
-                                          <div id="ajaxStatus">
-                     </div>
-                  </div>
-               </div>
-               <div class="modal-footer">
-               </div>
+    
+</div>
+
+<form id="csvToHtmlForm">
+<input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
+<input name="fsname" value="Second team feedback session" type="hidden">
+<input name="user" value="{$test.instructor}" type="hidden">
+<input name="frgroupbysection" value="All" type="hidden">
+<input name="csvtohtmltable" value="true" type="hidden">
+</form>
+
+<div class="modal fade align-center" id="fsResultsTableWindow">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                 <span class="help-block" style="display:inline;"> Tips: After
+                    Selecting the table, <kbd>Ctrl + C</kbd> to COPY and
+                    <kbd>Ctrl + V</kbd> to PASTE to your Excel Workbook.
+                </span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="selectElementContents( document.getElementById('fsModalTable') );">
+                    Select Table</button>
             </div>
-         </div>
-      </div>
-      <br/>
+            <div class="modal-body">
+            <div class="table-responsive">
+            <div id="fsModalTable">
+               
+            </div>
+            <br>
+             <div id="ajaxStatus"></div>      
+            </div>
+            </div>
+            <div class="modal-footer">
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<br>
+
+
+
+
 
     <div id="statusMessage" style="display: none;"></div>
 
@@ -146,11 +147,14 @@
                     <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                     </div>
-                    <strong>Question 1: </strong><span class="text-preserve-space">Please rate the estimated contribution of your team members and yourself.&nbsp;<span style=" white-space: normal;">
+                    <strong>Question 1: </strong>
+                    <div class="inline panel-heading-text">
+                        <span class="text-preserve-space">Please rate the estimated contribution of your team members and yourself.&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="questionAdditionalInfoButton-1-" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-" style="display:none;">Team contribution question</span>
 </span></span>
+                    </div>
                 </div>
                 <div id="panelBodyCollapse-1" class="panel-collapse collapse in">
                 <div class="panel-body padding-0" id="questionBody-0">
@@ -177,7 +181,10 @@
                     <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                     </div>
-                    <strong>Question 2: </strong><span class="text-preserve-space">Comments about my contribution (shown to other teammates)</span>
+                    <strong>Question 2: </strong>
+                    <div class="inline panel-heading-text">
+                        <span class="text-preserve-space">Comments about my contribution (shown to other teammates)</span>
+                    </div>
                 </div>
                 <div id="panelBodyCollapse-2" class="panel-collapse collapse in">
                 <div class="panel-body padding-0" id="questionBody-1">
@@ -204,7 +211,10 @@
                     <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                     </div>
-                    <strong>Question 3: </strong><span class="text-preserve-space">My comments about this teammate(confidential and only shown to instructor)</span>
+                    <strong>Question 3: </strong>
+                    <div class="inline panel-heading-text">
+                        <span class="text-preserve-space">My comments about this teammate(confidential and only shown to instructor)</span>
+                    </div>
                 </div>
                 <div id="panelBodyCollapse-3" class="panel-collapse collapse in">
                 <div class="panel-body padding-0" id="questionBody-2">
@@ -231,7 +241,10 @@
                     <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                     </div>
-                    <strong>Question 4: </strong><span class="text-preserve-space">Comments about team dynamics(confidential and only shown to instructor)</span>
+                    <strong>Question 4: </strong>
+                    <div class="inline panel-heading-text">
+                        <span class="text-preserve-space">Comments about team dynamics(confidential and only shown to instructor)</span>
+                    </div>
                 </div>
                 <div id="panelBodyCollapse-4" class="panel-collapse collapse in">
                 <div class="panel-body padding-0" id="questionBody-3">
@@ -258,7 +271,10 @@
                     <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                     </div>
-                    <strong>Question 5: </strong><span class="text-preserve-space">My feedback to this teammate(shown anonymously to the teammate)</span>
+                    <strong>Question 5: </strong>
+                    <div class="inline panel-heading-text">
+                        <span class="text-preserve-space">My feedback to this teammate(shown anonymously to the teammate)</span>
+                    </div>
                 </div>
                 <div id="panelBodyCollapse-5" class="panel-collapse collapse in">
                 <div class="panel-body padding-0" id="questionBody-4">
