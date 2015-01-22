@@ -1019,15 +1019,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         courseListForInstructor = coursesLogic.getCoursesSummaryWithoutStatsForInstructor("instructorWithoutCourses", false);
         assertEquals(0, courseListForInstructor.size());
    
-        ______TS("Non-existent instructor");
-    
-        try {
-            coursesLogic.getCoursesSummaryWithoutStatsForInstructor("non-existent-instructor", false);
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            AssertHelper.assertContains("does not exist",
-                                         e.getMessage());
-        }
        
         ______TS("Null parameter");
     
