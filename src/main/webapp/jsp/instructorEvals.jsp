@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.Map"%>
+
 <%@page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
@@ -364,8 +367,9 @@
             </tr>
             <%
                 }
-                    for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {
-                        sessionIdx++;
+                Map<String, List<String>> courseIdSectionNamesMap = data.getCourseIdSectionNamesMap(data.existingFeedbackSessions);
+                for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {
+                    sessionIdx++;
             %>
             <tr class="sessionsRow" id="session<%=sessionIdx%>">
                 <td><%=fdb.courseId%></td>
@@ -384,7 +388,7 @@
                     href="<%=data.getFeedbackSessionStatsLink(fdb.courseId,
                             fdb.feedbackSessionName)%>">Show</a>
                 </td>
-                <td class="no-print"><%=data.getInstructorFeedbackSessionActions(fdb, false, data.instructors.get(fdb.courseId))%></td>
+                <td class="no-print"><%=data.getInstructorFeedbackSessionActions(fdb, false, data.instructors.get(fdb.courseId), courseIdSectionNamesMap.get(fdb.courseId))%></td>
             </tr>
             <%
                 }
