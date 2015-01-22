@@ -18,7 +18,7 @@
     if (data.account.isInstructor) {
     	for (CourseSummaryBundle courseDetails : data.courses) {
             InstructorAttributes instructor = data.instructors.get(courseDetails.course.id);
-            if (!data.isCourseArchived(courseDetails.course.id, instructor.googleId)) {
+            if (instructor.isArchived == null || !instructor.isArchived) {
                 countUnarchivedCourses++;
             }
         }
@@ -147,10 +147,8 @@
             int courseIdx = -1;
             int sessionIdx = -1;
             for (CourseSummaryBundle courseDetails : data.courses) {
-                // TODO: optimize in future
-                // We may be able to reduce database reads here because we don't need to retrieve certain data for archived courses
                 InstructorAttributes instructor = data.instructors.get(courseDetails.course.id);
-                if (!data.isCourseArchived(courseDetails.course.id, instructor.googleId)) {
+                if (instructor.isArchived==null || !instructor.isArchived) {
                     courseIdx++;
         %>
                     <div class="panel panel-primary" id="course<%=courseIdx%>">
