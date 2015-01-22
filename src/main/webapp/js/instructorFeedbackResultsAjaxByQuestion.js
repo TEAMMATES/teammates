@@ -33,7 +33,7 @@ $(document).ready(function(){
                     $(panelBody[0]).html(appendedQuestion);
                 } else {
                     $(panelBody[0]).removeClass('padding-0');
-                    $(panelBody[0]).html("There are too many responses for this question. Please view the responses by sections.");
+                    $(panelBody[0]).html("There are too many responses for this question. Please view the responses one section at a time.");
                 }
 
                 $(panelHeading).removeClass('ajax_submit');
