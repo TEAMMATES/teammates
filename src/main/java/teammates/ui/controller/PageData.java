@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -798,7 +800,27 @@ public class PageData {
         
         return msg;
     }
-
+    
+    /**
+     * Gets a Map with courseId as key and List of sectionNames as value
+     * @param fsaList
+     * @return
+     * @throws EntityDoesNotExistException
+     */
+    public Map<String, List<String>> getCourseIdSectionNamesMap(List<FeedbackSessionAttributes> fsaList) throws EntityDoesNotExistException {
+        Map<String, List<String>> courseIdSectionNamesMap = new HashMap<String, List<String>>();
+        
+        for (FeedbackSessionAttributes fsa : fsaList) {
+            String courseId = fsa.courseId;
+            if (courseIdSectionNamesMap.get(courseId) == null) {
+                List<String> sectionsInCourse = new Logic().getSectionNamesForCourse(courseId);
+                courseIdSectionNamesMap.put(courseId, sectionsInCourse);
+            }
+        }
+        
+        return courseIdSectionNamesMap;
+    }
+    
     /**
      * Returns the links of actions available for a specific evaluation
      * @param session
@@ -811,7 +833,7 @@ public class PageData {
      * @throws EntityDoesNotExistException 
      */
     public String getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,
-            boolean isHome, InstructorAttributes instructor) throws EntityDoesNotExistException{
+            boolean isHome, InstructorAttributes instructor, List<String> sectionsInCourse) throws EntityDoesNotExistException{
         StringBuilder result = new StringBuilder();
         
         // Allowing ALL instructors to view results regardless of publish state.
@@ -826,7 +848,7 @@ public class PageData {
         String disablePublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableRemindSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         boolean shouldEnableSubmitLink = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-        List<String> sectionsInCourse = new Logic().getSectionNamesForCourse(instructor.courseId);
+        
         for (String section : sectionsInCourse) {
             if (instructor.isAllowedForPrivilege(section, session.feedbackSessionName, 
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
