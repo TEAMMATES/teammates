@@ -1,6 +1,11 @@
 package teammates.ui.controller;
 
+import java.util.List;
+
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -50,10 +55,29 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
             statusToAdmin = studentInfo;
         }
         
-        statusToUser.add(String.format(
-                Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, getStudent().course));
+        addStatusMessageToUser();
         
         return response;
+    }
+
+    private void addStatusMessageToUser() throws EntityDoesNotExistException {
+        CourseAttributes course = logic.getCourse(getStudent().course);
+        String courseDisplayText = "[" + course.id + "] " + course.name; 
+        
+        statusToUser.add(String.format(
+                Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, courseDisplayText));
+
+       
+        if (logic.getFeedbackSessionsForCourse(getStudent().course).isEmpty()) {
+            statusToUser.add("Currently, there are no open evaluation/feedback sessions in the course " + courseDisplayText + ". When a session is open for submission you will be notified.");
+            
+            StudentProfileAttributes spa = logic.getStudentProfile(account.googleId);
+            
+            if (isProfileDefault(spa)) {
+                statusToUser.add("Meanwhile, you can update your profile <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\"> here</a>. ");
+            }
+        }
+        
     }
 
     private void ensureStudentExists() {
@@ -72,5 +96,50 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         return student;
     }
     
+    /**
+     * Return whether the profile is a default unmodified profile. 
+     * A profile is unmodified if:
+     *     email, moreInfo, nationality, picture, shortname is empty
+     *     and the profile's institute is the same as the account's institute
+     * @param spa
+     * @return
+     */
+    private boolean isProfileDefault(StudentProfileAttributes spa) {
+        if (!spa.email.isEmpty()) {
+            return false;
+        }
+        if (!spa.gender.equals("other")) {
+            return false;
+        }
+        if (!spa.moreInfo.isEmpty()) {
+            return false;
+        }
+        if (!spa.nationality.isEmpty()) {
+            return false;
+        }
+        if (!spa.shortName.isEmpty()) {
+            return false;
+        }
+        
+        if (!spa.pictureKey.isEmpty()) {
+            return false;
+        }
+        
+        boolean isDummyAccount = account.institute == null;
+        String institute;
+        if (isDummyAccount) {
+            // if the account is newly created, the account attribute in the action
+            // will still only be the dummy account and not the newly created account
+            institute = logic.getAccount(account.googleId).institute;
+        } else {
+            institute = account.institute;
+        }
+        
+        if (!spa.institute.equals(institute)) {
+            return false;
+        }
+        
+        return true;
+    }
     
 }
