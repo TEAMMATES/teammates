@@ -67,8 +67,9 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         statusToUser.add(String.format(
                 Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, courseDisplayText));
 
-       
-        if (logic.getFeedbackSessionsForCourse(getStudent().course).isEmpty()) {
+        List<FeedbackSessionAttributes> fsa = logic.getFeedbackSessionsForUserInCourse(getStudent().course, getStudent().email);
+        
+        if (fsa.isEmpty()) {
             statusToUser.add("Currently, there are no open evaluation/feedback sessions in the course " + courseDisplayText + ". When a session is open for submission you will be notified.");
             
             StudentProfileAttributes spa = logic.getStudentProfile(account.googleId);
@@ -119,8 +120,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         }
         if (!spa.shortName.isEmpty()) {
             return false;
-        }
-        
+        }        
         if (!spa.pictureKey.isEmpty()) {
             return false;
         }
@@ -128,7 +128,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         boolean isDummyAccount = account.institute == null;
         String institute;
         if (isDummyAccount) {
-            // if the account is newly created, the account attribute in the action
+            // if the student's account is newly created, the account attribute in the action
             // will still only be the dummy account and not the newly created account
             institute = logic.getAccount(account.googleId).institute;
         } else {
