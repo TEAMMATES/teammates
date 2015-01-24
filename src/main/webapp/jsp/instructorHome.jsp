@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<%@page import="teammates.common.util.TimeHelper"%>
+
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.Map"%>
+
+<%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.datatransfer.InstructorAttributes" %>
 <%@ page import="teammates.common.datatransfer.CourseSummaryBundle"%>
@@ -14,7 +18,7 @@
     if (data.account.isInstructor) {
     	for (CourseSummaryBundle courseDetails : data.courses) {
             InstructorAttributes instructor = data.instructors.get(courseDetails.course.id);
-            if (!data.isCourseArchived(courseDetails.course.id, instructor.googleId)) {
+            if (instructor.isArchived == null || !instructor.isArchived) {
                 countUnarchivedCourses++;
             }
         }
@@ -143,10 +147,8 @@
             int courseIdx = -1;
             int sessionIdx = -1;
             for (CourseSummaryBundle courseDetails : data.courses) {
-                // TODO: optimize in future
-                // We may be able to reduce database reads here because we don't need to retrieve certain data for archived courses
                 InstructorAttributes instructor = data.instructors.get(courseDetails.course.id);
-                if (!data.isCourseArchived(courseDetails.course.id, instructor.googleId)) {
+                if (instructor.isArchived==null || !instructor.isArchived) {
                     courseIdx++;
         %>
                     <div class="panel panel-primary" id="course<%=courseIdx%>">
@@ -258,6 +260,7 @@
                             <%
                                 }
                                 int displayFeedbackStatsCount = 0;
+                                Map<String, List<String>> courseIdSectionNamesMap = data.getCourseIdSectionNamesMap(courseDetails.feedbackSessions);
                                 for(FeedbackSessionAttributes fdb: courseDetails.feedbackSessions) {
                                     sessionIdx++;
                             %>
@@ -278,7 +281,7 @@
                                             }%>">
                                             <a oncontextmenu="return false;" href="<%=data.getFeedbackSessionStatsLink(fdb.courseId, fdb.feedbackSessionName)%>">Show</a>
                                         </td>
-                                        <td class="no-print"><%=data.getInstructorFeedbackSessionActions(fdb, false, instructor)%></td>
+                                        <td class="no-print"><%=data.getInstructorFeedbackSessionActions(fdb, false, instructor, courseIdSectionNamesMap.get(fdb.courseId))%></td>
                                     </tr>
                             <%
                                 }
