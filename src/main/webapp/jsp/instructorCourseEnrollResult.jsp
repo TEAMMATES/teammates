@@ -46,7 +46,7 @@
 
         <div class="alert alert-success">
         <form name='goBack' action="<%=data.getInstructorCourseEnrollLink(data.courseId)%>" method="post" role="form"> 
-            Enrollment Successful. Summary given below. Click <a id="edit_enroll" href="javascript:document.forms['goBack'].submit()">here</a> to modify values and re-do the enrollment.
+            Enrollment Successful. Summary given below. Click <a id="edit_enroll" href="javascript:document.forms['goBack'].submit()">here</a> to modify values for the current enrollment.
             
         <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.courseId%>">
         <input type="hidden" name="<%=Const.ParamsNames.STUDENTS_ENROLLMENT_INFO%>" value="<%=data.enrollStudents%>">
