@@ -8,11 +8,11 @@ Important: When a version is specified, please install that version instead of t
 
 1. Install GitHub for Windows/Mac (recommended), or at least, Git.
 3. Install JDK 7.
-4. Download [Eclipse IDE for Java EE Developers](http://www.eclipse.org/downloads/) (version: Luna).
-6. Install Google Plugin for Eclipse version 4.4. <br>
+4. Download [Eclipse IDE for Java EE Developers](http://www.eclipse.org/downloads/) (version: Kepler).
+6. Install Google Plugin for Eclipse version 4.3. <br>
    Be careful to omit other plugins shown on the screen 
    (e.g., Google App Engine Tools for Android, GWT plugin).<br>
-   Instructions are at https://developers.google.com/eclipse/docs/install-eclipse-4.4 <br>
+   Instructions are at https://developers.google.com/eclipse/docs/install-eclipse-4.3 <br>
    Note: Sometimes the update site for the GAE plug-in does not work. In which case, 
    follow the instructions at https://developers.google.com/eclipse/docs/install-from-zip.
 7. Install Google App Engine SDK version 1.9.4 (this is not the latest version)<br>
@@ -29,7 +29,7 @@ Important: When a version is specified, please install that version instead of t
    * Text encoding: Go to `Window → Preferences → General → Workspace`, change the 
    `Text file encoding` setting from `Default` to `Other: UTF-8`.
    * JRE: Go to `Windows → Preferences → Java → Installed JRE` and ensure a 
-   JDK (not a JRE) is selected(Use a Java 7 JDK, as recommended by GAE). One of the items in the [Troubleshooting help]
+   JDK (not a JRE) is selected. One of the items in the [Troubleshooting help]
    (https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true)
     explains how to do this.
     * Tab behavior: In TEAMMATES, we use spaces in place of tabs. 
@@ -75,7 +75,11 @@ Important: When a version is specified, please install that version instead of t
    Instead, you can use the join link given after adding an intructor, to complete the joining process.<br>
    Remember to change the URL of the link if necessary.<br>
    e.g. Change `http://teammates-john.appspot.com/page/instructorCourseJoin?...` to `http://localhost:8888/page/instructorCourseJoin?...`
-      
+8. Now, to access the dev server as a student, first make sure you are logged in as an instructor. Add a course for yourself and then add the students for the course.<br>
+   After that, login as admin and search for the student you added in as instructor. From the search results, use the join link adjacent to the student you added. <br>
+   then, logout and use that join link to login as a student. You have the required access now. <br>
+   (Make sure you use the `http://localhost:8888/` as the host instead of the one given in the join link) <br>   
+   Alternative : Run the test cases, the test case creates several student account in the  datastore. Use one of them to login. <br> 
 ##Running the test suite
 
 
@@ -209,8 +213,8 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
 * **Live site**: http://teammatesv4.appspot.com
 
 ####Development environment
-* **Eclipse** IDE for EE developers [version Luna]
-* **Google App Engine Plugin for Eclipse** [version 4.4]
+* **Eclipse** IDE for EE developers [version Kepler]
+* **Google App Engine Plugin for Eclipse** [version 4.3]
 * **Google App Engine SDK** [version 1.9.4]
 * **GitHub** : Used to host the repo and code reviewing.
 * **Pivotal Tracker** : Used for project management.
