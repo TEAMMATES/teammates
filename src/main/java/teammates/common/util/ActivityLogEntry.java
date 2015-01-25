@@ -180,7 +180,11 @@ public class ActivityLogEntry {
             googleId = userAccount.googleId;
             email = userAccount.email;
         } else if(student != null){
-            role = "Unregistered";
+            if (student.course != null && !student.course.isEmpty()){
+                role = "Unregistered" + ":" + student.course;
+            } else {
+                role = "Unregistered";
+            }
             name = student.name;
             googleId = "Unregistered";
             email = student.email;          
