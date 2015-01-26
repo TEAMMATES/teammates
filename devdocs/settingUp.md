@@ -24,7 +24,7 @@ Important: When a version is specified, please install that version instead of t
 `Dev server` means running the server in your own computer.
 
 1. Fork our repo at `https://github.com/TEAMMATES/repo. Clone that fork to your hard disk.
-1. Configure Eclipse (if you worry that these settings will interfere with your 
+2. Configure Eclipse (if you worry that these settings will interfere with your 
     other projects, you can use a separate eclipse instance for TEAMMATES):
    * Text encoding: Go to `Window → Preferences → General → Workspace`, change the 
    `Text file encoding` setting from `Default` to `Other: UTF-8`.
@@ -37,7 +37,7 @@ Important: When a version is specified, please install that version instead of t
     Similarly, configure `Web → CSS Files → Editor`, 
     `Web → HTML Files → Editor`, and `XML Files → Editor`
     to indent using 4 spaces instead of tabs.
-2. Create main config files {These are not under revision control because their 
+3. Create main config files {These are not under revision control because their 
    content vary from developer to developer}.
    * `src/main/resources/build.properties`<br>
    Use `build.template.properties` (in the same folder) 
@@ -49,7 +49,7 @@ Important: When a version is specified, please install that version instead of t
    * `src/main/webapp/WEB-INF/appengine-web.xml`<br>
    Create it using `appengine-web.template.xml`. 
    For now, property values can remain as they are.
-3. Download [this zip file](http://www.comp.nus.edu.sg/~seer/teammates-libs/libs.zip)
+4. Download [this zip file](http://www.comp.nus.edu.sg/~seer/teammates-libs/libs.zip)
    containing the required library files and unzip it into
    your project folder. Note that this will overwrite some existing library files,
    which is what we want. If you unzipped it into the right location, you should now see
