@@ -79,7 +79,7 @@ Important: When a version is specified, please install that version instead of t
    After that, log in as admin and search for the student you added in as instructor. From the search results, use the join link adjacent to the student you added.<br>
    Then, log out and use that join link to log in as a student. You have the required access now.<br>
    (Make sure you use the `http://localhost:8888/` as the host instead of the one given in the join link)<br>   
-   Alternative : Run the test case, the test case creates several student account in the datastore. Use one of them to login.<br>
+   Alternative : Run the test case, the test case creates several student account in the datastore. Use one of them to log in.<br>
    
 ##Running the test suite
 
