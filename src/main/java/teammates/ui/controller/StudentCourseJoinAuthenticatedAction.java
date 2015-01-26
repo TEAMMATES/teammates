@@ -68,14 +68,14 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
                 Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, courseDisplayText));
 
         List<FeedbackSessionAttributes> fsa = logic.getFeedbackSessionsForUserInCourse(getStudent().course, getStudent().email);
-        
         if (fsa.isEmpty()) {
             statusToUser.add("Currently, there are no open evaluation/feedback sessions in the course " + courseDisplayText + ". When a session is open for submission you will be notified.");
             
             StudentProfileAttributes spa = logic.getStudentProfile(account.googleId);
             
-            if (isProfileDefault(spa)) {
-                statusToUser.add("Meanwhile, you can update your profile <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\"> here</a>. ");
+            String updateProfileMessage = spa.generateUpdateMessageForStudent();
+            if (!updateProfileMessage.isEmpty()) {
+                statusToUser.add(updateProfileMessage);
             }
         }
         
@@ -95,51 +95,6 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         }
         
         return student;
-    }
-    
-    /**
-     * Return whether the profile is a default unmodified profile. 
-     * A profile is unmodified if:
-     *     email, moreInfo, nationality, picture, shortname is empty
-     *     and the profile's institute is the same as the account's institute
-     * @param spa
-     * @return
-     */
-    private boolean isProfileDefault(StudentProfileAttributes spa) {
-        if (!spa.email.isEmpty()) {
-            return false;
-        }
-        if (!spa.gender.equals("other")) {
-            return false;
-        }
-        if (!spa.moreInfo.isEmpty()) {
-            return false;
-        }
-        if (!spa.nationality.isEmpty()) {
-            return false;
-        }
-        if (!spa.shortName.isEmpty()) {
-            return false;
-        }        
-        if (!spa.pictureKey.isEmpty()) {
-            return false;
-        }
-        
-        boolean isDummyAccount = account.institute == null;
-        String institute;
-        if (isDummyAccount) {
-            // if the student's account is newly created, the account attribute in the action
-            // will still only be the dummy account and not the newly created account
-            institute = logic.getAccount(account.googleId).institute;
-        } else {
-            institute = account.institute;
-        }
-        
-        if (!spa.institute.equals(institute)) {
-            return false;
-        }
-        
-        return true;
     }
     
 }

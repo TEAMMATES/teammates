@@ -8,6 +8,7 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
@@ -63,6 +64,49 @@ public class StudentProfileAttributes extends EntityAttributes {
         this.moreInfo = "";
         this.pictureKey = "";
         this.modifiedDate = null;
+    }
+    
+    public String generateUpdateMessageForStudent() {
+        String reminder = "";
+        
+        if (isMultipleFieldsEmpty()) {
+            reminder = "Meanwhile, you can update your profile <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>."; 
+        } else {
+            if (this.shortName.isEmpty()) {
+                reminder = "Meanwhile, you can provide a preferred name that you would like to be addressed by your instructors <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>."; 
+            } else if (this.email.isEmpty()) {
+                reminder = "Meanwhile, you can provide an email for your instructors to contact you beyond graduation <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>."; 
+            } else if (this.pictureKey.isEmpty()) {
+                reminder = "Meanwhile, you can upload a profile picture <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
+            } else if (this.moreInfo.isEmpty()) {
+                reminder = "Meanwhile, you can provide more information about yourself <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
+            } else if (this.nationality.isEmpty()) {
+                reminder = "Meanwhile, you can provide your nationality <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
+            }
+        }
+        
+        return reminder;
+    }
+    
+    private boolean isMultipleFieldsEmpty() {
+        int numEmptyFields = 0;
+        if (this.shortName.isEmpty()) {
+            numEmptyFields ++;
+        }
+        if (this.email.isEmpty()) {
+            numEmptyFields ++;
+        }
+        if (this.nationality.isEmpty()) {
+            numEmptyFields ++;
+        }
+        if (this.moreInfo.isEmpty()) {
+            numEmptyFields ++;
+        }
+        if (this.pictureKey.isEmpty()) {
+            numEmptyFields ++;
+        }
+        
+        return numEmptyFields > 1;
     }
 
     @Override
