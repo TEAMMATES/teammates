@@ -70,18 +70,18 @@ public class StudentProfileAttributes extends EntityAttributes {
         String reminder = "";
         
         if (isMultipleFieldsEmpty()) {
-            reminder = "Meanwhile, you can update your profile <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>."; 
+            reminder = Const.StatusMessages.STUDENT_UPDATE_PROFILE; 
         } else {
             if (this.shortName.isEmpty()) {
-                reminder = "Meanwhile, you can provide a preferred name that you would like to be addressed by your instructors <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>."; 
+                reminder = Const.StatusMessages.STUDENT_UPDATE_PROFILE_SHORTNAME; 
             } else if (this.email.isEmpty()) {
-                reminder = "Meanwhile, you can provide an email for your instructors to contact you beyond graduation <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>."; 
+                reminder = Const.StatusMessages.STUDENT_UPDATE_PROFILE_EMAIL; 
             } else if (this.pictureKey.isEmpty()) {
-                reminder = "Meanwhile, you can upload a profile picture <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
+                reminder = Const.StatusMessages.STUDENT_UPDATE_PROFILE_PICTURE;
             } else if (this.moreInfo.isEmpty()) {
-                reminder = "Meanwhile, you can provide more information about yourself <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
+                reminder = Const.StatusMessages.STUDENT_UPDATE_PROFILE_MOREINFO;
             } else if (this.nationality.isEmpty()) {
-                reminder = "Meanwhile, you can provide your nationality <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
+                reminder = Const.StatusMessages.STUDENT_UPDATE_PROFILE_NATIONALITY;
             }
         }
         

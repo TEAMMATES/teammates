@@ -993,6 +993,14 @@ public class Const {
                 + "<a href='/instructorHelp.html#gs' target='_blank'>Getting Started Guide</a>.<br>A video tour"
                 + " is also available in our <a href='/index.html' target='_blank'>home page</a>.";
         
+        public static final String HINT_FOR_NO_SESSIONS_STUDENT = "Currently, there are no open evaluation/feedback sessions in the course %s. When a session is open for submission you will be notified.";
+        public static final String STUDENT_UPDATE_PROFILE = "Meanwhile, you can update your profile <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
+        public static final String STUDENT_UPDATE_PROFILE_SHORTNAME = "Meanwhile, you can provide a preferred name that you would like to be addressed by your instructors <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
+        public static final String STUDENT_UPDATE_PROFILE_EMAIL = "Meanwhile, you can provide an email for your instructors to contact you beyond graduation <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
+        public static final String STUDENT_UPDATE_PROFILE_PICTURE = "Meanwhile, you can upload a profile picture <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
+        public static final String STUDENT_UPDATE_PROFILE_MOREINFO = "Meanwhile, you can provide more information about yourself <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
+        public static final String STUDENT_UPDATE_PROFILE_NATIONALITY = "Meanwhile, you can provide your nationality <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
+        
         // Messages that are templates only
         /** Template String. Parameters: Student's name, Evaluation name, Course ID */
         public static final String STUDENT_COURSE_JOIN_SUCCESSFUL = "You have been successfully added to the course %s.";

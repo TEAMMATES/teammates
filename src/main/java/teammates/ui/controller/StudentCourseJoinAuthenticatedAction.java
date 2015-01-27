@@ -69,7 +69,7 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
 
         List<FeedbackSessionAttributes> fsa = logic.getFeedbackSessionsForUserInCourse(getStudent().course, getStudent().email);
         if (fsa.isEmpty()) {
-            statusToUser.add("Currently, there are no open evaluation/feedback sessions in the course " + courseDisplayText + ". When a session is open for submission you will be notified.");
+            statusToUser.add(String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, courseDisplayText));
             
             StudentProfileAttributes spa = logic.getStudentProfile(account.googleId);
             
