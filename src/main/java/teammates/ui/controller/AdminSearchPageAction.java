@@ -47,8 +47,8 @@ public class AdminSearchPageAction extends Action {
                 logic.resetStudentGoogleId(studentEmail, studentCourseId);
                 
             } catch (InvalidParametersException e) {
-                statusToUser.add("Error when reseting google id");
-                statusToAdmin = "Trying to reset google id of student<br>" + 
+                statusToUser.add(Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL);
+                statusToAdmin = Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL + 
                                 "Email: " + studentEmail + "<br>" +
                                 "CourseId: " + studentCourseId + "<br>" + 
                                 "Failed with error<br>" + 
@@ -64,7 +64,7 @@ public class AdminSearchPageAction extends Action {
                 statusToUser.add("Email : " + studentEmail);
                 statusToUser.add("CourseId : " + studentCourseId);
                 
-                statusToAdmin = "Successfully reset google id of student<br>" + 
+                statusToAdmin = Const.StatusMessages.STUDENT_GOOGLEID_RESET + 
                                 "Email: " + studentEmail + "<br>" +
                                 "CourseId: " + studentCourseId;
                 
@@ -75,8 +75,8 @@ public class AdminSearchPageAction extends Action {
                 data.isGoogleIdReset = true;
             } else {
                 data.isGoogleIdReset = false;
-                statusToUser.add("Error when reseting google id");
-                statusToAdmin = "Failed to reset google id of student<br>" + 
+                statusToUser.add(Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL);
+                statusToAdmin = Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL + 
                                 "Email: " + studentEmail + "<br>" +
                                 "CourseId: " + studentCourseId + "<br>";
                 data.statusForAjax = Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL + "<br>" + 

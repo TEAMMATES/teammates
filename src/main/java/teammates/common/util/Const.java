@@ -871,7 +871,7 @@ public class Const {
                 + "Please login again using a different Google account, and try to join the course again.";
         
         public static final String STUDENT_GOOGLEID_RESET = "The student's google id has been reset";
-        public static final String STUDENT_GOOGLEID_RESET_FAIL = "Error occurs when trying to reset student's google id";
+        public static final String STUDENT_GOOGLEID_RESET_FAIL = "An error occurred when trying to reset student's google id";
         
         public static final String STUDENT_EDITED = "The student has been edited successfully";
         public static final String STUDENT_DELETED = "The student has been removed from the course";

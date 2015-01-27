@@ -72,7 +72,7 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, button){
         	$(button).html("<img src='/images/ajax-loader.gif'/>");
         },
         error : function() {
-        	$(button).html("Error Occurs, Please Retry");      	
+        	$(button).html("An Error Occurred, Please Retry");      	
         },
         success : function(data) {
             setTimeout(function(){
@@ -87,7 +87,7 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, button){
                 	
                 	
                 } else {
-                	$(button).html("Error Occurs, Please Retry");      	
+                	$(button).html("An Error Occurred, Please Retry");      	
                 }
             	               
                 $("#statusMessage").html(data.statusForAjax);
