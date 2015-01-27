@@ -55,9 +55,11 @@ $(document).ready(function() {
 
 });
 
-function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, button){
+function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, wrongGoogleId, button){
 	var params = "studentemail=" + studentEmail
-			     + "&courseid=" + studentCourseId;
+			     + "&courseid=" + studentCourseId
+			     + "&googleid=" + wrongGoogleId;
+	
 	
 	var googleIdEntry = $(button).parent().parent().children().find(".homePageLink");
 	var originalButton = $(button).html();

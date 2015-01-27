@@ -395,7 +395,7 @@
                                         %>
                                             <button type="button"
                                                 id="<%=student.googleId + "_resetGoogleId"%>"
-                                                onclick="submitResetGoogleIdAjaxRequest('<%=student.course%>' , '<%=student.email%>', this);"
+                                                onclick="submitResetGoogleIdAjaxRequest('<%=student.course%>' , '<%=student.email%>', '<%=student.googleId%>', this);"
                                                 class="btn btn-link btn-xs resetGoogleIdButton">
                                                 <span
                                                 class="glyphicon glyphicon-refresh"></span>
