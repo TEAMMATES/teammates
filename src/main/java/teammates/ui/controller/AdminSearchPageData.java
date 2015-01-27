@@ -33,13 +33,6 @@ public class AdminSearchPageData extends PageData {
     public HashMap<String, String> instructorCourseJoinLinkMap = new HashMap<String, String>();
     
     
-    /*
-     * Data used for reset student google id using ajax
-     */
-    public boolean isGoogleIdReset;
-    public String statusForAjax;
-    
-    
     public AdminSearchPageData(AccountAttributes account) {
         super(account);
     }    

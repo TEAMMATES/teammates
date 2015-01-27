@@ -57,8 +57,7 @@ $(document).ready(function() {
 
 function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, button){
 	var params = "studentemail=" + studentEmail
-			     + "&courseid=" + studentCourseId
-			     + "&searchandresetgoogleid=true";
+			     + "&courseid=" + studentCourseId;
 	
 	var googleIdEntry = $(button).parent().parent().children().find(".homePageLink");
 	var originalButton = $(button).html();
@@ -67,7 +66,7 @@ function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, button){
 	
 	$.ajax({
         type : 'POST',
-        url :   "/admin/adminSearchPage?" + params,
+        url :   "/admin/adminStudentGoogleIdReset?" + params,
         beforeSend : function() {
         	$(button).html("<img src='/images/ajax-loader.gif'/>");
         },
