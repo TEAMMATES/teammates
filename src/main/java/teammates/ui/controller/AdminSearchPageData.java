@@ -32,6 +32,11 @@ public class AdminSearchPageData extends PageData {
     public HashMap<String, String> instructorHomaPageLinkMap = new HashMap<String, String>();
     public HashMap<String, String> instructorCourseJoinLinkMap = new HashMap<String, String>();
     
+
+    /*
+     * Data related to both instructors and students
+     */
+    public HashMap<String, String> courseIdToCourseNameMap = new HashMap<String, String>();
     
     public AdminSearchPageData(AccountAttributes account) {
         super(account);

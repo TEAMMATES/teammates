@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -63,6 +64,10 @@ public class AdminSearchPageAction extends Action {
         data = putInstructorHomePageLinkIntoMap(data.instructorResultBundle.instructorList, data);
         data = putInstructorCourseJoinLinkIntoMap(data.instructorResultBundle.instructorList, data);
         
+        data = putCourseNameIntoMap(data.studentResultBundle.studentList, 
+                                    data.instructorResultBundle.instructorList,
+                                    data);
+        
         
         int numOfResults = data.studentResultBundle.getResultSize() 
                            + data.instructorResultBundle.getResultSize();
@@ -79,6 +84,31 @@ public class AdminSearchPageAction extends Action {
               
         
         return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
+    }
+    
+    private AdminSearchPageData putCourseNameIntoMap(List<StudentAttributes> students, List<InstructorAttributes> instructors, AdminSearchPageData data){
+        
+        Logic logic = new Logic();
+        
+        for(StudentAttributes student : students){
+            if(student.course != null && !data.courseIdToCourseNameMap.containsKey(student.course)){
+                CourseAttributes course = logic.getCourse(student.course);
+                if(course != null){
+                    data.courseIdToCourseNameMap.put(student.course, course.name);
+                }
+            }
+        }
+        
+        for(InstructorAttributes instructor : instructors){
+            if(instructor.courseId != null && !data.courseIdToCourseNameMap.containsKey(instructor.courseId)){
+                CourseAttributes course = logic.getCourse(instructor.courseId);
+                if(course != null){
+                    data.courseIdToCourseNameMap.put(instructor.courseId, course.name);
+                }
+            }
+        }
+        
+        return data;
     }
     
     private AdminSearchPageData putInstructorCourseJoinLinkIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data){

@@ -118,6 +118,9 @@ function adminSearchCollapseAllInstructors(){
 	$(".instructorRow").attr("class", "instructorRow");
 }
 
+$(function () {
+	  $('[data-toggle="tooltip"]').tooltip({html: true, container: 'body'});
+});
 
 onload = function() {
 	$(".fslink").hide();

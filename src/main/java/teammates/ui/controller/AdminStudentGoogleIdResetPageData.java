@@ -5,7 +5,6 @@ import teammates.common.datatransfer.AccountAttributes;
 public class AdminStudentGoogleIdResetPageData extends PageData {
     public AdminStudentGoogleIdResetPageData(AccountAttributes account) {
         super(account);
-        // TODO Auto-generated constructor stub
     }
     
     /*
