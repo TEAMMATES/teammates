@@ -115,13 +115,13 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         ______TS("join course with no feedback sessions, profile is empty");
         AccountAttributes studentInCourseNoFeedbackSessions = new AccountAttributes(
                 "idOfNoFSStudent", "nameOfNoFSStudent", false,
-                "noFSStudent@gmail.com", "TEAMMATES Test Institute 5");
+                "noFSStudent@gmail.tmt", "TEAMMATES Test Institute 5");
         accountsDb.createAccount(studentInCourseNoFeedbackSessions);
 
         StudentAttributes studentInCourseNoFeedbackSessionsAttributes = new StudentAttributes(
                 student1InCourse1.section,
                 student1InCourse1.team,
-                "nameOfNoFSStudent", "noFSStudent@gmail.com",
+                "nameOfNoFSStudent", "noFSStudent@gmail.tmt",
                 "", "idOfCourseNoEvals");
 
         studentsDb.createEntity(studentInCourseNoFeedbackSessionsAttributes);
@@ -145,7 +145,11 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
-                "You have been successfully added to the course [idOfCourseNoEvals] Typical Course 3 with 0 Evals.<br />Currently, there are no open evaluation/feedback sessions in the course [idOfCourseNoEvals] Typical Course 3 with 0 Evals. When a session is open for submission you will be notified.<br />Meanwhile, you can update your profile <a href=\"/page/studentProfilePage\">here</a>.", 
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
+                + "<br />"
+                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
+                + "<br />" 
+                + Const.StatusMessages.STUDENT_UPDATE_PROFILE,  
                 redirectResult.getStatusMessage());
 
         ______TS("join course with no feedback sessions, profile has one missing field");
@@ -157,7 +161,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         StudentProfileAttributes spa = new StudentProfileAttributes();
         spa.googleId = studentInCourseNoFeedbackSessions2.googleId;
         spa.institute = studentInCourseNoFeedbackSessions2.institute;
-        spa.shortName = "student";
+        spa.shortName = "Student with no picture";
         spa.email = "noFSStudent2@gmail.com";
         spa.moreInfo = "I am a student";
         spa.nationality = "Singaporean";
@@ -166,7 +170,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
         StudentAttributes studentInCourseNoFeedbackSessionsAttributes2 = new StudentAttributes(
                 student1InCourse1.section,
                 student1InCourse1.team,
-                "nameOfNoFSStudent2", "noFSStudent2@gmail.com",
+                "nameOfNoFSStudent2", "noFSStudent2@gmail.tmt",
                 "", "idOfCourseNoEvals");
 
         studentsDb.createEntity(studentInCourseNoFeedbackSessionsAttributes2);
@@ -190,7 +194,59 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
-                "You have been successfully added to the course [idOfCourseNoEvals] Typical Course 3 with 0 Evals.<br />Currently, there are no open evaluation/feedback sessions in the course [idOfCourseNoEvals] Typical Course 3 with 0 Evals. When a session is open for submission you will be notified.<br />Meanwhile, you can upload a profile picture <a href=\"/page/studentProfilePage\">here</a>.", 
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
+                + "<br />"
+                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals") 
+                + "<br />"
+                + Const.StatusMessages.STUDENT_UPDATE_PROFILE_PICTURE,
+                redirectResult.getStatusMessage());
+
+        ______TS("join course with no feedback sessions, profile has no missing field");
+        AccountAttributes studentInCourseNoFeedbackSessions3 = new AccountAttributes(
+                "idOfNoFSStudent3", "nameOfNoFSStudent3", false,
+                "noFSStudent@gmail.com", "TEAMMATES Test Institute 5");
+        accountsDb.createAccount(studentInCourseNoFeedbackSessions3);
+        
+        spa = new StudentProfileAttributes();
+        spa.googleId = studentInCourseNoFeedbackSessions3.googleId;
+        spa.institute = studentInCourseNoFeedbackSessions3.institute;
+        spa.shortName = "Full Profile Student";
+        spa.email = "noFSStudent3@gmail.com";
+        spa.moreInfo = "More information";
+        spa.nationality = "Malaysian";
+        spa.pictureKey = "picturekey";
+        profilesDb.updateStudentProfile(spa);
+
+        StudentAttributes studentInCourseNoFeedbackSessionsAttributes3 = new StudentAttributes(
+                student1InCourse1.section,
+                student1InCourse1.team,
+                "nameOfNoFSStudent3", "noFSStudent3@gmail.tmt",
+                "", "idOfCourseNoEvals");
+
+        studentsDb.createEntity(studentInCourseNoFeedbackSessionsAttributes3);
+        studentInCourseNoFeedbackSessionsAttributes3 = studentsDb.getStudentForEmail(
+                studentInCourseNoFeedbackSessionsAttributes3.course, studentInCourseNoFeedbackSessionsAttributes3.email);
+
+        gaeSimulation.loginUser("idOfNoFSStudent3");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.REGKEY,
+                StringHelper.encrypt(studentInCourseNoFeedbackSessionsAttributes3.key),
+                Const.ParamsNames.NEXT_URL, Const.ActionURIs.STUDENT_HOME_PAGE
+        };
+
+        authenticatedAction = getAction(submissionParams);
+        redirectResult = getRedirectResult(authenticatedAction);
+
+        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE
+                + "?persistencecourse=idOfCourseNoEvals"
+                + "&error=false&user=idOfNoFSStudent3",
+                redirectResult.getDestinationWithParams());
+        assertFalse(redirectResult.isError);
+        assertEquals(
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals") 
+                + "<br />"
+                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals"),
                 redirectResult.getStatusMessage());
 
         
@@ -228,7 +284,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
-                "You have been successfully added to the course [idOfTypicalCourse1] Typical Course 1 with 2 Evals.", 
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[idOfTypicalCourse1] Typical Course 1 with 2 Evals"), 
                 redirectResult.getStatusMessage());
 
     }
