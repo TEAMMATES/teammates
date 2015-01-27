@@ -10,6 +10,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -28,12 +29,63 @@ public class AdminSearchPageAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException{
         
+        Logic logic = new Logic();
+        
         new GateKeeper().verifyAdminPrivileges(account);
            
         String searchKey = getRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_KEY);
-        String searchButtonHit = getRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_BUTTON_HIT);       
+        String searchButtonHit = getRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_BUTTON_HIT);    
+        boolean isResetGoogleId = getRequestParamAsBoolean(Const.ParamsNames.ADMIN_SEARCH_AND_RESET_GOOGLE_ID);
+        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        String studentCourseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        
         
         AdminSearchPageData data = new AdminSearchPageData(account);
+        
+        if(isResetGoogleId && studentEmail != null && studentCourseId != null){
+            try {
+                logic.resetStudentGoogleId(studentEmail, studentCourseId);
+                
+            } catch (InvalidParametersException e) {
+                statusToUser.add("Error when reseting google id");
+                statusToAdmin = "Trying to reset google id of student<br>" + 
+                                "Email: " + studentEmail + "<br>" +
+                                "CourseId: " + studentCourseId + "<br>" + 
+                                "Failed with error<br>" + 
+                                e.getMessage();
+            }
+           
+            
+            StudentAttributes updatedStudent = logic.getStudentForEmail(studentCourseId, studentEmail);
+     
+            if(updatedStudent.googleId == null || updatedStudent.googleId.isEmpty()){
+                
+                statusToUser.add(Const.StatusMessages.STUDENT_GOOGLEID_RESET);
+                statusToUser.add("Email : " + studentEmail);
+                statusToUser.add("CourseId : " + studentCourseId);
+                
+                statusToAdmin = "Successfully reset google id of student<br>" + 
+                                "Email: " + studentEmail + "<br>" +
+                                "CourseId: " + studentCourseId;
+                
+                data.statusForAjax = Const.StatusMessages.STUDENT_GOOGLEID_RESET + "<br>" + 
+                                     "Email : " + studentEmail + "<br>" + 
+                                     "CourseId : " + studentCourseId;
+                
+                data.isGoogleIdReset = true;
+            } else {
+                data.isGoogleIdReset = false;
+                statusToUser.add("Error when reseting google id");
+                statusToAdmin = "Failed to reset google id of student<br>" + 
+                                "Email: " + studentEmail + "<br>" +
+                                "CourseId: " + studentCourseId + "<br>";
+                data.statusForAjax = Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL + "<br>" + 
+                                     "Email : " + studentEmail + "<br>" + 
+                                     "CourseId : " + studentCourseId;
+            } 
+           
+            return createAjaxResult(Const.ViewURIs.ADMIN_SEARCH, data);
+        }
         
         if(searchKey == null || searchKey.trim().isEmpty()){
             

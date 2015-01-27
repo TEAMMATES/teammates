@@ -1156,6 +1156,14 @@ public class Logic {
     
         return studentsLogic.getEncryptedKeyForStudent(courseId, email);
     }
+    
+    
+    public void resetStudentGoogleId(String originalEmail, String courseId) throws InvalidParametersException, EntityDoesNotExistException{
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, originalEmail);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        studentsLogic.resetStudentGoogleId(originalEmail, courseId, true);
+    }
+    
 
     /**
      * All attributes except courseId be changed. Trying to change courseId will

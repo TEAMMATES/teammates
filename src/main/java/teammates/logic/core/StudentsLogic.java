@@ -289,6 +289,25 @@ public class StudentsLogic {
             fsLogic.updateRespondantsForStudent(originalEmail, student.email, student.course);
         }
     }
+    
+    public void resetStudentGoogleId(String originalEmail, String courseId, boolean hasDocument) 
+            throws EntityDoesNotExistException, InvalidParametersException {
+        // Edit student uses KeepOriginal policy, where unchanged fields are set
+        // as null. Hence, we can't do isValid() for student here.
+        // After updateWithExistingRecordWithGoogleIdReset method called,
+        // the student should be valid
+    
+        studentsDb.verifyStudentExists(courseId, originalEmail);        
+        StudentAttributes originalStudent = getStudentForEmail(courseId, originalEmail);
+        originalStudent.googleId = null;
+        
+        if(!originalStudent.isValid()) {
+            throw new InvalidParametersException(originalStudent.getInvalidityInfo());
+        }     
+        studentsDb.updateStudent(originalStudent.course, originalEmail, originalStudent.name, 
+                                 originalStudent.team, originalStudent.section, originalStudent.email, 
+                                 originalStudent.googleId, originalStudent.comments, hasDocument);  
+    }
 
     public List<StudentAttributes> enrollStudents(String enrollLines,
             String courseId)

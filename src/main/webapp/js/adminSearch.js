@@ -48,8 +48,54 @@ $(document).ready(function() {
 	$('input').click(function() {
 		 this.select();
 	});
+	
+	$(".resetGoogleIdButton").click(function(e){
+		e.stopPropagation();
+	});
 
 });
+
+function submitResetGoogleIdAjaxRequest(studentCourseId, studentEmail, button){
+	var params = "studentemail=" + studentEmail
+			     + "&courseid=" + studentCourseId
+			     + "&searchandresetgoogleid=true";
+	
+	var googleIdEntry = $(button).parent().parent().children().find(".homePageLink");
+	var originalButton = $(button).html();
+	
+	var originalGoogleIdEntry = $(googleIdEntry).html();
+	
+	$.ajax({
+        type : 'POST',
+        url :   "/admin/adminSearchPage?" + params,
+        beforeSend : function() {
+        	$(button).html("<img src='/images/ajax-loader.gif'/>");
+        },
+        error : function() {
+        	$(button).html("Error Occurs, Please Retry");      	
+        },
+        success : function(data) {
+            setTimeout(function(){
+                if (!data.isError) {   	               	
+                	if(data.isGoogleIdReset){
+                		googleIdEntry.html("");
+                		$(button).hide();
+                	} else {
+                		googleIdEntry.html(originalGoogleIdEntry);
+                		$(button).html(originalButton);
+                	}
+                	
+                	
+                } else {
+                	$(button).html("Error Occurs, Please Retry");      	
+                }
+            	               
+                $("#statusMessage").html(data.statusForAjax);
+
+            },500);
+        }
+    });
+}
 
 function adminSearchDiscloseAllStudents(){
 	

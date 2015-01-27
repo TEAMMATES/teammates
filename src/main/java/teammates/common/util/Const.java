@@ -341,6 +341,7 @@ public class Const {
         
         public static final String ADMIN_SEARCH_KEY = "searchkey";
         public static final String ADMIN_SEARCH_BUTTON_HIT = "searchbuttonhit";
+        public static final String ADMIN_SEARCH_AND_RESET_GOOGLE_ID = "searchandresetgoogleid";
     
         public static final String EVALUATION_NAME = "evaluationname";
     
@@ -868,6 +869,9 @@ public class Const {
                 + "contact us</a> so that we can investigate.";
         public static final String JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER = "The Google ID %s belongs to an existing user in the course."
                 + "Please login again using a different Google account, and try to join the course again.";
+        
+        public static final String STUDENT_GOOGLEID_RESET = "The student's google id has been reset";
+        public static final String STUDENT_GOOGLEID_RESET_FAIL = "Error occurs when trying to reset student's google id";
         
         public static final String STUDENT_EDITED = "The student has been edited successfully";
         public static final String STUDENT_DELETED = "The student has been removed from the course";
