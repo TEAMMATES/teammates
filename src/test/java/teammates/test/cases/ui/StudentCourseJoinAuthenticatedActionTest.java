@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
@@ -10,7 +11,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -21,12 +21,15 @@ import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentCourseJoinAuthenticatedAction;
 
 public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
-    private final DataBundle dataBundle = getTypicalDataBundle();
+    private static DataBundle dataBundle;
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        
+        dataBundle = loadDataBundle("/StudentCourseJoinAuthenticatedTest.json");
+        removeAndRestoreDatastoreFromJson("/StudentCourseJoinAuthenticatedTest.json");
+        
         uri = Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED;
     }
 
@@ -34,7 +37,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
     public void testExecuteAndPostProcess() throws Exception {
         StudentsDb studentsDb = new StudentsDb();
         AccountsDb accountsDb = new AccountsDb();
-        ProfilesDb profilesDb = new ProfilesDb();
+        
         StudentAttributes student1InCourse1 = dataBundle.students
                 .get("student1InCourse1");
         student1InCourse1 = studentsDb.getStudentForGoogleId(
@@ -113,26 +116,24 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 redirectResult.getStatusMessage());
 */
         ______TS("join course with no feedback sessions, profile is empty");
-        AccountAttributes studentInCourseNoFeedbackSessions = new AccountAttributes(
-                "idOfNoFSStudent", "nameOfNoFSStudent", false,
-                "noFSStudent@gmail.tmt", "TEAMMATES Test Institute 5");
-        accountsDb.createAccount(studentInCourseNoFeedbackSessions);
+        AccountAttributes studentWithEmptyProfile = dataBundle.accounts.get("noFSStudent");
+        studentWithEmptyProfile = accountsDb.getAccount(studentWithEmptyProfile.googleId, true);
+        assertNotNull(studentWithEmptyProfile.studentProfile);
+        assertEquals("", studentWithEmptyProfile.studentProfile.pictureKey);
+        assertEquals("", studentWithEmptyProfile.studentProfile.shortName);
+        assertEquals("", studentWithEmptyProfile.studentProfile.nationality);
+        assertEquals("", studentWithEmptyProfile.studentProfile.moreInfo);
+        assertEquals("", studentWithEmptyProfile.studentProfile.email);
 
-        StudentAttributes studentInCourseNoFeedbackSessionsAttributes = new StudentAttributes(
-                student1InCourse1.section,
-                student1InCourse1.team,
-                "nameOfNoFSStudent", "noFSStudent@gmail.tmt",
-                "", "idOfCourseNoEvals");
-
-        studentsDb.createEntity(studentInCourseNoFeedbackSessionsAttributes);
-        studentInCourseNoFeedbackSessionsAttributes = studentsDb.getStudentForEmail(
-                studentInCourseNoFeedbackSessionsAttributes.course, studentInCourseNoFeedbackSessionsAttributes.email);
+        StudentAttributes studentWithEmptyProfileAttributes = dataBundle.students.get("noFSStudentWithNoProfile");
+        studentWithEmptyProfileAttributes = studentsDb.getStudentForEmail(
+                studentWithEmptyProfileAttributes.course, studentWithEmptyProfileAttributes.email);
 
         gaeSimulation.loginUser("idOfNoFSStudent");
 
         submissionParams = new String[] {
                 Const.ParamsNames.REGKEY,
-                StringHelper.encrypt(studentInCourseNoFeedbackSessionsAttributes.key),
+                StringHelper.encrypt(studentWithEmptyProfileAttributes.key),
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.STUDENT_HOME_PAGE
         };
 
@@ -152,36 +153,27 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 + Const.StatusMessages.STUDENT_UPDATE_PROFILE,  
                 redirectResult.getStatusMessage());
 
-        ______TS("join course with no feedback sessions, profile has one missing field");
-        AccountAttributes studentInCourseNoFeedbackSessions2 = new AccountAttributes(
-                "idOfNoFSStudent2", "nameOfNoFSStudent2", false,
-                "noFSStudent@gmail.com", "TEAMMATES Test Institute 5");
-        accountsDb.createAccount(studentInCourseNoFeedbackSessions2);
+        ______TS("join course with no feedback sessions, profile has only one missing field");
+        AccountAttributes studentWithoutProfilePicture = dataBundle.accounts.get("noFSStudent2");
+        studentWithoutProfilePicture = accountsDb.getAccount(studentWithoutProfilePicture.googleId, true);
+        assertNotNull(studentWithoutProfilePicture.studentProfile);
+        assertEquals("", studentWithoutProfilePicture.studentProfile.pictureKey);
+        assertFalse(studentWithoutProfilePicture.studentProfile.nationality.equals(""));
+        assertFalse(studentWithoutProfilePicture.studentProfile.shortName.equals(""));
+        assertFalse(studentWithoutProfilePicture.studentProfile.moreInfo.equals(""));
+        assertFalse(studentWithoutProfilePicture.studentProfile.email.equals(""));
+
         
-        StudentProfileAttributes spa = new StudentProfileAttributes();
-        spa.googleId = studentInCourseNoFeedbackSessions2.googleId;
-        spa.institute = studentInCourseNoFeedbackSessions2.institute;
-        spa.shortName = "Student with no picture";
-        spa.email = "noFSStudent2@gmail.com";
-        spa.moreInfo = "I am a student";
-        spa.nationality = "Singaporean";
-        profilesDb.updateStudentProfile(spa);
-
-        StudentAttributes studentInCourseNoFeedbackSessionsAttributes2 = new StudentAttributes(
-                student1InCourse1.section,
-                student1InCourse1.team,
-                "nameOfNoFSStudent2", "noFSStudent2@gmail.tmt",
-                "", "idOfCourseNoEvals");
-
-        studentsDb.createEntity(studentInCourseNoFeedbackSessionsAttributes2);
-        studentInCourseNoFeedbackSessionsAttributes2 = studentsDb.getStudentForEmail(
-                studentInCourseNoFeedbackSessionsAttributes2.course, studentInCourseNoFeedbackSessionsAttributes2.email);
+        StudentAttributes studentWithoutProfilePictureAttributes = dataBundle.students.get("noFSStudentWithPartialProfile");
+        
+        studentWithoutProfilePictureAttributes = studentsDb.getStudentForEmail(
+                studentWithoutProfilePictureAttributes.course, studentWithoutProfilePictureAttributes.email);
 
         gaeSimulation.loginUser("idOfNoFSStudent2");
 
         submissionParams = new String[] {
                 Const.ParamsNames.REGKEY,
-                StringHelper.encrypt(studentInCourseNoFeedbackSessionsAttributes2.key),
+                StringHelper.encrypt(studentWithoutProfilePictureAttributes.key),
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.STUDENT_HOME_PAGE
         };
 
@@ -201,37 +193,27 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 + Const.StatusMessages.STUDENT_UPDATE_PROFILE_PICTURE,
                 redirectResult.getStatusMessage());
 
-        ______TS("join course with no feedback sessions, profile has no missing field");
-        AccountAttributes studentInCourseNoFeedbackSessions3 = new AccountAttributes(
-                "idOfNoFSStudent3", "nameOfNoFSStudent3", false,
-                "noFSStudent@gmail.com", "TEAMMATES Test Institute 5");
-        accountsDb.createAccount(studentInCourseNoFeedbackSessions3);
+        ______TS("join course with no feedback sessions, profile has no missing field");        
+        AccountAttributes studentWithFullProfile = dataBundle.accounts.get("noFSStudent3");
         
-        spa = new StudentProfileAttributes();
-        spa.googleId = studentInCourseNoFeedbackSessions3.googleId;
-        spa.institute = studentInCourseNoFeedbackSessions3.institute;
-        spa.shortName = "Full Profile Student";
-        spa.email = "noFSStudent3@gmail.com";
-        spa.moreInfo = "More information";
-        spa.nationality = "Malaysian";
-        spa.pictureKey = "picturekey";
-        profilesDb.updateStudentProfile(spa);
+        studentWithFullProfile = accountsDb.getAccount(studentWithFullProfile.googleId, true);
+        assertNotNull(studentWithFullProfile.studentProfile);
+        assertFalse(studentWithFullProfile.studentProfile.pictureKey.equals(""));
+        assertFalse(studentWithoutProfilePicture.studentProfile.nationality.equals(""));
+        assertFalse(studentWithoutProfilePicture.studentProfile.shortName.equals(""));
+        assertFalse(studentWithoutProfilePicture.studentProfile.moreInfo.equals(""));
+        assertFalse(studentWithoutProfilePicture.studentProfile.email.equals(""));
 
-        StudentAttributes studentInCourseNoFeedbackSessionsAttributes3 = new StudentAttributes(
-                student1InCourse1.section,
-                student1InCourse1.team,
-                "nameOfNoFSStudent3", "noFSStudent3@gmail.tmt",
-                "", "idOfCourseNoEvals");
-
-        studentsDb.createEntity(studentInCourseNoFeedbackSessionsAttributes3);
-        studentInCourseNoFeedbackSessionsAttributes3 = studentsDb.getStudentForEmail(
-                studentInCourseNoFeedbackSessionsAttributes3.course, studentInCourseNoFeedbackSessionsAttributes3.email);
+        
+        StudentAttributes studentWithFullProfileAttributes = dataBundle.students.get("noFSStudentWithFullProfile");
+        studentWithFullProfileAttributes = studentsDb.getStudentForEmail(
+                studentWithFullProfileAttributes.course, studentWithFullProfileAttributes.email);
 
         gaeSimulation.loginUser("idOfNoFSStudent3");
 
         submissionParams = new String[] {
                 Const.ParamsNames.REGKEY,
-                StringHelper.encrypt(studentInCourseNoFeedbackSessionsAttributes3.key),
+                StringHelper.encrypt(studentWithFullProfileAttributes.key),
                 Const.ParamsNames.NEXT_URL, Const.ActionURIs.STUDENT_HOME_PAGE
         };
 
