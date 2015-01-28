@@ -621,19 +621,17 @@ public class CoursesLogic {
     public HashMap<String, CourseSummaryBundle> getCoursesSummaryWithoutStatsForInstructor(
             String instructorId, boolean omitArchived) throws EntityDoesNotExistException {
         
+        List<InstructorAttributes> instructorList =
+                instructorsLogic.getInstructorsForGoogleId(instructorId, omitArchived);
+        
         HashMap<String, CourseSummaryBundle> courseList = 
-                getCourseSummaryWithoutStatsForInstructor(instructorId, omitArchived);
+                getCourseSummaryWithoutStatsForInstructor(instructorList);
         
-        
-        // TODO: remove need for lower level functions to make repeated db calls
-        // getEvaluationsListForInstructor
-        // getFeedbackSessionsListForInstructor
-        // The above functions make repeated calls to get InstructorAttributes
 
         ArrayList<EvaluationAttributes> evaluationList = 
-                evaluationsLogic.getEvaluationsListForInstructor(instructorId, omitArchived);
+                evaluationsLogic.getEvaluationsListForInstructor(instructorList);
         List<FeedbackSessionAttributes> feedbackSessionList = 
-                feedbackSessionsLogic.getFeedbackSessionsListForInstructor(instructorId, omitArchived);
+                feedbackSessionsLogic.getFeedbackSessionsListForInstructor(instructorList);
         
         for (EvaluationAttributes edd : evaluationList) {
             CourseSummaryBundle courseSummary = courseList.get(edd.courseId);
@@ -699,11 +697,7 @@ public class CoursesLogic {
     }
     
     private HashMap<String, CourseSummaryBundle> getCourseSummaryWithoutStatsForInstructor(
-            String googleId, boolean omitArchived) throws EntityDoesNotExistException {
-        
-        instructorsLogic.verifyInstructorExists(googleId);
-        
-        List<InstructorAttributes> instructorAttributesList = instructorsLogic.getInstructorsForGoogleId(googleId, omitArchived);
+            List<InstructorAttributes> instructorAttributesList) throws EntityDoesNotExistException {
         
         HashMap<String, CourseSummaryBundle> courseSummaryList = new HashMap<String, CourseSummaryBundle>();
         

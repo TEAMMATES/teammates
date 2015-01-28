@@ -143,7 +143,22 @@
                                 %>
                                 
                                   <tr id="<%=id%>"  class="instructorRow">
-                                    <td><%=instructor.courseId%></td>
+                                  
+                                    <%String courseName = data.courseIdToCourseNameMap.get(instructor.courseId);
+                                       if(courseName != null){
+                                    %>
+                                        <td data-toggle="tooltip" data-placement="top" title="<%=courseName%>">
+                                        <%=instructor.courseId%>
+                                        </td>                                 
+                                    <%     
+                                       } else {
+                                    %>
+                                        <td>
+                                        <%=instructor.courseId%>
+                                        </td>
+                                    <%   
+                                       }
+                                    %>                                    
                                     <td><%=instructor.name%></td>
                                     <td> 
                                     <a
@@ -302,18 +317,38 @@
                                 <tr id="<%=id%>" class="studentRow">
 
 
-                                    <td><%=data.studentInstituteMap.get(student.getIdentificationString())%>
-                                    </td>
-                                    <td><%=student.course%><br><%=student.section%><br><%=student.team%>
+                                    <td><%=data.studentInstituteMap.get(student.getIdentificationString()) == null?
+                                           "" : data.studentInstituteMap.get(student.getIdentificationString())%>
                                     </td>
                                     
+                                    <%String courseName = data.courseIdToCourseNameMap.get(student.course);
+                                       if(courseName != null){
+                                    %>
+                                        <td data-toggle="tooltip" data-placement="top" title="<%=courseName%>">
+                                        <%=student.course%><br><%=student.section%><br><%=student.team%>
+                                        </td>                                 
+                                    <%     
+                                       } else {
+                                    %>
+                                        <td>
+                                        <%=student.course%><br><%=student.section%><br><%=student.team%>
+                                        </td>
+                                    <%   
+                                       }
+                                    %>                   
+                                    
+                                    <%if(data.studentRecordsPageLinkMap.get(student.getIdentificationString()) != null){%>
                                     <td><a class="detailsPageLink"
                                         href=<%=data.studentRecordsPageLinkMap.get(student.getIdentificationString())%>
                                         target="blank"> <%=student.name%></a></td>
+                                    <%} else {%>
+                                    <td><%=student.name%></td>                                  
+                                    <%} %>
                                     <td><a
                                         href="<%=data.studentIdToHomePageLinkMap.get(student.googleId)%>"
                                         target="blank"
-                                        class="homePageLink"><%=student.googleId%></a>
+                                        class="homePageLink"><%=data.studentIdToHomePageLinkMap.get(student.googleId) == null? 
+                                                                "" : student.googleId%></a>
                                     </td>
                                     <td><%=student.comments%></td>
 
