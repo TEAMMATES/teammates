@@ -700,6 +700,24 @@
             "feedbackSessionType":"STANDARD",
             "sentOpenEmail":true,
             "sentPublishedEmail":false
+        },
+        "nonViewableSession":{
+            "feedbackSessionName":"Nonviewable feedback session",
+            "courseId":"idOfCourseNoEvals",
+            "creatorEmail":"instructor1@course2.tmt",
+            "instructions":{
+                "value":"Please please fill in the following questions."
+            },
+            "createdTime":"2012-03-20 11:59 PM UTC",
+            "startTime":"2300-04-01 11:59 PM UTC",
+            "endTime":"2317-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2300-03-20 11:59 PM UTC",
+            "resultsVisibleFromTime":"2317-05-01 11:59 PM UTC",
+            "timeZone":8,
+            "gracePeriod":0,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":false
         }
         
     },
@@ -1010,6 +1028,29 @@
             "questionNumber":"2",
             "questionType":"TEXT",
             "giverType":"INSTRUCTORS",
+            "recipientType":"INSTRUCTORS",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                
+            ],
+            "showGiverNameTo":[
+                
+            ],
+            "showRecipientNameTo":[
+                
+            ]
+            
+        },
+        "qnInUnviewableSession":{
+            "feedbackSessionName":"Nonviewable feedback session",
+            "courseId":"idOfCourseNoEvals",
+            "creatorEmail":"instructor1@course2.tmt",
+            "questionMetaData":{
+                "value":"Please rate your instructors"
+            },
+            "questionNumber":"1",
+            "questionType":"TEXT",
+            "giverType":"STUDENTS",
             "recipientType":"INSTRUCTORS",
             "numberOfEntitiesToGiveFeedbackTo":1,
             "showResponsesTo":[
