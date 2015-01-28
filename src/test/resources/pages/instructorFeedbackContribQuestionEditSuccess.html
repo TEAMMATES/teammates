@@ -16,7 +16,11 @@
                                 <a data-original-title="Delete the feedback session" href="/page/instructorFeedbackDelete?courseid=FContribQnUiT.CS2104&amp;fsname=First+Session&amp;next=%3Fuser%3DFContribQnUiT.instructor&amp;user=FContribQnUiT.instructor" onclick="return toggleDeleteFeedbackSessionConfirmation('FContribQnUiT.CS2104','First Session');" title="" data-toggle="tooltip" data-placement="top" class="btn btn-primary btn-sm" id="fsDeleteLink">
                                     Delete
                                 </a>
-                                <span data-original-title="Copy this feedback session to other courses" data-toggle="tooltip" title="" data-placement="top"><a data-actionlink="/page/instructorFeedbackEditCopyPage?user=FContribQnUiT.instructor" data-courseid="FContribQnUiT.CS2104" data-fsname="First Session" class="btn btn-primary btn-sm" href="#" data-toggle="modal" data-target="#fsCopyModal" data-placement="top" id="button_fscopy">Copy</a></span>
+                                <span data-original-title="Copy this feedback session to other courses" data-placement="top" data-toggle="tooltip" title="">
+                                    <a class="btn btn-primary btn-sm" data-actionlink="/page/instructorFeedbackEditCopyPage?user=FContribQnUiT.instructor" data-courseid="FContribQnUiT.CS2104" data-fsname="First Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy">
+                                       Copy
+                                    </a>
+                                </span>
                             </span>
                         </div>
                     </div>
@@ -419,31 +423,34 @@
     <script type="text/javascript">
         document.getElementById( 'statusMessage' ).scrollIntoView();
     </script>
-
-
-            <div class="modal fade" id="fsCopyModal" tabindex="-1" role="dialog" aria-labelledby="fsCopyModal" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form method="post" name="form_copy_list" role="form" action="/page/instructorFeedbackEditCopy">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title">
-                                    Copy this feedback session to other courses <br>
-                                    <small>(Select the course(s) you want to copy this feedback session to)</small>
-                                </h4>
-                            </div>
-                            <div class="modal-body">
-                                <div id="courseList" class="form-group"></div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                <input class="btn btn-primary" id="fscopy_submit" value="Copy" type="submit">
-                                <input name="user" value="FContribQnUiT.instructor" type="hidden">
-                           </div>
-                        </form>
-                    </div>
-                </div>
+    <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <form action="/page/instructorFeedbackEditCopy" method="post" name="form_copy_list" role="form">
+                  <div class="modal-header">
+                     <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                        ×
+                     </button>
+                     <h4 class="modal-title">
+                        Copy this feedback session to other courses <br/><small>
+                           (Select the course(s) you want to copy this feedback session to)
+                        </small>
+                     </h4>
+                  </div>
+                  <div class="modal-body">
+                     <div class="form-group" id="courseList">
+                     </div>
+                  </div>
+                  <div class="modal-footer">
+                     <button class="btn btn-default" data-dismiss="modal" type="button">
+                        Cancel</button><input class="btn btn-primary" type="submit" id="fscopy_submit" value="Copy"/>
+                                          <input name="user" type="hidden" value="FContribQnUiT.instructor"/>
+                                       </div>
+               </form>
             </div>
+         </div>
+      </div>
+
             <br>
 
             

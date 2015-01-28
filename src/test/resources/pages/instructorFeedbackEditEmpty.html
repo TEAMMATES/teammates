@@ -304,7 +304,11 @@ ul #nav {
                                 <a id="fsDeleteLink" class="btn btn-primary btn-sm" data-placement="top" data-toggle="tooltip" title="" onclick="return toggleDeleteFeedbackSessionConfirmation('CFeedbackEditUiT.CS2104','First Session');" href="/page/instructorFeedbackDelete?courseid=CFeedbackEditUiT.CS2104&amp;fsname=First+Session&amp;next=%3Fuser%3DCFeedbackEditUiT.instructor&amp;user=CFeedbackEditUiT.instructor" data-original-title="Delete the feedback session">
                                     Delete
                                 </a>
-                                <span data-placement="top" title="" data-toggle="tooltip" data-original-title="Copy this feedback session to other courses"><a id="button_fscopy" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" class="btn btn-primary btn-sm" data-fsname="First Session" data-courseid="CFeedbackEditUiT.CS2104" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackEditUiT.instructor">Copy</a></span>
+                                <span data-original-title="Copy this feedback session to other courses" data-placement="top" data-toggle="tooltip" title="">
+                                  <a class="btn btn-primary btn-sm" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackEditUiT.instructor" data-courseid="CFeedbackEditUiT.CS2104" data-fsname="First Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy">
+                                     Copy
+                                  </a>
+                               </span>
                             </span>
                         </div>
                     </div>
@@ -662,7 +666,7 @@ ul #nav {
                                         <label>
                                             Session opening reminder
                                         </label>
-                                        <input type="checkbox" value="FEEDBACK_OPENING" id="sendreminderemail_open" name="sendreminderemail" checked="checked" disabled="disabled" />
+                                        <input type="checkbox" value="FEEDBACK_OPENING" id="sendreminderemail_open" name="sendreminderemail" checked="checked" disabled="disabled"/>
                                     </div>
                                 </div>
                                 <div data-placement="top" data-toggle="tooltip" title="" class="col-sm-3" data-original-title="Select this option to automatically send an email to students to remind them to submit 24 hours before the end of the session.">
@@ -702,31 +706,34 @@ ul #nav {
 
 
     <div style="display: none;" id="statusMessage"></div>
-
-
-            <div aria-hidden="true" aria-labelledby="fsCopyModal" role="dialog" tabindex="-1" id="fsCopyModal" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form action="/page/instructorFeedbackEditCopy" role="form" name="form_copy_list" method="post">
-                            <div class="modal-header">
-                                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-                                <h4 class="modal-title">
-                                    Copy this feedback session to other courses <br />
-                                    <small>(Select the course(s) you want to copy this feedback session to)</small>
-                                </h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group" id="courseList"></div>
-                            </div>
-                            <div class="modal-footer">
-                                <button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
-                                <input type="submit" value="Copy" id="fscopy_submit" class="btn btn-primary" />
-                                <input type="hidden" value="CFeedbackEditUiT.instructor" name="user" />
-                           </div>
-                        </form>
-                    </div>
+        <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
+       <div class="modal-dialog">
+          <div class="modal-content">
+             <form action="/page/instructorFeedbackEditCopy" method="post" name="form_copy_list" role="form">
+                <div class="modal-header">
+                   <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                      ×
+                   </button>
+                   <h4 class="modal-title">
+                      Copy this feedback session to other courses <br/><small>
+                         (Select the course(s) you want to copy this feedback session to)
+                      </small>
+                   </h4>
                 </div>
-            </div>
+                <div class="modal-body">
+                   <div class="form-group" id="courseList">
+                   </div>
+                </div>
+                <div class="modal-footer">
+                   <button class="btn btn-default" data-dismiss="modal" type="button">
+                      Cancel</button><input class="btn btn-primary" type="submit" id="fscopy_submit" value="Copy"/>
+                                              <input name="user" type="hidden" value="CFeedbackEditUiT.instructor"/>
+                                           </div>
+             </form>
+          </div>
+       </div>
+    </div>
+
             <br />
 
             
