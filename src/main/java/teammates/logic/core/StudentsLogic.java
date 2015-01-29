@@ -568,6 +568,32 @@ public class StudentsLogic {
         
     }
     
+    public MimeMessage sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail) 
+            throws EntityDoesNotExistException {
+        
+        CourseAttributes course = coursesLogic.getCourse(courseId);
+        if (course == null) {
+            throw new EntityDoesNotExistException(
+                    "Course does not exist [" + courseId + "], trying to send invite email to student [" + studentEmail + "]");
+        }
+        
+        StudentAttributes studentData = getStudentForEmail(courseId, studentEmail);
+        if (studentData == null) {
+            throw new EntityDoesNotExistException(
+                    "Student [" + studentEmail + "] does not exist in course [" + courseId + "]");
+        }
+        
+        Emails emailMgr = new Emails();
+        try {
+            MimeMessage email = emailMgr.generateStudentCourseRejoinEmailAfterGoogleIdReset(course, studentData);
+            emailMgr.sendEmail(email);
+            return email;
+        } catch (Exception e) {
+            throw new RuntimeException("Unexpected error while sending email", e);
+        }
+        
+    }
+    
     public List<MimeMessage> sendRegistrationInviteForCourse(String courseId) {
         List<StudentAttributes> studentDataList = getUnregisteredStudentsForCourse(courseId);
         

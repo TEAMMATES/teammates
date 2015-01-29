@@ -1263,7 +1263,26 @@ public class Logic {
     
         return studentsLogic.sendRegistrationInviteToStudent(courseId, studentEmail);
     }
-
+    
+    /**
+     * Send rejoin email to student after google id has been reset.<br>
+     * Should only be used by admin in AdminStudentGoogleIdResetAction 
+     * @param courseId
+     * @param studentEmail
+     * @return
+     * @throws EntityDoesNotExistException
+     * @throws InvalidParametersException
+     */
+    public MimeMessage sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail) 
+           throws EntityDoesNotExistException, InvalidParametersException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
+    
+        return studentsLogic.sendRegistrationInviteToStudentAfterGoogleIdReset(courseId, studentEmail);
+    }
+    
+    
     /**
      * Sends reminders to students who haven't submitted yet. <br>
      * Preconditions: <br>

@@ -24,7 +24,7 @@ public class AdminStudentGoogleIdResetAction extends Action {
         if(studentEmail != null && studentCourseId != null){
             try {
                 logic.resetStudentGoogleId(studentEmail, studentCourseId);
-                
+                logic.sendRegistrationInviteToStudentAfterGoogleIdReset(studentCourseId, studentEmail);
             } catch (InvalidParametersException e) {
                 statusToUser.add(Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL);
                 statusToAdmin = Const.StatusMessages.STUDENT_GOOGLEID_RESET_FAIL + "<br>" +
