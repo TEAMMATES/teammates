@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
+import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
@@ -81,7 +82,8 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
                 try {
                     stLogic.adjustFeedbackResponseForEnrollments(enrollmentList, response);
                 } catch (Exception e) {
-                    log.severe(String.format(errorString, sessionName, courseId, e.getMessage(), e.getStackTrace().toString()));
+                    log.severe(String.format(errorString, sessionName, courseId, e.getMessage(),
+                            ActivityLogEntry.generateServletActionFailureLogMessage(request, e)));
                     return false;
                 }
             } 
