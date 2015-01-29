@@ -80,10 +80,10 @@ function showHideStats(){
 // Filter functionality
 // Filtering is done by searching the heading text in all panels (section, team name, student name)
 //
-// When the heading text of a panel has found to be matched with the search text, 
+// When the heading text of a panel is found to match the search text,
 // all nested panels in the panel will be shown and parent panels of the panel will be shown as well
 //
-// When at least one of the nested panels in a panel has found to be matched with the search text,
+// When at least one of the nested panels in a panel is found to contain the search text in its title,
 // the panel will be shown
 function filterResults(searchText){
     // Reduce white spaces to only 1 white space
@@ -152,7 +152,7 @@ function filterResults(searchText){
         }
 
         if(hasChild){
-            // push current panel whhen it has child panels
+            // push current panel when it has child panels
             parentStack.push(panel);
         }
     }
