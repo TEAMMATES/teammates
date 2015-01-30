@@ -117,6 +117,21 @@ public class InstructorsDb extends EntitiesDb{
         }
     }
     
+    
+    public void createInstructorsWithoutSearchability(Collection<InstructorAttributes> instructorsToAdd) throws InvalidParametersException{
+        
+        List<EntityAttributes> instructorsToUpdate = createEntities(instructorsToAdd);
+
+        for (EntityAttributes entity : instructorsToUpdate) {
+            InstructorAttributes instructor = (InstructorAttributes) entity;
+            try {
+                updateInstructorByEmail(instructor);
+            } catch (EntityDoesNotExistException e) {
+                Assumption.fail("Entity found be already existing and not existing simultaneously");
+            }
+        }
+    }
+    
     public InstructorAttributes createInstructor(InstructorAttributes instructorToAdd) throws InvalidParametersException, EntityAlreadyExistsException{  
         Instructor instructor = (Instructor)createEntity(instructorToAdd);
         if(instructor == null) {

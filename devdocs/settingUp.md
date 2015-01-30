@@ -24,7 +24,7 @@ Important: When a version is specified, please install that version instead of t
 `Dev server` means running the server in your own computer.
 
 1. Fork our repo at `https://github.com/TEAMMATES/repo. Clone that fork to your hard disk.
-1. Configure Eclipse (if you worry that these settings will interfere with your 
+2. Configure Eclipse (if you worry that these settings will interfere with your 
     other projects, you can use a separate eclipse instance for TEAMMATES):
    * Text encoding: Go to `Window → Preferences → General → Workspace`, change the 
    `Text file encoding` setting from `Default` to `Other: UTF-8`.
@@ -37,7 +37,7 @@ Important: When a version is specified, please install that version instead of t
     Similarly, configure `Web → CSS Files → Editor`, 
     `Web → HTML Files → Editor`, and `XML Files → Editor`
     to indent using 4 spaces instead of tabs.
-2. Create main config files {These are not under revision control because their 
+3. Create main config files {These are not under revision control because their 
    content vary from developer to developer}.
    * `src/main/resources/build.properties`<br>
    Use `build.template.properties` (in the same folder) 
@@ -49,7 +49,7 @@ Important: When a version is specified, please install that version instead of t
    * `src/main/webapp/WEB-INF/appengine-web.xml`<br>
    Create it using `appengine-web.template.xml`. 
    For now, property values can remain as they are.
-3. Download [this zip file](http://www.comp.nus.edu.sg/~seer/teammates-libs/libs.zip)
+4. Download [this zip file](http://www.comp.nus.edu.sg/~seer/teammates-libs/libs.zip)
    containing the required library files and unzip it into
    your project folder. Note that this will overwrite some existing library files,
    which is what we want. If you unzipped it into the right location, you should now see
@@ -75,7 +75,12 @@ Important: When a version is specified, please install that version instead of t
    Instead, you can use the join link given after adding an intructor, to complete the joining process.<br>
    Remember to change the URL of the link if necessary.<br>
    e.g. Change `http://teammates-john.appspot.com/page/instructorCourseJoin?...` to `http://localhost:8888/page/instructorCourseJoin?...`
-      
+8. Now, to access the dev server as a student, first make sure you are logged in as an instructor. Add a course for yourself and then add the students for the course.<br>
+   After that, log in as admin and search for the student you added in as instructor. From the search results, use the join link adjacent to the student you added.<br>
+   Then, log out and use that join link to log in as a student. You have the required access now.<br>
+   (Make sure you use the `http://localhost:8888/` as the host instead of the one given in the join link)<br>   
+   Alternative : Run the test cases, they create several student accounts in the datastore. Use one of them to log in.<br>
+   
 ##Running the test suite
 
 
