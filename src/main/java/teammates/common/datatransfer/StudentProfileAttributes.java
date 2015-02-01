@@ -8,6 +8,7 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
@@ -63,6 +64,49 @@ public class StudentProfileAttributes extends EntityAttributes {
         this.moreInfo = "";
         this.pictureKey = "";
         this.modifiedDate = null;
+    }
+    
+    public String generateUpdateMessageForStudent() {
+        String reminder = "";
+        
+        if (isMultipleFieldsEmpty()) {
+            reminder = Const.StatusMessages.STUDENT_UPDATE_PROFILE; 
+        } else {
+            if (this.shortName.isEmpty()) {
+                reminder = Const.StatusMessages.STUDENT_UPDATE_PROFILE_SHORTNAME; 
+            } else if (this.email.isEmpty()) {
+                reminder = Const.StatusMessages.STUDENT_UPDATE_PROFILE_EMAIL; 
+            } else if (this.pictureKey.isEmpty()) {
+                reminder = Const.StatusMessages.STUDENT_UPDATE_PROFILE_PICTURE;
+            } else if (this.moreInfo.isEmpty()) {
+                reminder = Const.StatusMessages.STUDENT_UPDATE_PROFILE_MOREINFO;
+            } else if (this.nationality.isEmpty()) {
+                reminder = Const.StatusMessages.STUDENT_UPDATE_PROFILE_NATIONALITY;
+            }
+        }
+        
+        return reminder;
+    }
+    
+    private boolean isMultipleFieldsEmpty() {
+        int numEmptyFields = 0;
+        if (this.shortName.isEmpty()) {
+            numEmptyFields ++;
+        }
+        if (this.email.isEmpty()) {
+            numEmptyFields ++;
+        }
+        if (this.nationality.isEmpty()) {
+            numEmptyFields ++;
+        }
+        if (this.moreInfo.isEmpty()) {
+            numEmptyFields ++;
+        }
+        if (this.pictureKey.isEmpty()) {
+            numEmptyFields ++;
+        }
+        
+        return numEmptyFields > 1;
     }
 
     @Override

@@ -1960,6 +1960,18 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
+     * @return a list of viewable feedback sessions for any user in the course.
+     */
+    public List<FeedbackSessionAttributes> getFeedbackSessionsForUserInCourse(String courseId, String userEmail) throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        
+        return feedbackSessionsLogic.getFeedbackSessionsForUserInCourse(courseId, userEmail);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
      */
     public boolean hasStudentSubmittedFeedback(
             String courseId, String feedbackSessionName, String studentEmail)
