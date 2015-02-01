@@ -29,8 +29,6 @@ public class AdminSearchPageAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException{
         
-        Logic logic = new Logic();
-        
         new GateKeeper().verifyAdminPrivileges(account);
            
         String searchKey = getRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_KEY);
