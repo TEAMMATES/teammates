@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
+import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
@@ -70,7 +71,7 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
                 .getFeedbackSession(sessionName, courseId);
         StudentsLogic stLogic = StudentsLogic.inst();
         String errorString = "Error encountered while adjusting feedback session responses " +
-                "of %s in course : %s : %s";
+                "of %s in course : %s : %s\n%s";
         
         if(feedbackSession != null) {
             List<FeedbackResponseAttributes> allResponses = FeedbackResponsesLogic.inst()
@@ -81,13 +82,14 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
                 try {
                     stLogic.adjustFeedbackResponseForEnrollments(enrollmentList, response);
                 } catch (Exception e) {
-                    log.severe(String.format(errorString, sessionName, courseId, e.getMessage()));
+                    log.severe(String.format(errorString, sessionName, courseId, e.getMessage(),
+                            ActivityLogEntry.generateServletActionFailureLogMessage(request, e)));
                     return false;
                 }
             } 
             return true;
         } else {
-            log.severe(String.format(errorString, sessionName, courseId, "feedback session is null"));
+            log.severe(String.format(errorString, sessionName, courseId, "feedback session is null", ""));
             return false;
         }    
     }

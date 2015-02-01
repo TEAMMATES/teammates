@@ -41,7 +41,8 @@ public class CommentSearchResultBundle extends SearchResultBundle {
             giverEmailList.add(ins.email);
         }
         
-        for(ScoredDocument doc:results){
+        List<ScoredDocument> filteredResults = filterOutCourseId(results, googleId);
+        for(ScoredDocument doc:filteredResults){
             CommentAttributes comment = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.COMMENT_ATTRIBUTE).getText(), 
                     CommentAttributes.class);

@@ -325,22 +325,12 @@ public class InstructorsLogic {
            throws EntityDoesNotExistException {
         
         String joinLink="";
-        
-        InstructorAttributes instructorData = getInstructorForEmail(instructor.courseId, instructor.email);                                             
-        
-        if (instructorData == null) {
-            throw new EntityDoesNotExistException("Instructor [" 
-                                                  + instructor.email + instructor.name 
-                                                  + "] does not exist in course ["
-                                                  + instructor.courseId + "]");
-        }
-        
         Emails emailMgr = new Emails();
 
         try {
-            MimeMessage email = emailMgr.generateNewInstructorAccountJoinEmail(instructorData, shortName, institute);
+            MimeMessage email = emailMgr.generateNewInstructorAccountJoinEmail(instructor, shortName, institute);
             emailMgr.sendEmail(email);
-            joinLink = emailMgr.generateNewInstructorAccountJoinLink(instructorData, institute);
+            joinLink = emailMgr.generateNewInstructorAccountJoinLink(instructor, institute);
 
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while sending email",e);

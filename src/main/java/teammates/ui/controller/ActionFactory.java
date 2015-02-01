@@ -28,6 +28,7 @@ public class ActionFactory {
         map(ADMIN_INSTRUCTORACCOUNT_ADD, AdminInstructorAccountAddAction.class);
         map(ADMIN_SESSIONS_PAGE,AdminSessionsPageAction.class);
         map(ADMIN_SEARCH_PAGE, AdminSearchPageAction.class);
+        map(ADMIN_STUDENT_GOOGLE_ID_RESET, AdminStudentGoogleIdResetAction.class);
         
         map(INSTRUCTOR_COURSES_PAGE, InstructorCoursesPageAction.class);
         map(INSTRUCTOR_COURSE_ADD, InstructorCourseAddAction.class);

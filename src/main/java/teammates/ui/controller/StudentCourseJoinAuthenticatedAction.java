@@ -1,6 +1,11 @@
 package teammates.ui.controller;
 
+import java.util.List;
+
+import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.JoinCourseException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -50,10 +55,30 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
             statusToAdmin = studentInfo;
         }
         
-        statusToUser.add(String.format(
-                Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, getStudent().course));
+        addStatusMessageToUser();
         
         return response;
+    }
+
+    private void addStatusMessageToUser() throws EntityDoesNotExistException {
+        CourseAttributes course = logic.getCourse(getStudent().course);
+        String courseDisplayText = "[" + course.id + "] " + course.name; 
+        
+        statusToUser.add(String.format(
+                Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, courseDisplayText));
+
+        List<FeedbackSessionAttributes> fsa = logic.getFeedbackSessionsForUserInCourse(getStudent().course, getStudent().email);
+        if (fsa.isEmpty()) {
+            statusToUser.add(String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, courseDisplayText));
+            
+            StudentProfileAttributes spa = logic.getStudentProfile(account.googleId);
+            
+            String updateProfileMessage = spa.generateUpdateMessageForStudent();
+            if (!updateProfileMessage.isEmpty()) {
+                statusToUser.add(updateProfileMessage);
+            }
+        }
+        
     }
 
     private void ensureStudentExists() {
@@ -71,6 +96,5 @@ public class StudentCourseJoinAuthenticatedAction extends Action {
         
         return student;
     }
-    
     
 }
