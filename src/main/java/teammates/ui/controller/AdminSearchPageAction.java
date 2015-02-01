@@ -32,7 +32,7 @@ public class AdminSearchPageAction extends Action {
         new GateKeeper().verifyAdminPrivileges(account);
            
         String searchKey = getRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_KEY);
-        String searchButtonHit = getRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_BUTTON_HIT);       
+        String searchButtonHit = getRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_BUTTON_HIT);    
         
         AdminSearchPageData data = new AdminSearchPageData(account);
         
@@ -40,7 +40,10 @@ public class AdminSearchPageAction extends Action {
             
             if(searchButtonHit != null){             
                 statusToUser.add("Search key cannot be empty");
+                statusToAdmin = "Invalid Search: Search key cannot be empty";
                 isError = true;
+            } else {
+                statusToAdmin = "AdminSearchPaga Page Load";
             }
             return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
         }
@@ -69,9 +72,11 @@ public class AdminSearchPageAction extends Action {
         
         if(numOfResults > 0){
             statusToUser.add("Total results found: " + numOfResults);
+            statusToAdmin = "Search Key: " + searchKey + "<br>" + "Total results found: " + numOfResults;
             isError = false;
         } else {
             statusToUser.add("No result found, please try again");
+            statusToAdmin = "Search Key: " + searchKey + "<br>" + "No result found";
             isError = true;
         }
               
