@@ -736,6 +736,16 @@ public class Emails {
         return message;
     }
     
+    public MimeMessage generateAdminEmail(String content) throws MessagingException, UnsupportedEncodingException 
+    {
+
+        MimeMessage message = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
+        message.setSubject("Admin Email");
+
+        message.setContent(content, "text/html");
+        return message;
+    }
+    
     public MimeMessage generateNewInstructorAccountJoinEmail(InstructorAttributes instructor,String shortName, String institute) 
                              throws AddressException,MessagingException,UnsupportedEncodingException {
 
