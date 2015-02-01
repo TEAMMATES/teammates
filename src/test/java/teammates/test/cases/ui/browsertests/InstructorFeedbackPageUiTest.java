@@ -124,9 +124,9 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyHtmlAjax("/instructorFeedbackAllSessionTypes.html");
 
         feedbackPage.sortByName()
-            .verifyTablePattern(0, 1,"Awaiting Session{*}Copied Session{*}First Eval{*}First Session{*}Manual Session{*}Open Session{*}Private Session");
+            .verifyTablePattern(0, 1,"Awaiting Session{*}First Eval{*}First Session{*}Manual Session{*}New Session (Copied){*}Open Session{*}Private Session");
         feedbackPage.sortByName()
-            .verifyTablePattern(0, 1,"Private Session{*}Open Session{*}Manual Session{*}First Session{*}First Eval{*}Copied Session{*}Awaiting Session");
+            .verifyTablePattern(0, 1,"Private Session{*}Open Session{*}New Session (Copied){*}Manual Session{*}First Session{*}First Eval{*}Awaiting Session");
         
         ______TS("sort by course id");
         
@@ -422,7 +422,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("Success case: copy successfully a previous session");
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
-        feedbackPage.copyFeedbackSession("Copied Session", newSession.courseId);
+        feedbackPage.copyFeedbackSession("New Session (Copied)", newSession.courseId);
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
         // Check that we are redirected to the edit page.
         feedbackPage.verifyHtmlMainContent("/instructorFeedbackCopySuccess.html");
@@ -430,7 +430,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("Failure case: copy fail since the feedback session name is the same with existing one");
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
-        feedbackPage.copyFeedbackSession("Copied Session", newSession.courseId);
+        feedbackPage.copyFeedbackSession("New Session (Copied)", newSession.courseId);
         feedbackPage.verifyStatus("A feedback session by this name already exists under this course");
        
         ______TS("Failure case: copy fail since the feedback session name is invalid");
