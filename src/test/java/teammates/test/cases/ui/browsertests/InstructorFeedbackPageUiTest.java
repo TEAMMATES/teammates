@@ -433,11 +433,17 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.copyFeedbackSession("New Session (Copied)", newSession.courseId);
         feedbackPage.verifyStatus("A feedback session by this name already exists under this course");
        
-        ______TS("Failure case: copy fail since the feedback session name is invalid");
+        ______TS("Failure case: copy fail since the feedback session name is blank");
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
         feedbackPage.copyFeedbackSession("", newSession.courseId);
         feedbackPage.verifyStatus("Feedback session name must not be empty.");
+        
+        ______TS("Failure case: copy fail since the feedback session name starts with (");
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+        
+        feedbackPage.copyFeedbackSession("(New Session) ", newSession.courseId);
+        feedbackPage.verifyStatus("Feedback session name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).");
         
     }
 
