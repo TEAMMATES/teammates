@@ -8,7 +8,7 @@ function isFeedbackSessionNameValid(name) {
             || name.indexOf("\"") >= 0) {
         return false;
     }
-    if (name.match(/^[a-zA-Z0-9 ]*$/) == null) {
+    if (name.match(/^[a-zA-Z0-9][^|%]*$/) == null) {
         return false;
     }
     return true;
