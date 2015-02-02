@@ -1,5 +1,6 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
@@ -14,17 +15,21 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
+import teammates.storage.api.ProfilesDb;
 import teammates.storage.api.StudentsDb;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentCourseJoinAuthenticatedAction;
 
 public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
-    private final DataBundle dataBundle = getTypicalDataBundle();
+    private static DataBundle dataBundle;
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        
+        dataBundle = loadDataBundle("/StudentCourseJoinAuthenticatedTest.json");
+        removeAndRestoreDatastoreFromJson("/StudentCourseJoinAuthenticatedTest.json");
+        
         uri = Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED;
     }
 
@@ -32,6 +37,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
     public void testExecuteAndPostProcess() throws Exception {
         StudentsDb studentsDb = new StudentsDb();
         AccountsDb accountsDb = new AccountsDb();
+        
         StudentAttributes student1InCourse1 = dataBundle.students
                 .get("student1InCourse1");
         student1InCourse1 = studentsDb.getStudentForGoogleId(
@@ -109,6 +115,123 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                         + "contact us</a> so that we can investigate.",
                 redirectResult.getStatusMessage());
 */
+        ______TS("join course with no feedback sessions, profile is empty");
+        AccountAttributes studentWithEmptyProfile = dataBundle.accounts.get("noFSStudent");
+        studentWithEmptyProfile = accountsDb.getAccount(studentWithEmptyProfile.googleId, true);
+        assertNotNull(studentWithEmptyProfile.studentProfile);
+        assertEquals("", studentWithEmptyProfile.studentProfile.pictureKey);
+        assertEquals("", studentWithEmptyProfile.studentProfile.shortName);
+        assertEquals("", studentWithEmptyProfile.studentProfile.nationality);
+        assertEquals("", studentWithEmptyProfile.studentProfile.moreInfo);
+        assertEquals("", studentWithEmptyProfile.studentProfile.email);
+
+        StudentAttributes studentWithEmptyProfileAttributes = dataBundle.students.get("noFSStudentWithNoProfile");
+        studentWithEmptyProfileAttributes = studentsDb.getStudentForEmail(
+                studentWithEmptyProfileAttributes.course, studentWithEmptyProfileAttributes.email);
+
+        gaeSimulation.loginUser("idOfNoFSStudent");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.REGKEY,
+                StringHelper.encrypt(studentWithEmptyProfileAttributes.key),
+                Const.ParamsNames.NEXT_URL, Const.ActionURIs.STUDENT_HOME_PAGE
+        };
+
+        authenticatedAction = getAction(submissionParams);
+        redirectResult = getRedirectResult(authenticatedAction);
+
+        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE
+                + "?persistencecourse=idOfCourseNoEvals"
+                + "&error=false&user=idOfNoFSStudent",
+                redirectResult.getDestinationWithParams());
+        assertFalse(redirectResult.isError);
+        assertEquals(
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
+                + "<br />"
+                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
+                + "<br />" 
+                + Const.StatusMessages.STUDENT_UPDATE_PROFILE,  
+                redirectResult.getStatusMessage());
+
+        ______TS("join course with no feedback sessions, profile has only one missing field");
+        AccountAttributes studentWithoutProfilePicture = dataBundle.accounts.get("noFSStudent2");
+        studentWithoutProfilePicture = accountsDb.getAccount(studentWithoutProfilePicture.googleId, true);
+        assertNotNull(studentWithoutProfilePicture.studentProfile);
+        assertEquals("", studentWithoutProfilePicture.studentProfile.pictureKey);
+        assertFalse(studentWithoutProfilePicture.studentProfile.nationality.equals(""));
+        assertFalse(studentWithoutProfilePicture.studentProfile.shortName.equals(""));
+        assertFalse(studentWithoutProfilePicture.studentProfile.moreInfo.equals(""));
+        assertFalse(studentWithoutProfilePicture.studentProfile.email.equals(""));
+
+        
+        StudentAttributes studentWithoutProfilePictureAttributes = dataBundle.students.get("noFSStudentWithPartialProfile");
+        
+        studentWithoutProfilePictureAttributes = studentsDb.getStudentForEmail(
+                studentWithoutProfilePictureAttributes.course, studentWithoutProfilePictureAttributes.email);
+
+        gaeSimulation.loginUser("idOfNoFSStudent2");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.REGKEY,
+                StringHelper.encrypt(studentWithoutProfilePictureAttributes.key),
+                Const.ParamsNames.NEXT_URL, Const.ActionURIs.STUDENT_HOME_PAGE
+        };
+
+        authenticatedAction = getAction(submissionParams);
+        redirectResult = getRedirectResult(authenticatedAction);
+
+        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE
+                + "?persistencecourse=idOfCourseNoEvals"
+                + "&error=false&user=idOfNoFSStudent2",
+                redirectResult.getDestinationWithParams());
+        assertFalse(redirectResult.isError);
+        assertEquals(
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals")
+                + "<br />"
+                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals") 
+                + "<br />"
+                + Const.StatusMessages.STUDENT_UPDATE_PROFILE_PICTURE,
+                redirectResult.getStatusMessage());
+
+        ______TS("join course with no feedback sessions, profile has no missing field");        
+        AccountAttributes studentWithFullProfile = dataBundle.accounts.get("noFSStudent3");
+        
+        studentWithFullProfile = accountsDb.getAccount(studentWithFullProfile.googleId, true);
+        assertNotNull(studentWithFullProfile.studentProfile);
+        assertFalse(studentWithFullProfile.studentProfile.pictureKey.equals(""));
+        assertFalse(studentWithoutProfilePicture.studentProfile.nationality.equals(""));
+        assertFalse(studentWithoutProfilePicture.studentProfile.shortName.equals(""));
+        assertFalse(studentWithoutProfilePicture.studentProfile.moreInfo.equals(""));
+        assertFalse(studentWithoutProfilePicture.studentProfile.email.equals(""));
+
+        
+        StudentAttributes studentWithFullProfileAttributes = dataBundle.students.get("noFSStudentWithFullProfile");
+        studentWithFullProfileAttributes = studentsDb.getStudentForEmail(
+                studentWithFullProfileAttributes.course, studentWithFullProfileAttributes.email);
+
+        gaeSimulation.loginUser("idOfNoFSStudent3");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.REGKEY,
+                StringHelper.encrypt(studentWithFullProfileAttributes.key),
+                Const.ParamsNames.NEXT_URL, Const.ActionURIs.STUDENT_HOME_PAGE
+        };
+
+        authenticatedAction = getAction(submissionParams);
+        redirectResult = getRedirectResult(authenticatedAction);
+
+        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE
+                + "?persistencecourse=idOfCourseNoEvals"
+                + "&error=false&user=idOfNoFSStudent3",
+                redirectResult.getDestinationWithParams());
+        assertFalse(redirectResult.isError);
+        assertEquals(
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals") 
+                + "<br />"
+                + String.format(Const.StatusMessages.HINT_FOR_NO_SESSIONS_STUDENT, "[idOfCourseNoEvals] Typical Course 3 with 0 Evals"),
+                redirectResult.getStatusMessage());
+
+        
         ______TS("typical case");
 
         AccountAttributes newStudentAccount = new AccountAttributes(
@@ -143,7 +266,7 @@ public class StudentCourseJoinAuthenticatedActionTest extends BaseActionTest {
                 redirectResult.getDestinationWithParams());
         assertFalse(redirectResult.isError);
         assertEquals(
-                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, newStudentAttributes.course), 
+                String.format(Const.StatusMessages.STUDENT_COURSE_JOIN_SUCCESSFUL, "[idOfTypicalCourse1] Typical Course 1 with 2 Evals"), 
                 redirectResult.getStatusMessage());
 
     }
