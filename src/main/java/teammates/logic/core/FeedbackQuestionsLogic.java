@@ -71,7 +71,7 @@ public class FeedbackQuestionsLogic {
     }
     
     /**
-     * Used for creating initial questions for template sessions only.
+     * Used for creating initial questions only.
      * Does not check if feedback session exists.
      * Does not check if question number supplied is valid(does not check for clashes, or make adjustments)
      * @param fqa

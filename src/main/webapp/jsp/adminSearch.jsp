@@ -388,6 +388,24 @@
                                         <% 
                                             }
                                         %>
+                                        
+                                        <% 
+                                        if (student.googleId != null && !student.googleId.isEmpty()){
+                                         
+                                        %>
+                                            <button type="button"
+                                                id="<%=student.googleId + "_resetGoogleId"%>"
+                                                onclick="submitResetGoogleIdAjaxRequest('<%=student.course%>' , '<%=student.email%>', '<%=student.googleId%>', this);"
+                                                class="btn btn-link btn-xs resetGoogleIdButton">
+                                                <span
+                                                class="glyphicon glyphicon-refresh"></span>
+                                                Reset Google Id
+                                            </button> 
+                                        <%
+                                        }
+                                        %>
+                                        
+                                        
                                     </td>
                                 </tr>
 

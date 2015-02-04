@@ -1,0 +1,343 @@
+{
+    "accounts":{
+        "instructor1OfCourse1":{
+            "googleId":"idOfInstructor1OfCourse1",
+            "name":"Instructor 1 of Course 1",
+            "isInstructor":true,
+            "email":"instr1@course1.tmt",
+            "institute":"TEAMMATES Test Institute 1"
+        },
+        
+        "student1InCourse1":{
+            "googleId":"student1InCourse1",
+            "name":"Student 1 in course 1",
+            "isInstructor":false,
+            "email":"student1InCourse1@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1",
+            "studentProfile":{
+                "googleId":"student1InCourse1",
+                "shortName":"Stud1",
+                "email":"i.m.stud1@gmail.tmt",
+                "institute":"TEAMMATES Test Institute 3",
+                "nationality":"U.S.A",
+                "gender":"male",
+                "moreInfo":"I am just a student :P",
+                "pictureKey":"asdf34&hfn3!@"
+            }
+        },
+
+        "noFSStudent":{
+            "googleId":"idOfNoFSStudent",
+            "name":"No Fs Student",
+            "isInstructor":false,
+            "email":"noFSStudent@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 5"
+        },
+        "noFSStudent2":{
+            "googleId":"idOfNoFSStudent2",
+            "name":"No Fs Student 2",
+            "isInstructor":false,
+            "email":"noFSStudent2@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 5",
+            "studentProfile":{
+                "googleId":"idOfNoFSStudent2",
+                "shortName":"Student with no picture",
+                "email":"noFSStudent2@gmail.tmt",
+                "institute":"TEAMMATES Test Institute 5",
+                "nationality":"Singaporean",
+                "gender":"male",
+                "moreInfo":"I am a student"
+            }
+        },
+        "noFSStudent3":{
+            "googleId":"idOfNoFSStudent3",
+            "name":"No Fs Student 3",
+            "isInstructor":false,
+            "email":"noFSStudent3@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 5",
+            "studentProfile":{
+                "googleId":"idOfNoFSStudent3",
+                "shortName":"Full Profile Student",
+                "email":"noFSStudent3@gmail.tmt",
+                "institute":"TEAMMATES Test Institute 5",
+                "nationality":"Singaporean",
+                "gender":"male",
+                "moreInfo":"I am a student",
+                "pictureKey": "asdf34&hfn3!@"
+            }
+        }
+    },
+    "courses":{
+        "typicalCourse1":{
+            "id":"idOfTypicalCourse1",
+            "name":"Typical Course 1 with 2 Evals",
+            "isArchived":false
+        },
+        "courseNoEvals":{
+            "id":"idOfCourseNoEvals",
+            "name":"Typical Course 3 with 0 Evals",
+            "isArchived":false
+        }
+    
+    },
+    "instructors":{
+        "instructor1OfCourse1":{
+            "googleId":"idOfInstructor1OfCourse1",
+            "courseId":"idOfTypicalCourse1",
+            "name":"Instructor1 Course1",
+            "email":"instructor1@course1.tmt",
+            "role":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        }
+    },
+    "students":{
+        "student1InCourse1":{
+            "email":"student1InCourse1@gmail.tmt",
+            "name":"student1 In Course1",
+            "team":"Team 1.1",
+            "section":"Section 1",
+            "googleId":"student1InCourse1",
+            "comments":"comment for student1InCourse1",
+            "course":"idOfTypicalCourse1"
+        },
+    
+        "noFSStudentWithNoProfile":{
+            "email":"noFSStudent@gmail.tmt",
+            "name":"No Profile Student",
+            "googleId":"",
+            "team":"Team 1",
+            "section":"Section 1",
+            "comments":"",
+            "course":"idOfCourseNoEvals"
+        },
+        "noFSStudentWithPartialProfile":{
+            "email":"noFSStudent2@gmail.tmt",
+            "name":"Partial Profile Student",
+            "googleId":"",
+            "team":"Team 1",
+            "section":"Section 1",
+            "comments":"",
+            "course":"idOfCourseNoEvals"
+        },
+        "noFSStudentWithFullProfile":{
+            "email":"noFSStudent3@gmail.tmt",
+            "name":"Full Profile Student",
+            "googleId":"",
+            "team":"Team 1",
+            "section":"Section 1",
+            "comments":"",
+            "course":"idOfCourseNoEvals"
+        }
+    },
+    "evaluations":{
+        "evaluation1InCourse1":{
+            "courseId":"idOfTypicalCourse1",
+            "name":"evaluation1 In Course1",
+            "instructions":{
+                "value":"instructions for evaluation1InCourse1"
+            },
+            "gracePeriod":10,
+            "p2pEnabled":true,
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2017-04-30 11:59 PM UTC",
+            "timeZone":2.0,
+            "activated":true,
+            "published":false
+        },
+        "evaluation2InCourse1":{
+            "courseId":"idOfTypicalCourse1",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2017-04-30 11:59 PM UTC",
+            "gracePeriod":20,
+            "instructions":{
+                "value":"Please please fill in the second evaluation in Course1"
+            },
+            "name":"evaluation2 In Course1",
+            "p2pEnabled":true,
+            "activated":true
+        }
+    },
+    
+    "feedbackSessions":{
+        "session1InCourse1":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.tmt",
+            "instructions":{
+                "value":"Please please fill in the following questions."
+            },
+            "createdTime":"2012-03-20 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2017-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
+            "resultsVisibleFromTime":"2017-05-01 11:59 PM UTC",
+            "timeZone":2.0,
+            "gracePeriod":10,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":false
+        },
+       
+        "nonViewableSession":{
+            "feedbackSessionName":"Nonviewable feedback session",
+            "courseId":"idOfCourseNoEvals",
+            "creatorEmail":"instructor1@course2.tmt",
+            "instructions":{
+                "value":"Please please fill in the following questions."
+            },
+            "createdTime":"2012-03-20 11:59 PM UTC",
+            "startTime":"2300-04-01 11:59 PM UTC",
+            "endTime":"2317-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2300-03-20 11:59 PM UTC",
+            "resultsVisibleFromTime":"2317-05-01 11:59 PM UTC",
+            "timeZone":8,
+            "gracePeriod":0,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":false
+        }
+        
+    },
+    "feedbackQuestions":{
+        "qn1InSession1InCourse1":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.tmt",
+            "questionMetaData":{
+                "value":"What is the best selling point of your product?"
+            },
+            "questionNumber":"1",
+            "questionType":"TEXT",
+            "giverType":"STUDENTS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+            
+        },
+        "qn2InSession1InCourse1":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.tmt",
+            "questionMetaData":{
+                "value":"Rate 1 other student's product"
+            },
+            "questionNumber":"2",
+            "questionType":"TEXT",
+            "giverType":"STUDENTS",
+            "recipientType":"STUDENTS",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "INSTRUCTORS",
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS",
+                "RECEIVER"
+            ]
+            
+        },
+        "qn3InSession1InCourse1":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.tmt",
+            "questionMetaData":{
+                "value":"My comments on the class"
+            },
+            "questionNumber":"3",
+            "questionType":"TEXT",
+            "giverType":"SELF",
+            "recipientType":"NONE",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ]
+            
+        },
+        "qn4InSession1InCourse1":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.tmt",
+            "questionMetaData":{
+                "value":"Instructor comments on the class"
+            },
+            "questionNumber":"4",
+            "questionType":"TEXT",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"NONE",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS",
+                "STUDENTS",
+                "INSTRUCTORS"
+            ]
+            
+        },
+     
+        "qnInUnviewableSession":{
+            "feedbackSessionName":"Nonviewable feedback session",
+            "courseId":"idOfCourseNoEvals",
+            "creatorEmail":"instructor1@course2.tmt",
+            "questionMetaData":{
+                "value":"Please rate your instructors"
+            },
+            "questionNumber":"1",
+            "questionType":"TEXT",
+            "giverType":"STUDENTS",
+            "recipientType":"INSTRUCTORS",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                
+            ],
+            "showGiverNameTo":[
+                
+            ],
+            "showRecipientNameTo":[
+                
+            ]
+            
+        }
+        
+    }
+    
+}
