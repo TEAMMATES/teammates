@@ -269,25 +269,7 @@ function bindCopyButton() {
 
     $('#button_copy_submit').on('click', function(e){
         e.preventDefault();
-
-        var newFeedbackSessionName = $('#modalCopiedSessionName').val();
-
-        if(newFeedbackSessionName.trim() == ""){
-            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_EMPTY, true);
-            $('#copyModal').modal('hide');
-            return false;
-        } else if (!isFeedbackSessionNameValid(newFeedbackSessionName)) {
-            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAMEINVALID, true);
-            $('#copyModal').modal('hide');
-            return false;
-        } else if (!isFeedbackSessionNameLengthValid(newFeedbackSessionName)) {
-            setStatusMessage(DISPLAY_FEEDBACK_SESSION_NAME_LENGTHINVALID, true);
-            $('#copyModal').modal('hide');
-            return false;
-        }
-
         $('#copyModalForm').submit();
-
         return false;
     });
 }

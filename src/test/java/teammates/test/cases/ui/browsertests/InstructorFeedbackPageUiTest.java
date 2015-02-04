@@ -437,13 +437,13 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
         feedbackPage.copyFeedbackSession("", newSession.courseId);
-        feedbackPage.verifyStatus("Feedback session name must not be empty.");
+        feedbackPage.verifyStatus("\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. The value of feedback session name should be no longer than 38 characters. It should not be empty.");
         
         ______TS("Failure case: copy fail since the feedback session name starts with (");
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         
-        feedbackPage.copyFeedbackSession("(New Session) ", newSession.courseId);
-        feedbackPage.verifyStatus("Feedback session name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).");
+        feedbackPage.copyFeedbackSession("(New Session)", newSession.courseId);
+        feedbackPage.verifyStatus("\"(New Session)\" is not acceptable to TEAMMATES as feedback session name because it starts with a non-alphanumeric character. All feedback session name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).");
         
     }
 
