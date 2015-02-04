@@ -702,7 +702,7 @@
         
 
         <!-- Modal -->
-        <div class="modal fade" id="remindModal" tabindex="-1" role="dialog" aria-labelledby="remindModal" aria-hidden="true">
+        <div class="modal fade" id="remindModal" tabind ex="-1" role="dialog" aria-labelledby="remindModal" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <form method="post" name="form_remind_list" role="form"
@@ -790,7 +790,7 @@
                                     value="" id="modalCourseId">
                             <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>"
                                     value="<%=data.account.googleId%>">
-                    </form>
+                    </form>     
               </div>
               <div class="modal-footer margin-0">
                 <button type="button" class="btn btn-primary" id="button_copy_submit" disabled="disabled">Copy</button>
@@ -798,9 +798,11 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> 
+    </div id="genMsg">
+     <br> <b>Archived sessions are not displayed on the table.</b>
+    <div>
     </div>
-
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
 </html>
