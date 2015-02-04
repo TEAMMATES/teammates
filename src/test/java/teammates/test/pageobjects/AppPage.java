@@ -295,6 +295,7 @@ public abstract class AppPage {
     public <T extends AppPage> T goToPreviousPage(Class<T> typeOfPreviousPage) {
         browser.driver.navigate().back();
         waitForPageToLoad();
+        switchToNewWindow();
         return changePageType(typeOfPreviousPage);
     }
 
