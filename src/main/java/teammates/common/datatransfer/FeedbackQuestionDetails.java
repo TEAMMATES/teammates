@@ -166,9 +166,9 @@ public abstract class FeedbackQuestionDetails {
     public String getNoResponseTextInHtml(String giverEmail, String recipientEmail,
             FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
-        return "<span class=\"color_neutral\"><i>" + 
+        return "<i>" + 
                Sanitizer.sanitizeForHtml(getNoResponseText(giverEmail, recipientEmail, bundle, question)) + 
-               "</i></span>";
+               "</i>";
     }
     
     public boolean shouldShowNoResponseText(String giverEmail, String recipientEmail, FeedbackQuestionAttributes question) {

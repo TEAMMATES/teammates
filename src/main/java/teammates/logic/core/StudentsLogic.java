@@ -289,6 +289,25 @@ public class StudentsLogic {
             fsLogic.updateRespondantsForStudent(originalEmail, student.email, student.course);
         }
     }
+    
+    public void resetStudentGoogleId(String originalEmail, String courseId, boolean hasDocument) 
+            throws EntityDoesNotExistException, InvalidParametersException {
+        // Edit student uses KeepOriginal policy, where unchanged fields are set
+        // as null. Hence, we can't do isValid() for student here.
+        // After updateWithExistingRecordWithGoogleIdReset method called,
+        // the student should be valid
+    
+        studentsDb.verifyStudentExists(courseId, originalEmail);        
+        StudentAttributes originalStudent = getStudentForEmail(courseId, originalEmail);
+        originalStudent.googleId = null;
+        
+        if(!originalStudent.isValid()) {
+            throw new InvalidParametersException(originalStudent.getInvalidityInfo());
+        }     
+        studentsDb.updateStudent(originalStudent.course, originalEmail, originalStudent.name, 
+                                 originalStudent.team, originalStudent.section, originalStudent.email, 
+                                 originalStudent.googleId, originalStudent.comments, hasDocument);  
+    }
 
     public List<StudentAttributes> enrollStudents(String enrollLines,
             String courseId)
@@ -541,6 +560,32 @@ public class StudentsLogic {
         Emails emailMgr = new Emails();
         try {
             MimeMessage email = emailMgr.generateStudentCourseJoinEmail(course, studentData);
+            emailMgr.sendEmail(email);
+            return email;
+        } catch (Exception e) {
+            throw new RuntimeException("Unexpected error while sending email", e);
+        }
+        
+    }
+    
+    public MimeMessage sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail) 
+            throws EntityDoesNotExistException {
+        
+        CourseAttributes course = coursesLogic.getCourse(courseId);
+        if (course == null) {
+            throw new EntityDoesNotExistException(
+                    "Course does not exist [" + courseId + "], trying to send invite email to student [" + studentEmail + "]");
+        }
+        
+        StudentAttributes studentData = getStudentForEmail(courseId, studentEmail);
+        if (studentData == null) {
+            throw new EntityDoesNotExistException(
+                    "Student [" + studentEmail + "] does not exist in course [" + courseId + "]");
+        }
+        
+        Emails emailMgr = new Emails();
+        try {
+            MimeMessage email = emailMgr.generateStudentCourseRejoinEmailAfterGoogleIdReset(course, studentData);
             emailMgr.sendEmail(email);
             return email;
         } catch (Exception e) {

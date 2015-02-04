@@ -39,7 +39,8 @@ public class StudentSearchResultBundle extends SearchResultBundle {
             instructors.put(ins.courseId, ins);
         }
         
-        for(ScoredDocument doc:results){
+        List<ScoredDocument> filteredResults = filterOutCourseId(results, googleId);
+        for(ScoredDocument doc:filteredResults){
             StudentAttributes student = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.STUDENT_ATTRIBUTE).getText(), 
                     StudentAttributes.class);

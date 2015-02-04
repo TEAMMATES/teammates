@@ -53,6 +53,7 @@ public class Emails {
     public static final String SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED = "TEAMMATES: Feedback session results published";
     public static final String SUBJECT_PREFIX_PENDING_COMMENTS_CLEARED = "TEAMMATES: You have new comments";
     public static final String SUBJECT_PREFIX_STUDENT_COURSE_JOIN = "TEAMMATES: Invitation to join course";
+    public static final String SUBJECT_PREFIX_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET = "TEAMMATES: Your account has been reset for course";
     public static final String SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN = "TEAMMATES: Invitation to join course as an instructor";
     public static final String SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR = "TEAMMATES (%s): New System Exception: %s";
     public static final String SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT = "TEAMMATES: Welcome to TEAMMATES!";
@@ -736,6 +737,24 @@ public class Emails {
         return message;
     }
     
+    public MimeMessage generateStudentCourseRejoinEmailAfterGoogleIdReset(
+            CourseAttributes course, StudentAttributes student) 
+                    throws AddressException, MessagingException, UnsupportedEncodingException {
+
+        MimeMessage message = getEmptyEmailAddressedToEmail(student.email);
+        message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET
+                + " [%s][Course ID: %s]", course.name, course.id));
+
+        String emailBody = EmailTemplates.USER_COURSE_JOIN;
+        emailBody = fillUpStudentRejoinAfterGoogleIdResetFragment(student, emailBody);
+        emailBody = emailBody.replace("${userName}", student.name);
+        emailBody = emailBody.replace("${courseName}", course.name);
+
+        message.setContent(emailBody, "text/html");
+        return message;
+    }
+    
+    
     public MimeMessage generateNewInstructorAccountJoinEmail(InstructorAttributes instructor,String shortName, String institute) 
                              throws AddressException,MessagingException,UnsupportedEncodingException {
 
@@ -936,6 +955,23 @@ public class Emails {
         emailBody = emailBody.replace("${joinUrl}", joinUrl);
         return emailBody;
     }
+    
+    
+    private String fillUpStudentRejoinAfterGoogleIdResetFragment(StudentAttributes s, String emailBody) {
+        emailBody = emailBody.replace("${joinFragment}",
+                EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET);
+
+        String joinUrl;
+        if (s != null) {    
+            joinUrl = s.getRegistrationUrl();
+        } else {
+            joinUrl = "{The join link unique for each student appears here}";
+        }
+
+        emailBody = emailBody.replace("${joinUrl}", joinUrl);
+        return emailBody;
+    }
+    
     
     private String fillUpInstructorJoinFragment(InstructorAttributes instructor, String emailBody) {
         emailBody = emailBody.replace("${joinFragment}",
