@@ -1,5 +1,10 @@
 package teammates.common.datatransfer;
 
+import java.util.Map;
+
+import teammates.common.util.Const;
+import teammates.common.util.HttpRequestHelper;
+
 
 /** A class holding the details for the response of a specific question type.
  * This abstract class is inherited by concrete Feedback*ResponseDetails
@@ -60,7 +65,20 @@ public abstract class FeedbackResponseDetails {
         return getAnswerCsv(question.getQuestionDetails());
     }
     
-    
+    public boolean isQuestionSkipped(Map<String, String[]> requestParameters, int questionIndx, int responseIndx) {
+        String[] answer = HttpRequestHelper.getValuesFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx);
+        
+        boolean allAnswersEmpty = true;
+        if(answer!=null){
+            for(int i=0 ; i<answer.length ; i++){
+                if(answer[i]!=null || !answer[i].trim().isEmpty()){
+                    allAnswersEmpty = false;
+                }
+            }
+        }
+        
+        return answer != null && !allAnswersEmpty;
+    }
     
     public static FeedbackResponseDetails createResponseDetails(
             String[] answer, FeedbackQuestionType questionType,

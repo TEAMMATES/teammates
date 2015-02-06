@@ -130,6 +130,17 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             optionListHtml.append(optionFragment + Const.EOL);
         }
         
+        // additional button for user to submit a blank response
+        String optionFragment = 
+                FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+                        "${qnIdx}", Integer.toString(qnIdx),
+                        "${responseIdx}", Integer.toString(responseIdx),
+                        "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
+                        "${checked}", existingMsqResponse.contains(choices.get(choices.size())) ? "checked=\"checked\"" : "",
+                        "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                        "${msqChoiceValue}",  "");
+        optionListHtml.append(optionFragment + Const.EOL);
+        
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM,
                 "${msqSubmissionFormOptionFragments}", optionListHtml.toString());
@@ -155,6 +166,18 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment + Const.EOL);
         }
+        
+        // additional button for user to submit a blank response
+        String optionFragment = 
+                FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+                        "${qnIdx}", Integer.toString(qnIdx),
+                        "${responseIdx}", Integer.toString(responseIdx),
+                        "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
+                        "${checked}", "",
+                        "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                        "${msqChoiceValue}", "");
+        optionListHtml.append(optionFragment + Const.EOL);
+        
         
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM,

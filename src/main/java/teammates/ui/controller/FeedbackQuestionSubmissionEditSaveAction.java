@@ -174,21 +174,12 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         //This field can be null if the question is skipped
         String[] answer = HttpRequestHelper.getValuesFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx);
         
-        boolean allAnswersEmpty = true;
-        if(answer!=null){
-            for(int i=0 ; i<answer.length ; i++){
-                if(answer[i]!=null || !answer[i].trim().isEmpty()){
-                    allAnswersEmpty = false;
-                }
-            }
-        }
-        
-        if(answer != null && !allAnswersEmpty) {
-            FeedbackResponseDetails responseDetails = 
-                    FeedbackResponseDetails.createResponseDetails(
-                            answer,
-                            questionDetails.questionType,
-                            questionDetails);
+        FeedbackResponseDetails responseDetails = 
+                FeedbackResponseDetails.createResponseDetails(
+                        answer,
+                        questionDetails.questionType,
+                        questionDetails);
+        if (responseDetails.isQuestionSkipped(requestParameters, questionIndx, responseIndx)) {
             response.setResponseDetails(responseDetails);
         } else {
             response.responseMetaData = new Text("");
