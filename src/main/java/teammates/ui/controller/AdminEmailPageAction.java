@@ -17,22 +17,29 @@ public class AdminEmailPageAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         
         new GateKeeper().verifyAdminPrivileges(account);
+        AdminEmailPageData data = new AdminEmailPageData(account);
         
         String emailContent = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_CONTENT);
+        
+        if(emailContent == null){
+            return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
+        }
         
         Logic logic = new Logic();
         
         Emails emailsManager = new Emails();
         
-        try {
-            MimeMessage email = emailsManager.generateAdminEmail(emailContent);
-            emailsManager.sendEmail(email);
-        } catch (UnsupportedEncodingException | MessagingException e) {
-            e.printStackTrace();
-        }
-
+        if(!emailContent.isEmpty()){
         
-        AdminEmailPageData data = new AdminEmailPageData(account);
+            try {
+                MimeMessage email = emailsManager.generateAdminEmail(emailContent);
+                emailsManager.sendEmail(email);
+            } catch (UnsupportedEncodingException | MessagingException e) {
+                e.printStackTrace();
+            }
+        
+        }
+        
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
     }
 
