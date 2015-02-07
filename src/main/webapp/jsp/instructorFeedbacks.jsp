@@ -685,8 +685,9 @@
             <%
                 }
             %>
-        </table>
-        <br> <br> <br>
+		    </table>
+		<p align=center>Note: The table above does not contain sessions from archived courses. To view sessions from an archived course, unarchive the course first.<p>
+        <br> <br>
         <%
                 if (sessionIdx == -1) {
         %>
@@ -700,7 +701,6 @@
         %>
         </div>
         
-
         <!-- Modal -->
         <div class="modal fade" id="remindModal" tabind ex="-1" role="dialog" aria-labelledby="remindModal" aria-hidden="true">
           <div class="modal-dialog">
@@ -800,7 +800,6 @@
           </div>
         </div> 
     </div id="genMsg">
-     <br> <b>Archived sessions are not displayed on the table.</b>
     <div>
     </div>
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
