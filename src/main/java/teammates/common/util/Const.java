@@ -688,6 +688,8 @@ public class Const {
         public static final String ADMIN_SESSIONS_PAGE = "/admin/adminSessionsPage";
         public static final String ADMIN_SEARCH_PAGE = "/admin/adminSearchPage";
         public static final String ADMIN_EMAIL_PAGE = "/admin/adminEmailPage";
+        public static final String ADMIN_EMAIL_FILE_UPLOAD = "/admin/adminEmailFileUpload";
+        public static final String ADMIN_EMAIL_FILE_SERVE = "/admin/adminEmailFileServe";
         
         public static final String AUTOMATED_EVAL_OPENING_REMINDERS = "/evaluationopeningreminders";
         public static final String AUTOMATED_EVAL_CLOSING_REMINDERS = "/evaluationclosingreminders";        

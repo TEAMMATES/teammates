@@ -8,4 +8,6 @@ public class AdminEmailPageData extends PageData {
         super(account);
     }
     
+    public boolean isFileUploaded;
+    public String fileSrcUrl;
 }

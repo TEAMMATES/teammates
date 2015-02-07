@@ -2,9 +2,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@ taglib uri="http://ckeditor.com" prefix="ckeditor"%>
 <%@ page import="teammates.ui.controller.AdminEmailPageData"%>
 <%@ page import="teammates.common.util.Const"%>
+<%@ page
+    import="com.google.appengine.api.blobstore.BlobstoreServiceFactory"%>
+<%@ page import="com.google.appengine.api.blobstore.BlobstoreService"%>
+
+<%
+	BlobstoreService blobstoreService = BlobstoreServiceFactory
+			.getBlobstoreService();
+%>
 
 <%
 	AdminEmailPageData data = (AdminEmailPageData) request
@@ -31,10 +38,24 @@
 <script type="text/javascript"
     src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/js/adminSearch.js"></script>
+
+<script type="text/javascript" src="/js/adminEmail.js"></script>
+<script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
+
 
 </head>
 <body>
+
+
+    <div>
+        <form id="adminEmailFileForm"
+            action="<%=blobstoreService
+					.createUploadUrl(Const.ActionURIs.ADMIN_EMAIL_FILE_UPLOAD)%>"
+            method="POST" enctype="multipart/form-data">
+            <input type="file" name="adminEmailFile" id="adminEmailFile">
+        </form>
+    </div>
+
     <div id="dhtmltooltip"></div>
     <jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
 
@@ -46,31 +67,22 @@
                 <div id="topOfPage"></div>
                 <div id="headerOperation" class="page-header">
                     <h1>Admin Email</h1>
-
-
                 </div>
 
 
                 <form action="/admin/adminEmailPage" method="post">
                     <p>
-                        <textarea cols="80" id="adminEmailBox" name="<%=Const.ParamsNames.ADMIN_EMAIL_CONTENT%>"
+                        <textarea cols="80" id="adminEmailBox"
+                            name="<%=Const.ParamsNames.ADMIN_EMAIL_CONTENT%>"
                             rows="10"></textarea>
                     </p>
                     <p>
                         <input type="submit" value="Submit" />
                     </p>
                 </form>
-                <ckeditor:replace replace="adminEmailBox"
-                    basePath="../ckeditor/" />
-
                 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-
             </div>
-
-
         </div>
-
-
     </div>
 
 
