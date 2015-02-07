@@ -136,7 +136,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         "${qnIdx}", Integer.toString(qnIdx),
                         "${responseIdx}", Integer.toString(responseIdx),
                         "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
-                        "${checked}", existingMsqResponse.contains(choices.get(choices.size())) ? "checked=\"checked\"" : "",
+                        "${checked}", existingMsqResponse.contains("") ? "checked=\"checked\"" : "",
                         "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         "${msqChoiceValue}",  "");
         optionListHtml.append(optionFragment + Const.EOL);
@@ -455,7 +455,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         for(FeedbackResponseAttributes response : responses){
             FeedbackMsqResponseDetails frd = (FeedbackMsqResponseDetails) response.getResponseDetails();
             if(!otherEnabled){
-                if(!msqChoices.containsAll(frd.answers) && generateOptionsFor == FeedbackParticipantType.NONE){
+                List<String> validChoices = msqChoices;
+                validChoices.add("");
+                if(!validChoices.containsAll(frd.answers) && generateOptionsFor == FeedbackParticipantType.NONE){
                     errors.add(frd.getAnswerString() + ERROR_INVALID_OPTION);
                 }
             }
