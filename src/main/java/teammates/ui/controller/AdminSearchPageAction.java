@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -31,7 +32,7 @@ public class AdminSearchPageAction extends Action {
         new GateKeeper().verifyAdminPrivileges(account);
            
         String searchKey = getRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_KEY);
-        String searchButtonHit = getRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_BUTTON_HIT);       
+        String searchButtonHit = getRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_BUTTON_HIT);    
         
         AdminSearchPageData data = new AdminSearchPageData(account);
         
@@ -39,7 +40,10 @@ public class AdminSearchPageAction extends Action {
             
             if(searchButtonHit != null){             
                 statusToUser.add("Search key cannot be empty");
+                statusToAdmin = "Invalid Search: Search key cannot be empty";
                 isError = true;
+            } else {
+                statusToAdmin = "AdminSearchPaga Page Load";
             }
             return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
         }
@@ -58,20 +62,51 @@ public class AdminSearchPageAction extends Action {
         data = putInstructorHomePageLinkIntoMap(data.instructorResultBundle.instructorList, data);
         data = putInstructorCourseJoinLinkIntoMap(data.instructorResultBundle.instructorList, data);
         
+        data = putCourseNameIntoMap(data.studentResultBundle.studentList, 
+                                    data.instructorResultBundle.instructorList,
+                                    data);
+        
         
         int numOfResults = data.studentResultBundle.getResultSize() 
                            + data.instructorResultBundle.getResultSize();
         
         if(numOfResults > 0){
             statusToUser.add("Total results found: " + numOfResults);
+            statusToAdmin = "Search Key: " + searchKey + "<br>" + "Total results found: " + numOfResults;
             isError = false;
         } else {
             statusToUser.add("No result found, please try again");
+            statusToAdmin = "Search Key: " + searchKey + "<br>" + "No result found";
             isError = true;
         }
               
         
         return createShowPageResult(Const.ViewURIs.ADMIN_SEARCH, data);
+    }
+    
+    private AdminSearchPageData putCourseNameIntoMap(List<StudentAttributes> students, List<InstructorAttributes> instructors, AdminSearchPageData data){
+        
+        Logic logic = new Logic();
+        
+        for(StudentAttributes student : students){
+            if(student.course != null && !data.courseIdToCourseNameMap.containsKey(student.course)){
+                CourseAttributes course = logic.getCourse(student.course);
+                if(course != null){
+                    data.courseIdToCourseNameMap.put(student.course, course.name);
+                }
+            }
+        }
+        
+        for(InstructorAttributes instructor : instructors){
+            if(instructor.courseId != null && !data.courseIdToCourseNameMap.containsKey(instructor.courseId)){
+                CourseAttributes course = logic.getCourse(instructor.courseId);
+                if(course != null){
+                    data.courseIdToCourseNameMap.put(instructor.courseId, course.name);
+                }
+            }
+        }
+        
+        return data;
     }
     
     private AdminSearchPageData putInstructorCourseJoinLinkIntoMap(List<InstructorAttributes> instructors, AdminSearchPageData data){

@@ -123,7 +123,7 @@ public class FeedbackSessionsLogic {
             question.courseId = newCourseId;
             question.feedbackSessionName = newFeedbackSessionName;
             question.creatorEmail =instructorEmail;
-            fqLogic.createFeedbackQuestion(question);
+            fqLogic.createFeedbackQuestionNoIntegrityCheck(question, question.questionNumber);
         }
         
         return copiedFeedbackSession;

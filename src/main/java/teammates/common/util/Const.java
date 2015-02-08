@@ -685,6 +685,7 @@ public class Const {
         public static final String ADMIN_ACTIVITY_LOG_PAGE = "/admin/adminActivityLogPage";
         public static final String ADMIN_SESSIONS_PAGE = "/admin/adminSessionsPage";
         public static final String ADMIN_SEARCH_PAGE = "/admin/adminSearchPage";
+        public static final String ADMIN_STUDENT_GOOGLE_ID_RESET = "/admin/adminStudentGoogleIdReset";
         
         public static final String AUTOMATED_EVAL_OPENING_REMINDERS = "/evaluationopeningreminders";
         public static final String AUTOMATED_EVAL_CLOSING_REMINDERS = "/evaluationclosingreminders";        
@@ -869,6 +870,9 @@ public class Const {
         public static final String JOIN_COURSE_GOOGLE_ID_BELONGS_TO_DIFFERENT_USER = "The Google ID %s belongs to an existing user in the course."
                 + "Please login again using a different Google account, and try to join the course again.";
         
+        public static final String STUDENT_GOOGLEID_RESET = "The student's google id has been reset";
+        public static final String STUDENT_GOOGLEID_RESET_FAIL = "An error occurred when trying to reset student's google id";
+        
         public static final String STUDENT_EDITED = "The student has been edited successfully";
         public static final String STUDENT_DELETED = "The student has been removed from the course";
         public static final String STUDENT_EMAIL_CONFLIT = "Trying to update to an email that is already used by: ";
@@ -993,9 +997,17 @@ public class Const {
                 + "<a href='/instructorHelp.html#gs' target='_blank'>Getting Started Guide</a>.<br>A video tour"
                 + " is also available in our <a href='/index.html' target='_blank'>home page</a>.";
         
+        public static final String HINT_FOR_NO_SESSIONS_STUDENT = "Currently, there are no open feedback sessions in the course %s. When a session is open for submission you will be notified.";
+        public static final String STUDENT_UPDATE_PROFILE = "Meanwhile, you can update your profile <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
+        public static final String STUDENT_UPDATE_PROFILE_SHORTNAME = "Meanwhile, you can provide a name that you would prefer to be called by <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
+        public static final String STUDENT_UPDATE_PROFILE_EMAIL = "Meanwhile, you can provide an email for your instructors to contact you beyond graduation <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
+        public static final String STUDENT_UPDATE_PROFILE_PICTURE = "Meanwhile, you can upload a profile picture <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
+        public static final String STUDENT_UPDATE_PROFILE_MOREINFO = "Meanwhile, you can provide more information about yourself <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
+        public static final String STUDENT_UPDATE_PROFILE_NATIONALITY = "Meanwhile, you can provide your nationality <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
+        
         // Messages that are templates only
         /** Template String. Parameters: Student's name, Evaluation name, Course ID */
-        public static final String STUDENT_COURSE_JOIN_SUCCESSFUL = "You have been successfully added to the course (%s).";
+        public static final String STUDENT_COURSE_JOIN_SUCCESSFUL = "You have been successfully added to the course %s.";
         public static final String INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED = "You have edited %s's submission for evaluation %s in course %s successfully.<br />"
                 + "The change will not be reflected here until you <span class='color_red bold'>REFRESH</span> the page.";
         /** Template String. Parameters: Evaluation name, Course ID */

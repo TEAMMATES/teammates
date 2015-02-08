@@ -119,7 +119,7 @@ public class BackDoorLogic extends Logic {
             }
         }
         accountsDb.createAccounts(instructorAccounts, false);
-        instructorsDb.createInstructors(instructors.values());
+        instructorsDb.createInstructorsWithoutSearchability(instructors.values());
 
         HashMap<String, StudentAttributes> students = dataBundle.students;
         List<AccountAttributes> studentAccounts = new ArrayList<AccountAttributes>();

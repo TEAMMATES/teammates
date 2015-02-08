@@ -63,7 +63,8 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         }
         
         cursor = results.getCursor();
-        for(ScoredDocument doc:results){
+        List<ScoredDocument> filteredResults = filterOutCourseId(results, googleId);
+        for(ScoredDocument doc:filteredResults){
             //get FeedbackResponseComment from results
             FeedbackResponseCommentAttributes comment = new Gson().fromJson(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE).getText(), 

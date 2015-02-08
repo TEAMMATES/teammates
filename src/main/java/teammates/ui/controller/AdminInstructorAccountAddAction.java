@@ -14,10 +14,13 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
+import teammates.common.util.ThreadHelper;
+import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.common.util.FieldValidator;
 import teammates.logic.api.GateKeeper;
@@ -26,6 +29,8 @@ import teammates.logic.backdoor.BackDoorLogic;
 import com.google.gson.Gson;
 
 public class AdminInstructorAccountAddAction extends Action {
+    
+    private static int PERSISTENCE_WAITING_DURATION = 4000;
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -48,22 +53,37 @@ public class AdminInstructorAccountAddAction extends Action {
         data.instructorEmail = data.instructorEmail.trim();
         data.instructorInstitution = data.instructorInstitution.trim();        
         
-        String joinLink = "";
-        
+        String joinLink = ""; 
+                      
         try {
-                       
             logic.verifyInputForAdminHomePage(data.instructorShortName, data.instructorName, data.instructorInstitution, data.instructorEmail);
-            
-            BackDoorLogic backDoor = new BackDoorLogic();
-            String CourseId = importDemoData(data);              
-            InstructorAttributes instructor = backDoor.getInstructorsForCourse(CourseId).get(0);   
-            
-            joinLink = logic.sendJoinLinkToNewInstructor(instructor, data.instructorShortName, data.instructorInstitution);
-            
-        } catch (Exception e) {
-            setStatusForException(e);
+        } catch (InvalidParametersException e1) {
+            setStatusForException(e1);
             return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
         }
+            
+       BackDoorLogic backDoor = new BackDoorLogic();     
+       String courseId = null;    
+       
+       try {
+            courseId = importDemoData(data);             
+        } catch (Exception e) {  
+            
+            String retryUrl = Url.addParamToUrl(Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD, Const.ParamsNames.INSTRUCTOR_SHORT_NAME, data.instructorShortName);
+            retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_NAME, data.instructorName);
+            retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_EMAIL, data.instructorEmail);
+            retryUrl = Url.addParamToUrl(retryUrl, Const.ParamsNames.INSTRUCTOR_INSTITUTION, data.instructorInstitution);
+                       
+            statusToUser.add("<a href=" + retryUrl + ">Exception in Importing Data, Retry</a>");
+            String message = "<span class=\"text-danger\">Servlet Action failure in AdminInstructorAccountAddAction" + "<br>";
+            message += e.getClass() + ": " + TeammatesException.toStringWithStackTrace(e) + "<br></span>";           
+            statusToUser.add("<br>" + message);
+            statusToAdmin = message;
+            return createShowPageResult(Const.ViewURIs.ADMIN_HOME, data);
+        }
+        
+        List<InstructorAttributes> instructorList = backDoor.getInstructorsForCourse(courseId);
+        joinLink = logic.sendJoinLinkToNewInstructor(instructorList.get(0), data.instructorShortName, data.instructorInstitution);
 
         statusToUser.add("Instructor " + data.instructorName
                 + " has been successfully created with join link:<br>" + joinLink);
@@ -113,21 +133,41 @@ public class AdminInstructorAccountAddAction extends Action {
         DataBundle data = gson.fromJson(jsonString, DataBundle.class);
         
         BackDoorLogic backdoor = new BackDoorLogic();
-        backdoor.persistDataBundle(data);        
+        
+        try{
+            backdoor.persistDataBundle(data);        
+        } catch (EntityDoesNotExistException | NullPointerException e){
+            int elapsedTime = 0;
+            if(PERSISTENCE_WAITING_DURATION > 0){
+                while (elapsedTime < Config.PERSISTENCE_CHECK_DURATION) {
+                    ThreadHelper.waitBriefly();
+                    elapsedTime += ThreadHelper.WAIT_DURATION;
+                }
+                
+                backdoor.persistDataBundle(data);   
+                statusToUser.add("<br>Data Persistence was Checked Twice in This Request<br>");         
+            }
+        }
+        
         
         //produce searchable documents
         List<CommentAttributes> comments = backdoor.getCommentsForGiver(courseId, helper.instructorEmail);
         List<FeedbackResponseCommentAttributes> frComments = backdoor.getFeedbackResponseCommentForGiver(courseId, helper.instructorEmail);
         List<StudentAttributes> students = backdoor.getStudentsForCourse(courseId);
+        List<InstructorAttributes> instructors = backdoor.getInstructorsForCourse(courseId);
         
-        for(CommentAttributes comment:comments){
+        for(CommentAttributes comment : comments){
             backdoor.putDocument(comment);
         }
-        for(FeedbackResponseCommentAttributes comment:frComments){
+        for(FeedbackResponseCommentAttributes comment : frComments){
             backdoor.putDocument(comment);
         }
-        for(StudentAttributes student:students){
+        for(StudentAttributes student : students){
             backdoor.putDocument(student);
+        }
+        
+        for(InstructorAttributes instructor : instructors){
+            backdoor.putDocument(instructor);
         }
         
         return courseId;
