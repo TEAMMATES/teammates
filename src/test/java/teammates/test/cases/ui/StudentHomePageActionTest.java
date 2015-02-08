@@ -20,10 +20,12 @@ import teammates.logic.core.EvaluationsLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.test.cases.common.EvaluationAttributesTest;
 import teammates.test.driver.AssertHelper;
+import teammates.test.util.Priority;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentHomePageAction;
 import teammates.ui.controller.StudentHomePageData;
 
+@Priority(-2)
 public class StudentHomePageActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
