@@ -2,7 +2,6 @@ jQuery.fn.reverse = [].reverse;
 
 var FEEDBACK_RESPONSE_RECIPIENT = "responserecipient";
 var FEEDBACK_RESPONSE_TEXT = "responsetext";
-var NONE_OF_THE_ABOVE_TEXT = "None of the above";
 
 // On body load event
 $(document).ready(function () {
@@ -29,7 +28,7 @@ $(document).ready(function () {
     disallowNonNumericEntries($('input.pointsBox'), false, false);
 
     prepareContribQuestions();
-
+    prepareMSQQuestions();
     prepareConstSumQuestions();
     updateConstSumMessages();
 
@@ -62,7 +61,7 @@ function prepareContribQuestions() {
 }
 
 // Prepare MSQ questions 
-function prepareContribQuestions() {
+function prepareMSQQuestions() {
     // Get index of contribution questions
     var MsqQuestionNum = getQuestionTypeNumbers("MSQ");
     for(var i=0 ; i<MsqQuestionNum.length ; i++) {
@@ -73,7 +72,7 @@ function prepareContribQuestions() {
         var options = $("input[name^='responsetext-" + qnNum + "'][value!='']");
 
         // append text beside checkbox
-        noneOfTheAboveOption.parent().append(NONE_OF_THE_ABOVE_TEXT);
+        //noneOfTheAboveOption.parent().append(NONE_OF_THE_ABOVE_TEXT);
 
         // onclick event to reset other options 
         noneOfTheAboveOption.click(function() {

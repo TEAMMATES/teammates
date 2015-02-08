@@ -126,7 +126,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
                             "${checked}", existingMsqResponse.contains(choices.get(i)) ? "checked=\"checked\"" : "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(choices.get(i)));
+                            "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(choices.get(i)),
+                            "${msqChoiceText}",  Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment + Const.EOL);
         }
         
@@ -138,7 +139,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
                         "${checked}", existingMsqResponse.contains("") ? "checked=\"checked\"" : "",
                         "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                        "${msqChoiceValue}",  "");
+                        "${msqChoiceValue}",  "",
+                        "${msqChoiceText}",  "None of the above");
         optionListHtml.append(optionFragment + Const.EOL);
         
         String html = FeedbackQuestionFormTemplates.populateTemplate(
@@ -163,7 +165,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
                             "${checked}", "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(choices.get(i)));
+                            "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(choices.get(i)),
+                            "${msqChoiceTest", Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment + Const.EOL);
         }
         
@@ -175,7 +178,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
                         "${checked}", "",
                         "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                        "${msqChoiceValue}", "");
+                        "${msqChoiceValue}",  "",
+                        "${msqChoiceText}",  "None of the above");
         optionListHtml.append(optionFragment + Const.EOL);
         
         
