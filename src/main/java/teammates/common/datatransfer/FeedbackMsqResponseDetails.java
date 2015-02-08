@@ -30,7 +30,9 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
 
     @Override
     public String getAnswerString() {
-        return StringHelper.toString(answers, ", ");
+        boolean isBlank = answers.size() == 1 && 
+                          answers.get(0).equals("");
+        return isBlank? "None of the above" : StringHelper.toString(answers, ", ");
     }
     
     public List<String> getAnswerStrings() {
@@ -41,13 +43,22 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         StringBuilder htmlBuilder = new StringBuilder();
         
-        htmlBuilder.append("<ul class=\"selectedOptionsList\">");
-        for (String answer : answers) {
-            htmlBuilder.append("<li>");
-            htmlBuilder.append(Sanitizer.sanitizeForHtml(answer));
-            htmlBuilder.append("</li>");
+        boolean isBlank = answers.size() == 1 && 
+                answers.get(0).equals("");
+        if (isBlank) {
+            htmlBuilder.append("None of the above");
+        } else {
+            htmlBuilder.append("<ul class=\"selectedOptionsList\">");
+            for (String answer : answers) {
+                htmlBuilder.append("<li>");
+                
+                String answerText = Sanitizer.sanitizeForHtml(answer);
+                htmlBuilder.append(Sanitizer.sanitizeForHtml(answerText));
+                
+                htmlBuilder.append("</li>");
+            }
+            htmlBuilder.append("</ul>");
         }
-        htmlBuilder.append("</ul>");
         
         return htmlBuilder.toString();
     }
@@ -57,10 +68,16 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         FeedbackMsqQuestionDetails msqDetails = (FeedbackMsqQuestionDetails) questionDetails;
         StringBuilder csvBuilder = new StringBuilder();
         
-        for(String choice : msqDetails.msqChoices) {
-            csvBuilder.append(",");
-            if (this.contains(choice)) {
-                csvBuilder.append(Sanitizer.sanitizeForCsv(choice));
+        boolean isBlank = answers.size() == 1 && 
+                          answers.get(0).equals("");
+        if (isBlank) {
+            csvBuilder.append("None of the above");
+        } else {
+            for(String choice : msqDetails.msqChoices) {
+                csvBuilder.append(",");
+                if (this.contains(choice)) {
+                    csvBuilder.append(Sanitizer.sanitizeForCsv(choice));
+                }
             }
         }
 
@@ -69,7 +86,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
     
     /**
      * Checks if the question has been skipped. 
-     * This function is different from FeedbackResponseDetails::isQuestionSkipped 
+     * This function is different from FeedbackResponseDetails#isQuestionSkipped 
      * as it allows empty strings
      */
     @Override
@@ -79,9 +96,6 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         boolean allAnswersEmpty = true;
         if(answer!=null){
             for(int i=0 ; i<answer.length ; i++){
-                System.out.println("<><><><>");
-                System.out.println(answer[i] != null);
-                
                 if(answer[i]!=null){
                     allAnswersEmpty = false;
                 }
