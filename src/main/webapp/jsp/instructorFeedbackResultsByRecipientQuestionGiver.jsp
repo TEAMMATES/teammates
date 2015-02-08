@@ -234,7 +234,7 @@
             <%
                     if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) {
             %>
-                        <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(email)%>">
+                        <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-profile-link="<%=data.getProfileLinkForInstructor(email)%>" data-link="<%=data.getProfilePictureLink(email)%>">
                             <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                             <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
@@ -406,7 +406,7 @@
                 <div class="panel-heading">
                     To: 
                     <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) { %>
-                        <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
+                        <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-profile-link="<%=data.getProfileLinkForInstructor(targetEmail)%>" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
                             <strong><%=responsesForRecipient.getKey()%></strong>
                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                             <a class="link-in-dark-bg" href="mailTo:<%= targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmail%>]</a>
@@ -487,7 +487,7 @@
                                                 if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, responseEntry.giverEmail).isEmpty()) {
                                         %>
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(responseEntry.giverEmail)%>">
+                                                        <div class="profile-pic-icon-click align-center" data-profile-link="<%=data.getProfileLinkForInstructor(giverName)%>" data-link="<%=data.getProfilePictureLink(responseEntry.giverEmail)%>">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -521,7 +521,7 @@
                                                                                     %>
                                                         <tr class="pending_response_row">
                                                             <td class="middlealign">
-                                                                <div class="profile-pic-icon-click align-center" data-link="<%=data.getProfilePictureLink(possibleGiverWithNoResponse)%>">
+                                                                <div class="profile-pic-icon-click align-center" data-profile-link="<%=data.getProfileLinkForInstructor(possibleGiverWithNoResponse)%>" data-link="<%=data.getProfilePictureLink(possibleGiverWithNoResponse)%>">
                                                                     <a class="student-profile-pic-view-link btn-link">
                                                                         View Photo
                                                                     </a>
@@ -575,7 +575,7 @@
             <%
                 if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) {
             %>
-                    <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(email)%>">
+                    <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-profile-link="<%=data.getProfileLinkForInstructor(email)%>" data-link="<%=data.getProfilePictureLink(email)%>">
                         <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                         <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
@@ -639,7 +639,7 @@
                                                     <%
                                                 	   if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) {
                                                     %>
-                                                        <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(teamMember)%>">
+                                                        <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-profile-link="<%=data.getProfileLinkForInstructor(teamMember)%>" data-link="<%=data.getProfilePictureLink(teamMember)%>">
                                                             <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
                                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                             <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
@@ -728,7 +728,7 @@
                                                     <%
                                                     	if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, teamMember).isEmpty()) {
                                                     %>
-                                                            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(teamMember)%>">
+                                                            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-profile-link="<%=data.getProfileLinkForInstructor(teamMember)%>" data-link="<%=data.getProfilePictureLink(teamMember)%>">
                                                                 <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
                                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                 <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>

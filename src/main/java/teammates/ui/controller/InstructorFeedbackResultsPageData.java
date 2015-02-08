@@ -61,4 +61,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 + "&" + Const.ParamsNames.COURSE_ID + "=" + StringHelper.encrypt(instructor.courseId)
                 + "&" + Const.ParamsNames.USER_ID + "=" + account.googleId;
     }
+    
+    public String getProfileLinkForInstructor(String studentEmail) {
+        
+        return Const.ActionURIs.STUDENT_PROFILE_FOR_INSTRUCTOR
+                + "?" + Const.ParamsNames.STUDENT_EMAIL + "=" + StringHelper.encrypt(studentEmail)
+                + "&" + Const.ParamsNames.COURSE_ID + "=" + StringHelper.encrypt(instructor.courseId)
+                + "&" + Const.ParamsNames.USER_ID + "=" + account.googleId;
+    }
 }
