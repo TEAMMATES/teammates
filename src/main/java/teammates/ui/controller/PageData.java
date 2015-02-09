@@ -894,8 +894,8 @@ public class PageData {
             "title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
             (hasRemind ? "onclick=\"return toggleRemindStudents('" + session.feedbackSessionName + "');\" " : "") +
             disableRemindSessionStr + ">Remind</a>" +
-            "<button type=\"button\" class=\"btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test" + 
-            (hasRemind ? "\"" : DISABLED) +
+            "<button type=\"button\" class=\"btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test\"" + 
+            disableRemindSessionStr +
             "data-toggle=\"dropdown\" aria-expanded=\"false\"> <span class=\"caret\"></span></button> " +
             "<ul class=\"dropdown-menu\" role=\"menu\">" +
             "<li><a href=\"" + getInstructorFeedbackSessionRemindLink(session.courseId,session.feedbackSessionName) + "\" " +
@@ -905,7 +905,7 @@ public class PageData {
             disableRemindSessionStr + ">Remind all students</a></li>" +
             "<li><a href=\"#\" data-actionlink=\"" + 
             getInstructorFeedbackSessionRemindParticularStudentsPageLink(session.courseId, session.feedbackSessionName) + "\" " +
-            "class=\"session-remind-particular-for-test\" " +
+            "class=\"session-remind-particular-for-test\" " + disableRemindSessionStr +
             "data-courseid=\"" + session.courseId + "\" data-fsname=\"" + session.feedbackSessionName + "\" " +
             "data-toggle=\"modal\" data-target=\"#remindModal\">Remind particular students</a></li></ul></div> "
         );

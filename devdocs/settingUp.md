@@ -73,8 +73,9 @@ Important: When a version is specified, please install that version instead of t
       Institute: `National University of Singapore` 
 7. On the `dev server`, emails which contains the join link will not be sent to the added instructor.<br>
    Instead, you can use the join link given after adding an intructor, to complete the joining process.<br>
-   Remember to change the URL of the link if necessary.<br>
-   e.g. Change `http://teammates-john.appspot.com/page/instructorCourseJoin?...` to `http://localhost:8888/page/instructorCourseJoin?...`
+   Remember to change the URL of the link if necessary, but keep the parameters.<br>
+   e.g. Change <b>`http://teammates-john.appspot.com`</b>`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS` <br>
+   to <b>`http://localhost:8888`</b>`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS`
 8. Now, to access the dev server as a student, first make sure you are logged in as an instructor. Add a course for yourself and then add the students for the course.<br>
    After that, log in as admin and search for the student you added in as instructor. From the search results, use the join link adjacent to the student you added.<br>
    Then, log out and use that join link to log in as a student. You have the required access now.<br>

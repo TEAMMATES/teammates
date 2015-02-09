@@ -156,7 +156,7 @@
                         </label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input id="results-search-box" class="form-control" placeholder="Type keywords from the question title" onchange="updateResultsFilter()" type="text">
+                                <input id="results-search-box" class="form-control" placeholder="Type keywords from the question to filter" onchange="updateResultsFilter()" type="text">
                                 <a class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
                             </div>
                         </div>
@@ -223,12 +223,15 @@
                     <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                     </div>
-                    <strong>Question 1: </strong><span class="text-preserve-space">Please choose the best choice for the following sub-questions.&nbsp;<span style=" white-space: normal;">
+                    <strong>Question 1: </strong>
+                    <div class="inline panel-heading-text">
+                        <span class="text-preserve-space">Please choose the best choice for the following sub-questions.&nbsp;<span style=" white-space: normal;">
     <a href="javascript:;" id="questionAdditionalInfoButton-1-" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-" style="display:none;">Rubric question sub-questions:
 <p>a) This student has done a good job.<br>b) This student has tried his/her best.<br></p></span>
 </span></span>
+                    </div>
                 </div>
                 <div id="panelBodyCollapse-1" class="panel-collapse collapse in">
                 <div class="panel-body padding-0" id="questionBody-0">
@@ -378,25 +381,23 @@
                         <table class="table table-striped table-bordered margin-0">
                             <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                 <tr>
-                                    <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this,1)" style="width: 15%;">
-                                        Team
-                                        <span class="icon-sort unsorted"></span>
-                                    </th>
-                                    <th class="button-sort-none" id="button_sortTo" onclick="toggleSort(this,2)" style="width: 15%;">
-                                        Name
-                                        <span class="icon-sort unsorted"></span>
-                                    </th>
+                                <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,1)" style="width: 15%;">Team<span class="icon-sort unsorted"></span>
+                                </th>
+                                <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">Name<span class="icon-sort unsorted"></span>
+                                </th>                            
                                 </tr>
                             </thead>
                             <tbody>
+                            
                                 <tr>
                                     <td>
+                                    
                                         Team 1
+                                    
                                     </td>
-                                    <td>
-                                        Benny Charles
-                                    </td>
+                                    <td>Benny Charles</td>                              
                                 </tr>
+                            
                             </tbody>
                         </table>
                     </div>
