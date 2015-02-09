@@ -68,20 +68,20 @@ function prepareMSQQuestions() {
         var qnNum = MsqQuestionNum[i];
         
         // Get blank option
-        var noneOfTheAboveOption = $("input[name^='responsetext-" + qnNum + "'][value='']").eq(0);
-        var options = $("input[name^='responsetext-" + qnNum + "'][value!='']");
-
-        // append text beside checkbox
-        //noneOfTheAboveOption.parent().append(NONE_OF_THE_ABOVE_TEXT);
+        var noneOfTheAboveOption = $("input[name^='responsetext-" + qnNum + "'][value='']");
 
         // onclick event to reset other options 
         noneOfTheAboveOption.click(function() {
+            var options = $(this).closest("table").find("input[value!='']");
+            
             options.each(function() {
                 $(this).prop('checked', false);
             });
         });
 
+        var options = $("input[name^='responsetext-" + qnNum + "'][value!='']");
         options.click(function() {
+            var noneOfTheAboveOption = $(this).closest("table").find("input[value='']");
             noneOfTheAboveOption.prop('checked', false);
         });
 

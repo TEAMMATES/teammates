@@ -166,7 +166,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             "${checked}", "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                             "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(choices.get(i)),
-                            "${msqChoiceTest", Sanitizer.sanitizeForHtml(choices.get(i)));
+                            "${msqChoiceText}", Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment + Const.EOL);
         }
         
