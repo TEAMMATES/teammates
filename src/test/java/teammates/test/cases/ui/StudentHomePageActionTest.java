@@ -4,7 +4,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -25,6 +24,7 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentHomePageAction;
 import teammates.ui.controller.StudentHomePageData;
 
+// Priority added due to conflict between StudentHomePageActionTest and StudentCommentsPageActionTest
 @Priority(-2)
 public class StudentHomePageActionTest extends BaseActionTest {
 
