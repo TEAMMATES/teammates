@@ -191,7 +191,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
     
     private List<String> generateOptionList(String courseId) {
-        List<String> optionList = new ArrayList<String>();;
+        List<String> optionList = new ArrayList<String>();
 
         switch(generateOptionsFor){
         case NONE:
@@ -364,8 +364,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         DecimalFormat df = new DecimalFormat("#.##");
         
         for(Entry<String, Integer> entry : answerFrequency.entrySet() ){
+            String answerValue = entry.getKey().equals("") ? "None of the above" : entry.getKey();
             fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
-                                "${mcqChoiceValue}", entry.getKey(),
+                                "${mcqChoiceValue}", answerValue,
                                 "${count}", entry.getValue().toString(),
                                 "${percentage}", df.format(100*(double)entry.getValue()/numChoicesSelected));
         }
@@ -410,8 +411,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         DecimalFormat df = new DecimalFormat("#.##");
         
         for(Entry<String, Integer> entry : answerFrequency.entrySet() ){
+            String answerValue = entry.getKey().equals("") ? "None of the above" : entry.getKey();
             fragments += entry.getKey() + ","
-                      + entry.getValue().toString() + ","
+                      + answerValue + ","
                       + df.format(100*(double)entry.getValue()/numChoicesSelected) + Const.EOL;
                     
         }
