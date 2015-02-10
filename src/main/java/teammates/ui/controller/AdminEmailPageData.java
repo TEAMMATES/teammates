@@ -10,4 +10,5 @@ public class AdminEmailPageData extends PageData {
     
     public boolean isFileUploaded;
     public String fileSrcUrl;
+    public String nextUploadUrl;
 }

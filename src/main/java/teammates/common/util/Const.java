@@ -343,6 +343,8 @@ public class Const {
         public static final String ADMIN_SEARCH_BUTTON_HIT = "searchbuttonhit";
         
         public static final String ADMIN_EMAIL_CONTENT = "emailcontent";
+        public static final String ADMIN_EMAIL_SUBJECT = "emailsubject";
+        public static final String ADMIN_EMAIL_RECEVIER = "emailreceiver";
     
         public static final String EVALUATION_NAME = "evaluationname";
     

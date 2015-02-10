@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -32,11 +33,15 @@ public class AdminEmailFileUploadAction extends Action {
         } else {
             //res.sendRedirect("/serve?blob-key=" + blobKeys.get(0).getKeyString());
             data.isFileUploaded = true;
-            data.fileSrcUrl = Const.ActionURIs.ADMIN_EMAIL_FILE_SERVE +
+            data.fileSrcUrl = Config.APP_URL + 
+                              Const.ActionURIs.ADMIN_EMAIL_FILE_SERVE +
                               "?blob-key=" + 
                               blobKeys.get(0).getKeyString();
         }
         System.out.print(data.fileSrcUrl);
+        
+        data.nextUploadUrl = blobstoreService.createUploadUrl(Const.ActionURIs.ADMIN_EMAIL_FILE_UPLOAD);
+        
         return createAjaxResult(Const.ViewURIs.ADMIN_EMAIL, data);
     }
 

@@ -20,6 +20,8 @@ public class AdminEmailPageAction extends Action {
         AdminEmailPageData data = new AdminEmailPageData(account);
         
         String emailContent = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_CONTENT);
+        String subject = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_SUBJECT);
+        String receiver = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_RECEVIER);
         
         if(emailContent == null){
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
@@ -32,7 +34,7 @@ public class AdminEmailPageAction extends Action {
         if(!emailContent.isEmpty()){
         
             try {
-                MimeMessage email = emailsManager.generateAdminEmail(emailContent);
+                MimeMessage email = emailsManager.generateAdminEmail(emailContent, subject, receiver);
                 emailsManager.sendEmail(email);
             } catch (UnsupportedEncodingException | MessagingException e) {
                 e.printStackTrace();

@@ -8,6 +8,8 @@
     import="com.google.appengine.api.blobstore.BlobstoreServiceFactory"%>
 <%@ page import="com.google.appengine.api.blobstore.BlobstoreService"%>
 
+<%@ page import="teammates.common.util.Config"%>
+
 <%
 	BlobstoreService blobstoreService = BlobstoreServiceFactory
 			.getBlobstoreService();
@@ -46,16 +48,8 @@
 </head>
 <body>
 
-
-    <div>
-        <form id="adminEmailFileForm"
-            action="<%=blobstoreService
-					.createUploadUrl(Const.ActionURIs.ADMIN_EMAIL_FILE_UPLOAD)%>"
-            method="POST" enctype="multipart/form-data">
-            <input type="file" name="adminEmailFile" id="adminEmailFile">
-        </form>
-    </div>
-
+    
+   
     <div id="dhtmltooltip"></div>
     <jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
 
@@ -71,6 +65,11 @@
 
 
                 <form action="/admin/adminEmailPage" method="post">
+                
+                    To : <input type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_RECEVIER%>" >
+                    <br>
+                    Subject : <input type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_SUBJECT%>" >
+                    <br>
                     <p>
                         <textarea cols="80" id="adminEmailBox"
                             name="<%=Const.ParamsNames.ADMIN_EMAIL_CONTENT%>"
@@ -84,7 +83,19 @@
             </div>
         </div>
     </div>
-
+    
+     
+    <div>
+        <form id="adminEmailFileForm"
+            action="<%=blobstoreService
+                    .createUploadUrl(Const.ActionURIs.ADMIN_EMAIL_FILE_UPLOAD)%>"
+            method="POST" enctype="multipart/form-data">
+            <input type="file" name="adminEmailFile" id="adminEmailFile">
+        </form>
+        
+        <div id="documentBaseUrl"><%=Config.APP_URL %></div>
+    </div>
+    
 
 
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />

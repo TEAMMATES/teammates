@@ -736,11 +736,11 @@ public class Emails {
         return message;
     }
     
-    public MimeMessage generateAdminEmail(String content) throws MessagingException, UnsupportedEncodingException 
+    public MimeMessage generateAdminEmail(String content, String subject, String sendTo) throws MessagingException, UnsupportedEncodingException 
     {
 
-        MimeMessage message = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
-        message.setSubject("Admin Email");
+        MimeMessage message = getEmptyEmailAddressedToEmail(sendTo);
+        message.setSubject(subject);
 
         message.setContent(content, "text/html");
         return message;
