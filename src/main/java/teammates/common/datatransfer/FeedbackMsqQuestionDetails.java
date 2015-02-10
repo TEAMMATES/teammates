@@ -412,8 +412,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         for(Entry<String, Integer> entry : answerFrequency.entrySet() ){
             String answerValue = entry.getKey().equals("") ? "None of the above" : entry.getKey();
-            fragments += entry.getKey() + ","
-                      + answerValue + ","
+            fragments += answerValue + ","
+                      + entry.getValue().toString() + ","
                       + df.format(100*(double)entry.getValue()/numChoicesSelected) + Const.EOL;
                     
         }
@@ -469,6 +469,18 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             }
         }
         return errors;
+    }
+    
+    /**
+     * Checks if the question has been skipped. 
+     * This function is different from FeedbackResponseDetails#isQuestionSkipped 
+     * as it allows empty strings
+     */
+    @Override
+    public boolean isQuestionSkipped(Map<String, String[]> requestParameters, int questionIndx, int responseIndx) {
+        String[] answer = HttpRequestHelper.getValuesFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx);
+        
+        return answer == null;
     }
 
 

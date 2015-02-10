@@ -83,26 +83,5 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
 
         return csvBuilder.toString();
     }
-    
-    /**
-     * Checks if the question has been skipped. 
-     * This function is different from FeedbackResponseDetails#isQuestionSkipped 
-     * as it allows empty strings
-     */
-    @Override
-    public boolean isQuestionSkipped(Map<String, String[]> requestParameters, int questionIndx, int responseIndx) {
-        String[] answer = HttpRequestHelper.getValuesFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx);
-        
-        boolean allAnswersEmpty = true;
-        if(answer!=null){
-            for(int i=0 ; i<answer.length ; i++){
-                if(answer[i]!=null){
-                    allAnswersEmpty = false;
-                }
-            }
-        }
-        
-        return answer != null && !allAnswersEmpty;
-    }
 
 }

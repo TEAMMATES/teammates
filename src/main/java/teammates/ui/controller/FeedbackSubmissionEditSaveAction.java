@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -213,13 +214,12 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         //This field can be null if the question is skipped
         String[] answer = HttpRequestHelper.getValuesFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx);
         
-        FeedbackResponseDetails responseDetails = 
-                FeedbackResponseDetails.createResponseDetails(
-                        answer,
-                        questionDetails.questionType,
-                        questionDetails);
-        
-        if(responseDetails.isQuestionSkipped(requestParameters, questionIndx, responseIndx)) {
+        if(!questionDetails.isQuestionSkipped(requestParameters, questionIndx, responseIndx)) {
+            FeedbackResponseDetails responseDetails = 
+                    FeedbackResponseDetails.createResponseDetails(
+                            answer,
+                            questionDetails.questionType,
+                            questionDetails);
             response.setResponseDetails(responseDetails);
         } else {
             response.responseMetaData = new Text("");

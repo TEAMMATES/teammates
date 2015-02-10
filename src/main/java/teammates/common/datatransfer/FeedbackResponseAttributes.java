@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
