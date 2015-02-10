@@ -79,18 +79,22 @@
                         <input type="submit" value="Submit" />
                     </p>
                 </form>
+                
+                
                 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
             </div>
         </div>
     </div>
     
      
-    <div>
+    <div style="display: none;">
         <form id="adminEmailFileForm"
             action="<%=blobstoreService
                     .createUploadUrl(Const.ActionURIs.ADMIN_EMAIL_FILE_UPLOAD)%>"
             method="POST" enctype="multipart/form-data">
+            <span id="adminEmailFileInput">
             <input type="file" name="adminEmailFile" id="adminEmailFile">
+            </span>
         </form>
         
         <div id="documentBaseUrl"><%=Config.APP_URL %></div>

@@ -12,6 +12,29 @@ $(document).ready(function(){
 	tinymce.init({
 	    selector: "textarea",
 	    theme: "modern",
+	    fontsize_formats: "8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 20pt 24pt 26pt 28pt 36pt 48pt 72pt",
+	    font_formats: "Andale Mono=andale mono,times;"+
+        "Arial=arial,helvetica,sans-serif;"+
+        "Arial Black=arial black,avant garde;"+
+        "Book Antiqua=book antiqua,palatino;"+
+        "Comic Sans MS=comic sans ms,sans-serif;"+
+        "Courier New=courier new,courier;"+
+        "Georgia=georgia,palatino;"+
+        "Helvetica=helvetica;"+
+        "Impact=impact,chicago;"+
+        "Symbol=symbol;"+
+        "Tahoma=tahoma,arial,helvetica,sans-serif;"+
+        "Terminal=terminal,monaco;"+
+        "Times New Roman=times new roman,times;"+
+        "Trebuchet MS=trebuchet ms,geneva;"+
+        "Verdana=verdana,geneva;"+
+        "Webdings=webdings;"+
+        "Wingdings=wingdings,zapf dingbats",
+	    
+	    
+	    document_base_url : $("#documentBaseUrl").text(),
+	    relative_urls: false,
+	    convert_urls: false,
 	    plugins: [
 			"advlist autolink lists link image charmap print preview hr anchor pagebreak",
 			"searchreplace wordcount visualblocks visualchars code fullscreen",
@@ -19,10 +42,10 @@ $(document).ready(function(){
 			"emoticons template paste textcolor colorpicker textpattern"
 	    ],
 	    
-	    document_base_url : "",
 	    
-	    toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-	    toolbar2: "print preview media | forecolor backcolor emoticons",
+	   	    
+	    toolbar1: "insertfile undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+	    toolbar2: "print preview media | forecolor backcolor | fontsizeselect fontselect | emoticons | fullscreen | spellchecker",
 	    
 	    file_picker_callback: function(callback, value, meta) {
 	        // Provide file and text for the link dialog
@@ -51,6 +74,8 @@ $(document).ready(function(){
 	
 	$("#adminEmailFile").on("change paste keyup", function() {
 		submitFormAjax();
+		clearUploadFileInfo();
+		
 	 });
 	
 	
@@ -76,11 +101,11 @@ function submitFormAjax() {
           processData: false,
           
         beforeSend : function() {
-//             button.html("<img src='/images/ajax-loader.gif'/>");
+        	showUploadingGif();
         },
         error : function() {
-//             setFormErrorMessage(olderButton, "Failed to load older logs. Please try again.");
-//             button.html("Retry");           
+        	setErrorMessage("Image upload failed, please try again.");
+        	
         },
         success : function(data) {
             setTimeout(function(){
@@ -89,13 +114,13 @@ function submitFormAjax() {
                 	   url = data.fileSrcUrl;
                 	   $("adminEmailFileForm").attr("action", data.nextUploadUrl);
                 	   callbackFunction(url, {alt: 'My alt text'});
+                	   $("#statusMessage").html("Image Uploaded");
                    }
                    
                 } else {
-//                     setFormErrorMessage(button, data.errorMessage);
+                	setErrorMessage("Image upload failed, please try again.");
                 }
                                
-//                 $("#statusMessage").html(data.statusForAjax);
 
             },500);
         }
@@ -104,5 +129,24 @@ function submitFormAjax() {
     });
 };
 
+function setErrorMessage(error){
+	$("#statusMessage").html("Image upload failed, please try again.");
+	$("#statusMessage").attr("class", "alert alert-danger");
+	$("#statusMessage").show();
+}
 
+function showUploadingGif(){
+	$("#statusMessage").html("Uploading...<span><img src='/images/ajax-loader.gif'/></span>");
+	$("#statusMessage").attr("class", "alert alert-warning");
+	$("#statusMessage").show();
+}
+
+function clearUploadFileInfo(){
+	$("#adminEmailFileInput").html("<input type=\"file\" name=\"adminEmailFile\" id=\"adminEmailFile\">");
+	$("#adminEmailFile").on("change paste keyup", function() {
+		submitFormAjax();
+		clearUploadFileInfo();
+		
+	 });
+}
 

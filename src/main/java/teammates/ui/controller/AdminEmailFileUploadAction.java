@@ -41,7 +41,7 @@ public class AdminEmailFileUploadAction extends Action {
         System.out.print(data.fileSrcUrl);
         
         data.nextUploadUrl = blobstoreService.createUploadUrl(Const.ActionURIs.ADMIN_EMAIL_FILE_UPLOAD);
-        
+        this.statusToUser.add("Image Uploaded");
         return createAjaxResult(Const.ViewURIs.ADMIN_EMAIL, data);
     }
 
