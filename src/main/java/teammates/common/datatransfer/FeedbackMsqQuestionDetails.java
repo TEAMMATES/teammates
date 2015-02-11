@@ -140,7 +140,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         "${checked}", existingMsqResponse.contains("") ? "checked=\"checked\"" : "",
                         "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         "${msqChoiceValue}",  "",
-                        "${msqChoiceText}",  "None of the above");
+                        "${msqChoiceText}",  Const.NONE_OF_THE_ABOVE);
         optionListHtml.append(optionFragment + Const.EOL);
         
         String html = FeedbackQuestionFormTemplates.populateTemplate(
@@ -179,7 +179,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         "${checked}", "",
                         "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         "${msqChoiceValue}",  "",
-                        "${msqChoiceText}",  "None of the above");
+                        "${msqChoiceText}",  Const.NONE_OF_THE_ABOVE);
         optionListHtml.append(optionFragment + Const.EOL);
         
         
@@ -364,7 +364,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         DecimalFormat df = new DecimalFormat("#.##");
         
         for(Entry<String, Integer> entry : answerFrequency.entrySet() ){
-            String answerValue = entry.getKey().equals("") ? "None of the above" : entry.getKey();
+            String answerValue = entry.getKey().equals("") ? Const.NONE_OF_THE_ABOVE : entry.getKey();
             fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
                                 "${mcqChoiceValue}", answerValue,
                                 "${count}", entry.getValue().toString(),
@@ -411,7 +411,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         DecimalFormat df = new DecimalFormat("#.##");
         
         for(Entry<String, Integer> entry : answerFrequency.entrySet() ){
-            String answerValue = entry.getKey().equals("") ? "None of the above" : entry.getKey();
+            String answerValue = entry.getKey().equals("") ? Const.NONE_OF_THE_ABOVE : entry.getKey();
             fragments += answerValue + ","
                       + entry.getValue().toString() + ","
                       + df.format(100*(double)entry.getValue()/numChoicesSelected) + Const.EOL;

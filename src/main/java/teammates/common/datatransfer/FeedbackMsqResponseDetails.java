@@ -30,9 +30,9 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
 
     @Override
     public String getAnswerString() {
-        boolean isBlank = answers.size() == 1 && 
-                          answers.get(0).equals("");
-        return isBlank? "None of the above" : StringHelper.toString(answers, ", ");
+        return isAnswerBlank() ? 
+               Const.NONE_OF_THE_ABOVE : 
+               StringHelper.toString(answers, ", ");
     }
     
     public List<String> getAnswerStrings() {
@@ -43,10 +43,8 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         StringBuilder htmlBuilder = new StringBuilder();
         
-        boolean isBlank = answers.size() == 1 && 
-                answers.get(0).equals("");
-        if (isBlank) {
-            htmlBuilder.append("None of the above");
+        if (isAnswerBlank()) {
+            htmlBuilder.append(Const.NONE_OF_THE_ABOVE);
         } else {
             htmlBuilder.append("<ul class=\"selectedOptionsList\">");
             for (String answer : answers) {
@@ -68,10 +66,8 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         FeedbackMsqQuestionDetails msqDetails = (FeedbackMsqQuestionDetails) questionDetails;
         StringBuilder csvBuilder = new StringBuilder();
         
-        boolean isBlank = answers.size() == 1 && 
-                          answers.get(0).equals("");
-        if (isBlank) {
-            csvBuilder.append("None of the above");
+        if (isAnswerBlank()) {
+            csvBuilder.append(Const.NONE_OF_THE_ABOVE);
         } else {
             for(String choice : msqDetails.msqChoices) {
                 csvBuilder.append(",");
@@ -82,6 +78,11 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         }
 
         return csvBuilder.toString();
+    }
+    
+    protected boolean isAnswerBlank() {
+        return answers.size() == 1 && 
+               answers.get(0).equals("");
     }
 
 }
