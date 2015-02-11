@@ -287,26 +287,7 @@ function generateNewCommentRow(data, responseCommentId, numberOfComments) {
 	+    "</div>"
 	+    "<div id=\"visibility-options-" + addedCommentId + "\" class=\"panel panel-default\" style=\"display: none;\">"
     +       "<div class=\"panel-heading\">Visibility Options</div>"
-    +       "<table class=\"table text-center\" style=\"color:#000;\">"
-    +           "<tbody>"
-    +               "<tr><th class=\"text-center\">User/Group</th><th class=\"text-center\">Can see your comment</th><th class=\"text-center\">Can see your name</th></tr>"
-    +               "<tr id=\"response-giver-" + addedCommentId + "\"><td class=\"text-left\"><div data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"Control what response giver can view\">Response Giver</div></td>"
-    +	                "<td><input class=\"visibilityCheckbox answerCheckbox centered\" name=\"receiverLeaderCheckbox\" type=\"checkbox\" value=\"GIVER\" " + ((data.comment.showCommentTo.indexOf("GIVER") === -1) ? "" : "checked=\"checked\"") + "></td>"
-    +                   "<td><input class=\"visibilityCheckbox giverCheckbox\" type=\"checkbox\" value=\"GIVER\" " + ((data.comment.showGiverNameTo.indexOf("GIVER") === -1) ? "" : "checked=\"checked\"") + "></td></tr>"
-    +               "<tr id=\"response-recipient-" + addedCommentId + "\"><td class=\"text-left\"><div data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"Control what response recipient(s) can view\">Response Recipient(s)</div></td>"
-    +                   "<td><input class=\"visibilityCheckbox answerCheckbox centered\" name=\"receiverLeaderCheckbox\" type=\"checkbox\" value=\"RECEIVER\" " + ((data.comment.showCommentTo.indexOf("RECEIVER") === -1) ? "" : "checked=\"checked\"") + "></td>"
-    +                   "<td><input class=\"visibilityCheckbox giverCheckbox\" type=\"checkbox\" value=\"RECEIVER\" " + ((data.comment.showGiverNameTo.indexOf("RECEIVER") === -1) ? "" : "checked=\"checked\"") + "></td></tr>"
-    +               "<tr id=\"response-giver-team-" + addedCommentId + "\"><td class=\"text-left\"><div data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"Control what team members of response giver can view\">Response Giver's Team Members</div></td>"
-    +                   "<td><input class=\"visibilityCheckbox answerCheckbox\" type=\"checkbox\" value=\"OWN_TEAM_MEMBERS\" " + ((data.comment.showCommentTo.indexOf("OWN_TEAM_MEMBERS") === -1) ? "" : "checked=\"checked\"") + "></td>"
-    +                   "<td><input class=\"visibilityCheckbox giverCheckbox\" type=\"checkbox\" value=\"OWN_TEAM_MEMBERS\" " + ((data.comment.showGiverNameTo.indexOf("OWN_TEAM_MEMBERS") === -1) ? "" : "checked=\"checked\"") + "></td></tr>"
-    +               "<tr id=\"response-recipient-team-" + addedCommentId + "\"><td class=\"text-left\"><div data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"Control what team members of response recipient(s) can view\">Response Recipient's Team Members</div></td>"
-    +                   "<td><input class=\"visibilityCheckbox answerCheckbox\" type=\"checkbox\" value=\"RECEIVER_TEAM_MEMBERS\" " + ((data.comment.showCommentTo.indexOf("RECEIVER_TEAM_MEMBERS") === -1) ? "" : "checked=\"checked\"") + "></td>"
-    +                   "<td><input class=\"visibilityCheckbox giverCheckbox\" type=\"checkbox\" value=\"RECEIVER_TEAM_MEMBERS\" " + ((data.comment.showGiverNameTo.indexOf("RECEIVER_TEAM_MEMBERS") === -1) ? "" : "checked=\"checked\"") + "></td></tr>"
-    +               "<tr id=\"response-instructors-" + addedCommentId + "\"><td class=\"text-left\"><div data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"Control what instructors can view\">Instructors</div></td>"
-    +                   "<td><input class=\"visibilityCheckbox answerCheckbox\" type=\"checkbox\" value=\"INSTRUCTORS\" " + ((data.comment.showCommentTo.indexOf("INSTRUCTORS") === -1) ? "" : "checked=\"checked\"") + "></td>"
-    +                   "<td><input class=\"visibilityCheckbox giverCheckbox\" type=\"checkbox\" value=\"INSTRUCTORS\" " + ((data.comment.showGiverNameTo.indexOf("INSTRUCTORS") === -1) ? "" : "checked=\"checked\"") + "></td></tr>"
-    +           "</tbody>"
-    +       "</table>"
+    +       generateNewCommentVisibilityTable(data, addedCommentId)
     +   "</div>"
     + 	"<div class=\"form-group\">"
     + 		"<textarea class=\"form-control\" rows=\"3\" placeholder=\"Your comment about this response\""
@@ -327,6 +308,46 @@ function generateNewCommentRow(data, responseCommentId, numberOfComments) {
     + "</form>"
     + "</li>";
     return newRow;
+}
+
+function generateNewCommentVisibilityTable(data, addedCommentId) {
+	var tableStr = "<table class=\"table text-center\" style=\"color:#000;\">"
+    +   "<tbody>"
+    +       "<tr><th class=\"text-center\">User/Group</th><th class=\"text-center\">Can see your comment</th><th class=\"text-center\">Can see your name</th></tr>";
+	var addFormId = "showResponseCommentAddForm-" + addedCommentId.split('-').splice(0, 3).join('-');
+	var checkboxesInInAddForm = $('#' + addFormId).find('tr').find("input.visibilityCheckbox");
+	var valuesOfCheckbox = [];
+	for (var i = 0; i < checkboxesInInAddForm.length; i++) {
+		valuesOfCheckbox.push($(checkboxesInInAddForm[i]).val());
+	}
+	if (valuesOfCheckbox.indexOf('GIVER') != -1) {
+		tableStr += "<tr id=\"response-giver-" + addedCommentId + "\"><td class=\"text-left\"><div data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"Control what response giver can view\">Response Giver</div></td>"
+	    +   "<td><input class=\"visibilityCheckbox answerCheckbox centered\" name=\"receiverLeaderCheckbox\" type=\"checkbox\" value=\"GIVER\" " + ((data.comment.showCommentTo.indexOf("GIVER") === -1) ? "" : "checked=\"checked\"") + "></td>"
+	    +   "<td><input class=\"visibilityCheckbox giverCheckbox\" type=\"checkbox\" value=\"GIVER\" " + ((data.comment.showGiverNameTo.indexOf("GIVER") === -1) ? "" : "checked=\"checked\"") + "></td></tr>";
+	}
+	if (valuesOfCheckbox.indexOf('RECEIVER') != -1) {
+		tableStr += "<tr id=\"response-recipient-" + addedCommentId + "\"><td class=\"text-left\"><div data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"Control what response recipient(s) can view\">Response Recipient(s)</div></td>"
+	    +    "<td><input class=\"visibilityCheckbox answerCheckbox centered\" name=\"receiverLeaderCheckbox\" type=\"checkbox\" value=\"RECEIVER\" " + ((data.comment.showCommentTo.indexOf("RECEIVER") === -1) ? "" : "checked=\"checked\"") + "></td>"
+	    +    "<td><input class=\"visibilityCheckbox giverCheckbox\" type=\"checkbox\" value=\"RECEIVER\" " + ((data.comment.showGiverNameTo.indexOf("RECEIVER") === -1) ? "" : "checked=\"checked\"") + "></td></tr>";
+	}
+	if (valuesOfCheckbox.indexOf('OWN_TEAM_MEMBERS') != -1) {
+		tableStr += "<tr id=\"response-giver-team-" + addedCommentId + "\"><td class=\"text-left\"><div data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"Control what team members of response giver can view\">Response Giver's Team Members</div></td>"
+	    +    "<td><input class=\"visibilityCheckbox answerCheckbox\" type=\"checkbox\" value=\"OWN_TEAM_MEMBERS\" " + ((data.comment.showCommentTo.indexOf("OWN_TEAM_MEMBERS") === -1) ? "" : "checked=\"checked\"") + "></td>"
+	    +    "<td><input class=\"visibilityCheckbox giverCheckbox\" type=\"checkbox\" value=\"OWN_TEAM_MEMBERS\" " + ((data.comment.showGiverNameTo.indexOf("OWN_TEAM_MEMBERS") === -1) ? "" : "checked=\"checked\"") + "></td></tr>";
+	}
+	if (valuesOfCheckbox.indexOf('RECEIVER_TEAM_MEMBERS') != -1) {
+		tableStr += "<tr id=\"response-recipient-team-" + addedCommentId + "\"><td class=\"text-left\"><div data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"Control what team members of response recipient(s) can view\">Response Recipient's Team Members</div></td>"
+	    +    "<td><input class=\"visibilityCheckbox answerCheckbox\" type=\"checkbox\" value=\"RECEIVER_TEAM_MEMBERS\" " + ((data.comment.showCommentTo.indexOf("RECEIVER_TEAM_MEMBERS") === -1) ? "" : "checked=\"checked\"") + "></td>"
+	    +    "<td><input class=\"visibilityCheckbox giverCheckbox\" type=\"checkbox\" value=\"RECEIVER_TEAM_MEMBERS\" " + ((data.comment.showGiverNameTo.indexOf("RECEIVER_TEAM_MEMBERS") === -1) ? "" : "checked=\"checked\"") + "></td></tr>";
+	}
+	if (valuesOfCheckbox.indexOf('INSTRUCTORS') != -1) {
+		tableStr += "<tr id=\"response-instructors-" + addedCommentId + "\"><td class=\"text-left\"><div data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"Control what instructors can view\">Instructors</div></td>"
+	    +    "<td><input class=\"visibilityCheckbox answerCheckbox\" type=\"checkbox\" value=\"INSTRUCTORS\" " + ((data.comment.showCommentTo.indexOf("INSTRUCTORS") === -1) ? "" : "checked=\"checked\"") + "></td>"
+	    +    "<td><input class=\"visibilityCheckbox giverCheckbox\" type=\"checkbox\" value=\"INSTRUCTORS\" " + ((data.comment.showGiverNameTo.indexOf("INSTRUCTORS") === -1) ? "" : "checked=\"checked\"") + "></td></tr>";
+	}
+	tableStr += "</tbody></table>";
+	
+	return tableStr;
 }
 
 function removeFormErrorMessage(submitButton) {
