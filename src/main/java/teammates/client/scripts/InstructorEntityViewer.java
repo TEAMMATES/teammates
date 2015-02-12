@@ -40,8 +40,6 @@ public class InstructorEntityViewer extends RemoteApiClient {
     
     public static void main(String[] args) throws IOException {
         InstructorEntityViewer viewer = new InstructorEntityViewer();
-        //InstructorEntityViewer.courseId = args[0];
-        //InstructorEntityViewer.courseId = args[1];
         viewer.doOperationRemotely();
     }
 
