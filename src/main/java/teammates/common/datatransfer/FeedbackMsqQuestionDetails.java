@@ -140,7 +140,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         "${checked}", existingMsqResponse.contains("") ? "checked=\"checked\"" : "",
                         "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         "${msqChoiceValue}",  "",
-                        "${msqChoiceText}",  Const.NONE_OF_THE_ABOVE);
+                        "${msqChoiceText}",  "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
         optionListHtml.append(optionFragment + Const.EOL);
         
         String html = FeedbackQuestionFormTemplates.populateTemplate(
@@ -179,7 +179,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                         "${checked}", "",
                         "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
                         "${msqChoiceValue}",  "",
-                        "${msqChoiceText}",  Const.NONE_OF_THE_ABOVE);
+                        "${msqChoiceText}",  "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
         optionListHtml.append(optionFragment + Const.EOL);
         
         
@@ -352,6 +352,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         for(FeedbackResponseAttributes response : responses){
             List<String> answerStrings = ((FeedbackMsqResponseDetails)response.getResponseDetails()).getAnswerStrings();
             for(String answerString : answerStrings){
+                if (answerString.equals("")) {
+                    continue;
+                }
                 numChoicesSelected++;
                 if(!answerFrequency.containsKey(answerString)){
                     answerFrequency.put(answerString, 1);

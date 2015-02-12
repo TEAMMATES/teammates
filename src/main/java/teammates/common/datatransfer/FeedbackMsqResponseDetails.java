@@ -30,9 +30,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
 
     @Override
     public String getAnswerString() {
-        return isAnswerBlank() ? 
-               Const.NONE_OF_THE_ABOVE : 
-               StringHelper.toString(answers, ", ");
+        return StringHelper.toString(answers, ", ");
     }
     
     public List<String> getAnswerStrings() {
@@ -44,7 +42,8 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         StringBuilder htmlBuilder = new StringBuilder();
         
         if (isAnswerBlank()) {
-            htmlBuilder.append(Const.NONE_OF_THE_ABOVE);
+            // display an empty string if "None of the above" was selected
+            htmlBuilder.append("");
         } else {
             htmlBuilder.append("<ul class=\"selectedOptionsList\">");
             for (String answer : answers) {
