@@ -279,8 +279,8 @@ public class FeedbackSessionsLogic {
                 fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName,
                         courseId, userEmail);
         
-      InstructorAttributes instructorGiver = instructorsLogic.getInstructorForEmail(courseId, userEmail);
-      StudentAttributes studentGiver = studentsLogic.getStudentForEmail(courseId, userEmail);
+      InstructorAttributes instructorGiver = instructor;
+      StudentAttributes studentGiver = null;
 
         for (FeedbackQuestionAttributes question : questions) {
 
@@ -352,8 +352,8 @@ public class FeedbackSessionsLogic {
                 fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName,
                         courseId);
 
-        InstructorAttributes instructorGiver = instructorsLogic.getInstructorForEmail(courseId, userEmail);
-        StudentAttributes studentGiver = studentsLogic.getStudentForEmail(courseId, userEmail);
+        InstructorAttributes instructorGiver = null;
+        StudentAttributes studentGiver = student;
 
         for (FeedbackQuestionAttributes question : questions) {
 
