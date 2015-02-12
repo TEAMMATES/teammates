@@ -182,6 +182,9 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.clickDisplayedToStudentCheckBox(1);
         // select the role as Observer for instr1
         courseEditPage.selectRoleForInstructor(1, "Custom");
+        courseEditPage.clickCourseLevelPrivilegesLink(1, 1);
+        courseEditPage.clickCourseLevelPrivilegesLink(1, 2);
+        courseEditPage.clickCourseLevelPrivilegesLink(1, 8);
         courseEditPage.clickAddSessionLevelPrivilegesLink(1);
         courseEditPage.clickSectionCheckBoxInSectionLevel(1, 1, 2);
         courseEditPage.clickViewStudentCheckBoxInSectionLevel(1, 1);
@@ -197,6 +200,9 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesBeforeSubmit.html");
         courseEditPage.clickSaveInstructorButton(1);
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesSuccessful.html");
+        assertEquals(true, courseEditPage.clickEditInstructorLink(1));
+        courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesSuccessfulAndCheckEditAgain.html");
+        courseEditPage.clickSaveInstructorButton(1);
         
         ______TS("failure: edit failed due to invalid parameters");
         String invalidEmail = "InsCrsEdit.email.tmt";
