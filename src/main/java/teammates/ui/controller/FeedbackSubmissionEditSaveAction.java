@@ -220,6 +220,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             for(int i=0 ; i<answer.length ; i++){
                 if(!answer[i].trim().isEmpty()){
                     allAnswersEmpty = false;
+                    break;
                 }
             }
         }
