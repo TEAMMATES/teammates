@@ -373,9 +373,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         DecimalFormat df = new DecimalFormat("#.##");
         
         for(Entry<String, Integer> entry : answerFrequency.entrySet() ){
-            String answerValue = entry.getKey().equals("") ? Const.NONE_OF_THE_ABOVE : entry.getKey();
             fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.MCQ_RESULT_STATS_OPTIONFRAGMENT,
-                                "${mcqChoiceValue}", answerValue,
+                                "${mcqChoiceValue}", entry.getKey(),
                                 "${count}", entry.getValue().toString(),
                                 "${percentage}", df.format(100*(double)entry.getValue()/numChoicesSelected));
         }
@@ -399,6 +398,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         String csv = "";
         String fragments = "";
         Map<String,Integer> answerFrequency = new LinkedHashMap<String,Integer>();
+        boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
         
         for(String option : msqChoices){
             answerFrequency.put(option, 0);
@@ -408,6 +408,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         for(FeedbackResponseAttributes response : responses){
             List<String> answerStrings = ((FeedbackMsqResponseDetails)response.getResponseDetails()).getAnswerStrings();
             for(String answerString : answerStrings){
+                if (answerString.equals("")) {
+                    continue;
+                }
+                isContainsNonEmptyResponse = true;
                 numChoicesSelected++;
                 if(!answerFrequency.containsKey(answerString)){
                     answerFrequency.put(answerString, 1);
@@ -417,11 +421,14 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             }
         }
         
+        if (!isContainsNonEmptyResponse) {
+            return "";
+        }
+        
         DecimalFormat df = new DecimalFormat("#.##");
         
         for(Entry<String, Integer> entry : answerFrequency.entrySet() ){
-            String answerValue = entry.getKey().equals("") ? Const.NONE_OF_THE_ABOVE : entry.getKey();
-            fragments += answerValue + ","
+            fragments += entry.getKey() + ","
                       + entry.getValue().toString() + ","
                       + df.format(100*(double)entry.getValue()/numChoicesSelected) + Const.EOL;
                     

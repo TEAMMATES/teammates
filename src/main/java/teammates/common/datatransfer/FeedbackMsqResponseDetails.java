@@ -66,7 +66,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         StringBuilder csvBuilder = new StringBuilder();
         
         if (isAnswerBlank()) {
-            csvBuilder.append(Const.NONE_OF_THE_ABOVE);
+            csvBuilder.append("");
         } else {
             for(String choice : msqDetails.msqChoices) {
                 csvBuilder.append(",");
