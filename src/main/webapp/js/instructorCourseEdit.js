@@ -321,7 +321,7 @@ $(function(){
 	var numOfInstr = $("form[id^='formEditInstructor']").length;
 	for (var i=0; i<numOfInstr;i++) {
 		var instrNum = i+1;
-		var instrRole = $("#accessControlInfoForInstr"+instrNum+" div div p").html();
+		var instrRole = $("#accessControlInfoForInstr"+instrNum+" div div p span").html().trim();
 		INSTRUCTOR_COURSE_EDIT_INSTRUCTOR_ACCESS_LEVEL_WHEN_LOADING_PAGE.push(instrRole);
 		checkTheRoleThatApplies(i+1);
 	}
