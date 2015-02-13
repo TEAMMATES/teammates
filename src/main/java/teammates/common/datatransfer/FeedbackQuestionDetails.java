@@ -204,11 +204,8 @@ public abstract class FeedbackQuestionDetails {
     
     /**
      * Checks if the question has been skipped. 
-     * This function is different from FeedbackResponseDetails#isQuestionSkipped 
-     * as it allows empty strings
      */
-    public boolean isQuestionSkipped(Map<String, String[]> requestParameters, int questionIndx, int responseIndx) {
-        String[] answer = HttpRequestHelper.getValuesFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx);
+    public boolean isQuestionSkipped(String[] answer, int questionIndx, int responseIndx) {
         
         boolean allAnswersEmpty = true;
         if(answer!=null){

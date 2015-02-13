@@ -482,13 +482,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     
     /**
      * Checks if the question has been skipped. 
-     * This function is different from FeedbackResponseDetails#isQuestionSkipped 
-     * as it allows empty strings
+     * MSQ allows a blank response, as that represents "None of the above" 
      */
     @Override
-    public boolean isQuestionSkipped(Map<String, String[]> requestParameters, int questionIndx, int responseIndx) {
-        String[] answer = HttpRequestHelper.getValuesFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx);
-        
+    public boolean isQuestionSkipped(String[] answer, int questionIndx, int responseIndx) {
         return answer == null;
     }
 
