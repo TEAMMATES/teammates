@@ -62,26 +62,26 @@ function prepareContribQuestions() {
 
 // Prepare MSQ questions 
 function prepareMSQQuestions() {
-    // Get index of contribution questions
-    var MsqQuestionNum = getQuestionTypeNumbers("MSQ");
-    for(var i=0 ; i<MsqQuestionNum.length ; i++) {
-        var qnNum = MsqQuestionNum[i];
+    // Get index of MSQ questions
+    var msqQuestionNums = getQuestionTypeNumbers("MSQ");
+    for(var i=0 ; i<msqQuestionNums.length ; i++) {
+        var qnNum = msqQuestionNums[i];
         
-        // Get blank option
         var noneOfTheAboveOption = $("input[name^='responsetext-" + qnNum + "'][value='']");
 
-        // onclick event to reset other options 
+        // reset other options when "none of the above" is clicked
         noneOfTheAboveOption.click(function() {
-            var options = $(this).closest("table").find("input[value!='']");
+            var options = $(this).closest("table").find("input[name^='responsetext-'][value!='']");
             
             options.each(function() {
                 $(this).prop('checked', false);
             });
         });
 
+        // reset "none of the above" if any option is clicked
         var options = $("input[name^='responsetext-" + qnNum + "'][value!='']");
         options.click(function() {
-            var noneOfTheAboveOption = $(this).closest("table").find("input[value='']");
+            var noneOfTheAboveOption = $(this).closest("table").find("input[name^='responsetext-'][value='']");
             noneOfTheAboveOption.prop('checked', false);
         });
 
