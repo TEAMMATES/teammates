@@ -340,6 +340,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             return "";
         }
         
+        boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
         String html = "";
         String fragments = "";
         Map<String,Integer> answerFrequency = new LinkedHashMap<String,Integer>();
@@ -355,6 +356,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 if (answerString.equals("")) {
                     continue;
                 }
+                isContainsNonEmptyResponse = true;
                 numChoicesSelected++;
                 if(!answerFrequency.containsKey(answerString)){
                     answerFrequency.put(answerString, 1);
@@ -362,6 +364,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                     answerFrequency.put(answerString, answerFrequency.get(answerString)+1);
                 }
             }
+        }
+        
+        if (!isContainsNonEmptyResponse) {
+            return "";
         }
         
         DecimalFormat df = new DecimalFormat("#.##");
