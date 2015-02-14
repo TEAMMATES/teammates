@@ -1,10 +1,5 @@
 package teammates.common.datatransfer;
 
-import java.util.Map;
-
-import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
-
 
 /** A class holding the details for the response of a specific question type.
  * This abstract class is inherited by concrete Feedback*ResponseDetails
@@ -65,6 +60,7 @@ public abstract class FeedbackResponseDetails {
         return getAnswerCsv(question.getQuestionDetails());
     }
     
+
     
     public static FeedbackResponseDetails createResponseDetails(
             String[] answer, FeedbackQuestionType questionType,

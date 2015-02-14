@@ -131,7 +131,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             optionListHtml.append(optionFragment + Const.EOL);
         }
         
-        // additional button for user to submit a blank response
+        // additional checkbox for user to submit a blank response ("None of the above")
         String optionFragment = 
                 FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                         "${qnIdx}", Integer.toString(qnIdx),
@@ -170,7 +170,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             optionListHtml.append(optionFragment + Const.EOL);
         }
         
-        // additional button for user to submit a blank response
+        // additional checkbox for user to submit a blank response ("None of the above")
         String optionFragment = 
                 FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
                         "${qnIdx}", Integer.toString(qnIdx),
@@ -492,7 +492,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
      * MSQ allows a blank response, as that represents "None of the above" 
      */
     @Override
-    public boolean isQuestionSkipped(String[] answer, int questionIndx, int responseIndx) {
+    public boolean isQuestionSkipped(String[] answer) {
         return answer == null;
     }
 

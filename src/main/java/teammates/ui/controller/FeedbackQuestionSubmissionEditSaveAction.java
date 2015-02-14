@@ -174,7 +174,7 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         //This field can be null if the question is skipped
         String[] answer = HttpRequestHelper.getValuesFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx);
         
-        if (!questionDetails.isQuestionSkipped(answer, questionIndx, responseIndx)) {
+        if (!questionDetails.isQuestionSkipped(answer)) {
             FeedbackResponseDetails responseDetails = 
                     FeedbackResponseDetails.createResponseDetails(
                             answer,

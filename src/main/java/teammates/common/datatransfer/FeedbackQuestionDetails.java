@@ -205,7 +205,7 @@ public abstract class FeedbackQuestionDetails {
     /**
      * Checks if the question has been skipped. 
      */
-    public boolean isQuestionSkipped(String[] answer, int questionIndx, int responseIndx) {
+    public boolean isQuestionSkipped(String[] answer) {
         
         boolean allAnswersEmpty = true;
         if(answer!=null){

@@ -48,10 +48,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
             htmlBuilder.append("<ul class=\"selectedOptionsList\">");
             for (String answer : answers) {
                 htmlBuilder.append("<li>");
-                
-                String answerText = Sanitizer.sanitizeForHtml(answer);
-                htmlBuilder.append(Sanitizer.sanitizeForHtml(answerText));
-                
+                htmlBuilder.append(Sanitizer.sanitizeForHtml(answer));
                 htmlBuilder.append("</li>");
             }
             htmlBuilder.append("</ul>");
