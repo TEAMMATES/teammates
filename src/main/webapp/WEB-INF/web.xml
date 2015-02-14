@@ -274,6 +274,17 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <url-pattern>/page/*</url-pattern>
     </servlet-mapping>
     
+    
+    <servlet>
+        <servlet-name>PublicResourcesServlet</servlet-name>
+        <servlet-class>teammates.ui.controller.PublicResourcesServlet</servlet-class>
+    </servlet>
+    
+     <servlet-mapping>
+        <servlet-name>PublicResourcesServlet</servlet-name>
+        <url-pattern>/public/*</url-pattern>
+    </servlet-mapping>
+    
     <security-constraint>
       <web-resource-collection>
           <web-resource-name>AllPage</web-resource-name>

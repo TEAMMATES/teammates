@@ -42,7 +42,7 @@
 <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 
 <script type="text/javascript" src="/js/adminEmail.js"></script>
-<script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
+<script src="/tinymce/js/tinymce/tinymce.min.js"></script>
 
 
 </head>
@@ -89,11 +89,10 @@
      
     <div style="display: none;">
         <form id="adminEmailFileForm"
-            action="<%=blobstoreService
-                    .createUploadUrl(Const.ActionURIs.ADMIN_EMAIL_FILE_UPLOAD)%>"
+            action="<%=data.getNewUploadUrl()%>"
             method="POST" enctype="multipart/form-data">
             <span id="adminEmailFileInput">
-            <input type="file" name="adminEmailFile" id="adminEmailFile">
+            <input type="file" name="<%=Const.ParamsNames.ADMIN_EMAIL_IMAGE_TO_UPLOAD%>" id="adminEmailFile">
             </span>
         </form>
         

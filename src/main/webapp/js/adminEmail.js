@@ -45,7 +45,7 @@ $(document).ready(function(){
 	    
 	   	    
 	    toolbar1: "insertfile undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-	    toolbar2: "print preview media | forecolor backcolor | fontsizeselect fontselect | emoticons | fullscreen | spellchecker",
+	    toolbar2: "print preview media | forecolor backcolor | fontsizeselect fontselect | emoticons | fullscreen",
 	    
 	    file_picker_callback: function(callback, value, meta) {
 	        // Provide file and text for the link dialog
@@ -112,13 +112,13 @@ function submitFormAjax() {
                 if (!data.isError) {
                    if(data.isFileUploaded){
                 	   url = data.fileSrcUrl;
-                	   $("adminEmailFileForm").attr("action", data.nextUploadUrl);
+                	   $("#adminEmailFileForm").attr("action", data.nextUploadUrl);
                 	   callbackFunction(url, {alt: 'My alt text'});
-                	   $("#statusMessage").html("Image Uploaded");
+                	   $("#statusMessage").html(data.ajaxStatus);
                    }
                    
                 } else {
-                	setErrorMessage("Image upload failed, please try again.");
+                	setErrorMessage(data.ajaxStatus);
                 }
                                
 
@@ -142,7 +142,8 @@ function showUploadingGif(){
 }
 
 function clearUploadFileInfo(){
-	$("#adminEmailFileInput").html("<input type=\"file\" name=\"adminEmailFile\" id=\"adminEmailFile\">");
+	var originalHtml = $("#adminEmailFileInput").html();
+	$("#adminEmailFileInput").html(originalHtml);
 	$("#adminEmailFile").on("change paste keyup", function() {
 		submitFormAjax();
 		clearUploadFileInfo();

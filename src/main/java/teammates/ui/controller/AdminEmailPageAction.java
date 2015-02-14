@@ -24,10 +24,9 @@ public class AdminEmailPageAction extends Action {
         String receiver = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_RECEVIER);
         
         if(emailContent == null){
-            return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
+            statusToAdmin = "adminEmailPage Page Load";
+            return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);     
         }
-        
-        Logic logic = new Logic();
         
         Emails emailsManager = new Emails();
         
@@ -37,7 +36,8 @@ public class AdminEmailPageAction extends Action {
                 MimeMessage email = emailsManager.generateAdminEmail(emailContent, subject, receiver);
                 emailsManager.sendEmail(email);
             } catch (UnsupportedEncodingException | MessagingException e) {
-                e.printStackTrace();
+                isError = true;
+                setStatusForException(e, "An error has occurred when sending emails");
             }
         
         }

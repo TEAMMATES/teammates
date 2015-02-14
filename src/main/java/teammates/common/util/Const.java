@@ -345,6 +345,7 @@ public class Const {
         public static final String ADMIN_EMAIL_CONTENT = "emailcontent";
         public static final String ADMIN_EMAIL_SUBJECT = "emailsubject";
         public static final String ADMIN_EMAIL_RECEVIER = "emailreceiver";
+        public static final String ADMIN_EMAIL_IMAGE_TO_UPLOAD = "emailimagetoupload";
     
         public static final String EVALUATION_NAME = "evaluationname";
     
@@ -691,7 +692,8 @@ public class Const {
         public static final String ADMIN_SEARCH_PAGE = "/admin/adminSearchPage";
         public static final String ADMIN_EMAIL_PAGE = "/admin/adminEmailPage";
         public static final String ADMIN_EMAIL_FILE_UPLOAD = "/admin/adminEmailFileUpload";
-        public static final String ADMIN_EMAIL_FILE_SERVE = "/admin/adminEmailFileServe";
+        
+        public static final String PUBLIC_EMAIL_FILE_SERVE = "/public/publicEmailFileServe";
         
         public static final String AUTOMATED_EVAL_OPENING_REMINDERS = "/evaluationopeningreminders";
         public static final String AUTOMATED_EVAL_CLOSING_REMINDERS = "/evaluationclosingreminders";        
@@ -812,10 +814,17 @@ public class Const {
         public static final String EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp";
         public static final String FEEDBACK_SUBMISSION_EDIT = "/jsp/feedbackSubmissionEdit.jsp";
         public static final String FEEDBACK_QUESTION_SUBMISSION_EDIT = "/jsp/feedbackQuestionSubmissionEdit.jsp"; 
+        
+        public static final String ADMIN_EMAIL_FILE_UPLOAD = "/jsp/adminEmailFileUpload.jsp"; 
     }
 
     /* These are status messages that may be shown to the user */
     public class StatusMessages{
+        
+        public static final String IMAGE_TOO_LARGE = "The uploaded image was too large. ";
+        public static final String FILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. ";
+        public static final String NO_IMAGE_GIVEN = "Please specify a image to be uploaded.";
+                
         public static final String LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
         public static final String STUDENT_FIRST_TIME = "<div style=\"text-align:left;\">Welcome stranger :-) "
                 + "<br/><br/>It seems you are not a registered user of TEAMMATES. To use TEAMMATES, a course instructor has to add you to a course first. "
