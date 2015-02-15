@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.mail.internet.MimeMessage;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CommentSearchResultBundle;
@@ -54,6 +55,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.logic.core.AccountsLogic;
+import teammates.logic.core.AdminEmailsLogic;
 import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
@@ -100,7 +102,8 @@ public class Logic {
     protected static FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
     protected static FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
     protected static FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = FeedbackResponseCommentsLogic.inst();
-
+    protected static AdminEmailsLogic adminEmailsLogic = AdminEmailsLogic.inst();
+    
     @SuppressWarnings("unused")
     private void ____USER_level_methods__________________________________() {
     }
@@ -2822,6 +2825,22 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return commentsLogic.getCommentsForSendingState(courseId, sendingState);
     }
+    
+    
+    /**
+     * This method is not scalable. Not to be used unless for admin features.
+     * @return the list of all adminEmails in the database. 
+     */
+    public List<AdminEmailAttributes> getAllAdminEmails(){
+        return adminEmailsLogic.getAllAdminEmails();
+    }
+    
+    public void createAdminEmail(AdminEmailAttributes newAdminEmail) throws InvalidParametersException{
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, newAdminEmail);
+        adminEmailsLogic.createAdminEmail(newAdminEmail);
+    }
+    
+    
     
     @SuppressWarnings("unused")
     private void ____MISC_methods__________________________________________() {
