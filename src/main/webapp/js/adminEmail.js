@@ -73,15 +73,43 @@ $(document).ready(function(){
 	
 	
 	$("#adminEmailFile").on("change paste keyup", function() {
-		submitFormAjax();
-		clearUploadFileInfo();
-		
+		createImageUploadUrl();		
 	 });
 	
 	
 	
 });
 
+function createImageUploadUrl(){
+	
+	$.ajax({
+        type : 'POST',
+        url :  "/admin/adminEmailCreateImageUploadUrl",
+        beforeSend : function() {
+        	showUploadingGif();
+        },
+        error : function() {
+        	setErrorMessage("URL request failured, please try again.");
+        },
+        success : function(data) {
+            setTimeout(function(){
+                if (!data.isError) {                   
+            	    $("#adminEmailFileForm").attr("action", data.nextUploadUrl);          		
+            	    setStatusMessage(data.ajaxStatus);   
+            	    submitFormAjax();
+            	    
+                } else {
+                	setErrorMessage(data.ajaxStatus);
+                }
+                               
+
+            },500);
+
+        }
+        
+        
+    });
+}
 
 function submitFormAjax() {
     var formData = new FormData($("#adminEmailFileForm")[0]);
@@ -90,10 +118,6 @@ function submitFormAjax() {
         type : 'POST',
         enctype :"multipart/form-data",
         url :   $("#adminEmailFileForm").attr("action"),
-//         xhr: function() {  // Custom XMLHttpRequest
-//             var myXhr = $.ajaxSettings.xhr();
-//             return myXhr;
-//         },
         data: formData,
         //Options to tell jQuery not to process data or worry about content-type.
           cache: false,
@@ -105,33 +129,46 @@ function submitFormAjax() {
         },
         error : function() {
         	setErrorMessage("Image upload failed, please try again.");
-        	
+        	clearUploadFileInfo();
         },
         success : function(data) {
             setTimeout(function(){
                 if (!data.isError) {
                    if(data.isFileUploaded){
                 	   url = data.fileSrcUrl;
-                	   $("#adminEmailFileForm").attr("action", data.nextUploadUrl);
+                	  // $("#adminEmailFileForm").attr("action", data.nextUploadUrl);
                 	   callbackFunction(url, {alt: 'My alt text'});
-                	   $("#statusMessage").html(data.ajaxStatus);
+                	   setStatusMessage(data.ajaxStatus);
+                   } else {
+                	  // $("#adminEmailFileForm").attr("action", data.nextUploadUrl);
+                   	   setErrorMessage(data.ajaxStatus);
                    }
                    
                 } else {
+                	//$("#adminEmailFileForm").attr("action", data.nextUploadUrl);
                 	setErrorMessage(data.ajaxStatus);
                 }
                                
 
             },500);
+            
+            
         }
         
         
     });
+    clearUploadFileInfo();
 };
 
 function setErrorMessage(error){
-	$("#statusMessage").html("Image upload failed, please try again.");
+	$("#statusMessage").html(error);
 	$("#statusMessage").attr("class", "alert alert-danger");
+	$("#statusMessage").show();
+}
+
+function setStatusMessage(msg){
+	$("#statusMessage").html(msg);
+	$("#statusMessage").attr("class", "alert alert-warning");
 	$("#statusMessage").show();
 }
 
@@ -142,12 +179,9 @@ function showUploadingGif(){
 }
 
 function clearUploadFileInfo(){
-	var originalHtml = $("#adminEmailFileInput").html();
-	$("#adminEmailFileInput").html(originalHtml);
+	$("#adminEmailFileInput").html("<input type=\"file\" name=\"emailimagetoupload\" id=\"adminEmailFile\">");
 	$("#adminEmailFile").on("change paste keyup", function() {
-		submitFormAjax();
-		clearUploadFileInfo();
-		
+		createImageUploadUrl();
 	 });
 }
 

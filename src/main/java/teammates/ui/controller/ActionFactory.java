@@ -29,7 +29,8 @@ public class ActionFactory {
         map(ADMIN_SESSIONS_PAGE,AdminSessionsPageAction.class);
         map(ADMIN_SEARCH_PAGE, AdminSearchPageAction.class);
         map(ADMIN_EMAIL_PAGE, AdminEmailPageAction.class);
-        map(ADMIN_EMAIL_FILE_UPLOAD, AdminEmailFileUploadAction.class);
+        map(ADMIN_EMAIL_IMAGE_UPLOAD, AdminEmailImageUploadAction.class);
+        map(ADMIN_EMAIL_CREATE_IMAGE_UPLOAD_URL, AdminEmailCreateImageUploadUrlAction.class);
         
         map(INSTRUCTOR_COURSES_PAGE, InstructorCoursesPageAction.class);
         map(INSTRUCTOR_COURSE_ADD, InstructorCourseAddAction.class);

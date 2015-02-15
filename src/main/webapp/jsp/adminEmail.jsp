@@ -89,7 +89,7 @@
      
     <div style="display: none;">
         <form id="adminEmailFileForm"
-            action="<%=data.getNewUploadUrl()%>"
+            action=""
             method="POST" enctype="multipart/form-data">
             <span id="adminEmailFileInput">
             <input type="file" name="<%=Const.ParamsNames.ADMIN_EMAIL_IMAGE_TO_UPLOAD%>" id="adminEmailFile">
