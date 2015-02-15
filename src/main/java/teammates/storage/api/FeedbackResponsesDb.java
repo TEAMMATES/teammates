@@ -43,7 +43,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
      * @return Null if not found.
      */
     public FeedbackResponseAttributes getFeedbackResponse(String feedbackResponseId) {
-        FeedbackResponse feedbackResponse = getFeedbackResponseEntityOptimized(feedbackResponseId);
+        FeedbackResponse feedbackResponse = getFeedbackResponseEntityWithCheck(feedbackResponseId);
         if (feedbackResponse == null) {
             return null;
         }
@@ -58,7 +58,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
     public FeedbackResponseAttributes getFeedbackResponse (
             String feedbackQuestionId, String giverEmail, String receiverEmail) {
         FeedbackResponse feedbackResponse = 
-                getFeedbackResponseEntityOptimized (feedbackQuestionId, giverEmail, receiverEmail);
+                getFeedbackResponseEntityWithCheck (feedbackQuestionId, giverEmail, receiverEmail);
         if (feedbackResponse == null) {
             return null;
         }
@@ -71,7 +71,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
      * * All parameters are non-null. 
      * @return Null if not found.
      */
-    public FeedbackResponse getFeedbackResponseEntityOptimized(String feedbackResponseId) {
+    public FeedbackResponse getFeedbackResponseEntityWithCheck(String feedbackResponseId) {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackResponseId);
         
@@ -92,7 +92,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
      * * All parameters are non-null. 
      * @return Null if not found.
      */
-    public FeedbackResponse getFeedbackResponseEntityOptimized (
+    public FeedbackResponse getFeedbackResponseEntityWithCheck (
             String feedbackQuestionId, String giverEmail, String receiverEmail) {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);

@@ -361,10 +361,10 @@ public class FeedbackResponsesLogic {
                 responseToUpdate);
         FeedbackResponse oldResponseEntity = null;
         if (newResponse.getId() == null) {
-            oldResponseEntity = frDb.getFeedbackResponseEntityOptimized(newResponse.feedbackQuestionId, 
+            oldResponseEntity = frDb.getFeedbackResponseEntityWithCheck(newResponse.feedbackQuestionId, 
                     newResponse.giverEmail, newResponse.recipientEmail);
         } else {
-            oldResponseEntity = frDb.getFeedbackResponseEntityOptimized(newResponse.getId());
+            oldResponseEntity = frDb.getFeedbackResponseEntityWithCheck(newResponse.getId());
         }
 
         FeedbackResponseAttributes oldResponse = null;

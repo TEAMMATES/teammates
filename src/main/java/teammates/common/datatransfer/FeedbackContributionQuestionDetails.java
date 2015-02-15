@@ -643,7 +643,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         for(FeedbackResponseAttributes response : responses){
             boolean validAnswer = false;
             FeedbackContributionResponseDetails frd = (FeedbackContributionResponseDetails) response.getResponseDetails();
-            if(frd.getAnswer() <= 200 && frd.getAnswer() >= 0 && frd.getAnswer() % 10 == 0) {
+            
+            // Valid answers: 0, 10, 20, .... 190, 200
+            boolean isValidRange = frd.getAnswer() >= 0 && frd.getAnswer() <= 200;
+            boolean isMultipleOf10 = frd.getAnswer() % 10 == 0;
+            if(isValidRange && isMultipleOf10) {
                 validAnswer = true;
             }
             if(frd.getAnswer() == Const.POINTS_NOT_SURE){
