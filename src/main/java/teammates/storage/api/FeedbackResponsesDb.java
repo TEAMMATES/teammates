@@ -43,6 +43,35 @@ public class FeedbackResponsesDb extends EntitiesDb {
      * @return Null if not found.
      */
     public FeedbackResponseAttributes getFeedbackResponse(String feedbackResponseId) {
+        FeedbackResponse feedbackResponse = getFeedbackResponseEntityWithCheck(feedbackResponseId);
+        if (feedbackResponse == null) {
+            return null;
+        }
+        return new FeedbackResponseAttributes(feedbackResponse);    
+    }
+
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * @return Null if not found.
+     */
+    public FeedbackResponseAttributes getFeedbackResponse (
+            String feedbackQuestionId, String giverEmail, String receiverEmail) {
+        FeedbackResponse feedbackResponse = 
+                getFeedbackResponseEntityWithCheck (feedbackQuestionId, giverEmail, receiverEmail);
+        if (feedbackResponse == null) {
+            return null;
+        }
+        return new FeedbackResponseAttributes(feedbackResponse);        
+    }
+    
+
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null. 
+     * @return Null if not found.
+     */
+    public FeedbackResponse getFeedbackResponseEntityWithCheck(String feedbackResponseId) {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackResponseId);
         
@@ -55,7 +84,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
             return null;
         }
         
-        return new FeedbackResponseAttributes(fr);    
+        return fr;
     }
 
     /**
@@ -63,7 +92,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
      * * All parameters are non-null. 
      * @return Null if not found.
      */
-    public FeedbackResponseAttributes getFeedbackResponse (
+    public FeedbackResponse getFeedbackResponseEntityWithCheck (
             String feedbackQuestionId, String giverEmail, String receiverEmail) {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
@@ -79,7 +108,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
                     giverEmail + " to: " + receiverEmail );
             return null;
         }
-        return new FeedbackResponseAttributes(fr);        
+        return fr;        
     }
     
     /**
@@ -524,13 +553,34 @@ public class FeedbackResponsesDb extends EntitiesDb {
                 Const.StatusCodes.DBLEVEL_NULL_INPUT, 
                 newAttributes);
         
-        //TODO: Sanitize values and update tests accordingly
-        
         if (!newAttributes.isValid()) {
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
         
         FeedbackResponse fr = (FeedbackResponse) getEntity(newAttributes);
+        updateFeedbackResponseOptimized(newAttributes, fr);
+    }
+    
+    /**
+     * Optimized to take in FeedbackResponse entity if available, to prevent reading the entity again.
+     * Updates the feedback response identified by {@code newAttributes.getId()} 
+     * For the remaining parameters, the existing value is preserved 
+     *   if the parameter is null (due to 'keep existing' policy).<br> 
+     * Preconditions: <br>
+     * * {@code newAttributes.getId()} is non-null and correspond to an existing feedback response.
+     */
+    public void updateFeedbackResponseOptimized(FeedbackResponseAttributes newAttributes, FeedbackResponse fr) 
+        throws InvalidParametersException, EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(
+                Const.StatusCodes.DBLEVEL_NULL_INPUT, 
+                newAttributes);
+        
+        //TODO: Sanitize values and update tests accordingly
+        
+        if (!newAttributes.isValid()) {
+            throw new InvalidParametersException(newAttributes.getInvalidityInfo());
+        }
         
         if (fr == null) {
             throw new EntityDoesNotExistException(
