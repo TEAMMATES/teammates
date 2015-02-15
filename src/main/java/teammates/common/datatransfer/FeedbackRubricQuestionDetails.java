@@ -581,7 +581,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     
     @Override
     public String getCsvHeader() {
-        return "Choice";
+        return "Choice Value";
     }
     
     public String getCsvDetailedResponsesHeader() {
@@ -589,8 +589,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 + "Giver's Last Name" + "," +"Giver's Email" + ","  
                 + "Recipient's Team" + "," + "Recipient's Full Name" + "," 
                 + "Recipient's Last Name" + "," + "Recipient's Email" + ","  
-                + "Sub Question" + ","
-                + this.getCsvHeader() + Const.EOL;
+                + "Sub Question" + "," + this.getCsvHeader() + ","
+                + "Choice Number" + Const.EOL;
     }
     
     public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
@@ -613,13 +613,14 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         String detailedResponsesRow = "";
         for (int i=0 ; i<frd.answer.size() ; i++) {
             int chosenIndex = frd.answer.get(i);
-            String chosenChoice = "";
+            String chosenChoiceNumber = "", chosenChoiceValue = "";
             String chosenIndexString = StringHelper.integerToLowerCaseAlphabeticalIndex(i+1);
             
             if (chosenIndex == -1) {
-                chosenChoice = Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE;
+                chosenChoiceValue = Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE;
             } else {
-                chosenChoice = this.rubricChoices.get(frd.answer.get(i)) + " (Choice " + (chosenIndex+1) + ")";
+                chosenChoiceNumber = Integer.toString(chosenIndex+1);
+                chosenChoiceValue = this.rubricChoices.get(frd.answer.get(i));
             }
             
             detailedResponsesRow += Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) 
@@ -631,7 +632,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                                     + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
                                     + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
                                     + "," + Sanitizer.sanitizeForCsv(chosenIndexString)
-                                    + "," + Sanitizer.sanitizeForCsv(chosenChoice)
+                                    + "," + Sanitizer.sanitizeForCsv(chosenChoiceValue)
+                                    + "," + Sanitizer.sanitizeForCsv(chosenChoiceNumber)
                                     + Const.EOL;
         }
         
