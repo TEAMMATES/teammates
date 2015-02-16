@@ -51,6 +51,7 @@ public class InstructorStudentListPage extends AppPage {
         String rowId = getStudentRowId(courseId, studentName);
         getViewLink(rowId).click();
         waitForPageToLoad();
+        switchToNewWindow();
         return changePageType(InstructorCourseStudentDetailsViewPage.class);
     }
     
@@ -58,6 +59,7 @@ public class InstructorStudentListPage extends AppPage {
         String rowId = getStudentRowId(courseId, studentName);
         getEditLink(rowId).click();
         waitForPageToLoad();
+        switchToNewWindow();
         return changePageType(InstructorCourseStudentDetailsEditPage.class);
     }
     
@@ -65,6 +67,7 @@ public class InstructorStudentListPage extends AppPage {
         String rowId = getStudentRowId(courseId, studentName);
         getViewRecordsLink(rowId).click();
         waitForPageToLoad();
+        switchToNewWindow();
         return changePageType(InstructorStudentRecordsPage.class);
     }
     

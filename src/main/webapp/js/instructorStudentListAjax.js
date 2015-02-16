@@ -149,7 +149,7 @@ function getAppendedData(data, courseIdx) {
                     appendedHtml += '<td class="no-print align-center">';
                     appendedHtml += '<a class="btn btn-default btn-xs student-view-for-test"'
                                         + 'href="' + getCourseStudentDetailsLink(student, data.account.googleId) + '"'
-                                        + 'title="View the details of the student" data-toggle="tooltip" data-placement="top"';
+                                        + 'title="View the details of the student" target="_blank" data-toggle="tooltip" data-placement="top"';
                     if(!data.sectionPrivileges[section.name]['canviewstudentinsection']){
                         appendedHtml += 'disabled="disabled"';
                     }
@@ -157,7 +157,7 @@ function getAppendedData(data, courseIdx) {
 
                     appendedHtml += '<a class="btn btn-default btn-xs student-edit-for-test"'
                                      + 'href="' + getCourseStudentEditLink(student, data.account.googleId) + '"'
-                                     + 'title="' + COURSE_STUDENT_EDIT + '" data-toggle="tooltip" data-placement="top"';
+                                     + 'title="' + COURSE_STUDENT_EDIT + '" target="_blank" data-toggle="tooltip" data-placement="top"';
                     if(!data.sectionPrivileges[section.name]['canmodifystudent']){
                         appendedHtml += 'disabled="disabled"';
                     }
@@ -174,7 +174,7 @@ function getAppendedData(data, courseIdx) {
                                     
                     appendedHtml += '<a class="btn btn-default btn-xs student-records-for-test"'
                                      + 'href="' + getStudentRecordsLink(student, data.account.googleId) + '"'
-                                     + 'title="' + COURSE_STUDENT_RECORDS + '"data-toggle="tooltip" data-placement="top"> All Records</a>&nbsp;';
+                                     + 'title="' + COURSE_STUDENT_RECORDS + '" target="_blank" data-toggle="tooltip" data-placement="top"> All Records</a>&nbsp;';
                     appendedHtml += '<div class="dropdown inline"><a class="btn btn-default btn-xs dropdown-toggle"' 
                                        + ' href="javascript:;" data-toggle="dropdown"';
                     if(!data.sectionPrivileges[section.name]['cangivecommentinsection']){
@@ -182,14 +182,14 @@ function getAppendedData(data, courseIdx) {
                     }
                     appendedHtml += '> Add Comment</a>';
                     appendedHtml += '<ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">';
-                    appendedHtml += '<li role="presentation"><a role="menuitem" tabindex="-1" href="' + getCourseStudentDetailsLink(student, data.account.googleId) 
+                    appendedHtml += '<li role="presentation"><a target="_blank" role="menuitem" tabindex="-1" href="' + getCourseStudentDetailsLink(student, data.account.googleId) 
                                             +"&addComment=student" + '">';
                     appendedHtml += 'Comment on ' + sanitizeForHtml(student.name) + '</a></li>';
-                    appendedHtml += '<li role="presentation"><a role="menuitem" tabindex="-1" href="' + getCourseStudentDetailsLink(student, data.account.googleId) 
+                    appendedHtml += '<li role="presentation"><a target="_blank" role="menuitem" tabindex="-1" href="' + getCourseStudentDetailsLink(student, data.account.googleId) 
                                             + "&addComment=team" + '">';
                     appendedHtml += 'Comment on ' + sanitizeForHtml(team.name) + '</a></li>';
                     if(data.hasSection) { 
-                        appendedHtml += '<li role="presentation"><a role="menuitem" tabindex="-1" href="' + getCourseStudentDetailsLink(student, data.account.googleId) 
+                        appendedHtml += '<li role="presentation"><a target="_blank" role="menuitem" tabindex="-1" href="' + getCourseStudentDetailsLink(student, data.account.googleId) 
                                             +"&addComment=section" + '">';
                         appendedHtml += 'Comment on ' + sanitizeForHtml(section.name) + '</a></li>';
                     } 
