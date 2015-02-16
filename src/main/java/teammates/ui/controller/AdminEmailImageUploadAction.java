@@ -16,7 +16,7 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 public class AdminEmailImageUploadAction extends Action {
     
-    AdminEmailPageData data = null;
+    AdminEmailComposePageData data = null;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -26,7 +26,7 @@ public class AdminEmailImageUploadAction extends Action {
         BlobKey blobKey = new BlobKey("");
         BlobInfo blobInfo = null;
         
-        data = new AdminEmailPageData(account);    
+        data = new AdminEmailComposePageData(account);    
         blobInfo = extractImageKey();
         
         if(blobInfo == null){

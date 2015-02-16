@@ -2829,10 +2829,20 @@ public class Logic {
     
     /**
      * This method is not scalable. Not to be used unless for admin features.
-     * @return the list of all adminEmails in the database. 
+     * @return the list of all adminEmails in the database.
+     * <br> Empty List if no admin email found 
      */
     public List<AdminEmailAttributes> getAllAdminEmails(){
         return adminEmailsLogic.getAllAdminEmails();
+    }
+    
+    /**
+     * get an admin email by email id
+     * @return null if no matched email found
+     */
+    public AdminEmailAttributes getAdminEmailById(String emailId){
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, emailId);
+        return adminEmailsLogic.getAdminEmailById(emailId);
     }
     
     public void createAdminEmail(AdminEmailAttributes newAdminEmail) throws InvalidParametersException{

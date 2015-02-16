@@ -54,8 +54,8 @@ public class AdminEmailsDb extends EntitiesDb {
         ae.sanitizeForSaving();
         
         adminEmailToUpdate.setContent(ae.content);
-        adminEmailToUpdate.setEmailReceiver(ae.emailRecevier);
-        adminEmailToUpdate.setGroupReceiver(ae.groupRecevier);
+        adminEmailToUpdate.setAddressReceiver(ae.addressReceiver);
+        adminEmailToUpdate.setGroupReceiver(ae.groupReceiver);
         adminEmailToUpdate.setSubject(ae.subject);
         
         log.info(ae.getBackupIdentifier());
@@ -77,6 +77,21 @@ public class AdminEmailsDb extends EntitiesDb {
         }
         
         return list;
+    }
+    
+    /**
+     * get an admin email by email id
+     * @return null if no matched email found
+     */
+    public AdminEmailAttributes getAdminEmailById(String emailId){
+        
+        AdminEmail matched = getAdminEmailEntity(emailId);
+        
+        if(matched == null){
+            return null;
+        }
+        
+        return new AdminEmailAttributes(matched);
     }
     
     private List<AdminEmail> getAdminEmailEntities(){

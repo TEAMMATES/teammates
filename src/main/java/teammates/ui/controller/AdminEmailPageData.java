@@ -1,16 +1,17 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.util.Const.AdminEmailPageState;
 
-public class AdminEmailPageData extends PageData {
+public abstract class AdminEmailPageData extends PageData {
 
-    public AdminEmailPageData(AccountAttributes account) {
+    protected AdminEmailPageData(AccountAttributes account) {
         super(account);
     }
     
-    public boolean isFileUploaded;
-    public String fileSrcUrl;
-    public String ajaxStatus = null;
+    protected AdminEmailPageState state;
     
-    
+    public AdminEmailPageState getPageState(){
+        return this.state;
+    }
 }

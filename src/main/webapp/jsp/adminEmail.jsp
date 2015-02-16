@@ -3,21 +3,25 @@
     pageEncoding="UTF-8"%>
 
 <%@ page import="teammates.ui.controller.AdminEmailPageData"%>
+<%@ page import="teammates.ui.controller.AdminEmailComposePageData"%>
+<%@ page import="teammates.ui.controller.AdminEmailSentPageData"%>
+
 <%@ page import="teammates.common.util.Const"%>
 <%@ page
     import="com.google.appengine.api.blobstore.BlobstoreServiceFactory"%>
 <%@ page import="com.google.appengine.api.blobstore.BlobstoreService"%>
 
 <%@ page import="teammates.common.util.Config"%>
+<%@ page import="teammates.common.util.Const.AdminEmailPageState"%>
+<%@ page import="teammates.common.datatransfer.AdminEmailAttributes"%>
 
 <%
-	BlobstoreService blobstoreService = BlobstoreServiceFactory
-			.getBlobstoreService();
+    BlobstoreService blobstoreService = BlobstoreServiceFactory
+            .getBlobstoreService();
 %>
 
 <%
-	AdminEmailPageData data = (AdminEmailPageData) request
-			.getAttribute("data");
+    AdminEmailPageData data = (AdminEmailPageData) request.getAttribute("data");
 %>
 
 
@@ -63,41 +67,121 @@
                     <h1>Admin Email</h1>
                 </div>
 
-
-                <form action="/admin/adminEmailPage" method="post">
+                <ul class="nav nav-tabs">
+                    <li role="presentation" class="<%=data.getClass().toString().contains("AdminEmailCompose") ? "active" : ""%>">
+                        <a href="<%=Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE%>">Compose</a>
+                    </li>
+                    <li role="presentation" class="<%=data.getClass().toString().contains("AdminEmailSent") ? "active" : ""%>">
+                        <a href="<%=Const.ActionURIs.ADMIN_EMAIL_SENT_PAGE%>">Sent</a>
+                    </li>
+                    <li role="presentation"><a href="#">Trash</a></li>
+                </ul>
                 
-                    To : <input type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_RECEVIER%>" >
-                    <br>
-                    Subject : <input type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_SUBJECT%>" >
-                    <br>
-                    <p>
-                        <textarea cols="80" id="adminEmailBox"
-                            name="<%=Const.ParamsNames.ADMIN_EMAIL_CONTENT%>"
-                            rows="10"></textarea>
-                    </p>
-                    <p>
-                        <input type="submit" value="Submit" />
-                    </p>
-                </form>
+                <br>
+                <br>
                 
                 
+                <%
+                  switch (data.getPageState()){
+                  
+                  default:
+                  case COMPOSE:
+                      
+                      AdminEmailComposePageData aecPageData = (AdminEmailComposePageData) data;
+                %>
+                      <div id="adminEmailCompose">
+    
+                        <form action="<%=Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE%>" method="post">
+                        
+                            To : <input type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_RECEVIER%>" 
+                                 value="<%=aecPageData.emailToEdit !=null? aecPageData.emailToEdit.getAddressReceiver() : ""%>">   
+                            <br>
+                            Subject : <input type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_SUBJECT%>" 
+                                       value="<%=aecPageData.emailToEdit !=null? aecPageData.emailToEdit.getSubject() : ""%>">
+                            <br>
+                            <p>
+                                <textarea cols="80" id="adminEmailBox"
+                                    name="<%=Const.ParamsNames.ADMIN_EMAIL_CONTENT%>"
+                                    rows="10"><%=aecPageData.emailToEdit !=null? aecPageData.emailToEdit.getContentForDisplay() : ""%></textarea>
+                            </p>
+                            <p>
+                                <input type="submit" value="Submit" />
+                            </p>
+                        </form>
+    
+    
+                        <div style="display: none;">
+                            <form id="adminEmailFileForm" action=""
+                                method="POST" enctype="multipart/form-data">
+                                <span id="adminEmailFileInput"> <input
+                                    type="file"
+                                    name="<%=Const.ParamsNames.ADMIN_EMAIL_IMAGE_TO_UPLOAD%>"
+                                    id="adminEmailFile">
+                                </span>
+                            </form>
+    
+                            <div id="documentBaseUrl"><%=Config.APP_URL %></div>
+                        </div>
+    
+                    </div>
+                <%
+                    break;
+                  
+                
+                
+                
+                  case SENT:
+                      AdminEmailSentPageData sentPageData =  (AdminEmailSentPageData)data;
+                %>
+                    <div id="adminEmailSent">
+                        <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>      
+                                    <th>Action</th>          
+                                    <th>Receiver</th>
+                                    <th>Subject</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%
+                                   for (AdminEmailAttributes ae : sentPageData.adminSentEmailList){  
+                                %>
+                                    <tr id="<%=ae.getEmailId()%>">
+                                        <td>
+                                            <a target=blank href="<%=Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE + 
+                                                      "?" + Const.ParamsNames.ADMIN_EMAIL_ID + 
+                                                      "=" + ae.getEmailId()%>">
+                                                      <span class="glyphicon glyphicon-edit">
+                                                      </span>
+                                            </a>
+                                        </td>
+                                        <td><%=ae.getAddressReceiver()%></td>
+                                        <td><%=ae.getSubject()%></td>
+                                        <td><%=ae.getSendDateForDisplay()%></td>
+                                    </tr>
+                                <%
+                                   }
+                                %>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                <%
+                  break;
+                  };
+                %>
+                
+                
+               
                 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
             </div>
         </div>
     </div>
     
      
-    <div style="display: none;">
-        <form id="adminEmailFileForm"
-            action=""
-            method="POST" enctype="multipart/form-data">
-            <span id="adminEmailFileInput">
-            <input type="file" name="<%=Const.ParamsNames.ADMIN_EMAIL_IMAGE_TO_UPLOAD%>" id="adminEmailFile">
-            </span>
-        </form>
-        
-        <div id="documentBaseUrl"><%=Config.APP_URL %></div>
-    </div>
+    
     
 
 

@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Utils;
 import teammates.storage.api.AdminEmailsDb;
 
@@ -33,6 +34,16 @@ public class AdminEmailsLogic {
     @Deprecated
     public List<AdminEmailAttributes> getAllAdminEmails(){
         return adminEmailsDb.getAllAdminEmails();
+    }
+    
+    
+    /**
+     * get an admin email by email id
+     * @return null if no matched email found
+     */
+    public AdminEmailAttributes getAdminEmailById(String emailId){
+        Assumption.assertNotNull(emailId);
+        return adminEmailsDb.getAdminEmailById(emailId);
     }
     
     public void createAdminEmail(AdminEmailAttributes newAdminEmail) throws InvalidParametersException{

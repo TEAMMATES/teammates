@@ -53,6 +53,12 @@
                     <a href="<%=Const.ActionURIs.ADMIN_SESSIONS_PAGE%>">Sessions</a>
                 </li>
                 
+                <li
+                    class="<%=data.getClass().toString()
+                    .contains("AdminEmail") ? "active" : ""%>">
+                    <a href="<%=Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE%>">Email</a>
+                </li>
+                
             </ul>
 
             <ul class="nav navbar-nav pull-right">

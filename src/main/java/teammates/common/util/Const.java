@@ -346,6 +346,8 @@ public class Const {
         public static final String ADMIN_EMAIL_SUBJECT = "emailsubject";
         public static final String ADMIN_EMAIL_RECEVIER = "emailreceiver";
         public static final String ADMIN_EMAIL_IMAGE_TO_UPLOAD = "emailimagetoupload";
+        
+        public static final String ADMIN_EMAIL_ID = "emailid";
     
         public static final String EVALUATION_NAME = "evaluationname";
     
@@ -690,7 +692,8 @@ public class Const {
         public static final String ADMIN_ACTIVITY_LOG_PAGE = "/admin/adminActivityLogPage";
         public static final String ADMIN_SESSIONS_PAGE = "/admin/adminSessionsPage";
         public static final String ADMIN_SEARCH_PAGE = "/admin/adminSearchPage";
-        public static final String ADMIN_EMAIL_PAGE = "/admin/adminEmailPage";
+        public static final String ADMIN_EMAIL_COMPOSE_PAGE = "/admin/adminEmailComposePage";
+        public static final String ADMIN_EMAIL_SENT_PAGE = "/admin/adminEmailSentPage"; 
         public static final String ADMIN_EMAIL_IMAGE_UPLOAD = "/admin/adminEmailImageUpload";
         public static final String ADMIN_EMAIL_CREATE_IMAGE_UPLOAD_URL = "/admin/adminEmailCreateImageUploadUrl";
         
@@ -1199,5 +1202,7 @@ public class Const {
             EQUAL_SHARE+ " + 100%",
             NOT_SURE);
     
+    
+    public enum AdminEmailPageState{COMPOSE, SENT};
     
 }

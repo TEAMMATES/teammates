@@ -24,7 +24,7 @@ public class AdminEmail {
     private String emailId;
     
     @Persistent
-    private List<String> emailReceiver;
+    private List<String> addressReceiver;
     
     @Persistent
     private List<String> groupReceiver;
@@ -48,17 +48,17 @@ public class AdminEmail {
      * @param content
      *          html email content
      */
-    public AdminEmail(List<String> emailReceiver, List<String> groupReceiver, String subject, Text content){
+    public AdminEmail(List<String> addressReceiver, List<String> groupReceiver, String subject, Text content){
         this.emailId = null;
-        this.emailReceiver = emailReceiver;
+        this.addressReceiver = addressReceiver;
         this.groupReceiver = groupReceiver;
         this.subject = subject;
         this.content = content;
         this.sendDate = new Date();
     }
     
-    public void setEmailReceiver(List<String> receiver){
-        this.emailReceiver = receiver;
+    public void setAddressReceiver(List<String> receiver){
+        this.addressReceiver = receiver;
     }
     
     public void setGroupReceiver(List<String> receiver){
@@ -77,8 +77,8 @@ public class AdminEmail {
         return this.emailId;
     }
     
-    public List<String> getEmailReceiver(){
-        return this.emailReceiver;
+    public List<String> getAddressReceiver(){
+        return this.addressReceiver;
     }
     
     public List<String> getGroupReceiver(){

@@ -1,21 +1,27 @@
 package teammates.common.datatransfer;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
+import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.storage.entity.AdminEmail;
 
 import com.google.appengine.api.datastore.Text;
+import com.google.apphosting.api.DatastorePb.Cost;
 
 public class AdminEmailAttributes extends EntityAttributes {
     
     public String emailId = null;
-    public List<String> emailRecevier;
-    public List<String> groupRecevier;
+    public List<String> addressReceiver;
+    public List<String> groupReceiver;
     public String subject;
     public Date sendDate;
     public Text content;
@@ -23,20 +29,20 @@ public class AdminEmailAttributes extends EntityAttributes {
     
     public AdminEmailAttributes(AdminEmail ae){
         this.emailId = ae.getEmailId();
-        this.emailRecevier = ae.getEmailReceiver();
-        this.groupRecevier = ae.getGroupReceiver();
+        this.addressReceiver = ae.getAddressReceiver();
+        this.groupReceiver = ae.getGroupReceiver();
         this.subject = ae.getSubject();
         this.sendDate = ae.getSendDate();
         this.content = ae.getContent();
     }
     
     public AdminEmailAttributes(String subject, 
-                                List<String> emailReceiver,
+                                List<String> addressReceiver,
                                 List<String> groupReceiver,
                                 Text content){
         this.subject = subject;
-        this.emailRecevier = emailReceiver;
-        this.groupRecevier = groupReceiver;
+        this.addressReceiver = addressReceiver;
+        this.groupReceiver = groupReceiver;
         this.content = content;
     }
      
@@ -58,7 +64,7 @@ public class AdminEmailAttributes extends EntityAttributes {
 
     @Override
     public Object toEntity() {
-        return new AdminEmail(emailRecevier, emailRecevier, subject, content);
+        return new AdminEmail(addressReceiver, groupReceiver, subject, content);
     }
 
     @Override
@@ -91,12 +97,12 @@ public class AdminEmailAttributes extends EntityAttributes {
         return this.emailId;
     }
     
-    public List<String> getEmailReceiver(){
-        return this.emailRecevier;
+    public List<String> getAddressReceiver(){
+        return this.addressReceiver;
     }
     
     public List<String> getGroupReceiver(){
-        return this.groupRecevier;
+        return this.groupReceiver;
     }
     
     public String getSubject(){
@@ -109,5 +115,17 @@ public class AdminEmailAttributes extends EntityAttributes {
     
     public Text getContent(){
         return this.content;
+    }
+    
+    public String getSendDateForDisplay(){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(this.sendDate);
+        cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+        
+        return TimeHelper.formatTime(cal.getTime());
+    }
+    
+    public String getContentForDisplay(){
+        return StringHelper.recoverFromSanitizedText(this.getContent().getValue());
     }
 }

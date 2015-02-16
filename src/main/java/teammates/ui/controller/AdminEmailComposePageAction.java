@@ -15,10 +15,9 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
-import teammates.logic.api.Logic;
 import teammates.logic.core.Emails;
 
-public class AdminEmailPageAction extends Action {
+public class AdminEmailComposePageAction extends Action {
     
     List<String> emailReceiver = new ArrayList<String>();
     List<String> groupReceiver = new ArrayList<String>();
@@ -28,16 +27,40 @@ public class AdminEmailPageAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         
         new GateKeeper().verifyAdminPrivileges(account);
-        AdminEmailPageData data = new AdminEmailPageData(account);
+        AdminEmailComposePageData data = new AdminEmailComposePageData(account);
         
         String emailContent = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_CONTENT);
         String subject = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_SUBJECT);
         String receiver = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_RECEVIER);
         
-        if(emailContent == null){
-            statusToAdmin = "adminEmailPage Page Load";
+        String idOfEmailToEdit = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_ID); 
+        
+        boolean isNewPageLoad = emailContent == null &&
+                                subject == null &&
+                                receiver == null;
+        boolean isEmailEdit = idOfEmailToEdit != null;
+        
+        if(isNewPageLoad){
+            
+            if(isEmailEdit){
+                
+                data.emailToEdit = logic.getAdminEmailById(idOfEmailToEdit);             
+                statusToAdmin = data.emailToEdit == null? 
+                                "adminEmailComposePage Page Load : Requested Email for editing was not found":
+                                "adminEmailComposePage Page Load : Edit Email " + "[" + data.emailToEdit.getSubject() +"]";
+                
+                if(data.emailToEdit == null){
+                    isError = true;
+                    statusToUser.add("The requested email was not found");
+                }
+                
+                return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);     
+            }
+            statusToAdmin = "adminEmailComposePage Page Load";
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);     
         }
+        
+        
         
         Emails emailsManager = new Emails();
         
@@ -67,19 +90,6 @@ public class AdminEmailPageAction extends Action {
             }
             
             
-        }
-        
-        List<AdminEmailAttributes> list = logic.getAllAdminEmails();
-        
-        for(AdminEmailAttributes ae : list){
-            System.out.print(ae.emailId+ "\n");
-            System.out.print(ae.subject+ "\n");
-            System.out.print(ae.sendDate.toString() + "\n");
-            System.out.print(ae.getEmailReceiver().get(0) + "\n");
-            System.out.print(ae.getGroupReceiver().get(0)+ "\n");
-            System.out.print(StringHelper.recoverFromSanitizedText(ae.getContent().getValue())+ "\n");
-            
-            System.out.print("************************************\n");
         }
         
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
