@@ -64,3 +64,6 @@ Here are some documents important for TEAMMATES developers:
       * [Notes on the 'comments' feature] (https://docs.google.com/document/d/1YsgDySCOQbLl7Wc5JYPtKqd_hNvGMwea4OqtVOb0HBM/pub?embedded=true) - by Xie Kai, Ju Junchao
       * [Notes on 'access control'] (https://docs.google.com/document/d/1g-1YhhYMCwO4NGJzn26HVzLxzm5PI6JAFxUNtHEEGDc/pub?embedded=true) - by Gu Junchao
       * [Notes on 'profiles' feature] (https://docs.google.com/document/d/1TGVkdu6JlOFX_2dJoeZu1avkiKj8ZqFcpBREJhKK78c/pub?embedded=true) - by Thyagesh Manikandan
+
+##License
+TEAMMATES is released under GPLv2
