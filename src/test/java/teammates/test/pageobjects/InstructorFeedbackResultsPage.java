@@ -184,7 +184,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     public boolean verifyAllResultsPanelBodyVisibility(boolean visible){
-        for(WebElement e : browser.driver.findElements(By.cssSelector(".panel-heading+.panel-body"))){
+        int numOfQns = browser.driver.findElements(By.cssSelector(".panel-heading+.panel-collapse")).size();
+        assertTrue(numOfQns > 0);
+        
+        // Wait for the total duration according to the number of collapse/expand intervals between questions
+        ThreadHelper.waitFor((numOfQns * 50) + 1000);
+        
+        for(WebElement e : browser.driver.findElements(By.cssSelector(".panel-heading+.panel-collapse"))){
             if(e.isDisplayed() != visible){
                 return false;
             }
