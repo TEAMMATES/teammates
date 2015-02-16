@@ -308,13 +308,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(true));
         
         resultsPage.clickCollapseExpand();
-        ThreadHelper.waitFor(1000);
         assertEquals(resultsPage.collapseExpandButton.getText(),"Expand Questions");
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(false));
         
 
         resultsPage.clickCollapseExpand();
-        ThreadHelper.waitFor(1000);
         assertEquals(resultsPage.collapseExpandButton.getText(),"Collapse Questions");
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(true));
         
@@ -360,10 +358,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.addFeedbackResponseComment("test comment 1");
         resultsPage.addFeedbackResponseComment("test comment 2");
-        resultsPage.verifyCommentRowContent("-0",
+        resultsPage.verifyCommentRowContent("-0-1-1-1",
                 "test comment 1", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.verifyCommentRowContent("-1",
+        resultsPage.verifyContains("id=\"frComment-visibility-options-trigger-0-1-1-1\"");
+        resultsPage.verifyCommentRowContent("-0-1-1-2",
                 "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyContains("id=\"visibility-options-0-1-1-2\"");
         
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
@@ -396,13 +396,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyCommentRowContent("-0",
                 "successive action comment", "CFResultsUiT.instr@gmail.tmt");
         
-        resultsPage.editFeedbackResponseComment("-0",
+        resultsPage.editFeedbackResponseComment("-0-1-1-2",
                 "edited successive action comment");
-        resultsPage.verifyCommentRowContent("-0",
+        resultsPage.verifyCommentRowContent("-0-1-1-2",
                 "edited successive action comment", "CFResultsUiT.instr@gmail.tmt");
         
-        resultsPage.deleteFeedbackResponseComment("-0");
-        resultsPage.verifyRowMissing("-0");
+        resultsPage.deleteFeedbackResponseComment("-0-1-1-2");
+        resultsPage.verifyRowMissing("-0-1-1-2");
         
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();

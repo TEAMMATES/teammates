@@ -9,10 +9,13 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.test.driver.AssertHelper;
+import teammates.test.util.Priority;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentCommentsPageAction;
 import teammates.ui.controller.StudentCommentsPageData;
 
+//Priority added due to conflict between StudentHomePageActionTest and StudentCommentsPageActionTest
+@Priority(-1)
 public class StudentCommentsPageActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();

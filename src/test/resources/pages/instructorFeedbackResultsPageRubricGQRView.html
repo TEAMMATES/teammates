@@ -156,7 +156,7 @@
                         </label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input id="results-search-box" class="form-control" placeholder="Type a student/team name to filter results" onchange="updateResultsFilter()" type="text">
+                                <input id="results-search-box" class="form-control" placeholder="Type student/team name/section name to filter" onchange="updateResultsFilter()" type="text">
                                 <a class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
                             </div>
                         </div>
@@ -222,7 +222,7 @@
                 <div class="panel panel-success">
                     <div style="cursor: pointer;" id="panelHeading-1" data-target="#panelBodyCollapse-1" class="panel-heading">
                         <div class="row">
-                            <div class="col-sm-9">
+                            <div class="col-sm-9 panel-heading-text">
                                 <strong>Not in a section</strong>                        
                             </div>
                             <div class="col-sm-3">
@@ -249,11 +249,11 @@
                 <div style="cursor: pointer;" id="panelHeading-2" data-target="#panelBodyCollapse-2" class="panel-heading">
                     From: 
                     
-                        <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=FRubricQnUiT.instructor">
-                            <strong>Alice Betsy</strong>
-                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                            <a class="link-in-dark-bg" href="mailTo:alice.b.tmms@gmail.tmt ">[alice.b.tmms@gmail.tmt]</a>
-                        </div>
+                            <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=FRubricQnUiT.instructor">
+                                <strong>Alice Betsy</strong>
+                                <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                <a class="link-in-dark-bg" href="mailTo:alice.b.tmms@gmail.tmt ">[alice.b.tmms@gmail.tmt]</a>
+                            </div>
                     
                     <div class="pull-right">
                     
@@ -401,39 +401,38 @@
                 </div>
             </div>
         
-            <div class="panel panel-primary">
-                  <div class="panel-heading" data-target="#panelBodyCollapse-3" id="panelHeading-3" style="cursor: pointer;">
-                     From:
-                     <div class="middlealign profile-pic-icon-hover inline" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=FRubricQnUiT.instructor" data-original-title="" title="">
-                        <strong>
-                           Benny Charles
-                        </strong>
-                        <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
-                                                <a class="link-in-dark-bg" href="mailTo:benny.c.tmms@gmail.tmt">
-                           [benny.c.tmms@gmail.tmt]
-                        </a>
-                     </div>
-                     <div class="pull-right">
-                        <form action="/page/instructorEditStudentFeedbackPage?user=FRubricQnUiT.instructor" class="inline" method="post" target="_blank">
-                           <input class="btn btn-primary btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Responses"/>
-                                                      <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
-                                                      <input name="fsname" type="hidden" value="Second Session"/>
-                                                      <input name="moderatedstudent" type="hidden" value="benny.c.tmms@gmail.tmt"/>
-                                                   </form>
-                         
+                <div class="panel panel-primary">
+                <div style="cursor: pointer;" id="panelHeading-3" data-target="#panelBodyCollapse-3" class="panel-heading">
+                    From: 
+                    
+                            <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=FRubricQnUiT.instructor">
+                                <strong>Benny Charles</strong>
+                                <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                <a class="link-in-dark-bg" href="mailTo:benny.c.tmms@gmail.tmt">[benny.c.tmms@gmail.tmt]</a>
+                            </div>
+                    
+                    <div class="pull-right">
+                    
+                            <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=FRubricQnUiT.instructor" target="_blank"> 
+                            
+                                <input data-original-title="Edit the responses given by this student" class="btn btn-primary btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
+                                <input name="courseid" value="FRubricQnUiT.CS2104" type="hidden">
+                                <input name="fsname" value="Second Session" type="hidden">
+                                <input name="moderatedstudent" value="benny.c.tmms@gmail.tmt" type="hidden">
+                            
+                            </form>
+                        &nbsp;
                         <div class="display-icon" style="display:inline;">
-                           <span class="glyphicon glyphicon-chevron-up pull-right">
-                           </span>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="panel-collapse collapse in" id="panelBodyCollapse-3">
-                     <div class="panel-body">
-                        There are no responses given by this user
-                     </div>
-                  </div>
-               </div>
-        
+                            <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+                        </div>                
+                    </div>
+                </div>
+                <div id="panelBodyCollapse-3" class="panel-collapse collapse in">
+                    <div class="panel-body"> There are no responses given by this user 
+                    </div>
+                </div>
+                </div>
+            
                 </div>
                 </div>
             </div>
@@ -455,28 +454,26 @@
                 <div id="panelBodyCollapse-4" class="panel-collapse collapse in">
                       
                     <div class="panel-body padding-0">
-                      <table class="table table-striped table-bordered margin-0">
+                        <table class="table table-striped table-bordered margin-0">
                             <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                 <tr>
-                                    <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this,1)" style="width: 15%;">
-                                        Team
-                                        <span class="icon-sort unsorted"></span>
-                                    </th>
-                                    <th class="button-sort-none" id="button_sortTo" onclick="toggleSort(this,2)" style="width: 15%;">
-                                        Name
-                                        <span class="icon-sort unsorted"></span>
-                                    </th>
+                                <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,1)" style="width: 15%;">Team<span class="icon-sort unsorted"></span>
+                                </th>
+                                <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">Name<span class="icon-sort unsorted"></span>
+                                </th>                            
                                 </tr>
                             </thead>
                             <tbody>
+                            
                                 <tr>
                                     <td>
+                                    
                                         Team 1
+                                    
                                     </td>
-                                    <td>
-                                        Benny Charles
-                                    </td>
+                                    <td>Benny Charles</td>                              
                                 </tr>
+                            
                             </tbody>
                         </table>
                     </div>
