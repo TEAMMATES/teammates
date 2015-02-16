@@ -206,15 +206,17 @@ public abstract class FeedbackQuestionDetails {
      * Checks if the question has been skipped. 
      */
     public boolean isQuestionSkipped(String[] answer) {
+        if (answer == null) {
+            return true;
+        }
         
         boolean allAnswersEmpty = true;
-        if(answer!=null){
-            for(int i=0 ; i<answer.length ; i++){
-                if(answer[i]!=null && !answer[i].trim().isEmpty()){
-                    allAnswersEmpty = false;
-                }
+        for(int i=0 ; i<answer.length ; i++) {
+            if (answer[i]!=null && !answer[i].trim().isEmpty()) {
+                allAnswersEmpty = false;
             }
         }
-        return answer == null || allAnswersEmpty;
+        
+        return allAnswersEmpty;
     }
 }
