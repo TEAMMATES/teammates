@@ -643,16 +643,16 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         for(FeedbackResponseAttributes response : responses){
             boolean validAnswer = false;
             FeedbackContributionResponseDetails frd = (FeedbackContributionResponseDetails) response.getResponseDetails();
-            for(int i=200; i>=0; i-=10){
-                if(frd.getAnswer() == i){
-                    validAnswer = true;
-                    break;
-                }
+            
+            // Valid answers: 0, 10, 20, .... 190, 200
+            boolean isValidRange = frd.getAnswer() >= 0 && frd.getAnswer() <= 200;
+            boolean isMultipleOf10 = frd.getAnswer() % 10 == 0;
+            if(isValidRange && isMultipleOf10) {
+                validAnswer = true;
             }
             if(frd.getAnswer() == Const.POINTS_NOT_SURE){
                 validAnswer = true;
             }
-            
             if(validAnswer == false){
                 errors.add(ERROR_INVALID_OPTION);
             }

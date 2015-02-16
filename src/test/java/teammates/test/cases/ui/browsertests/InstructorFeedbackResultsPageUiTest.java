@@ -308,13 +308,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(true));
         
         resultsPage.clickCollapseExpand();
-        ThreadHelper.waitFor(1000);
         assertEquals(resultsPage.collapseExpandButton.getText(),"Expand Questions");
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(false));
         
 
         resultsPage.clickCollapseExpand();
-        ThreadHelper.waitFor(1000);
         assertEquals(resultsPage.collapseExpandButton.getText(),"Collapse Questions");
         assertTrue(resultsPage.verifyAllResultsPanelBodyVisibility(true));
         

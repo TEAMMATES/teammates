@@ -278,6 +278,9 @@ public class FeedbackSessionsLogic {
         List<FeedbackQuestionAttributes> questions =
                 fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName,
                         courseId, userEmail);
+        
+      InstructorAttributes instructorGiver = instructor;
+      StudentAttributes studentGiver = null;
 
         for (FeedbackQuestionAttributes question : questions) {
 
@@ -285,7 +288,7 @@ public class FeedbackSessionsLogic {
                     frLogic.getFeedbackResponsesFromGiverForQuestion(
                             question.getId(), userEmail);
             Map<String, String> recipients =
-                    fqLogic.getRecipientsForQuestion(question, userEmail);
+                    fqLogic.getRecipientsForQuestion(question, userEmail, instructorGiver, studentGiver);
             // instructor can only see students in allowed sections for him/her
             if (question.recipientType.equals(FeedbackParticipantType.STUDENTS)) {
                 Iterator<Map.Entry<String, String>> iter = recipients.entrySet().iterator();
@@ -349,13 +352,16 @@ public class FeedbackSessionsLogic {
                 fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName,
                         courseId);
 
+        InstructorAttributes instructorGiver = null;
+        StudentAttributes studentGiver = student;
+
         for (FeedbackQuestionAttributes question : questions) {
 
             List<FeedbackResponseAttributes> responses =
                     frLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(
                             question, student);
             Map<String, String> recipients =
-                    fqLogic.getRecipientsForQuestion(question, userEmail);
+                    fqLogic.getRecipientsForQuestion(question, userEmail, instructorGiver, studentGiver);
             normalizeMaximumResponseEntities(question, recipients);
 
             bundle.put(question, responses);
