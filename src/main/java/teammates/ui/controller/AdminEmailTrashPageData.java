@@ -6,12 +6,12 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.util.Const.AdminEmailPageState;
 
-public class AdminEmailSentPageData extends AdminEmailPageData {
+public class AdminEmailTrashPageData extends AdminEmailPageData {
 
-    protected AdminEmailSentPageData(AccountAttributes account) {
+    protected AdminEmailTrashPageData(AccountAttributes account) {
         super(account);
-        this.state = AdminEmailPageState.SENT;
+        this.state = AdminEmailPageState.TRASH;
     }
     
-    public List<AdminEmailAttributes> adminSentEmailList = null;
+    public List<AdminEmailAttributes> adminTrashEmailList = null;
 }

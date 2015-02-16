@@ -2889,6 +2889,33 @@ public class Logic {
         adminEmailsLogic.createAdminEmail(newAdminEmail);
     }
     
+    /**
+     * Move a admin email to trash bin.<br>
+     * After this the attribute isInTrashBin will be set to true
+     * @param adminEmailId
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException
+     */
+    public void moveAdminEmailToTrashBin(String adminEmailId) throws InvalidParametersException, EntityDoesNotExistException{
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, adminEmailId);
+        adminEmailsLogic.moveAdminEmailToTrashBin(adminEmailId);
+    }
+    
+    /**
+     * Get all admin emails that has been sent and not in trash bin
+     * @return empty list if no email found
+     */
+    public List<AdminEmailAttributes> getSentAdminEmails(){      
+        return adminEmailsLogic.getSentAdminEmails();
+    }
+    
+    /**
+     * Get all admin emails that has been moved into trash bin
+     * @return empty list if no email found
+     */
+    public List<AdminEmailAttributes> getAdminEmailsInTrashBin(){
+        return adminEmailsLogic.getAdminEmailsInTrashBin();
+    }
     
     
     @SuppressWarnings("unused")

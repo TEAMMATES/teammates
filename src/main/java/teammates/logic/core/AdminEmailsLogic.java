@@ -1,13 +1,20 @@
 package teammates.logic.core;
 
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.jdo.JDOHelper;
+import javax.jdo.Query;
+
 import teammates.common.datatransfer.AdminEmailAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Utils;
 import teammates.storage.api.AdminEmailsDb;
+import teammates.storage.entity.AdminEmail;
 
 /**
  * Handles the logic related to admin emails
@@ -44,6 +51,41 @@ public class AdminEmailsLogic {
     public AdminEmailAttributes getAdminEmailById(String emailId){
         Assumption.assertNotNull(emailId);
         return adminEmailsDb.getAdminEmailById(emailId);
+    }
+    
+    /**
+     * Move a admin email to trash bin.<br>
+     * After this the attribute isInTrashBin will be set to true
+     * @param adminEmailId
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException
+     */
+    public void moveAdminEmailToTrashBin(String adminEmailId) throws InvalidParametersException, EntityDoesNotExistException{
+        Assumption.assertNotNull(adminEmailId);
+        
+        AdminEmailAttributes adminEmailToUpdate = getAdminEmailById(adminEmailId);
+        
+        if(adminEmailToUpdate != null){
+            adminEmailToUpdate.isInTrashBin = true;
+            adminEmailsDb.updateAdminEmail(adminEmailToUpdate);
+        }
+    }
+    
+    
+    /**
+     * Get all admin emails that has been sent and not in trash bin
+     * @return empty list if no email found
+     */
+    public List<AdminEmailAttributes> getSentAdminEmails(){      
+        return adminEmailsDb.getSentAdminEmails();
+    }
+    
+    /**
+     * Get all admin emails that has been moved into trash bin
+     * @return empty list if no email found
+     */
+    public List<AdminEmailAttributes> getAdminEmailsInTrashBin(){
+        return adminEmailsDb.getAdminEmailsInTrashBin();
     }
     
     public void createAdminEmail(AdminEmailAttributes newAdminEmail) throws InvalidParametersException{

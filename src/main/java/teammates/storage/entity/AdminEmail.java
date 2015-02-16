@@ -25,6 +25,7 @@ public class AdminEmail {
     
     @Persistent
     private List<String> addressReceiver;
+   
     
     @Persistent
     private List<String> groupReceiver;
@@ -38,6 +39,9 @@ public class AdminEmail {
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private Text content;
+    
+    @Persistent
+    private boolean isInTrashBin;
     
     /**
      * Instantiates a new AdminEmail
@@ -55,6 +59,7 @@ public class AdminEmail {
         this.subject = subject;
         this.content = content;
         this.sendDate = new Date();
+        this.isInTrashBin = false;
     }
     
     public void setAddressReceiver(List<String> receiver){
@@ -71,6 +76,10 @@ public class AdminEmail {
     
     public void setContent(Text content){
         this.content = content;
+    }
+    
+    public void setIsInTrashBin(boolean isInTrashBin){
+        this.isInTrashBin = isInTrashBin;
     }
     
     public String getEmailId(){
@@ -95,6 +104,10 @@ public class AdminEmail {
     
     public Text getContent(){
         return this.content;
+    }
+    
+    public boolean getIsInTrashBin(){
+        return this.isInTrashBin;
     }
 }
 

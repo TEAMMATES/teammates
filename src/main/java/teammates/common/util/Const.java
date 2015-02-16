@@ -694,6 +694,8 @@ public class Const {
         public static final String ADMIN_SEARCH_PAGE = "/admin/adminSearchPage";
         public static final String ADMIN_EMAIL_COMPOSE_PAGE = "/admin/adminEmailComposePage";
         public static final String ADMIN_EMAIL_SENT_PAGE = "/admin/adminEmailSentPage"; 
+        public static final String ADMIN_EMAIL_TRASH_PAGE = "/admin/adminEmailTrashPage";
+        public static final String ADMIN_EMAIL_MOVE_TO_TRASH = "/admin/adminEmailMoveToTrash";
         public static final String ADMIN_EMAIL_IMAGE_UPLOAD = "/admin/adminEmailImageUpload";
         public static final String ADMIN_EMAIL_CREATE_IMAGE_UPLOAD_URL = "/admin/adminEmailCreateImageUploadUrl";
         
@@ -1216,6 +1218,6 @@ public class Const {
             NOT_SURE);
     
     
-    public enum AdminEmailPageState{COMPOSE, SENT};
+    public enum AdminEmailPageState{COMPOSE, SENT, TRASH};
     
 }

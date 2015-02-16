@@ -57,6 +57,7 @@ public class AdminEmailsDb extends EntitiesDb {
         adminEmailToUpdate.setAddressReceiver(ae.addressReceiver);
         adminEmailToUpdate.setGroupReceiver(ae.groupReceiver);
         adminEmailToUpdate.setSubject(ae.subject);
+        adminEmailToUpdate.setIsInTrashBin(ae.isInTrashBin);
         
         log.info(ae.getBackupIdentifier());
         closePM();
@@ -92,6 +93,58 @@ public class AdminEmailsDb extends EntitiesDb {
         }
         
         return new AdminEmailAttributes(matched);
+    }
+    
+    /**
+     * Get all admin emails that has been sent and not in trash bin
+     * @return empty list if no email found
+     */
+    public List<AdminEmailAttributes> getSentAdminEmails(){
+        List<AdminEmailAttributes> list = new LinkedList<AdminEmailAttributes>();
+        
+        Query q = getPM().newQuery(AdminEmail.class);
+        q.declareParameters("boolean isInTrashBinParam");
+        q.setFilter("isInTrashBin == isInTrashBinParam");
+        
+        @SuppressWarnings("unchecked")
+        List<AdminEmail> adminEmailList = (List<AdminEmail>) q.execute(false);
+       
+        if (adminEmailList.isEmpty() || JDOHelper.isDeleted(adminEmailList.get(0))) {
+            return list;
+        }
+        
+        Iterator<AdminEmail> it = adminEmailList.iterator();
+        while(it.hasNext()){
+            list.add(new AdminEmailAttributes(it.next()));
+        }
+        
+        return list;
+    }
+    
+    /**
+     * Get all admin emails that has been moved into trash bin
+     * @return empty list if no email found
+     */
+    public List<AdminEmailAttributes> getAdminEmailsInTrashBin(){
+        List<AdminEmailAttributes> list = new LinkedList<AdminEmailAttributes>();
+        
+        Query q = getPM().newQuery(AdminEmail.class);
+        q.declareParameters("boolean isInTrashBinParam");
+        q.setFilter("isInTrashBin == isInTrashBinParam");
+        
+        @SuppressWarnings("unchecked")
+        List<AdminEmail> adminEmailList = (List<AdminEmail>) q.execute(true);
+       
+        if (adminEmailList.isEmpty() || JDOHelper.isDeleted(adminEmailList.get(0))) {
+            return list;
+        }
+        
+        Iterator<AdminEmail> it = adminEmailList.iterator();
+        while(it.hasNext()){
+            list.add(new AdminEmailAttributes(it.next()));
+        }
+        
+        return list;
     }
     
     private List<AdminEmail> getAdminEmailEntities(){
@@ -135,8 +188,6 @@ public class AdminEmailsDb extends EntitiesDb {
         }
         return adminEmailList.get(0);
     }
-    
- 
     
     @Override
     protected Object getEntity(EntityAttributes attributes) {

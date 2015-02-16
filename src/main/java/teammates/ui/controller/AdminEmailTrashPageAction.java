@@ -5,16 +5,16 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 
-public class AdminEmailSentPageAction extends Action {
+public class AdminEmailTrashPageAction extends Action {
 
     @Override
     protected ActionResult execute() {
         new GateKeeper().verifyAdminPrivileges(account);
-        AdminEmailSentPageData data = new AdminEmailSentPageData(account);      
+        AdminEmailTrashPageData data = new AdminEmailTrashPageData(account);      
         
-        data.adminSentEmailList = logic.getSentAdminEmails();
+        data.adminTrashEmailList = logic.getAdminEmailsInTrashBin();
         
-        for(AdminEmailAttributes ae : data.adminSentEmailList){
+        for(AdminEmailAttributes ae : data.adminTrashEmailList){
             System.out.print(ae.emailId+ "\n");
             System.out.print(ae.subject+ "\n");
             System.out.print(ae.sendDate.toString() + "\n");
@@ -25,7 +25,7 @@ public class AdminEmailSentPageAction extends Action {
             System.out.print("************************************\n");
         }
             
-            statusToAdmin = "adminEmailSentPage Page Load";
+            statusToAdmin = "adminEmailTrashPage Page Load";
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);     
             
     }

@@ -5,6 +5,7 @@
 <%@ page import="teammates.ui.controller.AdminEmailPageData"%>
 <%@ page import="teammates.ui.controller.AdminEmailComposePageData"%>
 <%@ page import="teammates.ui.controller.AdminEmailSentPageData"%>
+<%@ page import="teammates.ui.controller.AdminEmailTrashPageData"%>
 
 <%@ page import="teammates.common.util.Const"%>
 <%@ page
@@ -74,7 +75,8 @@
                     <li role="presentation" class="<%=data.getClass().toString().contains("AdminEmailSent") ? "active" : ""%>">
                         <a href="<%=Const.ActionURIs.ADMIN_EMAIL_SENT_PAGE%>">Sent</a>
                     </li>
-                    <li role="presentation"><a href="#">Trash</a></li>
+                    <li role="presentation" class="<%=data.getClass().toString().contains("AdminEmailTrash") ? "active" : ""%>">
+                        <a href="<%=Const.ActionURIs.ADMIN_EMAIL_TRASH_PAGE%>">Trash</a></li>
                 </ul>
                 
                 <br>
@@ -156,6 +158,12 @@
                                                       <span class="glyphicon glyphicon-edit">
                                                       </span>
                                             </a>
+                                            <a href="<%=Const.ActionURIs.ADMIN_EMAIL_MOVE_TO_TRASH + 
+                                                      "?" + Const.ParamsNames.ADMIN_EMAIL_ID + 
+                                                      "=" + ae.getEmailId()%>">
+                                                      <span class="glyphicon glyphicon-trash">
+                                                      </span>
+                                            </a>
                                         </td>
                                         <td><%=ae.getAddressReceiver()%></td>
                                         <td><%=ae.getSubject()%></td>
@@ -170,6 +178,52 @@
                     </div>
                 <%
                   break;
+                
+                  case TRASH:
+                      AdminEmailTrashPageData trashPageData =  (AdminEmailTrashPageData)data;
+                %>
+                    <div id="adminEmailSent">
+                        <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>      
+                                    <th>Action</th>          
+                                    <th>Receiver</th>
+                                    <th>Subject</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%
+                                   for (AdminEmailAttributes ae : trashPageData.adminTrashEmailList){  
+                                %>
+                                    <tr id="<%=ae.getEmailId()%>">
+                                        <td>
+                                            <a target=blank href="<%=Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE + 
+                                                      "?" + Const.ParamsNames.ADMIN_EMAIL_ID + 
+                                                      "=" + ae.getEmailId()%>">
+                                                      <span class="glyphicon glyphicon-edit">
+                                                      </span>
+                                            </a>
+                                            <a href="<%=Const.ActionURIs.ADMIN_EMAIL_MOVE_TO_TRASH + 
+                                                      "?" + Const.ParamsNames.ADMIN_EMAIL_ID + 
+                                                      "=" + ae.getEmailId()%>">
+                                                      <span class="glyphicon glyphicon-step-backward">
+                                                      </span>
+                                            </a>
+                                        </td>
+                                        <td><%=ae.getAddressReceiver()%></td>
+                                        <td><%=ae.getSubject()%></td>
+                                        <td><%=ae.getSendDateForDisplay()%></td>
+                                    </tr>
+                                <%
+                                   }
+                                %>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                <%
                   };
                 %>
                 

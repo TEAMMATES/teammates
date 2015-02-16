@@ -25,6 +25,7 @@ public class AdminEmailAttributes extends EntityAttributes {
     public String subject;
     public Date sendDate;
     public Text content;
+    public boolean isInTrashBin;
     
     
     public AdminEmailAttributes(AdminEmail ae){
@@ -34,6 +35,7 @@ public class AdminEmailAttributes extends EntityAttributes {
         this.subject = ae.getSubject();
         this.sendDate = ae.getSendDate();
         this.content = ae.getContent();
+        this.isInTrashBin = ae.getIsInTrashBin();
     }
     
     public AdminEmailAttributes(String subject, 
@@ -115,6 +117,10 @@ public class AdminEmailAttributes extends EntityAttributes {
     
     public Text getContent(){
         return this.content;
+    }
+    
+    public boolean getIsInTrashBin(){
+        return this.isInTrashBin;
     }
     
     public String getSendDateForDisplay(){

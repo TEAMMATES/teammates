@@ -33,6 +33,8 @@ public class ActionFactory {
         map(ADMIN_EMAIL_IMAGE_UPLOAD, AdminEmailImageUploadAction.class);
         map(ADMIN_EMAIL_CREATE_IMAGE_UPLOAD_URL, AdminEmailCreateImageUploadUrlAction.class);
         map(ADMIN_EMAIL_SENT_PAGE, AdminEmailSentPageAction.class);
+        map(ADMIN_EMAIL_TRASH_PAGE, AdminEmailTrashPageAction.class);
+        map(ADMIN_EMAIL_MOVE_TO_TRASH, AdminEmailMoveToTrashAction.class);
         
         map(INSTRUCTOR_COURSES_PAGE, InstructorCoursesPageAction.class);
         map(INSTRUCTOR_COURSE_ADD, InstructorCourseAddAction.class);
